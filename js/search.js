@@ -5,7 +5,7 @@ $(document).ready(function() {
 		word_array = words.split(' ');
 		let res_html = {}; // 保存搜索结果
 		res_html['has_word'] = []; //保存查询的词
-		$.getJSON('js/article_index.json', function (result) { // 获得分词索引文件
+		$.getJSON('/js/article_index.json', function (result) { // 获得分词索引文件
 			file_index = result['file_index']
 			word_index = result['word_index']
 			file_array = result['file_array']
@@ -37,7 +37,7 @@ $(document).ready(function() {
 				html_str = html_str + '</ul>'
 			}
 			html_str = html_str + '</ul></div>'
-			$('div.row.align-items-center ').html(html_str)
+			$('div.row ').html(html_str)
 
 		});
 	});
