@@ -82,7 +82,9 @@ def add_all():
     for root, dirs, files in os.walk('.'):
         for name in files:
             filename = os.path.join(root, name)
-            if "public_html" in filename or "json" in filename:
+            if "public_html" in filename \
+                or "json" in filename  \
+                or "diary" in filename:
                 continue
             else:
                 print(filename)
