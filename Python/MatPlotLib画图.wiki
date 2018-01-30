@@ -1,0 +1,440 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#MatPlotLib画图|MatPlotLib画图]]
+    - [[#MatPlotLib画图#基本使用|基本使用]]
+      - [[#MatPlotLib画图#基本使用#画基本XY图|画基本XY图]]
+      - [[#MatPlotLib画图#基本使用#数据平滑曲线画图|数据平滑曲线画图]]
+        - [[#MatPlotLib画图#基本使用#数据平滑曲线画图#插值拟合|插值拟合]]
+        - [[#MatPlotLib画图#基本使用#数据平滑曲线画图#多项式拟合|多项式拟合]]
+      - [[#MatPlotLib画图#基本使用#添加横竖参考线|添加横竖参考线]]
+      - [[#MatPlotLib画图#基本使用#文本标注|文本标注]]
+      - [[#MatPlotLib画图#基本使用#综合绘图函数|综合绘图函数]]
+      - [[#MatPlotLib画图#基本使用#绘制坐标轴图|绘制坐标轴图]]
+    - [[#MatPlotLib画图#plot 线型设置|plot 线型设置]]
+      - [[#MatPlotLib画图#plot 线型设置#控制颜色|控制颜色]]
+      - [[#MatPlotLib画图#plot 线型设置#控制线型|控制线型]]
+      - [[#MatPlotLib画图#plot 线型设置#控制标记风格|控制标记风格]]
+    - [[#MatPlotLib画图#会遇到的问题及解决方法|会遇到的问题及解决方法]]
+      - [[#MatPlotLib画图#会遇到的问题及解决方法#matplotlib使用中文与latex|matplotlib使用中文与latex]]
+        - [[#MatPlotLib画图#会遇到的问题及解决方法#matplotlib使用中文与latex#图片中的文本使用latex符号|图片中的文本使用latex符号]]
+        - [[#MatPlotLib画图#会遇到的问题及解决方法#matplotlib使用中文与latex#中文显示|中文显示]]
+      - [[#MatPlotLib画图#会遇到的问题及解决方法#Legend中指定线和图例相对应的方法|Legend中指定线和图例相对应的方法]]
+      - [[#MatPlotLib画图#会遇到的问题及解决方法#并行化画图时,解决爆内存和同一图中画了好多线的方法|并行化画图时,解决爆内存和同一图中画了好多线的方法]]
+      - [[#MatPlotLib画图#会遇到的问题及解决方法#让画出来的图片连在一起动起来的方法|让画出来的图片连在一起动起来的方法]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+= MatPlotLib画图 =
+== 基本使用 ==
+=== 画基本XY图 ===
+{{{python
+# 导入基本库
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 中文显示
+def conf_zh(font_name):
+    from pylab import mpl
+    mpl.rcParams['font.sans-serif'] = [font_name]
+    mpl.rcParams['axes.unicode_minus'] = False 
+conf_zh('SimHei')
+
+# 创建数据
+x = np.linspace(0, 10, 1000)
+y = np.sin(x)
+z = np.cos(x**2)
+
+# 设置图片格式
+plt.figure(figsize=(8,4)) # 设置图片尺寸 800px X 400px
+plt.xlabel("Time(s)") # x轴标签
+plt.ylabel("Volt") # y轴标签
+plt.title("PyPlot First Example") # 图片标签
+plt.ylim(-1.2,1.2) # y轴显示数值范围
+
+# 画线
+plt.plot(x,y,label="$sin(x)$",color="red",linewidth=2) # 画一条线(x,y,线型,label=标签,color=颜色,linewidth=线宽)
+plt.plot(x,z,"b--",label="$cos(x^2)$") 
+
+# 显示图像
+plt.legend() # 显示图例
+#plt.savefig('/home/bacon/a.png') # 保存图像到文件, 一定要先保存后显示,否则会出错
+plt.show() # 显示图片
+}}}
+=== 数据平滑曲线画图 ===
+==== 插值拟合 ====
+`yi=interp1(x,Y,kind)`
+其中，yi为根据插值算法求得的函数。
+x和Y为已知的数据点向量。参量用于确定具体的插值方法，包括：
+
+| kind    | 表示               |
+| linear  | 采用线性插值方法   |
+| cubic   | 采用三次插值方法   |
+| nearest | 采用最近点插值方法 |
+
+{{{python
+# 导入基本库
+import numpy as np
+from scipy import interpolate
+import matplotlib.pyplot as plt
+
+# 创建数据
+x = np.linspace(-np.pi, np.pi, 10)
+y = np.sin(x)
+
+# 差值拟合
+f = interpolate.interp1d(x, y, kind='cubic') # 创建一个拟合函数(原x,原y,kind=模式)
+nx = np.linspace(-np.pi, np.pi, 30)  # 生成数据点(起点,终点, 个数)
+ny = f(nx)
+
+#绘图
+plt.plot(x,y,nx, ny)
+plt.show()
+
+}}}
+
+==== 多项式拟合 ====
+
+1. 生成多项式拟合(x,y,阶数)
+{{{python 
+z = np.polyfit(x, y, 3)
+print(z)
+# [ 0.00624491 -0.20371114  2.18193147  2.57208791] 系数
+}}}
+2. 生成多项式函数(多项式)
+{{{
+f = np.poly1d(z)
+print(f)
+#           3          2
+# 0.006245 x - 0.2037 x + 2.182 x + 2.572 多项式函数
+}}}
+
+{{{python
+import numpy as np
+from scipy.optimize import leastsq
+import pylab as pl
+ 
+x = np.arange(1, 17, 1)
+y = np.array([4.00, 6.40, 8.00, 8.80, 9.22, 9.50, 9.70, 9.86, 10.00, 10.20, 10.32, 10.42, 10.50, 10.55, 10.58, 10.60])
+ 
+#第一个拟合，自由度为3
+z1 = np.polyfit(x, y, 3)
+# 生成多项式对象
+p1 = np.poly1d(z1)
+print(z1)
+print(p1)
+ 
+# 第二个拟合，自由度为6
+z2 = np.polyfit(x, y, 6)
+
+# 生成多项式对象
+
+p2 = np.poly1d(z2)
+print(z2)
+print(p2) 
+# 绘制曲线 # 原曲线
+plt.plot(x, y, 'b^-', label='Origin Line')
+plt.plot(x, p1(x), 'gv--', label='Poly Fitting Line(deg=3)')
+plt.plot(x, p2(x), 'r*', label='Poly Fitting Line(deg=6)')
+plt.axis([0, 18, 0, 18])
+plt.legend()# Save figurepl.savefig('scipy02.png', dpi=96)
+plt.show()
+
+}}}
+
+=== 添加横竖参考线 ===
+
+1. 竖直线(x坐标) `plt.axvline(550)`
+2. 水平线(普通绘图) `plt.plot([0,10000],[20,20],'k--')`
+
+{{{python
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.random.normal(600, 20, 1000)
+plt.xlim(500,700)
+plt.hist(x, bins=50, color='g')
+plt.plot([0,10000],[20,20],'k--')
+plt.axvline(550)
+plt.axvline(620)
+plt.show()
+
+}}}
+
+=== 文本标注 ===
+
+1. 箭头 `p2.annotate('',xy=(1.8,0.5),xytext=(tx,ty),arrowprops=dict(arrowstyle="->",connectionstyle="arc3"))`
+2. 文本`p1.text(3,1,"asd" ,rotation=45,fontsize=16)  #将注释文本旋转45度`
+
+{{{python
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f1(t):
+    return np.exp(-t)*np.cos(2*np.pi*t)
+
+def f2(t):
+    return np.sin(2*np.pi*t)*np.cos(3*np.pi*t)
+
+t = np.arange(0.0,5.0,0.02)
+
+plt.figure(figsize=(8,7),dpi=98)
+p1 = plt.subplot(211)
+p2 = plt.subplot(212)
+
+label_f1 = "$f(t)=e^{-t} \cos (2 \pi t)$"
+label_f2 = "$g(t)=\sin (2 \pi t) \cos (3 \pi t)$"
+
+p1.plot(t,f1(t),"g-",label=label_f1)
+p2.plot(t,f2(t),"r-.",label=label_f2,linewidth=2)
+
+p1.axis([0.0,5.01,-1.0,1.5])
+
+p1.set_ylabel("v",fontsize=14)
+p1.set_title("A simple example",fontsize=18)
+p1.grid(True)
+#p1.legend()
+
+tx = 2
+ty = 0.9
+p1.text(tx,ty,label_f1,fontsize=15,verticalalignment="top",horizontalalignment="right")
+
+p2.axis([0.0,5.01,-1.0,1.5])
+p2.set_ylabel("v",fontsize=14)
+p2.set_xlabel("t",fontsize=14)
+#p2.legend()
+tx = 2
+ty = 0.9
+p2.text(tx,ty,label_f2,fontsize=15,verticalalignment="bottom",horizontalalignment="left")
+
+p2.annotate('',xy=(1.8,0.5),xytext=(tx,ty),arrowprops=dict(arrowstyle="->",connectionstyle="arc3"))
+
+
+p1.text(3,1,"asd" ,rotation=45,fontsize=16)  #将注释文本旋转45度
+plt.show()
+
+}}}
+
+=== 综合绘图函数 ===
+
+可以绘制无坐标轴的数据图
+
+{{{python
+# 导入基本库
+import numpy as np
+from scipy import interpolate
+import matplotlib.pyplot as plt
+# 中文显示
+def conf_zh(font_name):
+    from pylab import mpl
+    mpl.rcParams['font.sans-serif'] = [font_name]
+    mpl.rcParams['axes.unicode_minus'] = False 
+conf_zh('SimHei')
+
+
+def plot_it(x,y,title,x_label,y_label,xmin,xmax):
+    # 插值拟合
+    f = interpolate.interp1d(x, y, kind="cubic") # 创建一个拟合函数(原x,原y,kind=模式)
+    # 多项式拟合
+    #z = np.polyfit(np.array(x), np.array(y), 5)
+    #f = np.poly1d(z)
+    # 生成拟合曲线点
+    nx = np.linspace(xmin,xmax,500)
+    ny = f(nx)
+    
+    # 拟合后曲线区间分析
+    # 寻找左右点位置
+    half=0.8*ny.max() # y值目标
+    for i in ny:
+        if i>half:
+            xnum_small=ny.tolist().index(i) # 左侧值序号
+            break
+    for i in range(0,len(ny.tolist()))[::-1]:
+        if ny.tolist()[i]>half:
+            xnum_large=i # 右侧值序号
+            break
+    x_highest=nx.tolist()[ny.tolist().index(ny.max())] # 最大值x坐标
+    x_small=nx.tolist()[xnum_small] # 左侧值x坐标
+    plt.axvline(x_highest,color="black") #  画竖直线
+    plt.axvline(x_small,color="black")
+    plt.plot([0,10],[half,half],'k:') # 画水平线
+    plt.text(x_small+(x_highest-x_small)/2,half*0.9,str(round(x_highest-x_small,4)),fontsize=16)  #标注区间大小
+    
+    # 设置图片格式
+    #plt.figure(figsize=(8,4)) # 设置图片尺寸 800px X 400px
+    plt.xlabel(x_label) # x轴标签
+    plt.ylabel(y_label) # y轴标签
+    plt.title(title) # 图片标签
+    plt.xlim(xmin,xmax)
+    
+    # 画线
+    plt.plot(x,y,'ko',label='点') # 数据点
+    plt.plot(nx,ny,'k-',label='拟合线') # 拟合线
+    plt.text(0,0,'0')
+    # 显示图像
+    plt.legend(bbox_to_anchor=(1,1)) #显示标注并设置标注位置
+    #plt.savefig('/home/bacon/'+title+'.png') # 保存图像到文件, 一定要先保存后显示,否则会出错
+    plt.show() # 显示图片
+
+x=[0,0.3,0.6,0.9,1.2,1.311,1.811,2.311,2.811,3.311,3.811,4.311,4.811,5.311,5.811,6.311]
+y=[42.54,59.45,70.45,83.05,90.25,91.1,80.6,36.2,11.06,9.42,7.67,6.3,4.467,3.12,2.258,1.39]
+plot_it(x,y,"标题","x/x轴","y/y轴",x[0],x[-1])
+}}}
+
+=== 绘制坐标轴图 ===
+{{{python
+# 导入基本库
+import numpy as np
+from scipy import interpolate
+import matplotlib.pyplot as plt
+import sympy as sp
+from mpl_toolkits.axes_grid.axislines import SubplotZero
+# 中文显示
+def conf_zh(font_name):
+    from pylab import mpl
+    mpl.rcParams['font.sans-serif'] = [font_name]
+    mpl.rcParams['axes.unicode_minus'] = False 
+conf_zh('SimHei')
+
+
+def plot_it(x,y,title,x_label,y_label,xmin=0,xmax=1,ymin=0,ymax=1):
+    # 设置图片格式
+    fig = plt.figure(1)
+    ax = SubplotZero(fig, 111)
+    fig.add_subplot(ax)
+    for direction in ["xzero", "yzero"]:
+        ax.axis[direction].set_axisline_style("-|>")
+        ax.axis[direction].set_visible(True)
+    for direction in ["left", "right", "bottom", "top"]:
+        ax.axis[direction].set_visible(False)
+    
+    #plt.title(title) # 图片标签
+    plt.ylim(ymin,ymax)
+    plt.xticks([])
+    plt.yticks([])
+    # 画线
+    ax.plot(x,y) # 数据点
+    z=[]
+    for i in y:
+        z.append(-i)
+    ax.plot(x,z) # 数据点
+    plt.text(0,0,'0',fontsize=16)
+    plt.text(xmax,0.1,x_label,fontsize=16) #x
+    plt.text(-0.5,ymax+0.1,y_label,fontsize=16) #y
+    plt.text(-0.3,1.2,"$w_{0}$",fontsize=16) #字
+    # 显示图像
+   # plt.savefig('/home/bacon/'+title+'.png') # 保存图像到文件, 一定要先保存后显示,否则会出错
+    plt.show() # 显示图片
+
+def w(z):
+    return (1+(z)**2)**(1/2)
+x=list(range(0,4000))
+y=[]
+for i in range(0,len(x)):
+    x[i]=x[i]/1000-2
+    y.append(w(x[i]))
+plot_it(x,y,"高斯光束与参数","$z$","$w(z)$",0,x[-1],-3,3)
+}}}
+
+== plot 线型设置 ==
+plot画图时可以设定线条参数。包括：颜色、线型、标记风格。
+=== 控制颜色 ===
+颜色之间的对应关系为
+
+| 标记 | b    | c    | g    | k    | m      | r    | w    | y    |
+| 颜色 | 蓝色 | 青色 | 绿色 | 黑色 | 紫红色 | 红色 | 白色 | 黄色 |
+
+有三种表示颜色的方式:
+
+1. 用全名  
+2. 16进制如：#FF00FF  
+3. RGB或RGBA元组（1,0,1,1） 
+4. 灰度强度如：‘0.7’
+=== 控制线型 ===
+
+符号和线型之间的对应关系
+
+| 标记 | -    | --   | -.     | :    |
+| 线型 | 实线 | 短线 | 点画线 | 虚线 |
+
+=== 控制标记风格 ===
+
+标记风格有多种：
+
+| 标记 | 解释                                  |
+| .    | Point marker                          |
+| ,    | Pixel marker                          |
+| o    | Circle marker                         |
+| v    | Triangle down marker                  |
+| ^    | Triangle up marker                    |
+| <    | Triangle left marker                  |
+| >    | Triangle right marker                 |
+| 1    | Tripod down marker                    |
+| 2    | Tripod up marker                      |
+| 3    | Tripod left marker                    |
+| 4    | Tripod right marker                   |
+| s    | Square marker                         |
+| p    | Pentagon marker                       |
+| *    | Star marker                           |
+| h    | Hexagon marker                        |
+| H    | Rotated hexagon D Diamond marker      |
+| d    | Thin diamond marker                   |
+| 竖线 | Vertical line (vlinesymbol) marker    |
+| _    | Horizontal line (hline symbol) marker |
+| +    | Plus marker                           |
+| x    | Cross (x) marker                      |
+
+== 会遇到的问题及解决方法 ==
+=== matplotlib使用中文与latex ===
+==== 图片中的文本使用latex符号 ====
+
+{{{python
+from matplotlib import rc
+[[rc]]('text',usetex=True)
+
+}}}
+
+==== 中文显示 ====
+
+关键在于自己指定字体
+
+{{{python
+myfont = matplotlib.font_manager.FontProperties(fname='yahei_mono.ttf')
+mpl.rcParams['axes.unicode_minus'] = False
+plt.title(u'这里写的是中文',fontproperties=myfont) #指定字体
+
+}}}
+
+=== Legend中指定线和图例相对应的方法 ===
+在plot时的返回参数是两个,所以加逗号忽略第二个参数,用第一个来加图例才行
+{{{python
+a, = plt.plot(x,y)
+plt.legend([a],["a"])
+}}}
+
+=== 并行化画图时,解决爆内存和同一图中画了好多线的方法 ===
+# 利用随机数做画图编号
+# 画完图要关闭这个图
+
+{{{python
+from random import randint
+fig_num = randint(0,10**10)
+fig = plt.figure(fig_num)
+cop, = plt.plot(tlist,na,label="$a^\\dagger a$")
+z2p, = plt.plot(tlist,co,label="concurrence")
+plt.legend([cop,z2p],["$a^\\dagger a$","concurrence"])
+fig = plt.gcf()
+fig.savefig('filename.png')
+plt.close(fig_num)
+
+}}}
+
+=== 让画出来的图片连在一起动起来的方法 ===
+matplotlib本身并不能实现这个功能,可以采用的方法有ffmpeg, opencv, imagemagic等,这里选用最简单方便的imagemagic
+{{{bash
+convert -delay 10 -loop 0 a1.png a2.png a.gif
+}}}
+选项含义:
+| 选项        | 意义                     |
+| `-delay 10` | 每张图片延时             |
+| `-loop 0`   | 循环播放次数,0为一直循环 |
