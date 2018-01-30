@@ -1,0 +1,1818 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>Clojure</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记">Clojure学习笔记</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法">基本语法</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-基本要素">基本要素</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-基本要素-字面量">字面量</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-基本要素-求值过程">求值过程</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-基本要素-REPL">REPL</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-基本要素-def 定义新的符号绑定">def 定义新的符号绑定</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-基本要素-打印输出">打印输出</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-函数">函数</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-函数-创建函数">创建函数</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-函数-创建函数-创建普通函数">创建普通函数</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-函数-创建函数-创建多元函数（不同输入对应不同输出）">创建多元函数（不同输入对应不同输出）</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-函数-创建函数-创建不定元函数（参数个数不定）">创建不定元函数（参数个数不定）</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-函数-创建函数-创建匿名函数">创建匿名函数</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-函数-创建函数-defn、def、fn之间的关系">defn、def、fn之间的关系</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-函数-创建函数-语法匿名函数，匿名函数的语法糖">语法匿名函数，匿名函数的语法糖</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-函数-应用函数 Apply">应用函数 Apply</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-局部和闭包">局部和闭包</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-局部和闭包-let">let</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-局部和闭包-闭包">闭包</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-Java 互操作">Java 互操作</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-顺序集合">顺序集合</a>
+
+<ul>
+<li>
+[[#Clojure学习笔记#基本语法#顺序集合#Vectors[1 2 3]|Vectors[1 2 3]]]
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-顺序集合-Lists &#39;&#39;(1 2 3)">Lists ''(1 2 3)</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-哈希集合">哈希集合</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-哈希集合-maps {&quot;name&quot; 1}">maps {"name" 1}</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-哈希集合-域信息">域信息</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-哈希集合-记录Record">记录Record</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-流程控制">流程控制</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-流程控制-if">if</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-流程控制-do">do</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-流程控制-when">when</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-流程控制-cond">cond</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-流程控制-case">case</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-流程控制-有副作用的迭代">有副作用的迭代</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-流程控制-有副作用的迭代-dotimes">dotimes</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-流程控制-有副作用的迭代-doseq">doseq</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-流程控制-for">for</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-流程控制-递归">递归</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常">异常</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常-try-catch捕获异常">try-catch捕获异常</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常-try-throw抛出异常">try-throw抛出异常</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常-ex-info 将异常信息作为map">ex-info 将异常信息作为map</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常-with-open 写法">with-open 写法</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常-宏的定义">宏的定义</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常-展开宏">展开宏</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常-常用宏">常用宏</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常-常用宏-..">..</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常-常用宏-doto">doto</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常-常用宏--&gt;">-&gt;</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-异常-常用宏--&gt;&gt;">-&gt;&gt;</a>
+
+</ul>
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-常用的函数和宏">常用的函数和宏</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-常用的函数和宏-构造函数的函数">构造函数的函数</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-基本语法-常用的函数和宏-正则表达式">正则表达式</a>
+
+</ul>
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法">高级语法</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-自定义数据类型 Datatypes">自定义数据类型 Datatypes</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-Sequences 算法系列">Sequences 算法系列</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-临时数据结构：用可变数据进行优化">临时数据结构：用可变数据进行优化</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-转换器：将变换算法组合起来">转换器：将变换算法组合起来</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-多重方法和层级：运行时多态的方法">多重方法和层级：运行时多态的方法</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-协议：对接口进行抽象">协议：对接口进行抽象</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-元数据：表达数据类型信息">元数据：表达数据类型信息</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-命名空间与使用库">命名空间与使用库</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-改变值">改变值</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-改变值-var与全局环境">var与全局环境</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-改变值-ref与STM：软件事务内存，并发">ref与STM：软件事务内存，并发</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-改变值-agent与异步">agent与异步</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-改变值-atom与同步">atom与同步</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-reducer：从旧态到新态">reducer：从旧态到新态</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-Java互操作">Java互操作</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-高级语法-编译成Class">编译成Class</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-内置库">内置库</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-内置库-Java工具库">Java工具库</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-内置库-clojure.reflect:反射信息">clojure.reflect:反射信息</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-内置库-clojure.repl:REPL有用的工具">clojure.repl:REPL有用的工具</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-内置库-clojure.set:set相关算法">clojure.set:set相关算法</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-内置库-clojure.string:处理字符串">clojure.string:处理字符串</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-内置库-clojure.test:单元测试框架">clojure.test:单元测试框架</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-内置库-clojure.walk:遍历和操作最近数据结构">clojure.walk:遍历和操作最近数据结构</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-内置库-clojure.xml:xml处理">clojure.xml:xml处理</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-内置库-clojure.zip:纯函数的树编辑">clojure.zip:纯函数的树编辑</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-内置库-依赖处理与命令行工具">依赖处理与命令行工具</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-相关项目">相关项目</a>
+
+<ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-相关项目-ring">ring</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-相关项目-compojure">compojure</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-相关项目-enlive">enlive</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-相关项目-hiccup">hiccup</a>
+
+</ul>
+<li>
+<a href="Clojure.html#Clojure学习笔记-leiningen:依赖管理">leiningen:依赖管理</a>
+
+<li>
+<a href="Clojure.html#Clojure学习笔记-ClojureScript：JS">ClojureScript：JS</a>
+
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+<div id="Clojure学习笔记"><h1 id="Clojure学习笔记">Clojure学习笔记</h1></div>
+<div id="Clojure学习笔记-基本语法"><h2 id="基本语法">基本语法</h2></div>
+<p>
+[速记卡常备](<a href="https:&#47;&#47;clojure.org&#47;api&#47;cheatsheet)">https://clojure.org/api/cheatsheet)</a>
+</p>
+<div id="Clojure学习笔记-基本语法-基本要素"><h3 id="基本要素">基本要素</h3></div>
+<div id="Clojure学习笔记-基本语法-基本要素-字面量"><h4 id="字面量">字面量</h4></div>
+<table>
+<tr>
+<td>
+表示
+</td>
+<td>
+含义
+</td>
+</tr>
+<tr>
+<td>
+数字类型
+</td>
+<td>
+Numeric types
+</td>
+</tr>
+<tr>
+<td>
+<code>42              </code>
+</td>
+<td>
+Long - 64-bit integer (from -2<sup><small>63 to 2</small></sup>63-1)
+</td>
+</tr>
+<tr>
+<td>
+<code>6.022e23        </code>
+</td>
+<td>
+Double - double-precision 64-bit floating point
+</td>
+</tr>
+<tr>
+<td>
+<code>42N             </code>
+</td>
+<td>
+BigInt - arbitrary precision integer
+</td>
+</tr>
+<tr>
+<td>
+<code>1.0M            </code>
+</td>
+<td>
+BigDecimal - arbitrary precision fixed-point decimal
+</td>
+</tr>
+<tr>
+<td>
+<code>22/7            </code>
+</td>
+<td>
+Ratio
+</td>
+</tr>
+<tr>
+<td>
+字符类型
+</td>
+<td>
+Character types
+</td>
+</tr>
+<tr>
+<td>
+<code>"hello"         </code>
+</td>
+<td>
+String
+</td>
+</tr>
+<tr>
+<td>
+<code>\e              </code>
+</td>
+<td>
+Character
+</td>
+</tr>
+<tr>
+<td>
+其他
+</td>
+<td>
+Other types
+</td>
+</tr>
+<tr>
+<td>
+<code>nil             </code>
+</td>
+<td>
+null value
+</td>
+</tr>
+<tr>
+<td>
+<code>true            </code>
+</td>
+<td>
+Boolean (also, false)
+</td>
+</tr>
+<tr>
+<td>
+<code>="[0-9]+"       </code>
+</td>
+<td>
+Regular expression=
+</td>
+</tr>
+<tr>
+<td>
+<code>:alpha          </code>
+</td>
+<td>
+Keyword
+</td>
+</tr>
+<tr>
+<td>
+<code>:release/alpha  </code>
+</td>
+<td>
+Keyword with namespace
+</td>
+</tr>
+<tr>
+<td>
+<code>map             </code>
+</td>
+<td>
+Symbol
+</td>
+</tr>
+<tr>
+<td>
+<code>+               </code>
+</td>
+<td>
+Symbol - most punctuation allowed
+</td>
+</tr>
+<tr>
+<td>
+<code>clojure.core/+  </code>
+</td>
+<td>
+Namespaced symbol
+</td>
+</tr>
+<tr>
+<td>
+集合类型
+</td>
+<td>
+collection types
+</td>
+</tr>
+<tr>
+<td>
+<code>'(1 2 3)     </code>
+</td>
+<td>
+list
+</td>
+</tr>
+<tr>
+<td>
+<code>[1 2 3]      </code>
+</td>
+<td>
+vector
+</td>
+</tr>
+<tr>
+<td>
+<code>={1 2 3}     </code>
+</td>
+<td>
+set=
+</td>
+</tr>
+<tr>
+<td>
+<code>{:a 1, :b 2} </code>
+</td>
+<td>
+map
+</td>
+</tr>
+</table>
+
+<div id="Clojure学习笔记-基本语法-基本要素-求值过程"><h4 id="求值过程">求值过程</h4></div>
+<ol>
+<li>
+求值过程为Lisp通用过程
+
+<li>
+使用单引号阻止求值<code>'x or '(1 2 3) </code>
+
+</ol>
+
+<div id="Clojure学习笔记-基本语法-基本要素-REPL"><h4 id="REPL">REPL</h4></div>
+<ol>
+<li>
+Clojure总是将函数转换为字节码，而不是解释执行
+
+<li>
+使用星号引用之前的结果 <code>*1, *2, *3</code>
+
+</ol>
+
+<table>
+<tr>
+<td>
+函数及调用方式
+</td>
+<td>
+功能
+</td>
+</tr>
+<tr>
+<td>
+<code>(require '[clojure.repl :refer :all])</code>
+</td>
+<td>
+导入库中所有符号
+</td>
+</tr>
+<tr>
+<td>
+<code>(doc +)</code>
+</td>
+<td>
+显示函数文档
+</td>
+</tr>
+<tr>
+<td>
+<code>(apropos "+")</code>
+</td>
+<td>
+模糊查询函数
+</td>
+</tr>
+<tr>
+<td>
+<code>(find-doc "trim")</code>
+</td>
+<td>
+模糊查询函数文档
+</td>
+</tr>
+<tr>
+<td>
+<code>(dir clojure.repl)</code>
+</td>
+<td>
+显示全部函数
+</td>
+</tr>
+<tr>
+<td>
+<code>(source dir)</code>
+</td>
+<td>
+显示源代码
+</td>
+</tr>
+</table>
+
+<div id="Clojure学习笔记-基本语法-基本要素-def 定义新的符号绑定"><h4 id="def 定义新的符号绑定">def 定义新的符号绑定</h4></div>
+<p>
+(def x 7)
+</p>
+<div id="Clojure学习笔记-基本语法-基本要素-打印输出"><h4 id="打印输出">打印输出</h4></div>
+<table>
+<tr>
+<td>
+换行
+</td>
+<td>
+人类
+</td>
+<td>
+机器
+</td>
+</tr>
+<tr>
+<td>
+换行
+</td>
+<td>
+<code>println</code>
+</td>
+<td>
+<code>prn</code>
+</td>
+</tr>
+<tr>
+<td>
+不换行
+</td>
+<td>
+<code>print</code>
+</td>
+<td>
+<code>pr</code>
+</td>
+</tr>
+</table>
+
+<div id="Clojure学习笔记-基本语法-函数"><h3 id="函数">函数</h3></div>
+<div id="Clojure学习笔记-基本语法-函数-创建函数"><h4 id="创建函数">创建函数</h4></div>
+<div id="Clojure学习笔记-基本语法-函数-创建函数-创建普通函数"><h5 id="创建普通函数">创建普通函数</h5></div>
+<pre class="clojure">
+;;    name   params         body
+;;    -----  ------  -------------------
+(defn greet  [name]  (str "Hello, " name) )
+</pre>
+
+<div id="Clojure学习笔记-基本语法-函数-创建函数-创建多元函数（不同输入对应不同输出）"><h5 id="创建多元函数（不同输入对应不同输出）">创建多元函数（不同输入对应不同输出）</h5></div>
+<p>
+Each arity is a list ([args*] body*)
+</p>
+<pre class="clojure">
+(defn messenger
+  ([]     (messenger "Hello world!"))
+  ([msg]  (println msg)))
+</pre>
+
+<div id="Clojure学习笔记-基本语法-函数-创建函数-创建不定元函数（参数个数不定）"><h5 id="创建不定元函数（参数个数不定）">创建不定元函数（参数个数不定）</h5></div>
+<pre class="clojure">
+(defn hello [greeting &amp; who]
+  (println greeting who))
+</pre>
+
+<div id="Clojure学习笔记-基本语法-函数-创建函数-创建匿名函数"><h5 id="创建匿名函数">创建匿名函数</h5></div>
+<pre class="clojure">
+;;    params         body
+;;   ---------  -----------------
+(fn  [message]  (println message) )
+</pre>
+
+<div id="Clojure学习笔记-基本语法-函数-创建函数-defn、def、fn之间的关系"><h5 id="defn、def、fn之间的关系">defn、def、fn之间的关系</h5></div>
+<p>
+defn是(def (fn))的语法糖
+</p>
+
+<div id="Clojure学习笔记-基本语法-函数-创建函数-语法匿名函数，匿名函数的语法糖"><h5 id="语法匿名函数，匿名函数的语法糖">语法匿名函数，匿名函数的语法糖</h5></div>
+<ol>
+<li>
+<code>%</code> 表示单个参数
+
+<li>
+<code>%1, %2, %3</code> 表示第几个参数
+
+<li>
+<code>%&amp;</code> 表示剩余参数
+
+<li>
+<code>=()</code> 表示匿名函数=
+
+</ol>
+
+<pre class="clojure">
+=(+ 6 %)=
+(fn [x] (+ 6 x))
+=(println %1 %2 %&amp;)=
+(fn [x y &amp; z] (println x y z))
+</pre>
+
+<div id="Clojure学习笔记-基本语法-函数-应用函数 Apply"><h4 id="应用函数 Apply">应用函数 Apply</h4></div>
+<ol>
+<li>
+Apply函数将第一个参数作为函数，将其余全部参数作为函数的参数，执行这个函数
+
+<li>
+同时，那些其余参数如果是列表的话，将会解开，将每个元素都作为参数，依次排列下去
+
+</ol>
+
+
+<pre class="clojure">
+(apply f 1 '(2 3 4))
+(f 1 2 3 4)
+</pre>
+
+<div id="Clojure学习笔记-基本语法-局部和闭包"><h3 id="局部和闭包">局部和闭包</h3></div>
+<div id="Clojure学习笔记-基本语法-局部和闭包-let"><h4 id="let">let</h4></div>
+<p>
+let会创造一个词汇语义范围，在范围内将值与符号绑定，类似局部变量
+</p>
+<pre class="clojure">
+;;      bindings     name is defined here
+;;    ------------  ----------------------
+(let  [name value]  (code that uses name))
+(let [x 1
+      y 2]
+  (+ x y))
+</pre>
+
+<div id="Clojure学习笔记-基本语法-局部和闭包-闭包"><h4 id="闭包">闭包</h4></div>
+<ol>
+<li>
+fn函数所形成的叫做闭包
+
+<li>
+闭包包括了周围的语义范围，参数和函数等
+
+<li>
+所以在这个闭包内并不能修改全局变量
+
+</ol>
+
+<div id="Clojure学习笔记-基本语法-Java 互操作"><h3 id="Java 互操作">Java 互操作</h3></div>
+<table>
+<tr>
+<td>
+Task
+</td>
+<td>
+Java
+</td>
+<td>
+Clojure
+</td>
+</tr>
+<tr>
+<td>
+Instantiation
+</td>
+<td>
+<code>new Widget("foo")</code>
+</td>
+<td>
+<code>(Widget. "foo")</code>
+</td>
+</tr>
+<tr>
+<td>
+Instance method
+</td>
+<td>
+<code>rnd.next()       </code>
+</td>
+<td>
+<code>(.nextInt rnd)</code>
+</td>
+</tr>
+<tr>
+<td>
+Instance field
+</td>
+<td>
+<code>object.field     </code>
+</td>
+<td>
+<code>(.-field object)</code>
+</td>
+</tr>
+<tr>
+<td>
+Static method
+</td>
+<td>
+<code>Math.sqrt(25)    </code>
+</td>
+<td>
+<code>(Math/sqrt 25)</code>
+</td>
+</tr>
+<tr>
+<td>
+Static field
+</td>
+<td>
+<code>Math.PI          </code>
+</td>
+<td>
+<code>Math/PI</code>
+</td>
+</tr>
+</table>
+
+<p>
+将java方法转换为函数
+</p>
+
+<pre class="clojure">
+;; make a function to invoke .length on arg
+(fn [obj] (.length obj))
+
+;; same thing
+=(.length %)=
+</pre>
+
+<div id="Clojure学习笔记-基本语法-顺序集合"><h3 id="顺序集合">顺序集合</h3></div>
+<div id="Clojure学习笔记-基本语法-顺序集合-Vectors[1 2 3]"><h4 id="Vectors[1 2 3]">Vectors[1 2 3]</h4></div>
+<table>
+<tr>
+<td>
+功能
+</td>
+<td>
+函数
+</td>
+<td>
+返回值
+</td>
+</tr>
+<tr>
+<td>
+按序号获取元素
+</td>
+<td>
+<code>(get ["abc" false 99] 0)</code>
+</td>
+<td>
+<code>"abc"</code>
+</td>
+</tr>
+<tr>
+<td>
+计数
+</td>
+<td>
+<code>(count [1 2 3])         </code>
+</td>
+<td>
+<code>3</code>
+</td>
+</tr>
+<tr>
+<td>
+从元素构造
+</td>
+<td>
+<code>(vector 1 2 3)          </code>
+</td>
+<td>
+<code>[1 2 3]</code>
+</td>
+</tr>
+<tr>
+<td>
+追加元素
+</td>
+<td>
+<code>(conj [1 2 3] 4 5 6)    </code>
+</td>
+<td>
+<code>[1 2 3 4 5 6]</code>
+</td>
+</tr>
+</table>
+
+<div id="Clojure学习笔记-基本语法-顺序集合-Lists &#39;(1 2 3)"><h4 id="Lists &#39;(1 2 3)">Lists '(1 2 3)</h4></div>
+<p>
+不能用序号取值
+</p>
+
+<table>
+<tr>
+<td>
+功能
+</td>
+<td>
+函数
+</td>
+<td>
+返回值
+</td>
+</tr>
+</table>
+<p>
+|创建list       | <code>(def cards '(10 :ace :jack 9))</code>||
+<table>
+<tr>
+<td>
+第一个元素
+</td>
+<td>
+<code>(first cards)                 </code>
+</td>
+<td>
+<code>10</code>
+</td>
+</tr>
+<tr>
+<td>
+其余列表
+</td>
+<td>
+<code>(rest cards)                  </code>
+</td>
+<td>
+<code>'(:ace :jack 9)</code>
+</td>
+</tr>
+<tr>
+<td>
+追加元素
+</td>
+<td>
+<code>(conj cards :queen)           </code>
+</td>
+<td>
+<code>(:queen 10 :ace :jack 9)</code>
+</td>
+</tr>
+<tr>
+<td>
+可以作为栈使用
+</td>
+<td>
+<code>(def stack '(:a :b))          </code>
+</td>
+<td>
+<code>='user/stack</code>=
+</td>
+</tr>
+<tr>
+<td>
+栈顶的值
+</td>
+<td>
+<code>(peek stack)                  </code>
+</td>
+<td>
+<code>:a</code>
+</td>
+</tr>
+<tr>
+<td>
+出栈
+</td>
+<td>
+<code>(pop stack)                   </code>
+</td>
+<td>
+<code>(:b)</code>
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Clojure学习笔记-基本语法-哈希集合"><h3 id="哈希集合">哈希集合</h3></div>
+<p>
+====sets ={"a", "b". "c"}=====
+<table>
+<tr>
+<td>
+功能
+</td>
+<td>
+函数
+</td>
+<td>
+返回值
+</td>
+</tr>
+<tr>
+<td>
+定义set
+</td>
+<td>
+<code>(def players ={"Alice", "Bob", "Kelly"})</code>
+</td>
+<td>
+=
+</td>
+</tr>
+<tr>
+<td>
+追加元素
+</td>
+<td>
+<code> (conj players "Fred")</code>
+</td>
+<td>
+<code>={"Alice" "Fred" "Bob" "Kelly"}</code>=
+</td>
+</tr>
+<tr>
+<td>
+删除元素
+</td>
+<td>
+<code>(disj players "Bob" "Sal") </code>
+</td>
+<td>
+<code>={"Alice" "Kelly"}</code>=
+</td>
+</tr>
+<tr>
+<td>
+判断元素是否在内
+</td>
+<td>
+<code>(contains? players "Kelly") </code>
+</td>
+<td>
+<code>true</code>
+</td>
+</tr>
+<tr>
+<td>
+排序元素
+</td>
+<td>
+<code>(conj (sorted-set) "Bravo" "Charlie" "Sigma" "Alpha") </code>
+</td>
+<td>
+<code>={"Alpha" "Bravo"  "Charlie" "Sigma"}</code>=
+</td>
+</tr>
+<tr>
+<td>
+将另一个集合的元素放进去
+</td>
+<td>
+<code>(into players ["Tim" "Sue" "Greg"])</code>
+</td>
+<td>
+<code>={"Alice" "Greg" "Sue" "Bob" "Tim" "Kelly"}</code>=
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Clojure学习笔记-基本语法-哈希集合-maps {&quot;name&quot; 1}"><h4 id="maps {&quot;name&quot; 1}">maps {"name" 1}</h4></div>
+<table>
+<tr>
+<td>
+功能
+</td>
+<td>
+函数
+</td>
+<td>
+返回值
+</td>
+</tr>
+</table>
+<p>
+|定义map                              | <code>(def scores {"Fred" 1400, "Bob" 1240, "Angela" 1024})</code>                  ||
+<table>
+<tr>
+<td>
+添加键值对
+</td>
+<td>
+<code>(assoc scores "Sally" 0)</code>
+</td>
+<td>
+<code>{"Angela" 1024, "Bob" 1240, "Fred" 1400, "Sally" 0}</code>
+</td>
+</tr>
+<tr>
+<td>
+删除键值
+</td>
+<td>
+<code>(dissoc scores "Bob")</code>
+</td>
+<td>
+<code>{"Angela" 1024, "Fred" 1400}</code>
+</td>
+</tr>
+<tr>
+<td>
+获取键值
+</td>
+<td>
+<code>(get scores "Angela")</code>
+</td>
+<td>
+<code>1024</code>
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+<code>(directions :north)</code>
+</td>
+<td>
+<code>0</code>
+</td>
+</tr>
+<tr>
+<td>
+获取键值时在最后加一项作为默认返回值
+</td>
+<td>
+<code>(get scores "Sam" 0)</code>
+</td>
+<td>
+<code>0</code>
+</td>
+</tr>
+<tr>
+<td>
+判断键名是否存在
+</td>
+<td>
+<code>(contains? scores "Fred")</code>
+</td>
+<td>
+<code>true</code>
+</td>
+</tr>
+<tr>
+<td>
+寻找键值对
+</td>
+<td>
+<code>(find scores "Fred")</code>
+</td>
+<td>
+<code>["Fred" 1400]</code>
+</td>
+</tr>
+<tr>
+<td>
+获取键名list
+</td>
+<td>
+<code>(keys scores)</code>
+</td>
+<td>
+<code>("Fred" "Bob" "Angela")</code>
+</td>
+</tr>
+<tr>
+<td>
+获取值list
+</td>
+<td>
+<code>(vals scores)</code>
+</td>
+<td>
+<code>(1400 1240 1024)</code>
+</td>
+</tr>
+<tr>
+<td>
+由set作为键名生成map
+</td>
+<td>
+<code>(zipmap ={"Alice" "Bob" "Kelly"} (repeat 0))</code>
+</td>
+<td>
+<code>{"Kelly" 0, "Bob" 0, "Alice" 0}</code>=
+</td>
+</tr>
+<tr>
+<td>
+将两个map合并为一个
+</td>
+<td>
+<code>(merge scores new-scores)</code>
+</td>
+<td>
+<code>{"Fred" 1400, "Bob" 1240, "Jeff" 900, "Angela" 300}</code>
+</td>
+</tr>
+<tr>
+<td>
+合并map相同值并应用函数
+</td>
+<td>
+<code>(merge-with + scores{"Fred" 550 "Angela" 900 "Sam" 1000})</code>
+</td>
+<td>
+<code>{"Sam" 1000, "Fred" 1950, "Bob" 1240, "Angela" 1924}</code>
+</td>
+</tr>
+<tr>
+<td>
+定义有序map
+</td>
+<td>
+<code>(def sm (sorted-map "Bravo" 204 "Alfa" 35  "Sigma" 99  "Charlie" 100))</code>
+</td>
+<td>
+<code>{"Alfa" 35, "Bravo" 204, "Charlie" 100, "Sigma" 99}</code>
+</td>
+</tr>
+<tr>
+<td>
+有序map的键名列表是有序的
+</td>
+<td>
+<code>(keys sm)</code>
+</td>
+<td>
+<code>("Alfa" "Bravo" "Charlie" "Sigma")</code>
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+<code>(vals sm)</code>
+</td>
+<td>
+<code>(35 204 100 99)</code>
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Clojure学习笔记-基本语法-哈希集合-域信息"><h4 id="域信息">域信息</h4></div>
+<table>
+<tr>
+<td>
+功能
+</td>
+<td>
+函数
+</td>
+<td>
+返回值
+</td>
+</tr>
+</table>
+<p>
+|使用关键字定义map         | <code>(def person  {:first-name "Kelly"   :last-name "Keen"   :age 32   :occupation "Programmer"})</code>                                 ||
+<table>
+<tr>
+<td>
+获取关键字
+</td>
+<td>
+<code>(get person :occupation)</code>
+</td>
+<td>
+<code>"Programmer"</code>
+</td>
+</tr>
+<tr>
+<td>
+可以省略get
+</td>
+<td>
+<code>(person :occupation)</code>
+</td>
+<td>
+<code>"Programmer"</code>
+</td>
+</tr>
+<tr>
+<td>
+也可以调过来
+</td>
+<td>
+<code>(:occupation person)</code>
+</td>
+<td>
+<code>"Programmer"</code>
+</td>
+</tr>
+<tr>
+<td>
+最后一个参数可以是缺省值
+</td>
+<td>
+<code>(:favorite-color person "beige")</code>
+</td>
+<td>
+<code>"beige"</code>
+</td>
+</tr>
+<tr>
+<td>
+可以改变值
+</td>
+<td>
+<code>(assoc person :occupation "Baker")</code>
+</td>
+<td>
+<code>{:age 32, :last-name "Keen", :first-name "Kelly", :occupation "Baker"}</code>
+</td>
+</tr>
+<tr>
+<td>
+可以删除值
+</td>
+<td>
+<code>(dissoc person :age)</code>
+</td>
+<td>
+<code>{:last-name "Keen", :first-name "Kelly", :occupation "Programmer"}</code>
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+``
+</td>
+</tr>
+<tr>
+<td>
+定义嵌套的map
+</td>
+<td>
+<code>(def company  {:name "WidgetCo"   :address {:street "123 Main St"             :city "Springfield"             :state "IL"}})</code>
+</td>
+</tr>
+<tr>
+<td>
+可以嵌套获取值
+</td>
+<td>
+<code> (get-in company [:address :city])</code>
+</td>
+<td>
+<code>"Springfield"</code>
+</td>
+</tr>
+<tr>
+<td>
+可以嵌套修改值
+</td>
+<td>
+<code>(assoc-in company [:address :street] "303 Broadway")</code>
+</td>
+<td>
+<code>{:name "WidgetCo", :address {:state "IL",  :city "Springfield",  :street "303 Broadway"}}</code>
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Clojure学习笔记-基本语法-哈希集合-记录Record"><h4 id="记录Record">记录Record</h4></div>
+<table>
+<tr>
+<td>
+功能
+</td>
+<td>
+函数
+</td>
+<td>
+返回值
+</td>
+</tr>
+</table>
+<p>
+|首先定义记录结构    | <code>(defrecord Person [first-name last-name age occupation])</code>                                                 ||
+|再实例化一个记录    | <code>(def kelly (-&gt;Person "Kelly" "Keen" 32 "Programmer"))</code>                                                    ||
+|或者使用map生成记录 | <code>(def kelly (map-&gt;Person  {:first-name "Kelly"  :last-name "Keen"    :age 32  :occupation "Programmer"}))</code> ||
+<table>
+<tr>
+<td>
+记录的引用和map相同
+</td>
+<td>
+<code>(:occupation kelly)</code>
+</td>
+<td>
+<code>"Programmer"</code>
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Clojure学习笔记-基本语法-流程控制"><h3 id="流程控制">流程控制</h3></div>
+<div id="Clojure学习笔记-基本语法-流程控制-if"><h4 id="if">if</h4></div>
+<pre class="clojure">
+(if (true? false) "impossible!")
+(if (even? 2) "even" "odd")
+</pre>
+<p>
+只有 <code>false nil</code>是假的
+</p>
+<div id="Clojure学习笔记-基本语法-流程控制-do"><h4 id="do">do</h4></div>
+<pre class="clojure">
+ (do (println "even")
+      true)
+</pre>
+<div id="Clojure学习笔记-基本语法-流程控制-when"><h4 id="when">when</h4></div>
+<pre class="clojure">
+(when (neg? x)
+  (throw (RuntimeException. (str "x must be positive: " x))))
+</pre>
+<p>
+when 没有else路径
+</p>
+<div id="Clojure学习笔记-基本语法-流程控制-cond"><h4 id="cond">cond</h4></div>
+<p>
+对每个路径都进行判断
+</p>
+<pre class="clojure">
+(let [x 11]
+  (cond
+    (&lt; x 2)  "x is less than 2"
+    (&lt; x 10) "x is less than 10"
+    :else  "x is greater than or equal to 10"))
+</pre>
+<div id="Clojure学习笔记-基本语法-流程控制-case"><h4 id="case">case</h4></div>
+<pre class="clojure">
+(defn foo [x]
+         (case x
+           5 "x is 5"
+           10 "x is 10"
+           "x isn't 5 or 10"))
+</pre>
+<div id="Clojure学习笔记-基本语法-流程控制-有副作用的迭代"><h4 id="有副作用的迭代">有副作用的迭代</h4></div>
+<div id="Clojure学习笔记-基本语法-流程控制-有副作用的迭代-dotimes"><h5 id="dotimes">dotimes</h5></div>
+<pre class="clojure">
+(dotimes [i 3]
+         (println i))
+0
+1
+2
+nil
+</pre>
+<div id="Clojure学习笔记-基本语法-流程控制-有副作用的迭代-doseq"><h5 id="doseq">doseq</h5></div>
+<pre class="clojure">
+(doseq [n (range 3)]
+         (println n))
+(doseq [letter [:a :b]
+               number (range 3)] ; list of 0, 1, 2
+         (prn [letter number]))
+[:a 0]
+[:a 1]
+[:a 2]
+[:b 0]
+[:b 1]
+[:b 2]
+nil
+</pre>
+<div id="Clojure学习笔记-基本语法-流程控制-for"><h4 id="for">for</h4></div>
+<p>
+for并不是循环而是几个列表遍历组装新列表
+</p>
+<pre class="clojure">
+(for [letter [:a :b]
+             number (range 3)] ; list of 0, 1, 2
+         [letter number])
+([:a 0] [:a 1] [:a 2] [:b 0] [:b 1] [:b 2])
+</pre>
+<div id="Clojure学习笔记-基本语法-流程控制-递归"><h4 id="递归">递归</h4></div>
+<p>
+必须使用尾递归而且显式声明
+</p>
+<pre class="clojure">
+(loop [i 0]
+  (if (&lt; i 10)
+    (recur (inc i))
+    i))
+(defn increase [i]
+  (if (&lt; i 10)
+    (recur (inc i))
+    i))
+</pre>
+<div id="Clojure学习笔记-基本语法-异常"><h3 id="异常">异常</h3></div>
+<div id="Clojure学习笔记-基本语法-异常-try-catch捕获异常"><h4 id="try-catch捕获异常">try-catch捕获异常</h4></div>
+<pre class="clojure">
+(try
+  (/ 2 1)
+  (catch ArithmeticException e
+    "divide by zero")
+  (finally
+    (println "cleanup")))
+</pre>
+
+<div id="Clojure学习笔记-基本语法-异常-try-throw抛出异常"><h4 id="try-throw抛出异常">try-throw抛出异常</h4></div>
+<pre class="clojure">
+(try
+  (throw (Exception. "something went wrong"))
+  (catch Exception e (.getMessage e)))
+</pre>
+<div id="Clojure学习笔记-基本语法-异常-ex-info 将异常信息作为map"><h4 id="ex-info 将异常信息作为map">ex-info 将异常信息作为map</h4></div>
+<ol>
+<li>
+ex-info takes a message and a map
+
+<li>
+ex-data gets the map back out
+
+<li>
+Or nil if not created with ex-info
+
+</ol>
+
+<pre class="clojure">
+(try
+  (throw (ex-info "There was a problem" {:detail 42}))
+  (catch Exception e
+    (prn (:detail (ex-data e)))))
+</pre>
+<div id="Clojure学习笔记-基本语法-异常-with-open 写法"><h4 id="with-open 写法">with-open 写法</h4></div>
+<pre class="clojure">
+(let [f (clojure.java.io/writer "/tmp/new")]
+  (try
+    (.write f "some text")
+    (finally
+      (.close f))))
+
+;; Can be written:
+(with-open [f (clojure.java.io/writer "/tmp/new")]
+  (.write f "some text"))
+</pre>
+
+<p>
+===宏===
+</p>
+<div id="Clojure学习笔记-基本语法-异常-宏的定义"><h4 id="宏的定义">宏的定义</h4></div>
+
+<pre class="clojure">
+(defmacro name doc-string? attr-map? ([params*] body) + attr-map?)
+(definline name &amp; decl)
+</pre>
+<div id="Clojure学习笔记-基本语法-异常-展开宏"><h4 id="展开宏">展开宏</h4></div>
+
+<pre class="clojure">
+(macroexpand form)
+(macroexpand-1 form)
+</pre>
+<div id="Clojure学习笔记-基本语法-异常-常用宏"><h4 id="常用宏">常用宏</h4></div>
+<div id="Clojure学习笔记-基本语法-异常-常用宏-.."><h5 id="..">..</h5></div>
+
+<pre class="clojure">
+(.. x form &amp; more)
+(.. System (getProperties) (get "os.name"))
+expands to:
+(. (. System (getProperties)) (get "os.name"))
+</pre>
+<div id="Clojure学习笔记-基本语法-异常-常用宏-doto"><h5 id="doto">doto</h5></div>
+
+<pre class="clojure">
+(doto x &amp; forms)
+(doto (new java.util.HashMap) (.put "a" 1) (.put "b" 2))
+</pre>
+
+<div id="Clojure学习笔记-基本语法-异常-常用宏--&gt;"><h5 id="-&gt;">-&gt;</h5></div>
+
+<pre class="clojure">
+(-&gt; x &amp; forms)
+</pre>
+
+<div id="Clojure学习笔记-基本语法-异常-常用宏--&gt;&gt;"><h5 id="-&gt;&gt;">-&gt;&gt;</h5></div>
+
+<pre class="clojure">
+(-&gt;&gt; x &amp; forms)
+</pre>
+<div id="Clojure学习笔记-基本语法-常用的函数和宏"><h3 id="常用的函数和宏">常用的函数和宏</h3></div>
+<div id="Clojure学习笔记-基本语法-常用的函数和宏-构造函数的函数"><h4 id="构造函数的函数">构造函数的函数</h4></div>
+<table>
+<tr>
+<td>
+函数
+</td>
+<td>
+例子
+</td>
+<td>
+返回值
+</td>
+<td>
+功能
+</td>
+</tr>
+<tr>
+<td>
+partial
+</td>
+<td>
+<code>(map (partial + 2) [1 2 3])</code>
+</td>
+<td>
+<code>(3 4 5)</code>
+</td>
+<td>
+偏函数，实现固定函数的部分值
+</td>
+</tr>
+<tr>
+<td>
+comp
+</td>
+<td>
+<code>(map (comp - *) [2 4 6] [1 2 3])</code>
+</td>
+<td>
+<code>(-2 -8 -18)</code>
+</td>
+<td>
+组合函数，对同一组参数连续应用函数
+</td>
+</tr>
+<tr>
+<td>
+complement
+</td>
+<td>
+<code>(map (complement zero?) [3 2 1 0])</code>
+</td>
+<td>
+<code>(true true true false)</code>
+</td>
+<td>
+返回具有同样参数的函数
+</td>
+</tr>
+<tr>
+<td>
+constantly
+</td>
+<td>
+<code>(map (constantly 9) [1 2 3])</code>
+</td>
+<td>
+<code>(9 9 9)</code>
+</td>
+<td>
+常函数
+</td>
+</tr>
+</table>
+
+<div id="Clojure学习笔记-基本语法-常用的函数和宏-正则表达式"><h4 id="正则表达式">正则表达式</h4></div>
+<table>
+<tr>
+<td>
+函数
+</td>
+<td>
+例子
+</td>
+<td>
+返回值
+</td>
+<td>
+功能
+</td>
+</tr>
+<tr>
+<td>
+<code>re-find</code>
+</td>
+<td>
+<code>(re-find ="([-+]?[0-9]+)/([0-9]+)" "22/7")</code>
+</td>
+<td>
+<code>["22/7" "22" "7"]</code>
+</td>
+<td>
+返回正则查询的结果列表=
+</td>
+</tr>
+<tr>
+<td>
+<code>re-seq</code>
+</td>
+<td>
+<code>(re-seq ="[0-9]+" "abs123def345ghi567")</code>
+</td>
+<td>
+<code>("123" "345" "567")</code>
+</td>
+<td>
+返回惰性查询列表=
+</td>
+</tr>
+<tr>
+<td>
+<code>re-matches</code>
+</td>
+<td>
+<code>(re-matches ="([-+]?[0-9]+)/([0-9]+)" "22/7")</code>
+</td>
+<td>
+<code>["22/7" "22" "7"]</code>
+</td>
+<td>
+返回查找的最近组=
+</td>
+</tr>
+</table>
+
+<div id="Clojure学习笔记-高级语法"><h2 id="高级语法">高级语法</h2></div>
+<div id="Clojure学习笔记-高级语法-自定义数据类型 Datatypes"><h3 id="自定义数据类型 Datatypes">自定义数据类型 Datatypes</h3></div>
+<div id="Clojure学习笔记-高级语法-Sequences 算法系列"><h3 id="Sequences 算法系列">Sequences 算法系列</h3></div>
+<div id="Clojure学习笔记-高级语法-临时数据结构：用可变数据进行优化"><h3 id="临时数据结构：用可变数据进行优化">临时数据结构：用可变数据进行优化</h3></div>
+<div id="Clojure学习笔记-高级语法-转换器：将变换算法组合起来"><h3 id="转换器：将变换算法组合起来">转换器：将变换算法组合起来</h3></div>
+<div id="Clojure学习笔记-高级语法-多重方法和层级：运行时多态的方法"><h3 id="多重方法和层级：运行时多态的方法">多重方法和层级：运行时多态的方法</h3></div>
+<div id="Clojure学习笔记-高级语法-协议：对接口进行抽象"><h3 id="协议：对接口进行抽象">协议：对接口进行抽象</h3></div>
+<div id="Clojure学习笔记-高级语法-元数据：表达数据类型信息"><h3 id="元数据：表达数据类型信息">元数据：表达数据类型信息</h3></div>
+<div id="Clojure学习笔记-高级语法-命名空间与使用库"><h3 id="命名空间与使用库">命名空间与使用库</h3></div>
+<div id="Clojure学习笔记-高级语法-改变值"><h3 id="改变值">改变值</h3></div>
+<div id="Clojure学习笔记-高级语法-改变值-var与全局环境"><h4 id="var与全局环境">var与全局环境</h4></div>
+<div id="Clojure学习笔记-高级语法-改变值-ref与STM：软件事务内存，并发"><h4 id="ref与STM：软件事务内存，并发">ref与STM：软件事务内存，并发</h4></div>
+<div id="Clojure学习笔记-高级语法-改变值-agent与异步"><h4 id="agent与异步">agent与异步</h4></div>
+<div id="Clojure学习笔记-高级语法-改变值-atom与同步"><h4 id="atom与同步">atom与同步</h4></div>
+<div id="Clojure学习笔记-高级语法-reducer：从旧态到新态"><h3 id="reducer：从旧态到新态">reducer：从旧态到新态</h3></div>
+<div id="Clojure学习笔记-高级语法-Java互操作"><h3 id="Java互操作">Java互操作</h3></div>
+<div id="Clojure学习笔记-高级语法-编译成Class"><h3 id="编译成Class">编译成Class</h3></div>
+<div id="Clojure学习笔记-内置库"><h2 id="内置库">内置库</h2></div>
+<div id="Clojure学习笔记-内置库-Java工具库"><h3 id="Java工具库">Java工具库</h3></div>
+<div id="Clojure学习笔记-内置库-clojure.reflect:反射信息"><h3 id="clojure.reflect:反射信息">clojure.reflect:反射信息</h3></div>
+<div id="Clojure学习笔记-内置库-clojure.repl:REPL有用的工具"><h3 id="clojure.repl:REPL有用的工具">clojure.repl:REPL有用的工具</h3></div>
+<div id="Clojure学习笔记-内置库-clojure.set:set相关算法"><h3 id="clojure.set:set相关算法">clojure.set:set相关算法</h3></div>
+<div id="Clojure学习笔记-内置库-clojure.string:处理字符串"><h3 id="clojure.string:处理字符串">clojure.string:处理字符串</h3></div>
+<div id="Clojure学习笔记-内置库-clojure.test:单元测试框架"><h3 id="clojure.test:单元测试框架">clojure.test:单元测试框架</h3></div>
+<div id="Clojure学习笔记-内置库-clojure.walk:遍历和操作最近数据结构"><h3 id="clojure.walk:遍历和操作最近数据结构">clojure.walk:遍历和操作最近数据结构</h3></div>
+<div id="Clojure学习笔记-内置库-clojure.xml:xml处理"><h3 id="clojure.xml:xml处理">clojure.xml:xml处理</h3></div>
+<div id="Clojure学习笔记-内置库-clojure.zip:纯函数的树编辑"><h3 id="clojure.zip:纯函数的树编辑">clojure.zip:纯函数的树编辑</h3></div>
+<div id="Clojure学习笔记-内置库-依赖处理与命令行工具"><h3 id="依赖处理与命令行工具">依赖处理与命令行工具</h3></div>
+
+<div id="Clojure学习笔记-相关项目"><h2 id="相关项目">相关项目</h2></div>
+<div id="Clojure学习笔记-相关项目-ring"><h3 id="ring">ring</h3></div>
+<div id="Clojure学习笔记-相关项目-compojure"><h3 id="compojure">compojure</h3></div>
+<div id="Clojure学习笔记-相关项目-enlive"><h3 id="enlive">enlive</h3></div>
+<div id="Clojure学习笔记-相关项目-hiccup"><h3 id="hiccup">hiccup</h3></div>
+<div id="Clojure学习笔记-leiningen:依赖管理"><h2 id="leiningen:依赖管理">leiningen:依赖管理</h2></div>
+<div id="Clojure学习笔记-ClojureScript：JS"><h2 id="ClojureScript：JS">ClojureScript：JS</h2></div>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-01-31
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>

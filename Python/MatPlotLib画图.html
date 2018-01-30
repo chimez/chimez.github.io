@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>MatPlotLib画图</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图">MatPlotLib画图</a>
+
+<ul>
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-基本使用">基本使用</a>
+
+<ul>
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-基本使用-画基本XY图">画基本XY图</a>
+
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-基本使用-数据平滑曲线画图">数据平滑曲线画图</a>
+
+<ul>
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-基本使用-数据平滑曲线画图-插值拟合">插值拟合</a>
+
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-基本使用-数据平滑曲线画图-多项式拟合">多项式拟合</a>
+
+</ul>
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-基本使用-添加横竖参考线">添加横竖参考线</a>
+
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-基本使用-文本标注">文本标注</a>
+
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-基本使用-综合绘图函数">综合绘图函数</a>
+
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-基本使用-绘制坐标轴图">绘制坐标轴图</a>
+
+</ul>
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-plot 线型设置">plot 线型设置</a>
+
+<ul>
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-plot 线型设置-控制颜色">控制颜色</a>
+
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-plot 线型设置-控制线型">控制线型</a>
+
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-plot 线型设置-控制标记风格">控制标记风格</a>
+
+</ul>
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-会遇到的问题及解决方法">会遇到的问题及解决方法</a>
+
+<ul>
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-会遇到的问题及解决方法-matplotlib使用中文与latex">matplotlib使用中文与latex</a>
+
+<ul>
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-会遇到的问题及解决方法-matplotlib使用中文与latex-图片中的文本使用latex符号">图片中的文本使用latex符号</a>
+
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-会遇到的问题及解决方法-matplotlib使用中文与latex-中文显示">中文显示</a>
+
+</ul>
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-会遇到的问题及解决方法-Legend中指定线和图例相对应的方法">Legend中指定线和图例相对应的方法</a>
+
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-会遇到的问题及解决方法-并行化画图时,解决爆内存和同一图中画了好多线的方法">并行化画图时,解决爆内存和同一图中画了好多线的方法</a>
+
+<li>
+<a href="MatPlotLib画图.html#MatPlotLib画图-会遇到的问题及解决方法-让画出来的图片连在一起动起来的方法">让画出来的图片连在一起动起来的方法</a>
+
+</ul>
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+<div id="MatPlotLib画图"><h1 id="MatPlotLib画图">MatPlotLib画图</h1></div>
+<div id="MatPlotLib画图-基本使用"><h2 id="基本使用">基本使用</h2></div>
+<div id="MatPlotLib画图-基本使用-画基本XY图"><h3 id="画基本XY图">画基本XY图</h3></div>
+<pre python>
+# 导入基本库
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 中文显示
+def conf_zh(font_name):
+    from pylab import mpl
+    mpl.rcParams['font.sans-serif'] = [font_name]
+    mpl.rcParams['axes.unicode_minus'] = False 
+conf_zh('SimHei')
+
+# 创建数据
+x = np.linspace(0, 10, 1000)
+y = np.sin(x)
+z = np.cos(x**2)
+
+# 设置图片格式
+plt.figure(figsize=(8,4)) # 设置图片尺寸 800px X 400px
+plt.xlabel("Time(s)") # x轴标签
+plt.ylabel("Volt") # y轴标签
+plt.title("PyPlot First Example") # 图片标签
+plt.ylim(-1.2,1.2) # y轴显示数值范围
+
+# 画线
+plt.plot(x,y,label="$sin(x)$",color="red",linewidth=2) # 画一条线(x,y,线型,label=标签,color=颜色,linewidth=线宽)
+plt.plot(x,z,"b--",label="$cos(x^2)$") 
+
+# 显示图像
+plt.legend() # 显示图例
+#plt.savefig('/home/bacon/a.png') # 保存图像到文件, 一定要先保存后显示,否则会出错
+plt.show() # 显示图片
+</pre>
+<div id="MatPlotLib画图-基本使用-数据平滑曲线画图"><h3 id="数据平滑曲线画图">数据平滑曲线画图</h3></div>
+<div id="MatPlotLib画图-基本使用-数据平滑曲线画图-插值拟合"><h4 id="插值拟合">插值拟合</h4></div>
+<p>
+<code>yi=interp1(x,Y,kind)</code>
+其中，yi为根据插值算法求得的函数。
+x和Y为已知的数据点向量。参量用于确定具体的插值方法，包括：
+</p>
+
+<table>
+<tr>
+<td>
+kind
+</td>
+<td>
+表示
+</td>
+</tr>
+<tr>
+<td>
+linear
+</td>
+<td>
+采用线性插值方法
+</td>
+</tr>
+<tr>
+<td>
+cubic
+</td>
+<td>
+采用三次插值方法
+</td>
+</tr>
+<tr>
+<td>
+nearest
+</td>
+<td>
+采用最近点插值方法
+</td>
+</tr>
+</table>
+
+<pre python>
+# 导入基本库
+import numpy as np
+from scipy import interpolate
+import matplotlib.pyplot as plt
+
+# 创建数据
+x = np.linspace(-np.pi, np.pi, 10)
+y = np.sin(x)
+
+# 差值拟合
+f = interpolate.interp1d(x, y, kind='cubic') # 创建一个拟合函数(原x,原y,kind=模式)
+nx = np.linspace(-np.pi, np.pi, 30)  # 生成数据点(起点,终点, 个数)
+ny = f(nx)
+
+#绘图
+plt.plot(x,y,nx, ny)
+plt.show()
+
+</pre>
+
+<div id="MatPlotLib画图-基本使用-数据平滑曲线画图-多项式拟合"><h4 id="多项式拟合">多项式拟合</h4></div>
+
+<ol>
+<li>
+生成多项式拟合(x,y,阶数)
+<pre python>
+z = np.polyfit(x, y, 3)
+print(z)
+# [ 0.00624491 -0.20371114  2.18193147  2.57208791] 系数
+</pre>
+
+<li>
+生成多项式函数(多项式)
+<pre>
+f = np.poly1d(z)
+print(f)
+#           3          2
+# 0.006245 x - 0.2037 x + 2.182 x + 2.572 多项式函数
+</pre>
+
+</ol>
+
+<pre python>
+import numpy as np
+from scipy.optimize import leastsq
+import pylab as pl
+ 
+x = np.arange(1, 17, 1)
+y = np.array([4.00, 6.40, 8.00, 8.80, 9.22, 9.50, 9.70, 9.86, 10.00, 10.20, 10.32, 10.42, 10.50, 10.55, 10.58, 10.60])
+ 
+#第一个拟合，自由度为3
+z1 = np.polyfit(x, y, 3)
+# 生成多项式对象
+p1 = np.poly1d(z1)
+print(z1)
+print(p1)
+ 
+# 第二个拟合，自由度为6
+z2 = np.polyfit(x, y, 6)
+
+# 生成多项式对象
+
+p2 = np.poly1d(z2)
+print(z2)
+print(p2) 
+# 绘制曲线 # 原曲线
+plt.plot(x, y, 'b^-', label='Origin Line')
+plt.plot(x, p1(x), 'gv--', label='Poly Fitting Line(deg=3)')
+plt.plot(x, p2(x), 'r*', label='Poly Fitting Line(deg=6)')
+plt.axis([0, 18, 0, 18])
+plt.legend()# Save figurepl.savefig('scipy02.png', dpi=96)
+plt.show()
+
+</pre>
+
+<div id="MatPlotLib画图-基本使用-添加横竖参考线"><h3 id="添加横竖参考线">添加横竖参考线</h3></div>
+
+<ol>
+<li>
+竖直线(x坐标) <code>plt.axvline(550)</code>
+
+<li>
+水平线(普通绘图) <code>plt.plot([0,10000],[20,20],'k--')</code>
+
+</ol>
+
+<pre python>
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.random.normal(600, 20, 1000)
+plt.xlim(500,700)
+plt.hist(x, bins=50, color='g')
+plt.plot([0,10000],[20,20],'k--')
+plt.axvline(550)
+plt.axvline(620)
+plt.show()
+
+</pre>
+
+<div id="MatPlotLib画图-基本使用-文本标注"><h3 id="文本标注">文本标注</h3></div>
+
+<ol>
+<li>
+箭头 <code>p2.annotate('',xy=(1.8,0.5),xytext=(tx,ty),arrowprops=dict(arrowstyle="-&gt;",connectionstyle="arc3"))</code>
+
+<li>
+文本<code>p1.text(3,1,"asd" ,rotation=45,fontsize=16)  #将注释文本旋转45度</code>
+
+</ol>
+
+<pre python>
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f1(t):
+    return np.exp(-t)*np.cos(2*np.pi*t)
+
+def f2(t):
+    return np.sin(2*np.pi*t)*np.cos(3*np.pi*t)
+
+t = np.arange(0.0,5.0,0.02)
+
+plt.figure(figsize=(8,7),dpi=98)
+p1 = plt.subplot(211)
+p2 = plt.subplot(212)
+
+label_f1 = "$f(t)=e^{-t} \cos (2 \pi t)$"
+label_f2 = "$g(t)=\sin (2 \pi t) \cos (3 \pi t)$"
+
+p1.plot(t,f1(t),"g-",label=label_f1)
+p2.plot(t,f2(t),"r-.",label=label_f2,linewidth=2)
+
+p1.axis([0.0,5.01,-1.0,1.5])
+
+p1.set_ylabel("v",fontsize=14)
+p1.set_title("A simple example",fontsize=18)
+p1.grid(True)
+#p1.legend()
+
+tx = 2
+ty = 0.9
+p1.text(tx,ty,label_f1,fontsize=15,verticalalignment="top",horizontalalignment="right")
+
+p2.axis([0.0,5.01,-1.0,1.5])
+p2.set_ylabel("v",fontsize=14)
+p2.set_xlabel("t",fontsize=14)
+#p2.legend()
+tx = 2
+ty = 0.9
+p2.text(tx,ty,label_f2,fontsize=15,verticalalignment="bottom",horizontalalignment="left")
+
+p2.annotate('',xy=(1.8,0.5),xytext=(tx,ty),arrowprops=dict(arrowstyle="-&gt;",connectionstyle="arc3"))
+
+
+p1.text(3,1,"asd" ,rotation=45,fontsize=16)  #将注释文本旋转45度
+plt.show()
+
+</pre>
+
+<div id="MatPlotLib画图-基本使用-综合绘图函数"><h3 id="综合绘图函数">综合绘图函数</h3></div>
+
+<p>
+可以绘制无坐标轴的数据图
+</p>
+
+<pre python>
+# 导入基本库
+import numpy as np
+from scipy import interpolate
+import matplotlib.pyplot as plt
+# 中文显示
+def conf_zh(font_name):
+    from pylab import mpl
+    mpl.rcParams['font.sans-serif'] = [font_name]
+    mpl.rcParams['axes.unicode_minus'] = False 
+conf_zh('SimHei')
+
+
+def plot_it(x,y,title,x_label,y_label,xmin,xmax):
+    # 插值拟合
+    f = interpolate.interp1d(x, y, kind="cubic") # 创建一个拟合函数(原x,原y,kind=模式)
+    # 多项式拟合
+    #z = np.polyfit(np.array(x), np.array(y), 5)
+    #f = np.poly1d(z)
+    # 生成拟合曲线点
+    nx = np.linspace(xmin,xmax,500)
+    ny = f(nx)
+    
+    # 拟合后曲线区间分析
+    # 寻找左右点位置
+    half=0.8*ny.max() # y值目标
+    for i in ny:
+        if i&gt;half:
+            xnum_small=ny.tolist().index(i) # 左侧值序号
+            break
+    for i in range(0,len(ny.tolist()))[::-1]:
+        if ny.tolist()[i]&gt;half:
+            xnum_large=i # 右侧值序号
+            break
+    x_highest=nx.tolist()[ny.tolist().index(ny.max())] # 最大值x坐标
+    x_small=nx.tolist()[xnum_small] # 左侧值x坐标
+    plt.axvline(x_highest,color="black") #  画竖直线
+    plt.axvline(x_small,color="black")
+    plt.plot([0,10],[half,half],'k:') # 画水平线
+    plt.text(x_small+(x_highest-x_small)/2,half*0.9,str(round(x_highest-x_small,4)),fontsize=16)  #标注区间大小
+    
+    # 设置图片格式
+    #plt.figure(figsize=(8,4)) # 设置图片尺寸 800px X 400px
+    plt.xlabel(x_label) # x轴标签
+    plt.ylabel(y_label) # y轴标签
+    plt.title(title) # 图片标签
+    plt.xlim(xmin,xmax)
+    
+    # 画线
+    plt.plot(x,y,'ko',label='点') # 数据点
+    plt.plot(nx,ny,'k-',label='拟合线') # 拟合线
+    plt.text(0,0,'0')
+    # 显示图像
+    plt.legend(bbox_to_anchor=(1,1)) #显示标注并设置标注位置
+    #plt.savefig('/home/bacon/'+title+'.png') # 保存图像到文件, 一定要先保存后显示,否则会出错
+    plt.show() # 显示图片
+
+x=[0,0.3,0.6,0.9,1.2,1.311,1.811,2.311,2.811,3.311,3.811,4.311,4.811,5.311,5.811,6.311]
+y=[42.54,59.45,70.45,83.05,90.25,91.1,80.6,36.2,11.06,9.42,7.67,6.3,4.467,3.12,2.258,1.39]
+plot_it(x,y,"标题","x/x轴","y/y轴",x[0],x[-1])
+</pre>
+
+<div id="MatPlotLib画图-基本使用-绘制坐标轴图"><h3 id="绘制坐标轴图">绘制坐标轴图</h3></div>
+<pre python>
+# 导入基本库
+import numpy as np
+from scipy import interpolate
+import matplotlib.pyplot as plt
+import sympy as sp
+from mpl_toolkits.axes_grid.axislines import SubplotZero
+# 中文显示
+def conf_zh(font_name):
+    from pylab import mpl
+    mpl.rcParams['font.sans-serif'] = [font_name]
+    mpl.rcParams['axes.unicode_minus'] = False 
+conf_zh('SimHei')
+
+
+def plot_it(x,y,title,x_label,y_label,xmin=0,xmax=1,ymin=0,ymax=1):
+    # 设置图片格式
+    fig = plt.figure(1)
+    ax = SubplotZero(fig, 111)
+    fig.add_subplot(ax)
+    for direction in ["xzero", "yzero"]:
+        ax.axis[direction].set_axisline_style("-|&gt;")
+        ax.axis[direction].set_visible(True)
+    for direction in ["left", "right", "bottom", "top"]:
+        ax.axis[direction].set_visible(False)
+    
+    #plt.title(title) # 图片标签
+    plt.ylim(ymin,ymax)
+    plt.xticks([])
+    plt.yticks([])
+    # 画线
+    ax.plot(x,y) # 数据点
+    z=[]
+    for i in y:
+        z.append(-i)
+    ax.plot(x,z) # 数据点
+    plt.text(0,0,'0',fontsize=16)
+    plt.text(xmax,0.1,x_label,fontsize=16) #x
+    plt.text(-0.5,ymax+0.1,y_label,fontsize=16) #y
+    plt.text(-0.3,1.2,"$w_{0}$",fontsize=16) #字
+    # 显示图像
+   # plt.savefig('/home/bacon/'+title+'.png') # 保存图像到文件, 一定要先保存后显示,否则会出错
+    plt.show() # 显示图片
+
+def w(z):
+    return (1+(z)**2)**(1/2)
+x=list(range(0,4000))
+y=[]
+for i in range(0,len(x)):
+    x[i]=x[i]/1000-2
+    y.append(w(x[i]))
+plot_it(x,y,"高斯光束与参数","$z$","$w(z)$",0,x[-1],-3,3)
+</pre>
+
+<div id="MatPlotLib画图-plot 线型设置"><h2 id="plot 线型设置">plot 线型设置</h2></div>
+<p>
+plot画图时可以设定线条参数。包括：颜色、线型、标记风格。
+</p>
+<div id="MatPlotLib画图-plot 线型设置-控制颜色"><h3 id="控制颜色">控制颜色</h3></div>
+<p>
+颜色之间的对应关系为
+</p>
+
+<table>
+<tr>
+<td>
+标记
+</td>
+<td>
+b
+</td>
+<td>
+c
+</td>
+<td>
+g
+</td>
+<td>
+k
+</td>
+<td>
+m
+</td>
+<td>
+r
+</td>
+<td>
+w
+</td>
+<td>
+y
+</td>
+</tr>
+<tr>
+<td>
+颜色
+</td>
+<td>
+蓝色
+</td>
+<td>
+青色
+</td>
+<td>
+绿色
+</td>
+<td>
+黑色
+</td>
+<td>
+紫红色
+</td>
+<td>
+红色
+</td>
+<td>
+白色
+</td>
+<td>
+黄色
+</td>
+</tr>
+</table>
+
+<p>
+有三种表示颜色的方式:
+</p>
+
+<ol>
+<li>
+用全名  
+
+<li>
+16进制如：#FF00FF  
+
+<li>
+RGB或RGBA元组（1,0,1,1） 
+
+<li>
+灰度强度如：‘0.7’
+
+</ol>
+<div id="MatPlotLib画图-plot 线型设置-控制线型"><h3 id="控制线型">控制线型</h3></div>
+
+<p>
+符号和线型之间的对应关系
+</p>
+
+<table>
+<tr>
+<td>
+标记
+</td>
+<td>
+-
+</td>
+<td>
+--
+</td>
+<td>
+-.
+</td>
+<td>
+:
+</td>
+</tr>
+<tr>
+<td>
+线型
+</td>
+<td>
+实线
+</td>
+<td>
+短线
+</td>
+<td>
+点画线
+</td>
+<td>
+虚线
+</td>
+</tr>
+</table>
+
+<div id="MatPlotLib画图-plot 线型设置-控制标记风格"><h3 id="控制标记风格">控制标记风格</h3></div>
+
+<p>
+标记风格有多种：
+</p>
+
+<table>
+<tr>
+<td>
+标记
+</td>
+<td>
+解释
+</td>
+</tr>
+<tr>
+<td>
+.
+</td>
+<td>
+Point marker
+</td>
+</tr>
+<tr>
+<td>
+,
+</td>
+<td>
+Pixel marker
+</td>
+</tr>
+<tr>
+<td>
+o
+</td>
+<td>
+Circle marker
+</td>
+</tr>
+<tr>
+<td>
+v
+</td>
+<td>
+Triangle down marker
+</td>
+</tr>
+<tr>
+<td>
+^
+</td>
+<td>
+Triangle up marker
+</td>
+</tr>
+<tr>
+<td>
+&lt;
+</td>
+<td>
+Triangle left marker
+</td>
+</tr>
+<tr>
+<td>
+Triangle right marker
+</td>
+</tr>
+<tr>
+<td>
+1
+</td>
+<td>
+Tripod down marker
+</td>
+</tr>
+<tr>
+<td>
+2
+</td>
+<td>
+Tripod up marker
+</td>
+</tr>
+<tr>
+<td>
+3
+</td>
+<td>
+Tripod left marker
+</td>
+</tr>
+<tr>
+<td>
+4
+</td>
+<td>
+Tripod right marker
+</td>
+</tr>
+<tr>
+<td>
+s
+</td>
+<td>
+Square marker
+</td>
+</tr>
+<tr>
+<td>
+p
+</td>
+<td>
+Pentagon marker
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+Star marker
+</td>
+</tr>
+<tr>
+<td>
+h
+</td>
+<td>
+Hexagon marker
+</td>
+</tr>
+<tr>
+<td>
+H
+</td>
+<td>
+Rotated hexagon D Diamond marker
+</td>
+</tr>
+<tr>
+<td>
+d
+</td>
+<td>
+Thin diamond marker
+</td>
+</tr>
+<tr>
+<td>
+竖线
+</td>
+<td>
+Vertical line (vlinesymbol) marker
+</td>
+</tr>
+<tr>
+<td>
+_
+</td>
+<td>
+Horizontal line (hline symbol) marker
+</td>
+</tr>
+<tr>
+<td>
++
+</td>
+<td>
+Plus marker
+</td>
+</tr>
+<tr>
+<td>
+x
+</td>
+<td>
+Cross (x) marker
+</td>
+</tr>
+</table>
+
+<div id="MatPlotLib画图-会遇到的问题及解决方法"><h2 id="会遇到的问题及解决方法">会遇到的问题及解决方法</h2></div>
+<div id="MatPlotLib画图-会遇到的问题及解决方法-matplotlib使用中文与latex"><h3 id="matplotlib使用中文与latex">matplotlib使用中文与latex</h3></div>
+<div id="MatPlotLib画图-会遇到的问题及解决方法-matplotlib使用中文与latex-图片中的文本使用latex符号"><h4 id="图片中的文本使用latex符号">图片中的文本使用latex符号</h4></div>
+
+<pre python>
+from matplotlib import rc
+[[rc]]('text',usetex=True)
+
+</pre>
+
+<div id="MatPlotLib画图-会遇到的问题及解决方法-matplotlib使用中文与latex-中文显示"><h4 id="中文显示">中文显示</h4></div>
+
+<p>
+关键在于自己指定字体
+</p>
+
+<pre python>
+myfont = matplotlib.font_manager.FontProperties(fname='yahei_mono.ttf')
+mpl.rcParams['axes.unicode_minus'] = False
+plt.title(u'这里写的是中文',fontproperties=myfont) #指定字体
+
+</pre>
+
+<div id="MatPlotLib画图-会遇到的问题及解决方法-Legend中指定线和图例相对应的方法"><h3 id="Legend中指定线和图例相对应的方法">Legend中指定线和图例相对应的方法</h3></div>
+<p>
+在plot时的返回参数是两个,所以加逗号忽略第二个参数,用第一个来加图例才行
+</p>
+<pre python>
+a, = plt.plot(x,y)
+plt.legend([a],["a"])
+</pre>
+
+<div id="MatPlotLib画图-会遇到的问题及解决方法-并行化画图时,解决爆内存和同一图中画了好多线的方法"><h3 id="并行化画图时,解决爆内存和同一图中画了好多线的方法">并行化画图时,解决爆内存和同一图中画了好多线的方法</h3></div>
+<ol>
+<li>
+利用随机数做画图编号
+
+<li>
+画完图要关闭这个图
+
+</ol>
+
+<pre python>
+from random import randint
+fig_num = randint(0,10**10)
+fig = plt.figure(fig_num)
+cop, = plt.plot(tlist,na,label="$a^\\dagger a$")
+z2p, = plt.plot(tlist,co,label="concurrence")
+plt.legend([cop,z2p],["$a^\\dagger a$","concurrence"])
+fig = plt.gcf()
+fig.savefig('filename.png')
+plt.close(fig_num)
+
+</pre>
+
+<div id="MatPlotLib画图-会遇到的问题及解决方法-让画出来的图片连在一起动起来的方法"><h3 id="让画出来的图片连在一起动起来的方法">让画出来的图片连在一起动起来的方法</h3></div>
+<p>
+matplotlib本身并不能实现这个功能,可以采用的方法有ffmpeg, opencv, imagemagic等,这里选用最简单方便的imagemagic
+</p>
+<pre bash>
+convert -delay 10 -loop 0 a1.png a2.png a.gif
+</pre>
+<p>
+选项含义:
+</p>
+<table>
+<tr>
+<td>
+选项
+</td>
+<td>
+意义
+</td>
+</tr>
+<tr>
+<td>
+<code>-delay 10</code>
+</td>
+<td>
+每张图片延时
+</td>
+</tr>
+<tr>
+<td>
+<code>-loop 0</code>
+</td>
+<td>
+循环播放次数,0为一直循环
+</td>
+</tr>
+</table>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-01-31
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>
