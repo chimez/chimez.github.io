@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>ClojureScript</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="ClojureScript.html#ClojureScript 笔记">ClojureScript 笔记</a>
+
+<ul>
+<li>
+<a href="ClojureScript.html#ClojureScript 笔记-ClojureScript基本流程">ClojureScript基本流程</a>
+
+<ul>
+<li>
+<a href="ClojureScript.html#ClojureScript 笔记-ClojureScript基本流程-安装">安装</a>
+
+<li>
+<a href="ClojureScript.html#ClojureScript 笔记-ClojureScript基本流程-项目目录结构">项目目录结构</a>
+
+<li>
+<a href="ClojureScript.html#ClojureScript 笔记-ClojureScript基本流程-编译方法">编译方法</a>
+
+<ul>
+<li>
+<a href="ClojureScript.html#ClojureScript 笔记-ClojureScript基本流程-编译方法-基本编译">基本编译</a>
+
+<li>
+<a href="ClojureScript.html#ClojureScript 笔记-ClojureScript基本流程-编译方法-另一种编译方法：减少模板">另一种编译方法：减少模板</a>
+
+<li>
+<a href="ClojureScript.html#ClojureScript 笔记-ClojureScript基本流程-编译方法-自动编译">自动编译</a>
+
+<li>
+<a href="ClojureScript.html#ClojureScript 笔记-ClojureScript基本流程-编译方法-REPL">REPL</a>
+
+<li>
+<a href="ClojureScript.html#ClojureScript 笔记-ClojureScript基本流程-编译方法-发行编译：压缩到一个文件里">发行编译：压缩到一个文件里</a>
+
+</ul>
+</ul>
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+<div id="ClojureScript 笔记"><h1 id="ClojureScript 笔记">ClojureScript 笔记</h1></div>
+<div id="ClojureScript 笔记-ClojureScript基本流程"><h2 id="ClojureScript基本流程">ClojureScript基本流程</h2></div>
+<div id="ClojureScript 笔记-ClojureScript基本流程-安装"><h3 id="安装">安装</h3></div>
+<ol>
+<li>
+不需要安装什么东西，只需要一个cljs.jar文件即可
+
+<li>
+java版本&gt;8
+
+</ol>
+
+<div id="ClojureScript 笔记-ClojureScript基本流程-项目目录结构"><h3 id="项目目录结构">项目目录结构</h3></div>
+<pre>
+	源文件：/src/core.cljs
+
+		(ns hello-world.core) ;先声明名字空间
+		(enable-console-print!) ;启用控制台输出
+		(println "Hello world!")  ;在控制台里输出文字
+</pre>
+
+<div id="ClojureScript 笔记-ClojureScript基本流程-编译方法"><h3 id="编译方法">编译方法</h3></div>
+<div id="ClojureScript 笔记-ClojureScript基本流程-编译方法-基本编译"><h4 id="基本编译">基本编译</h4></div>
+<p>
+在项目目录里创建文件<code>build.clj</code>
+</p>
+<pre>
+	(require 'cljs.build.api)
+		(cljs.build.api/build "src" {:output-to "out/main.js"})')
+
+</pre>
+<p>
+执行编译命令:
+</p>
+<pre>
+Linux:
+	java -cp cljs.jar:src clojure.main build.clj 
+
+		Windows:
+		java -cp "cljs.jar;src" clojure.main build.clj
+</pre>
+
+<p>
+注意linux里是冒号无引号，windows里是分号有引号
+</p>
+
+<pre>
+	&lt;html&gt;
+		&lt;body&gt;
+		&lt;script type="text/javascript" src="out/goog/base.js"&gt;&lt;/script&gt;
+		&lt;script type="text/javascript" src="out/main.js"&gt;&lt;/script&gt;
+		&lt;script type="text/javascript"&gt;
+		goog.require("hello_world.core");
+	// Note the underscore "_"!
+	&lt;/script&gt;
+		&lt;/body&gt;
+		&lt;/html&gt;
+
+
+</pre>
+<p>
+html模板里要引用Google closure library， 编译的文件 并且还要执行js代码
+</p>
+
+<div id="ClojureScript 笔记-ClojureScript基本流程-编译方法-另一种编译方法：减少模板"><h4 id="另一种编译方法：减少模板">另一种编译方法：减少模板</h4></div>
+<p>
+在<code>build.clj</code>文件中指定主函数
+</p>
+<pre>
+	(require 'cljs.build.api)
+
+		(cljs.build.api/build "src"
+		 {:main 'hello-world.core
+		 :output-to "out/main.js"})')
+</pre>
+<p>
+现在html模板可以写成
+</p>
+<pre>
+	&lt;html&gt;
+		&lt;body&gt;
+		&lt;script type="text/javascript" src="out/main.js"&gt;&lt;/script&gt;
+		&lt;/body&gt;
+		&lt;/html&gt;
+
+
+</pre>
+<p>
+会自动引用包并执行入口函数
+</p>
+
+<div id="ClojureScript 笔记-ClojureScript基本流程-编译方法-自动编译"><h4 id="自动编译">自动编译</h4></div>
+<p>
+可以实现监测源文件修改并自动编译,创建<code>watch.clj</code>文件
+</p>
+
+<pre>
+	(require 'cljs.build.api)
+
+		(cljs.build.api/watch "src"
+		 {:main 'hello-world.core
+		 :output-to "out/main.js"})')
+</pre>
+<p>
+执行自动编译
+</p>
+<pre>
+	java -cp cljs.jar:src clojure.main watch.clj
+</pre>
+
+<div id="ClojureScript 笔记-ClojureScript基本流程-编译方法-REPL"><h4 id="REPL">REPL</h4></div>
+<p>
+在控制台启动REPL的方法，创建文件<code>repl.clj</code>
+</p>
+<pre>
+	(require 'cljs.repl)
+		(require 'cljs.build.api)
+		(require 'cljs.repl.browser)
+
+		(cljs.build.api/build "src"
+		 {:main 'hello-world.core
+		 :output-to "out/main.js"
+		 :browser-repl true
+		 :verbose true})
+
+		(cljs.repl/repl (cljs.repl.browser/repl-env)
+		 :watch "src"
+		 :output-dir "out")')
+</pre>
+
+<p>
+运行命令
+</p>
+<pre>
+	java -cp cljs.jar:src clojure.main repl.clj
+
+</pre>
+<p>
+为了增强repl的功能，可以使用rlwrap
+</p>
+
+<pre>
+	rlwrap java -cp cljs.jar:src clojure.main repl.clj
+
+</pre>
+
+<p>
+运行命令之后需要用浏览器连接后端，打开 <a href="http:&#47;&#47;localhost:9000">http://localhost:9000</a> 
+</p>
+
+<p>
+自动编译过程的记录：<code>tail -f out/watch.log</code>
+</p>
+
+<div id="ClojureScript 笔记-ClojureScript基本流程-编译方法-发行编译：压缩到一个文件里"><h4 id="发行编译：压缩到一个文件里">发行编译：压缩到一个文件里</h4></div>
+<p>
+创建 <code>release.clj</code>
+</p>
+<pre>
+	(require 'cljs.build.api)
+
+		(cljs.build.api/build "src"
+		 {:output-to "out/main.js"
+		 :optimizations :advanced})
+
+		(System/exit 0)')
+</pre>
+
+<p>
+运行编译：<code>java -cp cljs.jar:src clojure.main release.clj</code>
+</p>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-01-31
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>

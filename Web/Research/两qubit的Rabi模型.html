@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>两qubit的Rabi模型</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="两qubit的Rabi模型.html#两qubit的Rabi模型">两qubit的Rabi模型</a>
+
+<ul>
+<li>
+<a href="两qubit的Rabi模型.html#两qubit的Rabi模型-哈密顿量">哈密顿量</a>
+
+<li>
+<a href="两qubit的Rabi模型.html#两qubit的Rabi模型-计算日志">计算日志</a>
+
+<li>
+<a href="两qubit的Rabi模型.html#两qubit的Rabi模型-存在的疑问">存在的疑问</a>
+
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+<div id="两qubit的Rabi模型"><h1 id="两qubit的Rabi模型">两qubit的Rabi模型</h1></div>
+<div id="两qubit的Rabi模型-哈密顿量"><h2 id="哈密顿量">哈密顿量</h2></div>
+<p>
+\(H_0 = \omega_0  a^\dagger  a + \omega_1/2  \sigma_{1z} + \omega_2/2 \sigma_{2z}\) 能量
+</p>
+
+<p>
+\(H_1 = (a + a^\dagger)  \sigma_{1x}\) 原子1-光子耦合
+</p>
+
+<p>
+\(H_2 = (a + a^\dagger)  \sigma_{2x}\) 原子2-光子耦合
+</p>
+
+<p>
+\(H = H_0 - \lambda_1 * H_1 - \lambda_2 * H_2\) 总哈密顿量
+</p>
+
+<p>
+\(\kappa D(a)=a^{\dagger}a\rho+\rho a^{\dagger}a+a \rho a^{\dagger}\) 腔耗散
+</p>
+
+<table>
+<tr>
+<td>
+参数
+</td>
+<td>
+含义
+</td>
+</tr>
+<tr>
+<td>
+\(\omega_0\)
+</td>
+<td>
+单模光频率
+</td>
+</tr>
+<tr>
+<td>
+\(\omega_1\)
+</td>
+<td>
+二能级原子1频率
+</td>
+</tr>
+<tr>
+<td>
+\(\omega_2\)
+</td>
+<td>
+二能级原子2频率
+</td>
+</tr>
+<tr>
+<td>
+\(\lambda_1\)
+</td>
+<td>
+原子1-光子耦合系数
+</td>
+</tr>
+<tr>
+<td>
+\(\lambda_2\)
+</td>
+<td>
+原子2-光子耦合系数
+</td>
+</tr>
+<tr>
+<td>
+\(\kappa\)
+</td>
+<td>
+腔耗散系数
+</td>
+</tr>
+<tr>
+<td>
+\(g_1=\frac{2\lambda_1}{\sqrt{\omega_0\omega_1}}\)
+</td>
+<td>
+归一化的耦合系数1
+</td>
+</tr>
+<tr>
+<td>
+\(g_2=\frac{2\lambda_2}{\sqrt{\omega_0\omega_2}}\)
+</td>
+<td>
+归一化的耦合系数2
+</td>
+</tr>
+<tr>
+<td>
+\(\eta_1  = \frac{\omega_1}{\omega_0}\)
+</td>
+<td>
+原子1-光子频率比
+</td>
+</tr>
+<tr>
+<td>
+\(\eta_2  = \frac{\omega_2}{\omega_0}\)
+</td>
+<td>
+原子2-光子频率比
+</td>
+</tr>
+<tr>
+<td>
+\(\gamma_1\)
+</td>
+<td>
+原子1耗散系数
+</td>
+</tr>
+<tr>
+<td>
+\(\gamma_2\)
+</td>
+<td>
+原子2耗散系数
+</td>
+</tr>
+</table>
+
+
+<div id="两qubit的Rabi模型-计算日志"><h2 id="计算日志">计算日志</h2></div>
+<ol>
+<li>
+可以取的参数实在是太多了点,先让耦合系数相同,看看频率比不同会发生什么,感觉哪怕耦合系数一样频率比不一样都不会有纠缠
+
+<li>
+让\(\kappa=1,g_1=0.1,\omega_0=1\),以此为基准,改变一个参数,另两个不动,发现\(\kappa=0.8,\omega_0=10,g_1=0.07\)时,似乎是一组极大,其中\(\omega_0\)达到一定值之后再增大似乎没有用了
+
+<li>
+感觉\(\omega_0\)只不过是一个全体的比例系数,所以取1是合适的
+
+<li>
+计算了0-5的\(g_1,\kappa\)范围,当耦合足够大耗散足够小的时候光子数不再是0了,这种情况下纠缠度量一定不会太大
+
+<li>
+当g&gt;0.45的时候t到300就能到稳态了,g&gt;1的时候t到200就稳态
+
+<li>
+相同衰减\(\kappa\),耦合系数\(g_1\)越大,光子数越大,到达稳态时间越小
+
+<li>
+不同的耦合系数,对应不同的临界衰减系数,大于这个衰减系数之后稳态光子数一定是0;不同的衰减系数,对应不同的临界耦合系数,小于这个耦合系数时稳态光子数一定是0,存在一个弧形界线
+
+<li>
+打算先计算\(\kappa=1\)的情况,至少要确切的看见拐点在哪里
+
+<li>
+计算出了比例对应关系,可以加快收敛时间:\(H-nH,\kappa-n\kappa,\omega_0-n\omega_0,g-g:=t-\frac{t}{n}\),
+
+</ol>
+<div id="两qubit的Rabi模型-存在的疑问"><h2 id="存在的疑问">存在的疑问</h2></div>
+<ul>
+<li>
+两个原子是全同粒子时会发生什么,如何表示
+
+<li>
+两个原子和光子非共振情况会发生什么
+
+</ul>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-01-31
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>
