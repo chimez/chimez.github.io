@@ -1,0 +1,73 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#Python API|Python API]]
+    - [[#Python API#由文本读取点数据创建曲线|由文本读取点数据创建曲线]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+
+=Python API=
+
+== 由文本读取点数据创建曲线==
+
+{{{
+#Blender Python
+
+import bpy
+#polyline.points.add(len(coords))
+
+def file_to_pointlist(filename):
+    '''读取文本文档，返回列表'''
+    with open(filename, 'r') as fi:
+        coords=fi.readlines()
+
+    def clinetomath (text):
+        '''解析一行文本返回第一个数字和剩下的文本'''
+        n=text.find('e')
+        if n==-1:
+            return -1,-1
+        a=float(text[:n])
+        b=float(text[n+1:n+4])
+        return a*10**b,text[n+5:]
+
+    #将全部数字储存为一维列表
+    all_number=[]
+    for coord in coords:
+        num,text=clinetomath(coord)
+        while text!=-1:
+            all_number.append(num)
+            num,text=clinetomath(text)
+
+    #将一维列表变成二维
+    list=[]
+    for i in range(len(all_number)):
+        if i%3==0:
+            list.append([all_number[i],all_number[i+1],all_number[i+2]])
+
+    return list
+
+def create_curve(name,list):
+    '''创建混合曲线'''
+    curveData = bpy.data.curves.new(name, type='CURVE') #创建曲线数据
+    curveData.dimensions = '3D' #曲线模式
+    curveData.resolution_u = 2  #U向表面精度
+    curveData.fill_mode = 'FULL'    #填充模式
+    curveData.bevel_depth = 0.001   #倒角深度
+
+    polyline = curveData.splines.new('NURBS')   #创建曲线
+    for i in range(len(list)):  #导入点坐标
+        x,y,z=list[i]
+        polyline.points.add(1)
+        polyline.points[i].co = (x,y,z, 1)
+
+    curveOB = bpy.data.objects.new(name, curveData) #创建物体
+    curveOB.select = True   #选择物体
+
+    scn = bpy.context.scene #设置场景信息
+    scn.objects.link(curveOB)   #在场景中添加物体
+    scn.objects.active = curveOB    #使物体活动
+
+create_curve('ha',file_to_pointlist('/home/bacon/a'))
+}}}
+

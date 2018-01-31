@@ -1,0 +1,273 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#re-frame|re-frame]]
+    - [[#re-frame#安装与原理|安装与原理]]
+      - [[#re-frame#安装与原理#加入依赖|加入依赖]]
+      - [[#re-frame#安装与原理#设计思想|设计思想]]
+    - [[#re-frame#基本使用|基本使用]]
+      - [[#re-frame#基本使用#app-db应用状态设计|app-db应用状态设计]]
+      - [[#re-frame#基本使用#第一步：定义事件|第一步：定义事件]]
+        - [[#re-frame#基本使用#第一步：定义事件#事件的数据结构|事件的数据结构]]
+        - [[#re-frame#基本使用#第一步：定义事件#dispatch 发送事件|dispatch 发送事件]]
+        - [[#re-frame#基本使用#第一步：定义事件#dispatch原理，事件队列的实现|dispatch原理，事件队列的实现]]
+      - [[#re-frame#基本使用#第二步：为每个事件编写并注册事件处理函数|第二步：为每个事件编写并注册事件处理函数]]
+        - [[#re-frame#基本使用#第二步：为每个事件编写并注册事件处理函数#事件处理函数|事件处理函数]]
+        - [[#re-frame#基本使用#第二步：为每个事件编写并注册事件处理函数#注册事件处理函数|注册事件处理函数]]
+        - [[#re-frame#基本使用#第二步：为每个事件编写并注册事件处理函数#例子|例子]]
+      - [[#re-frame#基本使用#第三步：效应处理|第三步：效应处理]]
+        - [[#re-frame#基本使用#第三步：效应处理#reg-event-fx:可以产生副作用的事件绑定|reg-event-fx:可以产生副作用的事件绑定]]
+        - [[#re-frame#基本使用#第三步：效应处理#reg-fx：定义效应处理函数|reg-fx：定义效应处理函数]]
+        - [[#re-frame#基本使用#第三步：效应处理#do-fx:执行一个副作用|do-fx:执行一个副作用]]
+        - [[#re-frame#基本使用#第三步：效应处理#reg-cofx与inject-cofx：初始化应用时执行副作用|reg-cofx与inject-cofx：初始化应用时执行副作用]]
+      - [[#re-frame#基本使用#第四步：订阅处理/查询函数|第四步：订阅处理/查询函数]]
+      - [[#re-frame#基本使用#第五步：视图函数，Reagent|第五步：视图函数，Reagent]]
+        - [[#re-frame#基本使用#第五步：视图函数，Reagent#subscribe定义查询量|subscribe定义查询量]]
+        - [[#re-frame#基本使用#第五步：视图函数，Reagent#定义视图函数（Reagent组件）|定义视图函数（Reagent组件）]]
+      - [[#re-frame#基本使用#第六步：DOM与运行循环|第六步：DOM与运行循环]]
+    - [[#re-frame#其他事项|其他事项]]
+      - [[#re-frame#其他事项#推荐的项目结构|推荐的项目结构]]
+      - [[#re-frame#其他事项#拦截器, interceptors|拦截器, interceptors]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+= re-frame=
+re-frame是基于reagent的用于创建单页应用的函数式框架
+== 安装与原理==
+=== 加入依赖===
+{{{class="clojure"
+[reagent "0.8.0-alpha2"]
+[re-frame "0.10.1"]
+}}}
+=== 设计思想===
+re-frame采用事件驱动，在主循环里分为六个连续的部分
+1. 事件发生：定义组件上能产生的事件并构造事件信息
+2. 事件处理：绑定事件和处理函数
+3. 效果处理：执行事件处理函数改变应用状态
+4. 查询：获取当前状态对应的信息
+5. 视图：展示/更新组件，reagent
+6. DOM：由react完成，操作DOM
+
+== 基本使用==
+这里介绍构建单页应用的基本流程，以`example/simple`为例，动态显示一个数字时钟，并可以改变颜色
+=== app-db应用状态设计===
+在这个例子中，只有两个状态：要显示的时间和时钟颜色
+`app-db`应包括以下内容:
+{{{class="clojure"
+{:time       (js/Date.)  ;; current time for display
+ :time-color "=f88"}     ;; the colour in which the time should be shown=
+}}}
+> 在re-frame中，应用状态由框架自己进行管理，并称为app-db，类似一个内存数据库，创建app-db在第二步中进行
+
+=== 第一步：定义事件===
+==== 事件的数据结构====
+在re-frame中事件是一个单纯的数据,不会把回调函数放进去，用向量来表示，第一项是符号，说明事件的类型，之后的东西都是可选的，可以为事件提供详细信息,下面是一些例子：
+{{{class="clojure"
+[:delete-item 42]
+[:admit-to-being-satoshi false]
+[:dressing/put-pants-on  "velour flares" {:method :left-leg-first :belt false}]
+}}}
+==== dispatch 发送事件====
+使用re-frame/dispatch 函数来发送一个事件
+{{{class="clojure"
+   (rf/dispatch [:event-id  value1 value2])
+
+}}}
+在任何函数里对dispatch求值就发送了一个事件
+{{{class="clojure"
+(defn dispatch-timer-event
+  []
+  (let [now (js/Date.)]
+    (rf/dispatch [:timer now])))  ;; <-- dispatch used
+
+;; call the dispatching function every second
+(defonce do-timer (js/setInterval dispatch-timer-event 1000))
+
+}}}
+
+==== dispatch原理，事件队列的实现====
+调用dispatch会把事件放进消息队列里，由router对队列里的事件进行处理，因此事件是异步的
+router和事件队列由re-frame内部实现，自己只需要定义事件处理函数并注册它，就可以了
+router的功能：
+1. 检查事件向量的第一个元素
+2. 查询哪个事件处理函数来处理这个事件
+3. 调用这个事件处理函数
+
+=== 第二步：为每个事件编写并注册事件处理函数===
+在这个应用里有三个事件`:intitalize :time-color-change :timer`,所以要写三个事件处理函数
+==== 事件处理函数====
+事件处理函数输入两个参数`coeffects event`即应用状态和事件，返回`effects`即状态要发生的改变,结构如下
+{{{class="clojure"
+(def fun [db event]
+  {:a "new a"
+   :b "new b"})
+}}}
+==== 注册事件处理函数====
+re-frame提供了两个注册函数`reg-event-fx, reg-event-db`，前者处理多个`coeffects`返回多个`effects`,后者只处理一个，更简单
+`reg-event-db`格式如下
+{{{class="clojure"
+(rf/reg-event-db
+  :the-event-id
+  the-event-handler-fn)
+}}}
+
+==== 例子====
+1. 更新状态使用`->`宏和`assoc`函数
+2. 忽略参数使用下划线
+3. 可以对`event`向量直接解构
+
+{{{class="clojure"
+(rf/reg-event-db              ;; sets up initial application state
+  :initialize
+  (fn [_ _]                   ;; the two parameters are not important here, so use _
+    {:time (js/Date.)         ;; What it returns becomes the new application state
+     :time-color "=f88"}))    ;; so the application state will initially be a map with two keys=
+
+(rf/reg-event-db
+  :initialize
+  (fn [db _]                 ;; we use db this time, so name it
+    (-> db
+      (assoc :time (js/Date.))
+      (assoc :time-color "=f88")))=
+
+(rf/reg-event-db                 ;; usage:  (rf/dispatch [:timer a-js-Date])
+  :timer
+  (fn [db [_ new-time]]          ;; <-- de-structure the event vector
+    (assoc db :time new-time)))  ;; compute and return the new application state
+
+(rf/reg-event-db
+  :time-color-change            ;; usage:  (rf/dispatch [:time-color-change 34562])
+  (fn [db [_ new-color-value]]
+    (assoc db :time-color new-color-value)))   ;; compute and return the new application state
+
+}}}
+
+=== 第三步：效应处理===
+对于只是更新应用状态的简单的效应，re-frame自动进行处理，不需要写程序。
+对于其他副作用，需要编写处理函数。
+常见的副作用有：Ajax，数据库，服务器通信等。
+
+==== reg-event-fx:可以产生副作用的事件绑定====
+与`reg-event-db`相比，`-fx`可以自己指定效应函数，语法为：
+{{{class="clojure"
+(reg-event-fx              ;; -fx registration, not -db registration
+  :my-event
+  (fn [cofx [_ a]]        ;; 1st argument is coeffects, instead of db
+    {:db       (assoc (:db cofx) :flag  a)
+     :dispatch [:do-something-else 3]}))   ;; return effects
+}}}
+
+==== reg-fx：定义效应处理函数====
+效应函数只有一个输入值，以db这一内置效应函数为例，语法为：
+{{{class="clojure"
+(reg-fx
+  :db
+  (fn [value]
+    (reset! re-frame.db/app-db value)))
+}}}
+
+> 可以看出`reg-event-db`只不过是一种常用的副作用函数
+
+==== do-fx:执行一个副作用====
+{{{class="clojure"
+(reg-event-fx
+  :some-id
+  [debug (path :right)]     ;; <-- two interceptors, apparently
+  (fn [cofx _]
+     {})                    ;; <-- imagine returned effects here
+
+[do-fx debug (path :right)]
+
+}}}
+
+==== reg-cofx与inject-cofx：初始化应用时执行副作用====
+`reg-cofx`与`inject-cofx`能够在应用刚刚启动时执行副作用
+
+
+=== 第四步：订阅处理/查询函数===
+查询函数的输入值是应用状态，返回值是查询量的值，每一次应用状态发生改变就执行一遍查询函数，由于查询之间的关系，可以创建一个查询树，根是`app-db`叶子是视图组件的数值
+使用`re-frame/reg-sub`注册查询函数：
+{{{class="clojure"
+(rf/reg-sub
+  :some-query-id  ;; query id (used later in subscribe)
+  a-query-fn)     ;; the function which will compute the query
+
+}}}
+简单的例子：
+{{{class="clojure"
+(rf/reg-sub
+  :time
+  (fn [db _]     ;; db is current app state. 2nd unused param is query vector
+    (:time db))) ;; return a query computation over the application state
+
+(rf/reg-sub
+  :time-color
+  (fn [db _]
+    (:time-color db)))
+}}}
+
+=== 第五步：视图函数，Reagent===
+==== subscribe定义查询量====
+只有一个全局的函数来定义在视图中显示量`re-frame/subscribe`，只有一个包含查询量id的向量作为参数，返回值是一个ratom，使用@取出值，（来自Reagent）
+语法为：
+{{{class="clojure"
+(rf/subscribe  [query-id some optional query parameters])
+
+}}}
+可以将它想象成一个SQL查询
+==== 定义视图函数（Reagent组件）====
+语法与Reagent相同，只不过是加入了定义查询量的`subscribe`和定义事件的`dispatch`
+例子：
+{{{class="clojure"
+(defn clock
+  []
+  [:div.example-clock
+   {:style {:color @(rf/subscribe [:time-color])}}
+   (-> @(rf/subscribe [:time])
+       .toTimeString
+       (clojure.string/split " ")
+       first)])
+
+(defn color-input
+  []
+  [:div.color-input
+   "Time color: "
+   [:input {:type "text"
+            :value @(rf/subscribe [:time-color])        ;; subscribe
+            :on-change =(rf/dispatch [:time-color-change (-> % .-target .-value)])}]])  ;; <---=
+
+}}}
+
+> 由于组件间可以继承通信，所以只需要在几个组件里有`subscribe`就足够了
+> 不要在组件中直接访问`app-db`,数据只能通过`subscrube`传递
+
+=== 第六步：DOM与运行循环===
+由于DOM是由Reagent实现的，所以只需要触发初始化事件并选一个节点渲染开始就可以了
+{{{class="clojure"
+(defn ^:export run
+  []
+  (rf/dispatch-sync [:initialize]) ;; puts a value into application state
+  (reagent/render [ui]             ;; mount the application's ui into '<div id="app" />'
+                  (js/document.getElementById "app")))
+}}}
+
+== 其他事项==
+=== 推荐的项目结构===
+开发顺序:
+1. 设计数据结构,`db.cljs`
+2. 设计视图,`views.vljs`
+3. 写事件处理函数,`events.cljs`
+4. 写数据提取函数,`subs.cljs`
+
+}}}
+src
+├── core.cljs   <--- entry point, plus history
+├── db.cljs     <--- data related  (data layer)
+├── subs.cljs   <--- subscription handlers  (query layer)
+├── views.cljs  <--- reagent  components (view layer)
+└── events.cljs <--- event handlers (control/update layer)
+
+}}}
+
+
+=== 拦截器, interceptors===

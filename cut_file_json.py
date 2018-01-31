@@ -89,6 +89,7 @@ def add_all():
             else:
                 print(filename)
                 main(filename)
+    os.system('cp ./article_index.json ./public_html/js/article_index.json')
 
 
 try:

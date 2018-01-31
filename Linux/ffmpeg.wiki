@@ -1,0 +1,38 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#ffmpeg|ffmpeg]]
+    - [[#ffmpeg#合并视频|合并视频]]
+    - [[#ffmpeg#转换格式|转换格式]]
+    - [[#ffmpeg#分割视频|分割视频]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+=ffmpeg=
+==合并视频==
+{{{
+ffmpeg -f concat -i filelist.txt -c copy out.mkv
+}}}
+filelist.txt
+> /home/a1.mkv
+>
+> /home/a2.mkv
+>
+> ...
+
+==转换格式==
+{{{
+ffmpeg -i in.mpeg -q:a 0 -q:v 0 out.mkv
+-q:a 0  =最高等级转换音频=
+-q:v 0  =最高等级转换视频=
+}}}
+
+==分割视频==
+{{{
+ffmpeg -i in.mp4 -ss 00:10:00 -t 00:30:40 -acodec copy -vcodec copy output.mp4
+-ss 00:10:00  =从00:10:00开始分割=
+-t  00:30:40  =分割时长00:30:40=
+-acodec copy  =音频与原格式相同=
+-vcodec copy  =视频与原格式相同=
+}}}
+命令的结果是分割得到00:10:00 --> 00:40:40 的原格式视频片段

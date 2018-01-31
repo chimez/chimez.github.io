@@ -1,0 +1,119 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#Linux WM|Linux WM]]
+    - [[#Linux WM#Gnome 配置|Gnome 配置]]
+      - [[#Linux WM#Gnome 配置#Gnome 设置工具|Gnome 设置工具]]
+  - [[#linux 零散设置|linux 零散设置]]
+  - [[#Linux 常用命令|Linux 常用命令]]
+    - [[#Linux 常用命令#sed|sed]]
+      - [[#Linux 常用命令#sed#sed 正则表达式|sed 正则表达式]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+=Linux WM=
+
+
+==Gnome 配置==
+
+===Gnome 设置工具===
+
+1. gnome-tweak-tool
+
+2. dconf-editor
+
+=linux 零散设置=
+
+1. 不接受其他控制台登入root    /stc/securstty
+2. 全局变量   ./profile
+3. bash变量   ./bashrc
+4. 网络设置   /etc/network/interfaces
+  	Example:
+  		auto eth0
+  		iface eth0 inet
+  		dhcp
+  	更新 /etc/init.d/networking restart
+5. 源 /etc/apt/sources.list
+{{{
+deb http://mirrors.163.com/debian/ jessie main non-free contrib
+deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+deb-src http://mirrors.163.com/debian/ jessie main non-free contrib
+deb-src http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+deb-src http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+deb http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+
+}}}
+
+6. 命令别称     alias
+7. 自动注销
+	变量          TMOUT=10          单位：秒
+8. 语言     LANG=en_us.UTF-8   zh_cn.UTF-8
+9. 自动补全增强   /etc/bash.bashrc	去掉注释    （前提安装 bash-completion）
+10. xxd 二进制转换为十六进制  -r 逆操作  -g 1/2/3 几位一组 默认2
+11. Hash检测命令	md5sum    shasum    openssl
+12. indent   调整c语言代码风格工具
+13. readelf 读取.o的ELF信息   -a
+14. hexdump  读取o的全部内容   -C
+15. objdump   反编译o文件    -d
+16. 虚拟内存管理   /proc
+17. 查看虚拟地址空间	cat /pro/PID/maps	或      pmap  PID
+18. VGA设备查看  lspci
+19. 屏幕亮度设置 /sys/class/backlight/intel_backlight/brightness
+20. 音量设置    alsamixer
+21. dmesg    列出所有设备连接
+22. acpi  查看电池电量
+23. mkfs 格式化
+24. dpkg --add-architecture i386  64支持86
+25. xterm中文字体   ctrl+右键 选large
+26. 字符编码转换  iconv
+27. netstat 网络状态查看
+28. ps aux|sort -nk +4 |tail     显示内存使用最多的进程
+29. ps aux|sort -nk +3 |tail     显示cpu使用最多的进程
+30. lspf    显示文件调用
+31. perror 查看错误代码意思
+32. debian选择系统	update-alternatives   --all
+33. Xterm中文字体问题
+{{{
+	$HOME/.Xresources
+	XTerm*FaceNameDoubleSize: 中文字体名
+	XTerm*FaceName: 英文字体名
+	XTerm*RenderFont: True    开启中文支持
+	XTerm*ForcePackedFont:false  关闭字间距
+	Xterm*FaceSize:10  设置字体大小
+	更新： xrdb ~/.Xresources
+
+}}}
+34. 分区   fdisk
+35. 休眠硬盘   hdparm  -Y /dev/sdb
+36. 字体  fc-list  :lang=zh
+37. 安装新字体
+{{{
+	/usr/share/fonts
+	mkfontscale
+	mkfontsdir
+    fc-cache
+}}}
+
+=Linux 常用命令=
+
+==sed==
+
+===sed 正则表达式===
+
+| 字符     | 功能          |
+| -        | -             |
+| ^        | 行首定位      |
+| $        | 行尾定位      |
+| \<       | 词首定位      |
+| \>       | 词尾定位      |
+| .        | 匹配一个字符  |
+| *        | 匹配多个字符  |
+| []       | 匹配一组字符  |
+| [x-y]    | 匹配范围      |
+| [^]      | 匹配范围外    |
+| x\{m,n\} | 字符x的m到n次 |
+| \        | 转义          |
+| \(...\)  | 标签          |
+

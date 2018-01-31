@@ -1,0 +1,148 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]|[[https://electron.org.cn/doc/index.html |Electron基础]]]]
+    - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#安装|安装]]
+    - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#程序结构|程序结构]]
+      - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#程序结构#语法|语法]]
+        - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#程序结构#语法#绑定事件|绑定事件]]
+        - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#程序结构#语法#使用nodejs本地库|使用nodejs本地库]]
+    - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#页面(进程)间通信|页面(进程)间通信]]
+      - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#页面(进程)间通信#广播-监听方式|广播-监听方式]]
+    - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#[[https://electron.org.cn/doc/tutorial/application-distribution.html|打包]]|[[https://electron.org.cn/doc/tutorial/application-distribution.html|打包]]]]
+    - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#使用React|使用React]]
+      - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#使用React#配置|配置]]
+      - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#使用React#热调试|热调试]]
+      - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#使用React#使用electron API|使用electron API]]
+      - [[#[[https://electron.org.cn/doc/index.html |Electron基础]]#使用React#使用nodejs本地库|使用nodejs本地库]]
+  - [[#API|API]]
+    - [[#API#app:应用的生命周期|app:应用的生命周期]]
+      - [[#API#app:应用的生命周期#''ready'':完成初始化时被触发|''ready'':完成初始化时被触发]]
+      - [[#API#app:应用的生命周期#''window-all-closed'':当所有的窗口都被关闭时触发。|''window-all-closed'':当所有的窗口都被关闭时触发。]]
+      - [[#API#app:应用的生命周期#''activate'':(macOS)当应用被激活时触发|''activate'':(macOS)当应用被激活时触发]]
+    - [[#API#BrowserWindow:创建和控制浏览器窗口|BrowserWindow:创建和控制浏览器窗口]]
+      - [[#API#BrowserWindow:创建和控制浏览器窗口#新建页面（渲染进程）|新建页面（渲染进程）]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+=[[https://electron.org.cn/doc/index.html |Electron基础]]=
+==安装==
+安装到本地
+{{{
+npm install --save-dev electron
+./node_modules/.bin/electron .
+}}}
+==程序结构==
+目录结构
+{{{
+your-app/         =文件夹=
+├── package.json  =和node的一样，写明依赖和入口=
+├── main.js       =要执行的主程序=
+└── index.html    =要渲染的页面=
+}}}
+`package.json` 内容
+{{{
+{
+  "name": "your-app",
+  "version": "0.1.0",
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^1.7.5"
+  }
+}
+}}}
+`main.js `中要引入依赖、启动app的事件、创建主窗口
+
+在这里需要绑定的事件有
++ ready
++ window-all-closed
++ activate
+
+
+===语法===
+====绑定事件====
+在js中使用.on()方法绑定事件
+{{{
+app.on('ready', createWindow)
+}}}
+====使用nodejs本地库====
+在主进程中使用node,直接写就行，在渲染进程中要用`window.require`
+{{{
+var exec = require('child_process').exec,
+    last = exec('last | wc -l');
+
+last.stdout.on('data', function (data) {
+    console.log('标准输出：' + data);
+});
+}}}
+
+==页面(进程)间通信==
+===广播-监听方式===
+==[[https://electron.org.cn/doc/tutorial/application-distribution.html|打包]]==
+下载一个编译好的程序，把源代码放进`resources/app`里即可
+==使用React==
+===配置===
+electron提供了一个窗口用来显示网页，因而使用React生成网页，并指定electron加载这个页面就可以了，首先用create-react-app创建react应用，然后修改`package.json`，将electron依赖添加进去，先用react编译，再用electron启动这个项目
+
+`package.json`添加的内容
+{{{
+{
+  "main":"./main.js",   //指定electron的入口
+  "homepage":".",       //指定React编译路径
+  "dependcies":{        
+    "electron":"^1.7.5" //添加electron依赖
+  }
+}
+}}}
+`main.js`中加载生成的页面的方法
+{{{
+win.loadURL(url.format({  //普通的加入页面
+ pathname: path.join(__dirname, './build/index.html'),
+ protocol: 'file:',
+ slashes: true
+}))
+}}}
+===热调试===
+加载页面为React热调试(`npm start`)页面即可
+{{{
+win.loadURL('http://localhost:3000/') //这样可以实现在线调试
+}}}
+===使用electron API===
+由于主进程和渲染进程的分割，React的网页只能使用有限的electron-API，与原生GUI有关的操作只能由主进程进行，通过渲染进程和主进程之间通信实现
+
+使用electronAPI一样要用`window.require`
+{{{
+var webFrame = window.require('electron').webFrame
+webFrame.setZoomFactor(2)
+}}}
+===使用nodejs本地库===
+不能使用`require`,要用`window.require`,所以也不能`import`
+{{{
+var cp = window.require('child_process');
+var lss = cp.exec('ls -al');
+lss.stdout.on('data', function(data) {console.log(data)})
+
+}}}
+=API=
+==app:应用的生命周期==
+==='ready':完成初始化时被触发===
+返回:
+{{{
+launchInfo Object macOS
+}}}
+
+当 Electron 完成初始化时被触发。在 macOs 中， 如果从通知中心中启动，那么launchInfo 中的userInfo包含 用来打开应用程序的 NSUserNotification 信息。你可以通过调用 app.isReady() 方法来检查此事件是否已触发。
+==='window-all-closed':当所有的窗口都被关闭时触发。===
+如果您没有监听此事件，当所有窗口都已关闭时，默认值行为是退出应用程序。但如果你监听此事件， 将由你来控制应用程序是否退出。 如果用户按下了 Cmd + Q，或者开发者调用了 app.quit() ， Electron 将会先尝试关闭所有的窗口再触发 will-quit 事件，在这种情况下 window-all-closed 不会被触发。
+==='activate':(macOS)当应用被激活时触发===
+返回：
+{{{
+event Event
+hasVisibleWindows Boolean
+}}}
+当应用被激活时触发，常用于点击应用的 dock 图标的时候。
+==BrowserWindow:创建和控制浏览器窗口==
+===新建页面（渲染进程）===
+{{{
+window = new BrowserWindow({width: 800, height: 600})
+}}}
