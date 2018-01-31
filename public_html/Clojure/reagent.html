@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>reagent</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="reagent.html#reagent">reagent</a>
+
+<ul>
+<li>
+<a href="reagent.html#reagent-安装与配置">安装与配置</a>
+
+<li>
+<a href="reagent.html#reagent-基本语法">基本语法</a>
+
+<ul>
+<li>
+<a href="reagent.html#reagent-基本语法-组件">组件</a>
+
+<ul>
+<li>
+<a href="reagent.html#reagent-基本语法-组件-组件的定义">组件的定义</a>
+
+<li>
+<a href="reagent.html#reagent-基本语法-组件-组件的调用和传参">组件的调用和传参</a>
+
+<li>
+<a href="reagent.html#reagent-基本语法-组件-可以用的标签">可以用的标签</a>
+
+</ul>
+<li>
+<a href="reagent.html#reagent-基本语法-DOM渲染">DOM渲染</a>
+
+<ul>
+<li>
+<a href="reagent.html#reagent-基本语法-DOM渲染-render函数">render函数</a>
+
+<li>
+<a href="reagent.html#reagent-基本语法-DOM渲染-获取元素的方法">获取元素的方法</a>
+
+</ul>
+<li>
+<a href="reagent.html#reagent-基本语法-页面状态">页面状态</a>
+
+<ul>
+<li>
+<a href="reagent.html#reagent-基本语法-页面状态-reagent.core&#47;atom">reagent.core/atom</a>
+
+<li>
+<a href="reagent.html#reagent-基本语法-页面状态-初次定义时进行设置">初次定义时进行设置</a>
+
+<li>
+<a href="reagent.html#reagent-基本语法-页面状态-使用React生命循环反馈">使用React生命循环反馈</a>
+
+</ul>
+</ul>
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+<div id="reagent"><h1 id="reagent">reagent</h1></div>
+<p>
+reagent是clojurescript上对reagent的一个封装，使用了类似hiccup的语法
+</p>
+<div id="reagent-安装与配置"><h2 id="安装与配置">安装与配置</h2></div>
+<ol>
+<li>
+在shadow-cljs配置中加入<code>[reagent "0.8.0-alpha2"]</code>
+
+<li>
+引用<code>(ns app.core (:require [reagent.core :as r]))</code>
+
+</ol>
+
+<div id="reagent-基本语法"><h2 id="基本语法">基本语法</h2></div>
+<div id="reagent-基本语法-组件"><h3 id="组件">组件</h3></div>
+<div id="reagent-基本语法-组件-组件的定义"><h4 id="组件的定义">组件的定义</h4></div>
+<p>
+组件在形式上就是一个函数,内部是用方括号嵌套表示的html标签
+</p>
+<pre class="clojure">
+(defn some-component []
+  [:div
+   [:h3 "I am a component!"]
+   [:p.someclass 
+    "I have " [:strong "bold"]
+    [:span {:style {:color "red"}} " and red"]
+    " text."]])
+</pre>
+<p>
+嵌套标签可以快捷表示
+</p>
+<pre class="clojure">
+[:div&gt;p&gt;b "Nested Element"]
+</pre>
+<p>
+class也可以嵌套表示
+</p>
+<pre class="clojure">
+[:div {:class ["a-class" (when active? "active") "b-class"]}]
+</pre>
+
+<div id="reagent-基本语法-组件-组件的调用和传参"><h4 id="组件的调用和传参">组件的调用和传参</h4></div>
+<p>
+由于组件就是个函数，所以可以像使用函数那样传递参数，不过用中括号而不是小括号
+</p>
+<pre class="clojure">
+(defn child [name]
+  [:p "Hi, I am " name])
+
+(defn childcaller []
+  [child "Foo Bar"])
+</pre>
+
+<div id="reagent-基本语法-组件-可以用的标签"><h4 id="可以用的标签">可以用的标签</h4></div>
+<p>
+|标签||
+|<code>:div</code>||
+|<code>:h1</code>||
+|<code>:p</code>||
+|<code>:strong</code>||
+|<code>:span</code>||
+|<code>:style</code>||
+|<code>:class</code>||
+</p>
+
+<div id="reagent-基本语法-DOM渲染"><h3 id="DOM渲染">DOM渲染</h3></div>
+<div id="reagent-基本语法-DOM渲染-render函数"><h4 id="render函数">render函数</h4></div>
+<p>
+使用<code>reagent/render</code>函数，第一个参数是调用组件<code>[component]</code>,第二个参数是DOM元素
+</p>
+<pre class="clojure">
+(defn mountit []
+  (r/render [childcaller]
+            (.-body js/document)))
+(defn ^:export main [] ) ;使用export可以将函数暴漏出去，可以在页面的js里调用
+</pre>
+
+<div id="reagent-基本语法-DOM渲染-获取元素的方法"><h4 id="获取元素的方法">获取元素的方法</h4></div>
+<p>
+使用js的document函数
+</p>
+<pre class="clojure">
+(.-body js/document)  
+(.getElementById js/document "app")
+</pre>
+
+<div id="reagent-基本语法-页面状态"><h3 id="页面状态">页面状态</h3></div>
+<div id="reagent-基本语法-页面状态-reagent.core&#47;atom"><h4 id="reagent.core&#47;atom">reagent.core/atom</h4></div>
+<p>
+使用reagent版的atom表示页面状态
+</p>
+<pre class="clojure">
+(defonce click-count (r/atom 0)) ;定义一个atom
+
+(defn state-ful-with-atom []
+  [:div {:on-click =(swap! click-count inc)}  ;在组件中对atom的值进行更改=
+   "I have been clicked " @click-count " times."]) ;引用atom的值
+
+</pre>
+<div id="reagent-基本语法-页面状态-初次定义时进行设置"><h4 id="初次定义时进行设置">初次定义时进行设置</h4></div>
+<pre class="clojure">
+(defn timer-component []
+  (let [seconds-elapsed (r/atom 0)]
+    (fn []
+      (js/setTimeout =(swap! seconds-elapsed inc) 1000)=
+      [:div
+       "Seconds Elapsed: " @seconds-elapsed])))
+
+</pre>
+
+<div id="reagent-基本语法-页面状态-使用React生命循环反馈"><h4 id="使用React生命循环反馈">使用React生命循环反馈</h4></div>
+<pre class="clojure">
+(defonce my-html (r/atom ""))
+
+(defn plain-component []
+  [:p "My html is " @my-html])
+
+(def component-with-callback
+  (with-meta plain-component
+    {:component-did-mount
+     (fn [this]
+       (reset! my-html (.-innerHTML (reagent/dom-node this))))}))
+</pre>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-01-31
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>

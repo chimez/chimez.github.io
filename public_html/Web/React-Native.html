@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>React-Native</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="React-Native.html#React Native 基础">React Native 基础</a>
+
+<ul>
+<li>
+<a href="#React Native 基础#[[http:&#47;&#47;reactnative.cn&#47;docs&#47;0.47&#47;getting-started.html=content">安装</a>|<a href="http:&#47;&#47;reactnative.cn&#47;docs&#47;0.47&#47;getting-started.html=content">安装</a>]]
+
+<li>
+<a href="React-Native.html#React Native 基础-创建项目">创建项目</a>
+
+<li>
+<a href="React-Native.html#React Native 基础-启动调试">启动调试</a>
+
+<ul>
+<li>
+<a href="#React Native 基础#启动调试#[[http:&#47;&#47;reactnative.cn&#47;docs&#47;0.47&#47;running-on-device-android.html=content">真机调试</a>|<a href="http:&#47;&#47;reactnative.cn&#47;docs&#47;0.47&#47;running-on-device-android.html=content">真机调试</a>]]
+
+</ul>
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+<div id="React Native 基础"><h1 id="React Native 基础">React Native 基础</h1></div>
+<div id="React Native 基础-[[http:&#47;&#47;reactnative.cn&#47;docs&#47;0.47&#47;getting-started.html=content|安装]]"><h2 id="[[http:&#47;&#47;reactnative.cn&#47;docs&#47;0.47&#47;getting-started.html=content|安装]]"><a href="http:&#47;&#47;reactnative.cn&#47;docs&#47;0.47&#47;getting-started.html=content">安装</a></h2></div>
+<p>
+需要安装的包
++ <code>npm install -g yarn</code>
++ <code>npm install -g react-native-cli</code>
++ Android Studio 2+
+</p>
+
+<p>
+设置yarn
+</p>
+<pre bash>
+yarn config set registry https://registry.npm.taobao.org --global
+yarn config set disturl https://npm.taobao.org/dist --global
+</pre>
+<p>
+Android Studio需要安装：
++ Android SDK
++ Android SDK Platfrom
++ Android Virtual Device
++ Android 6.0 (Marshmallow)
+  + Google APIs
+  + Android SDK Platform 23
+  + Intel x86 Atom System Image
+  + Intel x86 Atom_64 System Image
+  + Google APIs Intel x86 Atom_64 System Image。
++ Android SDK Build Tools
+  + Android SDK Build-Tools 23.0.1（必须是这个版本）
+  + Android Support Repository (最底部)
+</p>
+
+<p>
+ANDROID_HOME环境变量
+</p>
+<pre bash>
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+</pre>
+<div id="React Native 基础-创建项目"><h2 id="创建项目">创建项目</h2></div>
+<pre bash>
+react-native init AwesomeProject
+cd AwesomeProject
+react-native run-android
+</pre>
+<div id="React Native 基础-启动调试"><h2 id="启动调试">启动调试</h2></div>
+<p>
+虚拟机启动未成功，电脑不支持KVM
+</p>
+
+<div id="React Native 基础-启动调试-[[http:&#47;&#47;reactnative.cn&#47;docs&#47;0.47&#47;running-on-device-android.html=content|真机调试]]"><h3 id="[[http:&#47;&#47;reactnative.cn&#47;docs&#47;0.47&#47;running-on-device-android.html=content|真机调试]]"><a href="http:&#47;&#47;reactnative.cn&#47;docs&#47;0.47&#47;running-on-device-android.html=content">真机调试</a></h3></div>
+<p>
++ 连接设备 <code>adb devices</code>
++ 运行调试 <code>react-native run-android</code>
++ 配置在线调试 <code>adb reverse tcp:8081 tcp:8081</code>
++ 在真机上设置端口 <code>Dev Settings\Debug server host for device\000.000.000.000:8081</code>
++ 重新加载代码:设备菜单-&gt;ReloadJS
+</p>
+
+<p>
+查看日志
+</p>
+<pre bash>
+adb logcat *:S ReactNative:V ReactNativeJS:V
+</pre>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-01-31
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>

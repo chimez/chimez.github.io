@@ -10,7 +10,7 @@
 
 		<!-- Template -->
 		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
-		<title>index</title>
+		<title>cljs-ajax</title>
 	</head>
 
 	<body>
@@ -34,45 +34,76 @@
 				</div>
 			</nav>
 
-			<div class="row align-items-center">
-				<div class="col">
-					
-<div id="Clojure文章目录"><h1 id="Clojure文章目录">Clojure文章目录</h1></div>
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="cljs-ajax.html#cljs-ajax">cljs-ajax</a>
 
 <ul>
 <li>
-<a href="Clojure.html">Clojure</a>
+<a href="cljs-ajax.html#cljs-ajax-安装与引用">安装与引用</a>
 
 <li>
-<a href="ClojureScript.html">ClojureScript</a>
+<a href="cljs-ajax.html#cljs-ajax-基本使用">基本使用</a>
+
+<ul>
+<li>
+<a href="cljs-ajax.html#cljs-ajax-基本使用-消息处理">消息处理</a>
 
 <li>
-<a href="cljs-ajax.html">cljs-ajax</a>
-
-<li>
-<a href="reagent.html">reagent</a>
-
-<li>
-<a href="shadow-cljs.html">shadow-cljs</a>
-
-<li>
-<a href="re-frame.html">re-frame</a>
-
-<li>
-<a href="secretary.html">secretary</a>
-
-<li>
-<a href="spec.html">spec</a>
+<a href="cljs-ajax.html#cljs-ajax-基本使用-基本GET">基本GET</a>
 
 </ul>
+</ul>
+</ul>
 
-				</div>
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+<div id="cljs-ajax"><h1 id="cljs-ajax">cljs-ajax</h1></div>
+<p>
+cljs-ajax为Clojure和ClojureScript提供相同Ajax的接口
+</p>
+<div id="cljs-ajax-安装与引用"><h2 id="安装与引用">安装与引用</h2></div>
+<pre>
+[cljs-ajax "0.7.3"]
+(ns foo
+  (:require [ajax.core :as ajax]))
+</pre>
+<div id="cljs-ajax-基本使用"><h2 id="基本使用">基本使用</h2></div>
+<div id="cljs-ajax-基本使用-消息处理"><h3 id="消息处理">消息处理</h3></div>
+<p>
+在发送消息之后，反馈的消息由<code>handler</code>错误由<code>erroe-handler</code>捕获并处理，可以直接定义默认的处理函数，也可以为每个请求指定处理函数
+消息处理函数只有一个参数
+</p>
+<pre>
+(defn handler [response]
+  (.log js/console (str response)))
+
+(defn error-handler [{:keys [status status-text]}]
+  (.log js/console (str "something bad happened: " status " " status-text)))
+</pre>
+<div id="cljs-ajax-基本使用-基本GET"><h3 id="基本GET">基本GET</h3></div>
+<p>
+注意地址的写法，本地地址要从<code>/</code>开始，不能省略
+</p>
+<pre>
+(ajax/GET "/hello")
+(ajax/GET "/index.css" {:handler =(println %)})=
+</pre>
+
 		</div>
-		<!-- <nav class="navbar"> -->
-			<!-- <span class="navbar-text"> -->
-				<!-- Page created on 2018-01-31 -->
-			<!-- </span> -->
-		<!-- </nav> -->
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-01-31
+			</span>
+		</nav>
 
 	</div>
 
@@ -89,13 +120,13 @@
 			$('pre').each(function(i, block) {
 				hljs.highlightBlock(block);
 			});
+			$('.article-toc ul li ul li ul li ul').hide();
 		});
 	</script>
 	<!-- MathJax -->
 	<script type="text/javascript" async
 		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
 	</script>
-
 	<script type="text/javascript" src="../js/search.js"></script>
 </body>
 </html>
