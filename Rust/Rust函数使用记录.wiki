@@ -1,0 +1,62 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#Rust函数记录|Rust函数记录]]
+  - [[#原始类型|原始类型]]
+    - [[#原始类型#`String`|`String`]]
+  - [[#标准库|标准库]]
+    - [[#标准库#`std::io`:标准输入输出|`std::io`:标准输入输出]]
+    - [[#标准库#`std::cmp`:比较|`std::cmp`:比较]]
+      - [[#标准库#`std::cmp`:比较#`std::cmp::Ordering`:比较大小|`std::cmp::Ordering`:比较大小]]
+  - [[#外部库|外部库]]
+    - [[#外部库#`rand`:随机数生成|`rand`:随机数生成]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+= Rust函数记录 =
+`fn`:定义函数
+```rust
+fn main (){
+
+}
+```
+`println!`:打印输出
+```rust
+println!("str")
+```
+`use`:引入类型
+```class="rust"
+use std::io
+...
+io::stdin()
+```
+`extern crate rand;`引入外部库
+= 原始类型 =
+== `String` ==
+| `String::new()` | 新建实例                            |
+| `"s".trim()`    | 去除开头结尾的空白                  |
+| `"s".parse()`   | 转换成数字类型,返回`String::Result` |
+= 标准库 =
+== `std::io`:标准输入输出 ==
+```class="rust"
+use std::io
+is::stdin().read_line(&mut guess)
+```
+== `std::cmp`:比较 ==
+=== `std::cmp::Ordering`:比较大小 ===
+```class="rust"
+use std::cmp::Ordering
+match "s".cmp(&s){
+	Ordering::Less => println!("l")
+	Ordering::Greater => println!("g")
+	Ordering::Equl => println!("e")
+}
+```
+= 外部库 =
+== `rand`:随机数生成 ==
+`rand = "0.3.14"`
+```class="rust"
+extern crate rand; //引入外部库
+use rand::Rng;	//trait
+rand::thread_rng().gen_range(1,101) //调用随机数生成器的整数生成方法
+```
