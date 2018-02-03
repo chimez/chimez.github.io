@@ -1,0 +1,1140 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>Rust教程学习</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念">Rust教程学习:基本概念</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-基本程序结构">基本程序结构</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-基本程序结构-主函数:程序运行的入口">主函数:程序运行的入口</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-基本程序结构-引入外部类型">引入外部类型</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-基本程序结构-引入外部依赖">引入外部依赖</a>
+
+</ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-变量与常量">变量与常量</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-变量与常量-创建变量">创建变量</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-变量与常量-创建常量">创建常量</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-变量与常量-变量的隐藏(shadow)">变量的隐藏(shadow)</a>
+
+<li>
+[[#Rust教程学习:基本概念#变量与常量#引用<code>&amp;</code>|引用<code>&amp;</code>]]
+
+</ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型">数据类型</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-字面量数据类型">字面量数据类型</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-元组">元组</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-数组array">数组array</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-结构体(struct)">结构体(struct)</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-结构体(struct)-结构体的定义与引用">结构体的定义与引用</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-结构体(struct)-结构体简化初始化写法">结构体简化初始化写法</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-结构体(struct)-结构体更新语法">结构体更新语法</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-结构体(struct)-无字段名的结构体">无字段名的结构体</a>
+
+</ul>
+<li>
+[[#Rust教程学习:基本概念#数据类型#枚举<code>enum</code>|枚举<code>enum</code>]]
+
+<ul>
+<li>
+[[#Rust教程学习:基本概念#数据类型#枚举<code>enum</code>#定义枚举|定义枚举]]
+
+<li>
+[[#Rust教程学习:基本概念#数据类型#枚举<code>enum</code>#空值枚举<code>Option&lt;T&gt;</code>|空值枚举<code>Option&lt;T&gt;</code>]]
+
+</ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-通用集合类型">通用集合类型</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-通用集合类型-向量(vector)">向量(vector)</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-通用集合类型-字符串(String)">字符串(String)</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-数据类型-通用集合类型-哈希(hash map)">哈希(hash map)</a>
+
+</ul>
+</ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-函数与方法">函数与方法</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-函数与方法-函数定义">函数定义</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-函数与方法-方法">方法</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-函数与方法-方法-定义方法">定义方法</a>
+
+<li>
+[[#Rust教程学习:基本概念#函数与方法#方法#关联函数<code>::</code>|关联函数<code>::</code>]]
+
+</ul>
+<li>
+[[#Rust教程学习:基本概念#函数与方法#错误处理类型<code>Result</code>|错误处理类型<code>Result</code>]]
+
+</ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-逻辑">逻辑</a>
+
+<ul>
+<li>
+[[#Rust教程学习:基本概念#逻辑#<code>match</code>:分支匹配|<code>match</code>:分支匹配]]
+
+<li>
+[[#Rust教程学习:基本概念#逻辑#<code>if let</code>:单支匹配|<code>if let</code>:单支匹配]]
+
+<li>
+[[#Rust教程学习:基本概念#逻辑#<code>loop</code>:无限循环|<code>loop</code>:无限循环]]
+
+<li>
+[[#Rust教程学习:基本概念#逻辑#<code>break</code>:跳出循环|<code>break</code>:跳出循环]]
+
+<li>
+[[#Rust教程学习:基本概念#逻辑#<code>if</code>:条件判断|<code>if</code>:条件判断]]
+
+<li>
+[[#Rust教程学习:基本概念#逻辑#<code>while</code>:条件为真时循环|<code>while</code>:条件为真时循环]]
+
+<li>
+[[#Rust教程学习:基本概念#逻辑#<code>for</code>:遍历列表|<code>for</code>:遍历列表]]
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-逻辑-错误处理">错误处理</a>
+
+<ul>
+<li>
+[[#Rust教程学习:基本概念#逻辑#错误处理#<code>panic!</code>:不可恢复错误(bug)|<code>panic!</code>:不可恢复错误(bug)]]
+
+<li>
+[[#Rust教程学习:基本概念#逻辑#错误处理#<code>Result</code>:可恢复错误|<code>Result</code>:可恢复错误]]
+
+<li>
+[[#Rust教程学习:基本概念#逻辑#错误处理#当错误时进行<code>panic!</code>|当错误时进行<code>panic!</code>]]
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-逻辑-错误处理-传播错误:让调用者知道错误是什么">传播错误:让调用者知道错误是什么</a>
+
+</ul>
+</ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-所有权(ownership)">所有权(ownership)</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-所有权(ownership)-所有权概念">所有权概念</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-所有权(ownership)-引用(reference)">引用(reference)</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-所有权(ownership)-slice">slice</a>
+
+</ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-模块">模块</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-模块-定义库项目与模块">定义库项目与模块</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-模块-公有与私有">公有与私有</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-模块-引入到作用域">引入到作用域</a>
+
+</ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-泛型">泛型</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-泛型-定义与使用泛型">定义与使用泛型</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-泛型-trait:不同类型的共同方法实现接口">trait:不同类型的共同方法实现接口</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-泛型-trait:不同类型的共同方法实现接口-声明trait">声明trait</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-泛型-trait:不同类型的共同方法实现接口-实现trait">实现trait</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-泛型-trait:不同类型的共同方法实现接口-应用trait">应用trait</a>
+
+</ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-泛型-生命周期">生命周期</a>
+
+<ul>
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-泛型-生命周期-生命周期注解">生命周期注解</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-泛型-生命周期-方法生命周期">方法生命周期</a>
+
+<li>
+<a href="Rust教程学习.html#Rust教程学习:基本概念-泛型-生命周期-静态生命周期">静态生命周期</a>
+
+</ul>
+</ul>
+</ul>
+<li>
+<a href="Rust教程学习.html#进阶知识">进阶知识</a>
+
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+
+<div id="Rust教程学习:基本概念"><h1 id="Rust教程学习:基本概念">Rust教程学习:基本概念</h1></div>
+<div id="Rust教程学习:基本概念-基本程序结构"><h2 id="基本程序结构">基本程序结构</h2></div>
+<div id="Rust教程学习:基本概念-基本程序结构-主函数:程序运行的入口"><h3 id="主函数:程序运行的入口">主函数:程序运行的入口</h3></div>
+<p>
+```class="rust"
+fn main(){
+</p>
+
+<p>
+}
+```
+</p>
+<div id="Rust教程学习:基本概念-基本程序结构-引入外部类型"><h3 id="引入外部类型">引入外部类型</h3></div>
+<p>
+在源文件的开头
+```class="rust"
+use std::io
+...
+io::stdin()
+```
+</p>
+<div id="Rust教程学习:基本概念-基本程序结构-引入外部依赖"><h3 id="引入外部依赖">引入外部依赖</h3></div>
+<p>
+```class="rust"
+extern crate rand
+use rand::io
+</p>
+
+<p>
+```
+</p>
+<div id="Rust教程学习:基本概念-变量与常量"><h2 id="变量与常量">变量与常量</h2></div>
+<div id="Rust教程学习:基本概念-变量与常量-创建变量"><h3 id="创建变量">创建变量</h3></div>
+<p>
+```class="rust"
+let foo = 5; //默认不可变
+let mut bar = 5; //声明可变
+```
+</p>
+<div id="Rust教程学习:基本概念-变量与常量-创建常量"><h3 id="创建常量">创建常量</h3></div>
+<p>
+按照规则常量全大写,而且常量绝对不可变
+```class="rust"
+const MA_B: u32 = 100;
+```
+</p>
+<div id="Rust教程学习:基本概念-变量与常量-变量的隐藏(shadow)"><h3 id="变量的隐藏(shadow)">变量的隐藏(shadow)</h3></div>
+<p>
+对同一个变量名重新定义时,不会出错只会使第一个变量被后来的隐藏,如果使用<code>:</code>声明类型,则不同类型可以共用同一个变量名
+</p>
+<div id="Rust教程学习:基本概念-变量与常量-引用`&amp;`"><h3 id="引用`&amp;`">引用<code>&amp;</code></h3></div>
+<p>
+```class="rust"
+&amp;foo //默认不可变
+&amp;mut bar //声明可变
+```
+</p>
+<div id="Rust教程学习:基本概念-数据类型"><h2 id="数据类型">数据类型</h2></div>
+<div id="Rust教程学习:基本概念-数据类型-字面量数据类型"><h3 id="字面量数据类型">字面量数据类型</h3></div>
+<table>
+<tr>
+<td>
+<code>i32</code>
+</td>
+<td>
+32位有符号数,9i32
+</td>
+</tr>
+<tr>
+<td>
+<code>u32</code>
+</td>
+<td>
+32位无符号数,-8u32
+</td>
+</tr>
+<tr>
+<td>
+<code>f64</code>
+</td>
+<td>
+64位双精度浮点数,3.4f64
+</td>
+</tr>
+<tr>
+<td>
+<code>bool</code>
+</td>
+<td>
+布尔类型,'false'
+</td>
+</tr>
+<tr>
+<td>
+<code>char</code>
+</td>
+<td>
+utf8字符,'三'
+</td>
+</tr>
+</table>
+
+<div id="Rust教程学习:基本概念-数据类型-元组"><h3 id="元组">元组</h3></div>
+<p>
+```class="rust"
+let tup: (i32, f64, u8) = (500 ,5, 1) //定义
+let (x, y, z) = tup	//解构
+tup.0 //直接访问
+```
+</p>
+<div id="Rust教程学习:基本概念-数据类型-数组array"><h3 id="数组array">数组array</h3></div>
+<p>
+长度不可变,每个元素类型必须相同,当引用越界时会产生运行时错误,而不会访问外部内存
+```class="rust"
+let a = [1,2,3];//声明
+a[0]//引用
+```
+</p>
+<div id="Rust教程学习:基本概念-数据类型-结构体(struct)"><h3 id="结构体(struct)">结构体(struct)</h3></div>
+<div id="Rust教程学习:基本概念-数据类型-结构体(struct)-结构体的定义与引用"><h4 id="结构体的定义与引用">结构体的定义与引用</h4></div>
+<p>
+```class="rust"
+struct User {
+</p>
+<blockquote>
+username: String,
+email: String,
+sign_in_count: u64,
+active: bool,
+</blockquote>
+<p>
+}
+</p>
+
+<p>
+let user1 = User {
+</p>
+<blockquote>
+email: String::from("someone@example.com"),
+username: String::from("someusername123"),
+active: true,
+sign_in_count: 1,
+</blockquote>
+<p>
+};
+</p>
+
+
+<p>
+user1.email = String::from("anotheremail@example.com");
+```
+</p>
+<div id="Rust教程学习:基本概念-数据类型-结构体(struct)-结构体简化初始化写法"><h4 id="结构体简化初始化写法">结构体简化初始化写法</h4></div>
+<p>
+当变量名与结构体字段同名时可用
+</p>
+
+<p>
+```class="rust"
+fn build_user(email: String, username: String) -&gt; User {
+</p>
+<blockquote>
+User {
+email,
+username,
+active: true,
+sign_in_count: 1,
+}
+</blockquote>
+<p>
+}
+```
+</p>
+<div id="Rust教程学习:基本概念-数据类型-结构体(struct)-结构体更新语法"><h4 id="结构体更新语法">结构体更新语法</h4></div>
+<p>
+可以从一个旧的结构体继承大部分数据
+```class="rust"
+let user2 = User {
+</p>
+<blockquote>
+email: String::from("another@example.com"),
+username: String::from("anotherusername567"),
+..user1
+</blockquote>
+<p>
+};
+```
+</p>
+
+<div id="Rust教程学习:基本概念-数据类型-结构体(struct)-无字段名的结构体"><h4 id="无字段名的结构体">无字段名的结构体</h4></div>
+<p>
+```class="rust"
+</p>
+
+<p>
+struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+</p>
+
+<p>
+let black = Color(0, 0, 0);
+let origin = Point(0, 0, 0);
+```
+</p>
+
+<div id="Rust教程学习:基本概念-数据类型-枚举`enum`"><h3 id="枚举`enum`">枚举<code>enum</code></h3></div>
+<div id="Rust教程学习:基本概念-数据类型-枚举`enum`-定义枚举"><h4 id="定义枚举">定义枚举</h4></div>
+<p>
+枚举列出了所有可能的取值
+```class="rust"
+</p>
+
+<p>
+enum IpAddr {
+</p>
+<blockquote>
+V4(String),
+V6(String),
+</blockquote>
+<p>
+}
+</p>
+
+<p>
+let home = IpAddr::V4(String::from("127.0.0.1"));
+let loopback = IpAddr::V6(String::from("::1"));
+```
+</p>
+<div id="Rust教程学习:基本概念-数据类型-枚举`enum`-空值枚举`Option&lt;T&gt;`"><h4 id="空值枚举`Option&lt;T&gt;`">空值枚举<code>Option&lt;T&gt;</code></h4></div>
+<p>
+一个量要么是某类型的,要么什么都不是
+```class="rust"
+</p>
+
+<p>
+enum Option&lt;T&gt; {
+</p>
+<blockquote>
+Some(T),
+None,
+</blockquote>
+<p>
+};
+```
+</p>
+
+<div id="Rust教程学习:基本概念-数据类型-通用集合类型"><h3 id="通用集合类型">通用集合类型</h3></div>
+<div id="Rust教程学习:基本概念-数据类型-通用集合类型-向量(vector)"><h4 id="向量(vector)">向量(vector)</h4></div>
+<table>
+<tr>
+<td>
+<code>let v: Vec&lt;i32&gt; = Vec::new();</code>
+</td>
+<td>
+新建空的向量
+</td>
+</tr>
+<tr>
+<td>
+<code>let v = vec![1, 2, 3];</code>
+</td>
+<td>
+新建带初值的向量
+</td>
+</tr>
+<tr>
+<td>
+<code>v.push(5);</code>
+</td>
+<td>
+添加元素(要求是可变的)
+</td>
+</tr>
+<tr>
+<td>
+<code>let third: &amp;i32 = &amp;v[2];</code>
+</td>
+<td>
+引用序号,越界将崩溃
+</td>
+</tr>
+<tr>
+<td>
+<code>let third: Option&lt;&amp;i32&gt; = v.get(2);</code>
+</td>
+<td>
+引用序号,越界错误处理
+</td>
+</tr>
+<tr>
+<td>
+<code>for i in &amp;v {}</code>
+</td>
+<td>
+遍历向量
+</td>
+</tr>
+</table>
+
+<div id="Rust教程学习:基本概念-数据类型-通用集合类型-字符串(String)"><h4 id="字符串(String)">字符串(String)</h4></div>
+
+<table>
+<tr>
+<td>
+<code>let mut s = String::new();</code>
+</td>
+<td>
+新建空字符串
+</td>
+</tr>
+<tr>
+<td>
+<code>let s = String::from("initial contents");</code>
+</td>
+<td>
+新建初值字符串
+</td>
+</tr>
+<tr>
+<td>
+<code>s.push_str("bar");</code>
+</td>
+<td>
+追加字符串
+</td>
+</tr>
+<tr>
+<td>
+<code>s.push('l');</code>
+</td>
+<td>
+追加字符
+</td>
+</tr>
+<tr>
+<td>
+<code>let s3 = s1 + &amp;s2;</code>
+</td>
+<td>
+字符串连接
+</td>
+</tr>
+<tr>
+<td>
+<code>let s = format!("{}-{}-{}", s1, s2, s3);</code>
+</td>
+<td>
+复杂字符串连接
+</td>
+</tr>
+<tr>
+<td>
+<code>for c in "नमस्ते".chars() {}</code>
+</td>
+<td>
+字符串遍历
+</td>
+</tr>
+</table>
+
+<div id="Rust教程学习:基本概念-数据类型-通用集合类型-哈希(hash map)"><h4 id="哈希(hash map)">哈希(hash map)</h4></div>
+
+<table>
+<tr>
+<td>
+<code>use std::collections::HashMap;</code>
+</td>
+<td>
+必须先从标准库引入HashMap
+</td>
+</tr>
+<tr>
+<td>
+<code>let mut scores = HashMap::new();</code>
+</td>
+<td>
+新建空map,不存在初始化宏
+</td>
+</tr>
+<tr>
+<td>
+<code>scores.insert(String::from("Blue"), 10);</code>
+</td>
+<td>
+插入新项,或覆盖旧的
+</td>
+</tr>
+<tr>
+<td>
+<code>let score = scores.get(&amp;team_name);</code>
+</td>
+<td>
+获得键值
+</td>
+</tr>
+<tr>
+<td>
+<code>for (key, value) in &amp;scores {}</code>
+</td>
+<td>
+遍历map
+</td>
+</tr>
+<tr>
+<td>
+<code>scores.entry(String::from("Yellow")).or_insert(50);</code>
+</td>
+<td>
+只插入新的,不会覆盖
+</td>
+</tr>
+</table>
+
+<div id="Rust教程学习:基本概念-函数与方法"><h2 id="函数与方法">函数与方法</h2></div>
+<div id="Rust教程学习:基本概念-函数与方法-函数定义"><h3 id="函数定义">函数定义</h3></div>
+<p>
+在源文件的任何地方都可以定义函数,不需要在开头声明,函数参数和返回值必须指定类型
+不加分号的语句会产生返回值
+</p>
+
+<p>
+```class="rust"
+fn foo(x:i32) -&gt; i32{
+	x
+}
+```
+</p>
+<div id="Rust教程学习:基本概念-函数与方法-方法"><h3 id="方法">方法</h3></div>
+<div id="Rust教程学习:基本概念-函数与方法-方法-定义方法"><h4 id="定义方法">定义方法</h4></div>
+<p>
+方法是结构体的专有函数,先定义结构体再定义方法,方法的第一个参数总是<code>&amp;self</code>
+```class="rust"
+struct Rectangle {
+</p>
+<blockquote>
+width: u32,
+height: u32,
+</blockquote>
+<p>
+}
+</p>
+
+<p>
+impl Rectangle {
+</p>
+<blockquote>
+fn area(&amp;self) -&gt; u32 {
+self.width * self.height
+}
+</blockquote>
+<p>
+}
+</p>
+
+<p>
+r.area()
+```
+</p>
+<div id="Rust教程学习:基本概念-函数与方法-方法-关联函数`::`"><h4 id="关联函数`::`">关联函数<code>::</code></h4></div>
+<p>
+关联函数是<code>&amp;self</code>不作为参数的函数,静态方法
+```class="rust"
+impl Rectangle {
+</p>
+<blockquote>
+fn square(size: u32) -&gt; Rectangle {
+Rectangle { width: size, height: size }
+}
+</blockquote>
+<p>
+}
+io::stdin() //两冒号表示与类型有关的函数,关联函数,静态方法
+```
+</p>
+<div id="Rust教程学习:基本概念-函数与方法-错误处理类型`Result`"><h3 id="错误处理类型`Result`">错误处理类型<code>Result</code></h3></div>
+<p>
+标准库中很多函数的返回值都是<code>s::Result</code>类型,可取的成员有<code>Ok</code>,<code>Err</code>,方法<code>expect()</code>导致程序崩溃并输出字符串
+```class="rust"
+io::Result.expect("s")
+```
+</p>
+
+<div id="Rust教程学习:基本概念-逻辑"><h2 id="逻辑">逻辑</h2></div>
+<div id="Rust教程学习:基本概念-逻辑-`match`:分支匹配"><h3 id="`match`:分支匹配"><code>match</code>:分支匹配</h3></div>
+<p>
+对于枚举类型进行匹配,表达式的值与每个分支相匹配,必须穷尽所有可能全都列出来,用<code>_</code>表示默认匹配
+```class="rust"
+match guess.trim().parse() {
+</p>
+<blockquote>
+Ok(num) =&gt; num,
+Err(_) =&gt; continue,
+</blockquote>
+<p>
+		_ =&gt; None
+};
+}
+```
+</p>
+
+<div id="Rust教程学习:基本概念-逻辑-`if let`:单支匹配"><h3 id="`if let`:单支匹配"><code>if let</code>:单支匹配</h3></div>
+<p>
+当对枚举进行分支匹配时,只想考虑一种情况,使用这个
+```class="rust"
+</p>
+
+<p>
+let mut count = 0;
+if let Coin::Quarter(state) = coin {
+</p>
+<blockquote>
+println!("State quarter from {:?}!", state);
+</blockquote>
+<p>
+} else {
+</p>
+<blockquote>
+count += 1;
+</blockquote>
+<p>
+}
+```
+</p>
+<div id="Rust教程学习:基本概念-逻辑-`loop`:无限循环"><h3 id="`loop`:无限循环"><code>loop</code>:无限循环</h3></div>
+<p>
+```class="rust"
+loop{
+</p>
+
+<p>
+}
+```
+</p>
+<div id="Rust教程学习:基本概念-逻辑-`break`:跳出循环"><h3 id="`break`:跳出循环"><code>break</code>:跳出循环</h3></div>
+
+<div id="Rust教程学习:基本概念-逻辑-`if`:条件判断"><h3 id="`if`:条件判断"><code>if</code>:条件判断</h3></div>
+<p>
+在rust中要求必须是bool类型进行判断,不会对表达式进行类型转换
+```class="rust"
+if 1==2{
+1
+}else if 1&lt;2{
+2
+}else {
+3
+}
+```
+</p>
+<div id="Rust教程学习:基本概念-逻辑-`while`:条件为真时循环"><h3 id="`while`:条件为真时循环"><code>while</code>:条件为真时循环</h3></div>
+<p>
+```class="rust"
+while c{
+</p>
+
+<p>
+}
+```
+</p>
+<div id="Rust教程学习:基本概念-逻辑-`for`:遍历列表"><h3 id="`for`:遍历列表"><code>for</code>:遍历列表</h3></div>
+<p>
+```class="rust"
+for number in (1..4).rev() {
+</p>
+<blockquote>
+println!("{}!", number);
+}
+</blockquote>
+<p>
+```
+</p>
+
+<div id="Rust教程学习:基本概念-逻辑-错误处理"><h3 id="错误处理">错误处理</h3></div>
+<div id="Rust教程学习:基本概念-逻辑-错误处理-`panic!`:不可恢复错误(bug)"><h4 id="`panic!`:不可恢复错误(bug)"><code>panic!</code>:不可恢复错误(bug)</h4></div>
+<p>
+在项目设置文件中可以设置清理内存的方式,由系统清理内存可以减小编译后的体积
+```class="rust"
+fn main() {
+</p>
+<blockquote>
+panic!("crash and burn");
+</blockquote>
+<p>
+}
+```
+</p>
+<div id="Rust教程学习:基本概念-逻辑-错误处理-`Result`:可恢复错误"><h4 id="`Result`:可恢复错误"><code>Result</code>:可恢复错误</h4></div>
+<p>
+即理由match枚举进行错误处理
+```class="rust"
+</p>
+
+<p>
+```
+</p>
+<div id="Rust教程学习:基本概念-逻辑-错误处理-当错误时进行`panic!`"><h4 id="当错误时进行`panic!`">当错误时进行<code>panic!</code></h4></div>
+<p>
+```class="rust"
+</p>
+<blockquote>
+let f = File::open("hello.txt").unwrap();
+let f = File::open("hello.txt").expect("Failed to open hello.txt");
+</blockquote>
+<p>
+```
+</p>
+<div id="Rust教程学习:基本概念-逻辑-错误处理-传播错误:让调用者知道错误是什么"><h4 id="传播错误:让调用者知道错误是什么">传播错误:让调用者知道错误是什么</h4></div>
+<p>
+```class="rust"
+let mut f = File::open("hello.txt")?;
+```
+</p>
+<div id="Rust教程学习:基本概念-所有权(ownership)"><h2 id="所有权(ownership)">所有权(ownership)</h2></div>
+<div id="Rust教程学习:基本概念-所有权(ownership)-所有权概念"><h3 id="所有权概念">所有权概念</h3></div>
+<p>
+当变量离开作用域时,自动调用<code>drop()</code>,删除变量
+重新赋值<code>let a=b</code>时,在堆上的变量不会被拷贝,而栈上的量会新复制一个,对于指针,会进行移动,也就是复制一个指针,再把原来的删了,这样保证只有一个指针能指向内容.
+当真的想进行深拷贝时,要显式调用<code>clone()</code>
+所有权:当值赋给变量时进行移动,当离开作用域时释放掉
+</p>
+<div id="Rust教程学习:基本概念-所有权(ownership)-引用(reference)"><h3 id="引用(reference)">引用(reference)</h3></div>
+<p>
+当只需要值不需要所有权时传引用<code>&amp;a</code>,且可变引用只能有一个,不可变引用可以有很多,可变引用和不可变引用也只能同时有一个
+引用相当于先获得所有权,干一些事情,之后再把所有权还回去的过程
+</p>
+<div id="Rust教程学习:基本概念-所有权(ownership)-slice"><h3 id="slice">slice</h3></div>
+<p>
+获得字符串/数组的一部分
+```class="rust"
+&amp;str
+&amp;"ssss"[0..2]
+```
+</p>
+
+<div id="Rust教程学习:基本概念-模块"><h2 id="模块">模块</h2></div>
+<div id="Rust教程学习:基本概念-模块-定义库项目与模块"><h3 id="定义库项目与模块">定义库项目与模块</h3></div>
+<p>
+在cargo中新建的项目默认就是库项目crate,只有声明<code>--bin</code>才会创建应用项目
+```class="rust"
+//src/lib.rc
+pub mod a;
+</p>
+
+<p>
+//src/a/mod.rc
+pub fn aa(){}
+mod b{
+	mod c{}
+}
+mod e;
+</p>
+
+<p>
+//src/a/e.rc
+fn e(){}
+```
+</p>
+<div id="Rust教程学习:基本概念-模块-公有与私有"><h3 id="公有与私有">公有与私有</h3></div>
+<p>
+只有声明公有才能被外部调用,而且函数及其父模块都要是公有的才行
+</p>
+
+<div id="Rust教程学习:基本概念-模块-引入到作用域"><h3 id="引入到作用域">引入到作用域</h3></div>
+<ul>
+<li>
+使用<code>use</code>,类似python的<code>from .. import ..</code>;
+
+<li>
+可以引入所有函数<code>use a::*</code>
+
+<li>
+在模块中可以引入上一级的模块<code>use supper::a</code>
+
+</ul>
+<p>
+```class="rust"
+pub mod a {
+</p>
+<blockquote>
+pub mod series {
+use supper::series;
+pub mod of {
+pub fn nested_modules() {}
+pub fn s(){}
+}
+}
+</blockquote>
+<p>
+}
+enum b{e,c}
+use a::series::of::nested_modules;
+use e::* 
+use a::series::of::{nested_modules,s};
+</p>
+
+<p>
+fn main() {
+</p>
+<blockquote>
+nested_modules();	
+</blockquote>
+<p>
+		e;
+}
+```
+</p>
+
+<div id="Rust教程学习:基本概念-泛型"><h2 id="泛型">泛型</h2></div>
+<div id="Rust教程学习:基本概念-泛型-定义与使用泛型"><h3 id="定义与使用泛型">定义与使用泛型</h3></div>
+<table>
+<tr>
+<td>
+<code>fn largest&lt;T&gt;(list: &amp;[T]) -&gt; T {}</code>
+</td>
+<td>
+定义泛型函数
+</td>
+</tr>
+<tr>
+<td>
+<code>struct Point&lt;T&gt; {}</code>
+</td>
+<td>
+定义泛型结构体
+</td>
+</tr>
+<tr>
+<td>
+<code>enum Result&lt;T, E&gt; {}</code>
+</td>
+<td>
+定义泛型枚举
+</td>
+</tr>
+<tr>
+<td>
+<code>impl&lt;T&gt; Point&lt;T&gt; {}</code>
+</td>
+<td>
+定义泛型方法
+</td>
+</tr>
+<tr>
+<td>
+<code>impl Point&lt;f32&gt; {}</code>
+</td>
+<td>
+为某种类型专门定义方法
+</td>
+</tr>
+</table>
+
+<div id="Rust教程学习:基本概念-泛型-trait:不同类型的共同方法实现接口"><h3 id="trait:不同类型的共同方法实现接口">trait:不同类型的共同方法实现接口</h3></div>
+<div id="Rust教程学习:基本概念-泛型-trait:不同类型的共同方法实现接口-声明trait"><h4 id="声明trait">声明trait</h4></div>
+<p>
+```class="rust"
+pub trait Summarizable {
+</p>
+<blockquote>
+fn summary(&amp;self) -&gt; String;	//无默认实现的方法
+</blockquote>
+<p>
+		fn a(&amp;self) -&gt; str{...}	//有默认实现的方法
+}
+```
+</p>
+<div id="Rust教程学习:基本概念-泛型-trait:不同类型的共同方法实现接口-实现trait"><h4 id="实现trait">实现trait</h4></div>
+<p>
+```class="rust"
+impl Summarizable for NewsArticle {}//采用默认实现
+impl Summarizable for Tweet {...}//不采用默认实现
+```
+</p>
+<div id="Rust教程学习:基本概念-泛型-trait:不同类型的共同方法实现接口-应用trait"><h4 id="应用trait">应用trait</h4></div>
+<p>
+定义必须实现了某些方法的类型的泛型函数
+```class="rust"
+// 第一种指定trait的方法
+fn some_function&lt;T: Display + Clone, U: Clone + Debug&gt;(t: T, u: U) -&gt; i32 {}
+</p>
+
+<p>
+// 用where语法指定trait
+fn some_function&lt;T, U&gt;(t: T, u: U) -&gt; i32
+</p>
+<blockquote>
+where T: Display + Clone,
+U: Clone + Debug
+</blockquote>
+<p>
+{}
+</p>
+
+<p>
+```
+</p>
+
+<div id="Rust教程学习:基本概念-泛型-生命周期"><h3 id="生命周期">生命周期</h3></div>
+<p>
+生命周期主要是为了防止空指针和野指针,编译时检查引用变量的生命周期和所在区域的生命周期大小
+</p>
+<div id="Rust教程学习:基本概念-泛型-生命周期-生命周期注解"><h4 id="生命周期注解">生命周期注解</h4></div>
+<p>
+多个同时出现的生命周期注解,为了提示函数传入值的生命周期关系,当函数返回值与输入值存在生命周期关系时可用
+```class="rust"
+fn longest&lt;'a&gt;(x: &amp;'a str, y: &amp;str) -&gt; &amp;'a str {
+</p>
+<blockquote>
+x
+</blockquote>
+<p>
+}
+```
+</p>
+<div id="Rust教程学习:基本概念-泛型-生命周期-方法生命周期"><h4 id="方法生命周期">方法生命周期</h4></div>
+<p>
+```class="rust"
+</p>
+
+<p>
+impl&lt;'a&gt; ImportantExcerpt&lt;'a&gt; {}
+```
+</p>
+<div id="Rust教程学习:基本概念-泛型-生命周期-静态生命周期"><h4 id="静态生命周期">静态生命周期</h4></div>
+<p>
+```class="rust"
+</p>
+
+<p>
+let s: &amp;'static str = "I have a static lifetime.";
+```
+</p>
+
+<div id="进阶知识"><h1 id="进阶知识">进阶知识</h1></div>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-02-04
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>
