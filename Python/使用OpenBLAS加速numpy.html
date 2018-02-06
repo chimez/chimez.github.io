@@ -10,7 +10,7 @@
 
 		<!-- Template -->
 		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
-		<title>Cargo使用</title>
+		<title>使用OpenBLAS加速numpy</title>
 	</head>
 
 	<body>
@@ -42,20 +42,14 @@
 <div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
 <ul>
 <li>
-<a href="Cargo使用.html#Cargo">Cargo</a>
+<a href="使用OpenBLAS加速numpy.html#使用OpenBLAS加速numpy">使用OpenBLAS加速numpy</a>
 
 <ul>
 <li>
-<a href="Cargo使用.html#Cargo-基本命令">基本命令</a>
+<a href="使用OpenBLAS加速numpy.html#使用OpenBLAS加速numpy-编译安装OpenBLAS">编译安装OpenBLAS</a>
 
 <li>
-<a href="Cargo使用.html#Cargo-配置文件">配置文件</a>
-
-<li>
-<a href="Cargo使用.html#Cargo-项目注释和文档自动生成">项目注释和文档自动生成</a>
-
-<li>
-<a href="Cargo使用.html#Cargo-发布">发布</a>
+<a href="使用OpenBLAS加速numpy.html#使用OpenBLAS加速numpy-编译安装numpy">编译安装numpy</a>
 
 </ul>
 </ul>
@@ -64,193 +58,47 @@
 </div>
 <div class="col-md-9 article-main">
 </p>
-
-<div id="Cargo"><h1 id="Cargo">Cargo</h1></div>
-<div id="Cargo-基本命令"><h2 id="基本命令">基本命令</h2></div>
-<table>
-<tr>
-<td>
-命令
-</td>
-<td>
-作用
-</td>
-</tr>
-<tr>
-<td>
-<code>cargo new hello --bin</code>
-</td>
-<td>
-创建新项目同时创建了<code>cargo.toml</code>和<code>git</code>仓库
-</td>
-</tr>
-<tr>
-<td>
-<code>cargo build</code>
-</td>
-<td>
-编译项目
-</td>
-</tr>
-<tr>
-<td>
-<code>cargo run</code>
-</td>
-<td>
-编译并运行项目
-</td>
-</tr>
-<tr>
-<td>
-<code>cargo build --release</code>
-</td>
-<td>
-优化编译
-</td>
-</tr>
-<tr>
-<td>
-<code>cargo test</code>
-</td>
-<td>
-运行测试
-</td>
-</tr>
-<tr>
-<td>
-<code>cargo doc --open</code>
-</td>
-<td>
-自动生成文档网页
-</td>
-</tr>
-<tr>
-<td>
-<code>cargo install</code>
-</td>
-<td>
-安装包或者扩展
-</td>
-</tr>
-</table>
-
-<div id="Cargo-配置文件"><h2 id="配置文件">配置文件</h2></div>
-
-<table>
-<tr>
-<td>
-name
-</td>
-<td>
-项目名
-</td>
-</tr>
-<tr>
-<td>
-version
-</td>
-<td>
-版本号
-</td>
-</tr>
-<tr>
-<td>
-authors
-</td>
-<td>
-作者信息
-</td>
-</tr>
-<tr>
-<td>
-dependencies
-</td>
-<td>
-依赖库,版本号表示&gt;=指定小版本
-</td>
-</tr>
-<tr>
-<td>
-opt-level
-</td>
-<td>
-优化级别,不优化为0,最大优化为3
-</td>
-</tr>
-<tr>
-<td>
-workspace
-</td>
-<td>
-工作空间
-</td>
-</tr>
-<tr>
-<td>
-member
-</td>
-<td>
-子项目
-</td>
-</tr>
-</table>
-
+<div id="使用OpenBLAS加速numpy"><h1 id="使用OpenBLAS加速numpy">使用OpenBLAS加速numpy</h1></div>
+<div id="使用OpenBLAS加速numpy-编译安装OpenBLAS"><h2 id="编译安装OpenBLAS">编译安装OpenBLAS</h2></div>
 <p>
-配置文件<code>Cargo.toml</code>写法:
+<a href="https:&#47;&#47;github.com&#47;xianyi&#47;OpenBLAS">https://github.com/xianyi/OpenBLAS</a>
 </p>
 <pre>
-[package]
-name = "gb"
-version = "0.1.0"
-authors = ["chimez &lt;chimez@163.com&gt;"]
-
-[dependencies]
-rand = "0.3.14"
-adder = { path = "../add-one" }	//子项目依赖
-
-[profile.dev]
-opt-level = 0
-
-[profile.release]
-opt-level = 3
-
-[workspace]
-members = [
-    "adder",
-]
+	make FC=gfortran
+	make PREFIX=/opt/OpenBLAS install
 </pre>
 <p>
-目录结构
+添加环境路径
 </p>
 <pre>
-├── Cargo.lock
-├── Cargo.toml
-├── adder
-│   ├── Cargo.toml
-│   └── src
-│       └── main.rs
-└── target
-
+export LD_LIBRARY_PATH=/opt/OpenBLAS/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/opt/OpenBLAS/include:$C_INCLUDE_PATH 
+export CPLUS_INCLUDE_PATH=/opt/OpenBLAS/include:$CPLUS_INCLUDE_PATH 
 </pre>
-
-<div id="Cargo-项目注释和文档自动生成"><h2 id="项目注释和文档自动生成">项目注释和文档自动生成</h2></div>
-<pre>
-//! 整个文件的注释,markdown
-/// 下面的函数的注释,markdown
-// 普通的代码注释,不会被生成网页
-</pre>
-	
+<div id="使用OpenBLAS加速numpy-编译安装numpy"><h2 id="编译安装numpy">编译安装numpy</h2></div>
 <p>
-工作空间
-在一个项目里可以创建多个子项目
+修改设置文件
 </p>
+<pre>
+cp site.cfg.example site.cfg
 
-<div id="Cargo-发布"><h2 id="发布">发布</h2></div>
+[openblas]
+libraries = openblas
+library_dirs = /opt/OpenBLAS/lib
+include_dirs = /opt/OpenBLAS/include
+...
+</pre>
+<p>
+编译安装
+</p>
+<pre>
+python3 setup.py install --user
+</pre>
 
 		</div>
 		<nav class="navbar">
 			<span class="navbar-text">
-				Page created on 2018-02-05
+				Page created on 2018-02-04
 			</span>
 		</nav>
 

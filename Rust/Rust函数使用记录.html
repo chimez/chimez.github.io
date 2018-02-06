@@ -44,6 +44,14 @@
 <li>
 <a href="Rust函数使用记录.html#Rust函数记录">Rust函数记录</a>
 
+<ul>
+<li>
+<a href="Rust函数使用记录.html#Rust函数记录-常用函数">常用函数</a>
+
+<li>
+<a href="Rust函数使用记录.html#Rust函数记录-常用宏">常用宏</a>
+
+</ul>
 <li>
 <a href="Rust函数使用记录.html#原始类型">原始类型</a>
 
@@ -67,6 +75,9 @@
 [[#标准库#<code>std::cmp</code>:比较#<code>std::cmp::Ordering</code>:比较大小|<code>std::cmp::Ordering</code>:比较大小]]
 
 </ul>
+<li>
+[[#标准库#<code>std::env</code>:命令行参数|<code>std::env</code>:命令行参数]]
+
 </ul>
 <li>
 <a href="Rust函数使用记录.html#外部库">外部库</a>
@@ -83,6 +94,7 @@
 <div class="col-md-9 article-main">
 </p>
 <div id="Rust函数记录"><h1 id="Rust函数记录">Rust函数记录</h1></div>
+<div id="Rust函数记录-常用函数"><h2 id="常用函数">常用函数</h2></div>
 <p>
 <code>fn</code>:定义函数
 </p>
@@ -108,6 +120,59 @@ io::stdin()
 <p>
 <code>extern crate rand;</code>引入外部库
 </p>
+
+<div id="Rust函数记录-常用宏"><h2 id="常用宏">常用宏</h2></div>
+<table>
+<tr>
+<td>
+<code>panic!("str")</code>
+</td>
+<td>
+导致崩溃并输出信息
+</td>
+</tr>
+<tr>
+<td>
+<code>vec![1,2,3]</code>
+</td>
+<td>
+字面量创建<code>vec&lt;T&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>assert!(a)</code>
+</td>
+<td>
+判断布尔值
+</td>
+</tr>
+<tr>
+<td>
+<code>assert_eq!(a,b)</code>
+</td>
+<td>
+判断二值相等
+</td>
+</tr>
+<tr>
+<td>
+<code>try!(fn)</code>
+</td>
+<td>
+执行函数返回<code>Result&lt;T,E&gt;</code>的<code>T</code>或<code>E</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>unreachable!()</code>
+</td>
+<td>
+执行到这里就崩溃,放在不该被执行到的地方
+</td>
+</tr>
+</table>
+
 <div id="原始类型"><h1 id="原始类型">原始类型</h1></div>
 <div id="原始类型-`String`"><h2 id="`String`"><code>String</code></h2></div>
 <table>
@@ -136,6 +201,8 @@ io::stdin()
 </td>
 </tr>
 </table>
+
+
 <div id="标准库"><h1 id="标准库">标准库</h1></div>
 <div id="标准库-`std::io`:标准输入输出"><h2 id="`std::io`:标准输入输出"><code>std::io</code>:标准输入输出</h2></div>
 <pre class="rust">
@@ -152,6 +219,8 @@ match "s".cmp(&amp;s){
 	Ordering::Equl =&gt; println!("e")
 }
 </pre>
+<div id="标准库-`std::env`:命令行参数"><h2 id="`std::env`:命令行参数"><code>std::env</code>:命令行参数</h2></div>
+
 <div id="外部库"><h1 id="外部库">外部库</h1></div>
 <div id="外部库-`rand`:随机数生成"><h2 id="`rand`:随机数生成"><code>rand</code>:随机数生成</h2></div>
 <p>
@@ -166,7 +235,7 @@ rand::thread_rng().gen_range(1,101) //调用随机数生成器的整数生成方
 		</div>
 		<nav class="navbar">
 			<span class="navbar-text">
-				Page created on 2018-02-04
+				Page created on 2018-02-06
 			</span>
 		</nav>
 
