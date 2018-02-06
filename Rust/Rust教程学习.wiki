@@ -64,6 +64,41 @@
         - [[#Rust教程学习:基本概念#泛型#生命周期#方法生命周期|方法生命周期]]
         - [[#Rust教程学习:基本概念#泛型#生命周期#静态生命周期|静态生命周期]]
   - [[#进阶知识|进阶知识]]
+    - [[#进阶知识#测试|测试]]
+    - [[#进阶知识#函数式|函数式]]
+      - [[#进阶知识#函数式#闭包:匿名函数|闭包:匿名函数]]
+        - [[#进阶知识#函数式#闭包:匿名函数#基本语法|基本语法]]
+        - [[#进阶知识#函数式#闭包:匿名函数#闭包的泛型trait|闭包的泛型trait]]
+        - [[#进阶知识#函数式#闭包:匿名函数#move:闭包获得所有权|move:闭包获得所有权]]
+    - [[#进阶知识#迭代器|迭代器]]
+      - [[#进阶知识#迭代器#使用迭代器|使用迭代器]]
+      - [[#进阶知识#迭代器#自定义迭代器|自定义迭代器]]
+    - [[#进阶知识#智能指针|智能指针]]
+      - [[#进阶知识#智能指针#Box<T>:堆上存储数据|Box<T>:堆上存储数据]]
+      - [[#进阶知识#智能指针#自定义智能指针|自定义智能指针]]
+      - [[#进阶知识#智能指针#Rc<T>:单线程引用计数指针|Rc<T>:单线程引用计数指针]]
+      - [[#进阶知识#智能指针#RefCell<T>:内部可变模式|RefCell<T>:内部可变模式]]
+      - [[#进阶知识#智能指针#Weak<T>:弱引用计数指针|Weak<T>:弱引用计数指针]]
+    - [[#进阶知识#并发与并行|并发与并行]]
+      - [[#进阶知识#并发与并行#线程|线程]]
+      - [[#进阶知识#并发与并行#线程通信|线程通信]]
+      - [[#进阶知识#并发与并行#共享状态|共享状态]]
+      - [[#进阶知识#并发与并行#Rust语言内的并发trait|Rust语言内的并发trait]]
+    - [[#进阶知识#面向对象|面向对象]]
+    - [[#进阶知识#模式:用于值的匹配|模式:用于值的匹配]]
+      - [[#进阶知识#模式:用于值的匹配#使用模式的位置|使用模式的位置]]
+      - [[#进阶知识#模式:用于值的匹配#匹配语法|匹配语法]]
+    - [[#进阶知识#宏|宏]]
+      - [[#进阶知识#宏#语法|语法]]
+      - [[#进阶知识#宏#指示符|指示符]]
+  - [[#高级知识|高级知识]]
+    - [[#高级知识#不安全的Rust|不安全的Rust]]
+    - [[#高级知识#高级生命周期|高级生命周期]]
+    - [[#高级知识#高级trait|高级trait]]
+    - [[#高级知识#高级类型|高级类型]]
+    - [[#高级知识#高级函数|高级函数]]
+      - [[#高级知识#高级函数#fn(T):函数指针|fn(T):函数指针]]
+      - [[#高级知识#高级函数#返回闭包|返回闭包]]
 
 </div>
 <div class="col-md-9 article-main">
@@ -468,3 +503,347 @@ let s: &'static str = "I have a static lifetime.";
 }}}
 
 = 进阶知识 =
+== 测试 ==
+测试函数:
+{{{class="rust"
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        assert_eq!(2 + 2, 4);
+    }
+}
+}}}
+使用测试函数注解`#[test]`声明一个测试,这些注解目前只是由编译器自己规定的,不能自定义
+| `cargo test`      | 运行测试                        |
+| `assert_eq!(a,b)` | 测试a==b                        |
+| `assert!(a)`      | 测试a==true                     |
+| `assert_ne!(a,b)` | 测试`a!=b`                      |
+| `#[should_panic]` | 测试是否成功产生了panic错误处理 |
+| `#[ignore]`       | 忽略这个测试                    |
+
+== 函数式 ==
+=== 闭包:匿名函数 ===
+==== 基本语法 ====
+把括号变成竖线即可,注意类型自动推断导致第一次调用时的类型就是全部的类型,单行可以不写大括号
+{{{class="rust"
+let expensive_closure = |num| {
+    println!("calculating slowly...");
+    thread::sleep(Duration::from_secs(2));
+    num
+};
+let f = |x:i32|->i32 {x};
+f(2)
+}}}
+==== 闭包的泛型trait ====
+闭包泛型为`Fn`,`FnMut`,`FnOnce`中的一个
+利用结构体保存计算结果,结构体方法作匿名函数,实现惰性求值
+先定义泛型结构体,再写泛型结构体的静态方法,把匿名函数(闭包)作为方法的参数
+{{{class="rust"
+struct Cacher<T>
+    where T: Fn(u32) -> u32
+{
+    calculation: T,
+    value: Option<u32>,
+}
+
+impl<T> Cacher<T>
+    where T: Fn(u32) -> u32
+{
+    fn new(calculation: T) -> Cacher<T> {
+        Cacher {
+            calculation,
+            value: None,
+        }
+    }
+
+    fn value(&mut self, arg: u32) -> u32 {
+        match self.value {
+            Some(v) => v,
+            None => {
+                let v = (self.calculation)(arg);
+                self.value = Some(v);
+                v
+            },
+        }
+    }
+}
+let mut expensive_result = Cacher::new(|num| {
+		println!("calculating slowly...");
+		thread::sleep(Duration::from_secs(2));
+		num
+});
+}}}
+
+==== move:闭包获得所有权 ====
+使用`move`关键字,让闭包强制获得所有权,用来实现迭代器
+{{{class="rust"
+    let equal_to_x = move |z| z == x;
+}}}
+
+== 迭代器 ==
+=== 使用迭代器 ===
+迭代器是零成本抽象之一,因而其速度很快
+
+迭代器是惰性求值的,当调用创建函数创建迭代器时,并没有进行运算,只有当对迭代器调用消费函数时才会运行求值
+| `.iter()`           | 创建迭代器,每项是不可变引用                                    |
+| `.into_iter()`      | 创建迭代器,每项有所有权                                        |
+| `.iter_mut()`       | 创建迭代器,可变引用                                            |
+| `.next()`           | 返回迭代器中的一个项,结束时返回`None`                          |
+| `.sum()`            | 获取所有项的总和                                               |
+| `.map(Fn)`          | 迭代器适配器,对每个项运行函数,把结果形成新的迭代器             |
+| `.collect()`        | 将迭代器的内容收集到数据结构中                                 |
+| `.filter(Fn->bool)` | 迭代器适配器,对每项运行函数,返回`true`的项将进入到结果迭代器中 |
+
+=== 自定义迭代器 ===
+只需要对结构体定义`Iterator`trait的方法`next`即可,由于标准迭代器方法都用了`.next()`方法,所以可以使用所有的迭代器方法
+{{{class="rust"
+struct Counter {
+    count: u32,
+}
+
+impl Counter {
+    fn new() -> Counter {
+        Counter { count: 0 }
+    }
+}
+impl Iterator for Counter {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.count += 1;
+
+        if self.count < 6 {
+            Some(self.count)
+        } else {
+            None
+        }
+    }
+}
+}}}
+
+== 智能指针 ==
+=== Box<T>:堆上存储数据 ===
+由于Rust编译要求知道栈上空间大小,所以对于未知大小的数据可用,此时栈上的是指向堆上数据的指针
+{{{class="rust"
+Box::new(1)
+}}}
+
+=== 自定义智能指针 ===
+# 定义结构体
+# 定义`new()`构造方法
+# 定义`deref()`解引用方法
+# 定义`drop()`析构方法
+		当希望手动提前释放内存时可用`std::mem::drop`
+{{{class="rust"
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+}
+use std::ops::Deref;
+
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+
+    fn deref(&self) -> &T {
+        &self.0
+    }
+}
+impl Drop for CustomSmartPointer {
+    fn drop(&mut self) {
+        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+    }
+}
+
+}}}
+=== Rc<T>:单线程引用计数指针 ===
+通过不可变的引用计数指针来在多个部分间共享内存数据
+`new()`新建指针,`clone()`增加计数,在作用域离开时自动删除计数
+{{{class="rust"
+    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+    let b = Cons(3, Rc::clone(&a));
+}}}
+=== RefCell<T>:内部可变模式 ===
+只有内部方法可以改变值,对于外部函数仍是不可变的,组合`Rc<T>`和`RefCell<T>`可以得到多个所有者的可变数据结构
+{{{class="rust"
+	    use std::cell::RefCell;
+
+    struct MockMessenger {
+        sent_messages: RefCell<Vec<String>>,
+    }
+
+    impl MockMessenger {
+        fn new() -> MockMessenger {
+            MockMessenger { sent_messages: RefCell::new(vec![]) }
+        }
+    }
+
+    impl Messenger for MockMessenger {
+        fn send(&self, message: &str) {
+            self.sent_messages.borrow_mut().push(String::from(message));
+        }
+    }
+
+}}}
+=== Weak<T>:弱引用计数指针 ===
+强引用计数有可能造成引用循环导致计数不为0的内存泄露,组合使用弱计数和强计数来避免引用循环
+{{{class="rust"
+struct Node {
+    value: i32,
+    parent: RefCell<Weak<Node>>,
+    children: RefCell<Vec<Rc<Node>>>,
+}
+}}}
+
+== 并发与并行 ==
+=== 线程 ===
+| `std::thread`                   | 标准库线程                                |
+| `thread::spawn(Fn)`             | 创建线程,传递一个闭包作为线程执行函数     |
+| `thread::sleep(time::Duration)` | 线程睡眠,参数为标准库time                 |
+| `thread.join().unwrap()`        | 在主线程中,将主线程阻塞直到所有子线程完成 |
+
+		在传递线程闭包时使用`move`关键字,能够将所有权给子线程,保证主线程不会再次释放同一个变量
+{{{class="rust"
+use std::thread;
+
+fn main() {
+    let v = vec![1, 2, 3];
+
+    let handle = thread::spawn(move || {
+        println!("Here's a vector: {:?}", v);
+    });
+
+    handle.join().unwrap();
+}
+}}}
+
+=== 线程通信 ===
+| `std::sync::mpse`              | 多个生产者,一个消费者,多发送一接收 |
+| `let (tx,rx)=mpsc::channel()`  | 新建通信通道                       |
+| `tx`                           | 发送者                             |
+| `rx`                           | 接收者                             |
+| `tx.send(val).unwrap()`        | 发送,发送后线程内失去所有权        |
+| `rx.recv().unwrap()`           | 接收,阻塞直到收到内容              |
+| `rx.try_recv().unwrap()`       | 立即接收,返回`Result`              |
+| `tx1=mpsc::Sender::clone(&tx)` | 通过克隆来得到多个发送者           |
+
+{{{class="rust"
+
+
+use std::thread;
+use std::sync::mpsc;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let val = String::from("hi");
+        tx.send(val).unwrap();
+    });
+
+    let received = rx.recv().unwrap();
+    println!("Got: {}", received);
+}
+
+}}}
+
+
+=== 共享状态 ===
+多个线程共享内存都拥有所有权,在访问数据时线程先获取锁操作之后再解锁
+| `std::sync::Mutex` | 标准库的互斥器           |
+| `Mutex::new(T)`    | 新建一个互斥器           |
+| `m.lock()`         | 获取锁                   |
+| `std::sync::Arc`   | 原子引用计数,类似`Rc<T>` |
+| `Arc::clone()`     | 得到新的互斥器指针       |
+
+=== Rust语言内的并发trait ===
+`Send`:表明类型的所有权可以在线程间进行传递
+`Sync`:表明可以安全的在多线程中获得值的引用
+
+== 面向对象 ==
+结构体类型->类
+结构体方法->类方法
+trait接口的类型继承->继承和多态
+就是函数式里实现面向对象的技术,和Clojure差不多
+
+== 模式:用于值的匹配 ==
+=== 使用模式的位置 ===
+* `match`
+* `if let`
+* `while let`
+* `for`
+* `let`
+* 函数参数
+注意所谓的refutable,也就是`let`与`if let`的区别,一个能处理匹配失效,一个不能
+=== 匹配语法 ===
+{{{class="rust"
+	match x {
+	1 => println!("s")	//直接匹配单个值
+	2 | 3 => println!("s") //竖线是或
+	4 ... 10 => println!("s") //三个点用来匹配范围
+	'a' ... 'j' => println("s") //字符也可以匹配范围
+	_ => println!("s")	//匹配其他值
+	Some(_) => println!("s")//下划线可以忽略部分值
+	Some(ref a) => println!("s")//使用ref匹配引用,防止获得所有权
+	Some(n) if n==2 => println!("s") //使用if进行有条件的匹配
+	id @ 3 .. 7 => println!(id)//使用@绑定匹配值,在匹配后还能用这个值
+	}
+	
+let {x,y} = {x:1, y:2}	//第一种匹配方式
+x==1;y==2;
+let {x:a, y:b} = {x:1, y:2}//指定名字的匹配方式
+a==1;b==2;
+let {x:_, y:b} = {x:1, y:2}//下划线忽略值
+b==2;
+let {x:a, ..} = {x:1, y:2}//两点忽略剩余值
+a==1;
+
+}}}
+
+== 宏 ==
+=== 语法 ===
+| `macro_rules! m { (....)=>{....}; }` | 定义宏,匹配箭头后面可以是`(),{},[]`,每个分支都以分号结束             |
+| `$(e1,e2,..)`                        | 匹配任何表达式模板都可以                                             |
+| `$x:expr`                            | 匹配任意表达式并绑定在`x`上,指定匹配的内容                           |
+| `$x`                                 | 在宏里引用绑定的表达式                                               |
+| `$(),+`                              | 表示上一个匹配部分重复出现一次或多次,且这些部分以逗号隔开            |
+| `$(),*`                              | 表示上一个匹配部分重复出现零次或多次,且这些部分以逗号隔开            |
+| `$()*`                               | 表示这个表达式重复零次或多次,且这些表达式直接相邻,表达式里可以有换行 |
+|                                      |                                                                      |
+
+=== 指示符 ===
+| ident | 一个标识符。                               | x，foo                                      |
+| path  | 一个受限的名字。                           | T::SpecialA                                 |
+| expr  | 一个表达式。                               | 2 + 2；if true then { 1 } else { 2 }；f(42) |
+| ty    | 一个类型。                                 | i32；Vec<(char, String)>；&T                |
+| pat   | 一个模式。                                 | Some(t)；(17, 'a')；_                       |
+| stmt  | 一个单独语句。                             | let x = 3                                   |
+| block | 一个大括号界定的语句序列，或者一个表达式。 | { log(error, "hi"); return 12; }            |
+| item  | 一个项。                                   | fn foo() { }，struct Bar                    |
+| meta  | 一个“元数据项”，可以在属性中找到。         | cfg(target_os = "windows")                  |
+| tt    | 一个单独的记号树                           |                                             |
+
+= 高级知识 =
+== 不安全的Rust ==
+== 高级生命周期 ==
+== 高级trait ==
+== 高级类型 ==
+== 高级函数 ==
+=== fn(T):函数指针 ===
+函数的参数是函数:
+{{{class="rust"
+fn do_twice(f: fn(i32) -> i32, arg: i32) -> i32 {
+    f(arg) + f(arg)
+}
+
+}}}
+=== 返回闭包 ===
+函数的返回值还是函数,必须用`Box<T>`把它放在堆上
+{{{class="rust"
+fn returns_closure() -> Box<Fn(i32) -> i32> {
+    Box::new(|x| x + 1)
+}
+}}}

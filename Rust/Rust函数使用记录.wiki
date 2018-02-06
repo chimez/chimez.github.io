@@ -1,12 +1,15 @@
 <div class="col-md-3 article-toc d-none d-md-block">
 = Contents =
   - [[#Rust函数记录|Rust函数记录]]
+    - [[#Rust函数记录#常用函数|常用函数]]
+    - [[#Rust函数记录#常用宏|常用宏]]
   - [[#原始类型|原始类型]]
     - [[#原始类型#`String`|`String`]]
   - [[#标准库|标准库]]
     - [[#标准库#`std::io`:标准输入输出|`std::io`:标准输入输出]]
     - [[#标准库#`std::cmp`:比较|`std::cmp`:比较]]
       - [[#标准库#`std::cmp`:比较#`std::cmp::Ordering`:比较大小|`std::cmp::Ordering`:比较大小]]
+    - [[#标准库#`std::env`:命令行参数|`std::env`:命令行参数]]
   - [[#外部库|外部库]]
     - [[#外部库#`rand`:随机数生成|`rand`:随机数生成]]
 
@@ -14,6 +17,7 @@
 <div class="col-md-9 article-main">
 %template article_template
 = Rust函数记录 =
+== 常用函数 ==
 `fn`:定义函数
 {{{rust
 fn main (){
@@ -31,11 +35,22 @@ use std::io
 io::stdin()
 }}}
 `extern crate rand;`引入外部库
+
+== 常用宏 ==
+| `panic!("str")`   | 导致崩溃并输出信息                      |
+| `vec![1,2,3]`     | 字面量创建`vec<T>`                      |
+| `assert!(a)`      | 判断布尔值                              |
+| `assert_eq!(a,b)` | 判断二值相等                            |
+| `try!(fn)`        | 执行函数返回`Result<T,E>`的`T`或`E`     |
+| `unreachable!()`  | 执行到这里就崩溃,放在不该被执行到的地方 |
+
 = 原始类型 =
 == `String` ==
 | `String::new()` | 新建实例                            |
 | `"s".trim()`    | 去除开头结尾的空白                  |
 | `"s".parse()`   | 转换成数字类型,返回`String::Result` |
+
+
 = 标准库 =
 == `std::io`:标准输入输出 ==
 {{{class="rust"
@@ -52,6 +67,8 @@ match "s".cmp(&s){
 	Ordering::Equl => println!("e")
 }
 }}}
+== `std::env`:命令行参数 ==
+
 = 外部库 =
 == `rand`:随机数生成 ==
 `rand = "0.3.14"`
