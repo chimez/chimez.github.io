@@ -10,7 +10,7 @@
 
 		<!-- Template -->
 		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
-		<title>index</title>
+		<title>使用OpenBLAS加速numpy</title>
 	</head>
 
 	<body>
@@ -34,36 +34,73 @@
 				</div>
 			</nav>
 
-			<div class="row align-items-center">
-				<div class="col">
-					
-<div id="Linux笔记目录"><h1 id="Linux笔记目录">Linux笔记目录</h1></div>
-<div id="Linux笔记目录-vim"><h2 id="vim">vim</h2></div>
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
 <ul>
 <li>
-<a href="vimwiki.html">vimwiki:vim的org-mode</a>
+<a href="使用OpenBLAS加速numpy.html#使用OpenBLAS加速numpy">使用OpenBLAS加速numpy</a>
+
+<ul>
+<li>
+<a href="使用OpenBLAS加速numpy.html#使用OpenBLAS加速numpy-编译安装OpenBLAS">编译安装OpenBLAS</a>
 
 <li>
-<a href="ffmpeg.html">ffmpeg</a>
-
-<li>
-<a href="Linux零散设置.html">Linux零散设置</a>
-
-<li>
-<a href="vim.html">vim</a>
-
-<li>
-<a href="perl6.html">perl6</a>
+<a href="使用OpenBLAS加速numpy.html#使用OpenBLAS加速numpy-编译安装numpy">编译安装numpy</a>
 
 </ul>
+</ul>
 
-				</div>
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+<div id="使用OpenBLAS加速numpy"><h1 id="使用OpenBLAS加速numpy">使用OpenBLAS加速numpy</h1></div>
+<div id="使用OpenBLAS加速numpy-编译安装OpenBLAS"><h2 id="编译安装OpenBLAS">编译安装OpenBLAS</h2></div>
+<p>
+<a href="https:&#47;&#47;github.com&#47;xianyi&#47;OpenBLAS">https://github.com/xianyi/OpenBLAS</a>
+</p>
+<pre>
+	make FC=gfortran
+	make PREFIX=/opt/OpenBLAS install
+</pre>
+<p>
+添加环境路径
+</p>
+<pre>
+export LD_LIBRARY_PATH=/opt/OpenBLAS/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/opt/OpenBLAS/include:$C_INCLUDE_PATH 
+export CPLUS_INCLUDE_PATH=/opt/OpenBLAS/include:$CPLUS_INCLUDE_PATH 
+</pre>
+<div id="使用OpenBLAS加速numpy-编译安装numpy"><h2 id="编译安装numpy">编译安装numpy</h2></div>
+<p>
+修改设置文件
+</p>
+<pre>
+cp site.cfg.example site.cfg
+
+[openblas]
+libraries = openblas
+library_dirs = /opt/OpenBLAS/lib
+include_dirs = /opt/OpenBLAS/include
+...
+</pre>
+<p>
+编译安装
+</p>
+<pre>
+python3 setup.py install --user
+</pre>
+
 		</div>
-		<!-- <nav class="navbar"> -->
-			<!-- <span class="navbar-text"> -->
-				<!-- Page created on 2018-02-11 -->
-			<!-- </span> -->
-		<!-- </nav> -->
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-02-04
+			</span>
+		</nav>
 
 	</div>
 
@@ -80,13 +117,13 @@
 			$('pre').each(function(i, block) {
 				hljs.highlightBlock(block);
 			});
+			$('.article-toc ul li ul li ul li ul').hide();
 		});
 	</script>
 	<!-- MathJax -->
 	<script type="text/javascript" async
 		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
 	</script>
-
 	<script type="text/javascript" src="../js/search.js"></script>
 </body>
 </html>

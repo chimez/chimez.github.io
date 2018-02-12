@@ -10,7 +10,7 @@
 
 		<!-- Template -->
 		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
-		<title>index</title>
+		<title>python多进程编程</title>
 	</head>
 
 	<body>
@@ -34,36 +34,54 @@
 				</div>
 			</nav>
 
-			<div class="row align-items-center">
-				<div class="col">
-					
-<div id="Linux笔记目录"><h1 id="Linux笔记目录">Linux笔记目录</h1></div>
-<div id="Linux笔记目录-vim"><h2 id="vim">vim</h2></div>
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
 <ul>
 <li>
-<a href="vimwiki.html">vimwiki:vim的org-mode</a>
+<a href="python多进程编程.html#Python多进程编程">Python多进程编程</a>
 
+<ul>
 <li>
-<a href="ffmpeg.html">ffmpeg</a>
+<a href="python多进程编程.html#Python多进程编程-multiprocessing">multiprocessing</a>
 
+<ul>
 <li>
-<a href="Linux零散设置.html">Linux零散设置</a>
-
-<li>
-<a href="vim.html">vim</a>
-
-<li>
-<a href="perl6.html">perl6</a>
+<a href="python多进程编程.html#Python多进程编程-multiprocessing-基本使用">基本使用</a>
 
 </ul>
+</ul>
+</ul>
 
-				</div>
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+<div id="Python多进程编程"><h1 id="Python多进程编程">Python多进程编程</h1></div>
+<div id="Python多进程编程-multiprocessing"><h2 id="multiprocessing">multiprocessing</h2></div>
+<div id="Python多进程编程-multiprocessing-基本使用"><h3 id="基本使用">基本使用</h3></div>
+<pre python>
+import multiprocessing as mul 
+pool =mul.Pool(processes=3) # 创建进程池
+def fun(p):                 # 每个子进程要执行的函数
+	return p
+par = [p1,p2,p3]             # 参数表,每个子进程传入一个参数
+results = []                 # 保存结果list
+results = pool.map(fun, par) # 快速并行计算,fun为函数,par为传入参数表
+pool.close()                 # 结束进程池
+pool.join()                  # 在Linux中要将子进程合并进主进程,避免僵尸进程
+
+</pre>
+
 		</div>
-		<!-- <nav class="navbar"> -->
-			<!-- <span class="navbar-text"> -->
-				<!-- Page created on 2018-02-11 -->
-			<!-- </span> -->
-		<!-- </nav> -->
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-01-31
+			</span>
+		</nav>
 
 	</div>
 
@@ -80,13 +98,13 @@
 			$('pre').each(function(i, block) {
 				hljs.highlightBlock(block);
 			});
+			$('.article-toc ul li ul li ul li ul').hide();
 		});
 	</script>
 	<!-- MathJax -->
 	<script type="text/javascript" async
 		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
 	</script>
-
 	<script type="text/javascript" src="../js/search.js"></script>
 </body>
 </html>

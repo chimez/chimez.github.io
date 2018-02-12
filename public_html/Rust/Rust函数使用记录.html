@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>Rust函数使用记录</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="Rust函数使用记录.html#Rust函数记录">Rust函数记录</a>
+
+<ul>
+<li>
+<a href="Rust函数使用记录.html#Rust函数记录-常用函数">常用函数</a>
+
+<li>
+<a href="Rust函数使用记录.html#Rust函数记录-常用宏">常用宏</a>
+
+</ul>
+<li>
+<a href="Rust函数使用记录.html#原始类型">原始类型</a>
+
+<ul>
+<li>
+[[#原始类型#<code>String</code>|<code>String</code>]]
+
+</ul>
+<li>
+<a href="Rust函数使用记录.html#标准库">标准库</a>
+
+<ul>
+<li>
+[[#标准库#<code>std::io</code>:标准输入输出|<code>std::io</code>:标准输入输出]]
+
+<li>
+[[#标准库#<code>std::cmp</code>:比较|<code>std::cmp</code>:比较]]
+
+<ul>
+<li>
+[[#标准库#<code>std::cmp</code>:比较#<code>std::cmp::Ordering</code>:比较大小|<code>std::cmp::Ordering</code>:比较大小]]
+
+</ul>
+<li>
+[[#标准库#<code>std::env</code>:命令行参数|<code>std::env</code>:命令行参数]]
+
+</ul>
+<li>
+<a href="Rust函数使用记录.html#外部库">外部库</a>
+
+<ul>
+<li>
+[[#外部库#<code>rand</code>:随机数生成|<code>rand</code>:随机数生成]]
+
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+<div id="Rust函数记录"><h1 id="Rust函数记录">Rust函数记录</h1></div>
+<div id="Rust函数记录-常用函数"><h2 id="常用函数">常用函数</h2></div>
+<p>
+<code>fn</code>:定义函数
+</p>
+<pre rust>
+fn main (){
+
+}
+</pre>
+<p>
+<code>println!</code>:打印输出
+</p>
+<pre rust>
+println!("str")
+</pre>
+<p>
+<code>use</code>:引入类型
+</p>
+<pre class="rust">
+use std::io
+...
+io::stdin()
+</pre>
+<p>
+<code>extern crate rand;</code>引入外部库
+</p>
+
+<div id="Rust函数记录-常用宏"><h2 id="常用宏">常用宏</h2></div>
+<table>
+<tr>
+<td>
+<code>panic!("str")</code>
+</td>
+<td>
+导致崩溃并输出信息
+</td>
+</tr>
+<tr>
+<td>
+<code>vec![1,2,3]</code>
+</td>
+<td>
+字面量创建<code>vec&lt;T&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>assert!(a)</code>
+</td>
+<td>
+判断布尔值
+</td>
+</tr>
+<tr>
+<td>
+<code>assert_eq!(a,b)</code>
+</td>
+<td>
+判断二值相等
+</td>
+</tr>
+<tr>
+<td>
+<code>try!(fn)</code>
+</td>
+<td>
+执行函数返回<code>Result&lt;T,E&gt;</code>的<code>T</code>或<code>E</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>unreachable!()</code>
+</td>
+<td>
+执行到这里就崩溃,放在不该被执行到的地方
+</td>
+</tr>
+</table>
+
+<div id="原始类型"><h1 id="原始类型">原始类型</h1></div>
+<div id="原始类型-`String`"><h2 id="`String`"><code>String</code></h2></div>
+<table>
+<tr>
+<td>
+<code>String::new()</code>
+</td>
+<td>
+新建实例
+</td>
+</tr>
+<tr>
+<td>
+<code>"s".trim()</code>
+</td>
+<td>
+去除开头结尾的空白
+</td>
+</tr>
+<tr>
+<td>
+<code>"s".parse()</code>
+</td>
+<td>
+转换成数字类型,返回<code>String::Result</code>
+</td>
+</tr>
+</table>
+
+
+<div id="标准库"><h1 id="标准库">标准库</h1></div>
+<div id="标准库-`std::io`:标准输入输出"><h2 id="`std::io`:标准输入输出"><code>std::io</code>:标准输入输出</h2></div>
+<pre class="rust">
+use std::io
+is::stdin().read_line(&amp;mut guess)
+</pre>
+<div id="标准库-`std::cmp`:比较"><h2 id="`std::cmp`:比较"><code>std::cmp</code>:比较</h2></div>
+<div id="标准库-`std::cmp`:比较-`std::cmp::Ordering`:比较大小"><h3 id="`std::cmp::Ordering`:比较大小"><code>std::cmp::Ordering</code>:比较大小</h3></div>
+<pre class="rust">
+use std::cmp::Ordering
+match "s".cmp(&amp;s){
+	Ordering::Less =&gt; println!("l")
+	Ordering::Greater =&gt; println!("g")
+	Ordering::Equl =&gt; println!("e")
+}
+</pre>
+<div id="标准库-`std::env`:命令行参数"><h2 id="`std::env`:命令行参数"><code>std::env</code>:命令行参数</h2></div>
+
+<div id="外部库"><h1 id="外部库">外部库</h1></div>
+<div id="外部库-`rand`:随机数生成"><h2 id="`rand`:随机数生成"><code>rand</code>:随机数生成</h2></div>
+<p>
+<code>rand = "0.3.14"</code>
+</p>
+<pre class="rust">
+extern crate rand; //引入外部库
+use rand::Rng;	//trait
+rand::thread_rng().gen_range(1,101) //调用随机数生成器的整数生成方法
+</pre>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-02-06
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>

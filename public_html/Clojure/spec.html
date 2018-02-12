@@ -10,7 +10,7 @@
 
 		<!-- Template -->
 		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
-		<title>index</title>
+		<title>spec</title>
 	</head>
 
 	<body>
@@ -34,36 +34,67 @@
 				</div>
 			</nav>
 
-			<div class="row align-items-center">
-				<div class="col">
-					
-<div id="Linux笔记目录"><h1 id="Linux笔记目录">Linux笔记目录</h1></div>
-<div id="Linux笔记目录-vim"><h2 id="vim">vim</h2></div>
-<ul>
-<li>
-<a href="vimwiki.html">vimwiki:vim的org-mode</a>
+			<div class="row">
+				
+<div id="spec"><h1 id="spec">spec</h1></div>
+<p>
+clojure.spec为clojure提供了一个可选的类型系统，用来定义数据结构和类型，并进行校验，可以补足Clojure作为动态类型语言的一些缺陷，特别是在传递参数时。
+</p>
+<div id="spec-安装与应用"><h2 id="安装与应用">安装与应用</h2></div>
+<p>
+clojure.spec是标准库的一部分，在1.9版本正式引入，所以不需要安装依赖
+引用格式为：
+</p>
+<pre class="clojure">
+(require [clojure.spec.alpha :as s])
+</pre>
 
-<li>
-<a href="ffmpeg.html">ffmpeg</a>
+<div id="spec-基本使用"><h2 id="基本使用">基本使用</h2></div>
+<div id="spec-基本使用-定义规范"><h3 id="定义规范">定义规范</h3></div>
+<p>
+使用<code>s/def</code>定义一个规范，规范函数接受参数作为输入值并返回一个布尔值, 被定义的符号用<code>::</code>表示当前命名空间，为了避免冲突可以用自定义的不真实存在的命名空间<code>:a/b</code>
+</p>
+<pre class="clojure">
+(s/def ::even-val even?)
 
-<li>
-<a href="Linux零散设置.html">Linux零散设置</a>
+</pre>
+<p>
+规范函数可以使用组合条件<code>s/and</code>和<code>s/or</code>
+</p>
 
-<li>
-<a href="vim.html">vim</a>
+<pre class="clojure">
+(s/def ::or-test
+ (s/or :int-number int?
+  :string-number string?))
 
-<li>
-<a href="perl6.html">perl6</a>
+</pre>
 
-</ul>
+<p>
+在spec中有一些内置的规范函数可以使用
+<code>s/valid?</code>判断给定数据的是否满足当前的规范
+</p>
+<pre class="clojure">
+    (s/valid? ::even-val 10)
+    ;;=&gt; true
+    (s/valid? ::even-val 11)
+    ;;=&gt; false
 
-				</div>
+</pre>
+
+<p>
+<code>s/conform</code>根据给定的规范和数据进行解析，如果不符合就返回<code>s/invalid</code>
+<code>s/explain</code>用来解释匹配失败的原因
+对于数组可用的函数有：<code>s/coll-of</code>, <code>s/every</code>, <code>s/tuple</code>
+对于map可用的函数有：<code>s/map-of</code>, <code>s/every-of</code>, <code>s/keys</code>
+对于nil的处理：<code>s/nilable</code>表示可以传入nil
+</p>
+
 		</div>
-		<!-- <nav class="navbar"> -->
-			<!-- <span class="navbar-text"> -->
-				<!-- Page created on 2018-02-11 -->
-			<!-- </span> -->
-		<!-- </nav> -->
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-01-31
+			</span>
+		</nav>
 
 	</div>
 
@@ -86,7 +117,6 @@
 	<script type="text/javascript" async
 		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
 	</script>
-
 	<script type="text/javascript" src="../js/search.js"></script>
 </body>
 </html>
