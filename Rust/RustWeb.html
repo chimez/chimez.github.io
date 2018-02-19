@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>RustWeb</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="RustWeb.html#用Rust写Web">用Rust写Web</a>
+
+<ul>
+<li>
+<a href="RustWeb.html#用Rust写Web-编译到wasm的工具">编译到wasm的工具</a>
+
+<ul>
+<li>
+<a href="RustWeb.html#用Rust写Web-编译到wasm的工具-rustc">rustc</a>
+
+<li>
+<a href="RustWeb.html#用Rust写Web-编译到wasm的工具-cargo-web">cargo-web</a>
+
+</ul>
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+
+<div id="用Rust写Web"><h1 id="用Rust写Web">用Rust写Web</h1></div>
+<div id="用Rust写Web-编译到wasm的工具"><h2 id="编译到wasm的工具">编译到wasm的工具</h2></div>
+<div id="用Rust写Web-编译到wasm的工具-rustc"><h3 id="rustc">rustc</h3></div>
+<p>
+使用基本编译器进行编译,目前编译器版本要<code>&gt;1.25.0</code>,所以要先升级到开发版<code>rustup install nightly;rustup default nightly</code>
+</p>
+<div id="用Rust写Web-编译到wasm的工具-cargo-web"><h3 id="cargo-web">cargo-web</h3></div>
+<p>
+使用cargo管理项目,先安装插件<a href="https:&#47;&#47;github.com&#47;koute&#47;cargo-web">cargo-webx</a>,<code>cargo install -f cargo-web</code>
+配置样例:
+</p>
+<pre>
+default-target = "wasm32-unknown-unknown"
+prepend-js = "src/runtime.js"
+
+[cargo-web]
+minimum-version = "0.6.0" #cargo-web version
+
+[target.emscripten]
+prepend-js = "src/emscripten_runtime.js"
+# This will enable Emscripten's SDL2 port. Consult Emscripten's documentation
+# for more details.
+link-args = ["-s", "USE_SDL=2"]
+
+[target.wasm32-unknown-unknown]
+prepend-js = "src/native_runtime.js"
+</pre>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-02-16
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>

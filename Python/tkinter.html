@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>tkinter</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="tkinter.html#Tkinter笔记">Tkinter笔记</a>
+
+<ul>
+<li>
+<a href="tkinter.html#Tkinter笔记-基本概念">基本概念</a>
+
+<ul>
+<li>
+<a href="tkinter.html#Tkinter笔记-基本概念-安装与使用">安装与使用</a>
+
+<li>
+<a href="tkinter.html#Tkinter笔记-基本概念-运行逻辑">运行逻辑</a>
+
+<ul>
+<li>
+<a href="tkinter.html#Tkinter笔记-基本概念-运行逻辑-Application类">Application类</a>
+
+</ul>
+</ul>
+<li>
+<a href="tkinter.html#Tkinter笔记-布局">布局</a>
+
+<ul>
+<li>
+<a href="tkinter.html#Tkinter笔记-布局-pack">pack</a>
+
+<li>
+<a href="tkinter.html#Tkinter笔记-布局-grid">grid</a>
+
+<li>
+<a href="tkinter.html#Tkinter笔记-布局-place">place</a>
+
+</ul>
+<li>
+<a href="tkinter.html#Tkinter笔记-组织复杂界面">组织复杂界面</a>
+
+<ul>
+<li>
+<a href="tkinter.html#Tkinter笔记-组织复杂界面-分割线Separator">分割线Separator</a>
+
+<li>
+<a href="tkinter.html#Tkinter笔记-组织复杂界面-带标签的框Label Frames">带标签的框Label Frames</a>
+
+<li>
+<a href="tkinter.html#Tkinter笔记-组织复杂界面-可拖动改变的标签窗口Paned Windows">可拖动改变的标签窗口Paned Windows</a>
+
+<li>
+<a href="tkinter.html#Tkinter笔记-组织复杂界面-选择显示的标签页Notebook">选择显示的标签页Notebook</a>
+
+</ul>
+<li>
+<a href="tkinter.html#Tkinter笔记-控件">控件</a>
+
+<ul>
+<li>
+<a href="tkinter.html#Tkinter笔记-控件-事件绑定">事件绑定</a>
+
+</ul>
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+
+
+<div id="Tkinter笔记"><h1 id="Tkinter笔记">Tkinter笔记</h1></div>
+<div id="Tkinter笔记-基本概念"><h2 id="基本概念">基本概念</h2></div>
+<div id="Tkinter笔记-基本概念-安装与使用"><h3 id="安装与使用">安装与使用</h3></div>
+<ol>
+<li>
+不用安装，标准自带
+
+<li>
+使用
+
+</ol>
+
+<pre class="python">
+import tkinter as tk
+</pre>
+
+<div id="Tkinter笔记-基本概念-运行逻辑"><h3 id="运行逻辑">运行逻辑</h3></div>
+<ol>
+<li>
+定义<code>tk.Tk()</code>的实例<code>ROOT</code> <code>ROOT=tk.Tk()</code>
+
+<li>
+生成软件 <code>APP=Application(master=ROOT)</code>
+
+<li>
+运行主循环<code>APP.mainloop()</code>
+
+</ol>
+
+<div id="Tkinter笔记-基本概念-运行逻辑-Application类"><h4 id="Application类">Application类</h4></div>
+<pre class="python">
+Class Application(tk.Frame):
+  def __init__(self, master=None):
+    super().__init__(master)
+    self.create_widgets()
+  def create_widgets(self):
+    ...
+    
+</pre>
+<div id="Tkinter笔记-布局"><h2 id="布局">布局</h2></div>
+<p>
+注意在一个软件内只能使用同一种布局，且每个继承都要写明布局
+</p>
+<div id="Tkinter笔记-布局-pack"><h3 id="pack">pack</h3></div>
+<table>
+<tr>
+<td>
+功能
+</td>
+<td>
+属性
+</td>
+<td>
+说明
+</td>
+</tr>
+<tr>
+<td>
+默认状态
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+从上到下顺次排放, 并水平居中
+</td>
+</tr>
+</table>
+<p>
+|和其父窗口一样宽     | <code>w.pack(fill=X)</code>    ||
+|设置水平方向的外边距 | <code>padx=10       </code>    ||
+|设置竖直方向的外边距 | <code>pady=10          </code> ||
+|设置水平方向的内边距 | <code>ipadx=10      </code>    ||
+|设置竖直方向的内边距 | <code>ipady=10      </code>    ||
+<table>
+<tr>
+<td>
+顺次放置控件
+</td>
+<td>
+<code>side=LEFT        </code>
+</td>
+<td>
+LEFT RIGHT
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Tkinter笔记-布局-grid"><h3 id="grid">grid</h3></div>
+<table>
+<tr>
+<td>
+功能
+</td>
+<td>
+属性
+</td>
+<td>
+说明
+</td>
+</tr>
+</table>
+<p>
+|行号    | <code> row=0</code>          ||
+|列号    | <code> column=2</code>       ||
+|跨列    | <code> columnspan=2</code>   ||
+|跨行    | <code> rowspan=2</code>      ||
+|        | <code> sticky=W+E+N+S</code> ||
+|外边框x | <code> padx=5</code>         ||
+|外边框y | <code> pady=5</code>         ||
+</p>
+
+<div id="Tkinter笔记-布局-place"><h3 id="place">place</h3></div>
+<p>
+<code>place(x = 20, y = 30 + i*30, width=120, height=25) </code>
+</p>
+
+<div id="Tkinter笔记-组织复杂界面"><h2 id="组织复杂界面">组织复杂界面</h2></div>
+
+<div id="Tkinter笔记-组织复杂界面-分割线Separator"><h3 id="分割线Separator">分割线Separator</h3></div>
+<ol>
+<li>
+vertical 垂直线
+
+<li>
+horizontal 水平线
+
+</ol>
+<p>
+<code>s = ttk.Separator(parent, orient=HORIZONTAL)</code>
+</p>
+
+<div id="Tkinter笔记-组织复杂界面-带标签的框Label Frames"><h3 id="带标签的框Label Frames">带标签的框Label Frames</h3></div>
+<p>
+<code>lf = ttk.Labelframe(parent, text='Label')</code>
+</p>
+
+<div id="Tkinter笔记-组织复杂界面-可拖动改变的标签窗口Paned Windows"><h3 id="可拖动改变的标签窗口Paned Windows">可拖动改变的标签窗口Paned Windows</h3></div>
+<pre class="python">
+p = ttk.Panedwindow(parent, orient=VERTICAL)
+= first pane, which would get widgets gridded into it:=
+f1 = ttk.Labelframe(p, text='Pane1', width=100, height=100)
+f2 = ttk.Labelframe(p, text='Pane2', width=100, height=100)   = second pane=
+p.add(f1)
+p.add(f2)
+</pre>
+
+<div id="Tkinter笔记-组织复杂界面-选择显示的标签页Notebook"><h3 id="选择显示的标签页Notebook">选择显示的标签页Notebook</h3></div>
+<pre class="python">
+n = ttk.Notebook(parent)
+f1 = ttk.Frame(n)   = first page, which would get widgets gridded into it=
+f2 = ttk.Frame(n)   = second page=
+n.add(f1, text='One')
+n.add(f2, text='Two')
+</pre>
+
+<div id="Tkinter笔记-控件"><h2 id="控件">控件</h2></div>
+<table>
+<tr>
+<td>
+功能
+</td>
+<td>
+语句
+</td>
+<td>
+说明
+</td>
+</tr>
+<tr>
+<td>
+-
+</td>
+<td>
+-
+</td>
+<td>
+-
+</td>
+</tr>
+</table>
+<p>
+|<b>标签Label</b>                                                  | <code>w = Label(root, text="Hello Tkinter!")                                   </code>                   ||
+|<b>消息Message</b>                                                | <code>message()                                                                </code>                   ||
+|<b>按钮Button </b>                                                | <code>Button(root,text="text",command=self.func)                               </code>                   ||
+|<b>多行文本框Text</b>                                             | <code>text = Text(parent, width=40, height=10)</code>                                                    ||
+<table>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+<code>thetext = text.get('1.0', 'end')</code>
+</td>
+<td>
+获得内容，从1行0字到最后end
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+<code>text.insert('1.0', 'here is my text to insert')</code>
+</td>
+<td>
+写入内容，从1行0字开始
+</td>
+</tr>
+</table>
+|<b>输入框entry</b>                                                | <code>Entry(root, textvariable=var)                                                              </code> ||
+<table>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+<code>e.get()                                                                  </code>
+</td>
+<td>
+获得文本
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+<code>e.delete(0,END)                                                          </code>
+</td>
+<td>
+删除文本
+</td>
+</tr>
+</table>
+|<b>消息框功能</b>                                                 | <code>tkMessageBox 包提供                                                      </code>                   ||
+|                                                                  | <code>askyesno('Verify', 'Really quit?'):                                      </code>                   ||
+|                                                                  | <code>showinfo('No', 'Quit has been cancelled')                                </code>                   ||
+<table>
+<tr>
+<td>
+询问用户操作是否继续.
+</td>
+<td>
+<code>askokcancel(title=None, message=None, **options)                         </code>
+</td>
+<td>
+选择 ok 则返回 True
+</td>
+</tr>
+</table>
+|显示一个问题                                                      | <code>askquestion(title=None, message=None, **options)                         </code>                   ||
+<table>
+<tr>
+<td>
+询问用户是否要重试操作.
+</td>
+<td>
+<code>askretrycancel(title=None, message=None, **options)                      </code>
+</td>
+<td>
+选择 ok 则返回 True
+</td>
+</tr>
+<tr>
+<td>
+显示一个问题.
+</td>
+<td>
+<code>askyesno(title=None, message=None, **options)                            </code>
+</td>
+<td>
+选择 ok 则返回 True
+</td>
+</tr>
+<tr>
+<td>
+询问用户是否要重试操作.
+</td>
+<td>
+<code>askyesnocancel(title=None, message=None, **options)                      </code>
+</td>
+<td>
+选择 ok 则返回 True; 选择 cancel 则返回 None
+</td>
+</tr>
+</table>
+|给出一条错误信息                                                  | <code>showerror(title=None, message=None, **options)                           </code>                   ||
+|给出一条提示信息                                                  | <code>showinfo(title=None, message=None, **options)                            </code>                   ||
+|给出一条警告信息                                                  | <code>showwarning(title=None, message=None, **options)                         </code>                   ||
+<table>
+<tr>
+<td>
+<b>文件选择对话框   </b>
+</td>
+<td>
+`tkFileDialog.askopenfilename()
+</td>
+</tr>
+<tr>
+<td>
+<b>颜色选择对话框  </b>
+</td>
+<td>
+`tkColorChooser.askColor ( color, option=value, ...)
+</td>
+</tr>
+</table>
+|<b>Variable 类双向绑定      </b>                                  | <code>                                                                         </code>                   ||
+|保存一个 string 类型变量, 默认值为""                              | <code>x = StringVar()                                                          </code>                   ||
+|保存一个整型变量, 默认值为0                                       | <code>x = IntVar()                                                             </code>                   ||
+|保存一个浮点型变量, 默认值为0.0                                   | <code>x = DoubleVar()                                                          </code>                   ||
+|保存一个布尔型变量, 返回值为 0 (代表 False) 或 1 (代表 True)      | <code>x = BooleanVar()                                                         </code>                   ||
+<table>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+<code>get()                                                                    </code>
+</td>
+<td>
+得到其保存的变量值
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+<code>set()                                                                    </code>
+</td>
+<td>
+设置其保存的变量值
+</td>
+</tr>
+</table>
+|<b>RadioButtons单选按钮 </b>                                      | <code>Radiobutton(root,text="Python",padx=20,variable=v,value=1).pack(anchor=W)</code>                   ||
+<table>
+<tr>
+<td>
+<b>Checkbox</b>
+</td>
+<td>
+<code>Checkbutton(master, text="male", variable=var1)                          </code>
+</td>
+<td>
+.
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Tkinter笔记-控件-事件绑定"><h3 id="事件绑定">事件绑定</h3></div>
+<p>
+widget.bind(event, handler) 
+l =ttk.Label(root, text="Starting...")
+l.grid()
+l.bind('&lt;Enter&gt;', lambda e: l.configure(text='Moved mouse inside'))
+</p>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-02-19
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>

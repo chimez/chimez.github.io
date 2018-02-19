@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>LaTeX自制宏包</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="LaTeX自制宏包.html#LaTeX自制宏包">LaTeX自制宏包</a>
+
+<ul>
+<li>
+<a href="LaTeX自制宏包.html#LaTeX自制宏包-自定义命令和环境">自定义命令和环境</a>
+
+<ul>
+<li>
+<a href="LaTeX自制宏包.html#LaTeX自制宏包-自定义命令和环境-定义命令">定义命令</a>
+
+<li>
+<a href="LaTeX自制宏包.html#LaTeX自制宏包-自定义命令和环境-定义环境">定义环境</a>
+
+</ul>
+<li>
+<a href="LaTeX自制宏包.html#LaTeX自制宏包-定义宏包">定义宏包</a>
+
+<li>
+<a href="LaTeX自制宏包.html#LaTeX自制宏包-定义文档类">定义文档类</a>
+
+<li>
+<a href="LaTeX自制宏包.html#LaTeX自制宏包-计数器">计数器</a>
+
+<li>
+<a href="LaTeX自制宏包.html#LaTeX自制宏包-可定制的项">可定制的项</a>
+
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+
+<div id="LaTeX自制宏包"><h1 id="LaTeX自制宏包">LaTeX自制宏包</h1></div>
+<div id="LaTeX自制宏包-自定义命令和环境"><h2 id="自定义命令和环境">自定义命令和环境</h2></div>
+<div id="LaTeX自制宏包-自定义命令和环境-定义命令"><h3 id="定义命令">定义命令</h3></div>
+<p>
+<code>\newcommand{命令名}[可选参数1-9]{命令内容,使用#1-#9引入参数}</code>
+</p>
+<pre class="latex">
+	\newcommand{\commandname}[1]{
+		\alpha \emph{#1}
+	}
+</pre>
+<div id="LaTeX自制宏包-自定义命令和环境-定义环境"><h3 id="定义环境">定义环境</h3></div>
+<p>
+与定义命令相同,只是要定义开始和结束两部分
+</p>
+<pre class="latex">
+\newenvironment{name}[1]
+{befor}
+{after}
+</pre>
+
+<div id="LaTeX自制宏包-定义宏包"><h2 id="定义宏包">定义宏包</h2></div>
+<p>
+文件名为<code>name.sty</code>
+</p>
+<pre class="latex">
+\ProvidesPackage{name} %包名,与文件名相同
+\RequirePackage{}%引入其他宏包
+</pre>
+<div id="LaTeX自制宏包-定义文档类"><h2 id="定义文档类">定义文档类</h2></div>
+<p>
+文件名为<code>name.cls</code>
+</p>
+<pre class="latex">
+\ProcidesClass{name} %类名,与文件名相同
+\LoadClass{} %引入其他文档类
+</pre>
+<div id="LaTeX自制宏包-计数器"><h2 id="计数器">计数器</h2></div>
+<table>
+<tr>
+<td>
+<code>\newcounter{name}[parent]</code>
+</td>
+<td>
+新建计数器并指定父计数器
+</td>
+</tr>
+<tr>
+<td>
+<code>\setcounter{name}{number}</code>
+</td>
+<td>
+设置计数器数字
+</td>
+</tr>
+<tr>
+<td>
+<code>\addtocounter{name}{number}</code>
+</td>
+<td>
+计数器加上数字
+</td>
+</tr>
+<tr>
+<td>
+<code>\stepcounter{name}</code>
+</td>
+<td>
+计数器+1并清零所有子计数器
+</td>
+</tr>
+<tr>
+<td>
+<code>\the&lt;name&gt;</code>
+</td>
+<td>
+引入计数器的命令
+</td>
+</tr>
+<tr>
+<td>
+<code>\pagenumbering{}</code>
+</td>
+<td>
+页码
+</td>
+</tr>
+<tr>
+<td>
+<code>secnumdepth</code>
+</td>
+<td>
+章节编号深度控制器,章节层级大于此时不编号
+</td>
+</tr>
+<tr>
+<td>
+<code>tocdepth</code>
+</td>
+<td>
+目录深度,大于此时不写入目录
+</td>
+</tr>
+</table>
+
+<div id="LaTeX自制宏包-可定制的项"><h2 id="可定制的项">可定制的项</h2></div>
+<table>
+<tr>
+<td>
+<code>\partname</code>
+</td>
+<td>
+Part
+</td>
+<td>
+<code>\part</code>命令生成的标题前缀
+</td>
+</tr>
+<tr>
+<td>
+<code>\chaptername</code>
+</td>
+<td>
+Chapter
+</td>
+<td>
+<code>\chapter</code>命令生成的标题前缀
+</td>
+</tr>
+<tr>
+<td>
+<code>\appendixname</code>
+</td>
+<td>
+Appendix
+</td>
+<td>
+使用<code>\appendix</code>命令生成的附录部分的章标题前缀
+</td>
+</tr>
+<tr>
+<td>
+<code>\abstractname</code>
+</td>
+<td>
+Abstract
+</td>
+<td>
+摘要环境<code>abstract</code>的标题名称
+</td>
+</tr>
+<tr>
+<td>
+<code>\contentsname</code>
+</td>
+<td>
+Contents
+</td>
+<td>
+<code>\tableofcontents</code>命令生成的目录标题
+</td>
+</tr>
+<tr>
+<td>
+<code>\listfigurename</code>
+</td>
+<td>
+List of
+</td>
+<td>
+<code>Figures</code>\<code>listoffigures</code>命令生成的插图目录标题
+</td>
+</tr>
+<tr>
+<td>
+<code>\listtablename</code>
+</td>
+<td>
+List of
+</td>
+<td>
+<code>Tables</code>\<code>listoftables</code>命令生成的表格目录标题
+</td>
+</tr>
+<tr>
+<td>
+<code>\tablename</code>
+</td>
+<td>
+Table
+</td>
+<td>
+<code>table</code>浮动体中<code>\caption</code>命令生成的标题前缀
+</td>
+</tr>
+<tr>
+<td>
+<code>\figurename</code>
+</td>
+<td>
+Figure
+</td>
+<td>
+<code>figure</code>浮动体中<code>\caption</code>命令生成的标题前缀
+</td>
+</tr>
+<tr>
+<td>
+<code>\refname</code>
+</td>
+<td>
+References
+</td>
+<td>
+`<code>thebibliography</code>环境或<code>\bibliography</code>命令生成的参考文献标题(`<code>article</code>文档类)
+</td>
+</tr>
+<tr>
+<td>
+<code>\bibname</code>
+</td>
+<td>
+Bibliography
+</td>
+<td>
+`<code>thebibliography</code>环境或<code>\bibliography</code>命令生成的参考文献标题(`<code>book</code>/<code>report</code>文档类)
+</td>
+</tr>
+<tr>
+<td>
+<code>\indexname</code>
+</td>
+<td>
+Index
+</td>
+<td>
+<code>\printindex</code>命令生成的索引标题
+</td>
+</tr>
+</table>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-02-19
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>
