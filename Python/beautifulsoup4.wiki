@@ -1,0 +1,52 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#beautiful soup4|beautiful soup4]]
+    - [[#beautiful soup4#安装|安装]]
+    - [[#beautiful soup4#标签的使用|标签的使用]]
+    - [[#beautiful soup4#标签的遍历|标签的遍历]]
+    - [[#beautiful soup4#标签的寻找|标签的寻找]]
+    - [[#beautiful soup4#css选择器|css选择器]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+
+=beautiful soup4=
+== 安装==
+beautiful soup4: python3-bs4
+第三方解析器： lxml html5lib
+{{{
+from bs4 import BeautifulSoup           # 导入
+soup = BeautifulSoup(html_file, 'lxml') # 初始化
+soup.prettify()                         # 格式化打印
+}}}
+==  标签的使用 ==
+| `soup.title, soup.head, soup.a, soup.p` | 选择tag        |
+| `soup.title.name, soup.title.attrs`     | 名字和属性     |
+| `soup.p['class'], soup.p.get('class')`  | 选择属性的方法 |
+| `soup.p.string`                         | 获得内容       |
+| `bs4.element.Comment`                   | 注释对象       |
+
+==  标签的遍历 ==
+| `soup.head.contents`                           | 获得直接子节点的列表   |
+| `soup.head.children`                           | 获得可遍历的子节点对象 |
+| `soup.descendants`                             | 获得全部下级节点       |
+| `soup.parent, soup.parents`                    | 获得父节点             |
+| `soup.p.next_sibling, soup.p.previous_sibling` | 获得同级节点           |
+| `soup.p.next_element, soup.p.previous_element` | 获得下一个/上一个节点  |
+	
+==  标签的寻找 ==
+| `soup.find_all(name, attrs, recursive, text, **kwargs)` | 返回list              |
+| `soup.find_all('a'), soup.find_all(['a', 'b'])`         | 查找名字              |
+| `importre;soup.find_all(re.compile("^b"))`              | 查找正则表达式        |
+| `soup.find_all(func)`                                   | 查找一个一元函数      |
+| `soup.find_all(id='aaa')`                               | 查找属性，id，class等 |
+| `soup.find_all(true, limit=2)`                          | 限制层级数            |
+| `soup.find_all("title", recursive=False)`               | 只查找直接节点        |
+| `soup.find(name, attrs, recursive, text, **kwargs)`     | 返回对象而不是列表    |
+
+==  css选择器 ==
+| `soup.select('title')`                | 选择名字           |
+| `soup.select('.classname')`           | 选择类名           |
+| `soup.select('#id')`                  | 选择id             |
+| `soup.select('a[class="classname"]')` | 组合选择标签和属性 |

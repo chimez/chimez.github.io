@@ -1,0 +1,61 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#numpy|numpy]]
+    - [[#numpy#基本使用|基本使用]]
+      - [[#numpy#基本使用#ndarray 多维数组|ndarray 多维数组]]
+      - [[#numpy#基本使用#numpy 基本函数|numpy 基本函数]]
+      - [[#numpy#基本使用#numpy 矩阵运算|numpy 矩阵运算]]
+      - [[#numpy#基本使用#numpy 文件存取|numpy 文件存取]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+= numpy =
+== 基本使用 ==
+
+=== ndarray 多维数组 ===
+| `np.array([])`                   | 创建数组                           |
+| `ndarray.shape`                  | 获取数组大小                       |
+| `ndarray.size`                   | 数组元素总数                       |
+| `ndarray.copy()`                 | 深拷贝                             |
+| `ndarray.reshapr(())`            | 创建一个改变尺寸但共用内存的新数组 |
+| `dtype`                          | 数组内元素类型属性                 |
+| `np.arange()`                    | 通过开始值步长终值创建一维数组     |
+| `np.linspace()`                  | 通过开始值终值元素个数创建一维数组 |
+| `np.logspace()`                  | 创建等比数列                       |
+| `np.dtype()`                     | 数组内元素类型属性对象             |
+| `ndarray.tostring`               | 输出数组文本形式                   |
+| `ndarray.tofile`                 | 输出数组二进制形式                 |
+| ` a[(1,2,3)]=> (a[1],a[2],a[3])` | 取出对应下标的数                   |
+| `dtype属性`                      | 自定义结构                         |
+| `ufunc`                          | 对数组内每个元素运算               |
+=== numpy 基本函数 ===
+| `np.sin(in,out)`                        | 对每个数取math.sin(),结果存在第二个参数里                             |
+| `np.add(in1,in2,out)`                   | 前两个元素相加，结果存在第二个参数里                                  |
+| `np.subtract`                           | x-y                                                                   |
+| `np.multiply`                           | x*y                                                                   |
+| `np.divide`                             | x/y,整数除法                                                          |
+| `np.truedivide`                         | x/y,返回精确值                                                        |
+| `np.floordivide`                        | x/y,返回值取整                                                        |
+| `np.negative`                           | -x                                                                    |
+| `np.power`                              | x**y                                                                  |
+| `np.remainder`                          | x%y                                                                   |
+| `np.mod`                                | x%y                                                                   |
+| `np.frompyfunc(function,nin,nout)`      | 用第一个函数遍历nin数组，结果存在nout里                               |
+| `np.ogrid[开始值：结束值：步长]`        | 生成一个向量                                                          |
+| `<op>.reduce(array=,axis=0,dtype=None)` | 沿着axis轴操作，返回整个轴上元素的累加结果                            |
+| `广播计算`                              | 即一个行向量与一个列向量做ufunc运算时将行与列向量自动扩展为重复的矩阵 |
+=== numpy 矩阵运算 ===
+| `np.matrix`     | 矩阵对象                 |
+| `np.reshape`    | 将一维数组转化成二维数组 |
+| `np.dot(a,b)`   | 向量内积，矩阵乘法       |
+| `np.inner(a,b)` | 最后一维的内积           |
+| `np.outer(a,b)` | 展开成一维做内积         |
+| `np.linalg`     | 更多矩阵运算函数         |
+=== numpy 文件存取 ===
+| `np.tofile`                   | 保存为二进制                         |
+| `np.fromfile`                 | 从二进制读取，需手动修改dtype和shape |
+| `np.save`                     | 保存为numpy专用格式                  |
+| `np.load`                     | 从numpy专用格式读取                  |
+| `np.savez(filename,arr1,...)` | 将多个数组保存在专用格式的压缩包中   |
+| `np.savetxt(file,ndarray)`    | 将数组存在txt文件里                  |

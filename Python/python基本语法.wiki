@@ -1,0 +1,237 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#python基本语法|python基本语法]]
+    - [[#python基本语法#获取帮助|获取帮助]]
+    - [[#python基本语法#字符串表示法|字符串表示法]]
+    - [[#python基本语法#debug|debug]]
+    - [[#python基本语法#运算符|运算符]]
+    - [[#python基本语法#运算符优先级|运算符优先级]]
+    - [[#python基本语法#基本语句|基本语句]]
+    - [[#python基本语法#函数|函数]]
+    - [[#python基本语法#模块|模块]]
+    - [[#python基本语法#列表 list|列表 list]]
+    - [[#python基本语法#元组|元组]]
+    - [[#python基本语法#字典|字典]]
+    - [[#python基本语法#序列|序列]]
+    - [[#python基本语法#lambda 形式|lambda 形式]]
+    - [[#python基本语法#错误处理|错误处理]]
+    - [[#python基本语法#面向对象|面向对象]]
+    - [[#python基本语法#脚本|脚本]]
+    - [[#python基本语法#文件|文件]]
+    - [[#python基本语法#储存器|储存器]]
+    - [[#python基本语法#os模块|os模块]]
+    - [[#python基本语法#GUI|GUI]]
+    - [[#python基本语法#c动态链接库 ctypes|c动态链接库 ctypes]]
+    - [[#python基本语法#串口通讯|串口通讯]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+
+= python基本语法 =
+
+== 获取帮助 ==
+| `help('**')` | 帮助 |
+
+== 字符串表示法 ==
+| `单引号    '  `          | 字符串          |
+| `双引号     "  `         | 字符串,同单引号 |
+| `三引号     '''或 """  ` | 多行字符串      |
+| `\`                      | 转义符          |
+| `r`                      | 自然字符串      |
+| `u`                      | Unicode 字符串  |
+| `u`                      | Unicode 字符串  |
+| `len(string)`            | 获取字符串长度  |
+| `编码ascii `             | b               |
+| `\`                      | 折行            |
+
+== debug ==
+| `exec 'print "Hello World"'`              | 执行字符串式python脚本   |
+| `eval('2*3')`                             | 执行字符串式python表达式 |
+| `assert len(mylist) >= 1`                 | 检验条件必真，为假则报错 |
+| `repr    eval(repr(object)) == object`    | 将对象变为字符串         |
+| `print("The length of %s is %d" % (s,x))` | 输出                     |
+
+== 运算符 ==
+| `+ `  | 加                                                                               |
+| `* `  | 乘,两个数相乘或是返回一个被重复若干次的字符串,2 * 3得到6。'la' * 3得到'lalala'。 |
+| `** ` | 幂,返回x的y次幂,3 ** 4得到81（即3 * 3 * 3 * 3）                                  |
+| `/ `  | 除以y                                                                            |
+| `// ` | 取整除                                                                           |
+| `% `  | 取模                                                                             |
+| `<< ` | 左移                                                                             |
+| `>> ` | 右移                                                                             |
+| `& `  | 按位与                                                                           |
+| `^ `  | 按位异或                                                                         |
+| `~ `  | 按位翻转                                                                         |
+| `< `  | 小于                                                                             |
+| `> `  | 大于                                                                             |
+| `<= ` | 小于等于                                                                         |
+| `>=`  | 大于等于                                                                         |
+| `== ` | 等于                                                                             |
+| `!= ` | 不等于                                                                           |
+| `not` | 布尔“非”                                                                         |
+| `and` | 布尔“与”                                                                         |
+
+== 运算符优先级 ==
+| `lambda`             | Lambda表达式     |
+| `or `                | 布尔“或”         |
+| `and `               | 布尔“与”         |
+| `not `               | 布尔“非”         |
+| `in，not in `        | 成员测试         |
+| `is，is not `        | 同一性测试       |
+| `<，<=，>，`         | >=，!=，==比较   |
+| `^ `                 | 按位异或         |
+| `& `                 | 按位与           |
+| `<<，>> `            | 移位             |
+| `+，- `              | 加法与减法       |
+| `*，/，%`            | 乘法、除法与取余 |
+| `+x，-x `            | 正负号           |
+| `~x `                | 按位翻转         |
+| `** `                | 指数             |
+| `x.attribute `       | 属性参考         |
+| `x[index] `          | 下标             |
+| `x[index:index] `    | 寻址段           |
+| `f(arguments...) `   | 函数调用         |
+| `(experession,...) ` | 绑定或元组显示   |
+| `[expression,...] `  | 列表显示         |
+| `{key:datum,...} `   | 字典显示         |
+| `'expression,...' `  | 字符串转换       |
+
+== 基本语句 ==
+| `if-elif-else`  | if     |
+| `while:-else:`  | while  |
+| `for-in:-else:` | for-in |
+| `break`         | 跳出   |
+| `continue`      | 继续   |
+
+== 函数 ==
+| `def hello(x,y=1):return 0` | 定义函数               |
+| `global x`                  | 定义全局变量           |
+| `*args`                     | 剩余参数收到一个元组里 |
+| `**args`                    | 剩余参数收到一个字典里 |
+| `return`                    | 函数返回值             |
+| `'''...'''__doc__`          | 文档字符串             |
+
+== 模块 ==
+| `import sys`           | 调用整个模块，非融入   |
+| `print sys.argv`       | 参数                   |
+| `from sys import argv` | 调用模块中的函数并融入 |
+| `__name__=__main__`    | 说明是单独执行         |
+| `dir()函数`            | 列出模块的函数列表     |
+| `import sys as s`      | 模块调用别名           |
+
+== 列表 list ==
+| `a=['a','b','c']` | 定义     |
+| `a=['a','b','c']` | 定义     |
+| `a.append('d')`   | 向后添加 |
+| `a.append('d')`   | 向后添加 |
+| `a.sort()`        | 排序     |
+| `a[0]`            | 提取     |
+| `支持for  in `    | 循环     |
+| `a. len()`        | 长度     |
+
+== 元组 ==
+| `a=('a','b','c')`              | 定义   |
+| `('a','b','c',('a','b','c')) ` | 可嵌套 |
+| `print '%s   %d' %('asd',34) ` | 打印   |
+
+== 字典 ==
+| `d={a:1,b:34,c:'asdasd'} ` | 定义 |
+| `d['a'] `                  | 提取 |
+
+== 序列 ==
+| `a=['asd','asd',234]` | 定义                     |
+| `a[0] `               | 提取                     |
+| `a[:2]`               | 切片,负数是从后往前数    |
+| `引用`                | 别名，并没有值的复制过程 |
+
+==  lambda 形式 ==
+|`def make_repeater(n):`||
+|`return lambda s: s*n`||
+|`twice = make_repeater(2)`||
+|`print twice('word')`||
+|`print twice(5)`||
+
+== 错误处理 ==
+|`try-except`||
+|`try-finally`||
+
+== 面向对象 ==
+| `class  asd:`      | 创建 类                      |
+| `class  asd:`      | 创建 类                      |
+| `class nnn(asd): ` | 创建子类                     |
+| `class nnn(asd): ` | 创建子类                     |
+| `self `            | 默认创建的对象名形参         |
+| `类的方法`         | 定义方法函数时必须有self形参 |
+| `__init__ `        | 创建对象时的初始化方法       |
+| `__del__  `        | 放弃对象时调用的方法         |
+
+== 脚本 ==
+|`import sys`||
+|`	sys.argv[0]`||
+|`for i in range(1,len(sys.argv)):`||
+|`    print(i,sys.argv[i])`||
+
+== 文件 ==
+|`语句`|解释|
+|`f=file('a.txt','w')`| 加载文件  #除了写模式('w')还有读('r')追加('a')，默认为读|
+|`f.write(hahah)`|写入|
+|`f.readline()`|按行读取|
+|`f.close() `|关闭|
+|`with file('a','w') as fi:`|with|
+
+== 储存器       ==
+|`pickle`||
+|`cpickle`|c实现|
+|`cPickle.dump(something,filep)`| 保存|
+|`a=cPickle.load(filep)`|读取|
+
+== os模块 ==
+|`语句`|解释|
+|`os.sep`|当前操作系统的路径分隔符|
+|`os.name`|当前操作系统平台名，nt，posix|
+|`os.getcwd()`|当前工作目录|
+|`os.getenv()`|读取环境变量|
+|`os.system()`|运行shell命令|
+|`os.putenv()`|设置环境变量|
+|`os.listdir()`|返回当前目录的所有文件名|
+|`os.remove()`|删除一个文件|
+|`os.linesep`|当前操作系统的换行符，\r\n,\n,\r|
+|`os.path.split`|返回路径的目录名和文件名|
+|`os.path.exists()`|路径是否存在|
+|`os.path.isfile()`|路径是否为文件|
+|`os.path.isdir()`|路径是否为目录|
+
+== GUI    ==
+|`import tkinter`||
+|`Tk()`| 主窗口|
+|`Tk.destroy() `|破坏窗口 |
+|`Tk.mainloop() `|消息循环 |
+|`className="string"`|标题|
+|`Tk.winfo_screenwidth()`||
+|`Tk.winfo_screenwidth()`||
+|`Tk.winfo_screenheight()`|获取窗口坐标|
+|`Tk.winfo_screenheight()`|获取窗口坐标|
+|`Tk.geometry('300x300+300+300') width x hight + x + y`|设置窗口位置和大小|
+|`Tk.geometry('300x300+300+300') width x hight + x + y`|设置窗口位置和大小|
+|`Frame()`| 框架  |
+|`Button(Tk,text='',command=…) `|按钮|
+|`StringVar()`|字符串|
+|`.get()`|字符串获取|
+|`.set('…')`|字符串设置|
+|`Entry(Tk,textvariable=StringVar)`|输入框|
+|`*.pack()`| 放置|
+|`laber(Tk,text="")`| 标签|
+
+== c动态链接库 ctypes ==
+|`import ctypes`||
+|`asd=ctypes.CDLL("a.so")`||
+|`asd.haha(2)`||
+
+== 串口通讯  ==
+|`import serial`||
+|`easy_install pyserial`||
+|`a = serial.Serial('COM1',9600)`| 打开串口|
+|`a.write('string')`|向串口发送数据|
+|`a.read()`|从串口读取数据|

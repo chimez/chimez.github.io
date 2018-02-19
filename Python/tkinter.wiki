@@ -1,0 +1,143 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#Tkinter笔记|Tkinter笔记]]
+    - [[#Tkinter笔记#基本概念|基本概念]]
+      - [[#Tkinter笔记#基本概念#安装与使用|安装与使用]]
+      - [[#Tkinter笔记#基本概念#运行逻辑|运行逻辑]]
+        - [[#Tkinter笔记#基本概念#运行逻辑#Application类|Application类]]
+    - [[#Tkinter笔记#布局|布局]]
+      - [[#Tkinter笔记#布局#pack|pack]]
+      - [[#Tkinter笔记#布局#grid|grid]]
+      - [[#Tkinter笔记#布局#place|place]]
+    - [[#Tkinter笔记#组织复杂界面|组织复杂界面]]
+      - [[#Tkinter笔记#组织复杂界面#分割线Separator|分割线Separator]]
+      - [[#Tkinter笔记#组织复杂界面#带标签的框Label Frames|带标签的框Label Frames]]
+      - [[#Tkinter笔记#组织复杂界面#可拖动改变的标签窗口Paned Windows|可拖动改变的标签窗口Paned Windows]]
+      - [[#Tkinter笔记#组织复杂界面#选择显示的标签页Notebook|选择显示的标签页Notebook]]
+    - [[#Tkinter笔记#控件|控件]]
+      - [[#Tkinter笔记#控件#事件绑定|事件绑定]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+
+
+= Tkinter笔记=
+== 基本概念==
+=== 安装与使用===
+1. 不用安装，标准自带
+2. 使用
+
+{{{class="python"
+import tkinter as tk
+}}}
+
+=== 运行逻辑===
+1. 定义`tk.Tk()`的实例`ROOT` `ROOT=tk.Tk()`
+2. 生成软件 `APP=Application(master=ROOT)`
+2. 运行主循环`APP.mainloop()`
+
+==== Application类====
+{{{class="python"
+Class Application(tk.Frame):
+  def __init__(self, master=None):
+    super().__init__(master)
+    self.create_widgets()
+  def create_widgets(self):
+    ...
+    
+}}}
+== 布局==
+注意在一个软件内只能使用同一种布局，且每个继承都要写明布局
+=== pack===
+| 功能     | 属性 | 说明                         |
+| 默认状态 |      | 从上到下顺次排放, 并水平居中 |
+|和其父窗口一样宽     | `w.pack(fill=X)`    ||
+|设置水平方向的外边距 | `padx=10       `    ||
+|设置竖直方向的外边距 | `pady=10          ` ||
+|设置水平方向的内边距 | `ipadx=10      `    ||
+|设置竖直方向的内边距 | `ipady=10      `    ||
+| 顺次放置控件 | `side=LEFT        ` | LEFT RIGHT |
+
+=== grid===
+|功能    | 属性              | 说明|
+|行号    | ` row=0`          ||
+|列号    | ` column=2`       ||
+|跨列    | ` columnspan=2`   ||
+|跨行    | ` rowspan=2`      ||
+|        | ` sticky=W+E+N+S` ||
+|外边框x | ` padx=5`         ||
+|外边框y | ` pady=5`         ||
+
+=== place===
+`place(x = 20, y = 30 + i*30, width=120, height=25) `
+
+== 组织复杂界面==
+
+=== 分割线Separator===
+1. vertical 垂直线
+2. horizontal 水平线
+`s = ttk.Separator(parent, orient=HORIZONTAL)`
+
+=== 带标签的框Label Frames===
+`lf = ttk.Labelframe(parent, text='Label')`
+
+=== 可拖动改变的标签窗口Paned Windows===
+{{{class="python"
+p = ttk.Panedwindow(parent, orient=VERTICAL)
+= first pane, which would get widgets gridded into it:=
+f1 = ttk.Labelframe(p, text='Pane1', width=100, height=100)
+f2 = ttk.Labelframe(p, text='Pane2', width=100, height=100)   = second pane=
+p.add(f1)
+p.add(f2)
+}}}
+
+=== 选择显示的标签页Notebook===
+{{{class="python"
+n = ttk.Notebook(parent)
+f1 = ttk.Frame(n)   = first page, which would get widgets gridded into it=
+f2 = ttk.Frame(n)   = second page=
+n.add(f1, text='One')
+n.add(f2, text='Two')
+}}}
+
+== 控件 ==
+|功能                                                              | 语句                                                                                          | 说明|
+|-                                                                 | -                                                                                             | -|
+|<b>标签Label</b>                                                  | `w = Label(root, text="Hello Tkinter!")                                   `                   ||
+|<b>消息Message</b>                                                | `message()                                                                `                   ||
+|<b>按钮Button </b>                                                | `Button(root,text="text",command=self.func)                               `                   ||
+|<b>多行文本框Text</b>                                             | `text = Text(parent, width=40, height=10)`                                                    ||
+|                                                                  | `thetext = text.get('1.0', 'end')`                                                            | 获得内容，从1行0字到最后end|
+|                                                                  | `text.insert('1.0', 'here is my text to insert')`                                             | 写入内容，从1行0字开始|
+|<b>输入框entry</b>                                                | `Entry(root, textvariable=var)                                                              ` ||
+|                                                                  | `e.get()                                                                  `                   | 获得文本|
+|                                                                  | `e.delete(0,END)                                                          `                   | 删除文本|
+|<b>消息框功能</b>                                                 | `tkMessageBox 包提供                                                      `                   ||
+|                                                                  | `askyesno('Verify', 'Really quit?'):                                      `                   ||
+|                                                                  | `showinfo('No', 'Quit has been cancelled')                                `                   ||
+|询问用户操作是否继续.                                             | `askokcancel(title=None, message=None, **options)                         `                   | 选择 ok 则返回 True|
+|显示一个问题                                                      | `askquestion(title=None, message=None, **options)                         `                   ||
+|询问用户是否要重试操作.                                           | `askretrycancel(title=None, message=None, **options)                      `                   | 选择 ok 则返回 True|
+|显示一个问题.                                                     | `askyesno(title=None, message=None, **options)                            `                   | 选择 ok 则返回 True|
+|询问用户是否要重试操作.                                           | `askyesnocancel(title=None, message=None, **options)                      `                   | 选择 ok 则返回 True; 选择 cancel 则返回 None|
+|给出一条错误信息                                                  | `showerror(title=None, message=None, **options)                           `                   ||
+|给出一条提示信息                                                  | `showinfo(title=None, message=None, **options)                            `                   ||
+|给出一条警告信息                                                  | `showwarning(title=None, message=None, **options)                         `                   ||
+|<b>文件选择对话框   </b>                                          | `tkFileDialog.askopenfilename()|
+|<b>颜色选择对话框  </b>                                           | `tkColorChooser.askColor ( color, option=value, ...)|
+|<b>Variable 类双向绑定      </b>                                  | `                                                                         `                   ||
+|保存一个 string 类型变量, 默认值为""                              | `x = StringVar()                                                          `                   ||
+|保存一个整型变量, 默认值为0                                       | `x = IntVar()                                                             `                   ||
+|保存一个浮点型变量, 默认值为0.0                                   | `x = DoubleVar()                                                          `                   ||
+|保存一个布尔型变量, 返回值为 0 (代表 False) 或 1 (代表 True)      | `x = BooleanVar()                                                         `                   ||
+|                                                                  | `get()                                                                    `                   | 得到其保存的变量值|
+|                                                                  | `set()                                                                    `                   | 设置其保存的变量值|
+|<b>RadioButtons单选按钮 </b>                                      | `Radiobutton(root,text="Python",padx=20,variable=v,value=1).pack(anchor=W)`                   ||
+|<b>Checkbox</b>                                                   | `Checkbutton(master, text="male", variable=var1)                          `                   | .|
+
+===事件绑定===
+widget.bind(event, handler) 
+l =ttk.Label(root, text="Starting...")
+l.grid()
+l.bind('<Enter>', lambda e: l.configure(text='Moved mouse inside'))

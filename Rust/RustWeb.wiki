@@ -1,0 +1,34 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#用Rust写Web|用Rust写Web]]
+    - [[#用Rust写Web#编译到wasm的工具|编译到wasm的工具]]
+      - [[#用Rust写Web#编译到wasm的工具#rustc|rustc]]
+      - [[#用Rust写Web#编译到wasm的工具#cargo-web|cargo-web]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+
+= 用Rust写Web =
+== 编译到wasm的工具 ==
+=== rustc ===
+使用基本编译器进行编译,目前编译器版本要`>1.25.0`,所以要先升级到开发版`rustup install nightly;rustup default nightly`
+=== cargo-web ===
+使用cargo管理项目,先安装插件[[https://github.com/koute/cargo-web| cargo-webx]],`cargo install -f cargo-web`
+配置样例:
+{{{
+default-target = "wasm32-unknown-unknown"
+prepend-js = "src/runtime.js"
+
+[cargo-web]
+minimum-version = "0.6.0" #cargo-web version
+
+[target.emscripten]
+prepend-js = "src/emscripten_runtime.js"
+# This will enable Emscripten's SDL2 port. Consult Emscripten's documentation
+# for more details.
+link-args = ["-s", "USE_SDL=2"]
+
+[target.wasm32-unknown-unknown]
+prepend-js = "src/native_runtime.js"
+	}}}
