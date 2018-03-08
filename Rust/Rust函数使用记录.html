@@ -51,13 +51,16 @@
 <li>
 <a href="Rust函数使用记录.html#Rust函数记录-常用宏">常用宏</a>
 
+<li>
+<a href="Rust函数使用记录.html#Rust函数记录-过程宏">过程宏</a>
+
 </ul>
 <li>
 <a href="Rust函数使用记录.html#原始类型">原始类型</a>
 
 <ul>
 <li>
-[[#原始类型#<code>String</code>|<code>String</code>]]
+<a href="Rust函数使用记录.html#原始类型-str:字符串">str:字符串</a>
 
 </ul>
 <li>
@@ -65,18 +68,27 @@
 
 <ul>
 <li>
-[[#标准库#<code>std::io</code>:标准输入输出|<code>std::io</code>:标准输入输出]]
+<a href="Rust函数使用记录.html#标准库-std::String:可变字符串">std::String:可变字符串</a>
 
 <li>
-[[#标准库#<code>std::cmp</code>:比较|<code>std::cmp</code>:比较]]
+<a href="Rust函数使用记录.html#标准库-std::collections::HashMap">std::collections::HashMap</a>
+
+<li>
+<a href="Rust函数使用记录.html#标准库-std::vec::Vec:可变数组">std::vec::Vec:可变数组</a>
+
+<li>
+<a href="Rust函数使用记录.html#标准库-std::io:标准输入输出">std::io:标准输入输出</a>
+
+<li>
+<a href="Rust函数使用记录.html#标准库-std::cmp:比较">std::cmp:比较</a>
 
 <ul>
 <li>
-[[#标准库#<code>std::cmp</code>:比较#<code>std::cmp::Ordering</code>:比较大小|<code>std::cmp::Ordering</code>:比较大小]]
+<a href="Rust函数使用记录.html#标准库-std::cmp:比较-std::cmp::Ordering:比较大小">std::cmp::Ordering:比较大小</a>
 
 </ul>
 <li>
-[[#标准库#<code>std::env</code>:命令行参数|<code>std::env</code>:命令行参数]]
+<a href="Rust函数使用记录.html#标准库-std::env:命令行参数">std::env:命令行参数</a>
 
 </ul>
 <li>
@@ -84,7 +96,10 @@
 
 <ul>
 <li>
-[[#外部库#<code>rand</code>:随机数生成|<code>rand</code>:随机数生成]]
+<a href="Rust函数使用记录.html#外部库-regex:正则表达式">regex:正则表达式</a>
+
+<li>
+<a href="Rust函数使用记录.html#外部库-rand:随机数生成">rand:随机数生成</a>
 
 </ul>
 </ul>
@@ -173,8 +188,73 @@ io::stdin()
 </tr>
 </table>
 
+<div id="Rust函数记录-过程宏"><h2 id="过程宏">过程宏</h2></div>
+<table>
+<tr>
+<td>
+<code>#[derive(PartialEq)]</code>
+</td>
+<td>
+添加相等<code>==</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>#[derive(Clone)]</code>
+</td>
+<td>
+添加<code>.clone()</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>#[derive(Debug)]</code>
+</td>
+<td>
+添加<code>print!("{:?}",a)</code>的<code>:?</code>
+</td>
+</tr>
+</table>
 <div id="原始类型"><h1 id="原始类型">原始类型</h1></div>
-<div id="原始类型-`String`"><h2 id="`String`"><code>String</code></h2></div>
+<div id="原始类型-str:字符串"><h2 id="str:字符串">str:字符串</h2></div>
+
+<table>
+<tr>
+<td>
+<code>"s".trim()</code>
+</td>
+<td>
+去除开头结尾的空白\t
+</td>
+</tr>
+<tr>
+<td>
+<code>"s".parse()</code>
+</td>
+<td>
+转换成数字类型,返回<code>String::Result</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>"s".replace("old","new")</code>
+</td>
+<td>
+替换字符串
+</td>
+</tr>
+<tr>
+<td>
+<code>"s".to_string();1.to_string();</code>
+</td>
+<td>
+将各种东西转换成String
+</td>
+</tr>
+</table>
+
+<div id="标准库"><h1 id="标准库">标准库</h1></div>
+<div id="标准库-std::String:可变字符串"><h2 id="std::String:可变字符串">std::String:可变字符串</h2></div>
 <table>
 <tr>
 <td>
@@ -186,31 +266,215 @@ io::stdin()
 </tr>
 <tr>
 <td>
-<code>"s".trim()</code>
+<code>String::from("a")</code>
 </td>
 <td>
-去除开头结尾的空白
+创建字符串
 </td>
 </tr>
 <tr>
 <td>
-<code>"s".parse()</code>
+<code>string.as_str()</code>
 </td>
 <td>
-转换成数字类型,返回<code>String::Result</code>
+转换成字符串str
+</td>
+</tr>
+<tr>
+<td>
+<code>string.as_mut_str()</code>
+</td>
+<td>
+转换成可变str
+</td>
+</tr>
+<tr>
+<td>
+<code>string.push_str("a")</code>
+</td>
+<td>
+追加字符串
+</td>
+</tr>
+<tr>
+<td>
+<code>format!("{}-{}",a,b)</code>
+</td>
+<td>
+字符串格式化连接,返回String
+</td>
+</tr>
+<tr>
+<td>
+<code>let (first,last) = s.split_at(2)</code>
+</td>
+<td>
+从标号开始分割
+</td>
+</tr>
+<tr>
+<td>
+`"s".split(
+</td>
+<td>
+c
+</td>
+<td>
+c == ' ');`
+</td>
+<td>
+传入匿名函数规则,分割字符串
+</td>
+</tr>
+</table>
+
+<div id="标准库-std::collections::HashMap"><h2 id="std::collections::HashMap">std::collections::HashMap</h2></div>
+<table>
+<tr>
+<td>
+<code>use std::collections::HashMap;</code>
+</td>
+<td>
+需要先引入库才能用
+</td>
+</tr>
+<tr>
+<td>
+<code>let map:HashMap&lt;&amp;str,i32&gt; = HashMap::new();</code>
+</td>
+<td>
+新建必须指定类型,没有字面量创建宏可用,可以借助array生成
+</td>
+</tr>
+<tr>
+<td>
+<code>map.instrt("a",2)</code>
+</td>
+<td>
+只能一个个插入值
+</td>
+</tr>
+<tr>
+<td>
+<code>for (key, val) in map.iter() {}</code>
+</td>
+<td>
+遍历键值对
+</td>
+</tr>
+<tr>
+<td>
+<code>map.iter_mut()</code>
+</td>
+<td>
+遍历键值对,可变
+</td>
+</tr>
+<tr>
+<td>
+<code>for i in map.keys(){}</code>
+</td>
+<td>
+遍历键
+</td>
+</tr>
+<tr>
+<td>
+<code>for i in map.values(){}</code>
+</td>
+<td>
+遍历值
+</td>
+</tr>
+<tr>
+<td>
+<code>for i in map.values_mut(){*i}</code>
+</td>
+<td>
+遍历值,可变
+</td>
+</tr>
+</table>
+
+<div id="标准库-std::vec::Vec:可变数组"><h2 id="std::vec::Vec:可变数组">std::vec::Vec:可变数组</h2></div>
+<table>
+<tr>
+<td>
+<code>vec![1]</code>
+</td>
+<td>
+新建数组字面量宏
+</td>
+</tr>
+<tr>
+<td>
+<code>let vec: Vec&lt;i32&gt; = Vec::new();</code>
+</td>
+<td>
+新建空Vec
+</td>
+</tr>
+<tr>
+<td>
+<code>vec.push(1)</code>
+</td>
+<td>
+在末尾添加元素
 </td>
 </tr>
 </table>
 
 
-<div id="标准库"><h1 id="标准库">标准库</h1></div>
-<div id="标准库-`std::io`:标准输入输出"><h2 id="`std::io`:标准输入输出"><code>std::io</code>:标准输入输出</h2></div>
+<div id="标准库-std::io:标准输入输出"><h2 id="std::io:标准输入输出">std::io:标准输入输出</h2></div>
+<table>
+<tr>
+<td>
+<code>std::fs::File</code>
+</td>
+<td>
+文件处理
+</td>
+</tr>
+<tr>
+<td>
+<code>std::io::prelude::*</code>
+</td>
+<td>
+io相关方法
+</td>
+</tr>
+<tr>
+<td>
+<code>let mut f = File::open(filename).expect("file not found");</code>
+</td>
+<td>
+载入文件
+</td>
+</tr>
+<tr>
+<td>
+<code>let mut contents = String::new();</code>
+</td>
+<td>
+预创建文件内容读取
+</td>
+</tr>
+<tr>
+<td>
+<code>f.read_to_string(&amp;mut contents).expect("e");</code>
+</td>
+<td>
+读取文件
+</td>
+</tr>
+</table>
+
 <pre class="rust">
 use std::io
 is::stdin().read_line(&amp;mut guess)
 </pre>
-<div id="标准库-`std::cmp`:比较"><h2 id="`std::cmp`:比较"><code>std::cmp</code>:比较</h2></div>
-<div id="标准库-`std::cmp`:比较-`std::cmp::Ordering`:比较大小"><h3 id="`std::cmp::Ordering`:比较大小"><code>std::cmp::Ordering</code>:比较大小</h3></div>
+<div id="标准库-std::cmp:比较"><h2 id="std::cmp:比较">std::cmp:比较</h2></div>
+<div id="标准库-std::cmp:比较-std::cmp::Ordering:比较大小"><h3 id="std::cmp::Ordering:比较大小">std::cmp::Ordering:比较大小</h3></div>
 <pre class="rust">
 use std::cmp::Ordering
 match "s".cmp(&amp;s){
@@ -219,10 +483,128 @@ match "s".cmp(&amp;s){
 	Ordering::Equl =&gt; println!("e")
 }
 </pre>
-<div id="标准库-`std::env`:命令行参数"><h2 id="`std::env`:命令行参数"><code>std::env</code>:命令行参数</h2></div>
+<div id="标准库-std::env:命令行参数"><h2 id="std::env:命令行参数">std::env:命令行参数</h2></div>
 
 <div id="外部库"><h1 id="外部库">外部库</h1></div>
-<div id="外部库-`rand`:随机数生成"><h2 id="`rand`:随机数生成"><code>rand</code>:随机数生成</h2></div>
+<div id="外部库-regex:正则表达式"><h2 id="regex:正则表达式">regex:正则表达式</h2></div>
+<table>
+<tr>
+<td>
+<code>regex = "0.2"</code>
+</td>
+<td>
+先要引入依赖
+</td>
+</tr>
+<tr>
+<td>
+<code>extern crate regex;use regex::Regex;</code>
+</td>
+<td>
+再引入库和函数
+</td>
+</tr>
+<tr>
+<td>
+<code>let re = Regex::new(r"").unwrap()</code>
+</td>
+<td>
+创建正则文本
+</td>
+</tr>
+<tr>
+<td>
+<code>RE.is_match(text)</code>
+</td>
+<td>
+返回bool,检查是否完全匹配
+</td>
+</tr>
+<tr>
+<td>
+<code>for cap in re.captures_iter(text) {&amp;cap[1]}</code>
+</td>
+<td>
+返回含有匹配项列表的迭代器
+</td>
+</tr>
+<tr>
+<td>
+<code>let after = re.replace_all(before, "\(m/\)d/$y");</code>
+</td>
+<td>
+替换
+</td>
+</tr>
+<tr>
+<td>
+<code>Regex::new(r"(?x)  (?P&lt;y&gt;\d{4}) # the year ")</code>
+</td>
+<td>
+使用<code>(?x)</code>开启忽略空白的模式,可以用来写注释
+</td>
+</tr>
+<tr>
+<td>
+<code>let mat = re.find("ΔδΔ").unwrap();</code>
+</td>
+<td>
+搜索返回位置
+</td>
+</tr>
+<tr>
+<td>
+<code>mat.start()==6,mat.end()==10</code>
+</td>
+<td>
+返回的内容
+</td>
+</tr>
+<tr>
+<td>
+<code>(?P&lt;name&gt;exp)</code>
+</td>
+<td>
+命名的匹配表达式
+</td>
+</tr>
+<tr>
+<td>
+<code>(?:exp)</code>
+</td>
+<td>
+不获取的表达式
+</td>
+</tr>
+<tr>
+<td>
+<code>(?flag)</code>
+</td>
+<td>
+设置一个标记
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+<ul>
+<li>
+大体上与一般的正则表达式相同,但有一些特有写法
+<pre class="rust">
+extern crate regex;
+use regex::Regex;
+let re = Regex::new(r"^\d{4}-\d{2}-\d{2}$").unwrap();
+assert!(re.is_match("2014-01-01"));
+</pre>
+
+</ul>
+<div id="外部库-rand:随机数生成"><h2 id="rand:随机数生成">rand:随机数生成</h2></div>
 <p>
 <code>rand = "0.3.14"</code>
 </p>
@@ -235,7 +617,7 @@ rand::thread_rng().gen_range(1,101) //调用随机数生成器的整数生成方
 		</div>
 		<nav class="navbar">
 			<span class="navbar-text">
-				Page created on 2018-02-06
+				Page created on 2018-02-25
 			</span>
 		</nav>
 

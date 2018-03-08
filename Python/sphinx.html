@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>sphinx</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="sphinx.html#sphinx注释文档生成">sphinx注释文档生成</a>
+
+<ul>
+<li>
+<a href="sphinx.html#sphinx注释文档生成-安装与基本使用">安装与基本使用</a>
+
+<ul>
+<li>
+<a href="sphinx.html#sphinx注释文档生成-安装与基本使用-安装">安装</a>
+
+<ul>
+<li>
+<a href="sphinx.html#sphinx注释文档生成-安装与基本使用-安装-快速开始">快速开始</a>
+
+</ul>
+</ul>
+<li>
+<a href="sphinx.html#sphinx注释文档生成-配置和问题解决">配置和问题解决</a>
+
+<ul>
+<li>
+<a href="sphinx.html#sphinx注释文档生成-配置和问题解决-启用numpydoc风格注释支持">启用numpydoc风格注释支持</a>
+
+<li>
+<a href="sphinx.html#sphinx注释文档生成-配置和问题解决-生成中文pdf">生成中文pdf</a>
+
+</ul>
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+
+<div id="sphinx注释文档生成"><h1 id="sphinx注释文档生成">sphinx注释文档生成</h1></div>
+<div id="sphinx注释文档生成-安装与基本使用"><h2 id="安装与基本使用">安装与基本使用</h2></div>
+<div id="sphinx注释文档生成-安装与基本使用-安装"><h3 id="安装">安装</h3></div>
+<p>
+<code>pip3 install sphinx</code>
+</p>
+<div id="sphinx注释文档生成-安装与基本使用-安装-快速开始"><h4 id="快速开始">快速开始</h4></div>
+<p>
+在<code>./docs</code>文件夹里运行<code>sphinx-quickstart</code>,注意<code>autodoc</code>必须输入<code>y</code>
+</p>
+
+<p>
+在配置之后,需要设置目录,在<code>./docs/conf.py</code>里,写入:
+</p>
+<pre class="python">
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../..'))
+</pre>
+
+<table>
+<tr>
+<th>
+命令
+</th>
+<th>
+作用
+</th>
+</tr>
+<tr>
+<td>
+<code>make html</code>
+</td>
+<td>
+生成网页
+</td>
+</tr>
+<tr>
+<td>
+<code>make latexpdf</code>
+</td>
+<td>
+生成pdf
+</td>
+</tr>
+</table>
+
+
+<div id="sphinx注释文档生成-配置和问题解决"><h2 id="配置和问题解决">配置和问题解决</h2></div>
+<div id="sphinx注释文档生成-配置和问题解决-启用numpydoc风格注释支持"><h3 id="启用numpydoc风格注释支持">启用numpydoc风格注释支持</h3></div>
+<pre class="python">
+pip3 install numpydoc
+
+# conf.py:
+extensions = ['numpydoc']
+</pre>
+
+<div id="sphinx注释文档生成-配置和问题解决-生成中文pdf"><h3 id="生成中文pdf">生成中文pdf</h3></div>
+<p>
+在<code>conf.py</code>里加入:
+</p>
+<pre class="python">
+
+
+latex_engine = 'xelatex'
+
+latex_elements = {
+        'papersize':'a4paper',
+        'pointsize':'10pt',
+        'classoptions': '',
+        'babel': '\\usepackage[english]{babel}',
+        'fncychap' : '',
+        'figure_align': 'H',
+        'fontpkg': r'''
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+''',
+        'preamble': r'''
+\usepackage[titles]{tocloft}
+\usepackage{ctex}
+\cftsetpnumwidth {1.25cm}\cftsetrmarg{1.5cm}
+\setlength{\cftchapnumwidth}{0.75cm}
+\setlength{\cftsecindent}{\cftchapnumwidth}
+\setlength{\cftsecnumwidth}{1.25cm}''',
+    'fncychap': r'\usepackage[Bjornstrup]{fncychap}',
+    'printindex': r'\footnotesize\raggedright\printindex',
+}
+
+</pre>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-03-08
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>

@@ -10,7 +10,7 @@
 
 		<!-- Template -->
 		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
-		<title>index</title>
+		<title>nom</title>
 	</head>
 
 	<body>
@@ -34,53 +34,153 @@
 				</div>
 			</nav>
 
-			<div class="row align-items-center">
-				<div class="col">
-					
-<div id="Python笔记目录"><h1 id="Python笔记目录">Python笔记目录</h1></div>
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
 <ul>
 <li>
-<a href="python多进程编程.html">python多进程编程</a>
+<a href="nom.html#nom">nom</a>
+
+<ul>
+<li>
+<a href="nom.html#nom-引入库">引入库</a>
 
 <li>
-<a href="MatPlotLib画图.html">MatPlotLib画图</a>
+<a href="nom.html#nom-常用函数和宏">常用函数和宏</a>
 
 <li>
-<a href="R语言画图.html">R语言画图</a>
-
-<li>
-<a href="使用OpenBLAS加速numpy.html">使用OpenBLAS加速numpy</a>
-
-<li>
-<a href="numpy.html">numpy</a>
-
-<li>
-<a href="scipy.html">scipy</a>
-
-<li>
-<a href="python基本语法.html">python基本语法</a>
-
-<li>
-<a href="tkinter.html">基本的gui(tkinter)</a>
-
-<li>
-<a href="beautifulsoup4.html">html解析(bs4)</a>
-
-<li>
-<a href="sphinx.html">sphinx注释文档生成</a>
-
-<li>
-<a href="unittest.html">unittest单元测试</a>
+<a href="nom.html#nom-常用组合子">常用组合子</a>
 
 </ul>
+</ul>
 
-				</div>
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+
+<div id="nom"><h1 id="nom">nom</h1></div>
+<p>
+nom是Rust中的解析器组合子库,用来解析文本或者作为词法分析器
+</p>
+<div id="nom-引入库"><h2 id="引入库">引入库</h2></div>
+<p>
+大多数功能由宏实现,所以要引入宏
+</p>
+<pre class="rust">
+nom = "4.0.0-beta1"
+
+#[macro_use]
+extern crate nom;
+</pre>
+<div id="nom-常用函数和宏"><h2 id="常用函数和宏">常用函数和宏</h2></div>
+<table>
+<tr>
+<td>
+<code>name!(func_name,rule)</code>
+</td>
+<td>
+输入函数名,和nom规则(函数或宏,称为组合子),返回以这个为名的parser函数
+</td>
+</tr>
+<tr>
+<td>
+parser函数
+</td>
+<td>
+对文本进行匹配并返回<code>nom::IResult&lt;I,O,E&gt;</code>类型的值
+</td>
+</tr>
+<tr>
+<td>
+<code>nom::IResult&lt;I,O,E&gt;==Result&lt;&lt;I,O&gt;,Err&lt;I,E&gt;&gt;</code>
+</td>
+<td>
+这个类型只是普通的<code>Result</code>类型而已
+</td>
+</tr>
+</table>
+
+<div id="nom-常用组合子"><h2 id="常用组合子">常用组合子</h2></div>
+<table>
+<tr>
+<td>
+<code>tag!("abcd")</code>
+</td>
+<td>
+匹配以<code>abcd</code>开头的字符串
+</td>
+</tr>
+<tr>
+<td>
+<code>take!(10)</code>
+</td>
+<td>
+从字符串中匹配<code>10</code>个字节
+</td>
+</tr>
+<tr>
+<td>
+`alt!(tag!("a")
+</td>
+<td>
+tag!("b"))`
+</td>
+<td>
+尝试所有分支,返回第一个成功的
+</td>
+</tr>
+<tr>
+<td>
+<code>opt!(tag!("a"))</code>
+</td>
+<td>
+如果匹配失败,成功并返回<code>None</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>many0!(tag!("a"))</code>
+</td>
+<td>
+运行匹配0次以上,返回<code>Vec&lt;O&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>many1!()</code>
+</td>
+<td>
+运行1次或多次,同上
+</td>
+</tr>
+<tr>
+<td>
+<code>tuple!(tag!("a"),tag!("b"))</code>
+</td>
+<td>
+按顺序运行子匹配,并返回所有子匹配的结果构成的列表
+</td>
+</tr>
+<tr>
+<td>
+<code>do_parse!(tag("a")&gt;&gt; a:be_u8 &gt;&gt;(a))</code>
+</td>
+<td>
+按顺序运行匹配,并对有名字的匹配项计数,返回数目
+</td>
+</tr>
+</table>
+
 		</div>
-		<!-- <nav class="navbar"> -->
-			<!-- <span class="navbar-text"> -->
-				<!-- Page created on 2018-03-08 -->
-			<!-- </span> -->
-		<!-- </nav> -->
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-02-25
+			</span>
+		</nav>
 
 	</div>
 
@@ -97,13 +197,13 @@
 			$('pre').each(function(i, block) {
 				hljs.highlightBlock(block);
 			});
+			$('.article-toc ul li ul li ul li ul').hide();
 		});
 	</script>
 	<!-- MathJax -->
 	<script type="text/javascript" async
 		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
 	</script>
-
 	<script type="text/javascript" src="../js/search.js"></script>
 </body>
 </html>

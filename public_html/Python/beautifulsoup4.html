@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>beautifulsoup4</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="beautifulsoup4.html#beautiful soup4">beautiful soup4</a>
+
+<ul>
+<li>
+<a href="beautifulsoup4.html#beautiful soup4-安装">安装</a>
+
+<li>
+<a href="beautifulsoup4.html#beautiful soup4-标签的使用">标签的使用</a>
+
+<li>
+<a href="beautifulsoup4.html#beautiful soup4-标签的遍历">标签的遍历</a>
+
+<li>
+<a href="beautifulsoup4.html#beautiful soup4-标签的寻找">标签的寻找</a>
+
+<li>
+<a href="beautifulsoup4.html#beautiful soup4-css选择器">css选择器</a>
+
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+
+<div id="beautiful soup4"><h1 id="beautiful soup4">beautiful soup4</h1></div>
+<div id="beautiful soup4-安装"><h2 id="安装">安装</h2></div>
+<p>
+beautiful soup4: python3-bs4
+第三方解析器： lxml html5lib
+</p>
+<pre>
+from bs4 import BeautifulSoup           # 导入
+soup = BeautifulSoup(html_file, 'lxml') # 初始化
+soup.prettify()                         # 格式化打印
+</pre>
+<div id="beautiful soup4-标签的使用"><h2 id="标签的使用">标签的使用</h2></div>
+<table>
+<tr>
+<td>
+<code>soup.title, soup.head, soup.a, soup.p</code>
+</td>
+<td>
+选择tag
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.title.name, soup.title.attrs</code>
+</td>
+<td>
+名字和属性
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.p['class'], soup.p.get('class')</code>
+</td>
+<td>
+选择属性的方法
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.p.string</code>
+</td>
+<td>
+获得内容
+</td>
+</tr>
+<tr>
+<td>
+<code>bs4.element.Comment</code>
+</td>
+<td>
+注释对象
+</td>
+</tr>
+</table>
+
+<div id="beautiful soup4-标签的遍历"><h2 id="标签的遍历">标签的遍历</h2></div>
+<table>
+<tr>
+<td>
+<code>soup.head.contents</code>
+</td>
+<td>
+获得直接子节点的列表
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.head.children</code>
+</td>
+<td>
+获得可遍历的子节点对象
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.descendants</code>
+</td>
+<td>
+获得全部下级节点
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.parent, soup.parents</code>
+</td>
+<td>
+获得父节点
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.p.next_sibling, soup.p.previous_sibling</code>
+</td>
+<td>
+获得同级节点
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.p.next_element, soup.p.previous_element</code>
+</td>
+<td>
+获得下一个/上一个节点
+</td>
+</tr>
+</table>
+	
+<div id="beautiful soup4-标签的寻找"><h2 id="标签的寻找">标签的寻找</h2></div>
+<table>
+<tr>
+<td>
+<code>soup.find_all(name, attrs, recursive, text, **kwargs)</code>
+</td>
+<td>
+返回list
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.find_all('a'), soup.find_all(['a', 'b'])</code>
+</td>
+<td>
+查找名字
+</td>
+</tr>
+<tr>
+<td>
+<code>importre;soup.find_all(re.compile("^b"))</code>
+</td>
+<td>
+查找正则表达式
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.find_all(func)</code>
+</td>
+<td>
+查找一个一元函数
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.find_all(id='aaa')</code>
+</td>
+<td>
+查找属性，id，class等
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.find_all(true, limit=2)</code>
+</td>
+<td>
+限制层级数
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.find_all("title", recursive=False)</code>
+</td>
+<td>
+只查找直接节点
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.find(name, attrs, recursive, text, **kwargs)</code>
+</td>
+<td>
+返回对象而不是列表
+</td>
+</tr>
+</table>
+
+<div id="beautiful soup4-css选择器"><h2 id="css选择器">css选择器</h2></div>
+<table>
+<tr>
+<td>
+<code>soup.select('title')</code>
+</td>
+<td>
+选择名字
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.select('.classname')</code>
+</td>
+<td>
+选择类名
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.select('#id')</code>
+</td>
+<td>
+选择id
+</td>
+</tr>
+<tr>
+<td>
+<code>soup.select('a[class="classname"]')</code>
+</td>
+<td>
+组合选择标签和属性
+</td>
+</tr>
+</table>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-02-19
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>

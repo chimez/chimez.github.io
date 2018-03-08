@@ -1,0 +1,1006 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>Lua基本语法</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="Lua基本语法.html#Lua基本语法">Lua基本语法</a>
+
+<ul>
+<li>
+<a href="Lua基本语法.html#Lua基本语法-变量">变量</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-类型">类型</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-Table数据结构">Table数据结构</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-函数">函数</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-函数或操作符">函数或操作符</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-杂项">杂项</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-解释，编译">解释，编译</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-错误与异常">错误与异常</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-控制结构">控制结构</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-迭代器">迭代器</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-协同程序 coroutine">协同程序 coroutine</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-设计模式">设计模式</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-模块与包">模块与包</a>
+
+<li>
+<a href="Lua基本语法.html#Lua基本语法-简单IO操作">简单IO操作</a>
+
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+
+<div id="Lua基本语法"><h1 id="Lua基本语法">Lua基本语法</h1></div>
+
+
+<div id="Lua基本语法-变量"><h2 id="变量">变量</h2></div>
+<table>
+<tr>
+<td>
+<code>LUA_INIT="filename"</code>
+</td>
+<td>
+运行lua脚本时首先执行
+</td>
+</tr>
+<tr>
+<td>
+<code>arg[1]="a"</code>
+</td>
+<td>
+arg是存储命令行参数的table，参数从1开始，0,-1...为命令行其他内容
+</td>
+</tr>
+<tr>
+<td>
+<code>local a</code>
+</td>
+<td>
+声明局部变量
+</td>
+</tr>
+<tr>
+<td>
+<code>local a=a</code>
+</td>
+<td>
+用全局变量创建同名局部变量，可以加速块内访问速度
+</td>
+</tr>
+</table>
+
+<div id="Lua基本语法-类型"><h2 id="类型">类型</h2></div>
+<table>
+<tr>
+<td>
+<code>nil</code>
+</td>
+<td>
+空
+</td>
+</tr>
+<tr>
+<td>
+<code>boolean</code>
+</td>
+<td>
+布尔,只有false和nil为假，true及其他都算真
+</td>
+</tr>
+<tr>
+<td>
+<code>number</code>
+</td>
+<td>
+数字，默认为32位双精度浮点数
+</td>
+</tr>
+<tr>
+<td>
+<code>string</code>
+</td>
+<td>
+字符串，不可变，支持任意二进制数据和任意大小
+</td>
+</tr>
+<tr>
+<td>
+<code>userdata</code>
+</td>
+<td>
+自定义类型
+</td>
+</tr>
+<tr>
+<td>
+<code>function</code>
+</td>
+<td>
+函数
+</td>
+</tr>
+<tr>
+<td>
+<code>thread</code>
+</td>
+<td>
+线程
+</td>
+</tr>
+<tr>
+<td>
+<code>table</code>
+</td>
+<td>
+表
+</td>
+</tr>
+<tr>
+<td>
+<code>4e+4,5e-1</code>
+</td>
+<td>
+支持科学计数法
+</td>
+</tr>
+<tr>
+<td>
+<code>\n</code>
+</td>
+<td>
+转义字符，换行
+</td>
+</tr>
+<tr>
+<td>
+<code>\r</code>
+</td>
+<td>
+转义字符，回车
+</td>
+</tr>
+<tr>
+<td>
+<code>\t</code>
+</td>
+<td>
+转义字符，tab
+</td>
+</tr>
+<tr>
+<td>
+<code>\\</code>
+</td>
+<td>
+转义字符，\
+</td>
+</tr>
+<tr>
+<td>
+<code>\'</code>
+</td>
+<td>
+转义字符,'
+</td>
+</tr>
+<tr>
+<td>
+<code>\"</code>
+</td>
+<td>
+转义字符,"
+</td>
+</tr>
+<tr>
+<td>
+<code>\&lt;ddd&gt;</code>
+</td>
+<td>
+三个十进制数字，引用ASCLL
+</td>
+</tr>
+<tr>
+<td>
+<code>[[]],[===[ ]===]</code>
+</td>
+<td>
+0或任意数量等号界定的格式字符串，内部字符不会被解析
+</td>
+</tr>
+</table>
+
+<div id="Lua基本语法-Table数据结构"><h2 id="Table数据结构">Table数据结构</h2></div>
+<p>
+|<code>不能显式声明table，可以通过构造表达式声明</code>||
+<table>
+<tr>
+<td>
+<code>table是永远匿名</code>
+</td>
+<td>
+删除其引用（指针）不会删除table
+</td>
+</tr>
+</table>
+|<code>table默认从1开始计数</code>||
+<table>
+<tr>
+<td>
+<code>a={}</code>
+</td>
+<td>
+声明一个table，a
+</td>
+</tr>
+<tr>
+<td>
+<code>a[k]= 10    </code>
+</td>
+<td>
+a中的新条目，key=‘x'，value=10
+</td>
+</tr>
+<tr>
+<td>
+<code>a={'a','b','c'} </code>
+</td>
+<td>
+a[1]='a'
+</td>
+</tr>
+<tr>
+<td>
+<code>a=(x=10,y=20}   </code>
+</td>
+<td>
+a.x=10,a.y=20
+</td>
+</tr>
+<tr>
+<td>
+<code>a={[5+10]='a'}; a[15]='a'   </code>
+</td>
+<td>
+方括号内可以有显式表达式
+</td>
+</tr>
+<tr>
+<td>
+<code>a={1,2,3,}  </code>
+</td>
+<td>
+最后一个值可以加逗号
+</td>
+</tr>
+<tr>
+<td>
+<code>a.k == a[k]</code>
+</td>
+<td>
+table的引用
+</td>
+</tr>
+<tr>
+<td>
+<code>\#a </code>
+</td>
+<td>
+表示a的大小或最后一个元素的索引
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Lua基本语法-函数"><h2 id="函数">函数</h2></div>
+<p>
+|<code>只有一个参数且是字符串或table可以不加括号</code>||
+<table>
+<tr>
+<td>
+<code>o.f(o,b) == o:f(b)</code>
+</td>
+<td>
+冒号操作符
+</td>
+</tr>
+<tr>
+<td>
+<code>return a,b</code>
+</td>
+<td>
+支持多重返回值
+</td>
+</tr>
+<tr>
+<td>
+<code>return f()</code>
+</td>
+<td>
+强制全部返回
+</td>
+</tr>
+<tr>
+<td>
+<code>(f())</code>
+</td>
+<td>
+强制只返回第一个
+</td>
+</tr>
+<tr>
+<td>
+<code>unpack()     </code>
+</td>
+<td>
+接受数组参数，并从1开始返回数组的元素
+</td>
+</tr>
+<tr>
+<td>
+<code>function f(...) end</code>
+</td>
+<td>
+函数定义，变长参数
+</td>
+</tr>
+<tr>
+<td>
+<code>function f(...) end</code>
+</td>
+<td>
+函数定义，变长参数
+</td>
+</tr>
+</table>
+|<code>所有参数在数组‘...’里</code>||
+<table>
+<tr>
+<td>
+<code>不支持具名实参传入(a='a',b='b')</code>
+</td>
+<td>
+但是可以传入一个table,{a='a',b='b'}
+</td>
+</tr>
+<tr>
+<td>
+<code>所有函数都是匿名的</code>
+</td>
+<td>
+函数名只是函数指针
+</td>
+</tr>
+<tr>
+<td>
+<code>function (x) return x end</code>
+</td>
+<td>
+匿名函数
+</td>
+</tr>
+</table>
+|<code>支持高阶函数</code>||
+<table>
+<tr>
+<td>
+<code>closure闭合函数</code>
+</td>
+<td>
+函数加上非局部变量
+</td>
+</tr>
+<tr>
+<td>
+<code>return g()</code>
+</td>
+<td>
+尾调用作用消除， 相当于   goto g
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Lua基本语法-函数或操作符"><h2 id="函数或操作符">函数或操作符</h2></div>
+<table>
+<tr>
+<td>
+<code>type()</code>
+</td>
+<td>
+返回目标类型，字符串
+</td>
+</tr>
+<tr>
+<td>
+<code>+，-，×，/，%，^</code>
+</td>
+<td>
+加减乘除取模指数，对字符串会进行强转成数字
+</td>
+</tr>
+<tr>
+<td>
+<code>&lt;,&gt;,&lt;=,&gt;=,==,~=</code>
+</td>
+<td>
+关系运算符，返回true或false，nil只与自身相等
+</td>
+</tr>
+<tr>
+<td>
+<code>and,or,not</code>
+</td>
+<td>
+逻辑运算，有短路特性
+</td>
+</tr>
+<tr>
+<td>
+<code>A and B or C</code>
+</td>
+<td>
+类似A?B:C,但B不能为假(false或nil)
+</td>
+</tr>
+<tr>
+<td>
+<code>x,y=y,x</code>
+</td>
+<td>
+多重赋值可以交换变量
+</td>
+</tr>
+<tr>
+<td>
+<code>..</code>
+</td>
+<td>
+字符串连接操作
+</td>
+</tr>
+<tr>
+<td>
+<code>tonumber()</code>
+</td>
+<td>
+强转为数字
+</td>
+</tr>
+<tr>
+<td>
+<code>tostring()</code>
+</td>
+<td>
+强转为字符串
+</td>
+</tr>
+<tr>
+<td>
+<code>#string</code>
+</td>
+<td>
+获得字符串长度
+</td>
+</tr>
+<tr>
+<td>
+<code>table.maxn()</code>
+</td>
+<td>
+返回最大正索引数
+</td>
+</tr>
+</table>
+
+<div id="Lua基本语法-杂项"><h2 id="杂项">杂项</h2></div>
+<p>
+|<code>代码不需要分隔符，换行和分号都没有作用</code>||
+|<code>标识符以字母或下划线开头，不能以数字开头</code>||
+<table>
+<tr>
+<td>
+<code>--something</code>
+</td>
+<td>
+单行注释
+</td>
+</tr>
+<tr>
+<td>
+<code>--[[A,B,C//\n   --]]</code>
+</td>
+<td>
+多行注释
+</td>
+</tr>
+<tr>
+<td>
+<code>--[[A,B,C//\n   --]]</code>
+</td>
+<td>
+多行注释
+</td>
+</tr>
+<tr>
+<td>
+<code>--[[ -&gt;  ---[[</code>|代码测试技巧：在多行注释前一个加上一个-取消注释
+</td>
+</tr>
+<tr>
+<td>
+<code>--[[ -&gt;  ---[[</code>|代码测试技巧：在多行注释前一个加上一个-取消注释
+</td>
+</tr>
+<tr>
+<td>
+<code>#!/usr/local/bin/lua</code>
+</td>
+<td>
+脚本头格式
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Lua基本语法-解释，编译"><h2 id="解释，编译">解释，编译</h2></div>
+<table>
+<tr>
+<td>
+<code>lua -i a.lua</code>
+</td>
+<td>
+在执行完脚本之后将进入交互模式
+</td>
+</tr>
+<tr>
+<td>
+<code>lua -e "print()"</code>
+</td>
+<td>
+单行执行命令
+</td>
+</tr>
+<tr>
+<td>
+<code>lua -l a</code>
+</td>
+<td>
+加载库文件
+</td>
+</tr>
+<tr>
+<td>
+<code>dofile('filename')</code>
+</td>
+<td>
+交互式中执行脚本
+</td>
+</tr>
+<tr>
+<td>
+<code>loadfile('filename')</code>
+</td>
+<td>
+加载脚本，编译成函数后返回这个函数
+</td>
+</tr>
+<tr>
+<td>
+<code>loadstring(string)</code>
+</td>
+<td>
+将字符串作为lua代码执行，从内存中获得代码
+</td>
+</tr>
+<tr>
+<td>
+<code>loadlib()</code>
+</td>
+<td>
+加载动态链接库
+</td>
+</tr>
+</table>
+
+<div id="Lua基本语法-错误与异常"><h2 id="错误与异常">错误与异常</h2></div>
+<table>
+<tr>
+<td>
+<code>assert(f(),"string")</code>
+</td>
+<td>
+错误提示函数,若f()返回nil或false则返回string，若f()返回true则返回f()的值
+</td>
+</tr>
+<tr>
+<td>
+<code>error({code="string"})</code>
+</td>
+<td>
+可以进行消息传递
+</td>
+</tr>
+</table>
+<p>
+|<code>a,b=pcall(f())</code>||
+|<code>a==false</code>||
+|<code>b.code == 'string'</code>||
+</p>
+
+<div id="Lua基本语法-控制结构"><h2 id="控制结构">控制结构</h2></div>
+<table>
+<tr>
+<td>
+<code>do something end</code>
+</td>
+<td>
+顺序块
+</td>
+</tr>
+<tr>
+<td>
+<code>if a==b then .. elseif a==c then .. else .. end</code>
+</td>
+<td>
+条件
+</td>
+</tr>
+<tr>
+<td>
+<code>while a==b do..end</code>
+</td>
+<td>
+循环
+</td>
+</tr>
+<tr>
+<td>
+<code>repeat..until a==b</code>
+</td>
+<td>
+直到
+</td>
+</tr>
+<tr>
+<td>
+<code>for a=1,2,3, do..end</code>
+</td>
+<td>
+数字型for
+</td>
+</tr>
+<tr>
+<td>
+<code>for i,v in ipairs(x) do..end</code>
+</td>
+<td>
+泛型for和迭代器
+</td>
+</tr>
+</table>
+<p>
+|<code>do break end</code>||
+<table>
+<tr>
+<td>
+<code>do return end</code>
+</td>
+<td>
+注意break和return只能在else,until,end之前
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Lua基本语法-迭代器"><h2 id="迭代器">迭代器</h2></div>
+<table>
+<tr>
+<td>
+<code>io.lines()</code>
+</td>
+<td>
+文件每行
+</td>
+</tr>
+<tr>
+<td>
+<code>pairs()</code>
+</td>
+<td>
+table的key和value
+</td>
+</tr>
+<tr>
+<td>
+<code>ipairs()</code>
+</td>
+<td>
+数组
+</td>
+</tr>
+<tr>
+<td>
+<code>string.gmatch()</code>
+</td>
+<td>
+字符串内每单词
+</td>
+</tr>
+</table>
+
+<div id="Lua基本语法-协同程序 coroutine"><h2 id="协同程序 coroutine">协同程序 coroutine</h2></div>
+<p>
+|<code>四种状态</code>||
+<table>
+<tr>
+<td>
+<code>suspended  </code>
+</td>
+<td>
+挂起
+</td>
+</tr>
+<tr>
+<td>
+<code>running     </code>
+</td>
+<td>
+执行
+</td>
+</tr>
+<tr>
+<td>
+<code>dead        </code>
+</td>
+<td>
+死亡
+</td>
+</tr>
+<tr>
+<td>
+<code>normal      </code>
+</td>
+<td>
+正常
+</td>
+</tr>
+<tr>
+<td>
+<code>coroutine.create(匿名函数)</code>
+</td>
+<td>
+创建一个协同函数
+</td>
+</tr>
+<tr>
+<td>
+<code>coroutine.status(函数名)</code>
+</td>
+<td>
+返回函数状态
+</td>
+</tr>
+<tr>
+<td>
+<code>coroutine.resume(实参...)</code>
+</td>
+<td>
+使函数执行
+</td>
+</tr>
+<tr>
+<td>
+<code>coroutine.yield(函数名，返回值...)</code>
+</td>
+<td>
+挂起函数
+</td>
+</tr>
+</table>
+</p>
+
+<div id="Lua基本语法-设计模式"><h2 id="设计模式">设计模式</h2></div>
+<table>
+<tr>
+<td>
+<code>消费者驱动</code>
+</td>
+<td>
+处理数据的函数唤醒生产者，生产者产生数据后挂起并把数据传递给消费者函数
+</td>
+</tr>
+<tr>
+<td>
+<code>非抢先多线程</code>
+</td>
+<td>
+为每个任务创建一个线程，当一个线程没有数据可处理时把控制权交给调度函数，由调度函数唤起另一个线程
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+
+<div id="Lua基本语法-模块与包"><h2 id="模块与包">模块与包</h2></div>
+<table>
+<tr>
+<td>
+<code>require "name" </code>
+</td>
+<td>
+使用模块
+</td>
+</tr>
+<tr>
+<td>
+<code>module ( name,package.seeall)..return name</code>
+</td>
+<td>
+创建一个table并返回,编写模块
+</td>
+</tr>
+</table>
+
+<div id="Lua基本语法-简单IO操作"><h2 id="简单IO操作">简单IO操作</h2></div>
+<table>
+<tr>
+<td>
+<code>io.input('filename')</code>
+</td>
+<td>
+读文件
+</td>
+</tr>
+<tr>
+<td>
+<code>io.output('filename')</code>
+</td>
+<td>
+写文件
+</td>
+</tr>
+<tr>
+<td>
+<code>io.read(参数)</code>
+</td>
+<td>
+参数见下，读取
+</td>
+</tr>
+<tr>
+<td>
+<code>"*all"</code>
+</td>
+<td>
+全部文件内容
+</td>
+</tr>
+<tr>
+<td>
+<code>"*line"</code>
+</td>
+<td>
+按行读
+</td>
+</tr>
+<tr>
+<td>
+<code>io.write(string...)</code>
+</td>
+<td>
+写文件
+</td>
+</tr>
+</table>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-02-19
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>

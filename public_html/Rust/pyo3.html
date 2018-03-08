@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-cn">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Template -->
+		<link rel="Stylesheet" type="text/css" href="../css/main.css" />
+		<title>pyo3</title>
+	</head>
+
+	<body>
+		<div class="container">
+
+			<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+				<a class="navbar-brand" href="../index.html">Chimez</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link" href="../articles_index.html">文章列表 <span class="sr-only">(current)</span></a>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="search" placeholder="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>
+					</form>
+				</div>
+			</nav>
+
+			<div class="row">
+				
+<p>
+<div class="col-md-3 article-toc d-none d-md-block">
+</p>
+<div id="Contents" class="toc"><h1 id="Contents">Contents</h1></div>
+<ul>
+<li>
+<a href="pyo3.html#pyo3">pyo3</a>
+
+<ul>
+<li>
+<a href="pyo3.html#pyo3-基本使用">基本使用</a>
+
+<ul>
+<li>
+<a href="pyo3.html#pyo3-基本使用-python调用rust函数">python调用rust函数</a>
+
+<ul>
+<li>
+<a href="pyo3.html#pyo3-基本使用-python调用rust函数-cargo配置">cargo配置</a>
+
+<li>
+<a href="pyo3.html#pyo3-基本使用-python调用rust函数-编写rust">编写rust</a>
+
+<li>
+<a href="pyo3.html#pyo3-基本使用-python调用rust函数-编写python">编写python</a>
+
+</ul>
+<li>
+<a href="pyo3.html#pyo3-基本使用-rust调用python函数">rust调用python函数</a>
+
+<ul>
+<li>
+<a href="pyo3.html#pyo3-基本使用-rust调用python函数-cargo配置">cargo配置</a>
+
+<li>
+<a href="pyo3.html#pyo3-基本使用-rust调用python函数-编写rust">编写rust</a>
+
+</ul>
+</ul>
+</ul>
+</ul>
+
+<p>
+</div>
+<div class="col-md-9 article-main">
+</p>
+
+<div id="pyo3"><h1 id="pyo3">pyo3</h1></div>
+<p>
+pyo3是rust和python之间的绑定库,既可以从rust使用python函数也可以从python使用rust
+</p>
+<div id="pyo3-基本使用"><h2 id="基本使用">基本使用</h2></div>
+<div id="pyo3-基本使用-python调用rust函数"><h3 id="python调用rust函数">python调用rust函数</h3></div>
+<div id="pyo3-基本使用-python调用rust函数-cargo配置"><h4 id="cargo配置">cargo配置</h4></div>
+<p>
+编译后的文件名为<code>libname.so</code>,需要手动改成<code>name.so</code>,这样才能从python中直接引用
+</p>
+<pre class="rust">
+[lib]
+crate-type = ["cdylib"]
+[dependencies.pyo3]
+version = "0.2"
+features = ["extension-module"]
+</pre>
+<div id="pyo3-基本使用-python调用rust函数-编写rust"><h4 id="编写rust">编写rust</h4></div>
+<pre class="rust">
+<table>
+<tr>
+<td>
+<code>#![feature(proc_macro, specialization)]</code>
+</td>
+<td>
+使用预编译宏的前提
+</td>
+</tr>
+<tr>
+<td>
+<code>#[py::modinit(hello)]</code>
+</td>
+<td>
+导出mod
+</td>
+</tr>
+<tr>
+<td>
+<code>#[pyfn(m, "run_rust_func")]</code>
+</td>
+<td>
+导出函数
+</td>
+</tr>
+</table>
+#![feature(proc_macro, specialization)]
+extern crate pyo3;
+use pyo3::{py, Python, PyResult, PyModule, PyString};
+#[py::modinit(hello)]
+fn init_module(py: Python, m: &amp;PyModule) -&gt; PyResult&lt;()&gt; {
+    #[pyfn(m, "run_rust_func")]
+    fn run(name: &amp;PyString) -&gt; PyResult&lt;()&gt; {
+        println!("Rust says: Hello {} of Python!", name);
+        Ok(())
+    }
+    Ok(())
+}
+</pre>
+<div id="pyo3-基本使用-python调用rust函数-编写python"><h4 id="编写python">编写python</h4></div>
+<p>
+使用函数:只要把so放进路径里就能直接用了
+</p>
+<pre class="python">
+import hello
+hello.run_rust_func()
+</pre>
+
+<div id="pyo3-基本使用-rust调用python函数"><h3 id="rust调用python函数">rust调用python函数</h3></div>
+<div id="pyo3-基本使用-rust调用python函数-cargo配置"><h4 id="cargo配置">cargo配置</h4></div>
+<p>
+<code>cargo init --bin</code>中配置上依赖
+</p>
+<pre class="rust">
+[dependencies]
+pyo3 = "0.2"
+</pre>
+<div id="pyo3-基本使用-rust调用python函数-编写rust"><h4 id="编写rust">编写rust</h4></div>
+<p>
+无需特殊语法,只用引入python函数
+</p>
+<pre class="rust">
+extern crate pyo3;
+
+use pyo3::{Python, PyDict, PyResult, ObjectProtocol};
+
+fn main() {
+    let gil = Python::acquire_gil();
+    hello(gil.python()).unwrap();
+}
+
+fn hello(py: Python) -&gt; PyResult&lt;()&gt; {
+    let sys = py.import("sys")?;
+    let version: String = sys.get("version")?.extract()?;
+
+    let locals = PyDict::new(py);
+    locals.set_item("os", py.import("os")?)?;
+    let user: String = py.eval("os.getenv('USER') or os.getenv('USERNAME')", None, Some(&amp;locals))?.extract()?;
+
+    println!("Hello {}, I'm Python {}", user, version);
+    Ok(())
+}
+</pre>
+
+		</div>
+		<nav class="navbar">
+			<span class="navbar-text">
+				Page created on 2018-02-20
+			</span>
+		</nav>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<!-- highlight.js -->
+	<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+	<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet">
+	<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			$('.article-toc ul li ul li ul li ul').hide();
+		});
+	</script>
+	<!-- MathJax -->
+	<script type="text/javascript" async
+		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript" src="../js/search.js"></script>
+</body>
+</html>
