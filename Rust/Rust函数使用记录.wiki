@@ -3,15 +3,20 @@
   - [[#Rust函数记录|Rust函数记录]]
     - [[#Rust函数记录#常用函数|常用函数]]
     - [[#Rust函数记录#常用宏|常用宏]]
+    - [[#Rust函数记录#过程宏|过程宏]]
   - [[#原始类型|原始类型]]
-    - [[#原始类型#`String`|`String`]]
+    - [[#原始类型#str:字符串|str:字符串]]
   - [[#标准库|标准库]]
-    - [[#标准库#`std::io`:标准输入输出|`std::io`:标准输入输出]]
-    - [[#标准库#`std::cmp`:比较|`std::cmp`:比较]]
-      - [[#标准库#`std::cmp`:比较#`std::cmp::Ordering`:比较大小|`std::cmp::Ordering`:比较大小]]
-    - [[#标准库#`std::env`:命令行参数|`std::env`:命令行参数]]
+    - [[#标准库#std::String:可变字符串|std::String:可变字符串]]
+    - [[#标准库#std::collections::HashMap|std::collections::HashMap]]
+    - [[#标准库#std::vec::Vec:可变数组|std::vec::Vec:可变数组]]
+    - [[#标准库#std::io:标准输入输出|std::io:标准输入输出]]
+    - [[#标准库#std::cmp:比较|std::cmp:比较]]
+      - [[#标准库#std::cmp:比较#std::cmp::Ordering:比较大小|std::cmp::Ordering:比较大小]]
+    - [[#标准库#std::env:命令行参数|std::env:命令行参数]]
   - [[#外部库|外部库]]
-    - [[#外部库#`rand`:随机数生成|`rand`:随机数生成]]
+    - [[#外部库#regex:正则表达式|regex:正则表达式]]
+    - [[#外部库#rand:随机数生成|rand:随机数生成]]
 
 </div>
 <div class="col-md-9 article-main">
@@ -44,21 +49,58 @@ io::stdin()
 | `try!(fn)`        | 执行函数返回`Result<T,E>`的`T`或`E`     |
 | `unreachable!()`  | 执行到这里就崩溃,放在不该被执行到的地方 |
 
+== 过程宏 ==
+| `#[derive(PartialEq)]` | 添加相等`==`                 |
+| `#[derive(Clone)]`     | 添加`.clone()`               |
+| `#[derive(Debug)]`     | 添加`print!("{:?}",a)`的`:?` |
 = 原始类型 =
-== `String` ==
-| `String::new()` | 新建实例                            |
-| `"s".trim()`    | 去除开头结尾的空白                  |
-| `"s".parse()`   | 转换成数字类型,返回`String::Result` |
+== str:字符串 ==
 
+| `"s".trim()`                     | 去除开头结尾的空白\t                |
+| `"s".parse()`                    | 转换成数字类型,返回`String::Result` |
+| `"s".replace("old","new")`       | 替换字符串                          |
+| `"s".to_string();1.to_string();` | 将各种东西转换成String              |
 
 = 标准库 =
-== `std::io`:标准输入输出 ==
+== std::String:可变字符串 ==
+| `String::new()`                     |  新建实例                    |
+| `String::from("a")`                 |  创建字符串                  |
+| `string.as_str()`                   |  转换成字符串str             |
+| `string.as_mut_str()`               |  转换成可变str               |
+| `string.push_str("a")`              |  追加字符串                  |
+| `format!("{}-{}",a,b)`              |  字符串格式化连接,返回String |
+| `let (first,last) = s.split_at(2)`  |  从标号开始分割              |
+| `"s".split( |c| c == ' ');`         |  传入匿名函数规则,分割字符串 |
+
+== std::collections::HashMap ==
+| `use std::collections::HashMap;`              | 需要先引入库才能用                                      |
+| `let map:HashMap<&str,i32> = HashMap::new();` | 新建必须指定类型,没有字面量创建宏可用,可以借助array生成 |
+| `map.instrt("a",2)`                           | 只能一个个插入值                                        |
+| `for (key, val) in map.iter() {}`             | 遍历键值对                                              |
+| `map.iter_mut()`                              | 遍历键值对,可变                                         |
+| `for i in map.keys(){}`                       | 遍历键                                                  |
+| `for i in map.values(){}`                     | 遍历值                                                  |
+| `for i in map.values_mut(){*i}`               | 遍历值,可变                                             |
+
+== std::vec::Vec:可变数组 ==
+| `vec![1]`                         | 新建数组字面量宏 |
+| `let vec: Vec<i32> = Vec::new();` | 新建空Vec        |
+| `vec.push(1)`                     | 在末尾添加元素   |
+
+
+== std::io:标准输入输出 ==
+| `std::fs::File`                                              | 文件处理           |
+| `std::io::prelude::*`                                        | io相关方法         |
+| `let mut f = File::open(filename).expect("file not found");` | 载入文件           |
+| `let mut contents = String::new();`                          | 预创建文件内容读取 |
+| `f.read_to_string(&mut contents).expect("e");`               | 读取文件           |
+
 {{{class="rust"
 use std::io
 is::stdin().read_line(&mut guess)
 }}}
-== `std::cmp`:比较 ==
-=== `std::cmp::Ordering`:比较大小 ===
+== std::cmp:比较 ==
+=== std::cmp::Ordering:比较大小 ===
 {{{class="rust"
 use std::cmp::Ordering
 match "s".cmp(&s){
@@ -67,10 +109,31 @@ match "s".cmp(&s){
 	Ordering::Equl => println!("e")
 }
 }}}
-== `std::env`:命令行参数 ==
+== std::env:命令行参数 ==
 
 = 外部库 =
-== `rand`:随机数生成 ==
+== regex:正则表达式 ==
+| `regex = "0.2"`                                   | 先要引入依赖                                |
+| `extern crate regex;use regex::Regex;`            | 再引入库和函数                              |
+| `let re = Regex::new(r"").unwrap()`               | 创建正则文本                                |
+| `RE.is_match(text)`                               | 返回bool,检查是否完全匹配                   |
+| `for cap in re.captures_iter(text) {&cap[1]}`     | 返回含有匹配项列表的迭代器                  |
+| `let after = re.replace_all(before, "$m/$d/$y");` | 替换                                        |
+| `Regex::new(r"(?x)  (?P<y>\d{4}) # the year ")`   | 使用`(?x)`开启忽略空白的模式,可以用来写注释 |
+| `let mat = re.find("ΔδΔ").unwrap();`              | 搜索返回位置                                |
+| `mat.start()==6,mat.end()==10`                    | 返回的内容                                  |
+| `(?P<name>exp)`                                   | 命名的匹配表达式                            |
+| `(?:exp)`                                         | 不获取的表达式                              |
+| `(?flag)`                                         | 设置一个标记                                |
+|                                                   |                                             |
+* 大体上与一般的正则表达式相同,但有一些特有写法
+{{{class="rust"
+extern crate regex;
+use regex::Regex;
+let re = Regex::new(r"^\d{4}-\d{2}-\d{2}$").unwrap();
+assert!(re.is_match("2014-01-01"));
+}}}
+== rand:随机数生成 ==
 `rand = "0.3.14"`
 {{{class="rust"
 extern crate rand; //引入外部库

@@ -8,6 +8,7 @@
       - [[#TikZ绘图#基本使用方式#语句选项|语句选项]]
       - [[#TikZ绘图#基本使用方式#backgrounds 显示绘图边框|backgrounds 显示绘图边框]]
       - [[#TikZ绘图#基本使用方式#坐标的表示|坐标的表示]]
+      - [[#TikZ绘图#基本使用方式#单位|单位]]
       - [[#TikZ绘图#基本使用方式#箭头|箭头]]
       - [[#TikZ绘图#基本使用方式#坐标变换|坐标变换]]
       - [[#TikZ绘图#基本使用方式#重复|重复]]
@@ -16,8 +17,15 @@
         - [[#TikZ绘图#基本使用方式#文字标注#node|node]]
       - [[#TikZ绘图#基本使用方式#函数绘图|函数绘图]]
         - [[#TikZ绘图#基本使用方式#函数绘图#选项参数|选项参数]]
-      - [[#TikZ绘图#基本使用方式#标记选项|标记选项]]
-      - [[#TikZ绘图#基本使用方式#文档标注|文档标注]]
+    - [[#TikZ绘图#进阶使用|进阶使用]]
+      - [[#TikZ绘图#进阶使用#标记选项|标记选项]]
+      - [[#TikZ绘图#进阶使用#文档标注|文档标注]]
+      - [[#TikZ绘图#进阶使用#透明|透明]]
+        - [[#TikZ绘图#进阶使用#透明#混色模式|混色模式]]
+      - [[#TikZ绘图#进阶使用#自动树|自动树]]
+    - [[#TikZ绘图#tikz库|tikz库]]
+      - [[#TikZ绘图#tikz库#node自动设置距离|node自动设置距离]]
+      - [[#TikZ绘图#tikz库#装饰路径|装饰路径]]
 
 </div>
 <div class="col-md-9 article-main">
@@ -37,6 +45,12 @@
 | `\begin{tikzpicture}\end{tikzpicture}` | 主环境                               |
 | `\begin{scope}[]\end{scope}`           | 局部参数环境,嵌套在tikzpicture环境里 |
 | `\usetikzlibrary{scopes}{[]}`          | 扩展：用大括号代替环境               |
+| `[name/.style{}]`                      | 预定义属性                           |
+属性预定义:
+{{{class="latex"
+\begin{tikzpicture}[L1Node/.style={circle,   draw=blue!50, fill=blue!20, very thick, minimum size=10mm},
+    L2Node/.style={rectangle,draw=green!50,fill=green!20,very thick, minimum size=10mm}]
+}}}
 
 === 基本元素 ===
 
@@ -65,21 +79,24 @@
 | `\draw (0,0) sin (1,1);`                            | sin，cos线连接点，起点，终点                                                         |
 
 === 语句选项 ===
-
-| `draw`                                                | 画线                                                    |
-| `line width=1pt`                                      | 线宽                                                    |
-| `thin, very thin, ultra thin, thick, very thick, ...` | 预定义线宽                                              |
-| `dash pattern=on 2pt off 3pt on 4pt`                  | 手动设置线条形状，on、off表示画线不画线的长度，重复出现 |
-| `dash phase=1pt`                                      | 设置第一个虚线缩短的长度                                |
-| `color=颜色`                                          | 设置线色                                                |
-| `draw=颜色`                                           | 设置线色                                                |
-| `fill=green!20`                                       | 填充颜色                                                |
-| `opacity=0.5`                                         | 设置透明度                                              |
-| `rounded corners=10pt`                                | 设置拐点圆角半径，默认为0                               |
-| `scale=0.3`                                           | 放大缩小倍数                                            |
-| `double`                                              | 画双线                                                  |
-| `double distance=1pt`                                 | 双线间距离                                              |
-| `left, right, top, bottom, inner, outer, ball`        | 阴影的渐变方向                                          |
+语法：
+{{{class="latex"
+\draw[dashed, line width=2] (1,2)--(3,4);
+}}}
+参数
+| `line width=1pt`                                      | 线宽                                                                |
+| `thin, very thin, ultra thin, thick, very thick, ...` | 预定义线宽                                                          |
+| `dashed pattern=on 2pt off 3pt on 4pt`                | 手动设置线条形状，on、off表示画线不画线的长度，重复出现             |
+| `dashed phase=1pt`                                    | 设置第一个虚线缩短的长度                                            |
+| `color=颜色`                                          | 设置线色                                                            |
+| `draw=颜色`                                           | 设置线色                                                            |
+| `fill=green!20`                                       | 填充颜色，这里表示20%的绿色，后面接着写`red,blue,white`可以混合颜色 |
+| `opacity=0.5`                                         | 设置透明度                                                          |
+| `rounded corners=10pt`                                | 设置拐点圆角半径，默认为0                                           |
+| `scale=0.3`                                           | 放大缩小倍数                                                        |
+| `double`                                              | 画双线                                                              |
+| `double distance=1pt`                                 | 双线间距离                                                          |
+| `left, right, top, bottom, inner, outer, ball`        | 阴影的渐变方向                                                      |
 
 === backgrounds 显示绘图边框 ===
 {{{
@@ -93,6 +110,10 @@
 | `+(,)`                                    | 由上个当前点进行偏移                   |
 | `++(,)`                                   | 由上个当前点进行偏移，并设为新的当前点 |
 | `(intersection of 0,0--1,1 and 0,1--1,0)` | 两直线交点                             |
+=== 单位 ===
+| `pt` | 像素，默认 |
+| `em` | 字符宽度   |
+|      |            |
 
 === 箭头 ===
 {{{
@@ -102,7 +123,11 @@
     右下指向左上
 }}}
 === 坐标变换 ===
-
+语法：
+{{{class="latex"
+([xshift=3pt] 2,3)
+}}}
+参数：
 | `xshift=2pt`        | x方向平移 |
 | `yshift-2pt`        | y方向平移 |
 | `shift={(5pt,5pt)}` | 向量平移  |
@@ -134,6 +159,17 @@
 `north, south, west, east, below, above, left, right`
 `\node [选项 ] (名称) at (x,y) [选项] {text}`
 
+选项参数
+语法：
+{{{class="latex"
+\node[fill=yellow!20,align=center]{hi}
+}}}
+参数：
+| `align=center` | 对齐方式，`center,left,right,flush left,flush right` |
+| `font={}`      | 设置字形                                             |
+| `text width=3` | 整体文本最大宽度，自动换行                           |
+|                |                                                      |
+
 === 函数绘图 ===
 
 | `plot [选项] coordinate {(x,y),(x,y),...}` | 点绘图   |
@@ -155,6 +191,8 @@
 `+, -, *, /, ^`
 `abs{}, exp{}, ln, pow, sqrt, sin, cos, tan, sec, pi, ...`
 `x r` -> 弧度制到角度制
+
+== 进阶使用 ==
 
 === 标记选项 ===
 
@@ -183,3 +221,56 @@ bbbbb \tikzmark{b} aaaaaaaaaaaaaaaaaaaaaaaa
 \end{tikzpicture}
 
 }}}
+
+=== 透明 ===
+默认都是不透明的，可以选择开启透明绘制
+==== 混色模式 ====
+重叠的颜色区域其颜色可以相互混合
+{{{class="latex"
+blend mode=<mode>
+}}}
+
+=== 自动树 ===
+{{{class="latex"
+	[sibling distance=10em]%设置各项间距离
+	\node {Formulas}
+	child { node {single-line} }
+	child { node {multi-line}
+		child { node {aligned at}
+			child { node {relation sign} }
+			child { node {several places} }
+			child { node {center} } }
+		child { node {first left,\\centered,\\last right} } };
+}}}
+
+== tikz库 ==
+=== node自动设置距离 ===
+| `\usetikzlibrary{autometa}`   | 自动设置距离 |
+| `[auto,node distance=5em]`    | 设置距离大小 |
+| `[above right of=node_label]` | 设置位置     |
+| `above/below right/left`      | 组合的选项   |
+
+{{{class="latex"
+\usetikzlibrary{automata}
+%tikzpicture
+	[auto, node distance=5em]
+	\node (1_1) {物理};
+	\node (力学)  [above right of=1_1]  {力学};
+}}}
+
+=== 装饰路径 ===
+可以画一条线,不再是直线而是波浪线或别的,也可以画大括号
+{{{class="latex"
+\usetikzlibrary{decorations.pathreplacing}
+
+\tikzset{
+mybrace/.style={decorate,decoration={brace,aspect=#1}}
+}
+
+\begin{tikzpicture}
+\draw[mybrace=0.5] (0,0) -- (3,1);
+\draw[mybrace=0.75] (0,1) -- (3,2);
+\draw[mybrace=0.25] (0,2) -- (3,3);
+\end{tikzpicture}
+}}}
+

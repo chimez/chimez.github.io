@@ -9,8 +9,13 @@
         - [[#LaTeX基本使用#基本命令#排版样式#字体命令|字体命令]]
         - [[#LaTeX基本使用#基本命令#排版样式#字号:从小到大|字号:从小到大]]
         - [[#LaTeX基本使用#基本命令#排版样式#排版命令|排版命令]]
-        - [[#LaTeX基本使用#基本命令#排版样式#参考文献|参考文献]]
+      - [[#LaTeX基本使用#基本命令#参考文献|参考文献]]
+        - [[#LaTeX基本使用#基本命令#参考文献#参考文献样式|参考文献样式]]
+      - [[#LaTeX基本使用#基本命令#插入图片|插入图片]]
+        - [[#LaTeX基本使用#基本命令#插入图片#单个图片|单个图片]]
+        - [[#LaTeX基本使用#基本命令#插入图片#子图|子图]]
     - [[#LaTeX基本使用#宏包|宏包]]
+      - [[#LaTeX基本使用#宏包#设置全局和某页页边距、纸张大小|设置全局和某页页边距、纸张大小]]
 
 </div>
 <div class="col-md-9 article-main">
@@ -155,13 +160,43 @@
 | `\markright{}`             | 修改页眉                                          |
 | `\markboth{}{}`            | 修改左右页眉                                      |
 
-==== 参考文献 ====
+=== 参考文献 ===
 | `\cite{}`                                                | 引用                |
 | `\begin{thebibliography}\bibitem{}\end{thebibliography}` | 手动写参考文献格式  |
 | `\bibliographystyle{}`                                   | 设置参考文献样式    |
 | `\bibliography{}`                                        | 引入bib文件参考文献 |
 
+==== 参考文献样式 ====
+| plain   | 按字母的顺序排列，比较次序为作者、年度和标题   |
+| unsrt   | 样式同plain，只是按照引用的先后排序            |
+| alpha   | 用作者名首字母+年份后两位作标号,以字母顺序排序 |
+| abbrv   | 类似plain,将月份全拼改为缩写,更显紧凑          |
+| ieeetr  | 国际电气电子工程师协会期刊样式                 |
+| acm     | 美国计算机学会期刊样式                         |
+| siam    | 美国工业和应用数学学会期刊样式                 |
+| apalike | 美国心理学学会期刊样式                         |
 
+=== 插入图片 ===
+==== 单个图片 ====
+{{{class="latex"
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{a}
+	\caption{title}
+	\label{fig:a}
+\end{figure}
+}}}
+==== 子图 ====
+{{{class="latex"
+\usepackage{subfig}
+\begin{figure}
+	\centering
+	\subfloat[title a]{\includegraphics[width=0.4\linewidth]{../pic/1}}\qquad
+	\subfloat[title b]{\includegraphics[width=0.4\linewidth]{../pic/2}}
+	\caption{main title}
+\end{figure}
+}}}
 == 宏包 ==
 | xeCJK    | 中文字符                                    |
 | ctex     | 中文排版,一般只用这个                       |
@@ -182,4 +217,15 @@
 | fancyhdr | 自定义页眉页脚                              |
 | natbib   | 参考文献自然引用格式                        |
 | hyperref | 超链接,PDF书签                              |
+| bm       | 粗数学符号`$\bm{x}$`                        |
+| subfig   | 插入子图                                    |
+|          |                                             |
 
+
+=== 设置全局和某页页边距、纸张大小 ===
+| `\usepackage{geometry}`                            | 使用宏包                                       |
+| `\geometry{top=1cm,bottom=1cm,left=1cm,right=1cm}` | 设置全局页边距,只能在导言区用                  |
+| `\special{papersize=42cm,29.7cm}`                  | 设置纸张大小,导言区是全局的,文章区里只针对一页 |
+| `\newgeometry{top=0cm}`                            | 设置局部页边距,在正文里使用                    |
+| `\restoregeometry`                                 | 恢复页边距为全局样式,与上一个配合使用          |
+|                                                    |                                                |

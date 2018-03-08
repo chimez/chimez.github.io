@@ -4,6 +4,8 @@
     - [[#用Rust写Web#编译到wasm的工具|编译到wasm的工具]]
       - [[#用Rust写Web#编译到wasm的工具#rustc|rustc]]
       - [[#用Rust写Web#编译到wasm的工具#cargo-web|cargo-web]]
+    - [[#用Rust写Web#直接编译到wasm,并在js中调用|直接编译到wasm,并在js中调用]]
+    - [[#用Rust写Web#在rust中使用js函数|在rust中使用js函数]]
 
 </div>
 <div class="col-md-9 article-main">
@@ -31,4 +33,57 @@ link-args = ["-s", "USE_SDL=2"]
 
 [target.wasm32-unknown-unknown]
 prepend-js = "src/native_runtime.js"
+	}}}
+
+== 直接编译到wasm,并在js中调用 ==
+* 函数引出为标准C
+* js使用wasm先获取文件再解析成运行文件,之后引用函数即可
+* 编译方式为:`rustc +nightly --target wasm32-unknown-unknown -O --crate-type=cdylib add.rs -o add.big.wasm`
+
+{{{class="rust"
+#[no_mangle]
+pub extern "C" fn ad(x:i32)->i32{
+    x+1
+}
+}}}
+
+{{{class="js"
+fetch('a.wasm')
+	.then(response => response.arrayBuffer())
+	.then(bytes => WebAssembly.instantiate(bytes, {}))
+	.then(results => {
+		alert(results.instance.exports.ad(41));
+});
+}}}
+
+== 在rust中使用js函数 ==
+* 先在js中构造要传入的函数`importObject->env->func`
+* 再在rust中引入传入函数导出外部函数
+* 最后在js中使用wasm的api将wasm文件引入传参和执行
+* wasm使用需要参考mdn,只支持传`i32,f32,i64,f64`,其他格式需要用`WebAssembly.Memory`进行内存共用
+
+{{{class="rust"
+extern {
+    fn imported_func(n: i32);
+}
+
+#[no_mangle]
+pub extern "C" fn run(){
+    unsafe {
+        imported_func(23);
+    }
+}
+}}}
+{{{
+var importObject = {
+  env: {
+      imported_func: function(arg) {
+				console.log(arg);
+      }
+    }
+  };
+
+fetch('a.wasm').then(response => 	response.arrayBuffer())
+	.then(bytes => 	WebAssembly.instantiate(bytes, importObject))
+	.then(results => {results.instance.exports.run();});
 	}}}

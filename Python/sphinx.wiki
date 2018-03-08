@@ -1,0 +1,74 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#sphinx注释文档生成|sphinx注释文档生成]]
+    - [[#sphinx注释文档生成#安装与基本使用|安装与基本使用]]
+      - [[#sphinx注释文档生成#安装与基本使用#安装|安装]]
+        - [[#sphinx注释文档生成#安装与基本使用#安装#快速开始|快速开始]]
+    - [[#sphinx注释文档生成#配置和问题解决|配置和问题解决]]
+      - [[#sphinx注释文档生成#配置和问题解决#启用numpydoc风格注释支持|启用numpydoc风格注释支持]]
+      - [[#sphinx注释文档生成#配置和问题解决#生成中文pdf|生成中文pdf]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+
+= sphinx注释文档生成 =
+== 安装与基本使用 ==
+=== 安装 ===
+`pip3 install sphinx`
+==== 快速开始 ====
+在`./docs`文件夹里运行`sphinx-quickstart`,注意`autodoc`必须输入`y`
+
+在配置之后,需要设置目录,在`./docs/conf.py`里,写入:
+{{{class="python"
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../..'))
+}}}
+
+| 命令            | 作用     |
+|-----------------|----------|
+| `make html`     | 生成网页 |
+| `make latexpdf` | 生成pdf  |
+
+
+== 配置和问题解决 ==
+=== 启用numpydoc风格注释支持 ===
+{{{class="python"
+pip3 install numpydoc
+
+# conf.py:
+extensions = ['numpydoc']
+}}}
+
+=== 生成中文pdf ===
+在`conf.py`里加入:
+{{{class="python"
+
+
+latex_engine = 'xelatex'
+
+latex_elements = {
+        'papersize':'a4paper',
+        'pointsize':'10pt',
+        'classoptions': '',
+        'babel': '\\usepackage[english]{babel}',
+        'fncychap' : '',
+        'figure_align': 'H',
+        'fontpkg': r'''
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+''',
+        'preamble': r'''
+\usepackage[titles]{tocloft}
+\usepackage{ctex}
+\cftsetpnumwidth {1.25cm}\cftsetrmarg{1.5cm}
+\setlength{\cftchapnumwidth}{0.75cm}
+\setlength{\cftsecindent}{\cftchapnumwidth}
+\setlength{\cftsecnumwidth}{1.25cm}''',
+    'fncychap': r'\usepackage[Bjornstrup]{fncychap}',
+    'printindex': r'\footnotesize\raggedright\printindex',
+}
+
+}}}

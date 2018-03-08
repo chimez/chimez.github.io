@@ -23,6 +23,7 @@
     - [[#python基本语法#GUI|GUI]]
     - [[#python基本语法#c动态链接库 ctypes|c动态链接库 ctypes]]
     - [[#python基本语法#串口通讯|串口通讯]]
+    - [[#python基本语法#re:正则表达式|re:正则表达式]]
 
 </div>
 <div class="col-md-9 article-main">
@@ -147,11 +148,11 @@
 | `引用`                | 别名，并没有值的复制过程 |
 
 ==  lambda 形式 ==
-|`def make_repeater(n):`||
-|`return lambda s: s*n`||
-|`twice = make_repeater(2)`||
-|`print twice('word')`||
-|`print twice(5)`||
+| `def make_repeater(n):`    |  |
+| `return lambda s: s*n`     |  |
+| `twice = make_repeater(2)` |  |
+| `print twice('word')`      |  |
+| `print twice(5)`           |  |
 
 == 错误处理 ==
 |`try-except`||
@@ -168,70 +169,83 @@
 | `__del__  `        | 放弃对象时调用的方法         |
 
 == 脚本 ==
-|`import sys`||
-|`	sys.argv[0]`||
-|`for i in range(1,len(sys.argv)):`||
-|`    print(i,sys.argv[i])`||
+| `import sys`                       |  |
+| `	sys.argv[0]`                     |  |
+| `for i in range(1,len(sys.argv)):` |  |
+| `    print(i,sys.argv[i])`         |  |
 
 == 文件 ==
-|`语句`|解释|
-|`f=file('a.txt','w')`| 加载文件  #除了写模式('w')还有读('r')追加('a')，默认为读|
-|`f.write(hahah)`|写入|
-|`f.readline()`|按行读取|
-|`f.close() `|关闭|
-|`with file('a','w') as fi:`|with|
+| `语句`                      | 解释                                                     |
+| `f=file('a.txt','w')`       | 加载文件  #除了写模式('w')还有读('r')追加('a')，默认为读 |
+| `f.write(hahah)`            | 写入                                                     |
+| `f.readline()`              | 按行读取                                                 |
+| `f.close() `                | 关闭                                                     |
+| `with file('a','w') as fi:` | with                                                     |
 
 == 储存器       ==
-|`pickle`||
-|`cpickle`|c实现|
-|`cPickle.dump(something,filep)`| 保存|
-|`a=cPickle.load(filep)`|读取|
+| `pickle`                        |       |
+| `cpickle`                       | c实现 |
+| `cPickle.dump(something,filep)` | 保存  |
+| `a=cPickle.load(filep)`         | 读取  |
 
 == os模块 ==
-|`语句`|解释|
-|`os.sep`|当前操作系统的路径分隔符|
-|`os.name`|当前操作系统平台名，nt，posix|
-|`os.getcwd()`|当前工作目录|
-|`os.getenv()`|读取环境变量|
-|`os.system()`|运行shell命令|
-|`os.putenv()`|设置环境变量|
-|`os.listdir()`|返回当前目录的所有文件名|
-|`os.remove()`|删除一个文件|
-|`os.linesep`|当前操作系统的换行符，\r\n,\n,\r|
-|`os.path.split`|返回路径的目录名和文件名|
-|`os.path.exists()`|路径是否存在|
-|`os.path.isfile()`|路径是否为文件|
-|`os.path.isdir()`|路径是否为目录|
+| `语句`             | 解释                             |
+| `os.sep`           | 当前操作系统的路径分隔符         |
+| `os.name`          | 当前操作系统平台名，nt，posix    |
+| `os.getcwd()`      | 当前工作目录                     |
+| `os.getenv()`      | 读取环境变量                     |
+| `os.system()`      | 运行shell命令                    |
+| `os.putenv()`      | 设置环境变量                     |
+| `os.listdir()`     | 返回当前目录的所有文件名         |
+| `os.remove()`      | 删除一个文件                     |
+| `os.linesep`       | 当前操作系统的换行符，\r\n,\n,\r |
+| `os.path.split`    | 返回路径的目录名和文件名         |
+| `os.path.exists()` | 路径是否存在                     |
+| `os.path.isfile()` | 路径是否为文件                   |
+| `os.path.isdir()`  | 路径是否为目录                   |
 
 == GUI    ==
-|`import tkinter`||
-|`Tk()`| 主窗口|
-|`Tk.destroy() `|破坏窗口 |
-|`Tk.mainloop() `|消息循环 |
-|`className="string"`|标题|
-|`Tk.winfo_screenwidth()`||
-|`Tk.winfo_screenwidth()`||
-|`Tk.winfo_screenheight()`|获取窗口坐标|
-|`Tk.winfo_screenheight()`|获取窗口坐标|
-|`Tk.geometry('300x300+300+300') width x hight + x + y`|设置窗口位置和大小|
-|`Tk.geometry('300x300+300+300') width x hight + x + y`|设置窗口位置和大小|
-|`Frame()`| 框架  |
-|`Button(Tk,text='',command=…) `|按钮|
-|`StringVar()`|字符串|
-|`.get()`|字符串获取|
-|`.set('…')`|字符串设置|
-|`Entry(Tk,textvariable=StringVar)`|输入框|
-|`*.pack()`| 放置|
-|`laber(Tk,text="")`| 标签|
+| `import tkinter`                                       |                    |
+| `Tk()`                                                 | 主窗口             |
+| `Tk.destroy() `                                        | 破坏窗口           |
+| `Tk.mainloop() `                                       | 消息循环           |
+| `className="string"`                                   | 标题               |
+| `Tk.winfo_screenwidth()`                               |                    |
+| `Tk.winfo_screenwidth()`                               |                    |
+| `Tk.winfo_screenheight()`                              | 获取窗口坐标       |
+| `Tk.winfo_screenheight()`                              | 获取窗口坐标       |
+| `Tk.geometry('300x300+300+300') width x hight + x + y` | 设置窗口位置和大小 |
+| `Tk.geometry('300x300+300+300') width x hight + x + y` | 设置窗口位置和大小 |
+| `Frame()`                                              | 框架               |
+| `Button(Tk,text='',command=…) `                        | 按钮               |
+| `StringVar()`                                          | 字符串             |
+| `.get()`                                               | 字符串获取         |
+| `.set('…')`                                            | 字符串设置         |
+| `Entry(Tk,textvariable=StringVar)`                     | 输入框             |
+| `*.pack()`                                             | 放置               |
+| `laber(Tk,text="")`                                    | 标签               |
 
 == c动态链接库 ctypes ==
-|`import ctypes`||
-|`asd=ctypes.CDLL("a.so")`||
-|`asd.haha(2)`||
+| `import ctypes`           |  |
+| `asd=ctypes.CDLL("a.so")` |  |
+| `asd.haha(2)`             |  |
 
 == 串口通讯  ==
-|`import serial`||
-|`easy_install pyserial`||
-|`a = serial.Serial('COM1',9600)`| 打开串口|
-|`a.write('string')`|向串口发送数据|
-|`a.read()`|从串口读取数据|
+| `import serial`                  |                |
+| `easy_install pyserial`          |                |
+| `a = serial.Serial('COM1',9600)` | 打开串口       |
+| `a.write('string')`              | 向串口发送数据 |
+| `a.read()`                       | 从串口读取数据 |
+
+== re:正则表达式 ==
+| `re.match(r"s","str")`                       | 查找开头                    |
+| `re.search(r"s","str")`                      | 返回第一个匹配              |
+| `num = re.sub(r'#.*$', "", phone)`           | 替换                        |
+| `pattern = re.compile(r'\d+')`               | 生成正则对象,用于进一步搜索 |
+| `m = pattern.match('one12twothree34four') `  | 使用正则对象查找            |
+| `pattern.findall('runoob 123 google 456')`   | 查找所有匹配项,返回列表     |
+| `re.finditer(pattern, string, flags=0)`      | 查找所有匹配项,返回迭代器   |
+| `re.split('\W+', 'runoob, runoob, runoob.')` | 正则分割                    |
+| `finditer.start()`                           | 对迭代器的项,获取位置       |
+
+

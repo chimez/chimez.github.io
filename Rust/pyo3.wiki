@@ -1,0 +1,85 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#pyo3|pyo3]]
+    - [[#pyo3#基本使用|基本使用]]
+      - [[#pyo3#基本使用#python调用rust函数|python调用rust函数]]
+        - [[#pyo3#基本使用#python调用rust函数#cargo配置|cargo配置]]
+        - [[#pyo3#基本使用#python调用rust函数#编写rust|编写rust]]
+        - [[#pyo3#基本使用#python调用rust函数#编写python|编写python]]
+      - [[#pyo3#基本使用#rust调用python函数|rust调用python函数]]
+        - [[#pyo3#基本使用#rust调用python函数#cargo配置|cargo配置]]
+        - [[#pyo3#基本使用#rust调用python函数#编写rust|编写rust]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+
+= pyo3 =
+pyo3是rust和python之间的绑定库,既可以从rust使用python函数也可以从python使用rust
+== 基本使用 ==
+=== python调用rust函数 ===
+==== cargo配置 ====
+编译后的文件名为`libname.so`,需要手动改成`name.so`,这样才能从python中直接引用
+{{{class="rust"
+[lib]
+crate-type = ["cdylib"]
+[dependencies.pyo3]
+version = "0.2"
+features = ["extension-module"]
+}}}
+==== 编写rust ====
+| `#![feature(proc_macro, specialization)]` | 使用预编译宏的前提 |
+| `#[py::modinit(hello)]`                   | 导出mod            |
+| `#[pyfn(m, "run_rust_func")]`             | 导出函数           |
+{{{class="rust"
+#![feature(proc_macro, specialization)]
+extern crate pyo3;
+use pyo3::{py, Python, PyResult, PyModule, PyString};
+#[py::modinit(hello)]
+fn init_module(py: Python, m: &PyModule) -> PyResult<()> {
+    #[pyfn(m, "run_rust_func")]
+    fn run(name: &PyString) -> PyResult<()> {
+        println!("Rust says: Hello {} of Python!", name);
+        Ok(())
+    }
+    Ok(())
+}
+}}}
+==== 编写python ====
+使用函数:只要把so放进路径里就能直接用了
+{{{class="python"
+import hello
+hello.run_rust_func()
+}}}
+
+=== rust调用python函数 ===
+==== cargo配置 ====
+`cargo init --bin`中配置上依赖
+{{{class="rust"
+[dependencies]
+pyo3 = "0.2"
+}}}
+==== 编写rust ====
+无需特殊语法,只用引入python函数
+{{{class="rust"
+extern crate pyo3;
+
+use pyo3::{Python, PyDict, PyResult, ObjectProtocol};
+
+fn main() {
+    let gil = Python::acquire_gil();
+    hello(gil.python()).unwrap();
+}
+
+fn hello(py: Python) -> PyResult<()> {
+    let sys = py.import("sys")?;
+    let version: String = sys.get("version")?.extract()?;
+
+    let locals = PyDict::new(py);
+    locals.set_item("os", py.import("os")?)?;
+    let user: String = py.eval("os.getenv('USER') or os.getenv('USERNAME')", None, Some(&locals))?.extract()?;
+
+    println!("Hello {}, I'm Python {}", user, version);
+    Ok(())
+}
+}}}

@@ -1,0 +1,282 @@
+<div class="col-md-3 article-toc d-none d-md-block">
+= Contents =
+  - [[#QuTiP学习记录与速查表格|QuTiP学习记录与速查表格]]
+    - [[#QuTiP学习记录与速查表格#安装与引用|安装与引用]]
+    - [[#QuTiP学习记录与速查表格#基本操作|基本操作]]
+      - [[#QuTiP学习记录与速查表格#基本操作#定义左矢右矢算符|定义左矢右矢算符]]
+      - [[#QuTiP学习记录与速查表格#基本操作#基本计算|基本计算]]
+      - [[#QuTiP学习记录与速查表格#基本操作#粒子数表象下的态和算符生成|粒子数表象下的态和算符生成]]
+      - [[#QuTiP学习记录与速查表格#基本操作#混合态|混合态]]
+      - [[#QuTiP学习记录与速查表格#基本操作#其他计算|其他计算]]
+    - [[#QuTiP学习记录与速查表格#时间演化，解薛定谔方程求解|时间演化，解薛定谔方程求解]]
+      - [[#QuTiP学习记录与速查表格#时间演化，解薛定谔方程求解#无耗散情况|无耗散情况]]
+      - [[#QuTiP学习记录与速查表格#时间演化，解薛定谔方程求解#有耗散情况|有耗散情况]]
+      - [[#QuTiP学习记录与速查表格#时间演化，解薛定谔方程求解#随时间变化的哈密顿量|随时间变化的哈密顿量]]
+      - [[#QuTiP学习记录与速查表格#时间演化，解薛定谔方程求解#技巧与应用|技巧与应用]]
+        - [[#QuTiP学习记录与速查表格#时间演化，解薛定谔方程求解#技巧与应用#主方程求解显示进度|主方程求解显示进度]]
+        - [[#QuTiP学习记录与速查表格#时间演化，解薛定谔方程求解#技巧与应用#主方程求解计算平均值函数|主方程求解计算平均值函数]]
+    - [[#QuTiP学习记录与速查表格#优化控制|优化控制]]
+      - [[#QuTiP学习记录与速查表格#优化控制#CRAB算法与GRAPE算法|CRAB算法与GRAPE算法]]
+      - [[#QuTiP学习记录与速查表格#优化控制#常用函数|常用函数]]
+      - [[#QuTiP学习记录与速查表格#优化控制#计算过程|计算过程]]
+
+</div>
+<div class="col-md-9 article-main">
+%template article_template
+= QuTiP学习记录与速查表格=
+== 安装与引用==
+# `pip3 install qutip`
+# 引用如下
+{{{python
+from qutip import *
+import matplotlib.pyplot as plt
+import numpy as np
+}}}
+
+
+== 基本操作==
+=== 定义左矢右矢算符===
+| 说明     | 命令                               | 注意事项      |
+| 定义右矢 | `q_ket = Qobj([[1],[2]])`          |               |
+| 定义左矢 | `q_bra = Qobj([[1,2]])`            |               |
+| 定义算符 | `q_oper = Qobj([[1j+3,2],[3,4]]) ` | 虚数用`j`表示 |
+
+
+=== 基本计算===
+| 说明                         | 命令                                          | 注意事项 |
+| 左乘右乘                     | `q_ket * q_bar`                               |          |
+|                              | `q_bra * q_ket`                               | 同上     |
+|                              | `q_oper * q_ket`                              | 同上     |
+| 乘方                         | `q_oper ** 2`                                 |          |
+| 转置 transpose               | `q_oper.trans() `                             |          |
+| 复共轭conjugate              | `q_oper.conj() `                              |          |
+| 厄米共轭 hermitian conjugate | `q_oper.dag()`                                |          |
+| 迹 trace                     | `q_oper.tr()`                                 |          |
+| 对易子                       | `commutator(q_oper,q_oper)`                   |          |
+| 本征值                       | `q_oper.eigenenergies()`                      |          |
+| 本证态                       | `q_oper.eigenstates()`                        |          |
+| 是否为厄米算符hermitian      | `q_oper.isherm `                              |          |
+|                              | `q_oper.check_herm()`                         | 同上     |
+| 得到基态                     | `q_oper.groundstate()`                        |          |
+| 得到矩阵表示                 | `q_oper.full()`                               |          |
+| 计算矩阵元                   | `q_oper.matrix_element(bra=q_bra, ket=q_ket)` |          |
+| 作用一个变换                 | `q_oper.transform(q_oper)`                    |          |
+
+=== 粒子数表象下的态和算符生成===
+| 说明                   | 命令                                                  | 注意事项                             |
+| Fock态                 | `basis(N=4,n=1) `                                     | N=总状态数，<br>n=占据的状态编号     |
+|                        | `fock(N=4, n=1) `                                     | 从上到下为0,1...N-1                  |
+| 相干态                 | `coherent(N=10,alpha=1.0) `                           | N=总状态数，<br>alpha=本征值（复数） |
+| Fock密度算符           | `fock_dm(N=5,n=2) `                                   | N=hilbert空间大小，<br>n=占据的态    |
+| 相干态密度算符         | `coherent_dm(N=5,alpha=1j+2) `                        |                                      |
+| 热态 密度算符          | `thermal_dm(N=8, n=2) `                               | N=空间大小，<br>n=热光子平均数       |
+| 从一个右矢生成密度算符 | `ket2dm(q_ket)`                                       |                                      |
+| 泡利算符               | `sigmax()`                                            |                                      |
+|                        | `sigmay()`                                            | 同上                                 |
+|                        | `sigmaz()`                                            | 同上                                 |
+| 自旋升降算符           | `sigmap() `                                           | plus                                 |
+|                        | `sigmam() `                                           | minus                                |
+| 湮灭产生算符           | `destroy(N=3)`                                        |                                      |
+|                        | `create(N=3)`                                         | 同上                                 |
+| 粒子数算符             | `num(N=3)`                                            |                                      |
+| 位置算符               | `position(N=2)`                                       |                                      |
+| 动量算符               | `momentum(N=2)`                                       |                                      |
+| 位移算符 单模          | `displace(N=3, alpha=1)`                              |                                      |
+| 相位算符 单模          | `phase(N=3, phi0=1)`                                  |                                      |
+| 压缩算符 单模          | `squeeze(N=3, z=1) = z=压缩参数`                      | =                                    |
+| 压缩算符 双模          | `squeezing(a1=destroy(N=2), a2=destroy(N=2), z=1j)  ` | a1,a2=两个湮灭算符，<br>z=压缩参数   |
+ 
+=== 混合态===
+| 说明          | 命令                       | 注意事项 |
+| 混合态 张量积 | `tensor(sigmaz(),qeye(2))` |          |
+| 部分迹        | `state.ptrace([1,2])`      |          |
+
+===  其他计算===
+| 说明                  | 命令                               | 注意事项 |
+| -                     | -                                  | -        |
+| 保真度                | `fidelity(q_oper,q_oper)`          |          |
+| 迹距离 trace distance | `tracedist(q_oper,q_oper)`         |          |
+| Hilbert-Schmidt距离   | `hilbert_dist(q_oper,q_oper)`      |          |
+| 计算两qubit纠缠度     | `concurrence(state.ptrace([1,2]))` |          |
+| 平均值                | `expect(o,state)`                  |          |
+| 方差                  | `variance(o, state)`               |          |
+
+==  时间演化，解薛定谔方程求解==
+=== 无耗散情况===
+{{{python
+H # sigmax()                           # 先定义哈密顿量
+psi0 # basis(2,0)                      # 初值
+tlist # np.linspace(0,10,100)          # 生成一个时间序列
+result # mesolve(H, psi0, tlist, [], []) # 使用mesolve计算ode方程
+result.states[-1]                        # 列表里保存每一时刻的态，最后一个是末态
+expect(sigmaz(), result.states[-1])      # 计算平均值，用算符和态
+variance(ope, state)                     # 方差
+# result = mesolve(H, psi0, tlist, [], [sigmaz()]) # 可以在计算时只算平均值演化=
+[[#]] result.expect[0]                               # 保存每一时刻的平均值=
+}}}
+===  有耗散情况===
+{{{python
+a = destroy(10)             # 湮灭算符
+H = a.dag()*a               # 哈密顿量
+c_ops = [np.sqrt(0.1) * a]  # 耗散
+rho:0 = fock_dm(10,5)       # 初态
+tlist = np.linspace(0,50,100) # 时间
+result = mesolve(H, rho0, tlist, c_ops, [a.dag()*a])
+result.expect[0]
+}}}
+
+=== 随时间变化的哈密顿量 ===
+在写哈密顿量时,每个随时间变化的哈密顿量,其系数用一个函数来表示,函数接受`t`和`arg`两个参数,其中`arg`在计算主方程时由`arg={}`指定
+
+{{{class="python"
+H = [H0,[H1,H1_coeff]]
+H0 = -g * (sigma_ge.dag() * a + a.dag() * sigma_ge)  # time-independent term
+H1 = (sigma_ue.dag() + sigma_ue)  # time-dependent term
+def H1_coeff(t, args):
+	return 9 * np.exp(-(t / 5.) ** 2)
+	
+output = mesolve(H, psi0, t, c_ops, [ada, sigma_UU, sigma_GG])
+
+def H1_coeff(t, args):
+  A = args['A']
+  sig = args['sigma']
+  return A * np.exp(-(t / sig) ** 2)
+	 
+output = mesolve(H, psi0, times, c_ops, [a.dag() * a], args={'A': 9, 'sigma': 5})
+	}}}
+=== 技巧与应用 ===
+==== 主方程求解显示进度 ====
+在函数调用中加入`progress_bar = True`
+{{{Python
+    mesolve(H, psi_0, tlist, c_ops, e_ops, progress_bar=True)
+}}}
+
+==== 主方程求解计算平均值函数 ====
+为了节省内存,`e_ops=func`,只能有一个函数`func(t,rho)`,且没有返回值,需要自己构造全局变量保存值
+{{{python
+
+    # 待计算的平均值
+    result = {"tlist":tlist,
+              "concurrence":[],
+              "na":[],
+              "z1":[],
+              "z2":[]}
+    def get_co(t, state):
+        pn = state.ptrace([1,2])
+        co = concurrence(pn)
+        na = expect(dag(a)*a,state)
+        z1 = expect(sigma1_z,state)
+        z2 = expect(sigma2_z,state)
+        result["concurrence"].append(co)
+        result["na"].append(na)
+        result["z1"].append(z1)
+        result["z2"].append(z2)
+
+    e_ops = get_co
+}}}
+
+== 优化控制 ==
+=== CRAB算法与GRAPE算法 ===
+* CRAB算法是指限定控制场由几个简单的基函数构成,由这些项的系数随时间变化进行控制,优点是优化方便计算快实验实现简单,但有可能得不到优化目标,需要尝试组合,其实就相当于傅立叶展开取前几项那样
+* GRAPE算法
+
+=== 常用函数 ===
+| `import qutip.control.pulseoptim as cpo`    | 优化控制计算和生成           |
+| `import qutip.control.pulsegen as pulsegen` | 控制场脉冲生成               |
+| `cpo.create_pulse_optimizer`                | 创建演化算符描述的优化控制器 |
+| `dyn = optim.dynamics`                      | 动力计算器                   |
+| `optim.pulse_generator[0]`                  | 指定的控制场                 |
+| `pulsegen.create_pulse_gen`                 | 生成脉冲                     |
+| `dyn.initialize_controls(init_amps)`        | 设置初始控制场参数           |
+| `optim.run_optimization()`                  | 运行计算                     |
+| `cpo.opt_pulse_crab_unitary`                | 创建态到态描述的优化控制器   |
+|                                             |                              |
+=== 计算过程 ===
+{{{class="python"
+
+# 创建优化器,简单易行的优化控制
+optim = cpo.create_pulse_optimizer(
+			H_d,                               # 漂移哈密顿量,固定不变的
+			H_c,                               # 控制哈密顿两,一个list里面是不变的量,各个项系数会变,[H1,H2...]
+			U_0,                               # 初始演化算符
+			U_targ,                            # 目标演化算符
+			n_ts,                              # 时间间隔分的段数,200
+			evo_time,                          # 总演化时长,10
+			fid_err_targ=1e-3,                 # 允许误差范围,1e-3
+			max_iter=20000,                    # 优化算法最大迭代数量,20000
+			max_wall_time=300,                 # 优化算法最大计算时间,300
+			alg='CRAB',                        # 指定算法,'CRAB'或'GRAPE'
+			dyn_type='UNIT',                   # 动力学类型:UNIT, GEN_MAT, SYMPL
+			prop_type='DIAG',                  # 传播计算类型:DEF, APPROX, DIAG, FRECHET, AUG_MAT
+			fid_type='UNIT',                   # 保真度误差计算方法:DEF, UNIT, TRACEDIFF, TD_APPROX
+			fid_params={'phase_option':'PSU'}, # 保真度误差计算方法的参数
+		 #log_level=logging.INFO,            # 信息记录级别:DEBUG_INTENSE, DEBUG_VERBOSE, DEBUG, INFO, WARN, ERROR, CRITICAL
+			gen_stats=True                     # 是否产生数据,态之类的东西
+			)
+# 从优化器获取到动力计算器
+dyn = optim.dynamics
+
+# 为每个控制场设置脉冲
+# 1. 先指定要设定第几个场
+crab_pgen = optim.pulse_generator[0]
+# 2. 再根据动力系统生成脉冲函数
+# 可选的脉冲类型有
+# * 随机脉冲 RND(每段时间各自独立)RNDFOURIER(随机相关的傅立叶级数)RNDWAVES(随机波动)RNDWALK1(每段随机变化)
+# * 非周期脉冲 LIN(线性)ZERO(0)
+# * 周期脉冲 SINE(正弦波)SQUARE(方波)SAW(锯齿波)TRIANGLE(三角波)
+guess_pgen = pulsegen.create_pulse_gen('LIN', dyn=dyn, 
+                                           pulse_params={'scaling':3.0})
+# 3. 然后就可以把控制场的脉冲设置上了
+crab_pgen.guess_pulse = guess_pgen.gen_pulse()
+# 4. 最后还可以再设置一些其他的信息
+crab_pgen.scaling = 0.0 #线性缩放比例
+crab_pgen.num_coeffs = 5 #估计值
+crab_pgen.lbound = -2.0 #下界
+crab_pgen.ubound = 2.0#上界
+
+# 5. 再把初值设上,每个控制脉冲的和总的
+init_amps = np.zeros([n_ts, n_ctrls])
+for j in range(dyn.num_ctrls):
+    pgen = optim.pulse_generator[j]
+    pgen.init_pulse()
+    init_amps[:, j] = pgen.gen_pulse()
+dyn.initialize_controls(init_amps)
+
+# 运行计算
+result = optim.run_optimization()
+# 可以保存参数到文件
+dyn.save_amps("a.txt")
+
+# 计算结果,除了自动报告外全是字符串
+result.stats.report() #自动报告
+result.evo_full_final #末态
+result.initial_fid_err #初始保真度偏差
+result.fid_err #最终偏差
+result.termination_reason#结束原因
+result.num_iter #迭代次数
+datetime.timedelta(seconds=result.wall_time)#运行时长
+
+# 画图
+fig1 = plt.figure()
+ax1 = fig1.add_subplot(2, 1, 1)
+ax1.set_title("Initial Control amps")
+ax1.set_xlabel("Time")
+ax1.set_ylabel("Control amplitude")
+for j in range(n_ctrls):
+    ax1.step(result.time, 
+             np.hstack((result.initial_amps[:, j], result.initial_amps[-1, j])), 
+             where='post')
+ax2 = fig1.add_subplot(2, 1, 2)
+ax2.set_title("Optimised Control Amplitudes")
+ax2.set_xlabel("Time")
+ax2.set_ylabel("Control amplitude")
+for j in range(n_ctrls):
+    ax2.step(result.time, 
+             np.hstack((result.final_amps[:, j], result.final_amps[-1, j])), 
+             where='post', label='u{}'.format(j))
+ax2.legend(loc=8, ncol=n_ctrls)
+plt.tight_layout()
+plt.show()
+
+
+}}}
