@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python on chimez</title>
+    <link>http://chimez.github.io/tags/python/</link>
+    <description>Recent content in python on chimez</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://chimez.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>python 的 xmlrpc 简单用法</title>
+      <link>http://chimez.github.io/post/python_xmlrpc/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0800</pubDate>
+      
+      <guid>http://chimez.github.io/post/python_xmlrpc/</guid>
+      <description>1 服务端 from xmlrpc.server import SimpleXMLRPCServer QUIT_SERVER = False def is_even(n): return n % 2 == 0 def kill(): global QUIT_SERVER QUIT_SERVER = True return 1 def main(): server = SimpleXMLRPCServer((&amp;quot;localhost&amp;quot;, 8000)) print(&amp;quot;Listening on port 8000...&amp;quot;) server.register_function(is_even, &amp;quot;is_even&amp;quot;) server.register_function(kill, &amp;quot;kill&amp;quot;) global QUIT_SERVER while not QUIT_SERVER: server.handle_request() if __name__ == &#39;__main__&#39;: main() 2 客户端 import xmlrpc.client with xmlrpc.client.ServerProxy(&amp;quot;http://localhost:8000/&amp;quot;) as proxy: print(&amp;quot;3 is even: %s&amp;quot; % str(proxy.is_even(3))) print(proxy.kill())</description>
+    </item>
+    
+  </channel>
+</rss>
