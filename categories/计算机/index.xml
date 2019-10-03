@@ -6,10 +6,28 @@
     <description>Recent content in 计算机 on chimez</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 20 Sep 2019 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 02 Oct 2019 00:00:00 +0800</lastBuildDate>
     
 	<atom:link href="http://chimez.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>python 的 xmlrpc 简单用法</title>
+      <link>http://chimez.github.io/post/python_xmlrpc/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0800</pubDate>
+      
+      <guid>http://chimez.github.io/post/python_xmlrpc/</guid>
+      <description>1 服务端 from xmlrpc.server import SimpleXMLRPCServer QUIT_SERVER = False def is_even(n): return n % 2 == 0 def kill(): global QUIT_SERVER QUIT_SERVER = True return 1 def main(): server = SimpleXMLRPCServer((&amp;quot;localhost&amp;quot;, 8000)) print(&amp;quot;Listening on port 8000...&amp;quot;) server.register_function(is_even, &amp;quot;is_even&amp;quot;) server.register_function(kill, &amp;quot;kill&amp;quot;) global QUIT_SERVER while not QUIT_SERVER: server.handle_request() if __name__ == &#39;__main__&#39;: main() 2 客户端 import xmlrpc.client with xmlrpc.client.ServerProxy(&amp;quot;http://localhost:8000/&amp;quot;) as proxy: print(&amp;quot;3 is even: %s&amp;quot; % str(proxy.is_even(3))) print(proxy.kill())</description>
+    </item>
+    
+    <item>
+      <title>如何在 labview 中使用 dotnet 库</title>
+      <link>http://chimez.github.io/post/%E5%A6%82%E4%BD%95%E5%9C%A8labview%E4%B8%AD%E4%BD%BF%E7%94%A8dotnet%E5%BA%93/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0800</pubDate>
+      
+      <guid>http://chimez.github.io/post/%E5%A6%82%E4%BD%95%E5%9C%A8labview%E4%B8%AD%E4%BD%BF%E7%94%A8dotnet%E5%BA%93/</guid>
+      <description>1 目录结构 首先要把 dll 文件放到 labview 能找到的地方。最佳操作是先创建一个项目，也就是 lvproj 文件，以后编程都先打开这个，在项目里创建 vi 。然后在同一个文件夹</description>
+    </item>
     
     <item>
       <title>使用 latexmk 自动执行编译</title>
