@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-27 Sun 17:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>sagemath</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="chimez" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">sagemath</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orga19d9d8">1. 基本特性</a></li>
+<li><a href="#org000c9a6">2. 符号运算</a>
+<ul>
+<li><a href="#org3ac9cf4">2.1. 基础操作</a></li>
+<li><a href="#org7a2050f">2.2. 代数</a></li>
+<li><a href="#org068038e">2.3. 组合数学</a></li>
+</ul>
+</li>
+<li><a href="#orgadcf05b">3. 数值运算</a>
+<ul>
+<li><a href="#org4498636">3.1. 基础操作</a></li>
+</ul>
+</li>
+<li><a href="#orge28fef9">4. 绘图</a></li>
+<li><a href="#orga61aeb0">5. 技巧和常用代码片段</a>
+<ul>
+<li><a href="#org5151806">5.1. 与 tex 联合使用</a>
+<ul>
+<li><a href="#org1543193">5.1.1. sagetex：可以在tex中显示sage命令的运算结果</a></li>
+</ul>
+</li>
+<li><a href="#orgd38b4e1">5.2. 三角函数和指数之间转换</a></li>
+<li><a href="#org9cdb035">5.3. 量子力学算符代数计算</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+
+
+<div id="outline-container-orga19d9d8" class="outline-2">
+<h2 id="orga19d9d8"><span class="section-number-2">1</span> 基本特性</h2>
+<div class="outline-text-2" id="text-1">
+<ol class="org-ol">
+<li>直接输入数学运算公式可以作为计算器来用</li>
+<li>继承自python的面向对象系统，即任何东西都是对象</li>
+<li>在命令行模式下使用TAB补全，在notebook里似乎有bug</li>
+<li>内置交互式帮助系统，在命令后加一个问号即可显示帮助   <code>c.diameter?</code></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org000c9a6" class="outline-2">
+<h2 id="org000c9a6"><span class="section-number-2">2</span> 符号运算</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org3ac9cf4" class="outline-3">
+<h3 id="org3ac9cf4"><span class="section-number-3">2.1</span> 基础操作</h3>
+<div class="outline-text-3" id="text-2-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>x = var('x')</code></td>
+<td class="org-left">定义符号</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>f = 1 - sin(x)^2</code></td>
+<td class="org-left">定义一个函数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>print(f)</code></td>
+<td class="org-left">普通打印函数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>print(maxima(f))</code></td>
+<td class="org-left">美化打印函数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>f.simplify_trig()</code></td>
+<td class="org-left">化简表达式</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>f(x=pi/2)</code></td>
+<td class="org-left">计算函数值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>ingtegrate(f, x)</code></td>
+<td class="org-left">不定积分</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>f.differentiate(2).substitude({x: 3/pi})</code></td>
+<td class="org-left">计算二阶微分，并代替值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a = var('a')</code></td>
+<td class="org-left">x是默认隐含符号，需要更多符号就要定义</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>S = solve(x^2 + x == a, x)</code></td>
+<td class="org-left">解代数方程</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>S[0].rhs()</code></td>
+<td class="org-left">显示代数方程解</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>show(plot(sin(x)+ sin(1.6*x)), 0, 40)</code></td>
+<td class="org-left">解析画图</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>F = factor(x^99 + y^99)</code></td>
+<td class="org-left">分解因式</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>F.expand()</code></td>
+<td class="org-left">乘开因式</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org7a2050f" class="outline-3">
+<h3 id="org7a2050f"><span class="section-number-3">2.2</span> 代数</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+用对象表示代数结构，群环域
+</p>
+</div>
+</div>
+<div id="outline-container-org068038e" class="outline-3">
+<h3 id="org068038e"><span class="section-number-3">2.3</span> 组合数学</h3>
+</div>
+</div>
+
+<div id="outline-container-orgadcf05b" class="outline-2">
+<h2 id="orgadcf05b"><span class="section-number-2">3</span> 数值运算</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org4498636" class="outline-3">
+<h3 id="org4498636"><span class="section-number-3">3.1</span> 基础操作</h3>
+<div class="outline-text-3" id="text-3-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>3 + 5</code></td>
+<td class="org-left">加法</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>57.1 ^ 100</code></td>
+<td class="org-left">乘方</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>matrix([[1,2], [3,4]])</code></td>
+<td class="org-left">创建矩阵，按行写</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>g = sin(x) + (1- x^2)</code></td>
+<td class="org-left">定义一个函数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>find_root(g, 0, 2)</code></td>
+<td class="org-left">在区间[0, 2]寻根</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>var('x y z')</code></td>
+<td class="org-left">定义一些符号</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>f = (1+ (y+ x^2)^2 + (1+ z+ y^2)^2)^2</code></td>
+<td class="org-left">新定义一个函数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>minimize(f, [1, 2, 3], disp=1, algorithm='powell')</code></td>
+<td class="org-left">计算最优化，指定算法和初值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>m = random_matrix(RDF, 500)</code></td>
+<td class="org-left">创建复数500×500随机矩阵</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>e = m.eigenvalues()</code></td>
+<td class="org-left">计算矩阵的本征值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>w = [(i, abs(e[i])) for i in range(len(e))]</code></td>
+<td class="org-left">循环方式创建list</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>show(points(w))</code></td>
+<td class="org-left">成对点画图</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>factorial(100)</code></td>
+<td class="org-left">计算阶乘</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>N(pi, digits=100)</code></td>
+<td class="org-left">保留100位小数，四舍五入</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>z = Partitions(10^8).cardinality()</code></td>
+<td class="org-left">计算数的划分并给出基数</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+包括以下几种浮点数类型：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Python</td>
+<td class="org-left">float, complex, decimal</td>
+</tr>
+
+<tr>
+<td class="org-left">SageMath specific</td>
+<td class="org-left">RDF, CDF, RQDF, CC, RR, RIF, CIF</td>
+</tr>
+
+<tr>
+<td class="org-left">included Systems</td>
+<td class="org-left">pari, maxima</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge28fef9" class="outline-2">
+<h2 id="orge28fef9"><span class="section-number-2">4</span> 绘图</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+可绘制的类型：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">interact</td>
+<td class="org-left">动态交互图，可以显示一个滑块，滑动改变图</td>
+</tr>
+
+<tr>
+<td class="org-left">Regions Plot/ Contours</td>
+<td class="org-left">显示一个不等式区间</td>
+</tr>
+
+<tr>
+<td class="org-left">Density Plot</td>
+<td class="org-left">密度图，热力图</td>
+</tr>
+
+<tr>
+<td class="org-left">filled plot</td>
+<td class="org-left">可以上色显示两条线之间的区间</td>
+</tr>
+
+<tr>
+<td class="org-left">multiedge graph</td>
+<td class="org-left">可以显示一个有向图</td>
+</tr>
+</tbody>
+</table>
+<p>
+<a href="https://wiki.sagemath.org/interact">这里</a> 有各种动态图的例子
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga61aeb0" class="outline-2">
+<h2 id="orga61aeb0"><span class="section-number-2">5</span> 技巧和常用代码片段</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org5151806" class="outline-3">
+<h3 id="org5151806"><span class="section-number-3">5.1</span> 与 tex 联合使用</h3>
+<div class="outline-text-3" id="text-5-1">
+</div>
+<div id="outline-container-org1543193" class="outline-4">
+<h4 id="org1543193"><span class="section-number-4">5.1.1</span> sagetex：可以在tex中显示sage命令的运算结果</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<p>
+首先需要安装 <a href="http://doc.sagemath.org/html/en/tutorial/sagetex.html">sagetex</a>
+</p>
+
+<p>
+注意： 在网站下载的二进制包千万别手贱用 sage -i 自己再编译，由于包含文件不全，这样只会破坏已编译好的文件
+</p>
+
+<pre class="example">
+kpsewhich -var-value=TEXMFHOME                  # 获得TEXMFHOME目录位置，一般是$HOME/texmf
+cp -R SAGE_ROOT/local/share/texmf/tex TEXMFHOME # 把sagetex复制到目录里
+texhash                                         # 让latex重新索引包
+</pre>
+<p>
+使用方法
+</p>
+<div class="org-src-container">
+<pre class="src src-tex">  <span style="color: #859900; font-weight: bold;">\usepackage</span>{<span style="color: #268bd2;">sagetex</span>}              <span style="color: #93a1a1;">% &#24341;&#20837;&#21253;</span>
+  <span style="color: #859900; font-weight: bold;">\usepackage</span>[<span style="color: #268bd2;">imagemagick</span>]{<span style="color: #268bd2;">sagetex</span>} <span style="color: #93a1a1;">% &#21487;&#36873;&#39033;</span>
+  <span style="color: #859900; font-weight: bold;">\setlength</span>{<span style="color: #268bd2;">\sagetexindent</span>}{<span style="color: #268bd2;">10ex</span>}  <span style="color: #93a1a1;">% &#35774;&#32622;&#38388;&#38548;</span>
+  <span style="color: #6c71c4;">$2+2=</span><span style="color: #6c71c4;">\sage</span><span style="color: #6c71c4;">{2+2}$</span>                  <span style="color: #93a1a1;">% &#34892;&#20869;&#35745;&#31639;sage&#34920;&#36798;&#24335;&#30340;&#25968;&#23398;&#32467;&#26524;</span>
+  <span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">sageblock</span>}                 <span style="color: #93a1a1;">% &#24341;&#29992;sage/python&#20195;&#30721;</span>
+    1+1
+    var('a,b,c')
+    eqn ~ [a+b*c==1, b-a*c==0, a+b=~5]
+    s = solve(eqn, a,b,c)
+  <span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">sageblock</span>} 
+  <span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">sagesilent</span>}      <span style="color: #93a1a1;">% &#22810;&#34892;&#35745;&#31639;sage&#34920;&#36798;&#24335;</span>
+    e = 2
+    e = 3*e + 1
+  <span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">sagesilent</span>}
+  <span style="color: #6c71c4;">$e=</span><span style="color: #6c71c4;">\sage</span><span style="color: #6c71c4;">{e}$</span>            <span style="color: #93a1a1;">% &#22312;&#21516;&#19968;&#25991;&#20214;&#20869;&#21487;&#20197;&#30452;&#25509;&#20351;&#29992;&#23450;&#20041;&#30340;&#21464;&#37327;</span>
+  <span style="color: #586e75;">\sageplot</span>{E.plot(-3,3)} <span style="color: #93a1a1;">% sage&#30011;&#22270;</span>
+  <span style="color: #586e75;">\sagetexpause</span>           <span style="color: #93a1a1;">% &#22312;pause&#23439;&#20043;&#38388;&#30340;sage&#34920;&#36798;&#24335;&#19981;&#34987;&#27714;&#20540;&#65292;&#20415;&#20110;&#20462;&#25913;</span>
+  <span style="color: #586e75;">\sagetexunpause</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd38b4e1" class="outline-3">
+<h3 id="orgd38b4e1"><span class="section-number-3">5.2</span> 三角函数和指数之间转换</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+<a href="https://ask.sagemath.org/question/7672/complex-exponentialtrigonometric/">参考这个回答</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">exponentialize</span><span style="color: #2aa198;">(</span>x<span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="color: #2aa198;">"""&#20174;&#19977;&#35282;&#20989;&#25968;&#24418;&#24335;&#21464;&#25442;&#25104;e&#25351;&#25968;&#24418;&#24335;"""</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="color: #859900; font-weight: bold;">return</span> sageobj<span style="color: #2aa198;">(</span>x._maxima_<span style="color: #b58900;">()</span>.expand<span style="color: #b58900;">()</span>.exponentialize<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">demoivre</span><span style="color: #2aa198;">(</span>x<span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="color: #2aa198;">"""&#20174;e&#25351;&#25968;&#24418;&#24335;&#21464;&#25442;&#25104;&#19977;&#35282;&#20989;&#25968;&#24418;&#24335;"""</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="color: #859900; font-weight: bold;">return</span> sageobj<span style="color: #2aa198;">(</span>x._maxima_<span style="color: #b58900;">()</span>.expand<span style="color: #b58900;">()</span>.demoivre<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9cdb035" class="outline-3">
+<h3 id="org9cdb035"><span class="section-number-3">5.3</span> 量子力学算符代数计算</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+参见 <a href="https://sheaves.github.io/Noncommutative-Sage/">Noncommutative Algebras in Sage</a>.
+</p>
+
+<p>
+例如要做满足 \([a, a^{\dagger}]=1, [b,b^{\dagger}]=1, [a,b]=0\) 的两个算符 \(a,b\) 的代数计算
+</p>
+<div class="org-src-container">
+<pre class="src src-python">F.&lt;a, a_d, b, b_d&gt; = FreeAlgebra<span style="color: #2aa198;">(</span>QQ<span style="color: #2aa198;">)</span>
+
+<span style="color: #268bd2;">U_relations</span> = <span style="color: #2aa198;">{</span>
+<span style="background-color: #eee8d5;"> </span>   b_d * b: b * b_d - 1,
+<span style="background-color: #eee8d5;"> </span>   a_d * a: a * a_d - 1,
+<span style="color: #2aa198;">}</span>
+
+<span style="color: #268bd2;">U</span> = F.g_algebra<span style="color: #2aa198;">(</span>U_relations<span style="color: #2aa198;">)</span>
+<span style="color: #268bd2;">U._latex_names</span> = <span style="color: #2aa198;">[</span><span style="color: #2aa198;">"a"</span>, r<span style="color: #2aa198;">"a^\dagger"</span>, <span style="color: #2aa198;">"b"</span>, r<span style="color: #2aa198;">"b^\dagger"</span><span style="color: #2aa198;">]</span>
+U.inject_variables<span style="color: #2aa198;">()</span>
+</pre>
+</div>
+
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>定义规则时，必须是后定义的字母乘在前面，例如定义时 <code>F.&lt;a,b,c&gt;</code> 规则中应该写作 <code>c*b: ..., b*a: ...</code> 等</li>
+<li>变量的 latex 显示名顺序要和变量定义顺序相同</li>
+<li>没有指定规则的乘法默认就是可对易的</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: chimez</p>
+<p class="date">Created: 2020-09-27 Sun 17:24</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

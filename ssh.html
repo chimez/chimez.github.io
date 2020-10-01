@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-01 Thu 17:26 -->
+<!-- 2020-09-27 Sun 17:24 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Chimez's Blog Sitemap for project blog-posts</title>
+<title>ssh</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="chimez chimez" />
+<meta name="author" content="chimez" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center;
@@ -248,245 +248,304 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Chimez's Blog Sitemap for project blog-posts</h1>
+<h1 class="title">ssh</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgb8b3266">1. 科学计算</a>
+<li><a href="#orgab50ebb">1. SSH 端口转发</a>
 <ul>
-<li><a href="#orgaec46c8">1.1. 通用计算</a></li>
-<li><a href="#org26ee4b6">1.2. 符号计算</a></li>
+<li><a href="#orgb3093f6">1.1. 本地转发: 本地访问远程</a></li>
+<li><a href="#org7840744">1.2. 远程转发: 远程访问本地</a></li>
+<li><a href="#org76e1bda">1.3. 动态转发</a></li>
 </ul>
 </li>
-<li><a href="#org8261e9b">2. 工具和软件</a>
+<li><a href="#org7596963">2. 免密码登录</a>
 <ul>
-<li><a href="#orgae5c8b3">2.1. 写作与笔记</a></li>
-<li><a href="#orgd3e621a">2.2. 开发工具</a></li>
-<li><a href="#orga2d4295">2.3. 实用工具</a></li>
-<li><a href="#orga6c1722">2.4. 服务器</a></li>
+<li><a href="#org3f5056e">2.1. 在本地机器生成密钥对</a></li>
+<li><a href="#orgc2d87cd">2.2. 授权登录</a></li>
 </ul>
 </li>
-<li><a href="#org6f1f922">3. 编程语言</a>
+<li><a href="#orgaa46ab3">3. scp 文件传输</a></li>
+<li><a href="#orgcaebe9e">4. rsync 文件传输</a>
 <ul>
-<li><a href="#orgc684134">3.1. 类似 python 的</a></li>
-<li><a href="#orgfebc23c">3.2. 类似 c 的</a></li>
-<li><a href="#org1e04f00">3.3. 没用的</a></li>
+<li><a href="#org5d95b0b">4.1. 常用参数说明</a></li>
+<li><a href="#org6909d31">4.2. 例子</a></li>
 </ul>
 </li>
-<li><a href="#org9e8c874">4. 计算机科学</a></li>
-<li><a href="#org378b615">5. All Posts</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb8b3266" class="outline-2">
-<h2 id="orgb8b3266"><span class="section-number-2">1</span> 科学计算</h2>
+
+
+
+<div id="outline-container-orgab50ebb" class="outline-2">
+<h2 id="orgab50ebb"><span class="section-number-2">1</span> SSH 端口转发</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orgaec46c8" class="outline-3">
-<h3 id="orgaec46c8"><span class="section-number-3">1.1</span> 通用计算</h3>
+<div id="outline-container-orgb3093f6" class="outline-3">
+<h3 id="orgb3093f6"><span class="section-number-3">1.1</span> 本地转发: 本地访问远程</h3>
 <div class="outline-text-3" id="text-1-1">
-<ul class="org-ul">
-<li><a href="python科学计算.html">Python科学计算</a></li>
-<li><a href="javascript_画图.html">JavaScript 画图</a></li>
-<li><a href="julia.html">julia</a></li>
-<li><a href="r_project.html">R Project</a></li>
-</ul>
+<p>
+本地转发，顾名思义就是把本地主机端口通过待登录主机端口转发到远程主机端口上去。
+</p>
+
+<p>
+本地转发通过参数 -L 指定，格式：-L [本地主机:]本地主机端口:远程网络主机:远程网络主机端口。加上ssh待登录主机，这里就有了三台主机。
+</p>
+
+<p>
+举例：~ssh -L 0.0.0.0:50000:host2:80 user@host1~ 。这条命令将host2的80端口映射到本地的50000端口，前提是待登录主机host1上可以正常连接到host2的80端口。
+</p>
+
+<p>
+畅想一下这个功能的作用：
+</p>
+<ol class="org-ol">
+<li>因为本地的mysql更顺手，想用本地的mysql客户端命令连接受限网络环境的mysql服务端。</li>
+<li>本地安装了开发工具，想用这个开发工具连接受限网络环境中某个服务的远程调试端口。</li>
+</ol>
 </div>
 </div>
 
-<div id="outline-container-org26ee4b6" class="outline-3">
-<h3 id="org26ee4b6"><span class="section-number-3">1.2</span> 符号计算</h3>
+<div id="outline-container-org7840744" class="outline-3">
+<h3 id="org7840744"><span class="section-number-3">1.2</span> 远程转发: 远程访问本地</h3>
 <div class="outline-text-3" id="text-1-2">
-<ul class="org-ul">
-<li><a href="sagemath.html">sagemath</a></li>
-<li><a href="maxima.html">maxima</a></li>
-</ul>
+<p>
+远程转发是指把登录主机所在网络中某个端口通过本地主机端口转发到远程主机上。
+</p>
+
+<p>
+远程转发通过参数 -R 指定，格式：-R [登录主机:]登录主机端口:本地网络主机:本地网络主机端口。
+</p>
+
+<p>
+举例：~ssh -R 0.0.0.0:8080:host2:80 user@host1~ 。这条命令将host2的80端口映射到待登录主机host1的8080端口，前提是本地主机可以正常连接host2的80端口。
+</p>
+
+<p>
+畅想一下这个功能的作用：
+</p>
+
+<ol class="org-ol">
+<li>本地网络中有一个http代理，通过这个代理可以上外网，因此通过这条命令将这个http代理映射到待登录主机的某个端口，这样受限网络环境中所有其它服务器即可使用这个http代理上外网了。</li>
+<li>在本机开发了一个web应用，想拿给别人测试，但现在你却处在内网，外网是无法直接访问内网的主机的，怎么办！？很多人可能会说，找台有公网IP的主机，重新部署一下就行了。这样可行，但太麻烦。然而自从你了解了ssh的远程转发之后，一切都变得简单了。只需在本地主机上执行一下上面例子的命令即可实现外网访问内网的web应用。</li>
+</ol>
+
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>sshd<sub>config里要打开AllowTcpForwarding选项</sub>，否则-R远程端口转发会失败。</li>
+<li>默认转发到远程主机上的端口绑定的是127.0.0.1，如要绑定0.0.0.0需要打开sshd<sub>config里的GatewayPorts选项</sub>。这个选项如果由于权限没法打开也有办法，可配合ssh -L将端口绑定到0.0.0.0，聪明的你应该能想到办法，呵呵。</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org76e1bda" class="outline-3">
+<h3 id="org76e1bda"><span class="section-number-3">1.3</span> 动态转发</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+相对于本地转发和远程转发的单一端口转发模式而言，动态转发有点更加强劲的端口转发功能，即是无需固定指定被访问目标主机的端口号。这个端口号需要在本地通过协议指定，该协议就是简单、安全、实用的 SOCKS 协议。
+</p>
+
+<p>
+动态转发通过参数 -D 指定，格式：-D [本地主机:]本地主机端口。相对于前两个来说，动态转发无需再指定远程主机及其端口。它们由通过 SOCKS协议 连接到本地主机端口的那个主机。
+</p>
+
+<p>
+举例：~ssh -D 50000 user@host1~ 。这条命令创建了一个SOCKS代理，所以通过该SOCKS代理发出的数据包将经过host1转发出去。
+</p>
+
+<p>
+怎么使用？
+</p>
+
+<ol class="org-ol">
+<li>用firefox浏览器，在浏览器里设置使用socks5代理127.0.0.1:50000，然后浏览器就可以访问host1所在网络内的任何IP了。</li>
+<li><p>
+如果是普通命令行应用，使用proxychains-ng，参考命令如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">brew install proxychains-ng
+vim /usr/local/etc/proxychains.conf <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#22312;ProxyList&#37197;&#32622;&#27573;&#19979;&#28155;&#21152;&#37197;&#32622; "socks5    127.0.0.1 50000"</span>
+proxychains-ng wget http://host2 <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#22312;&#20854;&#23427;&#21629;&#20196;&#34892;&#21069;&#28155;&#21152;proxychains-ng&#21363;&#21487;</span>
+</pre>
+</div></li>
+<li><p>
+如果是ssh，则用以下命令使用socks5代理：
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">ssh -o <span style="color: #268bd2;">ProxyCommand</span>=<span style="color: #2aa198;">'/usr/bin/nc -X 5 -x 127.0.0.1:5000 %h %p'</span> user@host2
+</pre>
+</div></li>
+</ol>
+
+<p>
+畅想一下这个功能的作用：
+</p>
+<ol class="org-ol">
+<li>想访问受限网络环境中的多种服务</li>
+<li>FQ</li>
+<li>……</li>
+</ol>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org8261e9b" class="outline-2">
-<h2 id="org8261e9b"><span class="section-number-2">2</span> 工具和软件</h2>
+<div id="outline-container-org7596963" class="outline-2">
+<h2 id="org7596963"><span class="section-number-2">2</span> 免密码登录</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgae5c8b3" class="outline-3">
-<h3 id="orgae5c8b3"><span class="section-number-3">2.1</span> 写作与笔记</h3>
+<div id="outline-container-org3f5056e" class="outline-3">
+<h3 id="org3f5056e"><span class="section-number-3">2.1</span> 在本地机器生成密钥对</h3>
 <div class="outline-text-3" id="text-2-1">
-<ul class="org-ul">
-<li><a href="emacs.html">Emacs</a></li>
-<li><a href="org_mode.html">org-mode</a></li>
-<li><a href="latex.html">LaTeX 踩坑记录</a></li>
-<li><a href="hugo.html">Hugo 静态博客</a></li>
-<li><a href="vim.html">vim</a></li>
-</ul>
+<div class="org-src-container">
+<pre class="src src-bash">ssh-keygen -t rsa
+</pre>
+</div>
+<p>
+根据提示设置文件名和密码
+</p>
 </div>
 </div>
 
-<div id="outline-container-orgd3e621a" class="outline-3">
-<h3 id="orgd3e621a"><span class="section-number-3">2.2</span> 开发工具</h3>
+<div id="outline-container-orgc2d87cd" class="outline-3">
+<h3 id="orgc2d87cd"><span class="section-number-3">2.2</span> 授权登录</h3>
 <div class="outline-text-3" id="text-2-2">
-<ul class="org-ul">
-<li><a href="git.html">git</a></li>
-<li><a href="scoop.html">scoop</a></li>
-<li><a href="ssh.html">ssh</a></li>
-<li><a href="tmux.html">tmux</a></li>
-<li><a href="powershell.html">PowerShell</a></li>
-<li><a href="windows改键_caps作为ctrl.html">Windows改键：caps作为ctrl</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-orga2d4295" class="outline-3">
-<h3 id="orga2d4295"><span class="section-number-3">2.3</span> 实用工具</h3>
-<div class="outline-text-3" id="text-2-3">
-<ul class="org-ul">
-<li><a href="pdftk.html">pdftk:修改pdf文件</a></li>
-<li><a href="shadowsocks.html">shadowsocks</a></li>
-<li><a href="tesseract_ocr.html">tesseract OCR</a></li>
-<li><a href="ffmpeg视频处理.html">ffmpeg视频处理</a></li>
-<li><a href="virtualbox踩坑.html">VirtualBox踩坑</a></li>
-</ul>
-</div>
+<p>
+将公钥追加到目标服务器的 <code>$HOME/.ssh/authorized_keys</code> 文件中，该文件的权限应为 <code>600</code> ， <code>.ssh</code> 目录权限应为 <code>700</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">touch ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+cat ~/.ssh/a_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+</pre>
 </div>
 
-<div id="outline-container-orga6c1722" class="outline-3">
-<h3 id="orga6c1722"><span class="section-number-3">2.4</span> 服务器</h3>
-<div class="outline-text-3" id="text-2-4">
-<ul class="org-ul">
-<li><a href="linux.html">linux</a></li>
-<li><a href="nextcloud.html">Nextcloud</a></li>
-</ul>
+<p>
+测试一下
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">ssh username@localhost
+</pre>
+</div>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-org6f1f922" class="outline-2">
-<h2 id="org6f1f922"><span class="section-number-2">3</span> 编程语言</h2>
+<div id="outline-container-orgaa46ab3" class="outline-2">
+<h2 id="orgaa46ab3"><span class="section-number-2">3</span> scp 文件传输</h2>
 <div class="outline-text-2" id="text-3">
-</div>
-<div id="outline-container-orgc684134" class="outline-3">
-<h3 id="orgc684134"><span class="section-number-3">3.1</span> 类似 python 的</h3>
-<div class="outline-text-3" id="text-3-1">
-<ul class="org-ul">
-<li><a href="python.html">python</a></li>
-<li><a href="python_gui.html">python GUI</a></li>
-<li><a href="python网络.html">python 网络</a></li>
-<li><a href="perl.html">perl</a></li>
-<li><a href="javascript.html">javascript</a></li>
-</ul>
+<p>
+scp 被认为<a href="https://lists.mindrot.org/pipermail/openssh-unix-dev/2019-March/037672.html">已经过时</a> , 推荐使用 rsync 或 sftp
+</p>
 </div>
 </div>
 
-<div id="outline-container-orgfebc23c" class="outline-3">
-<h3 id="orgfebc23c"><span class="section-number-3">3.2</span> 类似 c 的</h3>
-<div class="outline-text-3" id="text-3-2">
-<ul class="org-ul">
-<li><a href="c语言.html">C语言</a></li>
-<li><a href="cpp.html">C++</a></li>
-<li><a href="rust.html">rust</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-org1e04f00" class="outline-3">
-<h3 id="org1e04f00"><span class="section-number-3">3.3</span> 没用的</h3>
-<div class="outline-text-3" id="text-3-3">
-<ul class="org-ul">
-<li><a href="clojure.html">clojure</a></li>
-<li><a href="clojurescript.html">clojurescript</a></li>
-<li><a href="common_lisp.html">common lisp</a></li>
-<li><a href="common_lisp_cheatsheet.html">common lisp cheatsheet</a></li>
-<li><a href="guile.html">guile</a></li>
-<li><a href="nim.html">nim</a></li>
-<li><a href="lua.html">lua</a></li>
-<li><a href="labview.html">labview</a></li>
-</ul>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-org9e8c874" class="outline-2">
-<h2 id="org9e8c874"><span class="section-number-2">4</span> 计算机科学</h2>
+<div id="outline-container-orgcaebe9e" class="outline-2">
+<h2 id="orgcaebe9e"><span class="section-number-2">4</span> rsync 文件传输</h2>
 <div class="outline-text-2" id="text-4">
-<ul class="org-ul">
-<li><a href="htdp笔记.html">HtDP笔记</a></li>
-<li><a href="使用栈改写递归.html">使用栈改写递归</a></li>
-<li><a href="单片机.html">单片机</a></li>
-<li><a href="把尾递归改写成循环.html">把尾递归改写成循环</a></li>
-<li><a href="机器学习.html">机器学习</a></li>
-<li><a href="递归下降方法编写_ll_1_parser.html">递归下降方法编写 LL(1) parser</a></li>
-</ul>
+</div>
+<div id="outline-container-org5d95b0b" class="outline-3">
+<h3 id="org5d95b0b"><span class="section-number-3">4.1</span> 常用参数说明</h3>
+<div class="outline-text-3" id="text-4-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>参数</b></th>
+<th scope="col" class="org-left"><b>说明</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>-r</code></td>
+<td class="org-left">递归传输</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-a</code></td>
+<td class="org-left">传输所有信息</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-n</code></td>
+<td class="org-left">模拟传输，防手贱</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>--delete</code></td>
+<td class="org-left">删除目标目录里多余的东西</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>--exclude='*.txt'</code></td>
+<td class="org-left">排除文件</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>--progress</code></td>
+<td class="org-left">显示进度条</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-z</code></td>
+<td class="org-left">压缩传输</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-l</code></td>
+<td class="org-left">只传输软链接</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-L</code></td>
+<td class="org-left">传输软链接的目标文件</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-I</code></td>
+<td class="org-left">放弃增量传输</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>-P</code></td>
+<td class="org-left">分块传输并显示进度</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
+<div id="outline-container-org6909d31" class="outline-3">
+<h3 id="org6909d31"><span class="section-number-3">4.2</span> 例子</h3>
+<div class="outline-text-3" id="text-4-2">
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#36828;&#31243;&#21040;&#26412;&#22320;</span>
+rsync -aP user@ip:remote_dir local_dir
 
-<div id="outline-container-org378b615" class="outline-2">
-<h2 id="org378b615"><span class="section-number-2">5</span> All Posts</h2>
-<div class="outline-text-2" id="text-5">
-<div class="body-only">
-<ul class="org-ul">
-<li><a href="cpp.html">C++</a></li>
-<li><a href="index.html">Chimez's Blog</a></li>
-<li><a href="c语言.html">C语言</a></li>
-<li><a href="emacs.html">Emacs</a></li>
-<li><a href="htdp笔记.html">HtDP笔记</a></li>
-<li><a href="hugo.html">Hugo 静态博客</a></li>
-<li><a href="javascript_画图.html">JavaScript 画图</a></li>
-<li><a href="latex.html">LaTeX 踩坑记录</a></li>
-<li><a href="nextcloud.html">Nextcloud</a></li>
-<li><a href="powershell.html">PowerShell</a></li>
-<li><a href="python科学计算.html">Python科学计算</a></li>
-<li><a href="r_project.html">R Project</a></li>
-<li><a href="virtualbox踩坑.html">VirtualBox踩坑</a></li>
-<li><a href="windows改键_caps作为ctrl.html">Windows改键：caps作为ctrl</a></li>
-<li><a href="clojure.html">clojure</a></li>
-<li><a href="clojurescript.html">clojurescript</a></li>
-<li><a href="common_lisp.html">common lisp</a></li>
-<li><a href="common_lisp_cheatsheet.html">common lisp cheatsheet</a></li>
-<li><a href="ffmpeg视频处理.html">ffmpeg视频处理</a></li>
-<li><a href="git.html">git</a></li>
-<li><a href="guile.html">guile</a></li>
-<li><a href="javascript.html">javascript</a></li>
-<li><a href="julia.html">julia</a></li>
-<li><a href="labview.html">labview</a></li>
-<li><a href="linux.html">linux</a></li>
-<li><a href="lua.html">lua</a></li>
-<li><a href="maxima.html">maxima</a></li>
-<li><a href="nim.html">nim</a></li>
-<li><a href="org_mode.html">org-mode</a></li>
-<li><a href="pdftk.html">pdftk:修改pdf文件</a></li>
-<li><a href="perl.html">perl</a></li>
-<li><a href="python.html">python</a></li>
-<li><a href="python_gui.html">python GUI</a></li>
-<li><a href="python网络.html">python网络</a></li>
-<li><a href="rust.html">rust</a></li>
-<li><a href="sagemath.html">sagemath</a></li>
-<li><a href="scoop.html">scoop</a></li>
-<li><a href="shadowsocks.html">shadowsocks</a></li>
-<li><a href="ssh.html">ssh</a></li>
-<li><a href="tesseract_ocr.html">tesseract OCR</a></li>
-<li><a href="theindex.html">theindex</a></li>
-<li><a href="tmux.html">tmux</a></li>
-<li><a href="vim.html">vim</a></li>
-<li><a href="使用栈改写递归.html">使用栈改写递归</a></li>
-<li><a href="单片机.html">单片机</a></li>
-<li><a href="把尾递归改写成循环.html">把尾递归改写成循环</a></li>
-<li><a href="机器学习.html">机器学习</a></li>
-<li><a href="递归下降方法编写_ll_1_parser.html">递归下降方法编写 LL(1) parser</a></li>
-</ul>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#26412;&#22320;&#21040;&#36828;&#31243;</span>
+rsync -aP local_dir user@ip:remote_dir
 
+</pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: chimez chimez</p>
-<p class="date">Created: 2020-10-01 Thu 17:26</p>
+<p class="author">Author: chimez</p>
+<p class="date">Created: 2020-09-27 Sun 17:24</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

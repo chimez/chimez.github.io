@@ -1,0 +1,2359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-27 Sun 17:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C++</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="chimez" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">C++</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgea0d3e4">1. C++</a>
+<ul>
+<li><a href="#org3415b3f">1.1. 语法</a>
+<ul>
+<li><a href="#orge2a14b7">1.1.1. 指定声明</a></li>
+<li><a href="#orga3f9e87">1.1.2. 类型</a></li>
+<li><a href="#orge466908">1.1.3. 运算符</a></li>
+<li><a href="#orgcd99588">1.1.4. 语句</a></li>
+<li><a href="#org0ce5633">1.1.5. 头文件</a></li>
+<li><a href="#orga73874a">1.1.6. 主函数参数</a></li>
+<li><a href="#org44e0e3e">1.1.7. 模版函数</a></li>
+<li><a href="#orgc560177">1.1.8. 指针</a></li>
+<li><a href="#org971ea9a">1.1.9. 内存操作</a></li>
+<li><a href="#org9bbcd6b">1.1.10. struct 结构体</a></li>
+<li><a href="#org043f10e">1.1.11. class 类</a></li>
+<li><a href="#orgdf1bf95">1.1.12. 模板类</a></li>
+<li><a href="#orgc9653a4">1.1.13. 句柄类 handle</a></li>
+<li><a href="#org40ab4c0">1.1.14. 引用   &amp;</a></li>
+</ul>
+</li>
+<li><a href="#orgb5f277f">1.2. C++ 标准库</a>
+<ul>
+<li><a href="#orgcb2e7e6">1.2.1. 输入输出</a></li>
+<li><a href="#orgb416bd0">1.2.2. 容器</a></li>
+<li><a href="#org94fdffa">1.2.3. 迭代器</a></li>
+<li><a href="#orgadfcfaf">1.2.4. 具体容器</a></li>
+<li><a href="#orgab900c8">1.2.5. 算法</a></li>
+<li><a href="#orga6a6c5d">1.2.6. 内存管理库 memory</a></li>
+<li><a href="#org1b0272e">1.2.7. 异常类库</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org0bf9c0a">2. Eigen 库</a>
+<ul>
+<li><a href="#org56db95f">2.1. 基本使用</a>
+<ul>
+<li><a href="#org267c026">2.1.1. 一般使用</a></li>
+<li><a href="#org17d975d">2.1.2. 使用 MKL</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org1b669ac">3. odeint 库</a>
+<ul>
+<li><a href="#org14a9776">3.1. 使用 Eigen 的 Array</a>
+<ul>
+<li><a href="#org6cd6f97">3.1.1. 补丁</a></li>
+<li><a href="#org1ce5a8a">3.1.2. 基本的例子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org0f64160">4. cling</a>
+<ul>
+<li><a href="#orgcb81b5c">4.1. 安装</a></li>
+</ul>
+</li>
+<li><a href="#org8b6478e">5. cmake</a>
+<ul>
+<li><a href="#orge2096d9">5.1. 设置查找库的路径</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-orgea0d3e4" class="outline-2">
+<h2 id="orgea0d3e4"><span class="section-number-2">1</span> C++</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org3415b3f" class="outline-3">
+<h3 id="org3415b3f"><span class="section-number-3">1.1</span> 语法</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-orge2a14b7" class="outline-4">
+<h4 id="orge2a14b7"><span class="section-number-4">1.1.1</span> 指定声明</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>const</code></td>
+<td class="org-left">不变类型</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>volatile</code></td>
+<td class="org-left">禁止优化</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>register</code></td>
+<td class="org-left">寄存器优化</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>static</code></td>
+<td class="org-left">局部变量</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>extern</code></td>
+<td class="org-left">外部变量</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>mutable</code></td>
+<td class="org-left">类内可变常量</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>friend</code></td>
+<td class="org-left">友元函数，可访问被保护成员</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>inline</code></td>
+<td class="org-left">内嵌函数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>virtual</code></td>
+<td class="org-left">虚拟函数，动态绑定</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>typedef</code></td>
+<td class="org-left">类型替代名</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orga3f9e87" class="outline-4">
+<h4 id="orga3f9e87"><span class="section-number-4">1.1.2</span> 类型</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">符号</td>
+<td class="org-left">类型名</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>int</code></td>
+<td class="org-left">整数型</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>unsigned</code></td>
+<td class="org-left">无符号整数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>short</code></td>
+<td class="org-left">16位整型</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>long</code></td>
+<td class="org-left">32位整型</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>size_t</code></td>
+<td class="org-left">&lt;cstddef&gt;库,无符号整型，任意长度</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>0x，0X，ul</code></td>
+<td class="org-left">十六进制直接数，u：无符号，l：长整形</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>0</code></td>
+<td class="org-left">八进制直接数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>bool</code></td>
+<td class="org-left">布尔型，true/1,false/0</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>char</code></td>
+<td class="org-left">普通字符</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>wchar_t</code></td>
+<td class="org-left">宽字符</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>float</code></td>
+<td class="org-left">单精度浮点</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>double</code></td>
+<td class="org-left">双精度浮点</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>long double</code></td>
+<td class="org-left">长浮点型</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>enum</code></td>
+<td class="org-left">枚举类型</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>void</code></td>
+<td class="org-left">空类型</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orge466908" class="outline-4">
+<h4 id="orge466908"><span class="section-number-4">1.1.3</span> 运算符</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">表达式</td>
+<td class="org-left">作用</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C::n</code></td>
+<td class="org-left">成员</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x.y</code></td>
+<td class="org-left">对象x的成员y</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x -&gt; y</code></td>
+<td class="org-left">x指向对象中的成员y</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x[y]</code></td>
+<td class="org-left">在对象x中索引为y的元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x++</code></td>
+<td class="org-left">x自增</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x--</code></td>
+<td class="org-left">x自减</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>++x</code></td>
+<td class="org-left">x自增</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>--x</code></td>
+<td class="org-left">x自减</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>*x</code></td>
+<td class="org-left">指针的间接引用</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&amp;x</code></td>
+<td class="org-left">对x取地址，定义引用</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>！x</code></td>
+<td class="org-left">逻辑非</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>~x</code></td>
+<td class="org-left">x的补码</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sizeof(x)</code></td>
+<td class="org-left">x占用的字节数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>T(args)</code></td>
+<td class="org-left">用args参数构造T类型对象</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>new T</code></td>
+<td class="org-left">对T分配内存</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>delete T</code></td>
+<td class="org-left">释放T的内存</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>delete[] T</code></td>
+<td class="org-left">释放数组T的内存</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x*y</code></td>
+<td class="org-left">x乘以y</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x/y</code></td>
+<td class="org-left">x除以y的商</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x%y</code></td>
+<td class="org-left">x除以y的余数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x+y</code></td>
+<td class="org-left">x加y</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x-y</code></td>
+<td class="org-left">x减y</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x&gt;&gt;y</code></td>
+<td class="org-left">右移位，读取数据</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x&lt;&lt;y</code></td>
+<td class="org-left">左移位，输出数据</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x relop y</code></td>
+<td class="org-left">relop：&gt;,&lt;,&gt;=等</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x==y</code></td>
+<td class="org-left">相等判断</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x!=y</code></td>
+<td class="org-left">不等于判断</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x &amp; y</code></td>
+<td class="org-left">按位与</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x ^ y</code></td>
+<td class="org-left">按位异或</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&amp;&amp;</code></td>
+<td class="org-left">且</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x=y</code></td>
+<td class="org-left">赋值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x op= y</code></td>
+<td class="org-left">op：+,-,*,/</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x ? y1 : y2</code></td>
+<td class="org-left">若x为真返回y1,为假返回y2</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>throw</code></td>
+<td class="org-left">抛出错误</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>,</code></td>
+<td class="org-left">连续计算</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgcd99588" class="outline-4">
+<h4 id="orgcd99588"><span class="section-number-4">1.1.4</span> 语句</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>；</code></td>
+<td class="org-left">空语句</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>{}</code></td>
+<td class="org-left">语句块</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>if(条件)语句1</code></td>
+<td class="org-left">条件为真执行语句1</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>if(条件)语句1 else 语句2</code></td>
+<td class="org-left">条件为真执行语句1，为假执行语句2</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>while(条件)语句</code></td>
+<td class="org-left">while 循环</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>do 语句 while (条件);</code></td>
+<td class="org-left">do-while循环</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>for(初值;条件;表达式)语句</code></td>
+<td class="org-left">for 循环</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>switch(表达式）</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>{case value:语句1</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>default:语句2}</code></td>
+<td class="org-left">switch判断</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>break</code></td>
+<td class="org-left">跳出循环</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>continue</code></td>
+<td class="org-left">下一个循环</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>goto 标签</code></td>
+<td class="org-left">跳转</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>try{语句}</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>catch(参数){语句}</code></td>
+<td class="org-left">若出错执行catch</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>throw 表达式</code></td>
+<td class="org-left">直接跳转到catch</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>return 参数</code></td>
+<td class="org-left">结束函数，返回参数，无参数则返回void</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>using namespace::name</code></td>
+<td class="org-left">声明正在使用某函数，不用再指明名字空间</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>typedef type-name&lt;T&gt;  name</code></td>
+<td class="org-left">对类型设置别名</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org0ce5633" class="outline-4">
+<h4 id="org0ce5633"><span class="section-number-4">1.1.5</span> 头文件</h4>
+<div class="outline-text-4" id="text-1-1-5">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #268bd2;">      #if</span><span style="color: #268bd2; font-weight: bold;">n</span><span style="color: #268bd2;">def</span> name &#22914;&#26524;&#26410;&#23450;&#20041;
+<span style="color: #268bd2;">      #define</span> <span style="color: #268bd2;">name</span> &#23450;&#20041;
+      ...
+<span style="color: #268bd2;">      #endif</span> &#32467;&#26463;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga73874a" class="outline-4">
+<h4 id="orga73874a"><span class="section-number-4">1.1.6</span> 主函数参数</h4>
+<div class="outline-text-4" id="text-1-1-6">
+<p>
+<code>main(int,char*),main(int,char arv[])</code>
+</p>
+</div>
+</div>
+<div id="outline-container-org44e0e3e" class="outline-4">
+<h4 id="org44e0e3e"><span class="section-number-4">1.1.7</span> 模版函数</h4>
+<div class="outline-text-4" id="text-1-1-7">
+</div>
+<ol class="org-ol">
+<li><a id="org58f78b7"></a>一般形式<br />
+<div class="outline-text-5" id="text-1-1-7-1">
+<div class="org-src-container">
+<pre class="src src-c++">       <span style="color: #859900; font-weight: bold;">template</span><span style="color: #2aa198;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">type</span>-parameter, <span style="color: #b58900;">[</span>, <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">type</span>-parameter<span style="color: #b58900;">]</span> ...<span style="color: #2aa198;">&gt;</span>
+
+       <span style="color: #b58900;">ret</span>-type function-name<span style="color: #2aa198;">(</span>parameter-list<span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org8b357e8"></a>示例<br />
+<div class="outline-text-5" id="text-1-1-7-2">
+<div class="org-src-container">
+<pre class="src src-c++">       <span style="color: #859900; font-weight: bold;">template</span><span style="color: #2aa198;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">T</span><span style="color: #2aa198;">&gt;</span> <span style="color: #b58900;">T</span> <span style="color: #268bd2;">zero</span><span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span><span style="color: #859900; font-weight: bold;">return</span> 0;<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgff94046"></a>在函数内需要用到未知类型时的变量声明<br />
+<div class="outline-text-5" id="text-1-1-7-3">
+<div class="org-src-container">
+<pre class="src src-c++">       <span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">T</span>::<span style="color: #b58900;">size_type</span> <span style="color: #268bd2;">name</span>;
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgc560177" class="outline-4">
+<h4 id="orgc560177"><span class="section-number-4">1.1.8</span> 指针</h4>
+<div class="outline-text-4" id="text-1-1-8">
+<ol class="org-ol">
+<li>取值运算 &amp; p=&amp;a</li>
+<li>间接引用 * *p=b</li>
+<li>函数指针 vector&lt;string&gt; (*sp)(const string&amp;)=split;</li>
+<li>数组 int num[100]</li>
+<li>定义指针 int* p = num</li>
+<li>this指针 指向对象本身</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org971ea9a" class="outline-4">
+<h4 id="org971ea9a"><span class="section-number-4">1.1.9</span> 内存操作</h4>
+<div class="outline-text-4" id="text-1-1-9">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>new T</code></td>
+<td class="org-left">为T类型对象分配内存,默认初始化,返回指向新建对象的指针</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>new T(args)</code></td>
+<td class="org-left">为T类型对象分配内存,使用args参数初始化,返回指向新建对象的指针</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>new T[n]</code></td>
+<td class="org-left">为有n个T类型元素的数组分配内存空间并默认初始化,返回指向数组头的指针</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>delete P</code></td>
+<td class="org-left">删除指针指向的对象并释放内存空间</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>delete[] p</code></td>
+<td class="org-left">删除指针指向的数组并释放内存</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+<div id="outline-container-org9bbcd6b" class="outline-4">
+<h4 id="org9bbcd6b"><span class="section-number-4">1.1.10</span> struct 结构体</h4>
+<div class="outline-text-4" id="text-1-1-10">
+<div class="org-src-container">
+<pre class="src src-c++">      <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">name</span> <span style="color: #2aa198;">{}</span> ;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org043f10e" class="outline-4">
+<h4 id="org043f10e"><span class="section-number-4">1.1.11</span> class 类</h4>
+<div class="outline-text-4" id="text-1-1-11">
+</div>
+<ol class="org-ol">
+<li><a id="orga5bfc4f"></a>标识符<br />
+<div class="outline-text-5" id="text-1-1-11-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>public:</code></td>
+<td class="org-left">公共</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>private:</code></td>
+<td class="org-left">私有</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>protected:</code></td>
+<td class="org-left">保护</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="org57068a1"></a>成员函数关键字<br />
+<div class="outline-text-5" id="text-1-1-11-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">常量关键字</td>
+<td class="org-left">const</td>
+<td class="org-left">在参数后代码前，表示代码不会修改对象的内容</td>
+</tr>
+
+<tr>
+<td class="org-left">显式关键字</td>
+<td class="org-left">explicit</td>
+<td class="org-left">显示的初始化调用函数，禁止隐式转换</td>
+</tr>
+
+<tr>
+<td class="org-left">友元函数</td>
+<td class="org-left">friend</td>
+<td class="org-left">可以调用基类的protected元素</td>
+</tr>
+
+<tr>
+<td class="org-left">虚拟函数</td>
+<td class="org-left">virtual</td>
+<td class="org-left">动态加载函数，根据参数不同自动重载</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="orga8c3964"></a>构造函数<br />
+<div class="outline-text-5" id="text-1-1-11-3">
+<ol class="org-ol">
+<li>class-name::class-name() 缺省</li>
+<li>class-name::class-name(&#x2026;) 初始</li>
+<li>构造函数初始化程序列表</li>
+<li>class-name::classname(): a(0),b("string"){}</li>
+<li>复制构造函数 vec(const vec&amp; v){}</li>
+<li>析构函数 定义删除行为 ~vec{}</li>
+</ol>
+</div>
+</li>
+<li><a id="org2340f40"></a>重载运算符 operator ooo {}<br />
+<div class="outline-text-5" id="text-1-1-11-4">
+<p>
+赋值运算重载 vec&amp; operator= () 
+</p>
+</div>
+</li>
+<li><a id="orgb79be7d"></a>继承<br />
+<div class="outline-text-5" id="text-1-1-11-5">
+<p>
+指定基类 class A:public AA{}
+在类名后面加冒号 
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgdf1bf95" class="outline-4">
+<h4 id="orgdf1bf95"><span class="section-number-4">1.1.12</span> 模板类</h4>
+<div class="outline-text-4" id="text-1-1-12">
+<p>
+tmeplate &lt;class T&gt; class name {} 
+</p>
+</div>
+</div>
+<div id="outline-container-orgc9653a4" class="outline-4">
+<h4 id="orgc9653a4"><span class="section-number-4">1.1.13</span> 句柄类 handle</h4>
+<div class="outline-text-4" id="text-1-1-13">
+<p>
+设计方法，使用句柄代替指针，智能指针 
+</p>
+</div>
+</div>
+<div id="outline-container-org40ab4c0" class="outline-4">
+<h4 id="org40ab4c0"><span class="section-number-4">1.1.14</span> 引用   &amp;</h4>
+<div class="outline-text-4" id="text-1-1-14">
+<p>
+类似别名
+vector&lt;double&gt;&amp; haha = happy;
+不能修改的引用 const T&amp; name 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb5f277f" class="outline-3">
+<h3 id="orgb5f277f"><span class="section-number-3">1.2</span> C++ 标准库</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-orgcb2e7e6" class="outline-4">
+<h4 id="orgcb2e7e6"><span class="section-number-4">1.2.1</span> 输入输出</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>基础</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;iostream&gt;</code></td>
+<td class="org-left">声明输入输出类和相关操作</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>cout</code></td>
+<td class="org-left">标准输出流</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>cerr</code></td>
+<td class="org-left">标准错误流</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>clog</code></td>
+<td class="org-left">错误流，日志</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>cin</code></td>
+<td class="org-left">与标准输入流关联的istream类型对象</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>is&gt;&gt;t</code></td>
+<td class="org-left">从is读一个值到t</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>os&lt;&lt;t</code></td>
+<td class="org-left">从t输出一个值到os</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>is.get(c )</code></td>
+<td class="org-left">从is读取下一个字符到c</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>is.unget()</code></td>
+<td class="org-left">取消最近一次读取字符操作</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>迭代器</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;iterator&gt;</code></td>
+<td class="org-left">声明了输入输出流迭代器</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>istream_iterator&lt;T&gt; in(is)</code></td>
+<td class="org-left">把in定义为T类型输入流is的迭代器</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>ostream_iterator&lt;T&gt; out(os,const char* sep="")</code></td>
+<td class="org-left">把os定义为T类型输出流os的迭代器，在输出的每个元素后输出一个sep</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>文件流</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;fstream&gt;</code></td>
+<td class="org-left">为与文件关联的流定义输入输出函数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>ifstream is(cp)</code></td>
+<td class="org-left">定义is并链接到cp上</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>ofstream os(cp)</code></td>
+<td class="org-left">定义os并链接到cp上</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>控制输出格式</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;ios&gt;</code></td>
+<td class="org-left">定义了streamsize类型，用于表示输入输出缓冲区大小</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>os.width()</code></td>
+<td class="org-left">返回streamsize类型值表示输出流os的宽度</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>os.width(n)</code></td>
+<td class="org-left">将输出流os的宽度设为n</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>os.precision()</code></td>
+<td class="org-left">返回streamsize类型值表示输出流os的精度，几位浮点值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>os.precision(n)</code></td>
+<td class="org-left">将输出流os的精度设为n，几位浮点值</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>控制符</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;iomanip&gt;</code></td>
+<td class="org-left">声明了除endl以外的控制符</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>endl</code></td>
+<td class="org-left">结束当前行并刷新缓冲区</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>flush</code></td>
+<td class="org-left">刷新缓冲区</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>setprecision(n)</code></td>
+<td class="org-left">等价于os.precision(n)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>setw(n)</code></td>
+<td class="org-left">等价于os.width(n)</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>错误与文件结尾</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>strm.bad()</code></td>
+<td class="org-left">返回布尔值表示对strm最近一次操作是否因无效数据失败</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>strm.clear()</code></td>
+<td class="org-left">在一个无效的操作之后重置strm使之可用，失败产生ios::failure异常</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>strm.eof()</code></td>
+<td class="org-left">返回布尔值表示已到文件结尾</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>strm.fail()</code></td>
+<td class="org-left">返回布尔值表示最近一次操作因为硬件或系统底层问题失败</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>strm.good()</code></td>
+<td class="org-left">返回布尔值表示最近一次操作是否成功</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgb416bd0" class="outline-4">
+<h4 id="orgb416bd0"><span class="section-number-4">1.2.2</span> 容器</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>共有的容器操作</b></td>
+<td class="org-left">string,vector,list,map</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;T&gt;::iterator</code></td>
+<td class="org-left">迭代器类型，可改变储存的值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;T&gt;::const_iterator</code></td>
+<td class="org-left">迭代器类型，只能读取储存的值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;T&gt;::reverse_iterator</code></td>
+<td class="org-left">迭代器类型，可改变储存的值，按相反的顺序</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;T&gt;::const_reverse_iterator</code></td>
+<td class="org-left">迭代器类型，只能读取储存的值，按相反的顺序</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;T&gt;::size_type</code></td>
+<td class="org-left">无符号整数类型，容器大小</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;T&gt;::value_type</code></td>
+<td class="org-left">容器储存元素的类型</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.begin()</code></td>
+<td class="org-left">指向容器头的迭代器</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.end()</code></td>
+<td class="org-left">指向容器尾的迭代器</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.rend()</code></td>
+<td class="org-left">按相反顺序访问元素的迭代器</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.rbegin()</code></td>
+<td class="org-left">逆向访问的头部</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.rend()</code></td>
+<td class="org-left">逆向访问的尾部</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;type&gt; c1</code></td>
+<td class="org-left">定义一个空的容器实例c1</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;type&gt; c1(c2)</code></td>
+<td class="org-left">创建一个c2的复制c1</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c1 = c2</code></td>
+<td class="org-left">用c2的内容替代c1</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.size()</code></td>
+<td class="org-left">返回容器长度，元素个数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.empty()</code></td>
+<td class="org-left">判断容器是否为空</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.clear()</code></td>
+<td class="org-left">清空容器</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>顺序容器共有的操作</b></td>
+<td class="org-left">string,vector,list</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;T&gt; c1(n,c2)</code></td>
+<td class="org-left">创建一个有n个元素的c2的复制c1</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;T&gt; c1(a,b)</code></td>
+<td class="org-left">创建一个有迭代器a,b之间所有元素的容器c1</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.insert(it,t)</code></td>
+<td class="org-left">在容器c中it指向位置前面插入元素t</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.insert(it,n,t)</code></td>
+<td class="org-left">在容器c中it指向位置前面插入n个元素t</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.insert(it,b,e)</code></td>
+<td class="org-left">在容器c中it指向位置前面插入b，e两个迭代器之间的所有元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.erase(it)</code></td>
+<td class="org-left">删除迭代器的元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.erase(a,b)</code></td>
+<td class="org-left">删除迭代器[a,b)之间的元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.assign(b,e)</code></td>
+<td class="org-left">把迭代器b，e之间的内容给容器c，原有的元素被覆盖</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.front()</code></td>
+<td class="org-left">返回指向容器首元素的引用</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.back()</code></td>
+<td class="org-left">返回指向容器尾元素的引用</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.push_back(ver)</code></td>
+<td class="org-left">添加一个值ver到容器尾，容器长度增1</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.pop_back()</code></td>
+<td class="org-left">从容器中删除最后一个元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>inserter(c,it)</code></td>
+<td class="org-left">返回一个输出迭代器，在迭代器it指向的元素前面插入新元素，在头文件&lt;iterator&gt;中定义</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>back_inserter(c )</code></td>
+<td class="org-left">返回一个输出迭代器，可调用c.push<sub>back想容器末尾加入新元素</sub>，在头文件&lt;iterator&gt;中定义</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>其他顺序容器专有操作</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c[n]</code></td>
+<td class="org-left">指向容器中第n个元素的引用，vector,list专有操作</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.push_front(t)</code></td>
+<td class="org-left">在容器头插入元素t的复件，vector,list无效</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.pop_front(t)</code></td>
+<td class="org-left">删除容器的首元素，list专有操作</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>front_inserter(c )</code></td>
+<td class="org-left">返回一个输出迭代器，可调用c.push<sub>front想容器起始位置加入新元素</sub>，在头文件&lt;iterator&gt;中定义</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>关联容器共有操作</b></td>
+<td class="org-left">map</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;T&gt;::key_type</code></td>
+<td class="org-left">容器键的类型</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container&lt;T&gt; c(cmp)</code></td>
+<td class="org-left">定义空关联容器c，用判断表达式cmp排序</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>container c(b,e,cmp)</code></td>
+<td class="org-left">定义关联容器c，用迭代器b，e之间的元素初始化，用判断表达式cmp排序</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.insert(b,e)</code></td>
+<td class="org-left">在容器c中插入b，e两个迭代器之间的所有元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.erase(it)</code></td>
+<td class="org-left">从容器c中删除迭代器it指向的元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.erase(b,e)</code></td>
+<td class="org-left">在容器c中删除b，e两个迭代器之间的所有元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.erase(k)</code></td>
+<td class="org-left">从容器c中删除键值为k的所有元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>c.find(k)</code></td>
+<td class="org-left">返回指向键为k的元素的迭代器,如果没有则返回c.end()</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org94fdffa" class="outline-4">
+<h4 id="org94fdffa"><span class="section-number-4">1.2.3</span> 迭代器</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">迭代器类型</td>
+<td class="org-left">作用</td>
+<td class="org-left">支持操作</td>
+</tr>
+
+<tr>
+<td class="org-left">输入迭代器</td>
+<td class="org-left">按一个方向顺序访问,只能输入</td>
+<td class="org-left">++,==,!=,*,-&gt;</td>
+</tr>
+
+<tr>
+<td class="org-left">输出迭代器</td>
+<td class="org-left">按一个方向顺序访问,只能输出</td>
+<td class="org-left">=</td>
+</tr>
+
+<tr>
+<td class="org-left">正向迭代器</td>
+<td class="org-left">按一个方向顺序访问,能输入输出</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">双向迭代器</td>
+<td class="org-left">按两个方向顺序访问,能输入输出</td>
+<td class="org-left">--</td>
+</tr>
+
+<tr>
+<td class="org-left">随机访问迭代器</td>
+<td class="org-left">能有效的访问任意元素,能输入输出</td>
+<td class="org-left">+,-,[],&lt;,&gt;,&gt;=</td>
+</tr>
+</tbody>
+</table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">迭代器操作</td>
+<td class="org-left">作用</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>*it</code></td>
+<td class="org-left">间接引用</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>it -&gt; x</code></td>
+<td class="org-left">指向元素的成员,(*it).x</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>++it,it++</code></td>
+<td class="org-left">指向下一个</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a==b,a!=b</code></td>
+<td class="org-left">比较元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>p[n]</code></td>
+<td class="org-left">等价于*(p+n)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgadfcfaf" class="outline-4">
+<h4 id="orgadfcfaf"><span class="section-number-4">1.2.4</span> 具体容器</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>向量(vector)</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;vector&gt;</code></td>
+<td class="org-left">声明了vector类及相关操作</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>v.reverse(n)</code></td>
+<td class="org-left">重新分配内存，使空间增大而不需要新的内存空间，迭代器仍可用</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>v.resize(n)</code></td>
+<td class="org-left">重新分配内存，给向量一个新的长度，尾部元素被舍弃 ，所有迭代器失效</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>链表(list)</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;list&gt;</code></td>
+<td class="org-left">声明了list类及相关操作</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>l.spice(it,l2)</code></td>
+<td class="org-left">把l2所有元素插入l中it的前面，删除l2，重新分配l内存空间，所以迭代器失效</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>l.spice(it,l2,it2)</code></td>
+<td class="org-left">把l2中it2前所有元素插入l中it的前面，删除l2相应元素，重新分配l内存空间，所以迭代器失效</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>l.spice(it,l2,b,e)</code></td>
+<td class="org-left">把l2中迭代器b，e之间的所有元素插入l中it的前面，删除l2相应元素，重新分配l内存空间，所以迭代器失效</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>l.remove(t)</code></td>
+<td class="org-left">删除所有等于t的元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>l.remove_if(p)</code></td>
+<td class="org-left">删除所有使p为真的元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>l.sort(cmp)</code></td>
+<td class="org-left">对l所有元素排序，使用cmp</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>l.sort()</code></td>
+<td class="org-left">对l所有元素排序，使用 &lt;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>字符串(string)</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;srting&gt;</code></td>
+<td class="org-left">声明了string类及相关操作</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>string s(cp)</code></td>
+<td class="org-left">创建字符串，并用cp内的值初始化</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>os&lt;&lt;s</code></td>
+<td class="org-left">将字符串s输出到流os</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>is&gt;&gt;s</code></td>
+<td class="org-left">从输入流读取保存到字符串s中，覆盖原有的值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>getline(is,s)</code></td>
+<td class="org-left">从输入流is读取一整行保存在字符串s引用中</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>s1+s2</code></td>
+<td class="org-left">连接字符串</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>s1 relop s2</code></td>
+<td class="org-left">逐个比较字符串中的字符</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>s.substr(n,n2)</code></td>
+<td class="org-left">返回新的字符串，由s中第n个n2字符组成</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>s.c_str()</code></td>
+<td class="org-left">生成指向空字符结尾的字符数组的const char*指针</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>s.data()</code></td>
+<td class="org-left">类似c<sub>str</sub>() 但结尾不以空字符结尾</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>s.copy(cp,n)</code></td>
+<td class="org-left">从s中复制前n个字符（空字符除外）到cp指向的字符数组中</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>对(pair)</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;utility&gt;</code></td>
+<td class="org-left">声明了pair类及相关操作</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x.first</code></td>
+<td class="org-left">名为x的pair类对象的第一个元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x.second</code></td>
+<td class="org-left">名为x的pair类对象的第二个元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pair&lt;K,V&gt; x(k,v)</code></td>
+<td class="org-left">创建新的pair实例并指定第一个和第二个元素,需要知道元素的类型</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>make_pair(k,v)</code></td>
+<td class="org-left">生成新的pair实例并指定第一个和第二个元素，不需要指定元素类型</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>图(map)</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;map&gt;</code></td>
+<td class="org-left">声明了map类及相关操作</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>map&lt;K,V,P&gt; m(cmp)</code></td>
+<td class="org-left">创建一个映射表,用P类型的cmp判断比较新的元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>map[K]</code></td>
+<td class="org-left">访问映射表map中键K的键值V，有多个就返回第一个，没有就创建</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>map.find(k)</code></td>
+<td class="org-left">返回指向键为k的元素的迭代器,如果没有则返回m.end()</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>*it</code></td>
+<td class="org-left">在it指向的位置产生一个pair&lt;const K,V&gt;包括键和键值，it-&gt;first 表示键，it-&gt;second 表示键值</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgab900c8" class="outline-4">
+<h4 id="orgab900c8"><span class="section-number-4">1.2.5</span> 算法</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>&lt;algorithm&gt;</code></td>
+<td class="org-left">包括常用算法的声明</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>accumulate(b,e,t)</code></td>
+<td class="org-left">&lt;numeric&gt;生成临时对象obj=t，对[b,e)内每个输入迭代器计算obj+=*it</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>accumulate(b,e,t,f)</code></td>
+<td class="org-left">&lt;numeric&gt;生成临时对象obj=t，对[b,e)内每个输入迭代器计算obj=f(obj,*it)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>binary_search(b,e,f)</code></td>
+<td class="org-left">判断t是否在[b,e)中</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>copy(b,e,d)</code></td>
+<td class="org-left">把[b,e)的元素复制到目标容器d中</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>equal(b,e,b2)</code></td>
+<td class="org-left">判断两个序列中的元素是否相等，使用==判断</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>equal(b,e,b2,p)</code></td>
+<td class="org-left">判断两个序列中的元素是否相等，使用函数p判断</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>fill(b,e,t)</code></td>
+<td class="org-left">[b,e)之间的元素设为t</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>find(b,e,t)</code></td>
+<td class="org-left">返回[b,e)中首次出现t的元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>find_if(b,e,p)</code></td>
+<td class="org-left">返回[b,e)中首次使得p为真的元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>lexicographical_compare(b,e,b2,e2)</code></td>
+<td class="org-left">判断[b,e)序列是否小于[b2,e2)序列，使用&lt;判断</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>lexicographical_compare(b,e,b2,e2,p)</code></td>
+<td class="org-left">判断[b,e)序列是否小于[b2,e2)序列，使用函数p判断</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>max(t1,t2)</code></td>
+<td class="org-left">返回t1，t2中的大值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>mim(t1,t2)</code></td>
+<td class="org-left">返回t1，t2中的小值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>max_element(b,e)</code></td>
+<td class="org-left">返回两个序列中较大的</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>min_element(b,e)</code></td>
+<td class="org-left">返回两个序列中较小的</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>partition(b,e,p)</code></td>
+<td class="org-left">使区间[b,e)之间的令谓词p为真的元素在容器的头部,返回一个指向第一个令谓词p为假的元素的迭代器,若全为真则返回e</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>stable_partition(b,e,p)</code></td>
+<td class="org-left">使区间[b,e)之间的令谓词p为真的元素在容器的头部,返回一个指向第一个令谓词p为假的元素的迭代器,若全为真则返回e,同时保证每一区域内元素输入顺序不变</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>remove(b,e,t)</code></td>
+<td class="org-left">排列容器使[b,e)区间使不等于t的元素在区域头部,返回一个指向未移除的元素的后一个位置</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>remove_if(b,e,p)</code></td>
+<td class="org-left">排列容器使[b,e)区间使谓词p为假的元素在区域头部,返回一个指向未移除的元素的后一个位置</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>remove_copy(b,e,d,t)</code></td>
+<td class="org-left">将序列[b,e)中不等于t的元素复制到d指向的位置</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>remove_copy_if(b,e,d,p)</code></td>
+<td class="org-left">将序列[b,e)中使谓词p为假的元素复制到d指向的位置</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>replace(b,e,t1,t2)</code></td>
+<td class="org-left">由正向迭代器的[b,e)中把所有等于t1的元素都替换为t2</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>replace_copy(b,e,d,t1,t2)</code></td>
+<td class="org-left">由正向迭代器的[b,e)中把所有等于t1的元素都替换为t2,储存在d指向的容器中，返回一个指向容器d末元素的后一个位置的迭代器</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>reverse(b,e)</code></td>
+<td class="org-left">倒序排列[b,e)之间的元素</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>reverse_copy(b,e,d)</code></td>
+<td class="org-left">倒序排列[b,e)之间的元素,储存在d指向的容器中，返回一个指向容器d末元素的后一个位置的迭代器</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>search(b,e,b2,e2)</code></td>
+<td class="org-left">在序列[b,e)之间查找序列[b2,e2),使用==</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>search(b,e,b2,e2,p)</code></td>
+<td class="org-left">在序列[b,e)之间查找序列[b2,e2),使用函数p判断</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>transform(b,e,d,f)</code></td>
+<td class="org-left">在[b,e)区间的元素上使用一元函数f，该函数以[b,e)中的每个元素为参数,并将结果存在d中</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>transform(b,e,b2,d,f)</code></td>
+<td class="org-left">在[b,e)区间的元素上使用二元函数f，该函数以[b,e)及b2指向的序列中的每个元素为参数,并将结果存在d中</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sort(b,e)</code></td>
+<td class="org-left">a和b之间做非递减排序,使用&lt;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sort(b,e,p)</code></td>
+<td class="org-left">a和b之间做非递减排序,使用函数p判断</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>stable_sort(b,e)</code></td>
+<td class="org-left">a和b之间做非递减排序,使用&lt;，保证相等的元素之间顺序不变</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>stable_sort(b,e,p)</code></td>
+<td class="org-left">a和b之间做非递减排序,使用函数p判断，保证相等的元素之间顺序不变</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>unique(b,e)</code></td>
+<td class="org-left">重新排列[b,e)使连续相等的元素在容器的开头，把剩余重复的值移到后面，返回指向第一个不满足要求的元素的迭代器</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>unique(b,e,p)</code></td>
+<td class="org-left">重新排列[b,e)使连续使p为真的元素在容器的开头，把剩余重复的值移到后面，返回指向第一个不满足要求的元素的迭代器</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>unique_copy(b,e,d,p)</code></td>
+<td class="org-left">复制[b,e)中无重复的元素到d指向的容器中，使用p或==判断</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orga6a6c5d" class="outline-4">
+<h4 id="orga6a6c5d"><span class="section-number-4">1.2.6</span> 内存管理库 memory</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">&lt;memory&gt;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>allocator&lt;T&gt;</code></td>
+<td class="org-left">类型，分配一个未初始化的内存,返回指针</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>allocate(num)</code></td>
+<td class="org-left">分配内存块</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>deallocate(&amp;p,size)</code></td>
+<td class="org-left">释放未初始化的内存块</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>construct(&amp;p,x)</code></td>
+<td class="org-left">初始化内存块</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>destroy(&amp;p)</code></td>
+<td class="org-left">删除对象</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>uninitialized_copy</code></td>
+<td class="org-left">将前两个参数指针之间的数据复制进第三个参数指针里</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>uninitialized_fill</code></td>
+<td class="org-left">向内存中填充指定的值</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org1b0272e" class="outline-4">
+<h4 id="org1b0272e"><span class="section-number-4">1.2.7</span> 异常类库</h4>
+<div class="outline-text-4" id="text-1-2-7">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>&lt;stdexcept&gt;</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>logic_error</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>domain_error</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>invalid_argument</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>length_error</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>out_of_range</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>runtime_error</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>range_error</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>overflow_error</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>underflow_error</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0bf9c0a" class="outline-2">
+<h2 id="org0bf9c0a"><span class="section-number-2">2</span> Eigen 库</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org56db95f" class="outline-3">
+<h3 id="org56db95f"><span class="section-number-3">2.1</span> 基本使用</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-org267c026" class="outline-4">
+<h4 id="org267c026"><span class="section-number-4">2.1.1</span> 一般使用</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+编译 <code>g++ -I/usr/include/eigen3 a.cpp</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">iostream</span><span style="color: #2aa198;">&gt;</span>
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">Eigen/Dense</span><span style="color: #2aa198;">&gt;</span>
+      <span style="color: #859900; font-weight: bold;">using</span> <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">Eigen</span>;
+      <span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span><span style="color: #2aa198;">()</span>
+      <span style="color: #2aa198;">{</span>
+        <span style="color: #b58900;">MatrixXd</span> <span style="color: #268bd2;">m</span><span style="color: #b58900;">(</span>2,5<span style="color: #b58900;">)</span>;
+        m.resize<span style="color: #b58900;">(</span>4,3<span style="color: #b58900;">)</span>;
+        <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; <span style="color: #2aa198;">"The matrix m is of size "</span>
+                  &lt;&lt; m.rows<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #2aa198;">"x"</span> &lt;&lt; m.cols<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #268bd2; font-weight: bold;">std</span>::endl;
+        <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; <span style="color: #2aa198;">"It has "</span> &lt;&lt; m.size<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #2aa198;">" coefficients"</span> &lt;&lt; <span style="color: #268bd2; font-weight: bold;">std</span>::endl;
+        <span style="color: #b58900;">VectorXd</span> <span style="color: #268bd2;">v</span><span style="color: #b58900;">(</span>2<span style="color: #b58900;">)</span>;
+        v.resize<span style="color: #b58900;">(</span>5<span style="color: #b58900;">)</span>;
+        <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; <span style="color: #2aa198;">"The vector v is of size "</span> &lt;&lt; v.size<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #268bd2; font-weight: bold;">std</span>::endl;
+        <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; <span style="color: #2aa198;">"As a matrix, v is of size "</span>
+                  &lt;&lt; v.rows<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #2aa198;">"x"</span> &lt;&lt; v.cols<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #268bd2; font-weight: bold;">std</span>::endl;
+      <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org17d975d" class="outline-4">
+<h4 id="org17d975d"><span class="section-number-4">2.1.2</span> 使用 MKL</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<div class="org-src-container">
+<pre class="src src-bash">      g++ -I/usr/include/eigen3 -I/usr/include/eigen3/unsupported -I/usr/include/mkl <span style="color: #6c71c4; font-weight: bold;">`pkg-config --libs mkl-sdl-lp64`</span> -g   -std=c++17 d.cpp
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #268bd2;">      #define</span> <span style="color: #268bd2;">EIGEN_USE_MKL_ALL</span>
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">Eigen/Dense</span><span style="color: #2aa198;">&gt;</span>
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org1b669ac" class="outline-2">
+<h2 id="org1b669ac"><span class="section-number-2">3</span> odeint 库</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org14a9776" class="outline-3">
+<h3 id="org14a9776"><span class="section-number-3">3.1</span> 使用 Eigen 的 Array</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-org6cd6f97" class="outline-4">
+<h4 id="org6cd6f97"><span class="section-number-4">3.1.1</span> 补丁</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+<code>odeint_array.hpp</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #268bd2;">      #if</span><span style="color: #268bd2; font-weight: bold;">n</span><span style="color: #268bd2;">def</span> ODEINT_ARRAY_HPP
+<span style="color: #268bd2;">      #define</span> <span style="color: #268bd2;">ODEINT_ARRAY_HPP</span>
+
+
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">Eigen/Dense</span><span style="color: #2aa198;">&gt;</span>
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/numeric/odeint/algebra/vector_space_algebra.hpp</span><span style="color: #2aa198;">&gt;</span>
+
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/numeric/odeint/util/is_resizeable.hpp</span><span style="color: #2aa198;">&gt;</span>
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/numeric/odeint/util/resize.hpp</span><span style="color: #2aa198;">&gt;</span>
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/numeric/odeint/util/same_size.hpp</span><span style="color: #2aa198;">&gt;</span>
+
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/utility/enable_if.hpp</span><span style="color: #2aa198;">&gt;</span>
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/type_traits/is_base_of.hpp</span><span style="color: #2aa198;">&gt;</span>
+
+
+      <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">boost</span> <span style="color: #2aa198;">{</span>
+        <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">numeric</span> <span style="color: #b58900;">{</span>
+          <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">odeint</span> <span style="color: #268bd2;">{</span>
+
+            <span style="color: #859900; font-weight: bold;">template</span> <span style="color: #6c71c4;">&lt;&gt;</span> <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">vector_space_norm_inf</span><span style="color: #6c71c4;">&lt;</span><span style="color: #268bd2; font-weight: bold;">Eigen</span>::ArrayXcd<span style="color: #6c71c4;">&gt;</span> <span style="color: #6c71c4;">{</span>
+              <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #b58900;">double</span> <span style="color: #b58900;">result_type</span>;
+              <span style="color: #b58900;">double</span> <span style="color: #859900; font-weight: bold;">operator</span><span style="color: #859900;">()</span><span style="color: #859900;">(</span><span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayXcd</span> &amp;<span style="color: #268bd2;">m</span><span style="color: #859900;">)</span> <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #859900;">{</span>
+                <span style="color: #859900; font-weight: bold;">return</span> m.matrix<span style="color: #b58900;">()</span>.lpNorm<span style="color: #b58900;">&lt;</span><span style="color: #268bd2; font-weight: bold;">Eigen</span>::Infinity<span style="color: #b58900;">&gt;()</span>;
+              <span style="color: #859900;">}</span>
+            <span style="color: #6c71c4;">}</span>;
+
+            <span style="color: #859900; font-weight: bold;">template</span> <span style="color: #6c71c4;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Derived</span><span style="color: #6c71c4;">&gt;</span>
+            <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">algebra_dispatcher_sfinae</span><span style="color: #6c71c4;">&lt;</span>
+              <span style="color: #b58900;">Derived</span>, <span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">enable_if</span><span style="color: #859900;">&lt;</span><span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">is_base_of</span><span style="color: #b58900;">&lt;</span>
+                                                   <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #268bd2;">&gt;</span>, <span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #859900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #6c71c4;">&gt;</span> <span style="color: #6c71c4;">{</span>
+              <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #b58900;">vector_space_algebra</span> <span style="color: #b58900;">algebra_type</span>;
+            <span style="color: #6c71c4;">}</span>;
+
+            <span style="color: #859900; font-weight: bold;">template</span> <span style="color: #6c71c4;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Derived</span><span style="color: #6c71c4;">&gt;</span>
+            <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">is_resizeable_sfinae</span><span style="color: #6c71c4;">&lt;</span>
+              <span style="color: #b58900;">Derived</span>, <span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">enable_if</span><span style="color: #859900;">&lt;</span><span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">is_base_of</span><span style="color: #b58900;">&lt;</span>
+                                                   <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #268bd2;">&gt;</span>, <span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #859900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #6c71c4;">&gt;</span> <span style="color: #6c71c4;">{</span>
+              <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #b58900;">true_type</span> <span style="color: #b58900;">type</span>;
+              <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">bool</span> <span style="color: #268bd2;">value</span> = <span style="color: #268bd2; font-weight: bold;">type</span>::value;
+            <span style="color: #6c71c4;">}</span>;
+
+            <span style="color: #859900; font-weight: bold;">template</span> <span style="color: #6c71c4;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Derived</span><span style="color: #6c71c4;">&gt;</span>
+            <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">same_size_impl_sfinae</span><span style="color: #6c71c4;">&lt;</span>
+              <span style="color: #b58900;">Derived</span>, <span style="color: #b58900;">Derived</span>,
+              <span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">enable_if</span><span style="color: #859900;">&lt;</span><span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">is_base_of</span><span style="color: #b58900;">&lt;</span>
+                                          <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #268bd2;">&gt;</span>, <span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #859900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #6c71c4;">&gt;</span> <span style="color: #6c71c4;">{</span>
+              <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">bool</span> <span style="color: #268bd2;">same_size</span><span style="color: #859900;">(</span><span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #b58900;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span> &amp;v1,
+                                    <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #b58900;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span> &amp;v2<span style="color: #859900;">)</span> <span style="color: #859900;">{</span>
+                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #b58900;">(</span><span style="color: #268bd2;">(</span>v1.innerSize<span style="color: #6c71c4;">()</span> == v2.innerSize<span style="color: #6c71c4;">()</span><span style="color: #268bd2;">)</span> &amp;&amp;
+                        <span style="color: #268bd2;">(</span>v1.outerSize<span style="color: #6c71c4;">()</span> == v2.outerSize<span style="color: #6c71c4;">()</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>;
+              <span style="color: #859900;">}</span>
+            <span style="color: #6c71c4;">}</span>;
+
+            <span style="color: #859900; font-weight: bold;">template</span> <span style="color: #6c71c4;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Derived</span><span style="color: #6c71c4;">&gt;</span>
+            <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">resize_impl_sfinae</span><span style="color: #6c71c4;">&lt;</span>
+              <span style="color: #b58900;">Derived</span>, <span style="color: #b58900;">Derived</span>,
+              <span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">enable_if</span><span style="color: #859900;">&lt;</span><span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">is_base_of</span><span style="color: #b58900;">&lt;</span>
+                                          <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #268bd2;">&gt;</span>, <span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #859900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #6c71c4;">&gt;</span> <span style="color: #6c71c4;">{</span>
+              <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">resize</span><span style="color: #859900;">(</span><span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #b58900;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span> &amp;v1,
+                                 <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #b58900;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span> &amp;v2<span style="color: #859900;">)</span> <span style="color: #859900;">{</span>
+                v1.derived<span style="color: #b58900;">()</span>.resizeLike<span style="color: #b58900;">(</span>v2<span style="color: #b58900;">)</span>;
+              <span style="color: #859900;">}</span>
+            <span style="color: #6c71c4;">}</span>;
+
+          <span style="color: #268bd2;">}</span> <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">namespace odeint</span>
+        <span style="color: #b58900;">}</span> <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">namespace numeric</span>
+      <span style="color: #2aa198;">}</span> <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">namespace boost</span>
+
+<span style="color: #268bd2;">      #endif</span>
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1ce5a8a" class="outline-4">
+<h4 id="org1ce5a8a"><span class="section-number-4">3.1.2</span> 基本的例子</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+注意 <code>include</code> 的顺序
+</p>
+<div class="org-src-container">
+<pre class="src src-c"><span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">cmath</span><span style="color: #2aa198;">&gt;</span>
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">complex</span><span style="color: #2aa198;">&gt;</span>
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">iostream</span><span style="color: #2aa198;">&gt;</span>
+
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">Eigen/Dense</span><span style="color: #2aa198;">&gt;</span>
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/numeric/odeint.hpp</span><span style="color: #2aa198;">&gt;</span>
+<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">"odeint_array.hpp"</span>
+
+      using <span style="color: #b58900;">namespace</span> <span style="color: #268bd2;">std</span>;
+      using <span style="color: #b58900;">namespace</span> <span style="color: #268bd2;">Eigen</span>;
+      using <span style="color: #b58900;">namespace</span> <span style="color: #268bd2;">boost</span>::numeric::odeint;
+
+      <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #b58900;">ArrayXcd</span> <span style="color: #b58900;">point3D</span>;
+
+      <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">sigma</span> = 10.0;
+      <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">R</span> = 28.0;
+      <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">b</span> = 8.0 / 3.0;
+
+      <span style="color: #b58900;">void</span> <span style="color: #268bd2;">lorenz</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">point3D</span> &amp;x, point3D &amp;dxdt, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">t</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+        dxdt<span style="color: #b58900;">(</span>0<span style="color: #b58900;">)</span> = sigma * <span style="color: #b58900;">(</span>x<span style="color: #268bd2;">(</span>1<span style="color: #268bd2;">)</span> - x<span style="color: #268bd2;">(</span>0<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>;
+        dxdt<span style="color: #b58900;">(</span>1<span style="color: #b58900;">)</span> = R * x<span style="color: #b58900;">(</span>0<span style="color: #b58900;">)</span> - x<span style="color: #b58900;">(</span>1<span style="color: #b58900;">)</span> - x<span style="color: #b58900;">(</span>0<span style="color: #b58900;">)</span> * x<span style="color: #b58900;">(</span>2<span style="color: #b58900;">)</span>;
+        dxdt<span style="color: #b58900;">(</span>2<span style="color: #b58900;">)</span> = -b * x<span style="color: #b58900;">(</span>2<span style="color: #b58900;">)</span> + x<span style="color: #b58900;">(</span>0<span style="color: #b58900;">)</span> * x<span style="color: #b58900;">(</span>1<span style="color: #b58900;">)</span>;
+      <span style="color: #2aa198;">}</span>
+
+      <span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span><span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+        <span style="color: #b58900;">point3D</span> <span style="color: #268bd2;">x</span><span style="color: #b58900;">(</span>3, 1<span style="color: #b58900;">)</span>;
+        x<span style="color: #b58900;">(</span>0<span style="color: #b58900;">)</span> = 10.0;
+        x<span style="color: #b58900;">(</span>1<span style="color: #b58900;">)</span> = 5.0;
+        x<span style="color: #b58900;">(</span>2<span style="color: #b58900;">)</span> = 5.0;
+
+        <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #b58900;">runge_kutta_dopri5</span>&lt;point3D, <span style="color: #b58900;">double</span>, point3D, <span style="color: #b58900;">double</span>,
+          vector_space_algebra&gt;
+          stepper;
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">steps</span> = integrate_adaptive<span style="color: #b58900;">(</span>make_controlled&lt;stepper&gt;<span style="color: #268bd2;">(</span>1E-10, 1E-10<span style="color: #268bd2;">)</span>, lorenz,
+                                       x, 0.0, 10.0, 0.1<span style="color: #b58900;">)</span>;
+        std::cout &lt;&lt; x &lt;&lt; std::endl;
+        std::cout &lt;&lt; <span style="color: #2aa198;">"steps: "</span> &lt;&lt; steps &lt;&lt; std::endl;
+      <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org0f64160" class="outline-2">
+<h2 id="org0f64160"><span class="section-number-2">4</span> cling</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+用 xeus-cling
+参见 <a href="https://github.com/root-project/cling">root-project/cling</a>
+</p>
+</div>
+<div id="outline-container-orgcb81b5c" class="outline-3">
+<h3 id="orgcb81b5c"><span class="section-number-3">4.1</span> 安装</h3>
+<div class="outline-text-3" id="text-4-1">
+<ol class="org-ol">
+<li>自己编译内存不足，去下载bin</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org8b6478e" class="outline-2">
+<h2 id="org8b6478e"><span class="section-number-2">5</span> cmake</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orge2096d9" class="outline-3">
+<h3 id="orge2096d9"><span class="section-number-3">5.1</span> 设置查找库的路径</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+例如
+</p>
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">CMAKE_PREFIX_PATH</span>=<span style="color: #2aa198;">"$HOME/.local:$HOME/app"</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: chimez</p>
+<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,3775 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-27 Sun 17:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>javascript</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="chimez" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">javascript</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgbcadaa1">1. JavaScript 基本语法</a>
+<ul>
+<li><a href="#org0b7e48b">1.1. 特殊规则</a></li>
+<li><a href="#org04f6702">1.2. 声明变量</a></li>
+<li><a href="#orgaab53f6">1.3. 运算符</a></li>
+<li><a href="#org4de4eb6">1.4. 控制流程</a>
+<ul>
+<li><a href="#orgd56d379">1.4.1. 条件判断</a></li>
+<li><a href="#org17782cb">1.4.2. 错误处理</a></li>
+<li><a href="#orgf60a1a6">1.4.3. Promise</a></li>
+<li><a href="#org269ee78">1.4.4. 循环</a></li>
+<li><a href="#org6a44fec">1.4.5. 迭代器</a></li>
+</ul>
+</li>
+<li><a href="#org71589c3">1.5. 函数</a>
+<ul>
+<li><a href="#org8cb92d6">1.5.1. 定义函数</a></li>
+<li><a href="#orgd98166e">1.5.2. 匿名函数</a></li>
+<li><a href="#orgbe762ec">1.5.3. 递归调用</a></li>
+<li><a href="#org37a8989">1.5.4. 闭包</a></li>
+<li><a href="#orgfb987ba">1.5.5. 函数参数</a></li>
+<li><a href="#org386612e">1.5.6. 箭头函数</a></li>
+<li><a href="#org02ea0a4">1.5.7. <code>this</code> 词法作用域</a></li>
+</ul>
+</li>
+<li><a href="#orgb4ee563">1.6. 数据类型</a>
+<ul>
+<li><a href="#org12523a1">1.6.1. 数据类型</a></li>
+<li><a href="#orgfdcf31c">1.6.2. 数据类型转换</a></li>
+<li><a href="#org89f7a07">1.6.3. 字面量</a></li>
+<li><a href="#orgc5be46c">1.6.4. 数字与数学运算</a></li>
+<li><a href="#orgbb1939a">1.6.5. 日期对象</a></li>
+<li><a href="#org5907c2f">1.6.6. 字符串</a></li>
+<li><a href="#org004ef1a">1.6.7. 正则表达式</a></li>
+<li><a href="#orgc4e9c1c">1.6.8. 数组对象 <code>Array object</code></a></li>
+<li><a href="#orgcdd563b">1.6.9. 映射</a></li>
+<li><a href="#org9943e71">1.6.10. 集合</a></li>
+<li><a href="#org408483d">1.6.11. 使用对象</a></li>
+</ul>
+</li>
+<li><a href="#org320d19c">1.7. 内建函数</a></li>
+<li><a href="#orgccacc23">1.8. 元编程</a>
+<ul>
+<li><a href="#org7b1bf41">1.8.1. 代理 <code>Proxy</code></a></li>
+<li><a href="#org01ac64d">1.8.2. 反射 <code>Reflect</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgfe93708">2. React</a>
+<ul>
+<li><a href="#org2dc5f6e">2.1. 基本使用</a>
+<ul>
+<li><a href="#orgd25a85f">2.1.1. 创建新应用的方法</a></li>
+<li><a href="#org11b12d1">2.1.2. 工作流程</a></li>
+</ul>
+</li>
+<li><a href="#orgfba8839">2.2. API</a>
+<ul>
+<li><a href="#org77d8db0">2.2.1. 示例代码</a></li>
+</ul>
+</li>
+<li><a href="#org1d63e6b">2.3. 开始新项目: yarn, create-react-app</a>
+<ul>
+<li><a href="#org996142c">2.3.1. yarn</a></li>
+<li><a href="#orgb4d1986">2.3.2. create-react-app</a></li>
+</ul>
+</li>
+<li><a href="#org87cb042">2.4. redux: 状态管理</a>
+<ul>
+<li><a href="#org2ed1f0c">2.4.1. 安装</a></li>
+<li><a href="#org9ca8e70">2.4.2. 基本使用</a></li>
+</ul>
+</li>
+<li><a href="#orgdfe6961">2.5. react-router: 路由管理</a>
+<ul>
+<li><a href="#org85ab2f3">2.5.1. 安装与基本使用</a></li>
+<li><a href="#orga476d7f">2.5.2. 与 redux 一起使用</a></li>
+</ul>
+</li>
+<li><a href="#orgafa8c8f">2.6. emotion: css-in-js</a>
+<ul>
+<li><a href="#orgefdec85">2.6.1. 基本使用</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org1d093d1">3. bootstrap4</a>
+<ul>
+<li><a href="#orgb0de663">3.1. 安装与基本使用</a>
+<ul>
+<li><a href="#org1eeb316">3.1.1. 安装</a></li>
+<li><a href="#org6248b84">3.1.2. 网格系统</a></li>
+</ul>
+</li>
+<li><a href="#org9b20ba3">3.2. 各种CSS组件</a>
+<ul>
+<li><a href="#orgdf4c64e">3.2.1. 固定在上方的导航栏</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orga8c6392">4. Angular</a></li>
+<li><a href="#org0757e7d">5. Electron基础</a>
+<ul>
+<li><a href="#org5c704b8">5.1. 安装</a></li>
+<li><a href="#org0e504c4">5.2. 程序结构</a>
+<ul>
+<li><a href="#org0c3d060">5.2.1. 语法</a></li>
+</ul>
+</li>
+<li><a href="#org735fcf6">5.3. 页面(进程)间通信</a>
+<ul>
+<li><a href="#org3b0fea2">5.3.1. 广播-监听方式</a></li>
+</ul>
+</li>
+<li><a href="#orgc359670">5.4. https://electron.org.cn/doc/tutorial/application-distribution.html|打包</a></li>
+<li><a href="#org53d0770">5.5. 使用React</a>
+<ul>
+<li><a href="#org3cab204">5.5.1. 配置</a></li>
+<li><a href="#org5199efd">5.5.2. 热调试</a></li>
+<li><a href="#org8c9f91c">5.5.3. 使用electron API</a></li>
+<li><a href="#org2b062d3">5.5.4. 使用nodejs本地库</a></li>
+</ul>
+</li>
+<li><a href="#org2308568">5.6. API</a>
+<ul>
+<li><a href="#orgbfd0b41">5.6.1. app:应用的生命周期</a></li>
+<li><a href="#orgbcde6be">5.6.2. BrowserWindow:创建和控制浏览器窗口</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+
+
+<div id="outline-container-orgbcadaa1" class="outline-2">
+<h2 id="orgbcadaa1"><span class="section-number-2">1</span> JavaScript 基本语法</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org0b7e48b" class="outline-3">
+<h3 id="org0b7e48b"><span class="section-number-3">1.1</span> 特殊规则</h3>
+<div class="outline-text-3" id="text-1-1">
+<ol class="org-ol">
+<li>js 中解释器会在每行后自动插入分号, 因而可以不写分号, 但是可能会造成一些困惑, 因此推荐写上所有括号.</li>
+<li>单行注释 <code>//</code></li>
+<li>多行注释 <code>/* ... */</code></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org04f6702" class="outline-3">
+<h3 id="org04f6702"><span class="section-number-3">1.2</span> 声明变量</h3>
+<div class="outline-text-3" id="text-1-2">
+<ol class="org-ol">
+<li>声明变量可以使用三种方式:
+<ol class="org-ol">
+<li><code>var</code> 会声明一个全局变量,会发生"变量提升",即会被当成放在最顶部的量,这会极大影响可读性,应避免使用</li>
+<li><code>let</code> 会声明一个有作用域的变量</li>
+<li><code>const</code> 会声明一个有作用域的常量</li>
+</ol></li>
+<li>推荐使用 <code>let</code> 和 <code>const</code>, 不要用 <code>var</code>.</li>
+<li>声明变量可以不带初值 <code>let a;</code>, 也可以带初值 <code>let a=1;</code>, 不带初值的变量声明和没声明一样, 可以用 <code>x === undefined</code> 来判断.</li>
+<li>变量名可以以字母, <code>$</code> 号 和 <code>_</code> 下划线开头.</li>
+<li><code>undefined</code> 相当于 <code>false</code>.</li>
+<li><code>null</code> 相当于 <code>0</code> 或 <code>false</code>.</li>
+<li>被设成常量的数组和对象都是可变的,其他类型不可变</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgaab53f6" class="outline-3">
+<h3 id="orgaab53f6"><span class="section-number-3">1.3</span> 运算符</h3>
+<div class="outline-text-3" id="text-1-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">符号</th>
+<th scope="col" class="org-left">作用</th>
+<th scope="col" class="org-left">例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><b>赋值运算符</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>=</code></td>
+<td class="org-left">赋值</td>
+<td class="org-left"><code>a=b</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>+=</code></td>
+<td class="org-left">加并赋值</td>
+<td class="org-left"><code>a+=b</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>比较运算符</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>===</code></td>
+<td class="org-left">相等</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>!==</code></td>
+<td class="org-left">不相等</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>算数运算符</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>%</code></td>
+<td class="org-left">求余</td>
+<td class="org-left"><code>12%5===2</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>++</code></td>
+<td class="org-left">自增</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>**</code></td>
+<td class="org-left">指数</td>
+<td class="org-left"><code>2**3===2*2*2</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>位运算</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&amp;</code></td>
+<td class="org-left">按位于</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>~</code></td>
+<td class="org-left">非</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&lt;&lt;</code></td>
+<td class="org-left">左移位</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>逻辑运算符</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>&amp;&amp;</code></td>
+<td class="org-left">与</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>¦¦</code></td>
+<td class="org-left">或</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>!</code></td>
+<td class="org-left">非</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>三元运算符</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>? :</code></td>
+<td class="org-left">三元运算符</td>
+<td class="org-left"><code>var status = (age &gt;= 18) ? "adult" : "minor";</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>一元运算符</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>delete</code></td>
+<td class="org-left">删除一个对象或对象的一个键值</td>
+<td class="org-left"><code>delete objectName.property;</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>typeof</code></td>
+<td class="org-left">返回类型</td>
+<td class="org-left"><code>typeof operand</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>void</code></td>
+<td class="org-left">运算无返回值</td>
+<td class="org-left"><code>void expression</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>关系操作符</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>in</code></td>
+<td class="org-left">判断属性是否在对象中</td>
+<td class="org-left"><code>propNameOrNumber in objectName</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>instanceof</code></td>
+<td class="org-left">判断对象是否为某类型</td>
+<td class="org-left"><code>objectName instanceof objectType</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>基本表达式</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>this</code></td>
+<td class="org-left">指代当前对象</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>左值表达式</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>new</code></td>
+<td class="org-left">创建一个实例</td>
+<td class="org-left"><code>var objectName = new objectType([param]);</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>扩展语句</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>...</code></td>
+<td class="org-left">扩展一个数组</td>
+<td class="org-left"><code>['head', ...['shoulder', 'knees'], 'and', 'toes'];</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org4de4eb6" class="outline-3">
+<h3 id="org4de4eb6"><span class="section-number-3">1.4</span> 控制流程</h3>
+<div class="outline-text-3" id="text-1-4">
+</div>
+<div id="outline-container-orgd56d379" class="outline-4">
+<h4 id="orgd56d379"><span class="section-number-4">1.4.1</span> 条件判断</h4>
+<div class="outline-text-4" id="text-1-4-1">
+</div>
+<ol class="org-ol">
+<li><a id="org7683e55"></a><code>if-else</code> 条件判断<br />
+<div class="outline-text-5" id="text-1-4-1-1">
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #2aa198;">(</span>condition_1<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           statement_1;
+       <span style="color: #2aa198;">}</span>
+       <span style="color: #2aa198;">[</span><span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #b58900;">(</span>condition_2<span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+           statement_2;
+       <span style="color: #b58900;">}</span><span style="color: #2aa198;">]</span>
+       ...
+           <span style="color: #2aa198;">[</span><span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #b58900;">(</span>condition_n_1<span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+               statement_n_1;
+           <span style="color: #b58900;">}</span><span style="color: #2aa198;">]</span>
+       <span style="color: #2aa198;">[</span><span style="color: #859900; font-weight: bold;">else</span> <span style="color: #b58900;">{</span>
+           statement_n;
+       <span style="color: #b58900;">}</span><span style="color: #2aa198;">]</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org5c2be72"></a><code>switch</code><br />
+<div class="outline-text-5" id="text-1-4-1-2">
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">switch</span> <span style="color: #2aa198;">(</span>expression<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+       <span style="color: #859900; font-weight: bold;">case</span> label_1:
+           statements_1
+           <span style="color: #b58900;">[</span><span style="color: #859900; font-weight: bold;">break</span>;<span style="color: #b58900;">]</span>
+       <span style="color: #859900; font-weight: bold;">case</span> label_2:
+           statements_2
+           <span style="color: #b58900;">[</span><span style="color: #859900; font-weight: bold;">break</span>;<span style="color: #b58900;">]</span>
+           ...
+       <span style="color: #859900; font-weight: bold;">default</span>:
+           statements_def
+           <span style="color: #b58900;">[</span><span style="color: #859900; font-weight: bold;">break</span>;<span style="color: #b58900;">]</span>
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org17782cb" class="outline-4">
+<h4 id="org17782cb"><span class="section-number-4">1.4.2</span> 错误处理</h4>
+<div class="outline-text-4" id="text-1-4-2">
+</div>
+<ol class="org-ol">
+<li><a id="orgfbf92da"></a><code>throw</code><br />
+<div class="outline-text-5" id="text-1-4-2-1">
+<p>
+可以 <code>throw</code> 任何东西, 但使用 DOMError 或 ECMAScript 比较好
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">throw</span> expression;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org925fae6"></a><code>try-catch-fanilly</code><br />
+<div class="outline-text-5" id="text-1-4-2-2">
+<div class="org-src-container">
+<pre class="src src-javascript">       openMyFile<span style="color: #2aa198;">()</span>;
+       <span style="color: #859900; font-weight: bold;">try</span> <span style="color: #2aa198;">{</span>
+           writeMyFile<span style="color: #b58900;">(</span>theData<span style="color: #b58900;">)</span>; <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">This may throw a error</span>
+       <span style="color: #2aa198;">}</span><span style="color: #859900; font-weight: bold;">catch</span><span style="color: #2aa198;">(</span>e<span style="color: #2aa198;">){</span>
+           handleError<span style="color: #b58900;">(</span>e<span style="color: #b58900;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">If we got a error we handle it</span>
+       <span style="color: #2aa198;">}</span><span style="color: #859900; font-weight: bold;">finally</span> <span style="color: #2aa198;">{</span>
+           closeMyFile<span style="color: #b58900;">()</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">always close the resource</span>
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgf60a1a6" class="outline-4">
+<h4 id="orgf60a1a6"><span class="section-number-4">1.4.3</span> Promise</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<p>
+Promise 对象有以下几种状态：
+</p>
+<ol class="org-ol">
+<li><code>pending</code> ：初始的状态，即正在执行，不处于 <code>fulfilled</code> 或 <code>rejected</code> 状态。</li>
+<li><code>fulfilled</code> ：成功的完成了操作。</li>
+<li><code>rejected</code> ：失败，没有完成操作。</li>
+<li><code>settled</code> ：Promise 处于 <code>fulfilled</code> 或 <code>rejected</code> 二者中的任意一个状态, 不会是 <code>pending</code></li>
+</ol>
+</div>
+<ol class="org-ol">
+<li><a id="org9db0078"></a>使用 promise<br />
+<div class="outline-text-5" id="text-1-4-3-1">
+<div class="org-src-container">
+<pre class="src src-javascript">  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#22522;&#26412;&#30340;&#22238;&#35843;</span>
+  doSomething<span style="color: #2aa198;">()</span>.then<span style="color: #2aa198;">(</span>successCallback, failureCallback<span style="color: #2aa198;">)</span>;
+  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#21487;&#20197;&#21152;&#19978;&#22238;&#35843;&#38142;&#21644;&#26368;&#32456;&#38169;&#35823;&#22788;&#29702;</span>
+  doSomething<span style="color: #2aa198;">()</span>
+  .then<span style="color: #2aa198;">(</span>result =&gt; doSomethingElse<span style="color: #b58900;">(</span>result<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+  .then<span style="color: #2aa198;">(</span>newResult =&gt; doThirdThing<span style="color: #b58900;">(</span>newResult<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+  .then<span style="color: #2aa198;">(</span>finalResult =&gt; <span style="color: #b58900;">{</span>
+    console.log<span style="color: #268bd2;">(</span><span style="color: #2aa198;">`Got the final result: ${finalResult}`</span><span style="color: #268bd2;">)</span>;
+  <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>
+  .<span style="color: #859900; font-weight: bold;">catch</span><span style="color: #2aa198;">(</span>failureCallback<span style="color: #2aa198;">)</span>;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org258180a"></a>async await 语法糖<br />
+<div class="outline-text-5" id="text-1-4-3-2">
+<div class="org-src-container">
+<pre class="src src-javascript">  <span style="color: #859900; font-weight: bold;">async</span> <span style="color: #859900; font-weight: bold;">function</span> foo<span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+    <span style="color: #859900; font-weight: bold;">try</span> <span style="color: #b58900;">{</span>
+      <span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">result</span> = <span style="color: #859900; font-weight: bold;">await</span> doSomething<span style="color: #268bd2;">()</span>;
+      <span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">newResult</span> = <span style="color: #859900; font-weight: bold;">await</span> doSomethingElse<span style="color: #268bd2;">(</span>result<span style="color: #268bd2;">)</span>;
+      <span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">finalResult</span> = <span style="color: #859900; font-weight: bold;">await</span> doThirdThing<span style="color: #268bd2;">(</span>newResult<span style="color: #268bd2;">)</span>;
+      console.log<span style="color: #268bd2;">(</span><span style="color: #2aa198;">`Got the final result: ${finalResult}`</span><span style="color: #268bd2;">)</span>;
+    <span style="color: #b58900;">}</span> <span style="color: #859900; font-weight: bold;">catch</span><span style="color: #b58900;">(</span>error<span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+      failureCallback<span style="color: #268bd2;">(</span>error<span style="color: #268bd2;">)</span>;
+    <span style="color: #b58900;">}</span>
+  <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgb81e31a"></a>创建 Promise<br />
+<ol class="org-ol">
+<li><a id="orgfa30452"></a>包裹旧式 api<br />
+<div class="outline-text-6" id="text-1-4-3-3-1">
+<div class="org-src-container">
+<pre class="src src-javascript">   <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">wait</span> = ms =&gt; <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Promise</span><span style="color: #2aa198;">(</span>resolve =&gt; setTimeout<span style="color: #b58900;">(</span>resolve, ms<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>;
+
+   wait<span style="color: #2aa198;">(</span>10000<span style="color: #2aa198;">)</span>.then<span style="color: #2aa198;">(</span><span style="color: #b58900;">()</span> =&gt; saySomething<span style="color: #b58900;">(</span><span style="color: #2aa198;">"10 seconds"</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>.<span style="color: #859900; font-weight: bold;">catch</span><span style="color: #2aa198;">(</span>failureCallback<span style="color: #2aa198;">)</span>;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org4ad0670"></a>一些方法<br />
+<div class="outline-text-6" id="text-1-4-3-3-2">
+<p>
+Promise.resolve() 和 Promise.reject() 是手动创建一个已经resolve或者reject的promise快捷方法。它们有时很有用。
+</p>
+
+<p>
+Promise.all() 和 Promise.race()是并行运行异步操作的两个组合式工具。
+</p>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="orgbcadc06"></a>保证并行执行的方法<br />
+<div class="outline-text-5" id="text-1-4-3-4">
+<div class="org-src-container">
+<pre class="src src-javascript">  <span style="color: #2aa198;">[</span>func1, func2<span style="color: #2aa198;">]</span>.reduce<span style="color: #2aa198;">(</span><span style="color: #b58900;">(</span>p, f<span style="color: #b58900;">)</span> =&gt; p.then<span style="color: #b58900;">(</span>f<span style="color: #b58900;">)</span>, Promise.resolve<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>;
+  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#25110;&#32773;</span>
+  <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">f</span> of <span style="color: #b58900;">[</span>func1, func2<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+    <span style="color: #859900; font-weight: bold;">await</span> f<span style="color: #b58900;">()</span>;
+  <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org269ee78" class="outline-4">
+<h4 id="org269ee78"><span class="section-number-4">1.4.4</span> 循环</h4>
+<div class="outline-text-4" id="text-1-4-4">
+</div>
+<ol class="org-ol">
+<li><a id="orgfcd745f"></a><code>for</code><br />
+<div class="outline-text-5" id="text-1-4-4-1">
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">i</span> = 0; i &lt; selectObject.options.length; i++<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #b58900;">(</span>selectObject.options<span style="color: #268bd2;">[</span>i<span style="color: #268bd2;">]</span>.selected<span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+               numberSelected++;
+           <span style="color: #b58900;">}</span>
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgf07a626"></a><code>do...while</code><br />
+<div class="outline-text-5" id="text-1-4-4-2">
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">do</span> <span style="color: #2aa198;">{</span>
+           i += 1;
+           console.log<span style="color: #b58900;">(</span>i<span style="color: #b58900;">)</span>;
+       <span style="color: #2aa198;">}</span> <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #2aa198;">(</span>i &lt; 5<span style="color: #2aa198;">)</span>;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org084f779"></a><code>while</code><br />
+<div class="outline-text-5" id="text-1-4-4-3">
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #2aa198;">(</span>n &lt; 3<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           n++;
+           x += n;
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgf637cb4"></a><code>label-break</code><br />
+<div class="outline-text-5" id="text-1-4-4-4">
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">x</span> = 0;
+       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">z</span> = 0
+       labelCancelLoops: <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #2aa198;">(</span><span style="color: #268bd2; font-weight: bold;">true</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           console.log<span style="color: #b58900;">(</span><span style="color: #2aa198;">"&#22806;&#37096;&#24490;&#29615;: "</span> + x<span style="color: #b58900;">)</span>;
+           x += 1;
+           z = 1;
+           <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #b58900;">(</span><span style="color: #268bd2; font-weight: bold;">true</span><span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+               console.log<span style="color: #268bd2;">(</span><span style="color: #2aa198;">"&#20869;&#37096;&#24490;&#29615;: "</span> + z<span style="color: #268bd2;">)</span>;
+               z += 1;
+               <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span>z === 10 &amp;&amp; x === 10<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">{</span>
+                   <span style="color: #859900; font-weight: bold;">break</span> labelCancelLoops;
+               <span style="color: #268bd2;">}</span> <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span>z === 10<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">{</span>
+                   <span style="color: #859900; font-weight: bold;">break</span>;
+               <span style="color: #268bd2;">}</span>
+           <span style="color: #b58900;">}</span>
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org0f01d49"></a><code>label-continue</code><br />
+<div class="outline-text-5" id="text-1-4-4-5">
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">i</span> = 0;
+       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">j</span> = 10;
+       checkiandj:
+       <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #2aa198;">(</span>i &lt; 4<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           console.log<span style="color: #b58900;">(</span>i<span style="color: #b58900;">)</span>;
+           i += 1;
+           checkj:
+           <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #b58900;">(</span>j &gt; 4<span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+               console.log<span style="color: #268bd2;">(</span>j<span style="color: #268bd2;">)</span>;
+               j -= 1;
+               <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>j % 2<span style="color: #6c71c4;">)</span> == 0<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">{</span>
+                   <span style="color: #859900; font-weight: bold;">continue</span> checkj;
+               <span style="color: #268bd2;">}</span>
+               console.log<span style="color: #268bd2;">(</span>j + <span style="color: #2aa198;">' is odd.'</span><span style="color: #268bd2;">)</span>;
+           <span style="color: #b58900;">}</span>
+           console.log<span style="color: #b58900;">(</span><span style="color: #2aa198;">'i = '</span> + i<span style="color: #b58900;">)</span>;
+           console.log<span style="color: #b58900;">(</span><span style="color: #2aa198;">'j = '</span> + j<span style="color: #b58900;">)</span>;
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org8ce98e0"></a><code>for-in</code><br />
+<div class="outline-text-5" id="text-1-4-4-6">
+<p>
+注意遍历的是对象的属性, 对于数组,会是数组下标
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">i</span> <span style="color: #859900; font-weight: bold;">in</span> obj<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           result += obj_name + <span style="color: #2aa198;">"."</span> + i + <span style="color: #2aa198;">" = "</span> + obj<span style="color: #b58900;">[</span>i<span style="color: #b58900;">]</span> + <span style="color: #2aa198;">"&lt;br&gt;"</span>;
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org0bf4198"></a><code>for-of</code><br />
+<div class="outline-text-5" id="text-1-4-4-7">
+<p>
+遍历的是可迭代的类型
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">i</span> of arr<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           console.log<span style="color: #b58900;">(</span>i<span style="color: #b58900;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">logs "3", "5", "7" // &#27880;&#24847;&#36825;&#37324;&#27809;&#26377; hello</span>
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org6a44fec" class="outline-4">
+<h4 id="org6a44fec"><span class="section-number-4">1.4.5</span> 迭代器</h4>
+<div class="outline-text-4" id="text-1-4-5">
+</div>
+<ol class="org-ol">
+<li><a id="org94e0a4b"></a>创建迭代器<br />
+<div class="outline-text-5" id="text-1-4-5-1">
+<p>
+一个提供 <code>next</code> 方法的函数就组成了一个迭代器
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"> <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">makeIterator</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">array</span><span style="color: #2aa198;">){</span>
+     <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">nextIndex</span> = 0;
+
+     <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #b58900;">{</span>
+        <span style="color: #268bd2;">next</span>: <span style="color: #859900; font-weight: bold;">function</span><span style="color: #268bd2;">(){</span>
+            <span style="color: #859900; font-weight: bold;">return</span> nextIndex &lt; array.length ?
+                <span style="color: #6c71c4;">{</span>value: array<span style="color: #859900;">[</span>nextIndex++<span style="color: #859900;">]</span>, done: <span style="color: #268bd2; font-weight: bold;">false</span><span style="color: #6c71c4;">}</span> :
+                <span style="color: #6c71c4;">{</span>done: <span style="color: #268bd2; font-weight: bold;">true</span><span style="color: #6c71c4;">}</span>;
+        <span style="color: #268bd2;">}</span>
+     <span style="color: #b58900;">}</span>;
+ <span style="color: #2aa198;">}</span>
+ <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#20351;&#29992;</span>
+ <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">it</span> = makeIterator<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span><span style="color: #2aa198;">'yo'</span>, <span style="color: #2aa198;">'ya'</span><span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>;
+ console.log<span style="color: #2aa198;">(</span>it.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">'yo'</span>
+ console.log<span style="color: #2aa198;">(</span>it.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">'ya'</span>
+ console.log<span style="color: #2aa198;">(</span>it.next<span style="color: #b58900;">()</span>.done<span style="color: #2aa198;">)</span>;  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">true</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org82a56ff"></a>迭代器生成器 <code>function*</code><br />
+<div class="outline-text-5" id="text-1-4-5-2">
+<p>
+使用 <code>function*</code> 语法可以让创建迭代器变得简单些
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"> <span style="color: #859900; font-weight: bold;">function</span>* <span style="color: #268bd2;">idMaker</span><span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+   <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">index</span> = 0;
+   <span style="color: #859900; font-weight: bold;">while</span><span style="color: #b58900;">(</span><span style="color: #268bd2; font-weight: bold;">true</span><span style="color: #b58900;">)</span>
+     <span style="color: #859900; font-weight: bold;">yield</span> index++;
+ <span style="color: #2aa198;">}</span>
+
+ <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">gen</span> = idMaker<span style="color: #2aa198;">()</span>;
+
+ console.log<span style="color: #2aa198;">(</span>gen.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0</span>
+ console.log<span style="color: #2aa198;">(</span>gen.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1</span>
+ console.log<span style="color: #2aa198;">(</span>gen.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2</span>
+ <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">...</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgcb320a8"></a>可迭代的对象<br />
+<div class="outline-text-5" id="text-1-4-5-3">
+<p>
+想用 <code>for of</code> 迭代对象, 则需要实现 <code>Symbol.iterator</code> 属性
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"> <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">myIterable</span> = <span style="color: #2aa198;">{}</span>;
+ myIterable<span style="color: #2aa198;">[</span>Symbol.iterator<span style="color: #2aa198;">]</span> = <span style="color: #859900; font-weight: bold;">function</span>* <span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+     <span style="color: #859900; font-weight: bold;">yield</span> 1;
+     <span style="color: #859900; font-weight: bold;">yield</span> 2;
+     <span style="color: #859900; font-weight: bold;">yield</span> 3;
+ <span style="color: #2aa198;">}</span>;
+ <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#19968;&#20010;&#35821;&#27861;&#31958;&#26159; yield*</span>
+ <span style="color: #859900; font-weight: bold;">function</span>* <span style="color: #268bd2;">gen</span><span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+   <span style="color: #859900; font-weight: bold;">yield</span>* <span style="color: #b58900;">[</span><span style="color: #2aa198;">'a'</span>, <span style="color: #2aa198;">'b'</span>, <span style="color: #2aa198;">'c'</span><span style="color: #b58900;">]</span>;
+ <span style="color: #2aa198;">}</span>
+
+
+ <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">value</span> of myIterable<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span> 
+     console.log<span style="color: #b58900;">(</span>value<span style="color: #b58900;">)</span>; 
+ <span style="color: #2aa198;">}</span>
+ <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1</span>
+ <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2</span>
+ <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">3</span>
+
+ or
+
+ <span style="color: #2aa198;">[</span>...myIterable<span style="color: #2aa198;">]</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">[1, 2, 3]</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org6b876f0"></a>高级生成器<br />
+<div class="outline-text-5" id="text-1-4-5-4">
+<div class="org-src-container">
+<pre class="src src-javascript"> <span style="color: #859900; font-weight: bold;">function</span>* <span style="color: #268bd2;">fibonacci</span><span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+   <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">fn1</span> = 0;
+   <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">fn2</span> = 1;
+   <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #b58900;">(</span><span style="color: #268bd2; font-weight: bold;">true</span><span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>  
+     <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">current</span> = fn1;
+     fn1 = fn2;
+     fn2 = current + fn1;
+     <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">reset</span> = <span style="color: #859900; font-weight: bold;">yield</span> current;
+     <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span>reset<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">{</span>
+         fn1 = 0;
+         fn2 = 1;
+     <span style="color: #268bd2;">}</span>
+   <span style="color: #b58900;">}</span>
+ <span style="color: #2aa198;">}</span>
+
+ <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">sequence</span> = fibonacci<span style="color: #2aa198;">()</span>;
+ console.log<span style="color: #2aa198;">(</span>sequence.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>;     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0</span>
+ console.log<span style="color: #2aa198;">(</span>sequence.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>;     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1</span>
+ console.log<span style="color: #2aa198;">(</span>sequence.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>;     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1</span>
+ console.log<span style="color: #2aa198;">(</span>sequence.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>;     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2</span>
+ console.log<span style="color: #2aa198;">(</span>sequence.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>;     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">3</span>
+ console.log<span style="color: #2aa198;">(</span>sequence.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>;     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">5</span>
+ console.log<span style="color: #2aa198;">(</span>sequence.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>;     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">8</span>
+ console.log<span style="color: #2aa198;">(</span>sequence.next<span style="color: #b58900;">(</span><span style="color: #268bd2; font-weight: bold;">true</span><span style="color: #b58900;">)</span>.value<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0</span>
+ console.log<span style="color: #2aa198;">(</span>sequence.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>;     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1</span>
+ console.log<span style="color: #2aa198;">(</span>sequence.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>;     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1</span>
+ console.log<span style="color: #2aa198;">(</span>sequence.next<span style="color: #b58900;">()</span>.value<span style="color: #2aa198;">)</span>;     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org71589c3" class="outline-3">
+<h3 id="org71589c3"><span class="section-number-3">1.5</span> 函数</h3>
+<div class="outline-text-3" id="text-1-5">
+</div>
+<div id="outline-container-org8cb92d6" class="outline-4">
+<h4 id="org8cb92d6"><span class="section-number-4">1.5.1</span> 定义函数</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<div class="org-src-container">
+<pre class="src src-javascript">      <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">square</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">number</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+          <span style="color: #859900; font-weight: bold;">return</span> number * number;
+      <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+<ol class="org-ol">
+<li>原始类型传值, 对象类型传引用</li>
+<li>函数可以作为参数和返回值</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgd98166e" class="outline-4">
+<h4 id="orgd98166e"><span class="section-number-4">1.5.2</span> 匿名函数</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<div class="org-src-container">
+<pre class="src src-javascript">      <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#21311;&#21517;&#20989;&#25968;</span>
+      <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">square</span> = <span style="color: #859900; font-weight: bold;">function</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">number</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span> <span style="color: #859900; font-weight: bold;">return</span> number * number; <span style="color: #2aa198;">}</span>;
+      <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#36882;&#24402;&#30340;&#21311;&#21517;&#20989;&#25968;</span>
+      <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">factorial</span> = <span style="color: #859900; font-weight: bold;">function</span> fac<span style="color: #2aa198;">(</span><span style="color: #268bd2;">n</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span><span style="color: #859900; font-weight: bold;">return</span> n&lt;2 ? 1 : n*fac<span style="color: #b58900;">(</span>n-1<span style="color: #b58900;">)</span><span style="color: #2aa198;">}</span>;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbe762ec" class="outline-4">
+<h4 id="orgbe762ec"><span class="section-number-4">1.5.3</span> 递归调用</h4>
+<div class="outline-text-4" id="text-1-5-3">
+<div class="org-src-container">
+<pre class="src src-javascript">      <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">foo</span> = <span style="color: #859900; font-weight: bold;">function</span> bar<span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+          <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">statements go here</span>
+      <span style="color: #2aa198;">}</span>;
+</pre>
+</div>
+<p>
+在这个函数体内，以下的语句是等价的：
+</p>
+<ol class="org-ol">
+<li>bar()</li>
+<li>arguments.callee()</li>
+<li>foo()</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org37a8989" class="outline-4">
+<h4 id="org37a8989"><span class="section-number-4">1.5.4</span> 闭包</h4>
+<div class="outline-text-4" id="text-1-5-4">
+<p>
+嵌套的函数或匿名函数形成闭包
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">      <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">pet</span> = <span style="color: #859900; font-weight: bold;">function</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">name</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>          <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#22806;&#37096;&#20989;&#25968;&#23450;&#20041;&#20102;&#19968;&#20010;&#21464;&#37327;"name"</span>
+          <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">getName</span> = <span style="color: #859900; font-weight: bold;">function</span><span style="color: #b58900;">()</span> <span style="color: #b58900;">{</span>            
+              <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#20869;&#37096;&#20989;&#25968;&#21487;&#20197;&#35775;&#38382; &#22806;&#37096;&#20989;&#25968;&#23450;&#20041;&#30340;"name"</span>
+              <span style="color: #859900; font-weight: bold;">return</span> name; 
+          <span style="color: #b58900;">}</span>
+          <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#36820;&#22238;&#36825;&#20010;&#20869;&#37096;&#20989;&#25968;&#65292;&#20174;&#32780;&#23558;&#20854;&#26292;&#38706;&#22312;&#22806;&#37096;&#20989;&#25968;&#20316;&#29992;&#22495;</span>
+          <span style="color: #859900; font-weight: bold;">return</span> getName;               
+      <span style="color: #2aa198;">}</span>;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfb987ba" class="outline-4">
+<h4 id="orgfb987ba"><span class="section-number-4">1.5.5</span> 函数参数</h4>
+<div class="outline-text-4" id="text-1-5-5">
+</div>
+<ol class="org-ol">
+<li><a id="org64f0030"></a><code>arguments</code> 对象<br />
+<div class="outline-text-5" id="text-1-5-5-1">
+<p>
+传给函数的参数保存在一个 <code>arguments</code> 对象中, 因此可以向函数传递任意数量的参数
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">myConcat</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">separator</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">result</span> = <span style="color: #2aa198;">''</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#25226;&#20540;&#21021;&#22987;&#21270;&#25104;&#19968;&#20010;&#23383;&#31526;&#20018;&#65292;&#36825;&#26679;&#23601;&#21487;&#20197;&#29992;&#26469;&#20445;&#23384;&#23383;&#31526;&#20018;&#20102;&#65281;&#65281;</span>
+           <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">i</span>;
+           <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">iterate through arguments</span>
+           <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #b58900;">(</span>i = 1; i &lt; <span style="color: #268bd2; font-weight: bold;">arguments</span>.length; i++<span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+               result += <span style="color: #268bd2; font-weight: bold;">arguments</span><span style="color: #268bd2;">[</span>i<span style="color: #268bd2;">]</span> + separator;
+           <span style="color: #b58900;">}</span>
+           <span style="color: #859900; font-weight: bold;">return</span> result;
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orge6fbd86"></a>默认参数<br />
+<div class="outline-text-5" id="text-1-5-5-2">
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">multiply</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">a</span>, <span style="color: #268bd2;">b</span> = 1<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">return</span> a*b;
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org024e086"></a>剩余参数<br />
+<div class="outline-text-5" id="text-1-5-5-3">
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">multiply</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">multiplier</span>, ...<span style="color: #268bd2;">theArgs</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">return</span> theArgs.map<span style="color: #b58900;">(</span>x =&gt; multiplier * x<span style="color: #b58900;">)</span>;
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org386612e" class="outline-4">
+<h4 id="org386612e"><span class="section-number-4">1.5.6</span> 箭头函数</h4>
+<div class="outline-text-4" id="text-1-5-6">
+<p>
+相当于匿名函数的语法糖
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">      <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">a</span> = <span style="color: #2aa198;">[</span>
+          <span style="color: #2aa198;">"Hydrogen"</span>,
+          <span style="color: #2aa198;">"Helium"</span>,
+          <span style="color: #2aa198;">"Lithium"</span>,
+          <span style="color: #2aa198;">"Beryllium"</span>
+      <span style="color: #2aa198;">]</span>;
+
+      <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">a2</span> = a.map<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">function</span><span style="color: #b58900;">(</span><span style="color: #268bd2;">s</span><span style="color: #b58900;">){</span> <span style="color: #859900; font-weight: bold;">return</span> s.length <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>;
+
+      console.log<span style="color: #2aa198;">(</span>a2<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">logs [ 8, 6, 7, 9 ]</span>
+
+      <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">a3</span> = a.map<span style="color: #2aa198;">(</span> s =&gt; s.length <span style="color: #2aa198;">)</span>;
+
+      console.log<span style="color: #2aa198;">(</span>a3<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">logs [ 8, 6, 7, 9 ]</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org02ea0a4" class="outline-4">
+<h4 id="org02ea0a4"><span class="section-number-4">1.5.7</span> <code>this</code> 词法作用域</h4>
+<div class="outline-text-4" id="text-1-5-7">
+<p>
+<code>this</code> 的作用域包括函数本身, 因此在嵌套函数中不能用 <code>this</code> 指代上级函数, 一般会定义一个 <code>self</code> 变量保存上级 <code>this</code> 的值, 但箭头函数可以不产生 <code>this</code> .
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">      <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">Person</span><span style="color: #2aa198;">(){</span>
+          <span style="color: #268bd2; font-weight: bold;">this</span>.age = 0;
+
+          setInterval<span style="color: #b58900;">(</span><span style="color: #268bd2;">()</span> =&gt; <span style="color: #268bd2;">{</span>
+              <span style="color: #268bd2; font-weight: bold;">this</span>.age++; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">|this| properly refers to the person object</span>
+          <span style="color: #268bd2;">}</span>, 1000<span style="color: #b58900;">)</span>;
+      <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb4ee563" class="outline-3">
+<h3 id="orgb4ee563"><span class="section-number-3">1.6</span> 数据类型</h3>
+<div class="outline-text-3" id="text-1-6">
+</div>
+<div id="outline-container-org12523a1" class="outline-4">
+<h4 id="org12523a1"><span class="section-number-4">1.6.1</span> 数据类型</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<ol class="org-ol">
+<li>原型数据类型有:
+<ol class="org-ol">
+<li><code>Boolean</code>.  布尔值， <code>true</code> 和 <code>false</code>.</li>
+<li><code>null</code>. 一个表明 <code>null</code> 值的特殊关键字。 JavaScript 是大小写敏感的，因此 <code>null</code> 与 Null、NULL或其他变量完全不同。</li>
+<li><code>undefined</code>.  变量未定义时的属性。</li>
+<li><code>Number</code>.  表示数字，例如： <code>42</code> 或者 <code>3.14159</code></li>
+<li><code>String</code>.  表示字符串，例如： <code>"Howdy"</code></li>
+<li><code>Symbol</code> ( 在 ECMAScript 6 中新添加的类型). 一种数据类型，它的实例是唯一且不可改变的。</li>
+</ol></li>
+<li>其它类型:
+<ol class="org-ol">
+<li><code>Object</code> 对象</li>
+<li><code>functions</code> 函数</li>
+</ol></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgfdcf31c" class="outline-4">
+<h4 id="orgfdcf31c"><span class="section-number-4">1.6.2</span> 数据类型转换</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<ol class="org-ol">
+<li>大部分会进行自动转换</li>
+<li>显式转换成数字的函数有: <code>parseInt()</code> 和 <code>parseFloat()</code></li>
+<li>也可以使用一个加号来转换: <code>(+ "12.3")</code></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org89f7a07" class="outline-4">
+<h4 id="org89f7a07"><span class="section-number-4">1.6.3</span> 字面量</h4>
+<div class="outline-text-4" id="text-1-6-3">
+<ol class="org-ol">
+<li>数组字面量是方括号, 多余的逗号会产生 <code>undefined</code> 类型, 要避免这种用法,但最后可以放一个逗号不会影响什么: <code>[1, , "3",]</code></li>
+<li>布尔类型: <code>true</code> 和 <code>false</code></li>
+<li><p>
+整数类型
+</p>
+<blockquote>
+<p>
+0, 117 and -345 (十进制, 基数为10)
+015, 0001 and -0o77 (八进制, 基数为8) 
+0x1123, 0x00111 and -0xF1A7 (十六进制, 基数为16或"hex")
+0b11, 0b0011 and -0b11 (二进制, 基数为2)
+</p>
+</blockquote></li>
+<li><p>
+浮点数类型
+</p>
+<blockquote>
+<p>
+3.14      
+-.2345789 <i>/ -0.23456789
+-3.12e+12  /</i> -3.12*1012
+.1e-23    // 0.1*10-23=10-24=1e-24
+</p>
+</blockquote></li>
+<li><p>
+对象字面量, 大括号扩起来的kv对, ES6新增支持在这里面定义方法,继承等东西,和类定义比较像
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">         <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">obj</span> = <span style="color: #2aa198;">{</span>
+             <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">__proto__</span>
+             __proto__: theProtoObj,
+             <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shorthand for &#8216;handler: handler&#8217;</span>
+             handler,
+             <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Methods</span>
+             toString<span style="color: #b58900;">()</span> <span style="color: #b58900;">{</span>
+                 <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Super calls</span>
+                 <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"d "</span> + <span style="color: #859900; font-weight: bold;">super</span>.toString<span style="color: #268bd2;">()</span>;
+             <span style="color: #b58900;">}</span>,
+             <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Computed (dynamic) property names</span>
+             <span style="color: #b58900;">[</span> <span style="color: #2aa198;">'prop_'</span> + <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">()</span> =&gt; 42<span style="color: #268bd2;">)()</span> <span style="color: #b58900;">]</span>: 42
+         <span style="color: #2aa198;">}</span>;
+</pre>
+</div></li>
+<li>正则表达式: <code>var re = /ab+c/;</code></li>
+<li>字符串字面量: <code>"asd"</code></li>
+<li><p>
+模板字符串,用反引号扩起来,与python的format差不多,还支持了多行字符串
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">         <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Basic literal string creation</span>
+         <span style="color: #2aa198;">`In JavaScript '\n' is a line-feed.`</span>
+
+         <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Multiline strings</span>
+         <span style="color: #2aa198;">`In JavaScript this is</span>
+<span style="color: #2aa198;">          not legal.`</span>
+
+         <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">String interpolation</span>
+         <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">name</span> = <span style="color: #2aa198;">"Bob"</span>, <span style="color: #268bd2;">time</span> = <span style="color: #2aa198;">"today"</span>;
+         <span style="color: #2aa198;">`Hello ${name}, how are you ${time}?`</span>
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgc5be46c" class="outline-4">
+<h4 id="orgc5be46c"><span class="section-number-4">1.6.4</span> 数字与数学运算</h4>
+<div class="outline-text-4" id="text-1-6-4">
+</div>
+<ol class="org-ol">
+<li><a id="orgcaa404a"></a>数字对象<br />
+<ol class="org-ol">
+<li><a id="org951bced"></a>属性<br />
+<div class="outline-text-6" id="text-1-6-4-1-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">属性</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>Number.MAX_VALUE</code></td>
+<td class="org-left">可表示的最大值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.MIN_VALUE</code></td>
+<td class="org-left">可表示的最小值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.NaN</code></td>
+<td class="org-left">特指”非数字“</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.NEGATIVE_INFINITY</code></td>
+<td class="org-left">特指“负无穷”;在溢出时返回</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.POSITIVE_INFINITY</code></td>
+<td class="org-left">特指“正无穷”;在溢出时返回</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.EPSILON</code></td>
+<td class="org-left">表示1和比最接近1且大于1的最小Number之间的差别</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.MIN_SAFE_INTEGER</code></td>
+<td class="org-left">JavaScript最小安全整数.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.MAX_SAFE_INTEGER</code></td>
+<td class="org-left">JavaScript最大安全整数.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="org468943c"></a>方法<br />
+<div class="outline-text-6" id="text-1-6-4-1-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方法</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>Number.parseFloat()</code></td>
+<td class="org-left">把字符串参数解析成浮点数，和全局方法 <code>parseFloat()</code> 作用一致.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.parseInt()</code></td>
+<td class="org-left">把字符串解析成特定基数对应的整型数字，和全局方法 <code>parseInt()</code> 作用一致.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.isFinite()</code></td>
+<td class="org-left">判断传递的值是否为有限数字。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.isInteger()</code></td>
+<td class="org-left">判断传递的值是否为整数。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.isNaN()</code></td>
+<td class="org-left">判断传递的值是否为 NaN. 比 <code>isNaN()</code> 更稳定一些.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Number.isSafeInteger()</code></td>
+<td class="org-left">判断传递的值是否为安全整数。</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="org611cd8d"></a>数字类型原型上的一些方法<br />
+<div class="outline-text-6" id="text-1-6-4-1-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方法</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>toExponential()</code></td>
+<td class="org-left">返回一个数字的指数形式的字符串，形如： <code>1.23e+2</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>toFixed()</code></td>
+<td class="org-left">返回指定小数位数的表示形式， <code>var a=123,b=a.toFixed(2)//b="123.00"</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>toPrecision()</code></td>
+<td class="org-left">返回一个指定精度的数字。如下例子中，a=123中，3会由于精度限制消失. <code>var a=123,b=a.toPrecision(2)//b="1.2e+2"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="orgc07a6b1"></a>数学对象(<code>Math</code>)<br />
+<div class="outline-text-5" id="text-1-6-4-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方法</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>abs()</code></td>
+<td class="org-left">绝对值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sin(), cos(), tan()</code></td>
+<td class="org-left">标准三角函数;参数为弧度</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>asin(), acos(), atan(), atan2()</code></td>
+<td class="org-left">反三角函数;返回值为弧度</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sinh(), cosh(), tanh()</code></td>
+<td class="org-left">双曲三角函数;返回值为弧度.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>asinh(), acosh(), atanh()</code></td>
+<td class="org-left">反双曲三角函数;返回值为弧度.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pow(), exp(), expm1(), log10(), log1p(),log2()</code></td>
+<td class="org-left">指数与对数函数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>floor(), ceil()</code></td>
+<td class="org-left">返回最大/最小整数小于/大于或等于参数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>min(), max()</code></td>
+<td class="org-left">返回一个以逗号间隔的数字参数列表中的较小或较大值(分别地)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>random()</code></td>
+<td class="org-left">返回0和1之间的随机数。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>round(), fround(), trunc(),</code></td>
+<td class="org-left">四舍五入和截断函数</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sqrt(), cbrt(), hypot()</code></td>
+<td class="org-left">平方根，立方根，平方参数的和的平方根,两个参数平方和的平方根</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sign()</code></td>
+<td class="org-left">数字的符号,说明数字是否为正、负、零。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>clz32()</code></td>
+<td class="org-left">在32位2进制表示中，开头的0的数量.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>imul()</code></td>
+<td class="org-left">返回传入的两个参数相乘结果的类C的32位表现形式</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgbb1939a" class="outline-4">
+<h4 id="orgbb1939a"><span class="section-number-4">1.6.5</span> 日期对象</h4>
+<div class="outline-text-4" id="text-1-6-5">
+</div>
+<ol class="org-ol">
+<li><a id="org529d644"></a>创建一个日期对象<br />
+<div class="outline-text-5" id="text-1-6-5-1">
+<p>
+前边的语法中的参数（parameters）可以是一下任何一种：
+</p>
+<ol class="org-ol">
+<li>无参数 : 创建今天的日期和时间，例如： today = new Date();.</li>
+<li>一个符合以下格式的表示日期的字符串: "月 日, 年 时:分:秒." 例如： var Xmas95 = new Date("December 25, 1995 13:30:00")。如果你省略时、分、秒，那么他们的值将被设置为0。</li>
+<li>一个年，月，日的整型值的集合，例如： var Xmas95 = new Date(1995, 11, 25)。</li>
+<li>一个年，月，日，时，分，秒的集合，例如： var Xmas95 = new Date(1995, 11, 25, 9, 30, 0);.</li>
+</ol>
+</div>
+</li>
+<li><a id="org06ce169"></a>Date对象的方法<br />
+<div class="outline-text-5" id="text-1-6-5-2">
+<p>
+处理日期时间的Date对象方法可分为以下几类：
+</p>
+<ol class="org-ol">
+<li>"set" 方法, 用于设置Date对象的日期和时间的值。</li>
+<li>"get" 方法,用于获取Date对象的日期和时间的值。</li>
+<li>"to" 方法,用于返回Date对象的字符串格式的值。</li>
+<li>parse 和UTC 方法, 用于解析Date字符串。</li>
+</ol>
+<p>
+例子
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">JSClock</span><span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">time</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Date</span><span style="color: #b58900;">()</span>;
+           <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">hour</span> = time.getHours<span style="color: #b58900;">()</span>;
+           <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">minute</span> = time.getMinutes<span style="color: #b58900;">()</span>;
+           <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">second</span> = time.getSeconds<span style="color: #b58900;">()</span>;
+           <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">temp</span> = <span style="color: #2aa198;">""</span> + <span style="color: #b58900;">(</span><span style="color: #268bd2;">(</span>hour &gt; 12<span style="color: #268bd2;">)</span> ? hour - 12 : hour<span style="color: #b58900;">)</span>;
+           <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #b58900;">(</span>hour == 0<span style="color: #b58900;">)</span>
+               temp = <span style="color: #2aa198;">"12"</span>;
+           temp += <span style="color: #b58900;">(</span><span style="color: #268bd2;">(</span>minute &lt; 10<span style="color: #268bd2;">)</span> ? <span style="color: #2aa198;">":0"</span> : <span style="color: #2aa198;">":"</span><span style="color: #b58900;">)</span> + minute;
+           temp += <span style="color: #b58900;">(</span><span style="color: #268bd2;">(</span>second &lt; 10<span style="color: #268bd2;">)</span> ? <span style="color: #2aa198;">":0"</span> : <span style="color: #2aa198;">":"</span><span style="color: #b58900;">)</span> + second;
+           temp += <span style="color: #b58900;">(</span>hour &gt;= 12<span style="color: #b58900;">)</span> ? <span style="color: #2aa198;">" P.M."</span> : <span style="color: #2aa198;">" A.M."</span>;
+           <span style="color: #859900; font-weight: bold;">return</span> temp;
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org5907c2f" class="outline-4">
+<h4 id="org5907c2f"><span class="section-number-4">1.6.6</span> 字符串</h4>
+<div class="outline-text-4" id="text-1-6-6">
+</div>
+<ol class="org-ol">
+<li><a id="org57cdfa8"></a>属性<br />
+<div class="outline-text-5" id="text-1-6-6-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">属性</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>s.length</code></td>
+<td class="org-left">字符串长度</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="org7c47039"></a>方法<br />
+<div class="outline-text-5" id="text-1-6-6-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方法</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>charAt, charCodeAt, codePointAt</code></td>
+<td class="org-left">返回字符串指定位置的字符或者字符编码。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>indexOf, lastIndexOf</code></td>
+<td class="org-left">分别返回字符串中指定子串的位置或最后位置。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>startsWith, endsWith, includes</code></td>
+<td class="org-left">返回字符串是否以指定字符串开始、结束或包含指定字符串。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>concat</code></td>
+<td class="org-left">连接两个字符串并返回新的字符串。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>fromCharCode, fromCodePoint</code></td>
+<td class="org-left">从指定的Unicode值序列构造一个字符串。这是一个String类方法，不是实例方法。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>split</code></td>
+<td class="org-left">通过将字符串分离成一个个子串来把一个String对象分裂到一个字符串数组中。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>slice</code></td>
+<td class="org-left">从一个字符串提取片段并作为新字符串返回。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>substring, substr</code></td>
+<td class="org-left">分别通过指定起始和结束位置，起始位置和长度来返回字符串的指定子集。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>match, replace, search</code></td>
+<td class="org-left">通过正则表达式来工作.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>toLowerCase, toUpperCase</code></td>
+<td class="org-left">分别返回字符串的小写表示和大写表示。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>normalize 	按照指定的一种 Unicode</code></td>
+<td class="org-left">正规形式将当前字符串正规化。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>repeat</code></td>
+<td class="org-left">将字符串内容重复指定次数后返回。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>trim</code></td>
+<td class="org-left">去掉字符串开头和结尾的空白字符。</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org004ef1a" class="outline-4">
+<h4 id="org004ef1a"><span class="section-number-4">1.6.7</span> 正则表达式</h4>
+<div class="outline-text-4" id="text-1-6-7">
+<p>
+js 的正则表达式支持功能很丰富,字面量也比较好用.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org374ca5a"></a>创建正则表达式<br />
+<ol class="org-ol">
+<li><a id="orgd4fc530"></a>字面量方式<br />
+<div class="outline-text-6" id="text-1-6-7-1-1">
+<div class="org-src-container">
+<pre class="src src-javascript">        <span style="color: #93a1a1;">/*</span>
+<span style="color: #93a1a1;">          /pattern/flags</span>
+<span style="color: #93a1a1;">        */</span>
+
+        <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">regex</span> = <span style="color: #2aa198;">/ab+c/</span>;
+
+        <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">regex</span> = <span style="color: #2aa198;">/^[a-zA-Z]+[0-9]*\W?_$/</span>gi;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org12bfd0f"></a><code>RegExp</code> 对象方式<br />
+<div class="outline-text-6" id="text-1-6-7-1-2">
+<div class="org-src-container">
+<pre class="src src-javascript">        <span style="color: #93a1a1;">/* </span>
+<span style="color: #93a1a1;">           new RegExp(pattern [, flags])</span>
+<span style="color: #93a1a1;">        */</span>
+
+        <span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">regex</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">RegExp</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"ab+c"</span><span style="color: #2aa198;">)</span>;
+
+        <span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">regex</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">RegExp</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">/^[a-zA-Z]+[0-9]*\W?_$/</span>, <span style="color: #2aa198;">"gi"</span><span style="color: #2aa198;">)</span>;
+
+        <span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">regex</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">RegExp</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"^[a-zA-Z]+[0-9]*\\W?_$"</span>, <span style="color: #2aa198;">"gi"</span><span style="color: #2aa198;">)</span>;
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org0cd398b"></a>使用正则表达式<br />
+<ol class="org-ol">
+<li><a id="org68b294f"></a>正则表达式方法<br />
+<div class="outline-text-6" id="text-1-6-7-2-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方法</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>exec</code></td>
+<td class="org-left">一个在字符串中执行查找匹配的RegExp方法，它返回一个数组（未匹配到则返回null）。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>test</code></td>
+<td class="org-left">一个在字符串中测试是否匹配的RegExp方法，它返回true或false。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>match</code></td>
+<td class="org-left">一个在字符串中执行查找匹配的String方法，它返回一个数组或者在未匹配到时返回null。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>search</code></td>
+<td class="org-left">一个在字符串中测试匹配的String方法，它返回匹配到的位置索引，或者在失败时返回-1。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>replace</code></td>
+<td class="org-left">一个在字符串中执行查找匹配的String方法，并且使用替换字符串替换掉匹配到的子字符串。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>split</code></td>
+<td class="org-left">一个使用正则表达式或者一个固定字符串分隔一个字符串，并将分隔后的子字符串存储到数组中的String方法。</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="org4cb5f87"></a>正则表达式执行返回的信息<br />
+<div class="outline-text-6" id="text-1-6-7-2-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">对象</th>
+<th scope="col" class="org-left">属性或索引</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">myArray</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">匹配到的字符串和所有被记住的子字符串。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">index</td>
+<td class="org-left">在输入的字符串中匹配到的以0开始的索引值。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">input</td>
+<td class="org-left">初始字符串。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">[0]</td>
+<td class="org-left">匹配到的所有字符串（并不是匹配后记住的字符串）。匹配到的最终字符。</td>
+</tr>
+
+<tr>
+<td class="org-left">myRe</td>
+<td class="org-left">lastIndex</td>
+<td class="org-left">下一个匹配的索引值。（这个属性只有在使用g参数时可用在 通过参数进行高级搜索 一节有详细的描述.)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">source</td>
+<td class="org-left">模式文本。在正则表达式创建时更新，不执行。</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="org109adf4"></a>正则表达式标志<br />
+<div class="outline-text-6" id="text-1-6-7-2-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">标志</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>g</code></td>
+<td class="org-left">全局搜索。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>i</code></td>
+<td class="org-left">不区分大小写搜索。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>m</code></td>
+<td class="org-left">多行搜索。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>y</code></td>
+<td class="org-left">执行“粘性”搜索,匹配从目标字符串的当前位置开始，可以使用y标志。</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgc4e9c1c" class="outline-4">
+<h4 id="orgc4e9c1c"><span class="section-number-4">1.6.8</span> 数组对象 <code>Array object</code></h4>
+<div class="outline-text-4" id="text-1-6-8">
+</div>
+<ol class="org-ol">
+<li><a id="org8dc9678"></a>遍历数组<br />
+<div class="outline-text-5" id="text-1-6-8-1">
+<p>
+应该使用 <code>forEach</code> 方法, 使用普通的 <code>for</code> 循环也可以, 但使用 <code>for in</code> 就不一定会发生什么了.
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">colors</span> = <span style="color: #2aa198;">[</span><span style="color: #2aa198;">'red'</span>, <span style="color: #2aa198;">'green'</span>, <span style="color: #2aa198;">'blue'</span><span style="color: #2aa198;">]</span>;
+       colors.forEach<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">function</span><span style="color: #b58900;">(</span><span style="color: #268bd2;">color</span><span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+           console.log<span style="color: #268bd2;">(</span>color<span style="color: #268bd2;">)</span>;
+       <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orge8d65fb"></a>创建数组<br />
+<div class="outline-text-5" id="text-1-6-8-2">
+<p>
+大量坑预警, 注意 <code>Array</code> 函数对数字的理解可能与你想像的不同, 推荐全部使用字面量表示.
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">arr</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Array</span><span style="color: #2aa198;">(</span>element0, element1, ..., elementN<span style="color: #2aa198;">)</span>;
+       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">arr</span> = Array<span style="color: #2aa198;">(</span>element0, element1, ..., elementN<span style="color: #2aa198;">)</span>;
+       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">arr</span> = <span style="color: #2aa198;">[</span>element0, element1, ..., elementN<span style="color: #2aa198;">]</span>;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org28cd715"></a>增加内容<br />
+<div class="outline-text-5" id="text-1-6-8-3">
+<p>
+由于数组也是对象,对象的引用 key 语法与数组相同.
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">emp</span> = <span style="color: #2aa198;">[]</span>;
+       emp<span style="color: #2aa198;">[</span>0<span style="color: #2aa198;">]</span> = <span style="color: #2aa198;">"Casey Jones"</span>;
+       emp<span style="color: #2aa198;">[</span>1<span style="color: #2aa198;">]</span> = <span style="color: #2aa198;">"Phil Lesh"</span>;
+       emp<span style="color: #2aa198;">[</span>2<span style="color: #2aa198;">]</span> = <span style="color: #2aa198;">"August West"</span>;
+       emp<span style="color: #2aa198;">[</span>2.3<span style="color: #2aa198;">]</span> = <span style="color: #2aa198;">"a"</span>;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org348ba7a"></a>数组方法<br />
+<div class="outline-text-5" id="text-1-6-8-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方法</th>
+<th scope="col" class="org-left">作用</th>
+<th scope="col" class="org-left">例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>concat()</code></td>
+<td class="org-left">连接两个数组并返回一个新的数组。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>join(deliminator = ',')</code></td>
+<td class="org-left">将数组的所有元素连接成一个字符串。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>push()</code></td>
+<td class="org-left">在数组末尾添加一个或多个元素，并返回数组操作后的长度。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>pop()</code></td>
+<td class="org-left">从数组移出最后一个元素，并返回该元素。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>shift()</code></td>
+<td class="org-left">从数组移出第一个元素，并返回该元素。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>unshift()</code></td>
+<td class="org-left">在数组开头添加一个或多个元素，并返回数组的新长度。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>slice(start_index, upto_index)</code></td>
+<td class="org-left">从数组提取一个片段，并作为一个新数组返回。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>splice(index, count_to_remove, addElement1, addElement2,...)</code></td>
+<td class="org-left">从数组移出一些元素，（可选）并替换它们。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>reverse()</code></td>
+<td class="org-left">颠倒数组元素的顺序：第一个变成最后一个，最后一个变成第一个。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sort()</code></td>
+<td class="org-left">给数组元素排序。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>indexOf(searchElement[, fromIndex])</code></td>
+<td class="org-left">在数组中搜索 <code>searchElement</code> 并返回第一个匹配的索引。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>lastIndexOf(searchElement[, fromIndex])</code></td>
+<td class="org-left">和 <code>indexOf</code> 差不多，但这是从结尾开始，并且是反向搜索。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>forEach(callback[, thisObject])</code></td>
+<td class="org-left">在数组每个元素项上执行 <code>callback</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>map(callback[, thisObject])</code></td>
+<td class="org-left">在数组的每个单元项上执行 <code>callback</code> 函数，并把返回包含回调函数返回值的新数组.</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>filter(callback[, thisObject])</code></td>
+<td class="org-left">返回一个包含所有在回调函数上返回为 <code>true</code> 的元素的新数组</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>every(callback[, thisObject])</code></td>
+<td class="org-left">当数组中每一个元素在 <code>callback</code> 上被返回 <code>true</code> 时就返回 <code>true</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>some(callback[, thisObject])</code></td>
+<td class="org-left">只要数组中有一项在 <code>callback</code> 上被返回 <code>true</code> ，就返回 <code>true</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>reduce(callback[, initialValue])</code></td>
+<td class="org-left">使用回调函数 <code>callback(firstValue, secondValue)</code> 把数组列表计算成一个单一值</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>reduceRight(callback[, initalvalue])</code></td>
+<td class="org-left">和 <code>reduce()</code> 相似，但这从最后一个元素开始的。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="orgfd21a92"></a>使用类数组对象(<code>array-like objects</code>)<br />
+<div class="outline-text-5" id="text-1-6-8-5">
+<p>
+一些对象也用下标作为索引,但没实现各种数组方法, 这时可以用 <code>Array.prototype</code> 来在上面应用这些方法
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">printArguments</span><span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+           Array.<span style="color: #268bd2; font-weight: bold;">prototype</span>.forEach.call<span style="color: #b58900;">(</span><span style="color: #268bd2; font-weight: bold;">arguments</span>, <span style="color: #859900; font-weight: bold;">function</span><span style="color: #268bd2;">(</span><span style="color: #268bd2;">item</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">{</span>
+               console.log<span style="color: #6c71c4;">(</span>item<span style="color: #6c71c4;">)</span>;
+           <span style="color: #268bd2;">}</span><span style="color: #b58900;">)</span>;
+       <span style="color: #2aa198;">}</span>
+       Array.<span style="color: #268bd2; font-weight: bold;">prototype</span>.forEach.call<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"a string"</span>, <span style="color: #859900; font-weight: bold;">function</span><span style="color: #b58900;">(</span><span style="color: #268bd2;">chr</span><span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+           console.log<span style="color: #268bd2;">(</span>chr<span style="color: #268bd2;">)</span>;
+       <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org5bcd50f"></a>数组推导式<br />
+<div class="outline-text-5" id="text-1-6-8-6">
+<p>
+和 python 的列表推导差不多, 只不过需要加括号, in 换成 of, 求值表达式放后面
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">numbers</span> = <span style="color: #2aa198;">[</span>1, 2, 3, 4<span style="color: #2aa198;">]</span>;
+       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">doubled</span> = <span style="color: #2aa198;">[</span><span style="color: #859900; font-weight: bold;">for</span> <span style="color: #b58900;">(</span>i of numbers<span style="color: #b58900;">)</span> i * 2<span style="color: #2aa198;">]</span>;
+       console.log<span style="color: #2aa198;">(</span>doubled<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">logs 2,4,6,8</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgcdd563b" class="outline-4">
+<h4 id="orgcdd563b"><span class="section-number-4">1.6.9</span> 映射</h4>
+<div class="outline-text-4" id="text-1-6-9">
+</div>
+<ol class="org-ol">
+<li><a id="org8e65282"></a><code>Map</code> 对象<br />
+<div class="outline-text-5" id="text-1-6-9-1">
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">sayings</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Map</span><span style="color: #2aa198;">()</span>;
+       sayings.set<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'dog'</span>, <span style="color: #2aa198;">'woof'</span><span style="color: #2aa198;">)</span>;
+       sayings.set<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'cat'</span>, <span style="color: #2aa198;">'meow'</span><span style="color: #2aa198;">)</span>;
+       sayings.set<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'elephant'</span>, <span style="color: #2aa198;">'toot'</span><span style="color: #2aa198;">)</span>;
+       sayings.size; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">3</span>
+       sayings.get<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'fox'</span><span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">undefined</span>
+       sayings.has<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'bird'</span><span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">false</span>
+       sayings.<span style="color: #859900; font-weight: bold;">delete</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'dog'</span><span style="color: #2aa198;">)</span>;
+       sayings.has<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'dog'</span><span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">false</span>
+
+       <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">var</span> <span style="color: #b58900;">[</span><span style="color: #268bd2;">key</span>, <span style="color: #268bd2;">value</span><span style="color: #b58900;">]</span> of sayings<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           console.log<span style="color: #b58900;">(</span>key + <span style="color: #2aa198;">' goes '</span> + value<span style="color: #b58900;">)</span>;
+       <span style="color: #2aa198;">}</span>
+       <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">"cat goes meow"</span>
+       <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">"elephant goes toot"</span>
+
+       sayings.clear<span style="color: #2aa198;">()</span>;
+       sayings.size; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0</span>
+</pre>
+</div>
+</div>
+<ol class="org-ol">
+<li><a id="orgcd52e23"></a>使用 <code>Map</code> 还是 <code>Object</code><br />
+<div class="outline-text-6" id="text-1-6-9-1-1">
+<p>
+一般地，objects会被用于将字符串类型映射到数值。Object允许设置键值对、根据键获取值、删除键、检测某个键是否存在。而Map具有更多的优势。
+</p>
+<ol class="org-ol">
+<li>Object的键均为Strings类型，在Map里键可以是任意类型。</li>
+<li>必须手动计算Object的尺寸，但是可以很容易地获取使用Map的尺寸。</li>
+<li>Map的遍历遵循元素的插入顺序。</li>
+<li>Object有原型，所以映射中有一些缺省的键。（可以理解为map = Object.create(null)）。</li>
+</ol>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org72feb30"></a><code>WeakMap</code> 对象<br />
+<div class="outline-text-5" id="text-1-6-9-2">
+<p>
+键必须是对象类型, 随时可能垃圾回收, 主要用于私有方法和隐藏实现细节
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">privates</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">WeakMap</span><span style="color: #2aa198;">()</span>;
+
+       <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">Public</span><span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">me</span> = <span style="color: #b58900;">{</span>
+               <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Private data goes here</span>
+           <span style="color: #b58900;">}</span>;
+           privates.set<span style="color: #b58900;">(</span><span style="color: #268bd2; font-weight: bold;">this</span>, me<span style="color: #b58900;">)</span>;
+       <span style="color: #2aa198;">}</span>
+
+       Public.<span style="color: #268bd2; font-weight: bold;">prototype</span>.method = <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">me</span> = privates.get<span style="color: #b58900;">(</span><span style="color: #268bd2; font-weight: bold;">this</span><span style="color: #b58900;">)</span>;
+           <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Do stuff with private data in `me`...</span>
+       <span style="color: #2aa198;">}</span>;
+
+       module.exports = Public;
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org9943e71" class="outline-4">
+<h4 id="org9943e71"><span class="section-number-4">1.6.10</span> 集合</h4>
+<div class="outline-text-4" id="text-1-6-10">
+</div>
+<ol class="org-ol">
+<li><a id="org806313b"></a><code>Set</code> 对象<br />
+<div class="outline-text-5" id="text-1-6-10-1">
+<p>
+<code>Set</code> 是不重复的
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">mySet</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Set</span><span style="color: #2aa198;">()</span>;
+       mySet.add<span style="color: #2aa198;">(</span>1<span style="color: #2aa198;">)</span>;
+       mySet.add<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"some text"</span><span style="color: #2aa198;">)</span>;
+       mySet.add<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"foo"</span><span style="color: #2aa198;">)</span>;
+
+       mySet.has<span style="color: #2aa198;">(</span>1<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">true</span>
+       mySet.<span style="color: #859900; font-weight: bold;">delete</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"foo"</span><span style="color: #2aa198;">)</span>;
+       mySet.size; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2</span>
+
+       <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">item</span> of mySet<span style="color: #2aa198;">)</span> console.log<span style="color: #2aa198;">(</span>item<span style="color: #2aa198;">)</span>;
+       <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1</span>
+       <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">"some text"</span>
+</pre>
+</div>
+</div>
+<ol class="org-ol">
+<li><a id="orgd23dc02"></a>集合与数组相互转换<br />
+<div class="outline-text-6" id="text-1-6-10-1-1">
+<div class="org-src-container">
+<pre class="src src-javascript">        Array.from<span style="color: #2aa198;">(</span>mySet<span style="color: #2aa198;">)</span>;
+        <span style="color: #2aa198;">[</span>...mySet2<span style="color: #2aa198;">]</span>;
+
+        mySet2 = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Set</span><span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>1,2,3,4<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>;
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="orgcf474fc"></a><code>WeakSet</code> 对象<br />
+<div class="outline-text-5" id="text-1-6-10-2">
+<p>
+用例很有限
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org408483d" class="outline-4">
+<h4 id="org408483d"><span class="section-number-4">1.6.11</span> 使用对象</h4>
+<div class="outline-text-4" id="text-1-6-11">
+</div>
+<ol class="org-ol">
+<li><a id="orge43dea4"></a>对象的属性<br />
+<div class="outline-text-5" id="text-1-6-11-1">
+<ol class="org-ol">
+<li>对象的属性的键值必须是字符串或者能够隐式转换成字符串的类型.</li>
+<li>引用对象的属性的方法可以用点号 <code>o.a</code>, 方括号 <code>o[a]</code>, 方括号引号 <code>o["a"]</code></li>
+</ol>
+</div>
+<ol class="org-ol">
+<li><a id="orgd9b1ecb"></a>枚举对象的属性<br />
+<div class="outline-text-6" id="text-1-6-11-1-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方法</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>for...in</code></td>
+<td class="org-left">该方法依次访问一个对象及其原型链中所有可枚举的属性。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Object.keys(o)</code></td>
+<td class="org-left">该方法返回一个对象自身包含（不包括原型中）的所有属性的名称的数组。</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Object.getOwnPropertyNames(o)</code></td>
+<td class="org-left">该方法返回一个数组，它包含了对象 o所有拥有的属性（无论是否可枚举）的名称。</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li><a id="org80aaebc"></a>对对象类型追加属性 <code>prototype</code><br />
+<div class="outline-text-6" id="text-1-6-11-1-2">
+<div class="org-src-container">
+<pre class="src src-javascript">        Car.<span style="color: #268bd2; font-weight: bold;">prototype</span>.color = <span style="color: #268bd2; font-weight: bold;">null</span>;
+        car1.color = <span style="color: #2aa198;">"black"</span>;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org87cb185"></a>删除属性<br />
+<div class="outline-text-6" id="text-1-6-11-1-3">
+<p>
+你可以用 delete 操作符删除一个不是继承而来的属性
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">Creates a new object, myobj, with two properties, a and b.</span>
+        <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">myobj</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Object</span>;
+        myobj.a = 5;
+        myobj.b = 12;
+
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">Removes the a property, leaving myobj with only the b property.</span>
+        <span style="color: #859900; font-weight: bold;">delete</span> myobj.a;
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="orgd349332"></a>创建新对象<br />
+<ol class="org-ol">
+<li><a id="org3deb911"></a>对象初始化器<br />
+<div class="outline-text-6" id="text-1-6-11-2-1">
+<p>
+使用对象初始化器,赋值和命名是可选的
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">        <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">obj</span> = <span style="color: #2aa198;">{</span> property_1:   value_1,   <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">property_# &#21487;&#20197;&#26159;&#19968;&#20010;&#26631;&#35782;&#31526;...</span>
+                    2:            value_2,   <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#25110;&#19968;&#20010;&#25968;&#23383;...</span>
+                    <span style="color: #b58900;">[</span><span style="color: #2aa198;">"property"</span> +3<span style="color: #b58900;">]</span>: value_3,  <span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">&#25110;&#19968;&#20010;&#21487;&#35745;&#31639;&#30340;key&#21517;... </span>
+                    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">...,</span>
+                    <span style="color: #2aa198;">"property n"</span>: value_n <span style="color: #2aa198;">}</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#25110;&#19968;&#20010;&#23383;&#31526;&#20018;</span>
+</pre>
+</div>
+<p>
+还可以先进行判断,为真才创建对象
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">        <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #2aa198;">(</span>cond<span style="color: #2aa198;">)</span> <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">x</span> = <span style="color: #2aa198;">{</span>hi: <span style="color: #2aa198;">"there"</span><span style="color: #2aa198;">}</span>;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orga53178b"></a>使用构造函数<br />
+<div class="outline-text-6" id="text-1-6-11-2-2">
+<p>
+作为另一种方式，你可以通过两步来创建对象：
+</p>
+<ol class="org-ol">
+<li>通过创建一个构造函数来定义对象的类型。首字母大写是非常普遍而且很恰当的惯用法。</li>
+<li>通过 new 创建对象实例。</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-javascript">        <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">Car</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">make</span>, <span style="color: #268bd2;">model</span>, <span style="color: #268bd2;">year</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+            <span style="color: #268bd2; font-weight: bold;">this</span>.make = make;
+            <span style="color: #268bd2; font-weight: bold;">this</span>.model = model;
+            <span style="color: #268bd2; font-weight: bold;">this</span>.year = year;
+        <span style="color: #2aa198;">}</span>
+        <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">mycar</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Car</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"Eagle"</span>, <span style="color: #2aa198;">"Talon TSi"</span>, 1993<span style="color: #2aa198;">)</span>;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org4df2ced"></a>从原型继承创建对象,使用 <code>Object.create</code> 方法<br />
+<div class="outline-text-6" id="text-1-6-11-2-3">
+<p>
+对象也可以用 <code>Object.create()</code> 方法创建。该方法非常有用，因为它允许你为创建的对象选择其原型对象，而不用定义一个构造函数。
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">        <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">Animal</span> = <span style="color: #2aa198;">{</span>
+            type: <span style="color: #2aa198;">"Invertebrates"</span>, <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#23450;&#20041;&#23646;&#24615;&#20540;</span>
+            <span style="color: #268bd2;">displayType</span> : <span style="color: #859900; font-weight: bold;">function</span><span style="color: #b58900;">()</span> <span style="color: #b58900;">{</span>  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#23450;&#20041;&#26041;&#27861;</span>
+                console.log<span style="color: #268bd2;">(</span><span style="color: #268bd2; font-weight: bold;">this</span>.type<span style="color: #268bd2;">)</span>;
+            <span style="color: #b58900;">}</span>
+        <span style="color: #2aa198;">}</span>
+
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#21019;&#24314;&#19968;&#20010;&#26032;&#23545;&#35937; </span>
+        <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">animal1</span> = Object.create<span style="color: #2aa198;">(</span>Animal<span style="color: #2aa198;">)</span>;
+        animal1.displayType<span style="color: #2aa198;">()</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Output:Invertebrates</span>
+
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#21019;&#24314;&#21478;&#19968;&#20010;&#23545;&#35937;</span>
+        <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">fish</span> = Object.create<span style="color: #2aa198;">(</span>Animal<span style="color: #2aa198;">)</span>;
+        fish.type = <span style="color: #2aa198;">"Fishes"</span>;
+        fish.displayType<span style="color: #2aa198;">()</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Output:Fishes</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org87d3afe"></a>方法<br />
+<ol class="org-ol">
+<li><a id="orge1d45b4"></a>定义方法<br />
+<div class="outline-text-6" id="text-1-6-11-3-1">
+<div class="org-src-container">
+<pre class="src src-javascript">        objectName.methodname = function_name;
+
+        <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">myObj</span> = <span style="color: #2aa198;">{</span>
+            <span style="color: #268bd2;">myMethod</span>: <span style="color: #859900; font-weight: bold;">function</span><span style="color: #b58900;">(</span><span style="color: #268bd2;">params</span><span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+                <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">...do something</span>
+            <span style="color: #b58900;">}</span>
+
+            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#25110;&#32773; &#36825;&#26679;&#20889;&#20063;&#21487;&#20197;</span>
+
+            myOtherMethod<span style="color: #b58900;">(</span>params<span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+                <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">...do something else</span>
+            <span style="color: #b58900;">}</span>
+        <span style="color: #2aa198;">}</span>;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgc5fd265"></a>追加定义方法<br />
+<div class="outline-text-6" id="text-1-6-11-3-2">
+<div class="org-src-container">
+<pre class="src src-javascript">        <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">displayCar</span><span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
+            <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">result</span> = <span style="color: #2aa198;">"A Beautiful "</span> + <span style="color: #268bd2; font-weight: bold;">this</span>.year + <span style="color: #2aa198;">" "</span> + <span style="color: #268bd2; font-weight: bold;">this</span>.make
+                + <span style="color: #2aa198;">" "</span> + <span style="color: #268bd2; font-weight: bold;">this</span>.model;
+            pretty_print<span style="color: #b58900;">(</span>result<span style="color: #b58900;">)</span>;
+        <span style="color: #2aa198;">}</span>
+        <span style="color: #268bd2; font-weight: bold;">this</span>.displayCar = displayCar;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgcdcd444"></a>通过 this 引用对象<br />
+<div class="outline-text-6" id="text-1-6-11-3-3">
+<p>
+一般来说 <code>this</code> 指代的是当前对象
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">        <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">validate</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">obj</span>, <span style="color: #268bd2;">lowval</span>, <span style="color: #268bd2;">hival</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+            <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #b58900;">(</span><span style="color: #268bd2;">(</span>obj.value &lt; lowval<span style="color: #268bd2;">)</span> || <span style="color: #268bd2;">(</span>obj.value &gt; hival<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+                alert<span style="color: #268bd2;">(</span><span style="color: #2aa198;">"Invalid Value!"</span><span style="color: #268bd2;">)</span>;
+            <span style="color: #b58900;">}</span>
+        <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-html">        &lt;<span style="color: #268bd2;">input</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"text"</span> <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"age"</span> <span style="color: #268bd2;">size</span>=<span style="color: #2aa198;">"3"</span>
+               <span style="color: #268bd2;">onChange</span>=<span style="color: #2aa198;">"validate(this, 18, 99)"</span>&gt;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orga4c0bc9"></a>定义 <code>getters</code> 与 <code>setters</code><br />
+<div class="outline-text-6" id="text-1-6-11-3-4">
+<p>
+一个 getter 是一个获取某个特定属性的值的方法。
+一个  setter 是一个设定某个属性的值的方法。
+你可以为预定义的或用户定义的对象定义 getter 和 setter 以支持新增的属性。
+定义 getter 和 setter 的语法采用对象字面量语法。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-javascript">        <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">o</span> = <span style="color: #2aa198;">{</span>
+            a: 7,
+            get b<span style="color: #b58900;">()</span> <span style="color: #b58900;">{</span> 
+                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">this</span>.a + 1;
+            <span style="color: #b58900;">}</span>,
+            set c<span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+                <span style="color: #268bd2; font-weight: bold;">this</span>.a = x / 2
+            <span style="color: #b58900;">}</span>
+        <span style="color: #2aa198;">}</span>;
+
+        console.log<span style="color: #2aa198;">(</span>o.a<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">7</span>
+        console.log<span style="color: #2aa198;">(</span>o.b<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">8</span>
+        o.c = 50;
+        console.log<span style="color: #2aa198;">(</span>o.a<span style="color: #2aa198;">)</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">25</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgeccd673"></a>追加定义 <code>getters</code> 与 <code>setters</code><br />
+<div class="outline-text-6" id="text-1-6-11-3-5">
+<div class="org-src-container">
+<pre class="src src-javascript">        <span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">o</span> = <span style="color: #2aa198;">{</span> a:0 <span style="color: #2aa198;">}</span>
+
+        Object.defineProperties<span style="color: #2aa198;">(</span>o, <span style="color: #b58900;">{</span>
+            <span style="color: #2aa198;">"b"</span>: <span style="color: #268bd2;">{</span> get: <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #6c71c4;">()</span> <span style="color: #6c71c4;">{</span> <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">this</span>.a + 1; <span style="color: #6c71c4;">}</span> <span style="color: #268bd2;">}</span>,
+            <span style="color: #2aa198;">"c"</span>: <span style="color: #268bd2;">{</span> set: <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #6c71c4;">(</span><span style="color: #268bd2;">x</span><span style="color: #6c71c4;">)</span> <span style="color: #6c71c4;">{</span> <span style="color: #268bd2; font-weight: bold;">this</span>.a = x / 2; <span style="color: #6c71c4;">}</span> <span style="color: #268bd2;">}</span>
+        <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>;
+
+        o.c = 10 <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Runs the setter, which assigns 10 / 2 (5) to the 'a' property</span>
+        console.log<span style="color: #2aa198;">(</span>o.b<span style="color: #2aa198;">)</span> <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Runs the getter, which yields a + 1 or 6</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org234f4d1"></a>细节<br />
+<ol class="org-ol">
+<li><a id="orgf8fc490"></a><code>__proto__</code> 属性<br />
+<div class="outline-text-6" id="text-1-6-11-4-1">
+<p>
+<code>__proto__</code> 属性保存着继承的原型对象
+不断的检查 <code>__proto__</code> 属性就能得到原型继承链
+</p>
+</div>
+</li>
+<li><a id="orgef14807"></a><code>prototype</code> 属性<br />
+<div class="outline-text-6" id="text-1-6-11-4-2">
+<p>
+<code>prototype</code> 属性中保存着各种参数和方法
+</p>
+</div>
+</li>
+<li><a id="org22e55e0"></a>多重继承<br />
+<div class="outline-text-6" id="text-1-6-11-4-3">
+<p>
+js 不支持多重继承, 但是构造器中可以调用多个其它构造器,这造成了多重继承的假象.
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org320d19c" class="outline-3">
+<h3 id="org320d19c"><span class="section-number-3">1.7</span> 内建函数</h3>
+<div class="outline-text-3" id="text-1-7">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">函数</th>
+<th scope="col" class="org-left">解释</th>
+<th scope="col" class="org-left">注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>eval()</code></td>
+<td class="org-left">执行字符串所代表的代码</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>isFinite()</code></td>
+<td class="org-left">判断是否为有限数</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>isNaN()</code></td>
+<td class="org-left">判断是否为 <code>NaN</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>parseFloat()</code></td>
+<td class="org-left">字符串转浮点数</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>parseInt()</code></td>
+<td class="org-left">字符串转整数</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>decodeURI()</code></td>
+<td class="org-left">解码字符串, 对应 <code>encodeURI</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>decodeURIComponent()</code></td>
+<td class="org-left">解码字符串, 对应 <code>encodeURIComponent</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>encodeURI()</code></td>
+<td class="org-left">编码字符串</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>encodeURIComponent()</code></td>
+<td class="org-left">编码字符串</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgccacc23" class="outline-3">
+<h3 id="orgccacc23"><span class="section-number-3">1.8</span> 元编程</h3>
+<div class="outline-text-3" id="text-1-8">
+</div>
+<div id="outline-container-org7b1bf41" class="outline-4">
+<h4 id="org7b1bf41"><span class="section-number-4">1.8.1</span> 代理 <code>Proxy</code></h4>
+</div>
+<div id="outline-container-org01ac64d" class="outline-4">
+<h4 id="org01ac64d"><span class="section-number-4">1.8.2</span> 反射 <code>Reflect</code></h4>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfe93708" class="outline-2">
+<h2 id="orgfe93708"><span class="section-number-2">2</span> React</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org2dc5f6e" class="outline-3">
+<h3 id="org2dc5f6e"><span class="section-number-3">2.1</span> 基本使用</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-orgd25a85f" class="outline-4">
+<h4 id="orgd25a85f"><span class="section-number-4">2.1.1</span> 创建新应用的方法</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<div class="org-src-container">
+<pre class="src src-bash">      npm install -g create-react-app
+      create-react-app my-app
+      <span style="color: #657b83; font-weight: bold;">cd</span> my-app
+      npm start
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org11b12d1" class="outline-4">
+<h4 id="org11b12d1"><span class="section-number-4">2.1.2</span> 工作流程</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+React本质上就是一个JS库
+</p>
+
+<p>
+工作流程：导入依赖库-&gt;声明组件类和函数-&gt;将组件组合到一起-&gt;将组合组件输出到页面
+</p>
+
+<p>
+通过 <code>props</code> 传递数据、通过 <code>state</code> 储存状态
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org14dee5e"></a>组件类<br />
+<div class="outline-text-5" id="text-2-1-2-1">
+<p>
+组件类中可以设置构造函数、渲染函数、加载和卸载钩子函数
+</p>
+
+<ul class="org-ul">
+<li>构造函数中需要继承父类和设置自身状态</li>
+<li>渲染函数中使用JSX或其他的语法写出要渲染的内容，包括HTML、一般的JS、CSS和事件处理函数/方法</li>
+<li>加载和卸载钩子函数为组件被进入和离开DOM时的行为</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-js">       <span style="color: #859900; font-weight: bold;">class</span> SampleClass <span style="color: #859900; font-weight: bold;">extends</span> React.Component<span style="color: #2aa198;">{</span>
+           constructor<span style="color: #b58900;">(){</span>      <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#26500;&#36896;&#20989;&#25968;</span>
+               <span style="color: #268bd2; font-weight: bold;">this</span>.state = <span style="color: #268bd2;">{</span>    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#26412;&#22320;&#29366;&#24577;</span>
+                   value: <span style="color: #268bd2; font-weight: bold;">null</span>;
+               <span style="color: #268bd2;">}</span>
+           <span style="color: #b58900;">}</span>
+           render<span style="color: #b58900;">()</span> <span style="color: #b58900;">{</span>          <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#28210;&#26579;&#20989;&#25968;</span>
+               <span style="color: #859900; font-weight: bold;">return</span><span style="color: #268bd2;">(</span>
+                       &lt;h1&gt;something<span style="color: #6c71c4;">{</span>props.value<span style="color: #6c71c4;">}</span>&lt;/h1&gt;  <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#20256;&#36882;&#25968;&#25454;</span>
+                       &lt;h2&gt;<span style="color: #6c71c4;">{</span><span style="color: #268bd2; font-weight: bold;">this</span>.state.value<span style="color: #6c71c4;">}</span>&lt;/h2&gt;      <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#33258;&#36523;&#35843;&#29992;</span>
+               <span style="color: #268bd2;">)</span>
+           <span style="color: #b58900;">}</span>
+           componentDidMount<span style="color: #b58900;">(){}</span>    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#29983;&#21629;&#21608;&#26399;&#38057;&#23376;&#65292;&#24403;&#36755;&#20986;&#21040;DOM&#21518;&#25191;&#34892;&#36825;&#20010;</span>
+           componentWillUnmount<span style="color: #b58900;">(){}</span> <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#21368;&#36733;&#29983;&#21629;&#21608;&#26399;&#38057;&#23376;&#65292;&#24403;&#20174;DOM&#28165;&#38500;&#26102;&#25191;&#34892;</span>
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orge877227"></a>函数<br />
+<div class="outline-text-5" id="text-2-1-2-2">
+<p>
+函数就是只有渲染的组件类
+</p>
+<div class="org-src-container">
+<pre class="src src-js">       <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">Square</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">props</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #b58900;">(</span>
+                   &lt;h1&gt;<span style="color: #268bd2;">{</span>props.value<span style="color: #268bd2;">}</span>&lt;/ h1&gt;
+           <span style="color: #b58900;">)</span>
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org39ef3f7"></a>数据流<br />
+<div class="outline-text-5" id="text-2-1-2-3">
+<p>
+程序的数据流为自顶向下，不可变，通过‘状态提升’的技巧将需要交互的数据写在共同父类的状态里
+</p>
+
+<p>
+数据是不可变的，改变数据推荐深度拷贝
+</p>
+</div>
+</li>
+<li><a id="org190c653"></a>使用组件<br />
+<div class="outline-text-5" id="text-2-1-2-4">
+<p>
+在JSX里像HTML标签一样使用定义好的组件
+</p>
+<div class="org-src-container">
+<pre class="src src-html">       &lt;<span style="color: #268bd2;">SampleClass</span> /&gt;          //&#36825;&#26679;&#21487;&#20197;&#35843;&#29992;&#22768;&#26126;&#22909;&#30340;&#32452;&#20214;&#65292;&#36820;&#22238;rander&#26041;&#27861;&#30340;&#20540;
+       &lt;<span style="color: #268bd2;">SampleClass</span> name=2 /&gt; //&#21521;&#32452;&#20214;&#20256;&#36882;&#25968;&#25454;&#30340;&#26041;&#27861;&#65292;props.name
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgd9d847e"></a>渲染整个页面<br />
+<div class="outline-text-5" id="text-2-1-2-5">
+<p>
+是改变页面的唯一方法，连续的改变页面就是动画
+</p>
+<div class="org-src-container">
+<pre class="src src-js">       ReactDOM.render<span style="color: #2aa198;">(</span>
+               &lt;SampleClass name=<span style="color: #2aa198;">"index"</span> /&gt;,
+           document.getElementById<span style="color: #b58900;">(</span><span style="color: #2aa198;">"root"</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>;
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgfba8839" class="outline-3">
+<h3 id="orgfba8839"><span class="section-number-3">2.2</span> API</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-org77d8db0" class="outline-4">
+<h4 id="org77d8db0"><span class="section-number-4">2.2.1</span> 示例代码</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<div class="org-src-container">
+<pre class="src src-js">      <span style="color: #859900; font-weight: bold;">import</span> React from <span style="color: #2aa198;">'react'</span>;  <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">React&#30340;&#20381;&#36182;</span>
+      <span style="color: #859900; font-weight: bold;">import</span> ReactDOM from <span style="color: #2aa198;">'react-dom'</span>;
+      <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">'./index.css'</span>; <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#26412;&#22320;&#25991;&#20214;&#24341;&#20837;</span>
+
+      <span style="color: #859900; font-weight: bold;">class</span> ShoppingList <span style="color: #859900; font-weight: bold;">extends</span> React.Component <span style="color: #2aa198;">{</span>  <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#22768;&#26126;&#19968;&#20010;React&#32452;&#20214;&#31867;&#65306;ShoppingList&#65292;&#32452;&#20214;&#21517;&#31216;&#24517;&#39035;&#22823;&#20889;&#24320;&#22836;</span>
+          constructor<span style="color: #b58900;">()</span> <span style="color: #b58900;">{</span> <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#26500;&#36896;&#20989;&#25968;</span>
+              <span style="color: #859900; font-weight: bold;">super</span><span style="color: #268bd2;">()</span>;  <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#32487;&#25215;&#29238;&#31867;</span>
+              <span style="color: #268bd2; font-weight: bold;">this</span>.state = <span style="color: #268bd2;">{</span>  <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#32452;&#20214;&#33258;&#36523;&#30340;&#29366;&#24577;&#25968;&#25454;&#65292;&#21482;&#33021;&#22312;&#26500;&#36896;&#20989;&#25968;&#37324;&#21021;&#22987;&#21270;</span>
+                  value: <span style="color: #268bd2; font-weight: bold;">null</span>;
+              <span style="color: #268bd2;">}</span>;
+              <span style="color: #268bd2; font-weight: bold;">this</span>.user
+              id:<span style="color: #2aa198;">"1"</span>,
+              name:<span style="color: #2aa198;">"name"</span>,
+              :taskCount:<span style="color: #2aa198;">"2"</span>,
+          <span style="color: #b58900;">}</span>;
+      <span style="color: #2aa198;">}</span>
+      <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">element</span> = <span style="color: #2aa198;">(</span> <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#22312;&#25324;&#21495;&#37324;&#21487;&#20197;&#30452;&#25509;&#22768;&#26126;JSX&#34920;&#36798;&#24335;</span>
+              <span style="color: #b58900;">&lt;</span><span style="color: #268bd2;">h1</span><span style="color: #b58900;">&gt;</span><span style="color: #657b83; background-color: #fdf6e3;">  //&#21644;HTML&#24046;&#19981;&#22810;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">              Hello, </span><span style="color: #b58900;">{</span>formatName<span style="color: #268bd2;">(</span>user<span style="color: #268bd2;">)</span><span style="color: #b58900;">}</span><span style="color: #657b83; background-color: #fdf6e3;">!  //&#22312;&#22823;&#25324;&#21495;&#37324;&#21487;&#20197;&#30452;&#25509;&#35843;&#29992;&#20219;&#20309;js&#34920;&#36798;&#24335;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">          </span><span style="color: #b58900;">&lt;</span>/<span style="color: #268bd2;">h1</span><span style="color: #b58900;">&gt;</span>
+      <span style="color: #2aa198;">)</span>;
+
+      <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">listItems</span> = numbers.map<span style="color: #2aa198;">(</span><span style="color: #b58900;">(</span>number<span style="color: #b58900;">)</span> =&gt; <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#21482;&#26377;&#22312;map&#30340;&#36941;&#21382;&#21015;&#34920;&#20013;key&#38656;&#35201;&#26126;&#30830;&#34987;&#34920;&#31034;&#20986;&#26469;</span>
+                                    <span style="color: #b58900;">&lt;</span><span style="color: #268bd2;">ListItem</span> <span style="color: #268bd2;">key</span>=<span style="color: #268bd2;">{</span>number.toString<span style="color: #6c71c4;">()</span><span style="color: #268bd2;">}</span>
+                                    <span style="color: #268bd2;">value</span>=<span style="color: #268bd2;">{</span>number<span style="color: #268bd2;">}</span> /<span style="color: #b58900;">&gt;</span>
+                                   <span style="color: #2aa198;">)</span>;
+      render<span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>  <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">render&#26041;&#27861;&#65292;&#36820;&#22238;&#19968;&#20010;&#23884;&#22871;&#32467;&#26500;&#35270;&#22270;&#65292;&#23545;&#28210;&#26579;&#20869;&#23481;&#30340;&#25551;&#36848;</span>
+          <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #b58900;">(</span>  <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#19968;&#33324;&#20351;&#29992;JSX&#35821;&#27861;&#25193;&#23637;&#20889;&#25551;&#36848;</span>
+                  <span style="color: #268bd2;">&lt;</span><span style="color: #268bd2;">div</span> <span style="color: #268bd2;">className</span>=<span style="color: #2aa198;">"shopping-list"</span><span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                  </span><span style="color: #268bd2;">&lt;</span><span style="color: #268bd2;">button</span>  <span style="color: #268bd2;">onClick</span>=<span style="color: #6c71c4;">{</span><span style="color: #859900;">()</span> =&gt; <span style="color: #268bd2; font-weight: bold;">this</span>.setState<span style="color: #859900;">(</span><span style="color: #b58900;">{</span>value: <span style="color: #2aa198;">'X'</span><span style="color: #b58900;">}</span><span style="color: #859900;">)</span> <span style="color: #6c71c4;">}</span><span style="color: #268bd2;">&gt;</span><span style="color: #657b83; background-color: #fdf6e3;">  //&#20256;&#20837;&#19968;&#20010;&#20989;&#25968;&#20316;&#20026;&#20107;&#20214;&#22788;&#29702;&#30340;&#26041;&#27861;&#65292;setState&#26041;&#27861;&#21487;&#20197;&#35774;&#32622;&#33258;&#36523;&#30340;&#29366;&#24577;&#65292;&#20063;&#26159;&#21807;&#19968;&#30340;&#25913;&#21464;&#29366;&#24577;&#30340;&#26041;&#27861;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                  </span><span style="color: #268bd2;">{</span><span style="color: #268bd2; font-weight: bold;">this</span>.state.value<span style="color: #268bd2;">}</span><span style="color: #657b83; background-color: #fdf6e3;">  //&#22823;&#25324;&#21495;&#34920;&#31034;&#24341;&#29992;&#25968;&#25454;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">              </span><span style="color: #268bd2;">&lt;</span>/<span style="color: #268bd2;">button</span><span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                  </span><span style="color: #268bd2;">&lt;</span><span style="color: #268bd2;">h1</span><span style="color: #268bd2;">&gt;</span><span style="color: #657b83; background-color: #fdf6e3;">Shopping List for </span><span style="color: #268bd2;">{</span><span style="color: #268bd2; font-weight: bold;">this</span>.props.name<span style="color: #268bd2;">}&lt;</span>/<span style="color: #268bd2;">h1</span><span style="color: #268bd2;">&gt;</span><span style="color: #657b83; background-color: #fdf6e3;">  //props&#29992;&#20110;&#25509;&#21463;&#20256;&#36882;&#25968;&#25454;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                  </span><span style="color: #268bd2;">&lt;</span><span style="color: #268bd2;">ul</span><span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                  </span><span style="color: #268bd2;">&lt;</span><span style="color: #268bd2;">li</span><span style="color: #268bd2;">&gt;</span><span style="color: #657b83; background-color: #fdf6e3;">WhatsApp</span><span style="color: #268bd2;">&lt;</span>/<span style="color: #268bd2;">li</span><span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                  </span><span style="color: #268bd2;">&lt;</span><span style="color: #268bd2;">li</span><span style="color: #268bd2;">&gt;</span><span style="color: #657b83; background-color: #fdf6e3;">Oculus</span><span style="color: #268bd2;">&lt;</span>/<span style="color: #268bd2;">li</span><span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                  </span><span style="color: #268bd2;">&lt;</span>/<span style="color: #268bd2;">ul</span><span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                  </span><span style="color: #268bd2;">&lt;</span>/<span style="color: #268bd2;">div</span><span style="color: #268bd2;">&gt;</span>
+          <span style="color: #b58900;">)</span>;
+      <span style="color: #2aa198;">}</span>
+      componentDidMount<span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span> <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#29983;&#21629;&#21608;&#26399;&#38057;&#23376;&#65292;&#24403;&#36755;&#20986;&#21040;DOM&#21518;&#25191;&#34892;&#36825;&#20010;</span>
+      <span style="color: #2aa198;">}</span>
+
+      componentWillUnmount<span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span> <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#21368;&#36733;&#29983;&#21629;&#21608;&#26399;&#38057;&#23376;&#65292;&#24403;&#20174;DOM&#28165;&#38500;&#26102;&#25191;&#34892;&#36825;&#20010;</span>
+      <span style="color: #2aa198;">}</span>
+      <span style="color: #657b83; background-color: #fdf6e3;">}</span>
+      <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">Square</span><span style="color: #657b83; background-color: #fdf6e3;">(</span><span style="color: #268bd2;">props</span><span style="color: #657b83; background-color: #fdf6e3;">)</span> <span style="color: #657b83; background-color: #fdf6e3;">{</span>  <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#21482;&#26377;rander&#26041;&#27861;&#30340;&#21333;&#32431;&#32452;&#20214;&#21487;&#20197;&#25913;&#20889;&#25104;&#20989;&#25968;</span>
+          <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #2aa198;">(</span>props<span style="color: #2aa198;">){</span> <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#20989;&#25968;&#20013;&#20351;&#29992;if&#26469;&#36827;&#34892;&#26465;&#20214;&#28210;&#26579;</span>
+              <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">null</span>;  <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#36820;&#22238;null&#38459;&#27490;&#28210;&#26579;</span>
+          <span style="color: #2aa198;">}</span><span style="color: #859900; font-weight: bold;">else</span><span style="color: #2aa198;">{</span>
+              <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #b58900;">(</span>
+                      <span style="color: #268bd2;">&lt;</span><span style="color: #268bd2;">button</span> <span style="color: #268bd2;">className</span>=<span style="color: #2aa198;">"square"</span> <span style="color: #268bd2;">onClick</span>=<span style="color: #6c71c4;">{</span>props.onClick<span style="color: #6c71c4;">}</span><span style="color: #268bd2;">&gt;</span><span style="color: #657b83; background-color: #fdf6e3;"> //&#27880;&#24847;&#36825;&#37324;onClick&#30340;&#26041;&#27861;&#25913;&#20889;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                      </span><span style="color: #268bd2;">{</span>props.value<span style="color: #268bd2;">}</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                  </span><span style="color: #268bd2;">&lt;</span>/<span style="color: #268bd2;">button</span><span style="color: #268bd2;">&gt;</span>
+              <span style="color: #b58900;">)</span>;
+          <span style="color: #2aa198;">}</span>
+      <span style="color: #657b83; background-color: #fdf6e3;">}</span>
+
+          <span style="color: #657b83; background-color: #fdf6e3;">&lt;</span><span style="color: #268bd2;">ShoppingList</span> /<span style="color: #657b83; background-color: #fdf6e3;">&gt;</span>  <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#36825;&#26679;&#21487;&#20197;&#35843;&#29992;&#22768;&#26126;&#22909;&#30340;&#32452;&#20214;&#65292;&#36820;&#22238;rander&#26041;&#27861;&#30340;&#20540;</span>
+          <span style="color: #657b83; background-color: #fdf6e3;">&lt;</span><span style="color: #268bd2;">ShoppingList</span> <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">{</span>i<span style="color: #2aa198;">}</span> /<span style="color: #657b83; background-color: #fdf6e3;">&gt;</span> <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#21521;&#32452;&#20214;&#20256;&#36882;&#25968;&#25454;&#30340;&#26041;&#27861;</span>
+          <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#29366;&#24577;&#25552;&#21319;&#65306;&#22810;&#20010;&#32452;&#20214;&#30340;&#25968;&#25454;&#37117;&#38656;&#35201;&#29992;&#21040;&#25110;&#32773;&#35201;&#36827;&#34892;&#20132;&#20114;&#26102;&#65292;&#23558;&#20182;&#20204;&#30340;&#25968;&#25454;&#20445;&#23384;&#22312;&#20849;&#21516;&#29238;&#32452;&#20214;&#20013;&#65292;&#21333;&#21521;&#25968;&#25454;&#27969;&#65292;&#21482;&#33021;&#20174;&#39030;&#23618;&#21521;&#19979;&#23618;&#20256;&#36882;&#25968;&#25454;&#65292;&#19981;&#33021;&#21453;&#36807;&#26469;</span>
+      <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#25968;&#25454;&#26159;&#19981;&#21487;&#21464;&#30340;&#65292;&#25913;&#21464;&#25968;&#25454;&#25512;&#33616;&#28145;&#24230;&#25335;&#36125;</span>
+      <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#20351;&#29992;&#32452;&#21512;&#26041;&#24335;&#26500;&#24314;&#32452;&#20214;&#32780;&#19981;&#26159;&#32487;&#25215;</span>
+      ReactDOM.render<span style="color: #657b83; background-color: #fdf6e3;">(</span>  <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#28210;&#26579;&#25972;&#20010;&#39029;&#38754;&#65292;&#23558;&#39029;&#38754;&#20256;&#21040;&#36825;&#20010;&#26041;&#27861;&#37324;&#26159;&#25913;&#21464;&#39029;&#38754;&#30340;&#21807;&#19968;&#26041;&#27861;</span>
+              <span style="color: #2aa198;">&lt;</span><span style="color: #268bd2;">ShoppingList</span> <span style="color: #268bd2;">name</span>=<span style="color: #b58900;">{</span>i<span style="color: #b58900;">}</span> /<span style="color: #2aa198;">&gt;</span>,
+          document.getElementById<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"root"</span><span style="color: #2aa198;">)</span><span style="color: #657b83; background-color: #fdf6e3;">)</span>;
+
+      <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">setInterval(tick, 1000); &#36825;&#20010;&#21487;&#20197;&#27599;&#19968;&#31186;&#35843;&#29992;&#19968;&#27425;&#19968;&#20010;&#20989;&#25968;</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org1d63e6b" class="outline-3">
+<h3 id="org1d63e6b"><span class="section-number-3">2.3</span> 开始新项目: yarn, create-react-app</h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+<div id="outline-container-org996142c" class="outline-4">
+<h4 id="org996142c"><span class="section-number-4">2.3.1</span> yarn</h4>
+<div class="outline-text-4" id="text-2-3-1">
+</div>
+<ol class="org-ol">
+<li><a id="org91ff576"></a>安装与基本参考<br />
+<div class="outline-text-5" id="text-2-3-1-1">
+<p>
+<a href="https://yarn.bootcss.com">中文手册</a>
+<code>npm i -g yarn</code>
+</p>
+</div>
+</li>
+<li><a id="orgade50f1"></a>基本使用<br />
+<div class="outline-text-5" id="text-2-3-1-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">命令</th>
+<th scope="col" class="org-left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>yarn init</code></td>
+<td class="org-left">初始化项目</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>yarn add [package]</code></td>
+<td class="org-left">添加包</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>yarn add [package] --dev</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>yarn add [package] --peer</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>yarn add [package] --optional</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>yarn remove</code></td>
+<td class="org-left">移除包</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgb4d1986" class="outline-4">
+<h4 id="orgb4d1986"><span class="section-number-4">2.3.2</span> create-react-app</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<p>
+<a href="https://github.com/facebook/create-react-app">项目地址</a>
+开始新项目: <code>yarn create react-app my-app</code>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org87cb042" class="outline-3">
+<h3 id="org87cb042"><span class="section-number-3">2.4</span> redux: 状态管理</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+<a href="http://www.redux.org.cn/">中文手册</a>
+</p>
+</div>
+<div id="outline-container-org2ed1f0c" class="outline-4">
+<h4 id="org2ed1f0c"><span class="section-number-4">2.4.1</span> 安装</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<div class="org-src-container">
+<pre class="src src-bash">     yarn add redux <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">redux &#26680;&#24515;</span>
+     yarn add react-redux <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">redux &#30340; react &#32465;&#23450;</span>
+     yarn add redux-devtools --dev <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">redux &#24320;&#21457;&#24037;&#20855;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9ca8e70" class="outline-4">
+<h4 id="org9ca8e70"><span class="section-number-4">2.4.2</span> 基本使用</h4>
+<div class="outline-text-4" id="text-2-4-2">
+</div>
+<ol class="org-ol">
+<li><a id="org6e42eba"></a>Action<br />
+<div class="outline-text-5" id="text-2-4-2-1">
+<p>
+应用的所有状态都存在一起, 为了修改状态只能通过发起 Action.
+习惯上用一个字符常量来表示动作的名字,并用一个对象来储存动作和相应的数据
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">      <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#21160;&#20316;&#21517;&#31216;</span>
+      <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">ADD_TODO</span> = <span style="color: #2aa198;">'ADD_TODO'</span>
+      <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#19968;&#20010;&#20363;&#23376;</span>
+      <span style="color: #2aa198;">{</span>
+          type: ADD_TODO,
+          text: <span style="color: #2aa198;">'Build my first Redux app'</span>
+      <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+<p>
+构造动作对象的函数可以写成
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">      <span style="color: #859900; font-weight: bold;">export</span> <span style="color: #859900; font-weight: bold;">function</span> addTodo<span style="color: #2aa198;">(</span><span style="color: #268bd2;">text</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+          <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #b58900;">{</span> type: ADD_TODO, text <span style="color: #b58900;">}</span>
+      <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org6c0b798"></a>Reducer: 响应动作的函数<br />
+<div class="outline-text-5" id="text-2-4-2-2">
+<p>
+Reducer 函数接收当前状态以及动作返回下一个状态 <code>(previousState, action) =&gt; newState</code>
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org4c56879"></a>单个的 reducer<br />
+<div class="outline-text-6" id="text-2-4-2-2-1">
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">function</span> <span style="color: #268bd2;">visibilityFilter</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">state</span> = <span style="color: #268bd2;">SHOW_ALL</span>, <span style="color: #268bd2;">action</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">switch</span> <span style="color: #b58900;">(</span>action.type<span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+           <span style="color: #859900; font-weight: bold;">case</span> SET_VISIBILITY_FILTER:
+               <span style="color: #859900; font-weight: bold;">return</span> action.filter
+           <span style="color: #859900; font-weight: bold;">default</span>:
+               <span style="color: #859900; font-weight: bold;">return</span> state
+           <span style="color: #b58900;">}</span>
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org1052d2c"></a>组合 reducer<br />
+<div class="outline-text-6" id="text-2-4-2-2-2">
+<p>
+一个应用里有很多 reducer, 通过 <code>combineReducers</code> 组合起来
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">todoApp</span> = combineReducers<span style="color: #2aa198;">(</span><span style="color: #b58900;">{</span>
+           visibilityFilter,
+           todos
+       <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org9895493"></a>store: 应用的总数据库<br />
+<ol class="org-ol">
+<li><a id="org1271b64"></a>创建 store<br />
+<div class="outline-text-6" id="text-2-4-2-3-1">
+<p>
+注意 store 是唯一的.
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> createStore <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'redux'</span>
+       <span style="color: #859900; font-weight: bold;">import</span> todoApp from <span style="color: #2aa198;">'./reducers'</span>
+       <span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">store</span> = createStore<span style="color: #2aa198;">(</span>todoApp<span style="color: #2aa198;">)</span>
+</pre>
+</div>
+<p>
+可以设置其初始状态 <code>let store = createStore(todoApp, window.STATE_FROM_SERVER)</code>
+</p>
+</div>
+</li>
+<li><a id="orgd66333a"></a>方法<br />
+<div class="outline-text-6" id="text-2-4-2-3-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>getState()</code></td>
+<td class="org-left">获取 state；</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>dispatch(action)</code></td>
+<td class="org-left">更新 state；</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>subscribe(listener)</code></td>
+<td class="org-left">注册监听器;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>subscribe(listener)</code></td>
+<td class="org-left">返回的函数注销监听器。</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="orgcce2985"></a>使用 React<br />
+<div class="outline-text-5" id="text-2-4-2-4">
+<p>
+React 的组件分为展示组件和容器组件
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgd2598f3"></a>展示组件<br />
+<div class="outline-text-6" id="text-2-4-2-4-1">
+<p>
+推荐使用函数来定义展示组件, 它们接收参数并返回 JSX 
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">import</span> React from <span style="color: #2aa198;">'react'</span>
+       <span style="color: #859900; font-weight: bold;">import</span> PropTypes from <span style="color: #2aa198;">'prop-types'</span>
+
+       <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">Todo</span> = <span style="color: #2aa198;">(</span><span style="color: #b58900;">{</span> onClick, completed, text <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span> =&gt; <span style="color: #2aa198;">(</span>
+               <span style="color: #b58900;">&lt;</span><span style="color: #268bd2;">li</span>
+           <span style="color: #268bd2;">onClick</span>=<span style="color: #268bd2;">{</span>onClick<span style="color: #268bd2;">}</span>
+           <span style="color: #268bd2;">style</span>=<span style="color: #268bd2;">{</span> <span style="color: #6c71c4;">{</span>
+               textDecoration: completed ? <span style="color: #2aa198;">'line-through'</span> : <span style="color: #2aa198;">'none'</span>
+           <span style="color: #6c71c4;">}</span><span style="color: #268bd2;">}</span>
+               <span style="color: #b58900;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">               </span><span style="color: #b58900;">{</span>text<span style="color: #b58900;">}</span>
+<span style="color: #657b83; background-color: #fdf6e3;">           </span><span style="color: #b58900;">&lt;</span>/<span style="color: #268bd2;">li</span><span style="color: #b58900;">&gt;</span>
+       <span style="color: #2aa198;">)</span>
+
+       Todo.propTypes = <span style="color: #2aa198;">{</span>
+           onClick: PropTypes.func.isRequired,
+           completed: PropTypes.bool.isRequired,
+           text: PropTypes.string.isRequired
+       <span style="color: #2aa198;">}</span>
+
+       <span style="color: #859900; font-weight: bold;">export</span> <span style="color: #859900; font-weight: bold;">default</span> Todo
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org8bb1935"></a>容器组件<br />
+<div class="outline-text-6" id="text-2-4-2-4-2">
+<p>
+容器组件不生成 JSX, 只是从 Redux 读取数据并分发到数据到展示组件里去
+创建容器组件需要实现几个函数并调用 connect 
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">函数</th>
+<th scope="col" class="org-left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>mapStateToProps(state,ownProps)=&gt;{}</code></td>
+<td class="org-left">在 store 更新时自动调用, 返回值是普通对象, 会被合并到新组件的参数里</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>mapDispatchToProps(dispatch, [ownProps])</code></td>
+<td class="org-left">指定组件发出 dispatch 的方法, 也会合并到组件参数里, 只是为了分离事件和响应强行把它们分开,其实没什么区别</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> connect <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'react-redux'</span>
+       <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> setVisibilityFilter <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'../actions'</span>
+       <span style="color: #859900; font-weight: bold;">import</span> Link from <span style="color: #2aa198;">'../components/Link'</span>
+
+       <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">mapStateToProps</span> = <span style="color: #2aa198;">(</span>state, ownProps<span style="color: #2aa198;">)</span> =&gt; <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #b58900;">{</span>
+               active: ownProps.filter === state.visibilityFilter
+           <span style="color: #b58900;">}</span>
+       <span style="color: #2aa198;">}</span>
+
+       <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">mapDispatchToProps</span> = <span style="color: #2aa198;">(</span>dispatch, ownProps<span style="color: #2aa198;">)</span> =&gt; <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #b58900;">{</span>
+               onClick: <span style="color: #268bd2;">()</span> =&gt; <span style="color: #268bd2;">{</span>
+                   dispatch<span style="color: #6c71c4;">(</span>setVisibilityFilter<span style="color: #859900;">(</span>ownProps.filter<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
+               <span style="color: #268bd2;">}</span>
+           <span style="color: #b58900;">}</span>
+       <span style="color: #2aa198;">}</span>
+
+       <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">FilterLink</span> = connect<span style="color: #2aa198;">(</span>
+           mapStateToProps,
+           mapDispatchToProps
+       <span style="color: #2aa198;">)(</span>Link<span style="color: #2aa198;">)</span>
+
+       <span style="color: #859900; font-weight: bold;">export</span> <span style="color: #859900; font-weight: bold;">default</span> FilterLink
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orga90ee23"></a>混合在一起的写法<br />
+<div class="outline-text-6" id="text-2-4-2-4-3">
+<p>
+看着会变得乱一点, 但没区别
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">import</span> React from <span style="color: #2aa198;">'react'</span>
+       <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> connect <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'react-redux'</span>
+       <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> addTodo <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'../actions'</span>
+
+       <span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">AddTodo</span> = <span style="color: #2aa198;">(</span><span style="color: #b58900;">{</span> dispatch <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span> =&gt; <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">input</span>
+
+           <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #b58900;">(</span>
+                   <span style="color: #268bd2;">&lt;</span><span style="color: #268bd2;">div</span><span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                   </span><span style="color: #268bd2;">&lt;</span><span style="color: #268bd2;">form</span>
+               <span style="color: #268bd2;">onSubmit</span>=<span style="color: #6c71c4;">{</span>e =&gt; <span style="color: #859900;">{</span>
+                   e.preventDefault<span style="color: #b58900;">()</span>
+                   <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #b58900;">(</span>!input.value.trim<span style="color: #268bd2;">()</span><span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+                       <span style="color: #859900; font-weight: bold;">return</span>
+                   <span style="color: #b58900;">}</span>
+                   dispatch<span style="color: #b58900;">(</span>addTodo<span style="color: #268bd2;">(</span>input.value<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
+                   input.value = <span style="color: #2aa198;">''</span>
+               <span style="color: #859900;">}</span><span style="color: #6c71c4;">}</span>
+                   <span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                   </span><span style="color: #268bd2;">&lt;</span><span style="color: #268bd2;">input</span>
+               <span style="color: #268bd2;">ref</span>=<span style="color: #6c71c4;">{</span>node =&gt; <span style="color: #859900;">{</span>
+                   input = node
+               <span style="color: #859900;">}</span><span style="color: #6c71c4;">}</span>
+                   /<span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                   </span><span style="color: #268bd2;">&lt;</span><span style="color: #268bd2;">button</span> <span style="color: #268bd2;">type</span>=<span style="color: #2aa198;">"submit"</span><span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                   Add Todo</span>
+<span style="color: #657b83; background-color: #fdf6e3;">               </span><span style="color: #268bd2;">&lt;</span>/<span style="color: #268bd2;">button</span><span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                   </span><span style="color: #268bd2;">&lt;</span>/<span style="color: #268bd2;">form</span><span style="color: #268bd2;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">                   </span><span style="color: #268bd2;">&lt;</span>/<span style="color: #268bd2;">div</span><span style="color: #268bd2;">&gt;</span>
+           <span style="color: #b58900;">)</span>
+       <span style="color: #2aa198;">}</span>
+       AddTodo = connect<span style="color: #2aa198;">()(</span>AddTodo<span style="color: #2aa198;">)</span>
+
+       <span style="color: #859900; font-weight: bold;">export</span> <span style="color: #859900; font-weight: bold;">default</span> AddTodo
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org13a8c99"></a>Provider<br />
+<div class="outline-text-6" id="text-2-4-2-4-4">
+<p>
+在最上层用 <code>&lt;Provider&gt;</code> 包裹一下才能正确传递数据库
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">import</span> React from <span style="color: #2aa198;">'react'</span>
+       <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> render <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'react-dom'</span>
+       <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> Provider <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'react-redux'</span>
+       <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> createStore <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'redux'</span>
+       <span style="color: #859900; font-weight: bold;">import</span> todoApp from <span style="color: #2aa198;">'./reducers'</span>
+       <span style="color: #859900; font-weight: bold;">import</span> App from <span style="color: #2aa198;">'./components/App'</span>
+
+       <span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">store</span> = createStore<span style="color: #2aa198;">(</span>todoApp<span style="color: #2aa198;">)</span>
+
+       render<span style="color: #2aa198;">(</span>
+               <span style="color: #b58900;">&lt;</span><span style="color: #268bd2;">Provider</span> <span style="color: #268bd2;">store</span>=<span style="color: #268bd2;">{</span>store<span style="color: #268bd2;">}</span><span style="color: #b58900;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">               </span><span style="color: #b58900;">&lt;</span><span style="color: #268bd2;">App</span> /<span style="color: #b58900;">&gt;</span>
+<span style="color: #657b83; background-color: #fdf6e3;">               </span><span style="color: #b58900;">&lt;</span>/<span style="color: #268bd2;">Provider</span><span style="color: #b58900;">&gt;</span>,
+           document.getElementById<span style="color: #b58900;">(</span><span style="color: #2aa198;">'root'</span><span style="color: #b58900;">)</span>
+       <span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgdfe6961" class="outline-3">
+<h3 id="orgdfe6961"><span class="section-number-3">2.5</span> react-router: 路由管理</h3>
+<div class="outline-text-3" id="text-2-5">
+</div>
+<div id="outline-container-org85ab2f3" class="outline-4">
+<h4 id="org85ab2f3"><span class="section-number-4">2.5.1</span> 安装与基本使用</h4>
+<div class="outline-text-4" id="text-2-5-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgb95f176"></a>安装<br />
+<div class="outline-text-5" id="text-2-5-1-1">
+<div class="org-src-container">
+<pre class="src src-bash">      yarn add react-router-dom
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgb6b229c"></a>基本使用<br />
+<ol class="org-ol">
+<li><a id="org4d34904"></a>最上层路由<br />
+<div class="outline-text-6" id="text-2-5-1-2-1">
+<p>
+可以认为这是模板代码了
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> BrowserRouter <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'react-router-dom'</span>
+       ReactDOM.render<span style="color: #2aa198;">(</span><span style="color: #b58900;">(</span>
+               &lt;BrowserRouter&gt;
+               &lt;App/&gt;
+               &lt;/BrowserRouter&gt;
+       <span style="color: #b58900;">)</span>, holder<span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org337cf42"></a>路由分发<br />
+<div class="outline-text-6" id="text-2-5-1-2-2">
+<ol class="org-ol">
+<li><code>Switch</code> 将可能匹配上的各种路由包裹起来</li>
+<li><code>Route</code> 会比较当前的浏览器路由与 path 值, 并渲染匹配上的组件</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> Route, Switch <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'react-router-dom'</span>
+       <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">Home</span> = <span style="color: #2aa198;">()</span> =&gt; &lt;div&gt;Home&lt;/div&gt;
+
+       <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">App</span> = <span style="color: #2aa198;">()</span> =&gt; <span style="color: #2aa198;">{</span>
+           <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">someVariable</span> = <span style="color: #268bd2; font-weight: bold;">true</span>;
+    
+           <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #b58900;">(</span>
+                   &lt;Switch&gt;
+                   <span style="color: #268bd2;">{</span><span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">these are good</span><span style="color: #93a1a1;"> */</span><span style="color: #268bd2;">}</span>
+                   &lt;Route exact path=<span style="color: #2aa198;">'/'</span> component=<span style="color: #268bd2;">{</span>Home<span style="color: #268bd2;">}</span> /&gt;
+                   &lt;Route
+               path=<span style="color: #2aa198;">'/about'</span>
+               render=<span style="color: #268bd2;">{</span><span style="color: #6c71c4;">(</span>props<span style="color: #6c71c4;">)</span> =&gt; &lt;About <span style="color: #6c71c4;">{</span>...props<span style="color: #6c71c4;">}</span> extra=<span style="color: #6c71c4;">{</span>someVariable<span style="color: #6c71c4;">}</span> /&gt;<span style="color: #268bd2;">}</span>
+                   /&gt;
+                   <span style="color: #268bd2;">{</span><span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">do not do this</span><span style="color: #93a1a1;"> */</span><span style="color: #268bd2;">}</span>
+                   &lt;Route
+               path=<span style="color: #2aa198;">'/contact'</span>
+               component=<span style="color: #268bd2;">{</span><span style="color: #6c71c4;">(</span>props<span style="color: #6c71c4;">)</span> =&gt; &lt;Contact <span style="color: #6c71c4;">{</span>...props<span style="color: #6c71c4;">}</span> extra=<span style="color: #6c71c4;">{</span>someVariable<span style="color: #6c71c4;">}</span> /&gt;<span style="color: #268bd2;">}</span>
+                   /&gt;  
+
+               <span style="color: #268bd2;">{</span><span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">when none of the above match, &lt;NoMatch&gt; will be rendered</span><span style="color: #93a1a1;"> */</span><span style="color: #268bd2;">}</span>
+                   &lt;Route component=<span style="color: #268bd2;">{</span>NoMatch<span style="color: #268bd2;">}</span>/&gt;
+                   &lt;/Switch&gt;
+           <span style="color: #b58900;">)</span>
+       <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#31867;&#20284; a</span>
+           &lt;Link to=<span style="color: #2aa198;">'/'</span>&gt;Home&lt;/Link&gt;
+           <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;a href='/'&gt;Home&lt;/a&gt;</span>
+
+       <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#21644; Link &#19968;&#26679;, &#21482;&#26159;&#21487;&#20197;&#33258;&#23450;&#20041;&#26679;&#24335;</span>
+       <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">location = { pathname: '/react' }</span>
+           &lt;NavLink to=<span style="color: #2aa198;">'/react'</span> activeClassName=<span style="color: #2aa198;">'hurray'</span>&gt;React&lt;/NavLink&gt;
+           <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;a href='/react' className='hurray'&gt;React&lt;/a&gt;</span>
+
+       <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#24378;&#34892;&#37325;&#23450;&#21521;</span>
+           &lt;Redirect to=<span style="color: #2aa198;">'/login'</span>/&gt;
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div id="outline-container-orga476d7f" class="outline-4">
+<h4 id="orga476d7f"><span class="section-number-4">2.5.2</span> 与 redux 一起使用</h4>
+<div class="outline-text-4" id="text-2-5-2">
+<p>
+只需要改一句
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">before</span>
+     <span style="color: #859900; font-weight: bold;">export</span> <span style="color: #859900; font-weight: bold;">default</span> connect<span style="color: #2aa198;">(</span>mapStateToProps<span style="color: #2aa198;">)(</span>Something<span style="color: #2aa198;">)</span>
+
+     <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">after</span>
+     <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> withRouter <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'react-router-dom'</span>
+     <span style="color: #859900; font-weight: bold;">export</span> <span style="color: #859900; font-weight: bold;">default</span> withRouter<span style="color: #2aa198;">(</span>connect<span style="color: #b58900;">(</span>mapStateToProps<span style="color: #b58900;">)(</span>Something<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgafa8c8f" class="outline-3">
+<h3 id="orgafa8c8f"><span class="section-number-3">2.6</span> emotion: css-in-js</h3>
+<div class="outline-text-3" id="text-2-6">
+</div>
+<div id="outline-container-orgefdec85" class="outline-4">
+<h4 id="orgefdec85"><span class="section-number-4">2.6.1</span> 基本使用</h4>
+<div class="outline-text-4" id="text-2-6-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgb1dbaf2"></a>安装<br />
+<div class="outline-text-5" id="text-2-6-1-1">
+<div class="org-src-container">
+<pre class="src src-bash"> yarn add @emotion/core
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org2bc7ac6"></a>例子<br />
+<div class="outline-text-5" id="text-2-6-1-2">
+<div class="org-src-container">
+<pre class="src src-javascript"> <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">this comment tells babel to convert jsx to calls to a function called jsx instead of React.createElement</span>
+ <span style="color: #2aa198;">/** @jsx jsx */</span>
+ <span style="color: #859900; font-weight: bold;">import</span> <span style="color: #2aa198;">{</span> jsx, css <span style="color: #2aa198;">}</span> from <span style="color: #2aa198;">'@emotion/core'</span>
+
+ <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">style</span> = css<span style="color: #2aa198;">`</span>
+<span style="color: #2aa198;">   color: hotpink;</span>
+<span style="color: #2aa198;"> `</span>
+
+ <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">SomeComponent</span> = <span style="color: #2aa198;">(</span><span style="color: #b58900;">{</span> children <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span> =&gt; <span style="color: #2aa198;">(</span>
+   &lt;div css=<span style="color: #b58900;">{</span>style<span style="color: #b58900;">}</span>&gt;
+     Some hotpink text.
+     <span style="color: #b58900;">{</span>children<span style="color: #b58900;">}</span>
+   &lt;/div&gt;
+ <span style="color: #2aa198;">)</span>
+
+ <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">anotherStyle</span> = css<span style="color: #2aa198;">(</span><span style="color: #b58900;">{</span>
+   textDecoration: <span style="color: #2aa198;">'underline'</span>
+ <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>
+
+ <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">AnotherComponent</span> = <span style="color: #2aa198;">()</span> =&gt; <span style="color: #2aa198;">(</span>
+   &lt;div css=<span style="color: #b58900;">{</span>anotherStyle<span style="color: #b58900;">}</span>&gt;Some text <span style="color: #859900; font-weight: bold;">with</span> an underline.&lt;/div&gt;
+ <span style="color: #2aa198;">)</span>
+ render<span style="color: #2aa198;">(</span>
+   &lt;SomeComponent&gt;
+     &lt;AnotherComponent /&gt;
+   &lt;/SomeComponent&gt;
+ <span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org1d093d1" class="outline-2">
+<h2 id="org1d093d1"><span class="section-number-2">3</span> bootstrap4</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgb0de663" class="outline-3">
+<h3 id="orgb0de663"><span class="section-number-3">3.1</span> 安装与基本使用</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-org1eeb316" class="outline-4">
+<h4 id="org1eeb316"><span class="section-number-4">3.1.1</span> 安装</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+使用CDN的源
+网站的全部内容需要在一个容器里，可以是 <code>container`固定宽度并响应式或者`container-fluid</code> 100%窗口宽度
+网页如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #859900; font-weight: bold;">!doctype</span> html&gt;
+&lt;<span style="color: #268bd2;">html</span> <span style="color: #268bd2;">lang</span>=<span style="color: #2aa198;">"en"</span>&gt;
+  &lt;<span style="color: #268bd2;">head</span>&gt;
+    <span style="color: #93a1a1;">&lt;!-- </span><span style="color: #93a1a1;">Required meta tags </span><span style="color: #93a1a1;">--&gt;</span>
+    &lt;<span style="color: #268bd2;">meta</span> <span style="color: #268bd2;">charset</span>=<span style="color: #2aa198;">"utf-8"</span>&gt;
+    &lt;<span style="color: #268bd2;">meta</span> <span style="color: #268bd2;">name</span>=<span style="color: #2aa198;">"viewport"</span> <span style="color: #268bd2;">content</span>=<span style="color: #2aa198;">"width=device-width, initial-scale=1, shrink-to-fit=no"</span>&gt;
+
+    <span style="color: #93a1a1;">&lt;!-- </span><span style="color: #93a1a1;">Bootstrap CSS </span><span style="color: #93a1a1;">--&gt;</span>
+    &lt;<span style="color: #268bd2;">link</span> <span style="color: #268bd2;">rel</span>=<span style="color: #2aa198;">"stylesheet"</span> <span style="color: #268bd2;">href</span>=<span style="color: #2aa198;">"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"</span> <span style="color: #268bd2;">integrity</span>=<span style="color: #2aa198;">"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"</span> <span style="color: #268bd2;">crossorigin</span>=<span style="color: #2aa198;">"anonymous"</span>&gt;
+
+    &lt;<span style="color: #268bd2;">title</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Hello, world!</span>&lt;/<span style="color: #268bd2;">title</span>&gt;
+  &lt;/<span style="color: #268bd2;">head</span>&gt;
+  &lt;<span style="color: #268bd2;">body</span>&gt;
+    &lt;<span style="color: #268bd2;">h1</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Hello, world!</span>&lt;/<span style="color: #268bd2;">h1</span>&gt;
+
+    <span style="color: #93a1a1;">&lt;!-- </span><span style="color: #93a1a1;">Optional JavaScript </span><span style="color: #93a1a1;">--&gt;</span>
+    <span style="color: #93a1a1;">&lt;!-- </span><span style="color: #93a1a1;">jQuery first, then Popper.js, then Bootstrap JS </span><span style="color: #93a1a1;">--&gt;</span>
+    &lt;<span style="color: #268bd2;">script</span> <span style="color: #268bd2;">src</span>=<span style="color: #2aa198;">"https://code.jquery.com/jquery-3.2.1.slim.min.js"</span> <span style="color: #268bd2;">integrity</span>=<span style="color: #2aa198;">"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"</span> <span style="color: #268bd2;">crossorigin</span>=<span style="color: #2aa198;">"anonymous"</span>&gt;&lt;/<span style="color: #268bd2;">script</span>&gt;
+    &lt;<span style="color: #268bd2;">script</span> <span style="color: #268bd2;">src</span>=<span style="color: #2aa198;">"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"</span> <span style="color: #268bd2;">integrity</span>=<span style="color: #2aa198;">"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"</span> <span style="color: #268bd2;">crossorigin</span>=<span style="color: #2aa198;">"anonymous"</span>&gt;&lt;/<span style="color: #268bd2;">script</span>&gt;
+    &lt;<span style="color: #268bd2;">script</span> <span style="color: #268bd2;">src</span>=<span style="color: #2aa198;">"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"</span> <span style="color: #268bd2;">integrity</span>=<span style="color: #2aa198;">"sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"</span> <span style="color: #268bd2;">crossorigin</span>=<span style="color: #2aa198;">"anonymous"</span>&gt;&lt;/<span style="color: #268bd2;">script</span>&gt;
+  &lt;/<span style="color: #268bd2;">body</span>&gt;
+&lt;/<span style="color: #268bd2;">html</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6248b84" class="outline-4">
+<h4 id="org6248b84"><span class="section-number-4">3.1.2</span> 网格系统</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+最大为12列，并且有5个类用来适应不同大小窗口
+</p>
+
+<p>
+具体的写法如下：
+</p>
+<pre class="example">
+&lt;!-- 第一个例子：控制列的宽度及在不同的设备上如何显示 --&gt;
+  &lt;div class="col-*-*"&gt;&lt;/div&gt;
+  &lt;div class="col-*-*"&gt;&lt;/div&gt;
+  &lt;div class="col-*-*"&gt;&lt;/div&gt;
+  &lt;div class="col-*-*"&gt;&lt;/div&gt;
+ 
+&lt;!-- 第二个例子：或让 Bootstrap 者自动处理布局 --&gt;
+  &lt;div class="col"&gt;&lt;/div&gt;
+  &lt;div class="col"&gt;&lt;/div&gt;
+  &lt;div class="col"&gt;&lt;/div&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9b20ba3" class="outline-3">
+<h3 id="org9b20ba3"><span class="section-number-3">3.2</span> 各种CSS组件</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-orgdf4c64e" class="outline-4">
+<h4 id="orgdf4c64e"><span class="section-number-4">3.2.1</span> 固定在上方的导航栏</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-orga8c6392" class="outline-2">
+<h2 id="orga8c6392"><span class="section-number-2">4</span> Angular</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Angular Cli 使用
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>ng new my-app</code></td>
+<td class="org-left">新建项目</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>ng serve --open</code></td>
+<td class="org-left">实时调试</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+组件
+组件模板 html
+插值绑定语法使用双大括号 <code>{{sth}}</code> 
+这会使用ts中指定的变量.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0757e7d" class="outline-2">
+<h2 id="org0757e7d"><span class="section-number-2">5</span> Electron基础</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+<a href="https://electron.org.cn/doc/index.html%20%7CElectron%E5%9F%BA%E7%A1%80">https://electron.org.cn/doc/index.html%20%7CElectron%E5%9F%BA%E7%A1%80</a>=
+</p>
+</div>
+<div id="outline-container-org5c704b8" class="outline-3">
+<h3 id="org5c704b8"><span class="section-number-3">5.1</span> 安装</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+安装到本地
+</p>
+<pre class="example">
+npm install --save-dev electron
+./node_modules/.bin/electron .
+</pre>
+</div>
+</div>
+<div id="outline-container-org0e504c4" class="outline-3">
+<h3 id="org0e504c4"><span class="section-number-3">5.2</span> 程序结构</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+目录结构
+</p>
+<pre class="example">
+your-app/         =文件夹=
+├── package.json  =和node的一样，写明依赖和入口=
+├── main.js       =要执行的主程序=
+└── index.html    =要渲染的页面=
+</pre>
+<p>
+<code>package.json</code>  内容
+</p>
+<pre class="example">
+{
+  "name": "your-app",
+  "version": "0.1.0",
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^1.7.5"
+  }
+}
+</pre>
+<p>
+=main.js = 中要引入依赖、启动app的事件、创建主窗口
+</p>
+
+<p>
+在这里需要绑定的事件有
+</p>
+<ul class="org-ul">
+<li>ready</li>
+<li>window-all-closed</li>
+<li>activate</li>
+</ul>
+</div>
+
+
+<div id="outline-container-org0c3d060" class="outline-4">
+<h4 id="org0c3d060"><span class="section-number-4">5.2.1</span> 语法</h4>
+<div class="outline-text-4" id="text-5-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="org60080b3"></a>绑定事件<br />
+<div class="outline-text-5" id="text-5-2-1-1">
+<p>
+在js中使用.on()方法绑定事件
+</p>
+<pre class="example">
+app.on('ready', createWindow)
+</pre>
+</div>
+</li>
+<li><a id="org53e84df"></a>使用nodejs本地库<br />
+<div class="outline-text-5" id="text-5-2-1-2">
+<p>
+在主进程中使用node,直接写就行，在渲染进程中要用 <code>window.require</code> 
+</p>
+<pre class="example">
+var exec = require('child_process').exec,
+    last = exec('last | wc -l');
+
+last.stdout.on('data', function (data) {
+    console.log('标准输出：' + data);
+});
+</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org735fcf6" class="outline-3">
+<h3 id="org735fcf6"><span class="section-number-3">5.3</span> 页面(进程)间通信</h3>
+<div class="outline-text-3" id="text-5-3">
+</div>
+<div id="outline-container-org3b0fea2" class="outline-4">
+<h4 id="org3b0fea2"><span class="section-number-4">5.3.1</span> 广播-监听方式</h4>
+</div>
+</div>
+<div id="outline-container-orgc359670" class="outline-3">
+<h3 id="orgc359670"><span class="section-number-3">5.4</span> <a href="https://electron.org.cn/doc/tutorial/application-distribution.html%7C%E6%89%93%E5%8C%85">https://electron.org.cn/doc/tutorial/application-distribution.html%7C%E6%89%93%E5%8C%85</a></h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+下载一个编译好的程序，把源代码放进 <code>resources/app</code> 里即可
+</p>
+</div>
+</div>
+<div id="outline-container-org53d0770" class="outline-3">
+<h3 id="org53d0770"><span class="section-number-3">5.5</span> 使用React</h3>
+<div class="outline-text-3" id="text-5-5">
+</div>
+<div id="outline-container-org3cab204" class="outline-4">
+<h4 id="org3cab204"><span class="section-number-4">5.5.1</span> 配置</h4>
+<div class="outline-text-4" id="text-5-5-1">
+<p>
+electron提供了一个窗口用来显示网页，因而使用React生成网页，并指定electron加载这个页面就可以了，首先用create-react-app创建react应用，然后修改 <code>package.json</code> ，将electron依赖添加进去，先用react编译，再用electron启动这个项目
+</p>
+
+<p>
+<code>package.json</code> 添加的内容
+</p>
+<pre class="example">
+{
+  "main":"./main.js",   //指定electron的入口
+  "homepage":".",       //指定React编译路径
+  "dependcies":{        
+    "electron":"^1.7.5" //添加electron依赖
+  }
+}
+</pre>
+<p>
+<code>main.js</code> 中加载生成的页面的方法
+</p>
+<pre class="example">
+win.loadURL(url.format({  //普通的加入页面
+ pathname: path.join(__dirname, './build/index.html'),
+ protocol: 'file:',
+ slashes: true
+}))
+</pre>
+</div>
+</div>
+<div id="outline-container-org5199efd" class="outline-4">
+<h4 id="org5199efd"><span class="section-number-4">5.5.2</span> 热调试</h4>
+<div class="outline-text-4" id="text-5-5-2">
+<p>
+加载页面为React热调试( <code>npm start</code> )页面即可
+</p>
+<pre class="example">
+win.loadURL('http://localhost:3000/') //这样可以实现在线调试
+</pre>
+</div>
+</div>
+<div id="outline-container-org8c9f91c" class="outline-4">
+<h4 id="org8c9f91c"><span class="section-number-4">5.5.3</span> 使用electron API</h4>
+<div class="outline-text-4" id="text-5-5-3">
+<p>
+由于主进程和渲染进程的分割，React的网页只能使用有限的electron-API，与原生GUI有关的操作只能由主进程进行，通过渲染进程和主进程之间通信实现
+</p>
+
+<p>
+使用electronAPI一样要用 <code>window.require</code> 
+</p>
+<pre class="example">
+var webFrame = window.require('electron').webFrame
+webFrame.setZoomFactor(2)
+</pre>
+</div>
+</div>
+<div id="outline-container-org2b062d3" class="outline-4">
+<h4 id="org2b062d3"><span class="section-number-4">5.5.4</span> 使用nodejs本地库</h4>
+<div class="outline-text-4" id="text-5-5-4">
+<p>
+不能使用 <code>require`,要用`window.require`,所以也不能`import</code> 
+</p>
+<pre class="example">
+var cp = window.require('child_process');
+var lss = cp.exec('ls -al');
+lss.stdout.on('data', function(data) {console.log(data)})
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2308568" class="outline-3">
+<h3 id="org2308568"><span class="section-number-3">5.6</span> API</h3>
+<div class="outline-text-3" id="text-5-6">
+</div>
+<div id="outline-container-orgbfd0b41" class="outline-4">
+<h4 id="orgbfd0b41"><span class="section-number-4">5.6.1</span> app:应用的生命周期</h4>
+<div class="outline-text-4" id="text-5-6-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgba7dd95"></a>'ready':完成初始化时被触发<br />
+<div class="outline-text-5" id="text-5-6-1-1">
+<p>
+返回:
+</p>
+<pre class="example">
+launchInfo Object macOS
+</pre>
+
+<p>
+当 Electron 完成初始化时被触发。在 macOs 中， 如果从通知中心中启动，那么launchInfo 中的userInfo包含 用来打开应用程序的 NSUserNotification 信息。你可以通过调用 app.isReady() 方法来检查此事件是否已触发。
+</p>
+</div>
+</li>
+<li><a id="org5666241"></a>'window-all-closed':当所有的窗口都被关闭时触发。<br />
+<div class="outline-text-5" id="text-5-6-1-2">
+<p>
+如果您没有监听此事件，当所有窗口都已关闭时，默认值行为是退出应用程序。但如果你监听此事件， 将由你来控制应用程序是否退出。 如果用户按下了 Cmd + Q，或者开发者调用了 app.quit() ， Electron 将会先尝试关闭所有的窗口再触发 will-quit 事件，在这种情况下 window-all-closed 不会被触发。
+</p>
+</div>
+</li>
+<li><a id="org78455d5"></a>'activate':(macOS)当应用被激活时触发<br />
+<div class="outline-text-5" id="text-5-6-1-3">
+<p>
+返回：
+</p>
+<pre class="example">
+event Event
+hasVisibleWindows Boolean
+</pre>
+<p>
+当应用被激活时触发，常用于点击应用的 dock 图标的时候。
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgbcde6be" class="outline-4">
+<h4 id="orgbcde6be"><span class="section-number-4">5.6.2</span> BrowserWindow:创建和控制浏览器窗口</h4>
+<div class="outline-text-4" id="text-5-6-2">
+</div>
+<ol class="org-ol">
+<li><a id="orge5a5ad5"></a>新建页面（渲染进程）<br />
+<div class="outline-text-5" id="text-5-6-2-1">
+<pre class="example">
+window = new BrowserWindow({width: 800, height: 600})
+</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: chimez</p>
+<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,919 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-27 Sun 17:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nextcloud</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="chimez" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Nextcloud</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orge5b0413">1. NextCloud 配置记录</a>
+<ul>
+<li><a href="#org408e723">1.1. LAMP 安装与配置</a>
+<ul>
+<li><a href="#org9feced7">1.1.1. MariaDB</a></li>
+<li><a href="#org9a94c7e">1.1.2. apache2</a></li>
+<li><a href="#orgceb51eb">1.1.3. php</a></li>
+</ul>
+</li>
+<li><a href="#org75dc656">1.2. nextcloud</a>
+<ul>
+<li><a href="#orgf628710">1.2.1. 安装 php 模块</a></li>
+<li><a href="#org8e70cd5">1.2.2. 设置数据库</a></li>
+<li><a href="#orgfd578d2">1.2.3. 安装 nextcloud</a></li>
+<li><a href="#orgd5ea66c">1.2.4. 配置 apache2</a></li>
+<li><a href="#org13809bc">1.2.5. 开启 apache2 模块</a></li>
+<li><a href="#org0b1a4a8">1.2.6. 重启服务</a></li>
+<li><a href="#orgf5fa210">1.2.7. 测试</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7975e16">2. NextCloud 配置记录 - Docker 版本</a>
+<ul>
+<li><a href="#org6725545">2.1. 安装</a></li>
+<li><a href="#org2ad2545">2.2. 挂载本地文件的方法</a></li>
+<li><a href="#org54772a6">2.3. 备份</a></li>
+<li><a href="#org7071a02">2.4. 升级到新版本</a></li>
+</ul>
+</li>
+<li><a href="#org92a24d5">3. 问题与解决方案</a>
+<ul>
+<li><a href="#orga45a67d">3.1. 上传大文件 &gt;500M</a></li>
+<li><a href="#org4493afd">3.2. 使用本地FTP</a></li>
+<li><a href="#org9ddb3e4">3.3. Nginx 反向代理与自签名 https 证书</a>
+<ul>
+<li><a href="#org6b7367e">3.3.1. nginx 基本使用</a></li>
+<li><a href="#org98e1339">3.3.2. nginx 反向代理配置</a></li>
+<li><a href="#org1a14bd4">3.3.3. https 转发反向代理</a></li>
+</ul>
+</li>
+<li><a href="#orge1281a9">3.4. 自签名https证书</a>
+<ul>
+<li><a href="#org6f1385f">3.4.1. 第1步：生成私钥</a></li>
+<li><a href="#org66bb31b">3.4.2. 第2步：生成CSR（证书签名请求）</a></li>
+<li><a href="#orgf246061">3.4.3. 第3步：删除私钥中的密码</a></li>
+<li><a href="#orge00a9a1">3.4.4. 第4步：生成自签名证书</a></li>
+</ul>
+</li>
+<li><a href="#org404579e">3.5. apache2 自签名 https 证书</a>
+<ul>
+<li><a href="#org9cdd64e">3.5.1. 启用 ssl 模块</a></li>
+<li><a href="#org9bf30f3">3.5.2. 配置证书</a></li>
+<li><a href="#org5648d5b">3.5.3. 配置 HTTPS 强制跳转</a></li>
+<li><a href="#org403edbf">3.5.4. 使配置生效</a></li>
+</ul>
+</li>
+<li><a href="#org992da23">3.6. 信任域名</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-orge5b0413" class="outline-2">
+<h2 id="orge5b0413"><span class="section-number-2">1</span> NextCloud 配置记录</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org408e723" class="outline-3">
+<h3 id="org408e723"><span class="section-number-3">1.1</span> LAMP 安装与配置</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+参考 <a href="https://wiki.debian.org/LaMp">Debian/LaMp</a>
+</p>
+</div>
+
+<div id="outline-container-org9feced7" class="outline-4">
+<h4 id="org9feced7"><span class="section-number-4">1.1.1</span> MariaDB</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<div class="org-src-container">
+<pre class="src src-bash">apt install mariadb-server mariadb-client
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9a94c7e" class="outline-4">
+<h4 id="org9a94c7e"><span class="section-number-4">1.1.2</span> apache2</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<div class="org-src-container">
+<pre class="src src-bash">apt install apache2 apache2-doc
+</pre>
+</div>
+</div>
+
+<ol class="org-ol">
+<li><a id="orgbfb30b4"></a>Configuring user directories for Apache Web Server<br />
+<div class="outline-text-5" id="text-1-1-2-1">
+<p>
+Enable module 
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">a2enmod userdir
+</pre>
+</div>
+
+<p>
+Configure Apache module userdir in <code>/etc/apache2/mods-enabled/userdir.conf</code> as follows: 
+</p>
+<div class="org-src-container">
+<pre class="src src-php">&lt;IfModule mod_userdir.c&gt;
+        UserDir public_html
+        UserDir disabled root
+
+        &lt;Directory /home/*/public_html&gt;
+                AllowOverride All
+                Options MultiViews Indexes SymLinksIfOwnerMatch
+                &lt;Limit GET POST OPTIONS&gt;
+                        Require all granted
+                &lt;/Limit&gt;
+                &lt;LimitExcept GET POST OPTIONS&gt;
+                        Require all denied
+                &lt;/LimitExcept&gt;
+        &lt;/Directory&gt;
+&lt;/IfModule&gt;
+</pre>
+</div>
+
+<p>
+Create directory as user (not as root): 
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">mkdir /home/$<span style="color: #268bd2;">USER</span>/public_html
+</pre>
+</div>
+
+<p>
+Change group as root (substitute your username) and restart web server: 
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">chgrp www-data /home/&lt;username&gt;/public_html
+service apache2 restart
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgceb51eb" class="outline-4">
+<h4 id="orgceb51eb"><span class="section-number-4">1.1.3</span> php</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<div class="org-src-container">
+<pre class="src src-bash">apt install php php-mysql
+</pre>
+</div>
+</div>
+
+<ol class="org-ol">
+<li><a id="org9c1241e"></a>test php<br />
+<div class="outline-text-5" id="text-1-1-3-1">
+<p>
+edit <code>/var/www/html/test.php</code> as:
+</p>
+<div class="org-src-container">
+<pre class="src src-php">&lt;?php phpinfo(); ?&gt;
+</pre>
+</div>
+<p>
+visit <code>http://localhost/test.php</code>
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org75dc656" class="outline-3">
+<h3 id="org75dc656"><span class="section-number-3">1.2</span> nextcloud</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-orgf628710" class="outline-4">
+<h4 id="orgf628710"><span class="section-number-4">1.2.1</span> 安装 php 模块</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<div class="org-src-container">
+<pre class="src src-bash">apt install php-curl php-xml php-gd php-json php-mbstring php-zip php-mysql php-bz2 php-intl php-ldap php-smbclient php-imap php-bcmath php-gmp php-imagick  
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8e70cd5" class="outline-4">
+<h4 id="org8e70cd5"><span class="section-number-4">1.2.2</span> 设置数据库</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+一般默认无密码，首次启动可以用 <code>mysql_secure_installation</code> 设置密码。
+</p>
+
+<p>
+登录数据库
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">mysql -uroot -p
+</pre>
+</div>
+
+<p>
+创建账号
+</p>
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #859900; font-weight: bold;">CREATE</span> <span style="color: #657b83; font-weight: bold;">USER</span> <span style="color: #2aa198;">'nextcloud'</span>@<span style="color: #2aa198;">'localhost'</span> IDENTIFIED <span style="color: #859900; font-weight: bold;">BY</span> <span style="color: #2aa198;">'password'</span>;
+<span style="color: #859900; font-weight: bold;">CREATE</span> DATABASE IF <span style="color: #859900; font-weight: bold;">NOT</span> <span style="color: #859900; font-weight: bold;">EXISTS</span> nextcloud <span style="color: #b58900;">CHARACTER</span> <span style="color: #859900; font-weight: bold;">SET</span> utf8mb4 <span style="color: #859900; font-weight: bold;">COLLATE</span> utf8mb4_general_ci;
+<span style="color: #859900; font-weight: bold;">GRANT</span> <span style="color: #859900; font-weight: bold;">ALL</span> <span style="color: #859900; font-weight: bold;">PRIVILEGES</span> <span style="color: #859900; font-weight: bold;">ON</span> nextcloud.* <span style="color: #859900; font-weight: bold;">TO</span> <span style="color: #2aa198;">'nextcloud'</span>@<span style="color: #2aa198;">'localhost'</span>;
+FLUSH <span style="color: #859900; font-weight: bold;">PRIVILEGES</span>;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfd578d2" class="outline-4">
+<h4 id="orgfd578d2"><span class="section-number-4">1.2.3</span> 安装 nextcloud</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<p>
+下载 <a href="https://nextcloud.com/install/">the Nextcloud .tar archive</a> ,解压到 <code>nextcloud</code>
+别忘了测试 MD5
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">md5sum -c nextcloud-x.y.z.tar.bz2.md5 &lt; nextcloud-x.y.z.tar.bz2
+</pre>
+</div>
+
+<p>
+把文件都复制到 <code>/var/www</code> 并设置权限
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">cp -r nextcloud /var/www
+chown -R www-data:www-data /var/www/nextcloud/
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd5ea66c" class="outline-4">
+<h4 id="orgd5ea66c"><span class="section-number-4">1.2.4</span> 配置 apache2</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<p>
+新建文件 <code>/etc/apache2/sites-available/nextcloud.conf</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">Alias /nextcloud "/var/www/nextcloud/"
+
+&lt;<span style="color: #268bd2;">Directory</span> /var/www/nextcloud/&gt;
+  Require all granted
+  AllowOverride All
+  Options FollowSymLinks MultiViews
+
+  &lt;<span style="color: #268bd2;">IfModule</span> mod_dav.c&gt;
+    Dav off
+  &lt;/<span style="color: #268bd2;">IfModule</span>&gt;
+
+&lt;/<span style="color: #268bd2;">Directory</span>&gt;
+</pre>
+</div>
+
+<p>
+启用配置 
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">a2ensite nextcloud.conf
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org13809bc" class="outline-4">
+<h4 id="org13809bc"><span class="section-number-4">1.2.5</span> 开启 apache2 模块</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<div class="org-src-container">
+<pre class="src src-bash">a2enmod rewrite
+a2enmod headers
+a2enmod env
+a2enmod dir
+a2enmod mime
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0b1a4a8" class="outline-4">
+<h4 id="org0b1a4a8"><span class="section-number-4">1.2.6</span> 重启服务</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<div class="org-src-container">
+<pre class="src src-bash">service apache2 restart
+service mysql restart
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf5fa210" class="outline-4">
+<h4 id="orgf5fa210"><span class="section-number-4">1.2.7</span> 测试</h4>
+<div class="outline-text-4" id="text-1-2-7">
+<p>
+打开 <code>http://localhost/nextcloud</code>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org7975e16" class="outline-2">
+<h2 id="org7975e16"><span class="section-number-2">2</span> NextCloud 配置记录 - Docker 版本</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org6725545" class="outline-3">
+<h3 id="org6725545"><span class="section-number-3">2.1</span> 安装</h3>
+<div class="outline-text-3" id="text-2-1">
+<ol class="org-ol">
+<li>选择在docker中安装它: <a href="https://github.com/nextcloud/docker">https://github.com/nextcloud/docker</a>
+<ol class="org-ol">
+<li>首先需要安装 docker-ce, 按照官网指南即可: <a href="https://docs.docker.com/install/linux/docker-ce/debian/">https://docs.docker.com/install/linux/docker-ce/debian/</a></li>
+<li>然后安装 Docker Compose, <a href="https://docs.docker.com/compose/install/">https://docs.docker.com/compose/install/</a></li>
+</ol></li>
+<li>创建好 <code>docker-compose.yml</code> 文件并运行, 参考 <a href="https://github.com/nextcloud/docker#running-this-image-with-docker-compose">Running this image with docker-compose</a>
+<ol class="org-ol">
+<li>由于墙的问题, 先利用 docker pull 把包分别下好</li>
+</ol></li>
+<li>运行 <code>docker-compose up -d</code></li>
+<li>在docker里执行命令用 <code>docker-compose exec app ls</code></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org2ad2545" class="outline-3">
+<h3 id="org2ad2545"><span class="section-number-3">2.2</span> 挂载本地文件的方法</h3>
+<div class="outline-text-3" id="text-2-2">
+<ol class="org-ol">
+<li>先在yml里指定好文件位置, 规则为 <code>- 本地路径:docker路径</code></li>
+<li>进入 docker shell 的方法 <code>docker exec -it DOCKER /bin/bash</code></li>
+<li>进入docker里设置权限 <code>chown -R www-data:www-data docker路径</code></li>
+<li>强制进行扫描 <code>sudo -u www-data php console.php files:scan --all</code>, 没有 sudo 就 apt 安装一个</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org54772a6" class="outline-3">
+<h3 id="org54772a6"><span class="section-number-3">2.3</span> 备份</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+需要备份的有
+</p>
+<ol class="org-ol">
+<li><code>config</code></li>
+<li><code>data</code></li>
+<li><code>theme</code></li>
+<li>mysql</li>
+</ol>
+
+<p>
+使用这个脚本即可
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #93a1a1;">#</span><span style="color: #93a1a1;">!/bin/</span><span style="color: #859900; font-weight: bold;">bash</span>
+<span style="color: #268bd2;">DATE</span>=<span style="color: #6c71c4; font-weight: bold;">`date +"%Y%m%d"`</span>
+<span style="color: #657b83; font-weight: bold;">cd</span> /root/docker/backup
+mkdir $<span style="color: #268bd2;">DATE</span>
+<span style="color: #657b83; font-weight: bold;">cd</span> $<span style="color: #268bd2;">DATE</span>
+docker exec nextcloud_db_1 mysqldump -hdb -uroot -plongman nextcloud &gt; <span style="color: #2aa198;">"nextcloud-sqlbkp_"</span>$<span style="color: #268bd2;">DATE</span><span style="color: #2aa198;">".bak"</span>
+<span style="color: #657b83; font-weight: bold;">cd</span> /root/docker/nextcloud-data
+tar -cvJf <span style="color: #2aa198;">"nextcloud_data_"</span>$<span style="color: #268bd2;">DATE</span><span style="color: #2aa198;">".tar.xz"</span> var/www/html/data var/www/html/config
+mv <span style="color: #2aa198;">"/root/docker/nextcloud-data/nextcloud_data_"</span>$<span style="color: #268bd2;">DATE</span><span style="color: #2aa198;">".tar.xz"</span> <span style="color: #2aa198;">"/root/docker/backup/"</span>$<span style="color: #268bd2;">DATE</span><span style="color: #2aa198;">"/"</span>
+<span style="color: #657b83; font-weight: bold;">cd</span> /root/docker/backup
+</pre>
+</div>
+
+<p>
+再拷贝到什么地方去
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">rsync -av --progress /root/docker/backup/ /target/backup
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7071a02" class="outline-3">
+<h3 id="org7071a02"><span class="section-number-3">2.4</span> 升级到新版本</h3>
+<div class="outline-text-3" id="text-2-4">
+<div class="org-src-container">
+<pre class="src src-bash">docker-compose build --pull
+docker-compose up -d
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org92a24d5" class="outline-2">
+<h2 id="org92a24d5"><span class="section-number-2">3</span> 问题与解决方案</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orga45a67d" class="outline-3">
+<h3 id="orga45a67d"><span class="section-number-3">3.1</span> 上传大文件 &gt;500M</h3>
+<div class="outline-text-3" id="text-3-1">
+<ol class="org-ol">
+<li>参见网址 ht</li>
+<li>首先在网页设置里修改文件大小</li>
+<li>然后修改 php.ini 里的大小</li>
+<li>再修改 nginx 的配置的大小</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4493afd" class="outline-3">
+<h3 id="org4493afd"><span class="section-number-3">3.2</span> 使用本地FTP</h3>
+<div class="outline-text-3" id="text-3-2">
+<ol class="org-ol">
+<li>安装 vsftpd</li>
+<li>配置 /etc/vsftpd.conf 启用 utf8</li>
+<li>从docker中访问宿主机的地址为 127.17.0.1</li>
+<li>或者是 ifconfig docker0 中 inet 后的ip地址</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org9ddb3e4" class="outline-3">
+<h3 id="org9ddb3e4"><span class="section-number-3">3.3</span> Nginx 反向代理与自签名 https 证书</h3>
+<div class="outline-text-3" id="text-3-3">
+</div>
+<div id="outline-container-org6b7367e" class="outline-4">
+<h4 id="org6b7367e"><span class="section-number-4">3.3.1</span> nginx 基本使用</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<ol class="org-ol">
+<li>安装 nginx: apt 解决</li>
+<li>配置文件在 <code>/etc/nginx/nginx.conf</code> 里, 或者 <code>nginx -V</code> 查看</li>
+<li>以指定的配置文件运行 <code>nginx -c /to/nginx.conf</code></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org98e1339" class="outline-4">
+<h4 id="org98e1339"><span class="section-number-4">3.3.2</span> nginx 反向代理配置</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<p>
+在 <code>nginx.conf</code> 文件里写入
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">http<span style="color: #2aa198;">{</span>
+  include /a/a.conf;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+<p>
+在 <code>/a/a.conf</code> 里写入下面的内容可以实现http的 80 端口向 8080 转发, 并能记录日志到文件
+</p>
+
+<pre class="example">
+server {
+    listen 80;
+    server_name  localhost;
+
+    access_log  /root/logs/quancha.access.log;
+
+    ## send request back to apache ##
+    location / {
+        proxy_pass  http://localhost:8080;
+   }
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1a14bd4" class="outline-4">
+<h4 id="org1a14bd4"><span class="section-number-4">3.3.3</span> https 转发反向代理</h4>
+<div class="outline-text-4" id="text-3-3-3">
+<p>
+与普通的http相同只是增加了 ssl 设置字段
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">server <span style="color: #2aa198;">{</span>
+    listen 80;
+    server_name  localhost;
+
+    access_log  /root/nginx/logs/nextcloud.access.log;
+    error_log  /root/nginx/logs/nextcloud.error.log;
+
+    ssl on;
+    ssl_certificate      /root/nginx/ssl/server.crt;
+    ssl_certificate_key  /root/nginx/ssl/server.key;
+
+    ssl_session_timeout  5m;
+    <span style="color: #93a1a1;">## </span><span style="color: #93a1a1;">send request back to apache ##</span>
+    location / <span style="color: #b58900;">{</span>
+        proxy_pass  http://localhost:8080;
+    <span style="color: #b58900;">}</span>
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge1281a9" class="outline-3">
+<h3 id="orge1281a9"><span class="section-number-3">3.4</span> 自签名https证书</h3>
+<div class="outline-text-3" id="text-3-4">
+</div>
+<div id="outline-container-org6f1385f" class="outline-4">
+<h4 id="org6f1385f"><span class="section-number-4">3.4.1</span> 第1步：生成私钥</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<div class="org-src-container">
+<pre class="src src-bash">openssl genrsa -des3 -out server.key 2048
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org66bb31b" class="outline-4">
+<h4 id="org66bb31b"><span class="section-number-4">3.4.2</span> 第2步：生成CSR（证书签名请求）</h4>
+<div class="outline-text-4" id="text-3-4-2">
+<div class="org-src-container">
+<pre class="src src-shell">openssl req -new -key server.key -out server.csr
+</pre>
+</div>
+<p>
+需要依次输入国家，地区，城市，组织，组织单位，Common Name和Email。其中Common Name，可以写自己的名字或者域名，如果要支持https，Common Name应该与域名保持一致，否则会引起浏览器警告。
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">Country Name <span style="color: #2aa198;">(</span>2 letter code<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">[</span>AU<span style="color: #2aa198;">]</span>                          :CN
+State or Province Name <span style="color: #2aa198;">(</span>full name<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">[</span>Some-State<span style="color: #2aa198;">]</span>            :Beijing
+Locality Name <span style="color: #2aa198;">(</span>eg, city<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">[]</span>                                :Beijing
+Organization Name <span style="color: #2aa198;">(</span>eg, company<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">[</span>Internet Widgits Pty Ltd<span style="color: #2aa198;">]</span> :joyios
+Organizational Unit Name <span style="color: #2aa198;">(</span>eg, section<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">[]</span>                  :info technology
+Common Name <span style="color: #2aa198;">(</span>e.g. server FQDN or YOUR name<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">[]</span>             :demo.joyios.com
+Email Address <span style="color: #2aa198;">[]</span>                                           :liufan@joyios.com
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf246061" class="outline-4">
+<h4 id="orgf246061"><span class="section-number-4">3.4.3</span> 第3步：删除私钥中的密码</h4>
+<div class="outline-text-4" id="text-3-4-3">
+<p>
+在第1步创建私钥的过程中，由于必须要指定一个密码。而这个密码会带来一个副作用，那就是在每次Apache启动Web服务器时，都会要求输入密码，这显然非常不方便。要删除私钥中的密码，操作如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">cp server.key server.key.org
+openssl rsa -in server.key.org -out server.key
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge00a9a1" class="outline-4">
+<h4 id="orge00a9a1"><span class="section-number-4">3.4.4</span> 第4步：生成自签名证书</h4>
+<div class="outline-text-4" id="text-3-4-4">
+<div class="org-src-container">
+<pre class="src src-shell">openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org404579e" class="outline-3">
+<h3 id="org404579e"><span class="section-number-3">3.5</span> apache2 自签名 https 证书</h3>
+<div class="outline-text-3" id="text-3-5">
+</div>
+<div id="outline-container-org9cdd64e" class="outline-4">
+<h4 id="org9cdd64e"><span class="section-number-4">3.5.1</span> 启用 ssl 模块</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<div class="org-src-container">
+<pre class="src src-bash">a2enmod ssl
+a2ensite default-ssl.conf
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9bf30f3" class="outline-4">
+<h4 id="org9bf30f3"><span class="section-number-4">3.5.2</span> 配置证书</h4>
+<div class="outline-text-4" id="text-3-5-2">
+<ol class="org-ol">
+<li>在 <code>/etc/apache2/</code> 下新建一个 <code>ssl</code> 文件夹，把这两个文件 <code>apache.crt, apache.key</code> 扔进去</li>
+<li>打开 <code>/etc/apache2/sites-available/default-ssl.conf</code></li>
+<li>在 <code>ServerAdmin</code> 下另起一行加上 <code>ServerName 你的域名:443</code></li>
+<li>找到 <code>SSLEngine</code> , <code>SSLCertificateFile</code> , <code>SSLCertificateKeyFile</code> 并修改成以下内容</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-bash">SSLEngine on
+
+SSLCertificateFile /etc/apache2/ssl/apache.crt
+
+SSLCertificateKeyFile /etc/apache2/ssl/apache.key
+</pre>
+</div>
+
+<p>
+完成
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5648d5b" class="outline-4">
+<h4 id="org5648d5b"><span class="section-number-4">3.5.3</span> 配置 HTTPS 强制跳转</h4>
+<div class="outline-text-4" id="text-3-5-3">
+<p>
+打开 <code>/etc/apache2/sites-available/000-default.conf</code> ，
+在 <code>&lt;VirtualHost *:80&gt;&lt;/VirtualHost&gt;</code> 标签内随便一个地方加入以下三行
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">RewriteEngine on
+RewriteCond  %<span style="color: #2aa198;">{</span>HTTPS<span style="color: #2aa198;">}</span> !=on
+RewriteRule  ^<span style="color: #2aa198;">(</span>.*<span style="color: #2aa198;">)</span> https://%<span style="color: #2aa198;">{</span>SERVER_NAME<span style="color: #2aa198;">}</span>$<span style="color: #268bd2;">1</span> <span style="color: #2aa198;">[</span>L,R<span style="color: #2aa198;">]</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org403edbf" class="outline-4">
+<h4 id="org403edbf"><span class="section-number-4">3.5.4</span> 使配置生效</h4>
+<div class="outline-text-4" id="text-3-5-4">
+<ol class="org-ol">
+<li>启动 <code>rewrite mod</code> : <code>sudo a2enmod rewrite</code></li>
+<li>重启 apache : <code>sudo etc/init.d/apache2 restart</code></li>
+<li>配置结束。不出意外配置应该已经生效。</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org992da23" class="outline-3">
+<h3 id="org992da23"><span class="section-number-3">3.6</span> 信任域名</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+编辑 <code>/var/www/nextcloud/config/config.php</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-php">'trusted_domains' =&gt;
+  array (
+    0 =&gt; '192.168.0.29',
+    1 =&gt; 'cloud.example.com',
+  ),
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: chimez</p>
+<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-01 Thu 17:26 -->
+<!-- 2020-09-27 Sun 17:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Chimez's Blog Sitemap for project blog-posts</title>
+<title>nim</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="chimez chimez" />
+<meta name="author" content="chimez" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center;
@@ -248,245 +248,289 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Chimez's Blog Sitemap for project blog-posts</h1>
+<h1 class="title">nim</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgb8b3266">1. 科学计算</a>
+<li><a href="#org4720d98">1. Nim 学习笔记</a>
 <ul>
-<li><a href="#orgaec46c8">1.1. 通用计算</a></li>
-<li><a href="#org26ee4b6">1.2. 符号计算</a></li>
+<li><a href="#org900f1d8">1.1. 内存管理</a>
+<ul>
+<li><a href="#org5d5e22e">1.1.1. 手动分配内存</a></li>
+<li><a href="#orga77ce59">1.1.2. 使用 GC 自动管理内存</a></li>
 </ul>
 </li>
-<li><a href="#org8261e9b">2. 工具和软件</a>
-<ul>
-<li><a href="#orgae5c8b3">2.1. 写作与笔记</a></li>
-<li><a href="#orgd3e621a">2.2. 开发工具</a></li>
-<li><a href="#orga2d4295">2.3. 实用工具</a></li>
-<li><a href="#orga6c1722">2.4. 服务器</a></li>
+<li><a href="#orgb8a921a">1.2. 手动编译</a></li>
 </ul>
 </li>
-<li><a href="#org6f1f922">3. 编程语言</a>
+<li><a href="#orgeaa12ce">2. FFI</a>
 <ul>
-<li><a href="#orgc684134">3.1. 类似 python 的</a></li>
-<li><a href="#orgfebc23c">3.2. 类似 c 的</a></li>
-<li><a href="#org1e04f00">3.3. 没用的</a></li>
+<li><a href="#org6578672">2.1. 从 nim 调用 c 函数</a></li>
+<li><a href="#org8143277">2.2. c2nim: 将c的头文件转换成 nim 文件</a></li>
+<li><a href="#org60c5147">2.3. 从 nim 调用 c++</a>
+<ul>
+<li><a href="#org8505249">2.3.1. 方法</a></li>
+<li><a href="#org9c3281b">2.3.2. 注意</a></li>
+<li><a href="#orge6c1e6f">2.3.3. 普通模板类</a></li>
+<li><a href="#org9188046">2.3.4. 数字参数模板类的构造函数</a></li>
 </ul>
 </li>
-<li><a href="#org9e8c874">4. 计算机科学</a></li>
-<li><a href="#org378b615">5. All Posts</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb8b3266" class="outline-2">
-<h2 id="orgb8b3266"><span class="section-number-2">1</span> 科学计算</h2>
+
+
+
+<div id="outline-container-org4720d98" class="outline-2">
+<h2 id="org4720d98"><span class="section-number-2">1</span> Nim 学习笔记</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orgaec46c8" class="outline-3">
-<h3 id="orgaec46c8"><span class="section-number-3">1.1</span> 通用计算</h3>
+<div id="outline-container-org900f1d8" class="outline-3">
+<h3 id="org900f1d8"><span class="section-number-3">1.1</span> 内存管理</h3>
 <div class="outline-text-3" id="text-1-1">
-<ul class="org-ul">
-<li><a href="python科学计算.html">Python科学计算</a></li>
-<li><a href="javascript_画图.html">JavaScript 画图</a></li>
-<li><a href="julia.html">julia</a></li>
-<li><a href="r_project.html">R Project</a></li>
-</ul>
+</div>
+<div id="outline-container-org5d5e22e" class="outline-4">
+<h4 id="org5d5e22e"><span class="section-number-4">1.1.1</span> 手动分配内存</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ol class="org-ol">
+<li>使用 <code>alloc0</code> 创建内存</li>
+<li>创建的内存是无类型的, 要用 <code>cast</code> 转换成需要的类型</li>
+<li>用 <code>dealloc</code> 释放内存</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-nim">      const size:int = 1600*1600
+      var A = cast[ptr array[0..size-1, float64]](alloc0(sizeof(float64)*size))
+      A[1] = 1.2
+      echo A[]
+      dealloc(A)
+</pre>
 </div>
 </div>
+</div>
+<div id="outline-container-orga77ce59" class="outline-4">
+<h4 id="orga77ce59"><span class="section-number-4">1.1.2</span> 使用 GC 自动管理内存</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ol class="org-ol">
+<li>使用 <code>ref object</code> 创建自动管理的对象</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-nim">      const size:int = 1600*1600
+      type ta = ref object
+        data:array[0..size-1, float64]
 
-<div id="outline-container-org26ee4b6" class="outline-3">
-<h3 id="org26ee4b6"><span class="section-number-3">1.2</span> 符号计算</h3>
+      var A:ta
+      new(A)
+
+      for i in 0..size-1:
+        A.data[i] = (float64)i
+        echo len(A.data)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb8a921a" class="outline-3">
+<h3 id="orgb8a921a"><span class="section-number-3">1.2</span> 手动编译</h3>
 <div class="outline-text-3" id="text-1-2">
-<ul class="org-ul">
-<li><a href="sagemath.html">sagemath</a></li>
-<li><a href="maxima.html">maxima</a></li>
-</ul>
+<p>
+参考地址： [<a href="https://nim-lang.org/docs/backends.html">https://nim-lang.org/docs/backends.html</a>]
+</p>
+<ol class="org-ol">
+<li>生成代码
+<ol class="org-ol">
+<li><p>
+整个应用: 需要指定代码存储位置 <code>nimcache</code>, 以及头文件 <code>header</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">           nim cpp --path:./src --passc:<span style="color: #2aa198;">"-I/usr/include/eigen3"</span> --nimcache:cc1 --header tests/test_matrix.nim
+</pre>
+</div></li>
+<li><p>
+链接库： 需要指定代码存储位置，无 <code>main</code> 头文件
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">           <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#21160;&#24577;&#38142;&#25509;</span>
+           nim c --noMain --noLinking --header:fib.h fib.nim
+           <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#38745;&#24577;&#38142;&#25509;</span>
+           nim c --app:staticLib --noMain --header fib.nim
+</pre>
+</div></li>
+</ol></li>
+<li><p>
+编译： 需要指定代码存储位置，nim库，和编译用的其它东西
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#21333;&#32431;&#20195;&#30721;</span>
+        g++  -Ipath/to/nimcache -Ipath/to/nim/lib $<span style="color: #268bd2;">HOME</span>/.cache/nim/fib_d/*.c maths.c
+        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#38745;&#24577;&#38142;&#25509;</span>
+        gcc -o m -Inimcache -Ipath/to/nim/lib libfib.nim.a maths.c
+</pre>
+</div></li>
+</ol>
 </div>
 </div>
 </div>
 
-
-<div id="outline-container-org8261e9b" class="outline-2">
-<h2 id="org8261e9b"><span class="section-number-2">2</span> 工具和软件</h2>
+<div id="outline-container-orgeaa12ce" class="outline-2">
+<h2 id="orgeaa12ce"><span class="section-number-2">2</span> FFI</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgae5c8b3" class="outline-3">
-<h3 id="orgae5c8b3"><span class="section-number-3">2.1</span> 写作与笔记</h3>
+<div id="outline-container-org6578672" class="outline-3">
+<h3 id="org6578672"><span class="section-number-3">2.1</span> 从 nim 调用 c 函数</h3>
 <div class="outline-text-3" id="text-2-1">
-<ul class="org-ul">
-<li><a href="emacs.html">Emacs</a></li>
-<li><a href="org_mode.html">org-mode</a></li>
-<li><a href="latex.html">LaTeX 踩坑记录</a></li>
-<li><a href="hugo.html">Hugo 静态博客</a></li>
-<li><a href="vim.html">vim</a></li>
-</ul>
-</div>
-</div>
+<ol class="org-ol">
+<li>引入库
+<ol class="org-ol">
+<li>头文件 <code>{.passL: "-lgsl"}</code></li>
+<li>动态链接</li>
+<li>静态链接</li>
+</ol></li>
+<li>函数 <code>proc f(){.header:"h", importc: "f", varargs.}</code>
+<ol class="org-ol">
+<li>有参数</li>
+<li>无参数</li>
+</ol></li>
+<li>结构体</li>
+<li>枚举</li>
+<li>指针</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-nim">     # include lib header
+     {.passL: gorge("pkg-config --libs gsl").}
 
-<div id="outline-container-orgd3e621a" class="outline-3">
-<h3 id="orgd3e621a"><span class="section-number-3">2.2</span> 开发工具</h3>
+     # functions
+     # function with multi args
+     proc printf(formatstr: cstring) {.header: "&lt;stdio.h&gt;", importc: "printf", varargs.}
+     # function with return type
+     proc gsl_sf_bessel_J0(x: cdouble): cdouble {.header: "&lt;gsl/gsl_sf_bessel.h&gt;", importc: "$1"}
+
+     # use
+     const x = 5.0
+     let  y:cdouble = gsl_sf_bessel_J0(x)
+     echo y
+
+     # use without returns
+     printf("J0(%g) = %.18e\n", x, y)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8143277" class="outline-3">
+<h3 id="org8143277"><span class="section-number-3">2.2</span> c2nim: 将c的头文件转换成 nim 文件</h3>
 <div class="outline-text-3" id="text-2-2">
-<ul class="org-ul">
-<li><a href="git.html">git</a></li>
-<li><a href="scoop.html">scoop</a></li>
-<li><a href="ssh.html">ssh</a></li>
-<li><a href="tmux.html">tmux</a></li>
-<li><a href="powershell.html">PowerShell</a></li>
-<li><a href="windows改键_caps作为ctrl.html">Windows改键：caps作为ctrl</a></li>
-</ul>
+<ol class="org-ol">
+<li>预处理器似乎不好使,所以可以先 <code>gcc a.h -E -P -C -o a_new.h</code> 展开宏,再运行转换 <code>c2nim a_new.h</code></li>
+<li>要先注释掉标准库的 <code>#include &lt;stdlib.h&gt;</code>, <code>#include &lt;stdio.h&gt;</code> 等</li>
+</ol>
 </div>
 </div>
-
-<div id="outline-container-orga2d4295" class="outline-3">
-<h3 id="orga2d4295"><span class="section-number-3">2.3</span> 实用工具</h3>
+<div id="outline-container-org60c5147" class="outline-3">
+<h3 id="org60c5147"><span class="section-number-3">2.3</span> 从 nim 调用 c++</h3>
 <div class="outline-text-3" id="text-2-3">
-<ul class="org-ul">
-<li><a href="pdftk.html">pdftk:修改pdf文件</a></li>
-<li><a href="shadowsocks.html">shadowsocks</a></li>
-<li><a href="tesseract_ocr.html">tesseract OCR</a></li>
-<li><a href="ffmpeg视频处理.html">ffmpeg视频处理</a></li>
-<li><a href="virtualbox踩坑.html">VirtualBox踩坑</a></li>
-</ul>
+</div>
+<div id="outline-container-org8505249" class="outline-4">
+<h4 id="org8505249"><span class="section-number-4">2.3.1</span> 方法</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<ol class="org-ol">
+<li>模板类 <code>object</code></li>
+<li>构造函数: constructor 不可用, 只能使用 <code>new</code> 方法</li>
+<li>运算符重载方法: 包裹成指针来使用</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org9c3281b" class="outline-4">
+<h4 id="org9c3281b"><span class="section-number-4">2.3.2</span> 注意</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<ol class="org-ol">
+<li>只能到处传指针, 别的方法都不好使</li>
+<li>不能访问私有变量, 只能使用公有的</li>
+<li>数字泛型 <code>static[int]</code> 在类型声明里好事, 函数声明里不好使, 只能手动实例化</li>
+</ol>
 </div>
 </div>
 
-<div id="outline-container-orga6c1722" class="outline-3">
-<h3 id="orga6c1722"><span class="section-number-3">2.4</span> 服务器</h3>
-<div class="outline-text-3" id="text-2-4">
-<ul class="org-ul">
-<li><a href="linux.html">linux</a></li>
-<li><a href="nextcloud.html">Nextcloud</a></li>
-</ul>
+<div id="outline-container-orge6c1e6f" class="outline-4">
+<h4 id="orge6c1e6f"><span class="section-number-4">2.3.3</span> 普通模板类</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<div class="org-src-container">
+<pre class="src src-nim">      {.emit"""/*TYPESECTION*/
+      template &lt;typename T&gt;
+      class Complex{
+
+      public:
+          //构造函数
+          Complex(T a, T b)
+          {
+              this-&gt;a = a;
+              this-&gt;b = b;
+          }
+
+          //运算符重载
+          Complex&lt;T&gt; operator+(Complex &amp;c)
+          {
+              Complex&lt;T&gt; tmp(this-&gt;a+c.a, this-&gt;b+c.b);
+              return tmp;
+          }
+
+      T a;
+          T b;
+      };
+
+      """.}
+
+      type Complex[T] {.importcpp:"Complex".} = object
+          a,b:T
+
+      proc newComplex[T](a,b:T):ptr Complex[T] {.importcpp:"new Complex&lt;'**0&gt;(@)", nodecl.}
+      proc `+`[T](a,b:Complex[T]):ptr Complex[T]{.importcpp:"&amp;(# + #)"}
+      let c= newComplex[int](1,2)
+
+      echo c[].a
+      echo c[].b
+      echo (c[] + c[]).a
+
+</pre>
 </div>
 </div>
 </div>
 
+<div id="outline-container-org9188046" class="outline-4">
+<h4 id="org9188046"><span class="section-number-4">2.3.4</span> 数字参数模板类的构造函数</h4>
+<div class="outline-text-4" id="text-2-3-4">
+<div class="org-src-container">
+<pre class="src src-nim">      {.emit: """/*TYPESECTION*/
+      template &lt;int N, typename T&gt;
+      class AAAA {
+      public:
+        T data[N];
+        AAAA(int a){
+          this-&gt;data[0] = a;
+      }
+      };
 
-<div id="outline-container-org6f1f922" class="outline-2">
-<h2 id="org6f1f922"><span class="section-number-2">3</span> 编程语言</h2>
-<div class="outline-text-2" id="text-3">
-</div>
-<div id="outline-container-orgc684134" class="outline-3">
-<h3 id="orgc684134"><span class="section-number-3">3.1</span> 类似 python 的</h3>
-<div class="outline-text-3" id="text-3-1">
-<ul class="org-ul">
-<li><a href="python.html">python</a></li>
-<li><a href="python_gui.html">python GUI</a></li>
-<li><a href="python网络.html">python 网络</a></li>
-<li><a href="perl.html">perl</a></li>
-<li><a href="javascript.html">javascript</a></li>
-</ul>
-</div>
-</div>
+      """ .}
 
-<div id="outline-container-orgfebc23c" class="outline-3">
-<h3 id="orgfebc23c"><span class="section-number-3">3.2</span> 类似 c 的</h3>
-<div class="outline-text-3" id="text-3-2">
-<ul class="org-ul">
-<li><a href="c语言.html">C语言</a></li>
-<li><a href="cpp.html">C++</a></li>
-<li><a href="rust.html">rust</a></li>
-</ul>
-</div>
-</div>
+      type AAAAType {.importcpp: "AAAA&lt;'0, '1&gt;".} [N: static[int]; T] = object
+          data: array[N, T]
 
-<div id="outline-container-org1e04f00" class="outline-3">
-<h3 id="org1e04f00"><span class="section-number-3">3.3</span> 没用的</h3>
-<div class="outline-text-3" id="text-3-3">
-<ul class="org-ul">
-<li><a href="clojure.html">clojure</a></li>
-<li><a href="clojurescript.html">clojurescript</a></li>
-<li><a href="common_lisp.html">common lisp</a></li>
-<li><a href="common_lisp_cheatsheet.html">common lisp cheatsheet</a></li>
-<li><a href="guile.html">guile</a></li>
-<li><a href="nim.html">nim</a></li>
-<li><a href="lua.html">lua</a></li>
-<li><a href="labview.html">labview</a></li>
-</ul>
+      proc cc[T](a:int):ptr AAAAType[1, T]{.importcpp:"new AAAA&lt;1, '1&gt;(@)", nodecl.}
+
+      let aa = cc[int](1)
+
+</pre>
 </div>
 </div>
-</div>
-
-
-<div id="outline-container-org9e8c874" class="outline-2">
-<h2 id="org9e8c874"><span class="section-number-2">4</span> 计算机科学</h2>
-<div class="outline-text-2" id="text-4">
-<ul class="org-ul">
-<li><a href="htdp笔记.html">HtDP笔记</a></li>
-<li><a href="使用栈改写递归.html">使用栈改写递归</a></li>
-<li><a href="单片机.html">单片机</a></li>
-<li><a href="把尾递归改写成循环.html">把尾递归改写成循环</a></li>
-<li><a href="机器学习.html">机器学习</a></li>
-<li><a href="递归下降方法编写_ll_1_parser.html">递归下降方法编写 LL(1) parser</a></li>
-</ul>
-</div>
-</div>
-
-
-<div id="outline-container-org378b615" class="outline-2">
-<h2 id="org378b615"><span class="section-number-2">5</span> All Posts</h2>
-<div class="outline-text-2" id="text-5">
-<div class="body-only">
-<ul class="org-ul">
-<li><a href="cpp.html">C++</a></li>
-<li><a href="index.html">Chimez's Blog</a></li>
-<li><a href="c语言.html">C语言</a></li>
-<li><a href="emacs.html">Emacs</a></li>
-<li><a href="htdp笔记.html">HtDP笔记</a></li>
-<li><a href="hugo.html">Hugo 静态博客</a></li>
-<li><a href="javascript_画图.html">JavaScript 画图</a></li>
-<li><a href="latex.html">LaTeX 踩坑记录</a></li>
-<li><a href="nextcloud.html">Nextcloud</a></li>
-<li><a href="powershell.html">PowerShell</a></li>
-<li><a href="python科学计算.html">Python科学计算</a></li>
-<li><a href="r_project.html">R Project</a></li>
-<li><a href="virtualbox踩坑.html">VirtualBox踩坑</a></li>
-<li><a href="windows改键_caps作为ctrl.html">Windows改键：caps作为ctrl</a></li>
-<li><a href="clojure.html">clojure</a></li>
-<li><a href="clojurescript.html">clojurescript</a></li>
-<li><a href="common_lisp.html">common lisp</a></li>
-<li><a href="common_lisp_cheatsheet.html">common lisp cheatsheet</a></li>
-<li><a href="ffmpeg视频处理.html">ffmpeg视频处理</a></li>
-<li><a href="git.html">git</a></li>
-<li><a href="guile.html">guile</a></li>
-<li><a href="javascript.html">javascript</a></li>
-<li><a href="julia.html">julia</a></li>
-<li><a href="labview.html">labview</a></li>
-<li><a href="linux.html">linux</a></li>
-<li><a href="lua.html">lua</a></li>
-<li><a href="maxima.html">maxima</a></li>
-<li><a href="nim.html">nim</a></li>
-<li><a href="org_mode.html">org-mode</a></li>
-<li><a href="pdftk.html">pdftk:修改pdf文件</a></li>
-<li><a href="perl.html">perl</a></li>
-<li><a href="python.html">python</a></li>
-<li><a href="python_gui.html">python GUI</a></li>
-<li><a href="python网络.html">python网络</a></li>
-<li><a href="rust.html">rust</a></li>
-<li><a href="sagemath.html">sagemath</a></li>
-<li><a href="scoop.html">scoop</a></li>
-<li><a href="shadowsocks.html">shadowsocks</a></li>
-<li><a href="ssh.html">ssh</a></li>
-<li><a href="tesseract_ocr.html">tesseract OCR</a></li>
-<li><a href="theindex.html">theindex</a></li>
-<li><a href="tmux.html">tmux</a></li>
-<li><a href="vim.html">vim</a></li>
-<li><a href="使用栈改写递归.html">使用栈改写递归</a></li>
-<li><a href="单片机.html">单片机</a></li>
-<li><a href="把尾递归改写成循环.html">把尾递归改写成循环</a></li>
-<li><a href="机器学习.html">机器学习</a></li>
-<li><a href="递归下降方法编写_ll_1_parser.html">递归下降方法编写 LL(1) parser</a></li>
-</ul>
-
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: chimez chimez</p>
-<p class="date">Created: 2020-10-01 Thu 17:26</p>
+<p class="author">Author: chimez</p>
+<p class="date">Created: 2020-09-27 Sun 17:23</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

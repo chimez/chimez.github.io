@@ -1,0 +1,1373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-27 Sun 17:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>机器学习</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="chimez" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">机器学习</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgeb2f7eb">1. PyTorch 学习记录</a>
+<ul>
+<li><a href="#org56ea00f">1.1. pytorch 基础</a>
+<ul>
+<li><a href="#org1939a51">1.1.1. 张量</a></li>
+<li><a href="#org04471f0">1.1.2. 自动求导</a></li>
+<li><a href="#org0cd6530">1.1.3. 神经网络</a></li>
+<li><a href="#orgc660048">1.1.4. 训练一个分类器</a></li>
+</ul>
+</li>
+<li><a href="#org5352b5f">1.2. CNN：Convolutional neural networks 卷积神经网络</a></li>
+<li><a href="#orgbd5338f">1.3. GAN：Generative adversarial networks 生成对抗网络</a></li>
+<li><a href="#org2426c04">1.4. RNN：Recurrent neural networks 循环神经网络</a></li>
+</ul>
+</li>
+<li><a href="#orgcb51fae">2. TensorFlow</a>
+<ul>
+<li><a href="#org77b5863">2.1. 基本工作流程</a>
+<ul>
+<li><a href="#orgc6f3a32">2.1.1. 原理描述</a></li>
+<li><a href="#org015b358">2.1.2. 执行顺序</a></li>
+<li><a href="#orgf77bba1">2.1.3. 额外的功能</a></li>
+</ul>
+</li>
+<li><a href="#orgef176fd">2.2. API参考</a>
+<ul>
+<li><a href="#org4e90891">2.2.1. 算符(operation)</a></li>
+<li><a href="#orgcbebf29">2.2.2. 会话(session)</a></li>
+<li><a href="#orgbfeab69">2.2.3. 变量(variable)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+
+
+<div id="outline-container-orgeb2f7eb" class="outline-2">
+<h2 id="orgeb2f7eb"><span class="section-number-2">1</span> PyTorch 学习记录</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org56ea00f" class="outline-3">
+<h3 id="org56ea00f"><span class="section-number-3">1.1</span> pytorch 基础</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-org1939a51" class="outline-4">
+<h4 id="org1939a51"><span class="section-number-4">1.1.1</span> 张量</h4>
+<div class="outline-text-4" id="text-1-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgb098ac1"></a>常用函数<br />
+<div class="outline-text-5" id="text-1-1-1-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">函数</th>
+<th scope="col" class="org-left">作用</th>
+<th scope="col" class="org-left">注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><b>创建张量</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>torch.empty(5, 3)</code></td>
+<td class="org-left">空矩阵</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>torch.rand(5, 3)</code></td>
+<td class="org-left">随机矩阵</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>torch.randn(4, 4)</code></td>
+<td class="org-left">随机方阵</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>torch.zeros(5, 3, dtype=torch.long)</code></td>
+<td class="org-left">零矩阵</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>torch.tensor([5.5, 3])</code></td>
+<td class="org-left">字面量创建矩阵</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x.new_ones(5, 3, dtype=torch.double)</code></td>
+<td class="org-left">单元矩阵</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>torch.randn_like(x, dtype=torch.float)</code></td>
+<td class="org-left">创建一个与参考矩阵相同维度的矩阵</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>获取张量的属性</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x.size()</code></td>
+<td class="org-left">获取尺寸</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x.item()</code></td>
+<td class="org-left">获取元素,python原生类型</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>操作张量</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x + y</code></td>
+<td class="org-left">重载操作符</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>torch.add(x, y)</code></td>
+<td class="org-left">调用函数</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>torch.add(x, y, out=result)</code></td>
+<td class="org-left">调用函数并指定修改值</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>y.add_(x)</code></td>
+<td class="org-left">加法,修改值</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x.copy_(y)</code></td>
+<td class="org-left">复制,修改值</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x.view(16)</code></td>
+<td class="org-left">改变形状,长宽</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>x.view(-1, 8)</code></td>
+<td class="org-left">改变形状</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>转换从/到Numpy</b></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a.numpy()</code></td>
+<td class="org-left">转换成numpy</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>torch.from_numpy(a)</code></td>
+<td class="org-left">从numpy转换</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+
+<li><a id="org967edc9"></a>操作函数<br />
+<div class="outline-text-5" id="text-1-1-1-2">
+<p>
+张量就和 numpy 的多维数组差不多,用起来也差不多,自带了一百多个操作函数,加减乘除之类的
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = torch.rand<span style="color: #2aa198;">(</span>5, 3<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#38543;&#26426;&#30697;&#38453;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#30697;&#38453;&#21152;&#27861;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x+x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+
+</pre>
+</div>
+
+<pre class="example">
+     随机矩阵:
+     tensor([[0.3674, 0.3948, 0.3468],
+             [0.4618, 0.2699, 0.9664],
+             [0.7543, 0.7674, 0.7655],
+             [0.8958, 0.7930, 0.8239],
+             [0.7498, 0.0342, 0.6715]])
+     矩阵加法:
+     tensor([[0.7348, 0.7895, 0.6936],
+             [0.9236, 0.5397, 1.9328],
+             [1.5087, 1.5349, 1.5310],
+             [1.7916, 1.5860, 1.6479],
+             [1.4997, 0.0685, 1.3430]])
+</pre>
+</div>
+</li>
+<li><a id="org85d4612"></a>与numpy互相转换<br />
+<div class="outline-text-5" id="text-1-1-1-3">
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> numpy <span style="color: #859900; font-weight: bold;">as</span> np
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">to numpy</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">a</span> = torch.ones<span style="color: #2aa198;">(</span>5<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">b</span> = a.numpy<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">from numpy</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">a</span> = np.ones<span style="color: #2aa198;">(</span>5<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">b</span> = torch.from_numpy<span style="color: #2aa198;">(</span>a<span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgfb338e5"></a>转换到CUDA上<br />
+<div class="outline-text-5" id="text-1-1-1-4">
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">let us run this cell only if CUDA is available</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">We will use ``torch.device`` objects to move tensors in and out of GPU</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">if</span> torch.cuda.is_available<span style="color: #2aa198;">()</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">device</span> = torch.device<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"cuda"</span><span style="color: #2aa198;">)</span>          <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">a CUDA device object</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">y</span> = torch.ones_like<span style="color: #2aa198;">(</span>x, device=device<span style="color: #2aa198;">)</span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">directly create a tensor on GPU</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = x.to<span style="color: #2aa198;">(</span>device<span style="color: #2aa198;">)</span>                       <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">or just use strings ``.to("cuda")``</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">z</span> = x + y
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>z<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>z.to<span style="color: #b58900;">(</span><span style="color: #2aa198;">"cpu"</span>, torch.double<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>       <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">``.to`` can also change dtype together!</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org04471f0" class="outline-4">
+<h4 id="org04471f0"><span class="section-number-4">1.1.2</span> 自动求导</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+自动求导是神经网络的中心. 
+<code>pytorch</code> 的自动求导是在运行中定义的, 即它会记录所进行的求值操作, 并在完成所有计算后调用求导函数, 自动沿着记录的这些函数栈进行求导.
+在进行求值时, 可以指定不记录某些求值过程, 也可以停止进行记录.
+</p>
+<ol class="org-ol">
+<li>通过设置张量的属性 <code>.requires_grad</code> 为 <code>True</code>, 即可开始进行记录. 使用 <code>.requires_grad_(True)</code> 方法,可以随时改变是否进行记录.</li>
+<li>记录结束后使用 <code>.backward()</code> 方法, 就可以计算自动求导, 并将结果储存在原始张量(自变量)的 <code>.grad</code> 属性中.</li>
+<li>如果张量是标量, 调用 <code>.backward()</code> 不用指定任何参数, 否则要指定张量的形状.</li>
+<li>调用 <code>.detach()</code> 方法, 会停止记录接下来的所有操作.</li>
+<li>只是不想记录某些操作的话, 使用 <code>with torch.no_grad():</code> 函数.</li>
+<li>自动求导的实现使用了 <code>torch.Function</code> 类, 每个由函数自动创建的张量都有一个 <code>.grad_fn</code> 属性来指向相关的这个 <code>Function</code>, 而那些由用户自己创建的张量, 这个属性值为 <code>None</code>.</li>
+</ol>
+</div>
+<ol class="org-ol">
+<li><a id="org79aed21"></a>例子:一个函数的自动求导,标量情况<br />
+<div class="outline-text-5" id="text-1-1-2-1">
+<p>
+下面的例子计算了:\[\frac{d(out)}{dx}= 
+     \frac{d3(x+2)^{2}}{dx}=
+     \left(\begin{matrix}
+     4.5& 4.5\\
+     4.5& 4.5
+     \end{matrix}\right)
+     \], \(x=I\)
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = torch.ones<span style="color: #2aa198;">(</span>2, 2, requires_grad=<span style="color: #268bd2; font-weight: bold;">True</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#19968;&#20010;&#24320;&#22987;&#35760;&#24405;&#30340;&#24352;&#37327;,&#21487;&#20197;&#30475;&#21040;&#23427;&#30340;&#23646;&#24615;&#20540;&#20026; True:\nx\t=\t{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">y</span> = x + 2
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#30001;&#20989;&#25968;&#20135;&#29983;&#30340;&#24352;&#37327;,&#23427;&#26377;&#19968;&#20010;&#25351;&#21521;&#36825;&#20010;&#20989;&#25968;&#30340;&#23646;&#24615;:\ny\t=\tx + 2\t=\t{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>y<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">z</span> = y * y * 3
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">out</span> = z.mean<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#20877;&#21152;&#20837;&#19968;&#20123;&#25805;&#20316;:\nout\t=\t=\t&lt;3y^2&gt;\t=\t{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>out<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#36827;&#34892;&#33258;&#21160;&#27714;&#23548;"</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  out.backward<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#24471;&#21040;:\n $\\frac{{d(out)}}{{dx}}$ = {}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x.grad<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+
+</pre>
+</div>
+
+<pre class="example">
+     一个开始记录的张量,可以看到它的属性值为 True:
+     x	=	tensor([[1., 1.],
+             [1., 1.]], requires_grad=True)
+     由函数产生的张量,它有一个指向这个函数的属性:
+     y	=	x + 2	=	tensor([[3., 3.],
+             [3., 3.]], grad_fn=&lt;AddBackward&gt;)
+     再加入一些操作:
+     out	=	=	&lt;3y^2&gt;	=	27.0
+     进行自动求导
+     得到:
+      $\frac{d(out)}{dx}$ = tensor([[4.5000, 4.5000],
+             [4.5000, 4.5000]])
+</pre>
+</div>
+</li>
+<li><a id="org27d6ec6"></a>例子:自动求导, 指定自变量<br />
+<div class="outline-text-5" id="text-1-1-2-2">
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = torch.randn<span style="color: #2aa198;">(</span>3, requires_grad=<span style="color: #268bd2; font-weight: bold;">True</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#21021;&#22987;&#20540;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">y</span> = x * 2
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">while</span> y.data.norm<span style="color: #2aa198;">()</span> &lt;= 1000:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">y</span> = y * 2
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#20056;&#19978;n&#27425;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>y<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">gradients</span> = torch.tensor<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>0.1, 1.0, 0.0001<span style="color: #b58900;">]</span>, dtype=torch.<span style="color: #657b83; font-weight: bold;">float</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#38656;&#35201;&#25351;&#23450;&#33258;&#21464;&#37327;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>gradients<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  y.backward<span style="color: #2aa198;">(</span>gradients<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#33258;&#21160;&#27714;&#23548;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x.grad<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+初始值:
+tensor([-1.3286, -0.9627, -0.3640], requires_grad=True)
+乘上n次:
+tensor([-1360.4750,  -985.8559,  -372.7463], grad_fn=&lt;MulBackward&gt;)
+需要指定自变量:
+tensor([1.0000e-01, 1.0000e+00, 1.0000e-04])
+自动求导:
+tensor([ 102.4000, 1024.0000,    0.1024])
+</pre>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org0cd6530" class="outline-4">
+<h4 id="org0cd6530"><span class="section-number-4">1.1.3</span> 神经网络</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<p>
+神经网络使用 <code>torch.nn</code> 模块, 这个模块建立在自动求导机制之上.
+神经网络的典型训练过程为:
+</p>
+<ol class="org-ol">
+<li>定义一个有一些可学习的参数(或者叫权重)的神经网络.</li>
+<li>在输入的数据集上迭代</li>
+<li>通过网络处理输入</li>
+<li>计算损失(即输出到目标差多远)</li>
+<li>向神经网络的参数传播回去自动微分值</li>
+<li>更新神经网络的参数,典型使用的公式为: 权重=权重-学习率*微分值</li>
+</ol>
+</div>
+<ol class="org-ol">
+<li><a id="org7ecf342"></a>定义神经网络<br />
+<div class="outline-text-5" id="text-1-1-3-1">
+<p>
+只需要继承 <code>nn.Module</code> 类,并在 <code>__init__</code> 里定义所有的层, 以及在 <code>forward</code> 里定义向前传播的计算规则即可, 向后传播由自动微分自动完成.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.nn <span style="color: #859900; font-weight: bold;">as</span> nn
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.nn.functional <span style="color: #859900; font-weight: bold;">as</span> F
+
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Net</span><span style="color: #2aa198;">(</span>nn.Module<span style="color: #2aa198;">)</span>:
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span><span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #657b83; font-weight: bold;">super</span><span style="color: #2aa198;">(</span>Net, <span style="color: #859900; font-weight: bold;">self</span><span style="color: #2aa198;">)</span>.__init__<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1 input image channel, 6 output channels, 5x5 square convolution</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">kernel</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.conv1 = nn.Conv2d<span style="color: #2aa198;">(</span>1, 6, 5<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.conv2 = nn.Conv2d<span style="color: #2aa198;">(</span>6, 16, 5<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">an affine operation: y = Wx + b</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc1 = nn.Linear<span style="color: #2aa198;">(</span>16 * 5 * 5, 120<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc2 = nn.Linear<span style="color: #2aa198;">(</span>120, 84<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc3 = nn.Linear<span style="color: #2aa198;">(</span>84, 10<span style="color: #2aa198;">)</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">forward</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>, x<span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Max pooling over a (2, 2) window</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.max_pool2d<span style="color: #2aa198;">(</span>F.relu<span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">self</span>.conv1<span style="color: #268bd2;">(</span>x<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>, <span style="color: #b58900;">(</span>2, 2<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">If the size is a square you can only specify a single number</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.max_pool2d<span style="color: #2aa198;">(</span>F.relu<span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">self</span>.conv2<span style="color: #268bd2;">(</span>x<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>, 2<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = x.view<span style="color: #2aa198;">(</span>-1, <span style="color: #859900; font-weight: bold;">self</span>.num_flat_features<span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.relu<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>.fc1<span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.relu<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>.fc2<span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.fc3<span style="color: #2aa198;">(</span>x<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">return</span> x
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">num_flat_features</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>, x<span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">size</span> = x.size<span style="color: #2aa198;">()[</span>1:<span style="color: #2aa198;">]</span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">all dimensions except the batch dimension</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">num_features</span> = 1
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> s <span style="color: #859900; font-weight: bold;">in</span> size:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">num_features</span> *= s
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">return</span> num_features
+
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">net</span> = Net<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>net<span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+     Python 3.6.6 (default, Jun 27 2018, 14:44:17) 
+     [GCC 8.1.0] on linux
+     Type "help", "copyright", "credits" or "license" for more information.
+     Net(
+       (conv1): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
+       (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+       (fc1): Linear(in_features=400, out_features=120, bias=True)
+       (fc2): Linear(in_features=120, out_features=84, bias=True)
+       (fc3): Linear(in_features=84, out_features=10, bias=True)
+     )
+     python.el: native completion setup loaded
+</pre>
+
+<p>
+神经网络的参数可以通过 <code>net.parameters()</code> 获得.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">params</span> = <span style="color: #657b83; font-weight: bold;">list</span><span style="color: #2aa198;">(</span>net.parameters<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #657b83; font-weight: bold;">len</span><span style="color: #b58900;">(</span>params<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>params<span style="color: #b58900;">[</span>0<span style="color: #b58900;">]</span>.size<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">conv1's .weight</span>
+
+</pre>
+</div>
+
+<pre class="example">
+10
+torch.Size([6, 1, 5, 5])
+</pre>
+
+
+<p>
+现在给一个 32x32的输入,可以看到它通过这个神经网络后的输出值大小:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #657b83; font-weight: bold;">input</span> = torch.randn<span style="color: #2aa198;">(</span>1, 1, 32, 32<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">out</span> = net<span style="color: #2aa198;">(</span><span style="color: #657b83; font-weight: bold;">input</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>out<span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+tensor([[-0.0247, -0.0493, -0.1126,  0.0110,  0.0174,  0.1005, -0.0309, -0.0630,
+          0.0818,  0.1030]], grad_fn=&lt;ThAddmmBackward&gt;)
+</pre>
+
+
+<p>
+计算自动微分的方法很简单,只需要先通过 <code>net.zero_grad()</code> 方法将微分初值设为随机值, 再用 <code>out.backward()</code> 方法计算自动微分即可.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  net.zero_grad<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  out.backward<span style="color: #2aa198;">(</span>torch.randn<span style="color: #b58900;">(</span>1, 10<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<blockquote>
+<p>
+注意: <code>torch.nn</code> 只支持小批量的样本, 例如 <code>nn.Conv2d</code> 的参数是 <code>nSamples x nChannels x Height x Width</code> 的四维张量.
+如果只有一个样本, 可以用 <code>input.unsqueeze(0)</code> 创建一个假的批量维度.
+</p>
+</blockquote>
+</div>
+</li>
+<li><a id="orge2ada26"></a>损失函数<br />
+<div class="outline-text-5" id="text-1-1-3-2">
+<p>
+损失函数接受输出结果和目标这两个参数, 计算结果到目标的距离.
+在 <code>torch.nn</code> 包里有各自各样的损失函数, 其中一个是 <code>nn.MSELoss</code> 用来计算均方根误差.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">output</span> = net<span style="color: #2aa198;">(</span><span style="color: #657b83; font-weight: bold;">input</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">target</span> = torch.randn<span style="color: #2aa198;">(</span>10<span style="color: #2aa198;">)</span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">a dummy target, for example</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">target</span> = target.view<span style="color: #2aa198;">(</span>1, -1<span style="color: #2aa198;">)</span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">make it the same shape as output</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">criterion</span> = nn.MSELoss<span style="color: #2aa198;">()</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">loss</span> = criterion<span style="color: #2aa198;">(</span>output, target<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>loss<span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+tensor(0.8526, grad_fn=&lt;MseLossBackward&gt;)
+</pre>
+
+<p>
+如果使用 <code>loss.backward()</code> 整个图都会关于损失函数进行微分 ,因为现在被微分的栈是:
+</p>
+<blockquote>
+<p>
+input 
+-&gt; conv2d -&gt; relu -&gt; maxpool2d -&gt; conv2d -&gt; relu -&gt; maxpool2d
+-&gt; view -&gt; linear -&gt; relu -&gt; linear -&gt; relu -&gt; linear
+-&gt; MSELoss
+-&gt; loss
+</p>
+</blockquote>
+</div>
+</li>
+<li><a id="org26ba3de"></a>反向传播<br />
+<div class="outline-text-5" id="text-1-1-3-3">
+<p>
+现在所需要做的事情只是先清零 <code>net.zero_grad()</code>, 再调用 <code>loss.backward()</code>, 就得到了自动微分值.
+如果不进行清零的话, 自动微分值会累加.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  net.zero_grad<span style="color: #2aa198;">()</span>     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">zeroes the gradient buffers of all parameters</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'conv1.bias.grad before backward'</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>net.conv1.bias.grad<span style="color: #2aa198;">)</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  loss.backward<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'conv1.bias.grad after backward'</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>net.conv1.bias.grad<span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+conv1.bias.grad before backward
+None
+conv1.bias.grad after backward
+tensor([ 0.0029, -0.0226, -0.0131, -0.0018,  0.0013,  0.0005])
+</pre>
+</div>
+</li>
+<li><a id="org3ee4fd2"></a>更新权重<br />
+<div class="outline-text-5" id="text-1-1-3-4">
+<p>
+最简单的更新规则是随机梯度下降(SGD), <code>新权重=旧权重-学习率*自动微分值</code>, 实现为:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">learning_rate</span> = 0.01
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> f <span style="color: #859900; font-weight: bold;">in</span> net.parameters<span style="color: #2aa198;">()</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  f.data.sub_<span style="color: #2aa198;">(</span>f.grad.data * learning_rate<span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<p>
+常用的一些更新规则实现在了 <code>torch.optim</code> 包里, 使用步骤为 创建优化器-&gt;清零-&gt;计算损失函数-&gt;反向传播-&gt;优化器.下一步().
+下面是一个使用的例子:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.optim <span style="color: #859900; font-weight: bold;">as</span> optim
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">create your optimizer</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">optimizer</span> = optim.SGD<span style="color: #2aa198;">(</span>net.parameters<span style="color: #b58900;">()</span>, lr=0.01<span style="color: #2aa198;">)</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">in your training loop:</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  optimizer.zero_grad<span style="color: #2aa198;">()</span>   <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">zero the gradient buffers</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">output</span> = net<span style="color: #2aa198;">(</span><span style="color: #657b83; font-weight: bold;">input</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">loss</span> = criterion<span style="color: #2aa198;">(</span>output, target<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  loss.backward<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  optimizer.step<span style="color: #2aa198;">()</span>    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Does the update</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgc660048" class="outline-4">
+<h4 id="orgc660048"><span class="section-number-4">1.1.4</span> 训练一个分类器</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<p>
+输入的数据需要先通过其他的python包转换成序列, 再转换成张量, 接着再训练网络.
+可以用的数据和包为:
+</p>
+<ul class="org-ul">
+<li>图像: Pillow, OpenCv</li>
+<li>音频: scipy, librosa</li>
+<li>文本: Python内建类型, Cython加载, NLTK, SpaCy</li>
+</ul>
+<p>
+对于图像, torch提供一个包 <code>torchvision</code>, 这里有已经读取好了的 CIFAR10, MNIST 标准数据集 <code>torchvision.datasets</code>.
+还有一些方便进行图像到数据转换的工具 <code>torch.utils.data.DataLoader</code>, 可以少写一些模板代码.
+</p>
+
+<p>
+下面要使用 CIFAR10 数据集, 它包括: ‘airplane’, ‘automobile’, ‘bird’, ‘cat’, ‘deer’, ‘dog’, ‘frog’, ‘horse’, ‘ship’, ‘truck’. 
+这些图像是 3x32x32 张量, 即 32x32大小,3色彩通道.
+图像为:
+</p>
+
+<div class="figure">
+<p><img src="PyTorch 学习记录/cifar10_2018-08-23_09-24-33.png" alt="cifar10_2018-08-23_09-24-33.png" />
+</p>
+</div>
+
+<p>
+训练一个分类器的步骤为:
+</p>
+<ol class="org-ol">
+<li>使用 <code>torchvision</code> 加载测试数据集和训练数据集 CIFAR10</li>
+<li>定义一个卷积神经网络</li>
+<li>定义损失函数</li>
+<li>在训练数据集上训练神经网络</li>
+<li>在测试数据集上测试神经网络</li>
+</ol>
+</div>
+<ol class="org-ol">
+<li><a id="org5a94380"></a>加载并归一化数据集<br />
+<div class="outline-text-5" id="text-1-1-4-1">
+<p>
+使用 <code>torchvision</code> 这一步超容易完成.
+图片是 [0,1] 的, 所以得归一化到 [-1,1] 才行.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torchvision
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torchvision.transforms <span style="color: #859900; font-weight: bold;">as</span> transforms
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">transform</span> = transforms.Compose<span style="color: #2aa198;">(</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #b58900;">[</span>transforms.ToTensor<span style="color: #268bd2;">()</span>,
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   transforms.Normalize<span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>0.5, 0.5, 0.5<span style="color: #6c71c4;">)</span>, <span style="color: #6c71c4;">(</span>0.5, 0.5, 0.5<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">trainset</span> = torchvision.datasets.CIFAR10<span style="color: #2aa198;">(</span>root=<span style="color: #2aa198;">'./PyTorch &#23398;&#20064;&#35760;&#24405;/data'</span>, train=<span style="color: #268bd2; font-weight: bold;">True</span>,
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  download=<span style="color: #268bd2; font-weight: bold;">True</span>, transform=transform<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">trainloader</span> = torch.utils.data.DataLoader<span style="color: #2aa198;">(</span>trainset, batch_size=4,
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>shuffle=<span style="color: #268bd2; font-weight: bold;">True</span>, num_workers=2<span style="color: #2aa198;">)</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">testset</span> = torchvision.datasets.CIFAR10<span style="color: #2aa198;">(</span>root=<span style="color: #2aa198;">'./PyTorch &#23398;&#20064;&#35760;&#24405;/data'</span>, train=<span style="color: #268bd2; font-weight: bold;">False</span>,
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> download=<span style="color: #268bd2; font-weight: bold;">True</span>, transform=transform<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">testloader</span> = torch.utils.data.DataLoader<span style="color: #2aa198;">(</span>testset, batch_size=4,
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   shuffle=<span style="color: #268bd2; font-weight: bold;">False</span>, num_workers=2<span style="color: #2aa198;">)</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">classes</span> = <span style="color: #2aa198;">(</span><span style="color: #2aa198;">'plane'</span>, <span style="color: #2aa198;">'car'</span>, <span style="color: #2aa198;">'bird'</span>, <span style="color: #2aa198;">'cat'</span>,
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #2aa198;">'deer'</span>, <span style="color: #2aa198;">'dog'</span>, <span style="color: #2aa198;">'frog'</span>, <span style="color: #2aa198;">'horse'</span>, <span style="color: #2aa198;">'ship'</span>, <span style="color: #2aa198;">'truck'</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+Python 3.6.6 (default, Jun 27 2018, 14:44:17) 
+[GCC 8.1.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+Files already downloaded and verified
+Files already downloaded and verified
+python.el: native completion setup loaded
+</pre>
+
+
+<p>
+显示图片看看
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> matplotlib.pyplot <span style="color: #859900; font-weight: bold;">as</span> plt
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> numpy <span style="color: #859900; font-weight: bold;">as</span> np
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">functions to show an image</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">imshow</span><span style="color: #2aa198;">(</span>img<span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">img</span> = img / 2 + 0.5     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">unnormalize</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">npimg</span> = img.numpy<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  plt.imshow<span style="color: #2aa198;">(</span>np.transpose<span style="color: #b58900;">(</span>npimg, <span style="color: #268bd2;">(</span>1, 2, 0<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  plt.tight_layout<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  plt.savefig<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"./PyTorch &#23398;&#20064;&#35760;&#24405;/fig/temp.png"</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"./PyTorch &#23398;&#20064;&#35760;&#24405;/fig/temp.png"</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">get some random training images</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">dataiter</span> = <span style="color: #657b83; font-weight: bold;">iter</span><span style="color: #2aa198;">(</span>trainloader<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">images</span>, <span style="color: #268bd2;">labels</span> = dataiter.<span style="color: #657b83; font-weight: bold;">next</span><span style="color: #2aa198;">()</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">show images</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  imshow<span style="color: #2aa198;">(</span>torchvision.utils.make_grid<span style="color: #b58900;">(</span>images<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./PyTorch 学习记录/fig/temp.png" alt="temp.png" />
+</p>
+</div>
+</div>
+</li>
+
+<li><a id="org665f0b2"></a>定义神经网络<br />
+<div class="outline-text-5" id="text-1-1-4-2">
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.nn <span style="color: #859900; font-weight: bold;">as</span> nn
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.nn.functional <span style="color: #859900; font-weight: bold;">as</span> F
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Net</span><span style="color: #2aa198;">(</span>nn.Module<span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span><span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #657b83; font-weight: bold;">super</span><span style="color: #2aa198;">(</span>Net, <span style="color: #859900; font-weight: bold;">self</span><span style="color: #2aa198;">)</span>.__init__<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.conv1 = nn.Conv2d<span style="color: #2aa198;">(</span>3, 6, 5<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.pool = nn.MaxPool2d<span style="color: #2aa198;">(</span>2, 2<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.conv2 = nn.Conv2d<span style="color: #2aa198;">(</span>6, 16, 5<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc1 = nn.Linear<span style="color: #2aa198;">(</span>16 * 5 * 5, 120<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc2 = nn.Linear<span style="color: #2aa198;">(</span>120, 84<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc3 = nn.Linear<span style="color: #2aa198;">(</span>84, 10<span style="color: #2aa198;">)</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">forward</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>, x<span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.pool<span style="color: #2aa198;">(</span>F.relu<span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">self</span>.conv1<span style="color: #268bd2;">(</span>x<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.pool<span style="color: #2aa198;">(</span>F.relu<span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">self</span>.conv2<span style="color: #268bd2;">(</span>x<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = x.view<span style="color: #2aa198;">(</span>-1, 16 * 5 * 5<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.relu<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>.fc1<span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.relu<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>.fc2<span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.fc3<span style="color: #2aa198;">(</span>x<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">return</span> x
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">net</span> = Net<span style="color: #2aa198;">()</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgcce7462"></a>定义损失函数和优化器<br />
+<div class="outline-text-5" id="text-1-1-4-3">
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.optim <span style="color: #859900; font-weight: bold;">as</span> optim
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">criterion</span> = nn.CrossEntropyLoss<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">optimizer</span> = optim.SGD<span style="color: #2aa198;">(</span>net.parameters<span style="color: #b58900;">()</span>, lr=0.001, momentum=0.9<span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org68dceb9"></a>训练神经网络<br />
+<div class="outline-text-5" id="text-1-1-4-4">
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> epoch <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #2aa198;">(</span>2<span style="color: #2aa198;">)</span>:  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">loop over the dataset multiple times</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">running_loss</span> = 0.0
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> i, data <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">enumerate</span><span style="color: #2aa198;">(</span>trainloader, 0<span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">get the inputs</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">inputs</span>, <span style="color: #268bd2;">labels</span> = data
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">zero the parameter gradients</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  optimizer.zero_grad<span style="color: #2aa198;">()</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">forward + backward + optimize</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">outputs</span> = net<span style="color: #2aa198;">(</span>inputs<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">loss</span> = criterion<span style="color: #2aa198;">(</span>outputs, labels<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  loss.backward<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  optimizer.step<span style="color: #2aa198;">()</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">print statistics</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">running_loss</span> += loss.item<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">if</span> i % 2000 == 1999:    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">print every 2000 mini-batches</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'[%d, %5d] loss: %.3f'</span> %
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span><span style="color: #b58900;">(</span>epoch + 1, i + 1, running_loss / 2000<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">running_loss</span> = 0.0
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'Finished Training'</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+     [1,  2000] loss: 2.182
+     [1,  4000] loss: 1.825
+     [1,  6000] loss: 1.662
+     [1,  8000] loss: 1.572
+     [1, 10000] loss: 1.504
+     [1, 12000] loss: 1.463
+     [2,  2000] loss: 1.400
+     [2,  4000] loss: 1.357
+     [2,  6000] loss: 1.373
+     [2,  8000] loss: 1.310
+     [2, 10000] loss: 1.291
+     [2, 12000] loss: 1.290
+     Finished Training
+</pre>
+</div>
+</li>
+<li><a id="orgb355d9b"></a>在测试数据集上测试神经网络<br />
+<div class="outline-text-5" id="text-1-1-4-5">
+<p>
+先看看测试的图片是什么样的
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">dataiter</span> = <span style="color: #657b83; font-weight: bold;">iter</span><span style="color: #2aa198;">(</span>testloader<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">images</span>, <span style="color: #268bd2;">labels</span> = dataiter.<span style="color: #657b83; font-weight: bold;">next</span><span style="color: #2aa198;">()</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">print images</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'GroundTruth: '</span>, <span style="color: #2aa198;">' '</span>.join<span style="color: #b58900;">(</span><span style="color: #2aa198;">'%5s'</span> % classes<span style="color: #268bd2;">[</span>labels<span style="color: #6c71c4;">[</span>j<span style="color: #6c71c4;">]</span><span style="color: #268bd2;">]</span> <span style="color: #859900; font-weight: bold;">for</span> j <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #268bd2;">(</span>4<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  imshow<span style="color: #2aa198;">(</span>torchvision.utils.make_grid<span style="color: #b58900;">(</span>images<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./PyTorch 学习记录/fig/temp.png" alt="temp.png" />
+</p>
+</div>
+
+<p>
+然后看看结果:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'GroundTruth: '</span>, <span style="color: #2aa198;">' '</span>.join<span style="color: #b58900;">(</span><span style="color: #2aa198;">'%5s'</span> % classes<span style="color: #268bd2;">[</span>labels<span style="color: #6c71c4;">[</span>j<span style="color: #6c71c4;">]</span><span style="color: #268bd2;">]</span> <span style="color: #859900; font-weight: bold;">for</span> j <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #268bd2;">(</span>4<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">outputs</span> = net<span style="color: #2aa198;">(</span>images<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">_</span>, <span style="color: #268bd2;">predicted</span> = torch.<span style="color: #657b83; font-weight: bold;">max</span><span style="color: #2aa198;">(</span>outputs, 1<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'Predicted: '</span>, <span style="color: #2aa198;">' '</span>.join<span style="color: #b58900;">(</span><span style="color: #2aa198;">'%5s'</span> % classes<span style="color: #268bd2;">[</span>predicted<span style="color: #6c71c4;">[</span>j<span style="color: #6c71c4;">]</span><span style="color: #268bd2;">]</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span><span style="color: #859900; font-weight: bold;">for</span> j <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #268bd2;">(</span>4<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+GroundTruth:    cat  ship  ship plane
+Predicted:    cat   car   car  ship
+</pre>
+
+
+<p>
+全数据集结果:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">correct</span> = 0
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">total</span> = 0
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">with</span> torch.no_grad<span style="color: #2aa198;">()</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> data <span style="color: #859900; font-weight: bold;">in</span> testloader:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">images</span>, <span style="color: #268bd2;">labels</span> = data
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">outputs</span> = net<span style="color: #2aa198;">(</span>images<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">_</span>, <span style="color: #268bd2;">predicted</span> = torch.<span style="color: #657b83; font-weight: bold;">max</span><span style="color: #2aa198;">(</span>outputs.data, 1<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">total</span> += labels.size<span style="color: #2aa198;">(</span>0<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">correct</span> += <span style="color: #2aa198;">(</span>predicted == labels<span style="color: #2aa198;">)</span>.<span style="color: #657b83; font-weight: bold;">sum</span><span style="color: #2aa198;">()</span>.item<span style="color: #2aa198;">()</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'Accuracy of the network on the 10000 test images: %d %%'</span> % <span style="color: #b58900;">(</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  100 * correct / total<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+Accuracy of the network on the 10000 test images: 54 %
+</pre>
+
+
+<p>
+分类的结果:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">class_correct</span> = <span style="color: #657b83; font-weight: bold;">list</span><span style="color: #2aa198;">(</span>0. <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #b58900;">(</span>10<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">class_total</span> = <span style="color: #657b83; font-weight: bold;">list</span><span style="color: #2aa198;">(</span>0. <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #b58900;">(</span>10<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">with</span> torch.no_grad<span style="color: #2aa198;">()</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> data <span style="color: #859900; font-weight: bold;">in</span> testloader:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">images</span>, <span style="color: #268bd2;">labels</span> = data
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">outputs</span> = net<span style="color: #2aa198;">(</span>images<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">_</span>, <span style="color: #268bd2;">predicted</span> = torch.<span style="color: #657b83; font-weight: bold;">max</span><span style="color: #2aa198;">(</span>outputs, 1<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">c</span> = <span style="color: #2aa198;">(</span>predicted == labels<span style="color: #2aa198;">)</span>.squeeze<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #2aa198;">(</span>4<span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">label</span> = labels<span style="color: #2aa198;">[</span>i<span style="color: #2aa198;">]</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">class_correct</span><span style="color: #2aa198;">[</span>label<span style="color: #2aa198;">]</span> += c<span style="color: #2aa198;">[</span>i<span style="color: #2aa198;">]</span>.item<span style="color: #2aa198;">()</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">class_total</span><span style="color: #2aa198;">[</span>label<span style="color: #2aa198;">]</span> += 1
+
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #2aa198;">(</span>10<span style="color: #2aa198;">)</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'Accuracy of %5s : %2d %%'</span> % <span style="color: #b58900;">(</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  classes<span style="color: #268bd2;">[</span>i<span style="color: #268bd2;">]</span>, 100 * class_correct<span style="color: #268bd2;">[</span>i<span style="color: #268bd2;">]</span> / class_total<span style="color: #268bd2;">[</span>i<span style="color: #268bd2;">]</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+     Accuracy of plane : 57 %
+     Accuracy of   car : 67 %
+     Accuracy of  bird : 23 %
+     Accuracy of   cat : 29 %
+     Accuracy of  deer : 59 %
+     Accuracy of   dog : 57 %
+     Accuracy of  frog : 67 %
+     Accuracy of horse : 63 %
+     Accuracy of  ship : 51 %
+     Accuracy of truck : 71 %
+</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org5352b5f" class="outline-3">
+<h3 id="org5352b5f"><span class="section-number-3">1.2</span> CNN：Convolutional neural networks 卷积神经网络</h3>
+</div>
+<div id="outline-container-orgbd5338f" class="outline-3">
+<h3 id="orgbd5338f"><span class="section-number-3">1.3</span> GAN：Generative adversarial networks 生成对抗网络</h3>
+</div>
+<div id="outline-container-org2426c04" class="outline-3">
+<h3 id="org2426c04"><span class="section-number-3">1.4</span> RNN：Recurrent neural networks 循环神经网络</h3>
+</div>
+</div>
+<div id="outline-container-orgcb51fae" class="outline-2">
+<h2 id="orgcb51fae"><span class="section-number-2">2</span> TensorFlow</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org77b5863" class="outline-3">
+<h3 id="org77b5863"><span class="section-number-3">2.1</span> 基本工作流程</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-orgc6f3a32" class="outline-4">
+<h4 id="orgc6f3a32"><span class="section-number-4">2.1.1</span> 原理描述</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<ol class="org-ol">
+<li>总体上的过程分两步:先定义session的内容(图),再运行session</li>
+<li>定义会话:会话控制图(graph)的计算过程,将图发送给CPU设备进行计算,再收回计算结果</li>
+<li>图是指一系列顺序的算符(operation)运算,算符作用在一个张量(tensor,多维数组)上得到一个新的张量,一系列算符作用运算完之后返回结果给会话</li>
+<li>每个图都从源算符(常数算符)开始,在会话里执行的是最后一个算符,同时指定了返回值</li>
+<li>变量(variable)用来在运行过程中保存状态和临时变量</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org015b358" class="outline-4">
+<h4 id="org015b358"><span class="section-number-4">2.1.2</span> 执行顺序</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<div class="org-src-container">
+<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #268bd2;">input1</span> = tf.constant<span style="color: #2aa198;">(</span>3.0<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #268bd2;">input2</span> = tf.constant<span style="color: #2aa198;">(</span>2.0<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #268bd2;">input3</span> = tf.constant<span style="color: #2aa198;">(</span>5.0<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #268bd2;">intermed</span> = tf.add<span style="color: #2aa198;">(</span>input2, input3<span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #268bd2;">mul</span> = tf.mul<span style="color: #2aa198;">(</span>input1, intermed<span style="color: #2aa198;">)</span>
+
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #859900; font-weight: bold;">with</span> tf.Session<span style="color: #2aa198;">()</span>:
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">result</span> = sess.run<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>mul, intermed<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="color: #859900; font-weight: bold;">print</span> result
+<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   sess.run<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>output<span style="color: #b58900;">]</span>, feed_dict=<span style="color: #b58900;">{</span>input1:<span style="color: #268bd2;">[</span>7.<span style="color: #268bd2;">]</span>, input2:<span style="color: #268bd2;">[</span>2.<span style="color: #268bd2;">]</span><span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf77bba1" class="outline-4">
+<h4 id="orgf77bba1"><span class="section-number-4">2.1.3</span> 额外的功能</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<ul class="org-ul">
+<li>在运行会话时可以临时插入张量,用来方便的调试</li>
+<li>python有一个默认图,所以不用显式定义图</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgef176fd" class="outline-3">
+<h3 id="orgef176fd"><span class="section-number-3">2.2</span> API参考</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>各种数学运算都有tf开头的操作,见<a href="https://tensorflow.google.cn/api_guides/python/math_ops">https://tensorflow.google.cn/api_guides/python/math_ops</a></li>
+<li>api参考<a href="https://tensorflow.google.cn/api_docs/">https://tensorflow.google.cn/api_docs/</a></li>
+<li>各种优化和微分函数和一些辅助函数在<a href="https://tensorflow.google.cn/api_guides/python/train">https://tensorflow.google.cn/api_guides/python/train</a></li>
+</ul>
+</div>
+<div id="outline-container-org4e90891" class="outline-4">
+<h4 id="org4e90891"><span class="section-number-4">2.2.1</span> 算符(operation)</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>matrix=tf.constant([[1,2]])</code></td>
+<td class="org-left">定义常量算符</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>product=tf.matmul(matrix,matrix)</code></td>
+<td class="org-left">矩阵乘法算符</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>tf.zeros([2,3])</code></td>
+<td class="org-left">生成2x3(2行3列)的零矩阵</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>tf.random_uniform([1, 2], -1.0, 1.0)</code></td>
+<td class="org-left">生成均匀随机数[-1,1)的1x2矩阵</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-orgcbebf29" class="outline-4">
+<h4 id="orgcbebf29"><span class="section-number-4">2.2.2</span> 会话(session)</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>sess=tf.Session()</code></td>
+<td class="org-left">启动默认图</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>result=sess.run(product)</code></td>
+<td class="org-left">运行图中的算符并返回值</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>sess.close()</code></td>
+<td class="org-left">运行结算要关闭会话</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-orgbfeab69" class="outline-4">
+<h4 id="orgbfeab69"><span class="section-number-4">2.2.3</span> 变量(variable)</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>state=tf.Variable(0,name="counter")</code></td>
+<td class="org-left">定义变量</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>new_value=tf.add(state,tf.constant(1))</code></td>
+<td class="org-left">变量加法算符</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>update=tf.assign(state,new_value)</code></td>
+<td class="org-left">变量赋值算符</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>init_op=tf.initialize_all_variables()</code></td>
+<td class="org-left">初始化算符,想用变量要在会话里执行这个</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: chimez</p>
+<p class="date">Created: 2020-09-27 Sun 17:24</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
