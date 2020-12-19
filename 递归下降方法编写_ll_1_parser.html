@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:24 -->
+<!-- 2020-12-19 Sat 14:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>递归下降方法编写 LL(1) parser</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -288,246 +291,159 @@ factor : 0..9
 <h2 id="org75a075e"><span class="section-number-2">2</span> guile 例子</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-lisp">      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">&#36825;&#20010;EBNF&#19981;&#33021;&#22788;&#29702;&#24038;&#36882;&#24402;,&#21363;&#19981;&#33021;&#26080;&#25324;&#21495;&#30340;&#36830;&#32493;&#21516;&#31867;&#36816;&#31639;,&#22914; 1+2+3,1*2/4 &#31561;</span>
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">exp    : item + item     &gt; (+ item item)</span>
-      <span style="color: #93a1a1;">;;        </span><span style="color: #93a1a1;">&#65372; item &#8211; item     &gt; (- item item)</span>
-      <span style="color: #93a1a1;">;;        </span><span style="color: #93a1a1;">| item             &gt;  item</span>
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Item   : factor * factor &gt; (* factor factor)</span>
-      <span style="color: #93a1a1;">;;        </span><span style="color: #93a1a1;">| factor / factor &gt; (/ factor factor)</span>
-      <span style="color: #93a1a1;">;;        </span><span style="color: #93a1a1;">| factor          &gt; factor</span>
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">factor : 0..9</span>
-      <span style="color: #93a1a1;">;;        </span><span style="color: #93a1a1;">| (exp)</span>
+<pre class="src src-lisp">;; 这个EBNF不能处理左递归,即不能无括号的连续同类运算,如 1+2+3,1*2/4 等
+;; exp    : item + item     &gt; (+ item item)
+;;        ｜ item – item     &gt; (- item item)
+;;        | item             &gt;  item
+;; Item   : factor * factor &gt; (* factor factor)
+;;        | factor / factor &gt; (/ factor factor)
+;;        | factor          &gt; factor
+;; factor : 0..9
+;;        | (exp)
 
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">token ------------------------------------------------------</span>
-      <span style="color: #2aa198;">(</span>use-modules <span style="color: #b58900;">(</span>ice-9 regex<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-      <span style="color: #2aa198;">(</span>use-modules <span style="color: #b58900;">(</span>srfi srfi-26<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+;; token ------------------------------------------------------
+(use-modules (ice-9 regex))
+(use-modules (srfi srfi-26))
 
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">&#20840;&#23616;&#21464;&#37327;</span>
-      <span style="color: #2aa198;">(</span>define S <span style="color: #2aa198;">"(3-4)*1+2"</span><span style="color: #2aa198;">)</span>
+;; 全局变量
+(define S "(3-4)*1+2")
 
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">&#22788;&#29702;&#19968;&#20010;&#27491;&#21017;&#21305;&#37197; (make-regexp, string) -&gt; string/#f</span>
-      <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>match-it re s<span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>rm <span style="color: #859900;">(</span>regexp-exec re s<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">if</span> rm
-              <span style="color: #6c71c4;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #859900;">(</span><span style="color: #b58900;">(</span>start <span style="color: #268bd2;">(</span>match:start rm<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-                     <span style="color: #b58900;">(</span>ss <span style="color: #268bd2;">(</span>match:substring rm<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-                     <span style="color: #b58900;">(</span>suffix <span style="color: #268bd2;">(</span>match:suffix rm<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                <span style="color: #859900;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #b58900;">(</span>= start 0<span style="color: #b58900;">)</span>
-                    <span style="color: #b58900;">(</span>list ss suffix<span style="color: #b58900;">)</span>
-                    #f<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-              #f<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+;; 处理一个正则匹配 (make-regexp, string) -&gt; string/#f
+(define (match-it re s)
+  (let* ((rm (regexp-exec re s)))
+    (if rm
+	(let* ((start (match:start rm))
+	       (ss (match:substring rm))
+	       (suffix (match:suffix rm)))
+	  (if (= start 0)
+	      (list ss suffix)
+	      #f))
+	#f)))
 
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">&#23450;&#20041;&#25152;&#26377;&#21487;&#21305;&#37197;&#35268;&#21017;,&#24182;&#36827;&#34892;&#21305;&#37197; (string) -&gt; (this match-string, rest-string)</span>
-      <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>token s<span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>re-a <span style="color: #859900;">(</span>make-regexp <span style="color: #2aa198;">"\\+"</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>re-s <span style="color: #859900;">(</span>make-regexp <span style="color: #2aa198;">"-"</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>re-m <span style="color: #859900;">(</span>make-regexp <span style="color: #2aa198;">"\\*"</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>re-d <span style="color: #859900;">(</span>make-regexp <span style="color: #2aa198;">"/"</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>re-num <span style="color: #859900;">(</span>make-regexp <span style="color: #2aa198;">"[0-9\\.]+"</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>re-space <span style="color: #859900;">(</span>make-regexp <span style="color: #2aa198;">" +"</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>re-lp <span style="color: #859900;">(</span>make-regexp <span style="color: #2aa198;">"\\("</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>re-rp <span style="color: #859900;">(</span>make-regexp <span style="color: #2aa198;">"\\)"</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>re-list <span style="color: #859900;">(</span>list re-a re-s re-m re-d re-num re-space re-lp re-rp<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>result <span style="color: #859900;">(</span>map <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">lambda</span> <span style="color: #268bd2;">(</span>x<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">(</span>apply match-it <span style="color: #6c71c4;">(</span>list x s<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span> re-list<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span>car <span style="color: #6c71c4;">(</span>filter <span style="color: #859900;">(</span>cut if &lt;&gt; #t #f<span style="color: #859900;">)</span> result<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+;; 定义所有可匹配规则,并进行匹配 (string) -&gt; (this match-string, rest-string)
+(define (token s)
+  (let* ((re-a (make-regexp "\\+"))
+	 (re-s (make-regexp "-"))
+	 (re-m (make-regexp "\\*"))
+	 (re-d (make-regexp "/"))
+	 (re-num (make-regexp "[0-9\\.]+"))
+	 (re-space (make-regexp " +"))
+	 (re-lp (make-regexp "\\("))
+	 (re-rp (make-regexp "\\)"))
+	 (re-list (list re-a re-s re-m re-d re-num re-space re-lp re-rp))
+	 (result (map (lambda (x) (apply match-it (list x s))) re-list)))
+    (car (filter (cut if &lt;&gt; #t #f) result))))
 
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">&#33719;&#24471;&#23383;&#31526;&#20018;&#30340;&#21305;&#37197;&#20803;&#32032; (string) -&gt; this-string</span>
-      <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>token-this s<span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span>equal? s <span style="color: #2aa198;">""</span><span style="color: #268bd2;">)</span>
-            #f
-            <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #6c71c4;">(</span><span style="color: #859900;">(</span>result <span style="color: #b58900;">(</span>token s<span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                   <span style="color: #859900;">(</span>this <span style="color: #b58900;">(</span>car result<span style="color: #b58900;">)</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-              this<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+;; 获得字符串的匹配元素 (string) -&gt; this-string
+(define (token-this s)
+  (if (equal? s "")
+      #f
+      (let* ((result (token s))
+	     (this (car result)))
+	this)))
 
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">&#33719;&#24471;&#21305;&#37197;&#21097;&#20313;&#30340;&#23383;&#31526;&#20018; (string) -&gt; rest-string</span>
-      <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>token-rest s<span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>result <span style="color: #859900;">(</span>token s<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>rest <span style="color: #859900;">(</span>cdr result<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span>car rest<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+;; 获得匹配剩余的字符串 (string) -&gt; rest-string
+(define (token-rest s)
+  (let* ((result (token s))
+	 (rest (cdr result)))
+    (car rest)))
 
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">&#20808;&#20174;&#20840;&#23616;&#21464;&#37327;&#33719;&#24471;&#21305;&#37197;&#21040;&#30340;&#23383;&#31526;&#20018;,&#20877;&#23558;&#20840;&#23616;&#21464;&#37327;&#20943;&#23569; () -&gt; this-string</span>
-      <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>token-next<span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span>not <span style="color: #6c71c4;">(</span>equal? S <span style="color: #2aa198;">""</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-            <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #6c71c4;">(</span><span style="color: #859900;">(</span>rest <span style="color: #b58900;">(</span>token-rest S<span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                   <span style="color: #859900;">(</span>this <span style="color: #b58900;">(</span>token-this S<span style="color: #b58900;">)</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-              <span style="color: #6c71c4;">(</span>begin
-                <span style="color: #859900;">(</span>display <span style="color: #b58900;">(</span>string-append <span style="color: #2aa198;">"set!\t"</span> <span style="color: #268bd2;">(</span>object-&gt;string this<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"\n"</span>
-                                        <span style="color: #2aa198;">"rest:\t"</span> <span style="color: #268bd2;">(</span>object-&gt;string rest<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"\n"</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                <span style="color: #859900;">(</span>set! S rest<span style="color: #859900;">)</span>
-                this<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-            <span style="color: #268bd2;">(</span>begin
-              <span style="color: #6c71c4;">(</span>set! S <span style="color: #2aa198;">""</span><span style="color: #6c71c4;">)</span>
-              #f<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+;; 先从全局变量获得匹配到的字符串,再将全局变量减少 () -&gt; this-string
+(define (token-next)
+  (if (not (equal? S ""))
+      (let* ((rest (token-rest S))
+	     (this (token-this S)))
+	(begin
+	  (display (string-append "set!\t" (object-&gt;string this) "\n"
+				  "rest:\t" (object-&gt;string rest) "\n"))
+	  (set! S rest)
+	  this))
+      (begin
+	(set! S "")
+	#f)))
 
-      <span style="color: #93a1a1;">;;</span><span style="color: #93a1a1;">--------------------- parser ---------------------------------</span>
+;;--------------------- parser ---------------------------------
 
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">exp    : item + item     &gt; (+ item item)</span>
-      <span style="color: #93a1a1;">;;        </span><span style="color: #93a1a1;">&#65372; item &#8211; item     &gt; (- item item)</span>
-      <span style="color: #93a1a1;">;;        </span><span style="color: #93a1a1;">| item             &gt;  item</span>
-      <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>exp<span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span>display <span style="color: #268bd2;">(</span>string-append <span style="color: #2aa198;">"fun-exp:\t"</span> S <span style="color: #2aa198;">"\n"</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>item-1 <span style="color: #859900;">(</span>item<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span>display <span style="color: #6c71c4;">(</span>string-append <span style="color: #2aa198;">"item-1:\t"</span> <span style="color: #859900;">(</span>object-&gt;string item-1<span style="color: #859900;">)</span> <span style="color: #2aa198;">"\n"</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span>display <span style="color: #6c71c4;">(</span>string-append <span style="color: #2aa198;">"op1:\t"</span> <span style="color: #859900;">(</span>object-&gt;string <span style="color: #b58900;">(</span>token-this S<span style="color: #b58900;">)</span><span style="color: #859900;">)</span> <span style="color: #2aa198;">"\n"</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #6c71c4;">(</span>and <span style="color: #859900;">(</span>not <span style="color: #b58900;">(</span>equal? <span style="color: #268bd2;">(</span>token-this S<span style="color: #268bd2;">)</span> #f<span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                   <span style="color: #859900;">(</span>or <span style="color: #b58900;">(</span>equal? <span style="color: #268bd2;">(</span>token-this S<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"+"</span><span style="color: #b58900;">)</span>
-                       <span style="color: #b58900;">(</span>equal? <span style="color: #268bd2;">(</span>token-this S<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"-"</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-              <span style="color: #6c71c4;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #859900;">(</span><span style="color: #b58900;">(</span>op <span style="color: #268bd2;">(</span>token-next<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-                     <span style="color: #b58900;">(</span>item-2 <span style="color: #268bd2;">(</span>item<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                <span style="color: #859900;">(</span>display <span style="color: #b58900;">(</span>string-append <span style="color: #2aa198;">"out-exp:\t"</span>
-                                        <span style="color: #268bd2;">(</span>object-&gt;string <span style="color: #6c71c4;">(</span>list op item-1 item-2<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-                                        <span style="color: #2aa198;">"\n"</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                <span style="color: #859900;">(</span>list op item-1 item-2<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-              <span style="color: #6c71c4;">(</span>begin
-                <span style="color: #859900;">(</span>display <span style="color: #b58900;">(</span>string-append <span style="color: #2aa198;">"out-exp-item-1:\t"</span>
-                                        <span style="color: #268bd2;">(</span>object-&gt;string item-1<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"\n"</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                item-1<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+;; exp    : item + item     &gt; (+ item item)
+;;        ｜ item – item     &gt; (- item item)
+;;        | item             &gt;  item
+(define (exp)
+  (display (string-append "fun-exp:\t" S "\n"))
+  (let* ((item-1 (item)))
+    (display (string-append "item-1:\t" (object-&gt;string item-1) "\n"))
+    (display (string-append "op1:\t" (object-&gt;string (token-this S)) "\n"))
+    (if (and (not (equal? (token-this S) #f))
+	     (or (equal? (token-this S) "+")
+		 (equal? (token-this S) "-")))
+	(let* ((op (token-next))
+	       (item-2 (item)))
+	  (display (string-append "out-exp:\t"
+				  (object-&gt;string (list op item-1 item-2))
+				  "\n"))
+	  (list op item-1 item-2))
+	(begin
+	  (display (string-append "out-exp-item-1:\t"
+				  (object-&gt;string item-1) "\n"))
+	  item-1))))
 
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Item   : factor * factor &gt; (* factor factor)</span>
-      <span style="color: #93a1a1;">;;        </span><span style="color: #93a1a1;">| factor / factor &gt; (/ factor factor)</span>
-      <span style="color: #93a1a1;">;;        </span><span style="color: #93a1a1;">| factor          &gt; factor</span>
-      <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>item<span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span>display <span style="color: #268bd2;">(</span>string-append <span style="color: #2aa198;">"fun-item:\t"</span> S <span style="color: #2aa198;">"\n"</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>factor-1 <span style="color: #859900;">(</span>factor<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span>display <span style="color: #6c71c4;">(</span>string-append <span style="color: #2aa198;">"factor-1:\t"</span> <span style="color: #859900;">(</span>object-&gt;string factor-1<span style="color: #859900;">)</span> <span style="color: #2aa198;">"\n"</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span>display <span style="color: #6c71c4;">(</span>string-append <span style="color: #2aa198;">"op2:\t"</span> <span style="color: #859900;">(</span>object-&gt;string <span style="color: #b58900;">(</span>token-this S<span style="color: #b58900;">)</span><span style="color: #859900;">)</span> <span style="color: #2aa198;">"\n"</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #6c71c4;">(</span>and <span style="color: #859900;">(</span>not <span style="color: #b58900;">(</span>equal? <span style="color: #268bd2;">(</span>token-this S<span style="color: #268bd2;">)</span> #f<span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                   <span style="color: #859900;">(</span>or <span style="color: #b58900;">(</span>equal? <span style="color: #268bd2;">(</span>token-this S<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"*"</span><span style="color: #b58900;">)</span>
-                       <span style="color: #b58900;">(</span>equal? <span style="color: #268bd2;">(</span>token-this S<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"/"</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-              <span style="color: #6c71c4;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #859900;">(</span><span style="color: #b58900;">(</span>op <span style="color: #268bd2;">(</span>token-next<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-                     <span style="color: #b58900;">(</span>factor-2 <span style="color: #268bd2;">(</span>factor<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                <span style="color: #859900;">(</span>display <span style="color: #b58900;">(</span>string-append <span style="color: #2aa198;">"out-item:\t"</span>
-                                        <span style="color: #268bd2;">(</span>object-&gt;string <span style="color: #6c71c4;">(</span>list op factor-1 factor-2<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-                                        <span style="color: #2aa198;">"\n"</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                <span style="color: #859900;">(</span>list op factor-1 factor-2<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-              <span style="color: #6c71c4;">(</span>begin
-                <span style="color: #859900;">(</span>display <span style="color: #b58900;">(</span>string-append <span style="color: #2aa198;">"out-item-factor-1:\t"</span>
-                                        <span style="color: #268bd2;">(</span>object-&gt;string factor-1<span style="color: #268bd2;">)</span> <span style="color: #2aa198;">"\n"</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                factor-1<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+;; Item   : factor * factor &gt; (* factor factor)
+;;        | factor / factor &gt; (/ factor factor)
+;;        | factor          &gt; factor
+(define (item)
+  (display (string-append "fun-item:\t" S "\n"))
+  (let* ((factor-1 (factor)))
+    (display (string-append "factor-1:\t" (object-&gt;string factor-1) "\n"))
+    (display (string-append "op2:\t" (object-&gt;string (token-this S)) "\n"))
+    (if (and (not (equal? (token-this S) #f))
+	     (or (equal? (token-this S) "*")
+		 (equal? (token-this S) "/")))
+	(let* ((op (token-next))
+	       (factor-2 (factor)))
+	  (display (string-append "out-item:\t"
+				  (object-&gt;string (list op factor-1 factor-2))
+				  "\n"))
+	  (list op factor-1 factor-2))
+	(begin
+	  (display (string-append "out-item-factor-1:\t"
+				  (object-&gt;string factor-1) "\n"))
+	  factor-1))))
 
-      <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">factor : 0..9</span>
-      <span style="color: #93a1a1;">;;        </span><span style="color: #93a1a1;">| (exp)</span>
-      <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>factor<span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span>display <span style="color: #268bd2;">(</span>string-append <span style="color: #2aa198;">"fun-factor:\t"</span> S <span style="color: #2aa198;">"\n"</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>this <span style="color: #859900;">(</span>token-next<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #6c71c4;">(</span>string= this <span style="color: #2aa198;">"("</span><span style="color: #6c71c4;">)</span>
-              <span style="color: #6c71c4;">(</span>begin
-                <span style="color: #859900;">(</span>display <span style="color: #b58900;">(</span>string-append <span style="color: #2aa198;">"not-number:\t"</span> this <span style="color: #2aa198;">"\n"</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                <span style="color: #859900;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #b58900;">(</span><span style="color: #268bd2;">(</span>e <span style="color: #6c71c4;">(</span>exp<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-                  <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>next <span style="color: #859900;">(</span>token-this S<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-                    <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">when</span> <span style="color: #6c71c4;">(</span>string= next <span style="color: #2aa198;">")"</span><span style="color: #6c71c4;">)</span>
-                      <span style="color: #6c71c4;">(</span>token-next<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-                  e<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-              <span style="color: #6c71c4;">(</span>begin
-                <span style="color: #859900;">(</span>display <span style="color: #b58900;">(</span>string-append <span style="color: #2aa198;">"is-number:\t"</span> this <span style="color: #2aa198;">"\n"</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span>
-                this<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+;; factor : 0..9
+;;        | (exp)
+(define (factor)
+  (display (string-append "fun-factor:\t" S "\n"))
+  (let* ((this (token-next)))
+    (if (string= this "(")
+	(begin
+	  (display (string-append "not-number:\t" this "\n"))
+	  (let* ((e (exp)))
+	    (let* ((next (token-this S)))
+	      (when (string= next ")")
+		(token-next)))
+	    e))
+	(begin
+	  (display (string-append "is-number:\t" this "\n"))
+	  this))))
 
-      <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>main s<span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span>set! S s<span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>AST <span style="color: #859900;">(</span>exp<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>AST-string
-                <span style="color: #859900;">(</span>regexp-substitute/global #f <span style="color: #2aa198;">"\\\""</span>
-                                          <span style="color: #b58900;">(</span>object-&gt;string AST<span style="color: #b58900;">)</span> 'pre <span style="color: #2aa198;">""</span> 'post<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span>display <span style="color: #6c71c4;">(</span>string-append <span style="color: #2aa198;">"AST string:\t"</span> AST-string <span style="color: #2aa198;">"\n"</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span>eval-string AST-string<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+(define (main s)
+  (set! S s)
+  (let* ((AST (exp))
+	 (AST-string
+	  (regexp-substitute/global #f "\\\""
+				    (object-&gt;string AST) 'pre "" 'post)))
+    (display (string-append "AST string:\t" AST-string "\n"))
+    (eval-string AST-string)))
 
-      <span style="color: #2aa198;">(</span>display <span style="color: #b58900;">(</span>string-append <span style="color: #2aa198;">"result:\t"</span>
-                              <span style="color: #268bd2;">(</span>object-&gt;string <span style="color: #6c71c4;">(</span>main <span style="color: #2aa198;">"(1+3)*9-(7/2+8)"</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+(display (string-append "result:\t"
+			(object-&gt;string (main "(1+3)*9-(7/2+8)"))))
 </pre>
 </div>
-
-<pre class="example">
-    fun-exp:	(1+3)*9-(7/2+8)
-    fun-item:	(1+3)*9-(7/2+8)
-    fun-factor:	(1+3)*9-(7/2+8)
-    set!	"("
-    rest:	"1+3)*9-(7/2+8)"
-    not-number:	(
-    fun-exp:	1+3)*9-(7/2+8)
-    fun-item:	1+3)*9-(7/2+8)
-    fun-factor:	1+3)*9-(7/2+8)
-    set!	"1"
-    rest:	"+3)*9-(7/2+8)"
-    is-number:	1
-    factor-1:	"1"
-    op2:	"+"
-    out-item-factor-1:	"1"
-    item-1:	"1"
-    op1:	"+"
-    set!	"+"
-    rest:	"3)*9-(7/2+8)"
-    fun-item:	3)*9-(7/2+8)
-    fun-factor:	3)*9-(7/2+8)
-    set!	"3"
-    rest:	")*9-(7/2+8)"
-    is-number:	3
-    factor-1:	"3"
-    op2:	")"
-    out-item-factor-1:	"3"
-    out-exp:	("+" "1" "3")
-    set!	")"
-    rest:	"*9-(7/2+8)"
-    factor-1:	("+" "1" "3")
-    op2:	"*"
-    set!	"*"
-    rest:	"9-(7/2+8)"
-    fun-factor:	9-(7/2+8)
-    set!	"9"
-    rest:	"-(7/2+8)"
-    is-number:	9
-    out-item:	("*" ("+" "1" "3") "9")
-    item-1:	("*" ("+" "1" "3") "9")
-    op1:	"-"
-    set!	"-"
-    rest:	"(7/2+8)"
-    fun-item:	(7/2+8)
-    fun-factor:	(7/2+8)
-    set!	"("
-    rest:	"7/2+8)"
-    not-number:	(
-    fun-exp:	7/2+8)
-    fun-item:	7/2+8)
-    fun-factor:	7/2+8)
-    set!	"7"
-    rest:	"/2+8)"
-    is-number:	7
-    factor-1:	"7"
-    op2:	"/"
-    set!	"/"
-    rest:	"2+8)"
-    fun-factor:	2+8)
-    set!	"2"
-    rest:	"+8)"
-    is-number:	2
-    out-item:	("/" "7" "2")
-    item-1:	("/" "7" "2")
-    op1:	"+"
-    set!	"+"
-    rest:	"8)"
-    fun-item:	8)
-    fun-factor:	8)
-    set!	"8"
-    rest:	")"
-    is-number:	8
-    factor-1:	"8"
-    op2:	")"
-    out-item-factor-1:	"8"
-    out-exp:	("+" ("/" "7" "2") "8")
-    set!	")"
-    rest:	""
-    factor-1:	("+" ("/" "7" "2") "8")
-    op2:	#f
-    out-item-factor-1:	("+" ("/" "7" "2") "8")
-    out-exp:	("-" ("*" ("+" "1" "3") "9") ("+" ("/" "7" "2") "8"))
-    AST string:	(- (* (+ 1 3) 9) (+ (/ 7 2) 8))
-    result:	49/2
-</pre>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:24</p>
+<p class="date">Created: 2020-12-19 Sat 14:08</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

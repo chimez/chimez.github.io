@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:24 -->
+<!-- 2020-12-19 Sat 14:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>使用栈改写递归</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -255,13 +258,13 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#orga765d6f">1. 奇偶检验 Guile版</a>
 <ul>
-<li><a href="#orgd291578">1.1. 递归方法</a></li>
-<li><a href="#org833c122">1.2. 栈方法</a></li>
+<li><a href="#orgecfdcc1">1.1. 递归方法</a></li>
+<li><a href="#org7e258c4">1.2. 栈方法</a></li>
 </ul>
 </li>
 <li><a href="#org8ad3af8">2. 奇偶检验 Clojure版</a>
 <ul>
-<li><a href="#org59a2c2a">2.1. 递归方法</a></li>
+<li><a href="#orge5bbcfc">2.1. 递归方法</a></li>
 <li><a href="#org0a0f2ad">2.2. 尾递归版</a></li>
 <li><a href="#orgd6650b8">2.3. <code>trampoline</code> 优化多重尾递归</a>
 <ul>
@@ -269,7 +272,7 @@ for the JavaScript code in this tag.
 <li><a href="#orgb85b64b">2.3.2. 有限状态自动机</a></li>
 </ul>
 </li>
-<li><a href="#org579625f">2.4. 栈方法</a></li>
+<li><a href="#org2f11667">2.4. 栈方法</a></li>
 </ul>
 </li>
 </ul>
@@ -283,61 +286,53 @@ for the JavaScript code in this tag.
 <h2 id="orga765d6f"><span class="section-number-2">1</span> 奇偶检验 Guile版</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orgd291578" class="outline-3">
-<h3 id="orgd291578"><span class="section-number-3">1.1</span> 递归方法</h3>
+<div id="outline-container-orgecfdcc1" class="outline-3">
+<h3 id="orgecfdcc1"><span class="section-number-3">1.1</span> 递归方法</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
-<pre class="src src-lisp">       <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>odd? n<span style="color: #b58900;">)</span>
-         <span style="color: #b58900;">(</span>not <span style="color: #268bd2;">(</span>even? n<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>even? n<span style="color: #b58900;">)</span>
-         <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span>= n 0<span style="color: #268bd2;">)</span>
-             #t
-             <span style="color: #268bd2;">(</span>odd? <span style="color: #6c71c4;">(</span>- n 1<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">(define (odd? n)
+  (not (even? n)))
+(define (even? n)
+  (if (= n 0)
+      #t
+      (odd? (- n 1))))
 
-       <span style="color: #2aa198;">(</span>odd? 30<span style="color: #2aa198;">)</span>
-</pre>
-</div>
-
-<pre class="example">
-#f
+(odd? 30)
 </pre>
 </div>
 </div>
+</div>
 
-<div id="outline-container-org833c122" class="outline-3">
-<h3 id="org833c122"><span class="section-number-3">1.2</span> 栈方法</h3>
+<div id="outline-container-org7e258c4" class="outline-3">
+<h3 id="org7e258c4"><span class="section-number-3">1.2</span> 栈方法</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
-<pre class="src src-lisp">       <span style="color: #2aa198;">(</span>define ss '<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>push x<span style="color: #b58900;">)</span>
-         <span style="color: #b58900;">(</span>set! ss <span style="color: #268bd2;">(</span>cons x ss<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>pop<span style="color: #b58900;">)</span>
-         <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>x <span style="color: #859900;">(</span>car ss<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-           <span style="color: #268bd2;">(</span>set! ss <span style="color: #6c71c4;">(</span>cdr ss<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-           x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">(define ss '())
+(define (push x)
+  (set! ss (cons x ss)))
+(define (pop)
+  (let* ((x (car ss)))
+    (set! ss (cdr ss))
+    x))
 
-       <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>stack-odd? n<span style="color: #b58900;">)</span>
-         <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let</span> loop <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>i n<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-           <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #6c71c4;">(</span>not <span style="color: #859900;">(</span>= i 0<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>begin
-                 <span style="color: #859900;">(</span>push i<span style="color: #859900;">)</span>
-                 <span style="color: #859900;">(</span><span style="color: #859900; font-weight: bold;">loop</span> <span style="color: #b58900;">(</span>- i 1<span style="color: #b58900;">)</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>push #f<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-         <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>flag #t<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-           <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">while</span> <span style="color: #6c71c4;">(</span>not <span style="color: #859900;">(</span>null? ss<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-             <span style="color: #6c71c4;">(</span>pop<span style="color: #6c71c4;">)</span>
-             <span style="color: #6c71c4;">(</span>set! flag <span style="color: #859900;">(</span>not flag<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-           flag<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>stack-even? n<span style="color: #b58900;">)</span>
-         <span style="color: #b58900;">(</span>not <span style="color: #268bd2;">(</span>stack-odd? n<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+(define (stack-odd? n)
+  (let loop ((i n))
+    (if (not (= i 0))
+	(begin
+	  (push i)
+	  (loop (- i 1)))
+	(push #f)))
+  (let ((flag #t))
+    (while (not (null? ss))
+      (pop)
+      (set! flag (not flag)))
+    flag))
+(define (stack-even? n)
+  (not (stack-odd? n)))
 
-       <span style="color: #2aa198;">(</span>stack-odd? 3010<span style="color: #2aa198;">)</span>
+(stack-odd? 3010)
 </pre>
 </div>
-
-<pre class="example">
-#f
-</pre>
 </div>
 </div>
 </div>
@@ -346,30 +341,23 @@ for the JavaScript code in this tag.
 <h2 id="org8ad3af8"><span class="section-number-2">2</span> 奇偶检验 Clojure版</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org59a2c2a" class="outline-3">
-<h3 id="org59a2c2a"><span class="section-number-3">2.1</span> 递归方法</h3>
+<div id="outline-container-orge5bbcfc" class="outline-3">
+<h3 id="orge5bbcfc"><span class="section-number-3">2.1</span> 递归方法</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
-<pre class="src src-clojure">       (declare user-even?)
-       (defn user-odd? [n]
-         (not (user-even? n)))
-       (defn user-even? [n]
-         (if (= n 0)
-           true
-           (user-odd? (- n 1))))
-       (println (user-odd? 31))
-       (println (user-odd? 32))
-       (println (user-even? 31))
-       (println (user-even? 32))
+<pre class="src src-clojure">(declare user-even?)
+(defn user-odd? [n]
+  (not (user-even? n)))
+(defn user-even? [n]
+  (if (= n 0)
+    true
+    (user-odd? (- n 1))))
+(println (user-odd? 31))
+(println (user-odd? 32))
+(println (user-even? 31))
+(println (user-even? 32))
 </pre>
 </div>
-
-<pre class="example">
-true
-false
-false
-true
-</pre>
 </div>
 </div>
 
@@ -381,29 +369,22 @@ true
 这里要求初值必须是 <code>true</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure">       (declare user-even?) 
-       (defn user-odd? [[n flag]]
-         (user-even? [n (not flag)]))
-       (defn user-even? [[n flag]]
-         (if (&lt;= n 0)
-           (if flag
-             true
-             false)
-           (user-odd? [(- n 1) flag])))
+<pre class="src src-clojure">(declare user-even?) 
+(defn user-odd? [[n flag]]
+  (user-even? [n (not flag)]))
+(defn user-even? [[n flag]]
+  (if (&lt;= n 0)
+    (if flag
+      true
+      false)
+    (user-odd? [(- n 1) flag])))
 
-       (println (user-odd? [31 true]))
-       (println (user-even? [31 true]))
-       (println (user-odd? [32 true]))
-       (println (user-even? [32 true]))
+(println (user-odd? [31 true]))
+(println (user-even? [31 true]))
+(println (user-odd? [32 true]))
+(println (user-even? [32 true]))
 </pre>
 </div>
-
-<pre class="example">
-true
-false
-false
-true
-</pre>
 </div>
 </div>
 
@@ -419,29 +400,22 @@ true
 <h4 id="org8ca9ad3"><span class="section-number-4">2.3.1</span> 上面函数的例子</h4>
 <div class="outline-text-4" id="text-2-3-1">
 <div class="org-src-container">
-<pre class="src src-clojure">        (declare user-even?)
-        (defn user-odd? [[n flag]]
-          #(user-even? [n (not flag)]))
-        (defn user-even? [[n flag]]
-          (if (&lt;= n 0)
-            (if flag
-              true
-              false)
-            #(user-odd? [(- n 1) flag])))
+<pre class="src src-clojure">(declare user-even?)
+(defn user-odd? [[n flag]]
+  #(user-even? [n (not flag)]))
+(defn user-even? [[n flag]]
+  (if (&lt;= n 0)
+    (if flag
+      true
+      false)
+    #(user-odd? [(- n 1) flag])))
 
-        (println (trampoline user-odd? [31 true]))
-        (println (trampoline user-odd? [32 true]))
-        (println (trampoline user-even? [31 true]))
-        (println (trampoline user-even? [32 true]))
+(println (trampoline user-odd? [31 true]))
+(println (trampoline user-odd? [32 true]))
+(println (trampoline user-even? [31 true]))
+(println (trampoline user-even? [32 true]))
 </pre>
 </div>
-
-<pre class="example">
-true
-false
-false
-true
-</pre>
 </div>
 </div>
 
@@ -449,87 +423,75 @@ true
 <h4 id="orgb85b64b"><span class="section-number-4">2.3.2</span> 有限状态自动机</h4>
 <div class="outline-text-4" id="text-2-3-2">
 <div class="org-src-container">
-<pre class="src src-clojure">        (defn foo [cmds]
-          (letfn
-              [(a-&gt; [[_ &amp; rs]]
-                 #(case _ 
-                    :a-b (b-&gt; rs)
-                    :a-c (c-&gt; rs)
-                    false))
-               (b-&gt; [[_ &amp; rs]]
-                 #(case _ 
-                    :b-a (a-&gt; rs)
-                    :b-c (c-&gt; rs)
-                    false))
-               (c-&gt; [[_ &amp; rs]]
-                 #(case _ 
-                    :c-a (a-&gt; rs)
-                    :c-b (c-&gt; rs)
-                    :final (do (println "!") true)
-                    false))]
-            (trampoline a-&gt; cmds)))
+<pre class="src src-clojure">(defn foo [cmds]
+  (letfn
+      [(a-&gt; [[_ &amp; rs]]
+	 #(case _ 
+	    :a-b (b-&gt; rs)
+	    :a-c (c-&gt; rs)
+	    false))
+       (b-&gt; [[_ &amp; rs]]
+	 #(case _ 
+	    :b-a (a-&gt; rs)
+	    :b-c (c-&gt; rs)
+	    false))
+       (c-&gt; [[_ &amp; rs]]
+	 #(case _ 
+	    :c-a (a-&gt; rs)
+	    :c-b (c-&gt; rs)
+	    :final (do (println "!") true)
+	    false))]
+    (trampoline a-&gt; cmds)))
 
-        (println (foo [:a-b :b-c :c-a :a-c :final]))
-</pre>
-</div>
-
-<pre class="example">
-!
-true
+(println (foo [:a-b :b-c :c-a :a-c :final]))
 </pre>
 </div>
 </div>
 </div>
+</div>
 
 
 
-<div id="outline-container-org579625f" class="outline-3">
-<h3 id="org579625f"><span class="section-number-3">2.4</span> 栈方法</h3>
+<div id="outline-container-org2f11667" class="outline-3">
+<h3 id="org2f11667"><span class="section-number-3">2.4</span> 栈方法</h3>
 <div class="outline-text-3" id="text-2-4">
 <div class="org-src-container">
-<pre class="src src-clojure">       (def ss (atom []))
-       (defn user-push [x]
-         (swap! ss #(cons x %)))
-       (defn user-pop []
-         (let [x (first @ss)]
-           (swap! ss #(rest %))
-           x))
+<pre class="src src-clojure">(def ss (atom []))
+(defn user-push [x]
+  (swap! ss #(cons x %)))
+(defn user-pop []
+  (let [x (first @ss)]
+    (swap! ss #(rest %))
+    x))
 
-       (defn stack-odd? [n]
-         (loop [i n]
-           (if (not (= i 0))
-             (do
-               (user-push i)
-               (recur (- i 1)))
-             (user-push false)))
-         (let [flag (atom true)]
-           (while (not (empty? @ss))
-             (user-pop)
-             (swap! flag #(not %)))
-           @flag))
-       (defn stack-even? [n]
-         (not (stack-odd? n)))
+(defn stack-odd? [n]
+  (loop [i n]
+    (if (not (= i 0))
+      (do
+	(user-push i)
+	(recur (- i 1)))
+      (user-push false)))
+  (let [flag (atom true)]
+    (while (not (empty? @ss))
+      (user-pop)
+      (swap! flag #(not %)))
+    @flag))
+(defn stack-even? [n]
+  (not (stack-odd? n)))
 
-       (println (stack-odd? 31))
-       (println (stack-odd? 32))
-       (println (stack-even? 31))
-       (println (stack-even? 32))
+(println (stack-odd? 31))
+(println (stack-odd? 32))
+(println (stack-even? 31))
+(println (stack-even? 32))
 </pre>
 </div>
-
-<pre class="example">
-true
-false
-false
-true
-</pre>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:24</p>
+<p class="date">Created: 2020-12-19 Sat 14:08</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

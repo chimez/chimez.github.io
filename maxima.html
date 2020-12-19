@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:23 -->
+<!-- 2020-12-19 Sat 14:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>maxima</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -312,43 +315,43 @@ for the JavaScript code in this tag.
 <h4 id="org2480422"><span class="section-number-4">3.1.1</span> 例子</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">use-package</span> <span style="color: #268bd2; font-weight: bold;">maxima-mode</span>
-  <span style="color: #657b83; font-weight: bold;">:ensure</span> nil
-  <span style="color: #657b83; font-weight: bold;">:load-path</span> <span style="color: #2aa198;">"/usr/share/emacs/site-lisp/maxima/"</span><span style="color: #2aa198;">)</span>
+<pre class="src src-emacs-lisp">(use-package maxima-mode
+  :ensure nil
+  :load-path "/usr/share/emacs/site-lisp/maxima/")
 
-<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">use-package</span> <span style="color: #268bd2; font-weight: bold;">imaxima</span>
-  <span style="color: #657b83; font-weight: bold;">:ensure</span> nil
-  <span style="color: #657b83; font-weight: bold;">:load-path</span> <span style="color: #2aa198;">"/usr/share/emacs/site-lisp/maxima/"</span>
-  <span style="color: #657b83; font-weight: bold;">:commands</span> <span style="color: #b58900;">(</span>imaxima<span style="color: #b58900;">)</span>
-  <span style="color: #657b83; font-weight: bold;">:custom</span>
-  <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">&#20026;&#20102;&#26174;&#31034;&#20844;&#24335;&#65292;&#24517;&#39035;&#37197;&#32622;&#35201;&#20351;&#29992;&#30340;latex&#21253;</span>
-  <span style="color: #b58900;">(</span>imaxima-latex-preamble
-   <span style="color: #2aa198;">"</span>
-<span style="color: #2aa198;">\\usepackage{amsfonts}</span>
-<span style="color: #2aa198;">\\usepackage{amsmath}</span>
-<span style="color: #2aa198;">\\usepackage{amssymb}</span>
-<span style="color: #2aa198;">\\usepackage{mathrsfs}</span>
-<span style="color: #2aa198;">\\usepackage{bbm}</span>
-<span style="color: #2aa198;">\\usepackage{mathdots}</span>
-<span style="color: #2aa198;">\\usepackage{graphicx}</span>
-<span style="color: #2aa198;">\\usepackage{grffile}</span>
-<span style="color: #2aa198;">\\usepackage{wrapfig}</span>
-<span style="color: #2aa198;">\\usepackage{rotating}</span>
-<span style="color: #2aa198;">\\usepackage[normalem]{ulem}</span>
-<span style="color: #2aa198;">\\usepackage{textcomp}</span>
-<span style="color: #2aa198;">\\usepackage{capt-of}</span>
-<span style="color: #2aa198;">"</span><span style="color: #b58900;">)</span>
-  <span style="color: #657b83; font-weight: bold;">:init</span>
-  <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">setq</span> imaxima-use-maxima-mode-flag t<span style="color: #b58900;">)</span>
-  <span style="color: #2aa198;">)</span>
+(use-package imaxima
+  :ensure nil
+  :load-path "/usr/share/emacs/site-lisp/maxima/"
+  :commands (imaxima)
+  :custom
+  ;; 为了显示公式，必须配置要使用的latex包
+  (imaxima-latex-preamble
+   "
+\\usepackage{amsfonts}
+\\usepackage{amsmath}
+\\usepackage{amssymb}
+\\usepackage{mathrsfs}
+\\usepackage{bbm}
+\\usepackage{mathdots}
+\\usepackage{graphicx}
+\\usepackage{grffile}
+\\usepackage{wrapfig}
+\\usepackage{rotating}
+\\usepackage[normalem]{ulem}
+\\usepackage{textcomp}
+\\usepackage{capt-of}
+")
+  :init
+  (setq imaxima-use-maxima-mode-flag t)
+  )
 
-<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">use-package</span> <span style="color: #268bd2; font-weight: bold;">maxima</span>
-  <span style="color: #657b83; font-weight: bold;">:ensure</span> nil
-  <span style="color: #657b83; font-weight: bold;">:load-path</span> <span style="color: #2aa198;">"/usr/share/emacs/site-lisp/maxima/"</span><span style="color: #2aa198;">)</span>
+(use-package maxima
+  :ensure nil
+  :load-path "/usr/share/emacs/site-lisp/maxima/")
 
-<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">use-package</span> <span style="color: #268bd2; font-weight: bold;">imath-mode</span>
-  <span style="color: #657b83; font-weight: bold;">:ensure</span> nil
-  <span style="color: #657b83; font-weight: bold;">:load-path</span> <span style="color: #2aa198;">"/usr/share/emacs/site-lisp/maxima/"</span><span style="color: #2aa198;">)</span>
+(use-package imath-mode
+  :ensure nil
+  :load-path "/usr/share/emacs/site-lisp/maxima/")
 </pre>
 </div>
 </div>
@@ -364,25 +367,25 @@ for the JavaScript code in this tag.
 
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">
-<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">with-eval-after-load</span> 'maxima
-  <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">defconst</span> <span style="color: #268bd2;">maxima-symbols-completions-list</span>
-    <span style="color: #268bd2;">(</span>apply #'append maxima-symbols<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-  
-  <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">company-maxima-backend</span> <span style="color: #268bd2;">(</span>command <span style="color: #b58900;">&amp;optional</span> arg <span style="color: #b58900;">&amp;rest</span> ignored<span style="color: #268bd2;">)</span>
-    <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">interactive</span> <span style="color: #6c71c4;">(</span>list 'interactive<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
+(with-eval-after-load 'maxima
+  (defconst maxima-symbols-completions-list
+    (apply #'append maxima-symbols))
 
-    <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">cl-case</span> command
-      <span style="color: #6c71c4;">(</span><span style="color: #859900; font-weight: bold;">interactive</span> <span style="color: #859900;">(</span>company-begin-backend 'company-maxima-backend<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-      <span style="color: #6c71c4;">(</span>prefix <span style="color: #859900;">(</span><span style="color: #859900; font-weight: bold;">and</span> <span style="color: #b58900;">(</span>eq major-mode 'maxima-mode<span style="color: #b58900;">)</span>
-                   <span style="color: #b58900;">(</span>company-grab-symbol<span style="color: #b58900;">)</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-      <span style="color: #6c71c4;">(</span>candidates
-       <span style="color: #859900;">(</span>cl-remove-if-not
-        <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">lambda</span> <span style="color: #268bd2;">(</span>c<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">(</span>string-prefix-p arg c<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-        maxima-symbols-completions-list<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
+  (defun company-maxima-backend (command &amp;optional arg &amp;rest ignored)
+    (interactive (list 'interactive))
 
-  <span style="color: #b58900;">(</span>add-to-list 'company-backends 'company-maxima-backend<span style="color: #b58900;">)</span>
-  
-  <span style="color: #2aa198;">)</span>
+    (cl-case command
+      (interactive (company-begin-backend 'company-maxima-backend))
+      (prefix (and (eq major-mode 'maxima-mode)
+		   (company-grab-symbol)))
+      (candidates
+       (cl-remove-if-not
+	(lambda (c) (string-prefix-p arg c))
+	maxima-symbols-completions-list))))
+
+  (add-to-list 'company-backends 'company-maxima-backend)
+
+  )
 
 
 </pre>
@@ -393,7 +396,7 @@ for the JavaScript code in this tag.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="date">Created: 2020-12-19 Sat 14:07</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

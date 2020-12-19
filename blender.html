@@ -1,0 +1,1126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-12-19 Sat 14:07 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Blender学习笔记</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="chimez" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Blender学习笔记</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgcd265b2">1. Python API</a>
+<ul>
+<li><a href="#org53f3d08">1.1. 由文本读取点数据创建曲线</a></li>
+</ul>
+</li>
+<li><a href="#org5484d41">2. Blender Cycles</a>
+<ul>
+<li><a href="#org6afbcd6">2.1. 着色器</a></li>
+<li><a href="#org1f91af7">2.2. 结点工具</a></li>
+<li><a href="#org45c128e">2.3. 光源</a></li>
+<li><a href="#org2191fae">2.4. 渲染</a></li>
+</ul>
+</li>
+<li><a href="#org1c59eab">3. Blender动画</a>
+<ul>
+<li><a href="#org05ddb68">3.1. 关键帧</a></li>
+<li><a href="#org737da7f">3.2. 时间轴</a></li>
+<li><a href="#org438905a">3.3. 镜头切换</a></li>
+<li><a href="#org421fe05">3.4. Dopeship 关键帧操作工具</a></li>
+<li><a href="#orga97b6ab">3.5. 图表编辑器</a></li>
+</ul>
+</li>
+<li><a href="#org22d2d03">4. 多边形建模</a>
+<ul>
+<li><a href="#org7e37038">4.1. 基本操作复习</a></li>
+<li><a href="#orgecd5672">4.2. 由标准几何体生成</a></li>
+<li><a href="#orgdcbc24d">4.3. 仿照三视图创建</a></li>
+</ul>
+</li>
+<li><a href="#org60af128">5. FAQ</a>
+<ul>
+<li><a href="#org83ec7bc">5.1. 如何设置底图</a></li>
+<li><a href="#org8416789">5.2. 如何添加修改器</a></li>
+<li><a href="#org8f9cb25">5.3. 如何设置中文</a></li>
+</ul>
+</li>
+<li><a href="#org9f39afe">6. Blender绑定</a>
+<ul>
+<li><a href="#org3676ce5">6.1. 父子关系</a></li>
+<li><a href="#org7909526">6.2. 骨骼系统</a></li>
+<li><a href="#org2162bc6">6.3. 约束</a></li>
+<li><a href="#org7ea46e1">6.4. 角色绑定，让角色动起来</a></li>
+<li><a href="#org12f519b">6.5. 顶点组，与一些修改器共同工作，布料，粒子等</a></li>
+<li><a href="#orgd1771d6">6.6. 脸部绑定</a></li>
+</ul>
+</li>
+<li><a href="#org7bddb79">7. Blender贴图</a>
+<ul>
+<li><a href="#org368f43b">7.1. UV贴图</a></li>
+<li><a href="#orgd96cb56">7.2. 程序生成贴图</a></li>
+</ul>
+</li>
+<li><a href="#org04e6fee">8. Blender键位和基本操作</a>
+<ul>
+<li><a href="#org5aef520">8.1. 操作快捷键</a></li>
+<li><a href="#org79b2c43">8.2. 鼠标操作</a></li>
+<li><a href="#org32db5fe">8.3. 小键盘操作</a></li>
+<li><a href="#orgc2c55a9">8.4. 组合操作</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgcd265b2" class="outline-2">
+<h2 id="orgcd265b2"><span class="section-number-2">1</span> Python API</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org53f3d08" class="outline-3">
+<h3 id="org53f3d08"><span class="section-number-3">1.1</span> 由文本读取点数据创建曲线</h3>
+<div class="outline-text-3" id="text-1-1">
+<pre class="example">
+#Blender Python
+
+import bpy
+#polyline.points.add(len(coords))
+
+def file_to_pointlist(filename):
+    '''读取文本文档，返回列表'''
+    with open(filename, 'r') as fi:
+	coords=fi.readlines()
+
+    def clinetomath (text):
+	'''解析一行文本返回第一个数字和剩下的文本'''
+	n=text.find('e')
+	if n==-1:
+	    return -1,-1
+	a=float(text[:n])
+	b=float(text[n+1:n+4])
+	return a*10**b,text[n+5:]
+
+    #将全部数字储存为一维列表
+    all_number=[]
+    for coord in coords:
+	num,text=clinetomath(coord)
+	while text!=-1:
+	    all_number.append(num)
+	    num,text=clinetomath(text)
+
+    #将一维列表变成二维
+    list=[]
+    for i in range(len(all_number)):
+	if i%3==0:
+	    list.append([all_number[i],all_number[i+1],all_number[i+2]])
+
+    return list
+
+def create_curve(name,list):
+    '''创建混合曲线'''
+    curveData = bpy.data.curves.new(name, type='CURVE') #创建曲线数据
+    curveData.dimensions = '3D' #曲线模式
+    curveData.resolution_u = 2  #U向表面精度
+    curveData.fill_mode = 'FULL'    #填充模式
+    curveData.bevel_depth = 0.001   #倒角深度
+
+    polyline = curveData.splines.new('NURBS')   #创建曲线
+    for i in range(len(list)):  #导入点坐标
+	x,y,z=list[i]
+	polyline.points.add(1)
+	polyline.points[i].co = (x,y,z, 1)
+
+    curveOB = bpy.data.objects.new(name, curveData) #创建物体
+    curveOB.select = True   #选择物体
+
+    scn = bpy.context.scene #设置场景信息
+    scn.objects.link(curveOB)   #在场景中添加物体
+    scn.objects.active = curveOB    #使物体活动
+
+create_curve('ha',file_to_pointlist('/home/bacon/a'))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5484d41" class="outline-2">
+<h2 id="org5484d41"><span class="section-number-2">2</span> Blender Cycles</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org6afbcd6" class="outline-3">
+<h3 id="org6afbcd6"><span class="section-number-3">2.1</span> 着色器</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+在材质-面选项，结合节点面板组合使用
+</p>
+</div>
+</div>
+<div id="outline-container-org1f91af7" class="outline-3">
+<h3 id="org1f91af7"><span class="section-number-3">2.2</span> 结点工具</h3>
+</div>
+
+<div id="outline-container-org45c128e" class="outline-3">
+<h3 id="org45c128e"><span class="section-number-3">2.3</span> 光源</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+三点光源系统从强到弱：背光，主光源，补光
+</p>
+</div>
+</div>
+<div id="outline-container-org2191fae" class="outline-3">
+<h3 id="org2191fae"><span class="section-number-3">2.4</span> 渲染</h3>
+</div>
+</div>
+<div id="outline-container-org1c59eab" class="outline-2">
+<h2 id="org1c59eab"><span class="section-number-2">3</span> Blender动画</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org05ddb68" class="outline-3">
+<h3 id="org05ddb68"><span class="section-number-3">3.1</span> 关键帧</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+I创建关键帧，选择想插入的信息
+选中某一帧，再按I
+自动K帧，选中红点，会自动记录操作
+</p>
+</div>
+</div>
+<div id="outline-container-org737da7f" class="outline-3">
+<h3 id="org737da7f"><span class="section-number-3">3.2</span> 时间轴</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+altA自动播放
+alt+滚轮在时间轴上移动
+帧可以设置标记和名字
+</p>
+</div>
+</div>
+
+<div id="outline-container-org438905a" class="outline-3">
+<h3 id="org438905a"><span class="section-number-3">3.3</span> 镜头切换</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Ctrl+B绑定当前画面用的摄像机
+</p>
+</div>
+</div>
+<div id="outline-container-org421fe05" class="outline-3">
+<h3 id="org421fe05"><span class="section-number-3">3.4</span> Dopeship 关键帧操作工具</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+G缩放关键帧就是加速减速动画
+</p>
+</div>
+</div>
+<div id="outline-container-orga97b6ab" class="outline-3">
+<h3 id="orga97b6ab"><span class="section-number-3">3.5</span> 图表编辑器</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+可以设置关键帧的把手路径，设置动画运动路径 
+Shift+H可以隐藏别的路径，专注于修改一个
+有一些修改器可以加振动循环之类的效果
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org22d2d03" class="outline-2">
+<h2 id="org22d2d03"><span class="section-number-2">4</span> 多边形建模</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org7e37038" class="outline-3">
+<h3 id="org7e37038"><span class="section-number-3">4.1</span> 基本操作复习</h3>
+<div class="outline-text-3" id="text-4-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">快捷键</td>
+<td class="org-left">操作</td>
+</tr>
+
+<tr>
+<td class="org-left">鼠标左键</td>
+<td class="org-left">实行操作/确定</td>
+</tr>
+
+<tr>
+<td class="org-left">鼠标中建</td>
+<td class="org-left">移动视图</td>
+</tr>
+
+<tr>
+<td class="org-left">鼠标右键</td>
+<td class="org-left">选择物体/取消</td>
+</tr>
+
+<tr>
+<td class="org-left">数字键盘</td>
+<td class="org-left">快速旋转视图</td>
+</tr>
+
+<tr>
+<td class="org-left">A</td>
+<td class="org-left">全选</td>
+</tr>
+
+<tr>
+<td class="org-left">shift+A</td>
+<td class="org-left">新建</td>
+</tr>
+
+<tr>
+<td class="org-left">X,Y,Z</td>
+<td class="org-left">沿轴移动</td>
+</tr>
+
+<tr>
+<td class="org-left">T</td>
+<td class="org-left">左面板</td>
+</tr>
+
+<tr>
+<td class="org-left">N</td>
+<td class="org-left">右面板，属性面板</td>
+</tr>
+
+<tr>
+<td class="org-left">Z</td>
+<td class="org-left">线框模式</td>
+</tr>
+
+<tr>
+<td class="org-left">F</td>
+<td class="org-left">建立面</td>
+</tr>
+
+<tr>
+<td class="org-left">K</td>
+<td class="org-left">刀切割</td>
+</tr>
+
+<tr>
+<td class="org-left">E</td>
+<td class="org-left">挤出</td>
+</tr>
+
+<tr>
+<td class="org-left">Ctrl+R</td>
+<td class="org-left">环切</td>
+</tr>
+
+<tr>
+<td class="org-left">G</td>
+<td class="org-left">移动</td>
+</tr>
+
+<tr>
+<td class="org-left">R</td>
+<td class="org-left">旋转</td>
+</tr>
+
+<tr>
+<td class="org-left">S</td>
+<td class="org-left">缩放</td>
+</tr>
+
+<tr>
+<td class="org-left">ctrl+B</td>
+<td class="org-left">倒角</td>
+</tr>
+
+<tr>
+<td class="org-left">Tab</td>
+<td class="org-left">编辑模式</td>
+</tr>
+
+<tr>
+<td class="org-left">W</td>
+<td class="org-left">特殊菜单</td>
+</tr>
+
+<tr>
+<td class="org-left">编辑模式下Ctrl+Tab</td>
+<td class="org-left">切换点线面选择</td>
+</tr>
+
+<tr>
+<td class="org-left">X</td>
+<td class="org-left">删除</td>
+</tr>
+
+<tr>
+<td class="org-left">H</td>
+<td class="org-left">隐藏</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-orgecd5672" class="outline-3">
+<h3 id="orgecd5672"><span class="section-number-3">4.2</span> 由标准几何体生成</h3>
+<div class="outline-text-3" id="text-4-2">
+<ol class="org-ol">
+<li>创建一个标准几何体</li>
+<li>综合利用挤出(E),环切(Ctrl+R),切割(K),创建面(F)</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgdcbc24d" class="outline-3">
+<h3 id="orgdcbc24d"><span class="section-number-3">4.3</span> 仿照三视图创建</h3>
+<div class="outline-text-3" id="text-4-3">
+<ol class="org-ol">
+<li>添加底图</li>
+<li>创建一个平面,删除三个边得到一条线</li>
+<li>用挤出(E)由线生成点,进而画出半个轮廓</li>
+<li>使用修改器-镜像获得另一半</li>
+<li>用挤出(E)由正视图形成立体,结合环切(Ctrl+R)进行大致轮廓调整</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org60af128" class="outline-2">
+<h2 id="org60af128"><span class="section-number-2">5</span> FAQ</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org83ec7bc" class="outline-3">
+<h3 id="org83ec7bc"><span class="section-number-3">5.1</span> 如何设置底图</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+右侧栏 -&gt; 背景图(最好是正方形) -&gt; 未设置 -&gt; 打开 -&gt; 轴向
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8416789" class="outline-3">
+<h3 id="org8416789"><span class="section-number-3">5.2</span> 如何添加修改器</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+最右侧属性 -&gt; 修改器(扳手) -&gt; 添加修改器
+</p>
+
+<ol class="org-ol">
+<li>修改器 -&gt; 表面细分 与 T -&gt; 平滑顶点</li>
+<li>镜射(镜像)</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org8f9cb25" class="outline-3">
+<h3 id="org8f9cb25"><span class="section-number-3">5.3</span> 如何设置中文</h3>
+<div class="outline-text-3" id="text-5-3">
+<ol class="org-ol">
+<li>打开上方 file -&gt; User Preferences</li>
+<li>勾选 System 下 International Fonts 条目</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org9f39afe" class="outline-2">
+<h2 id="org9f39afe"><span class="section-number-2">6</span> Blender绑定</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+绑定是动画的基础，角色绑定使用骨骼系统，还有物理绑定等
+</p>
+</div>
+
+<div id="outline-container-org3676ce5" class="outline-3">
+<h3 id="org3676ce5"><span class="section-number-3">6.1</span> 父子关系</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+创建绑定的关系：每个选中的物体都是当前物体的子绑定
+父物体的移动会导致子物体移动，但子物体不能移动父物体
+在属性中可以打开或关闭显示关系线
+创建空物体，只是一个参考点，显示形状可以设置,利用空物体将各种东西分组控制，空物体可以设置显示名称
+快捷键：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">快捷键</td>
+<td class="org-left">功能</td>
+</tr>
+
+<tr>
+<td class="org-left">Alt+G</td>
+<td class="org-left">回到原点（创建父子关系时的位置）</td>
+</tr>
+
+<tr>
+<td class="org-left">alt+P</td>
+<td class="org-left">清除父子关系</td>
+</tr>
+
+<tr>
+<td class="org-left">Ctrl+P</td>
+<td class="org-left">创建绑定</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org7909526" class="outline-3">
+<h3 id="org7909526"><span class="section-number-3">6.2</span> 骨骼系统</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+Shift+A 创建一个骨骼，骨骼分头和尾，原点就是头，用e自动延伸骨骼并创建父子关系
+通过使物体成为骨骼的子物体来进行控制，在Ctrl+P中选择骨骼绑定
+骨骼选项中可以设置是否继承旋转、比例等属性
+在姿势模式下创作动画，而不是编辑模式或物体模式
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2162bc6" class="outline-3">
+<h3 id="org2162bc6"><span class="section-number-3">6.3</span> 约束</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+在右侧里创建各种约束，对骨骼要在骨骼页里创建约束
+约束的顺序从上到下，最上面的先起作用，可以覆盖下面的
+追踪约束，可以使一个物体指向另一个物体
+曲线追踪约束，让物体只沿着贝塞尔曲线运动
+变形约束，映射变形，可以将一个物体的平移运动与另一个物体的旋转进行绑定转换
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7ea46e1" class="outline-3">
+<h3 id="org7ea46e1"><span class="section-number-3">6.4</span> 角色绑定，让角色动起来</h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+在设置中选中Rigify，这样可以进行元绑定，创建一个人体骨骼，缩放和旋转骨骼使骨骼和模型相重合（打开X轴镜像再编辑能节省工作量）
+不需要的骨骼就删除掉，关节骨骼要在皮肤表面，这样动作更准确，线框模式并打开X光选项，这样就能在物体模式下看见里面的骨骼了
+创建父子关系，在Ctrl+P中选择自动权重，Ctrl+TAB进入权重图模式，在T菜单里选上权重刷，打开镜像，权重越大变形越严重，用权重刷刷上0可以消除形变
+骨骼形变修改器和其他的修改器，镜像等，顺序很重要，会影响行为
+反动力与正动力，IK与FK，让角色可以自然的接触地面
+FK就是一般的层级结构，摆姿势时用自动IK功能可以方便些
+IK约束，复制一个不可见的子骨骼，删除父子关系，再用新建的这个创建IK约束，避免父子关系死循环，设置正确的极点角度来得到合适的控制效果
+姿势模式下也有层级和组功能，能够隐藏不想控制的骨骼，降低复杂度
+</p>
+</div>
+</div>
+
+<div id="outline-container-org12f519b" class="outline-3">
+<h3 id="org12f519b"><span class="section-number-3">6.5</span> 顶点组，与一些修改器共同工作，布料，粒子等</h3>
+</div>
+
+<div id="outline-container-orgd1771d6" class="outline-3">
+<h3 id="orgd1771d6"><span class="section-number-3">6.6</span> 脸部绑定</h3>
+</div>
+</div>
+<div id="outline-container-org7bddb79" class="outline-2">
+<h2 id="org7bddb79"><span class="section-number-2">7</span> Blender贴图</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-org368f43b" class="outline-3">
+<h3 id="org368f43b"><span class="section-number-3">7.1</span> UV贴图</h3>
+</div>
+<div id="outline-container-orgd96cb56" class="outline-3">
+<h3 id="orgd96cb56"><span class="section-number-3">7.2</span> 程序生成贴图</h3>
+</div>
+</div>
+<div id="outline-container-org04e6fee" class="outline-2">
+<h2 id="org04e6fee"><span class="section-number-2">8</span> Blender键位和基本操作</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-org5aef520" class="outline-3">
+<h3 id="org5aef520"><span class="section-number-3">8.1</span> 操作快捷键</h3>
+<div class="outline-text-3" id="text-8-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>A</code></td>
+<td class="org-left">全选/取消全选</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>B</code></td>
+<td class="org-left">方形框选</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>E</code></td>
+<td class="org-left">整体挤出</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>I</code></td>
+<td class="org-left">插入</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>F</code></td>
+<td class="org-left">创建边/面</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>G</code></td>
+<td class="org-left">平移所选</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>T</code></td>
+<td class="org-left">打开/关闭左侧栏</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>K</code></td>
+<td class="org-left">切割</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>L</code></td>
+<td class="org-left">选择关联</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>M</code></td>
+<td class="org-left">移动到另一个图层</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>N</code></td>
+<td class="org-left">打开/关闭右侧栏</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>P</code></td>
+<td class="org-left">独立成新物体</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>R</code></td>
+<td class="org-left">旋转所选</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>S</code></td>
+<td class="org-left">缩放所选</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>V</code></td>
+<td class="org-left">撕开所选边</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>W</code></td>
+<td class="org-left">循环边桥连接</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>X</code></td>
+<td class="org-left">删除所选</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Y</code></td>
+<td class="org-left">分离</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Z</code></td>
+<td class="org-left">切换实体显示与线框显示</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Tab</code></td>
+<td class="org-left">切换物体模式/编辑模式</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>O</code></td>
+<td class="org-left">开启/关闭衰减编辑</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org79b2c43" class="outline-3">
+<h3 id="org79b2c43"><span class="section-number-3">8.2</span> 鼠标操作</h3>
+<div class="outline-text-3" id="text-8-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>鼠标中键按下并拖动</code></td>
+<td class="org-left">移动视角旋转画面</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>鼠标右键</code></td>
+<td class="org-left">选择项目</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Sheft+鼠标中建</code></td>
+<td class="org-left">平移视角</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Ctrl+鼠标左键</code></td>
+<td class="org-left">自由框选</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Shift+空格</code></td>
+<td class="org-left">全屏化当前窗格</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org32db5fe" class="outline-3">
+<h3 id="org32db5fe"><span class="section-number-3">8.3</span> 小键盘操作</h3>
+<div class="outline-text-3" id="text-8-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>小键盘 7</code></td>
+<td class="org-left">顶视图</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>小键盘 1</code></td>
+<td class="org-left">前视图</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>小键盘 3</code></td>
+<td class="org-left">右视图</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>小键盘 5</code></td>
+<td class="org-left">切换正交视图/透视图</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Alt+Z</code></td>
+<td class="org-left">合并两个三角面为一个四边形</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Ctrl+L</code></td>
+<td class="org-left">选择关联对象</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Shift+H</code></td>
+<td class="org-left">只显示所选物体,隐藏其他</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Alt+H</code></td>
+<td class="org-left">恢复全部显示</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Ctrl+左键</code></td>
+<td class="org-left">笔刷选取</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Alt+右键</code></td>
+<td class="org-left">选择边循环</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C+A+左</code></td>
+<td class="org-left">选择环</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Ctrl+中</code></td>
+<td class="org-left">缩放</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>小0</code></td>
+<td class="org-left">摄像机</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Home</code></td>
+<td class="org-left">全局显示目标物体</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgc2c55a9" class="outline-3">
+<h3 id="orgc2c55a9"><span class="section-number-3">8.4</span> 组合操作</h3>
+<div class="outline-text-3" id="text-8-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>S/G/R + X/Y/Z</code></td>
+<td class="org-left">沿X/Y/Z轴移动/旋转/缩放</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Shift+A</code></td>
+<td class="org-left">创建物体</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Ctrl+R</code></td>
+<td class="org-left">环切并滑动</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Shift+C</code></td>
+<td class="org-left">重置视图</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Alt+Z</code></td>
+<td class="org-left">贴图/实体</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Shift+Z</code></td>
+<td class="org-left">渲染/实体</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Ctrl+B</code></td>
+<td class="org-left">倒角</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>G+G</code></td>
+<td class="org-left">边上滑动</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Alt+V</code></td>
+<td class="org-left">撕开后填充</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Ctrl+Shift+Alt+C</code></td>
+<td class="org-left">设置物体圆心,旋转中心</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>shift+S</code></td>
+<td class="org-left">吸附游标</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Akt+d</code></td>
+<td class="org-left">复制</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>Ctrl+j</code></td>
+<td class="org-left">加入到目标物体</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: chimez</p>
+<p class="date">Created: 2020-12-19 Sat 14:07</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

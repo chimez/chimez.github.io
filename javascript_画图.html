@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:23 -->
+<!-- 2020-12-19 Sat 14:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>JavaScript 画图</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -294,27 +297,27 @@ for the JavaScript code in this tag.
 将下面代码保存为 <code>test.js</code> , 并运行 <code>node test.js</code> 就能看到输出的图片 <code>out.svg</code> 
 </p>
 <div class="org-src-container">
-<pre class="src src-javascript"><span style="color: #859900; font-weight: bold;">const</span> <span style="color: #2aa198;">{</span> createCanvas, loadImage <span style="color: #2aa198;">}</span> = require<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'canvas'</span><span style="color: #2aa198;">)</span>
-<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">fs</span> = require<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'fs'</span><span style="color: #2aa198;">)</span>;
+<pre class="src src-javascript">const { createCanvas, loadImage } = require('canvas')
+const fs = require('fs');
 
-<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">canvas</span> = createCanvas<span style="color: #2aa198;">(</span>200, 200<span style="color: #2aa198;">)</span>
+const canvas = createCanvas(200, 200)
 
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Write "Awesome!"</span>
-<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">ctx</span> = canvas.getContext<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'2d'</span><span style="color: #2aa198;">)</span>
-ctx.font = <span style="color: #2aa198;">'30px Impact'</span>
-ctx.rotate<span style="color: #2aa198;">(</span>0.1<span style="color: #2aa198;">)</span>
-ctx.fillText<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'Awesome!'</span>, 50, 100<span style="color: #2aa198;">)</span>
+// Write "Awesome!"
+const ctx = canvas.getContext('2d')
+ctx.font = '30px Impact'
+ctx.rotate(0.1)
+ctx.fillText('Awesome!', 50, 100)
 
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Draw line under text</span>
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">text</span> = ctx.measureText<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'Awesome!'</span><span style="color: #2aa198;">)</span>
-ctx.strokeStyle = <span style="color: #2aa198;">'rgba(0,0,0,0.5)'</span>
-ctx.beginPath<span style="color: #2aa198;">()</span>
-ctx.lineTo<span style="color: #2aa198;">(</span>50, 102<span style="color: #2aa198;">)</span>
-ctx.lineTo<span style="color: #2aa198;">(</span>50 + text.width, 102<span style="color: #2aa198;">)</span>
-ctx.stroke<span style="color: #2aa198;">()</span>
+// Draw line under text
+var text = ctx.measureText('Awesome!')
+ctx.strokeStyle = 'rgba(0,0,0,0.5)'
+ctx.beginPath()
+ctx.lineTo(50, 102)
+ctx.lineTo(50 + text.width, 102)
+ctx.stroke()
 
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">save to svg</span>
-fs.writeFileSync<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'out.svg'</span>, canvas.toBuffer<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>
+// save to svg
+fs.writeFileSync('out.svg', canvas.toBuffer())
 
 </pre>
 </div>
@@ -335,38 +338,38 @@ fs.writeFileSync<span style="color: #2aa198;">(</span><span style="color: #2aa19
 <h3 id="org1cb4aa1"><span class="section-number-3">2.1</span> 与 canvas 联合使用</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
-<pre class="src src-javascript"><span style="color: #859900; font-weight: bold;">var</span> <span style="color: #2aa198;">{</span> createCanvas, Image <span style="color: #2aa198;">}</span> = require<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'canvas'</span><span style="color: #2aa198;">)</span>;
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">Two</span> = require<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'two.js'</span><span style="color: #2aa198;">)</span>
+<pre class="src src-javascript">var { createCanvas, Image } = require('canvas');
+var Two = require('two.js')
 
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">fs</span> = require<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'fs'</span><span style="color: #2aa198;">)</span>;
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">path</span> = require<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'path'</span><span style="color: #2aa198;">)</span>;
+var fs = require('fs');
+var path = require('path');
 
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">width</span> = 800;
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">height</span> = 600;
+var width = 800;
+var height = 600;
 
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">canvas</span> = createCanvas<span style="color: #2aa198;">(</span>width, height<span style="color: #2aa198;">)</span>;
-Two.Utils.shim<span style="color: #2aa198;">(</span>canvas, Image<span style="color: #2aa198;">)</span>;
+var canvas = createCanvas(width, height);
+Two.Utils.shim(canvas, Image);
 
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">time</span> = Date.now<span style="color: #2aa198;">()</span>;
+var time = Date.now();
 
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">two</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Two</span><span style="color: #2aa198;">(</span><span style="color: #b58900;">{</span>
+var two = new Two({
   width: width,
   height: height,
   domElement: canvas
-<span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>;
+});
 
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">rect</span> = two.makeRectangle<span style="color: #2aa198;">(</span>width / 2, height / 2, 50, 50<span style="color: #2aa198;">)</span>;
-rect.fill = <span style="color: #2aa198;">'rgb(255, 100, 100)'</span>;
-rect.noStroke<span style="color: #2aa198;">()</span>;
+var rect = two.makeRectangle(width / 2, height / 2, 50, 50);
+rect.fill = 'rgb(255, 100, 100)';
+rect.noStroke();
 
-two.render<span style="color: #2aa198;">()</span>;
+two.render();
 
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">settings</span> = <span style="color: #2aa198;">{</span> compressionLevel: 3, filters: canvas.PNG_FILTER_NONE <span style="color: #2aa198;">}</span>;
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">fs.writeFileSync(path.resolve(__dirname, './images/rectangle.png'), canvas.toBuffer('image/png', settings));</span>
-fs.writeFileSync<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'out.svg'</span>, canvas.toBuffer<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>
-console.log<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'Finished rendering. Time took: '</span>, Date.now<span style="color: #b58900;">()</span> - time<span style="color: #2aa198;">)</span>;
+var settings = { compressionLevel: 3, filters: canvas.PNG_FILTER_NONE };
+// fs.writeFileSync(path.resolve(__dirname, './images/rectangle.png'), canvas.toBuffer('image/png', settings));
+fs.writeFileSync('out.svg', canvas.toBuffer())
+console.log('Finished rendering. Time took: ', Date.now() - time);
 
-process.exit<span style="color: #2aa198;">()</span>;
+process.exit();
 
 </pre>
 </div>
@@ -376,7 +379,7 @@ process.exit<span style="color: #2aa198;">()</span>;
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="date">Created: 2020-12-19 Sat 14:07</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

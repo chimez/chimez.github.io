@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:23 -->
+<!-- 2020-12-19 Sat 14:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>clojure</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -287,7 +290,7 @@ for the JavaScript code in this tag.
 <li><a href="#org5d03df3">1.1.6. 哈希集合</a></li>
 <li><a href="#orgb128ea5">1.1.7. 流程控制</a></li>
 <li><a href="#org5935f1e">1.1.8. 异常</a></li>
-<li><a href="#orgb339a08">1.1.9. 宏</a></li>
+<li><a href="#org627e165">1.1.9. 宏</a></li>
 <li><a href="#org48f7fc2">1.1.10. 常用的函数和宏</a></li>
 </ul>
 </li>
@@ -297,13 +300,13 @@ for the JavaScript code in this tag.
 <li><a href="#org217aa7b">1.2.2. Sequences 算法系列</a></li>
 <li><a href="#orgbe1022e">1.2.3. 临时数据结构：用可变数据进行优化</a></li>
 <li><a href="#org7b4c378">1.2.4. 转换器：将变换算法组合起来</a></li>
-<li><a href="#org26bc45a">1.2.5. 多重方法和层级：运行时多态的方法</a></li>
+<li><a href="#org3430010">1.2.5. 多重方法和层级：运行时多态的方法</a></li>
 <li><a href="#orgf8f7042">1.2.6. 协议：对接口进行抽象</a></li>
 <li><a href="#org4804578">1.2.7. 元数据：表达数据类型信息</a></li>
 <li><a href="#org1f9af8f">1.2.8. 命名空间与使用库</a></li>
 <li><a href="#org531cf8a">1.2.9. 改变值</a></li>
 <li><a href="#org6458291">1.2.10. reducer：从旧态到新态</a></li>
-<li><a href="#org05b0d93">1.2.11. Java互操作</a></li>
+<li><a href="#orgd971d40">1.2.11. Java互操作</a></li>
 <li><a href="#orgfd5311b">1.2.12. 编译成Class</a></li>
 </ul>
 </li>
@@ -347,7 +350,7 @@ for the JavaScript code in this tag.
 </li>
 <li><a href="#org54783c4">2.2. 函数式编程</a>
 <ul>
-<li><a href="#org7da2421">2.2.1. 宏</a></li>
+<li><a href="#orgfe56fae">2.2.1. 宏</a></li>
 <li><a href="#orgd588d62">2.2.2. 高阶函数与函数式算法基本思想</a></li>
 <li><a href="#org8c31f30">2.2.3. 列表及其算法</a></li>
 <li><a href="#org0948351">2.2.4. 数据结构</a></li>
@@ -359,7 +362,7 @@ for the JavaScript code in this tag.
 <li><a href="#orgc11b5c1">2.3.1. 协议</a></li>
 <li><a href="#org1e5f42a">2.3.2. 数据类型</a></li>
 <li><a href="#org625ed27">2.3.3. 记录类型</a></li>
-<li><a href="#org7a1c412">2.3.4. 多重方法和层级：运行时多态的方法</a></li>
+<li><a href="#orgef949d8">2.3.4. 多重方法和层级：运行时多态的方法</a></li>
 <li><a href="#org7d7c906">2.3.5. 函数转换器</a></li>
 <li><a href="#orgdc5a30d">2.3.6. 并发</a></li>
 <li><a href="#org5748d9b">2.3.7. 原子类型</a></li>
@@ -377,8 +380,8 @@ for the JavaScript code in this tag.
 <li><a href="#org7aa5e4b">2.5. 真实的程序总要用到的东西</a>
 <ul>
 <li><a href="#org927a360">2.5.1. I/O</a></li>
-<li><a href="#org0620db6">2.5.2. Java互操作</a></li>
-<li><a href="#org0dbda5d">2.5.3. 正则表达式</a></li>
+<li><a href="#org8f572e0">2.5.2. Java互操作</a></li>
+<li><a href="#orgee7699b">2.5.3. 正则表达式</a></li>
 <li><a href="#org1e1a678">2.5.4. 元数据</a></li>
 <li><a href="#org9e329ac">2.5.5. 测试</a></li>
 <li><a href="#org42b7e38">2.5.6. 依赖与命令行工具</a></li>
@@ -1334,8 +1337,8 @@ let会创造一个词汇语义范围，在范围内将值与符号绑定，类�
 <li><a id="org28b6ba3"></a>do<br />
 <div class="outline-text-5" id="text-1-1-7-2">
 <div class="org-src-container">
-<pre class="src src-clojure"> (do (println "even")
-      true)
+<pre class="src src-clojure">(do (println "even")
+     true)
 </pre>
 </div>
 </div>
@@ -1371,10 +1374,10 @@ when 没有else路径
 <div class="outline-text-5" id="text-1-1-7-5">
 <div class="org-src-container">
 <pre class="src src-clojure">(defn foo [x]
-         (case x
-           5 "x is 5"
-           10 "x is 10"
-           "x isn't 5 or 10"))
+	 (case x
+	   5 "x is 5"
+	   10 "x is 10"
+	   "x isn't 5 or 10"))
 </pre>
 </div>
 </div>
@@ -1385,7 +1388,7 @@ when 没有else路径
 <div class="outline-text-6" id="text-1-1-7-6-1">
 <div class="org-src-container">
 <pre class="src src-clojure">(dotimes [i 3]
-         (println i))
+	 (println i))
 0
 1
 2
@@ -1398,10 +1401,10 @@ nil
 <div class="outline-text-6" id="text-1-1-7-6-2">
 <div class="org-src-container">
 <pre class="src src-clojure">(doseq [n (range 3)]
-         (println n))
+	 (println n))
 (doseq [letter [:a :b]
-               number (range 3)] ; list of 0, 1, 2
-         (prn [letter number]))
+	       number (range 3)] ; list of 0, 1, 2
+	 (prn [letter number]))
 [:a 0]
 [:a 1]
 [:a 2]
@@ -1422,8 +1425,8 @@ for并不是循环而是几个列表遍历组装新列表
 </p>
 <div class="org-src-container">
 <pre class="src src-clojure">(for [letter [:a :b]
-             number (range 3)] ; list of 0, 1, 2
-         [letter number])
+	     number (range 3)] ; list of 0, 1, 2
+	 [letter number])
 ([:a 0] [:a 1] [:a 2] [:b 0] [:b 1] [:b 2])
 </pre>
 </div>
@@ -1514,8 +1517,8 @@ for并不是循环而是几个列表遍历组装新列表
 </ol>
 </div>
 
-<div id="outline-container-orgb339a08" class="outline-4">
-<h4 id="orgb339a08"><span class="section-number-4">1.1.9</span> 宏</h4>
+<div id="outline-container-org627e165" class="outline-4">
+<h4 id="org627e165"><span class="section-number-4">1.1.9</span> 宏</h4>
 <div class="outline-text-4" id="text-1-1-9">
 </div>
 <ol class="org-ol">
@@ -1640,7 +1643,7 @@ expands to:
 </div>
 </li>
 
-<li><a id="orgb75a1c0"></a>正则表达式<br />
+<li><a id="org35aef48"></a>正则表达式<br />
 <div class="outline-text-5" id="text-1-1-10-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1706,8 +1709,8 @@ expands to:
 <div id="outline-container-org7b4c378" class="outline-4">
 <h4 id="org7b4c378"><span class="section-number-4">1.2.4</span> 转换器：将变换算法组合起来</h4>
 </div>
-<div id="outline-container-org26bc45a" class="outline-4">
-<h4 id="org26bc45a"><span class="section-number-4">1.2.5</span> 多重方法和层级：运行时多态的方法</h4>
+<div id="outline-container-org3430010" class="outline-4">
+<h4 id="org3430010"><span class="section-number-4">1.2.5</span> 多重方法和层级：运行时多态的方法</h4>
 </div>
 <div id="outline-container-orgf8f7042" class="outline-4">
 <h4 id="orgf8f7042"><span class="section-number-4">1.2.6</span> 协议：对接口进行抽象</h4>
@@ -1732,8 +1735,8 @@ expands to:
 <div id="outline-container-org6458291" class="outline-4">
 <h4 id="org6458291"><span class="section-number-4">1.2.10</span> reducer：从旧态到新态</h4>
 </div>
-<div id="outline-container-org05b0d93" class="outline-4">
-<h4 id="org05b0d93"><span class="section-number-4">1.2.11</span> Java互操作</h4>
+<div id="outline-container-orgd971d40" class="outline-4">
+<h4 id="orgd971d40"><span class="section-number-4">1.2.11</span> Java互操作</h4>
 </div>
 <div id="outline-container-orgfd5311b" class="outline-4">
 <h4 id="orgfd5311b"><span class="section-number-4">1.2.12</span> 编译成Class</h4>
@@ -1950,8 +1953,8 @@ Clojure的特殊形式指的是不按照常规的求值规则返回值的那些�
 <h3 id="org54783c4"><span class="section-number-3">2.2</span> 函数式编程</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
-<div id="outline-container-org7da2421" class="outline-4">
-<h4 id="org7da2421"><span class="section-number-4">2.2.1</span> 宏</h4>
+<div id="outline-container-orgfe56fae" class="outline-4">
+<h4 id="orgfe56fae"><span class="section-number-4">2.2.1</span> 宏</h4>
 </div>
 <div id="outline-container-orgd588d62" class="outline-4">
 <h4 id="orgd588d62"><span class="section-number-4">2.2.2</span> 高阶函数与函数式算法基本思想</h4>
@@ -1979,8 +1982,8 @@ Clojure的特殊形式指的是不按照常规的求值规则返回值的那些�
 <div id="outline-container-org625ed27" class="outline-4">
 <h4 id="org625ed27"><span class="section-number-4">2.3.3</span> 记录类型</h4>
 </div>
-<div id="outline-container-org7a1c412" class="outline-4">
-<h4 id="org7a1c412"><span class="section-number-4">2.3.4</span> 多重方法和层级：运行时多态的方法</h4>
+<div id="outline-container-orgef949d8" class="outline-4">
+<h4 id="orgef949d8"><span class="section-number-4">2.3.4</span> 多重方法和层级：运行时多态的方法</h4>
 </div>
 <div id="outline-container-org7d7c906" class="outline-4">
 <h4 id="org7d7c906"><span class="section-number-4">2.3.5</span> 函数转换器</h4>
@@ -2019,11 +2022,11 @@ Clojure的特殊形式指的是不按照常规的求值规则返回值的那些�
 <div id="outline-container-org927a360" class="outline-4">
 <h4 id="org927a360"><span class="section-number-4">2.5.1</span> I/O</h4>
 </div>
-<div id="outline-container-org0620db6" class="outline-4">
-<h4 id="org0620db6"><span class="section-number-4">2.5.2</span> Java互操作</h4>
+<div id="outline-container-org8f572e0" class="outline-4">
+<h4 id="org8f572e0"><span class="section-number-4">2.5.2</span> Java互操作</h4>
 </div>
-<div id="outline-container-org0dbda5d" class="outline-4">
-<h4 id="org0dbda5d"><span class="section-number-4">2.5.3</span> 正则表达式</h4>
+<div id="outline-container-orgee7699b" class="outline-4">
+<h4 id="orgee7699b"><span class="section-number-4">2.5.3</span> 正则表达式</h4>
 </div>
 <div id="outline-container-org1e1a678" class="outline-4">
 <h4 id="org1e1a678"><span class="section-number-4">2.5.4</span> 元数据</h4>
@@ -2062,12 +2065,12 @@ Clojure的特殊形式指的是不按照常规的求值规则返回值的那些�
 先对keys排序,并按大小分成两份,后一份的第一个或者前一份的最后一个就是目标
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure">  (let [map-raw {:a 2 :c 4 :d 1}
-        num-target 3
-        map-sorted  (into (sorted-map-by &lt;) map-raw)
-        this (first (vec  (peek (split-with (partial &gt; num-target)
-                                            (keys map-sorted)))))]
-    this)
+<pre class="src src-clojure">(let [map-raw {:a 2 :c 4 :d 1}
+      num-target 3
+      map-sorted  (into (sorted-map-by &lt;) map-raw)
+      this (first (vec  (peek (split-with (partial &gt; num-target)
+					  (keys map-sorted)))))]
+  this)
 
 </pre>
 </div>
@@ -2156,10 +2159,10 @@ clojure.spec是标准库的一部分，在1.9版本正式引入，所以不需�
  <code>s/valid?</code> 判断给定数据的是否满足当前的规范
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure">    (s/valid? ::even-val 10)
-    ;;=&gt; true
-    (s/valid? ::even-val 11)
-    ;;=&gt; false
+<pre class="src src-clojure">(s/valid? ::even-val 10)
+;;=&gt; true
+(s/valid? ::even-val 11)
+;;=&gt; false
 
 </pre>
 </div>
@@ -2178,7 +2181,7 @@ clojure.spec是标准库的一部分，在1.9版本正式引入，所以不需�
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="date">Created: 2020-12-19 Sat 14:07</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

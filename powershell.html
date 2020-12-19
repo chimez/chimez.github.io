@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-01 Thu 17:26 -->
+<!-- 2020-12-19 Sat 14:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PowerShell</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -268,6 +271,13 @@ for the JavaScript code in this tag.
 </li>
 </ul>
 </li>
+<li><a href="#orgc0a16b2">7. windows 的端口转发</a>
+<ul>
+<li><a href="#org1b473f0">7.1. 查看转发配置</a></li>
+<li><a href="#org781b0f1">7.2. 添加转发</a></li>
+<li><a href="#orga53e87f">7.3. 删除转发</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -276,8 +286,8 @@ for the JavaScript code in this tag.
 <h2 id="org94a2440"><span class="section-number-2">1</span> 终端使用代理</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-ps">set http_proxy=http:<span style="color: #b58900;">//127.0.0.1:8081</span>
-set https_proxy=http:<span style="color: #b58900;">//127.0.0.1:8081</span>
+<pre class="src src-ps">set http_proxy=http://127.0.0.1:8081
+set https_proxy=http://127.0.0.1:8081
 </pre>
 </div>
 
@@ -381,10 +391,52 @@ sudo usermod -aG sudo username
 </div>
 </div>
 </div>
+
+
+<div id="outline-container-orgc0a16b2" class="outline-2">
+<h2 id="orgc0a16b2"><span class="section-number-2">7</span> windows 的端口转发</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-org1b473f0" class="outline-3">
+<h3 id="org1b473f0"><span class="section-number-3">7.1</span> 查看转发配置</h3>
+<div class="outline-text-3" id="text-7-1">
+<div class="org-src-container">
+<pre class="src src-powershell">netsh interface portproxy show v4tov4
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org781b0f1" class="outline-3">
+<h3 id="org781b0f1"><span class="section-number-3">7.2</span> 添加转发</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+监听 <code>172.16.17.197:8000</code> 的访问，转发成 <code>127.0.0.1:8000</code> 的应答
+</p>
+<div class="org-src-container">
+<pre class="src src-powershell">netsh interface portproxy add v4tov4 listenport=8000 listenaddress=172.16.17.197 connectport=8000 connectaddress=127.0.0.1                                                                                                                                
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga53e87f" class="outline-3">
+<h3 id="orga53e87f"><span class="section-number-3">7.3</span> 删除转发</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+不再监听 <code>172.16.17.197:8000</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-powershell">netsh interface portproxy del v4tov4 listenport=8000 listenaddress=172.16.17.197        
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-10-01 Thu 17:26</p>
+<p class="date">Created: 2020-12-19 Sat 14:08</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

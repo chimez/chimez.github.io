@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:24 -->
+<!-- 2020-12-19 Sat 14:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>单片机</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -371,27 +374,27 @@ while(&#x2013;a);
 <div class="outline-text-3" id="text-1-4">
 <p>
     亮，高电平
-        1 
+	1 
     灭，低电平
-        0 
+	0 
 位运算
     按位与  &amp;
     按位或  |
     按位异或  ^
     按位取反  ~
     左移位   x &lt;&lt; 1
-        向左移一位，最高位舍去，最低位0补
-        1110 1001  &lt;&lt; 1   ==  1101 0010 
+	向左移一位，最高位舍去，最低位0补
+	1110 1001  &lt;&lt; 1   ==  1101 0010 
     右移位   x &gt;&gt; 1
-        向右移一位，最低位舍去，最高位0补
-        1110 1001  &gt;&gt; 2   ==  0011 1010 
+	向右移一位，最低位舍去，最高位0补
+	1110 1001  &gt;&gt; 2   ==  0011 1010 
 intrins.h
     LED = _crol<sub>(LED,1)</sub>;
-        循环左移一位
-        1011 0100  ==  0110 1001 
+	循环左移一位
+	1011 0100  ==  0110 1001 
     LED = _cror<sub>(LED,3)</sub>;
-        循环右移3位
-        1011 0100  ==  1001 0110 
+	循环右移3位
+	1011 0100  ==  1001 0110 
 </p>
 
 
@@ -402,18 +405,18 @@ intrins.h
     按下时接地，低电平 
 单个I/O寄存器控制
     全局变量
-        sbit Beep =  P1<sup>5</sup> ;
-        Beep = 1
-        == P1 = 0000 1000 
+	sbit Beep =  P1<sup>5</sup> ;
+	Beep = 1
+	== P1 = 0000 1000 
 继电器
     闭合，低电位，0
     断开，高电位，1 
 译码器
     74HC138
-        输入三位（ABC）输出八位
-        二进制数变成十进制，第几个是低电位
-        001 -&gt; 1111 1110
-        101 -&gt; 1110 1111 
+	输入三位（ABC）输出八位
+	二进制数变成十进制，第几个是低电位
+	001 -&gt; 1111 1110
+	101 -&gt; 1110 1111 
 一位数码管
     分共阳共阴，高低电平控制每个笔画亮灭，自行组合文字 
 动态数码管
@@ -423,39 +426,39 @@ LED点阵
     编码控制，1亮，2灭 
 定时器控制寄存器   TCON
     TF0、TF1
-        计数溢出标志位 
+	计数溢出标志位 
     TR0、TR1
-        定时器运行控制位
-        1：启动
-        0：停止 
+	定时器运行控制位
+	1：启动
+	0：停止 
     TE0、TE1
-        外中断请求标志位 
+	外中断请求标志位 
     IT0、IT1
-        外中断请求触发方式位
-        1：脉冲触发方式
-        0：电平触发方式 
+	外中断请求触发方式位
+	1：脉冲触发方式
+	0：电平触发方式 
 中断允许控制寄存器   IE
     EA
-        中断总允许控制位
-        0：禁止
-        1：允许 
+	中断总允许控制位
+	0：禁止
+	1：允许 
     EX0、EX1
-        外中断允许控制位 
+	外中断允许控制位 
     ET0、ET1
-        定时中断允许控制位 
+	定时中断允许控制位 
     ES
-        串行中断允许控制位 
+	串行中断允许控制位 
 中断优先控制寄存器   IP
     PX0、PX1
-        外中断优先级设定位
-        1：优先级高
-        0：优先级低 
+	外中断优先级设定位
+	1：优先级高
+	0：优先级低 
     PT0、PT1
-        定时中断优先级设定位
-        1：优先级高
-        0：优先级低 
+	定时中断优先级设定位
+	1：优先级高
+	0：优先级低 
     PS
-        串行中断优先级设定位 
+	串行中断优先级设定位 
 </p>
 </div>
 </div>
@@ -463,7 +466,7 @@ LED点阵
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:24</p>
+<p class="date">Created: 2020-12-19 Sat 14:08</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

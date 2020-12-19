@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:23 -->
+<!-- 2020-12-19 Sat 14:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>C语言</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -579,13 +582,13 @@ for the JavaScript code in this tag.
 <li><a id="org1d90237"></a>if-else<br />
 <div class="outline-text-5" id="text-1-1-2-2">
 <div class="org-src-container">
-<pre class="src src-c">       <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #2aa198;">(</span>x &gt; 1<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
-         sth;
-       <span style="color: #2aa198;">}</span> <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #2aa198;">(</span>x &gt; 2<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
-         sth;
-       <span style="color: #2aa198;">}</span> <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #2aa198;">{</span>
-         sth;
-       <span style="color: #2aa198;">}</span>
+<pre class="src src-c">if (x &gt; 1) {
+  sth;
+} else if (x &gt; 2) {
+  sth;
+} else {
+  sth;
+}
 </pre>
 </div>
 </div>
@@ -593,18 +596,18 @@ for the JavaScript code in this tag.
 <li><a id="org691f490"></a>switch<br />
 <div class="outline-text-5" id="text-1-1-2-3">
 <div class="org-src-container">
-<pre class="src src-c">       <span style="color: #859900; font-weight: bold;">switch</span> <span style="color: #2aa198;">(</span>expr<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
-         <span style="color: #859900; font-weight: bold;">case</span> con1: <span style="color: #b58900;">{</span>
-           sth;
-           <span style="color: #859900; font-weight: bold;">break</span>;
-         <span style="color: #b58900;">}</span>
-         <span style="color: #859900; font-weight: bold;">case</span> con2:<span style="color: #b58900;">{</span>
-           sth;
-           <span style="color: #859900; font-weight: bold;">break</span>;
-         <span style="color: #b58900;">}</span>
-         <span style="color: #859900; font-weight: bold;">default</span>:
-           <span style="color: #859900; font-weight: bold;">break</span>; <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#36825;&#37324;&#30340; break &#22312;&#36923;&#36753;&#19978;&#34429;&#28982;&#27809;&#26377;,&#20294;&#26159;&#33391;&#22909;&#30340;&#39118;&#26684;</span>
-       <span style="color: #2aa198;">}</span>
+<pre class="src src-c">switch (expr) {
+  case con1: {
+    sth;
+    break;
+  }
+  case con2:{
+    sth;
+    break;
+  }
+  default:
+    break; //这里的 break 在逻辑上虽然没有,但是良好的风格
+}
 </pre>
 </div>
 </div>
@@ -612,15 +615,15 @@ for the JavaScript code in this tag.
 <li><a id="org6bb3e60"></a>while 与 for<br />
 <div class="outline-text-5" id="text-1-1-2-4">
 <div class="org-src-container">
-<pre class="src src-c">       <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #2aa198;">(</span>cond<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
-         sth;
-       <span style="color: #2aa198;">}</span>
+<pre class="src src-c">while (cond) {
+  sth;
+}
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-c">       <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #2aa198;">(</span>i = 0; i &lt; N; ++i<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
-         sth;
-       <span style="color: #2aa198;">}</span>
+<pre class="src src-c">for (i = 0; i &lt; N; ++i) {
+  sth;
+}
 </pre>
 </div>
 </div>
@@ -628,10 +631,10 @@ for the JavaScript code in this tag.
 <li><a id="org55069c8"></a>do-while<br />
 <div class="outline-text-5" id="text-1-1-2-5">
 <div class="org-src-container">
-<pre class="src src-c">       <span style="color: #859900; font-weight: bold;">do</span>
-       <span style="color: #2aa198;">{</span>
-         sth;
-       <span style="color: #2aa198;">}</span> <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #2aa198;">(</span>cond<span style="color: #2aa198;">)</span>;
+<pre class="src src-c">do
+{
+  sth;
+} while (cond);
 </pre>
 </div>
 </div>
@@ -643,15 +646,15 @@ for the JavaScript code in this tag.
 要求尽量少用 goto
 </p>
 <div class="org-src-container">
-<pre class="src src-c">       <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #2aa198;">(</span>i = 0; i &lt; N; ++i<span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
-         <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #b58900;">(</span>i = 0; i &lt; N; ++i<span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
-           <span style="color: #859900; font-weight: bold;">for</span> <span style="color: #268bd2;">(</span>i = 0; i &lt; N; ++i<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">{</span>
-             <span style="color: #859900; font-weight: bold;">goto</span> <span style="color: #268bd2; font-weight: bold;">error</span>;
-           <span style="color: #268bd2;">}</span>
-         <span style="color: #b58900;">}</span>
-       <span style="color: #2aa198;">}</span>
-       <span style="color: #268bd2; font-weight: bold;">error</span>:
-       sth;
+<pre class="src src-c">for (i = 0; i &lt; N; ++i) {
+  for (i = 0; i &lt; N; ++i) {
+    for (i = 0; i &lt; N; ++i) {
+      goto error;
+    }
+  }
+}
+error:
+sth;
 </pre>
 </div>
 </div>
@@ -666,9 +669,9 @@ for the JavaScript code in this tag.
 <li><a id="org773931f"></a>定义函数<br />
 <div class="outline-text-5" id="text-1-1-3-1">
 <div class="org-src-container">
-<pre class="src src-c">       <span style="color: #b58900;">void</span> <span style="color: #268bd2;">fun</span><span style="color: #2aa198;">(</span><span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span><span style="color: #2aa198;">){</span>
-         x;
-       <span style="color: #2aa198;">}</span>
+<pre class="src src-c">void fun(int x){
+  x;
+}
 </pre>
 </div>
 </div>
@@ -743,7 +746,7 @@ for the JavaScript code in this tag.
 <div class="outline-text-4" id="text-1-1-4">
 </div>
 <ol class="org-ol">
-<li><a id="org257a0c5"></a>基本语法<br />
+<li><a id="org5f10577"></a>基本语法<br />
 <div class="outline-text-5" id="text-1-1-4-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -829,16 +832,16 @@ for the JavaScript code in this tag.
 <div class="outline-text-4" id="text-1-1-5">
 </div>
 <ol class="org-ol">
-<li><a id="org886e1c5"></a>基本语法<br />
+<li><a id="org492e69e"></a>基本语法<br />
 <ol class="org-ol">
 <li><a id="orgd840fd1"></a>定义结构体<br />
 <div class="outline-text-6" id="text-1-1-5-1-1">
 <div class="org-src-container">
-<pre class="src src-c">        <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">point</span>
-        <span style="color: #2aa198;">{</span>
-          <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>;
-          <span style="color: #b58900;">int</span> <span style="color: #268bd2;">y</span>;
-        <span style="color: #2aa198;">}</span>;
+<pre class="src src-c">struct point
+{
+  int x;
+  int y;
+};
 </pre>
 </div>
 </div>
@@ -846,7 +849,7 @@ for the JavaScript code in this tag.
 <li><a id="org1d686e2"></a>创建结构体类型的变量<br />
 <div class="outline-text-6" id="text-1-1-5-1-2">
 <div class="org-src-container">
-<pre class="src src-c">        <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">point</span> <span style="color: #268bd2;">pt</span> = <span style="color: #2aa198;">{</span>1,2<span style="color: #2aa198;">}</span>;
+<pre class="src src-c">struct point pt = {1,2};
 </pre>
 </div>
 </div>
@@ -854,7 +857,7 @@ for the JavaScript code in this tag.
 <li><a id="org526341f"></a>引用结构体的成员<br />
 <div class="outline-text-6" id="text-1-1-5-1-3">
 <div class="org-src-container">
-<pre class="src src-c">        printf<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"%d,%d"</span>,pt.x,pt.y<span style="color: #2aa198;">)</span>;
+<pre class="src src-c">printf("%d,%d",pt.x,pt.y);
 </pre>
 </div>
 </div>
@@ -894,15 +897,15 @@ for the JavaScript code in this tag.
 <li>下面创建了一个指针名字和一个结构体的名字</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-c">       <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">tnode</span> *<span style="color: #b58900;">Treeptr</span>;
-       <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">tnode</span> <span style="color: #2aa198;">{</span> <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">the tree node:</span><span style="color: #93a1a1;"> */</span>
-         <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">word</span>;
-         <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">points to the text</span><span style="color: #93a1a1;"> */</span>
-         <span style="color: #b58900;">int</span> <span style="color: #268bd2;">count</span>;
-         <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">number of occurrences</span><span style="color: #93a1a1;"> */</span>
-         <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">tnode</span> *<span style="color: #268bd2;">left</span>; <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">left child</span><span style="color: #93a1a1;"> */</span>
-         <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">tnode</span> *<span style="color: #268bd2;">right</span>; <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">right child</span><span style="color: #93a1a1;"> */</span>
-       <span style="color: #2aa198;">}</span> <span style="color: #b58900;">Treenode</span>;
+<pre class="src src-c">typedef struct tnode *Treeptr;
+typedef struct tnode { /* the tree node: */
+  char *word;
+  /* points to the text */
+  int count;
+  /* number of occurrences */
+  struct tnode *left; /* left child */
+  struct tnode *right; /* right child */
+} Treenode;
 </pre>
 </div>
 <ol class="org-ol">
@@ -913,11 +916,11 @@ for the JavaScript code in this tag.
 <li><a id="orgea1d722"></a>联合 <code>union</code><br />
 <div class="outline-text-5" id="text-1-1-5-3">
 <div class="org-src-container">
-<pre class="src src-c">       <span style="color: #859900; font-weight: bold;">union</span> <span style="color: #b58900;">u_tag</span> <span style="color: #2aa198;">{</span>
-         <span style="color: #b58900;">int</span> <span style="color: #268bd2;">ival</span>;
-         <span style="color: #b58900;">float</span> <span style="color: #268bd2;">fval</span>;
-         <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">sval</span>;
-       <span style="color: #2aa198;">}</span> <span style="color: #268bd2;">u</span>;
+<pre class="src src-c">union u_tag {
+  int ival;
+  float fval;
+  char *sval;
+} u;
 </pre>
 </div>
 <ol class="org-ol">
@@ -936,11 +939,11 @@ for the JavaScript code in this tag.
 </ol>
 
 <div class="org-src-container">
-<pre class="src src-c">       <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #2aa198;">{</span>
-         <span style="color: #b58900;">unsigned</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">is_keyword</span> : 1;
-         <span style="color: #b58900;">unsigned</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">is_extern</span> : 1;
-         <span style="color: #b58900;">unsigned</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">is_static</span> : 1;
-       <span style="color: #2aa198;">}</span> <span style="color: #268bd2;">flags</span>;
+<pre class="src src-c">struct {
+  unsigned int is_keyword : 1;
+  unsigned int is_extern : 1;
+  unsigned int is_static : 1;
+} flags;
 </pre>
 </div>
 </div>
@@ -1066,29 +1069,29 @@ for the JavaScript code in this tag.
 <li>TAB开头的为 shell 命令,什么命令都可以</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-c">      <span style="color: #268bd2; font-weight: bold;">edit</span> : main.o kbd.o command.o display.o /
-      insert.o search.o files.o utils.o
-      cc -o edit main.o kbd.o command.o display.o /
-      insert.o search.o files.o utils.o
-      main.o : main.c defs.h
-      cc -c main.c
-      kbd.o : kbd.c defs.h command.h
-      cc -c kbd.c
-      command.o : command.c defs.h command.h
-      cc -c command.c
-      display.o : display.c defs.h buffer.h
-      cc -c display.c
-      insert.o : insert.c defs.h buffer.h
-      cc -c insert.c
-      search.o : search.c defs.h buffer.h
-      cc -c search.c
-      files.o : files.c defs.h buffer.h command.h
-      cc -c files.c
-      utils.o : utils.c defs.h
-      cc -c utils.c
-      clean :
-      rm edit main.o kbd.o command.o display.o /
-      insert.o search.o files.o utils.o
+<pre class="src src-c">edit : main.o kbd.o command.o display.o /
+insert.o search.o files.o utils.o
+cc -o edit main.o kbd.o command.o display.o /
+insert.o search.o files.o utils.o
+main.o : main.c defs.h
+cc -c main.c
+kbd.o : kbd.c defs.h command.h
+cc -c kbd.c
+command.o : command.c defs.h command.h
+cc -c command.c
+display.o : display.c defs.h buffer.h
+cc -c display.c
+insert.o : insert.c defs.h buffer.h
+cc -c insert.c
+search.o : search.c defs.h buffer.h
+cc -c search.c
+files.o : files.c defs.h buffer.h command.h
+cc -c files.c
+utils.o : utils.c defs.h
+cc -c utils.c
+clean :
+rm edit main.o kbd.o command.o display.o /
+insert.o search.o files.o utils.o
 </pre>
 </div>
 </div>
@@ -1115,9 +1118,9 @@ for the JavaScript code in this tag.
 新建并修改文件: <code>vi Makefile.am</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-c">         AUTOMAKE_OPTIONS=foreign subdir-objects   <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#21508;&#31181;&#36873;&#39033; gnu &#31561;</span>
-             bin_PROGRAMS= hello   <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#23450;&#20041;&#35201;&#20135;&#29983;&#30340;&#25191;&#34892;&#25991;&#20214;&#21517;&#12290;&#22914;&#26524;&#35201;&#20135;&#29983;&#22810;&#20010;&#25191;&#34892;&#25991;&#20214;&#65292;&#27599;&#20010;&#25991;&#20214;&#21517;&#29992;&#31354;&#26684;&#38548;&#24320;</span>
-            hello_SOURCES= include/pr.h src/hello.c    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#23450;&#20041;&#8220;hello&#8221;&#36825;&#20010;&#25191;&#34892;&#31243;&#24207;&#25152;&#38656;&#35201;&#30340;&#21407;&#22987;&#25991;&#20214;&#12290;</span>
+<pre class="src src-c">AUTOMAKE_OPTIONS=foreign subdir-objects   //各种选项 gnu 等
+    bin_PROGRAMS= hello   //定义要产生的执行文件名。如果要产生多个执行文件，每个文件名用空格隔开
+   hello_SOURCES= include/pr.h src/hello.c    //定义“hello”这个执行程序所需要的原始文件。
 </pre>
 </div></li>
 <li>执行命令: <code>automake</code></li>
@@ -1139,14 +1142,14 @@ for the JavaScript code in this tag.
 在 <code>configure.ac</code> 中加入
 </p>
 <div class="org-src-container">
-<pre class="src src-c">          AC_CONFIG_FILES<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>Makefile src/Makefile<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+<pre class="src src-c">AC_CONFIG_FILES([Makefile src/Makefile])
 </pre>
 </div></li>
 <li><p>
 在最上层 <code>Makefile.am</code> 中加入
 </p>
 <div class="org-src-container">
-<pre class="src src-c">          SUBDIRS = src
+<pre class="src src-c">SUBDIRS = src
 </pre>
 </div></li>
 <li>在 <code>src/Makefile.am</code> 中写编译相关的内容</li>
@@ -1163,16 +1166,16 @@ for the JavaScript code in this tag.
 在 <code>configure.ac</code> 中加入
 </p>
 <div class="org-src-container">
-<pre class="src src-c">          PKG_CHECK_MODULES<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>X<span style="color: #b58900;">]</span>, <span style="color: #b58900;">[</span>x<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
-          PKG_CHECK_MODULES<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>GLIB<span style="color: #b58900;">]</span>, <span style="color: #b58900;">[</span>glib-2.0<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+<pre class="src src-c">PKG_CHECK_MODULES([X], [x])
+PKG_CHECK_MODULES([GLIB], [glib-2.0])
 </pre>
 </div></li>
 <li><p>
 在 <code>Makefile.am</code> 中加入
 </p>
 <div class="org-src-container">
-<pre class="src src-c">          myapp_CFLAGS = $<span style="color: #2aa198;">(</span>X_CFLAGS<span style="color: #2aa198;">)</span>
-           myapp_LDADD = $<span style="color: #2aa198;">(</span>X_LIBS<span style="color: #2aa198;">)</span>
+<pre class="src src-c">myapp_CFLAGS = $(X_CFLAGS)
+ myapp_LDADD = $(X_LIBS)
 </pre>
 </div></li>
 </ol>
@@ -1185,14 +1188,14 @@ for the JavaScript code in this tag.
 在 <code>Makefile.am</code> 中的写法
 </p>
 <div class="org-src-container">
-<pre class="src src-c">          AUTOMAKE_OPTIONS=foreign subdir-objects   <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">&#21508;&#31181;&#36873;&#39033; gnu &#31561;</span>
+<pre class="src src-c">AUTOMAKE_OPTIONS=foreign subdir-objects   //各种选项 gnu 等
 </pre>
 </div></li>
 <li><p>
 在 <code>configure.am</code> 中的写法
 </p>
 <div class="org-src-container">
-<pre class="src src-c">          AM_INIT_AUTOMAKE<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>foreign subdir-objects<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+<pre class="src src-c">AM_INIT_AUTOMAKE([foreign subdir-objects])
 </pre>
 </div></li>
 </ol>
@@ -1208,9 +1211,9 @@ for the JavaScript code in this tag.
 debug
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">          mkdir debug 
-          <span style="color: #657b83; font-weight: bold;">cd</span> debug 
-          path/to/configure --prefix=/path/to/debug  <span style="color: #268bd2;">CFLAGS</span>=<span style="color: #2aa198;">"-ggdb3 -O0"</span> &amp;&amp; make &amp;&amp; make install
+<pre class="src src-bash">mkdir debug 
+cd debug 
+path/to/configure --prefix=/path/to/debug  CFLAGS="-ggdb3 -O0" &amp;&amp; make &amp;&amp; make install
 </pre>
 </div>
 <ol class="org-ol">
@@ -1220,9 +1223,9 @@ debug
 <li>release</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-bash">       mkdir release 
-       <span style="color: #657b83; font-weight: bold;">cd</span> release 
-       path/to/configure --prefix=/path/to/release  <span style="color: #268bd2;">CFLAGS</span>=<span style="color: #2aa198;">"-O3"</span> &amp;&amp; make &amp;&amp; make install
+<pre class="src src-bash">mkdir release 
+cd release 
+path/to/configure --prefix=/path/to/release  CFLAGS="-O3" &amp;&amp; make &amp;&amp; make install
 </pre>
 </div>
 </div>
@@ -1514,27 +1517,27 @@ debug
 flex是词法分析器,文档结构为 <code>a.y</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-c">      <span style="color: #93a1a1;">/*  </span><span style="color: #93a1a1;">&#22768;&#26126;&#27573;:</span><span style="color: #93a1a1;"> */</span>
-      <span style="color: #93a1a1;">/*  </span><span style="color: #93a1a1;">&#36825;&#37324;&#25918;c&#20195;&#30721;,&#20250;&#19981;&#21464;&#30340;&#25335;&#36125;&#36807;&#21435;,&#21487;&#20197;&#25918;&#22836;&#25991;&#20214;,&#32467;&#26500;&#20307;&#23450;&#20041;,&#20989;&#25968;&#23450;&#20041;&#31561;</span><span style="color: #93a1a1;"> */</span>
-      %<span style="color: #2aa198;">{</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #b58900;">&lt;</span><span style="color: #2aa198;">stdio.h</span><span style="color: #b58900;">&gt;</span>
-        %<span style="color: #2aa198;">}</span>
-      <span style="color: #93a1a1;">/*  </span><span style="color: #93a1a1;">&#26631;&#35782;&#31526;&#21644;&#29366;&#24577;&#22768;&#26126;:</span><span style="color: #93a1a1;"> */</span>
-      <span style="color: #93a1a1;">/*  </span><span style="color: #93a1a1;">&#29366;&#24577;&#30001; %x &#24320;&#22987;</span><span style="color: #93a1a1;"> */</span>
-      %x COMMENT
-       <span style="color: #93a1a1;">/*  </span><span style="color: #93a1a1;">&#23450;&#20041;&#35268;&#21017;&#21517;&#31216;, &#23567;&#25324;&#21495;&#23450;&#20041;&#35268;&#21017;,&#22823;&#25324;&#21495;&#20351;&#29992;&#21517;&#31216;</span><span style="color: #93a1a1;"> */</span>
-      digit     <span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>0-9<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
-        integer     <span style="color: #2aa198;">(</span><span style="color: #b58900;">{</span>digit<span style="color: #b58900;">}</span>+<span style="color: #2aa198;">)</span>
-       <span style="color: #93a1a1;">/*  </span><span style="color: #93a1a1;">&#35268;&#21017;&#23450;&#20041;:</span><span style="color: #93a1a1;">           */</span>
-        %% 
-        <span style="color: #2aa198;">[</span>a-z<span style="color: #2aa198;">]</span> <span style="color: #2aa198;">{</span>printf<span style="color: #b58900;">(</span><span style="color: #2aa198;">"aaz\n"</span><span style="color: #b58900;">)</span>;<span style="color: #2aa198;">}</span>
-      <span style="color: #2aa198;">{</span>integer<span style="color: #2aa198;">}</span> <span style="color: #2aa198;">{</span>printf<span style="color: #b58900;">(</span><span style="color: #2aa198;">"it\n"</span><span style="color: #b58900;">)</span>;<span style="color: #2aa198;">}</span>
-      <span style="color: #2aa198;">"integer"</span> <span style="color: #2aa198;">{</span>printf<span style="color: #b58900;">(</span><span style="color: #2aa198;">"as\n"</span><span style="color: #b58900;">)</span>;<span style="color: #2aa198;">}</span>
-      <span style="color: #2aa198;">"//"</span> <span style="color: #2aa198;">{</span><span style="color: #b58900;">BEGIN</span> <span style="color: #268bd2;">COMMENT</span>; printf<span style="color: #b58900;">(</span><span style="color: #2aa198;">"cc\n"</span><span style="color: #b58900;">)</span>;<span style="color: #2aa198;">}</span> 
-      &lt;COMMENT&gt;\n <span style="color: #2aa198;">{</span><span style="color: #b58900;">BEGIN</span> <span style="color: #268bd2;">INITIAL</span>;printf<span style="color: #b58900;">(</span><span style="color: #2aa198;">"in\n"</span><span style="color: #b58900;">)</span>;<span style="color: #2aa198;">}</span>
-      %%
-       <span style="color: #93a1a1;">/*  </span><span style="color: #93a1a1;">c&#20989;&#25968;&#23450;&#20041;: &#21487;&#30041;&#31354;</span><span style="color: #93a1a1;"> */</span>
-      <span style="color: #b58900;">int</span> yywrap<span style="color: #2aa198;">(</span><span style="color: #b58900;">void</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span><span style="color: #859900; font-weight: bold;">return</span> 1;<span style="color: #2aa198;">}</span> <span style="color: #93a1a1;">/*  </span><span style="color: #93a1a1;">&#20840;&#37096;&#35835;&#21462;&#23436;&#30340;&#34892;&#20026;</span><span style="color: #93a1a1;"> */</span>
+<pre class="src src-c">/*  声明段: */
+/*  这里放c代码,会不变的拷贝过去,可以放头文件,结构体定义,函数定义等 */
+%{
+#include &lt;stdio.h&gt;
+  %}
+/*  标识符和状态声明: */
+/*  状态由 %x 开始 */
+%x COMMENT
+ /*  定义规则名称, 小括号定义规则,大括号使用名称 */
+digit		([0-9])
+  integer		({digit}+)
+ /*  规则定义:           */
+  %% 
+  [a-z] {printf("aaz\n");}
+{integer} {printf("it\n");}
+"integer" {printf("as\n");}
+"//" {BEGIN COMMENT; printf("cc\n");} 
+&lt;COMMENT&gt;\n {BEGIN INITIAL;printf("in\n");}
+%%
+ /*  c函数定义: 可留空 */
+int yywrap(void) {return 1;} /*  全部读取完的行为 */
 
 </pre>
 </div>
@@ -1556,20 +1559,20 @@ flex是词法分析器,文档结构为 <code>a.y</code>
 <h4 id="org4dfc03b"><span class="section-number-4">6.1.2</span> 作为yacc前端的规则</h4>
 <div class="outline-text-4" id="text-6-1-2">
 <div class="org-src-container">
-<pre class="src src-c">    %<span style="color: #2aa198;">{</span>
-<span style="color: #268bd2;">    #include</span> <span style="color: #b58900;">&lt;</span><span style="color: #2aa198;">stdio.h</span><span style="color: #b58900;">&gt;</span>
-<span style="color: #268bd2;">    #include</span> &#8220;y.tab.h&#8221;
-    %<span style="color: #2aa198;">}</span>
+<pre class="src src-c">%{
+#include &lt;stdio.h&gt;
+#include “y.tab.h”
+%}
 
-    %%
-    <span style="color: #2aa198;">[</span>0-9<span style="color: #2aa198;">]</span>+         <span style="color: #859900; font-weight: bold;">return</span> NUMBER;
-    heat           <span style="color: #859900; font-weight: bold;">return</span> TOKHEAT;
-    on|off         <span style="color: #859900; font-weight: bold;">return</span> STATE;
-    target         <span style="color: #859900; font-weight: bold;">return</span> TOKTARGET;
-    temperature    <span style="color: #859900; font-weight: bold;">return</span> TOKTEMPERATURE;
-    \n             <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">ignore end of line</span><span style="color: #93a1a1;"> */</span>;
-    <span style="color: #2aa198;">[</span> \t<span style="color: #2aa198;">]</span>+         <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">ignore whitespace</span><span style="color: #93a1a1;"> */</span>
-    %%
+%%
+[0-9]+         return NUMBER;
+heat           return TOKHEAT;
+on|off         return STATE;
+target         return TOKTARGET;
+temperature    return TOKTEMPERATURE;
+\n             /* ignore end of line */;
+[ \t]+         /* ignore whitespace */
+%%
 </pre>
 </div>
 
@@ -1597,9 +1600,9 @@ flex是词法分析器,文档结构为 <code>a.y</code>
 语法与 python 基本类似， 只需要定义项目、源代码路径以及可执行文件就行了
 </p>
 <div class="org-src-container">
-<pre class="src src-python">project<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'simple'</span>, <span style="color: #2aa198;">'c'</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">src</span> = <span style="color: #2aa198;">[</span><span style="color: #2aa198;">'source1.c'</span>, <span style="color: #2aa198;">'source2.c'</span>, <span style="color: #2aa198;">'source3.c'</span><span style="color: #2aa198;">]</span>
-<span style="color: #268bd2;">exe</span> = executable<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'myexe'</span>, src<span style="color: #2aa198;">)</span>
+<pre class="src src-python">project('simple', 'c')
+src = ['source1.c', 'source2.c', 'source3.c']
+exe = executable('myexe', src)
 </pre>
 </div>
 </div>
@@ -1615,9 +1618,9 @@ flex是词法分析器,文档结构为 <code>a.y</code>
 gtk 已经集成了，直接写上就行了
 </p>
 <div class="org-src-container">
-<pre class="src src-python">project<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'tutorial'</span>, <span style="color: #2aa198;">'c'</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">gtkdep</span> = dependency<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'gtk+-3.0'</span><span style="color: #2aa198;">)</span>
-executable<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'demo'</span>, <span style="color: #2aa198;">'main.c'</span>, dependencies : gtkdep<span style="color: #2aa198;">)</span>
+<pre class="src src-python">project('tutorial', 'c')
+gtkdep = dependency('gtk+-3.0')
+executable('demo', 'main.c', dependencies : gtkdep)
 </pre>
 </div>
 </div>
@@ -1627,7 +1630,7 @@ executable<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'d
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="date">Created: 2020-12-19 Sat 14:07</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

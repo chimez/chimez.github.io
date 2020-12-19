@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:24 -->
+<!-- 2020-12-19 Sat 14:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ssh</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -369,15 +372,15 @@ for the JavaScript code in this tag.
 </p>
 <div class="org-src-container">
 <pre class="src src-bash">brew install proxychains-ng
-vim /usr/local/etc/proxychains.conf <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#22312;ProxyList&#37197;&#32622;&#27573;&#19979;&#28155;&#21152;&#37197;&#32622; "socks5    127.0.0.1 50000"</span>
-proxychains-ng wget http://host2 <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#22312;&#20854;&#23427;&#21629;&#20196;&#34892;&#21069;&#28155;&#21152;proxychains-ng&#21363;&#21487;</span>
+vim /usr/local/etc/proxychains.conf # 在ProxyList配置段下添加配置 "socks5 	127.0.0.1 50000"
+proxychains-ng wget http://host2 # 在其它命令行前添加proxychains-ng即可
 </pre>
 </div></li>
 <li><p>
 如果是ssh，则用以下命令使用socks5代理：
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">ssh -o <span style="color: #268bd2;">ProxyCommand</span>=<span style="color: #2aa198;">'/usr/bin/nc -X 5 -x 127.0.0.1:5000 %h %p'</span> user@host2
+<pre class="src src-bash">ssh -o ProxyCommand='/usr/bin/nc -X 5 -x 127.0.0.1:5000 %h %p' user@host2
 </pre>
 </div></li>
 </ol>
@@ -531,10 +534,10 @@ scp 被认为<a href="https://lists.mindrot.org/pipermail/openssh-unix-dev/2019-
 <h3 id="org6909d31"><span class="section-number-3">4.2</span> 例子</h3>
 <div class="outline-text-3" id="text-4-2">
 <div class="org-src-container">
-<pre class="src src-bash"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#36828;&#31243;&#21040;&#26412;&#22320;</span>
+<pre class="src src-bash"># 远程到本地
 rsync -aP user@ip:remote_dir local_dir
 
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#26412;&#22320;&#21040;&#36828;&#31243;</span>
+# 本地到远程
 rsync -aP local_dir user@ip:remote_dir
 
 </pre>
@@ -545,7 +548,7 @@ rsync -aP local_dir user@ip:remote_dir
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:24</p>
+<p class="date">Created: 2020-12-19 Sat 14:08</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

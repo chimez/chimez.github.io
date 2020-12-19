@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:24 -->
+<!-- 2020-12-19 Sat 14:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>机器学习</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -491,41 +494,26 @@ for the JavaScript code in this tag.
 张量就和 numpy 的多维数组差不多,用起来也差不多,自带了一百多个操作函数,加减乘除之类的
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = torch.rand<span style="color: #2aa198;">(</span>5, 3<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#38543;&#26426;&#30697;&#38453;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#30697;&#38453;&#21152;&#27861;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x+x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">import torch
+x = torch.rand(5, 3)
+print("随机矩阵:\n{}".format(x))
+print("矩阵加法:\n{}".format(x+x))
 
 </pre>
 </div>
-
-<pre class="example">
-     随机矩阵:
-     tensor([[0.3674, 0.3948, 0.3468],
-             [0.4618, 0.2699, 0.9664],
-             [0.7543, 0.7674, 0.7655],
-             [0.8958, 0.7930, 0.8239],
-             [0.7498, 0.0342, 0.6715]])
-     矩阵加法:
-     tensor([[0.7348, 0.7895, 0.6936],
-             [0.9236, 0.5397, 1.9328],
-             [1.5087, 1.5349, 1.5310],
-             [1.7916, 1.5860, 1.6479],
-             [1.4997, 0.0685, 1.3430]])
-</pre>
 </div>
 </li>
 <li><a id="org85d4612"></a>与numpy互相转换<br />
 <div class="outline-text-5" id="text-1-1-1-3">
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> numpy <span style="color: #859900; font-weight: bold;">as</span> np
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">to numpy</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">a</span> = torch.ones<span style="color: #2aa198;">(</span>5<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">b</span> = a.numpy<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">from numpy</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">a</span> = np.ones<span style="color: #2aa198;">(</span>5<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">b</span> = torch.from_numpy<span style="color: #2aa198;">(</span>a<span style="color: #2aa198;">)</span>
+<pre class="src src-python">import torch
+import numpy as np
+# to numpy
+a = torch.ones(5)
+b = a.numpy()
+# from numpy
+a = np.ones(5)
+b = torch.from_numpy(a)
 </pre>
 </div>
 </div>
@@ -533,15 +521,15 @@ for the JavaScript code in this tag.
 <li><a id="orgfb338e5"></a>转换到CUDA上<br />
 <div class="outline-text-5" id="text-1-1-1-4">
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">let us run this cell only if CUDA is available</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">We will use ``torch.device`` objects to move tensors in and out of GPU</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">if</span> torch.cuda.is_available<span style="color: #2aa198;">()</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">device</span> = torch.device<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"cuda"</span><span style="color: #2aa198;">)</span>          <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">a CUDA device object</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">y</span> = torch.ones_like<span style="color: #2aa198;">(</span>x, device=device<span style="color: #2aa198;">)</span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">directly create a tensor on GPU</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = x.to<span style="color: #2aa198;">(</span>device<span style="color: #2aa198;">)</span>                       <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">or just use strings ``.to("cuda")``</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">z</span> = x + y
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>z<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>z.to<span style="color: #b58900;">(</span><span style="color: #2aa198;">"cpu"</span>, torch.double<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>       <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">``.to`` can also change dtype together!</span>
+<pre class="src src-python"># let us run this cell only if CUDA is available
+# We will use ``torch.device`` objects to move tensors in and out of GPU
+if torch.cuda.is_available():
+    device = torch.device("cuda")          # a CUDA device object
+    y = torch.ones_like(x, device=device)  # directly create a tensor on GPU
+    x = x.to(device)                       # or just use strings ``.to("cuda")``
+    z = x + y
+    print(z)
+    print(z.to("cpu", torch.double))       # ``.to`` can also change dtype together!
 </pre>
 </div>
 </div>
@@ -578,64 +566,38 @@ for the JavaScript code in this tag.
      \], \(x=I\)
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = torch.ones<span style="color: #2aa198;">(</span>2, 2, requires_grad=<span style="color: #268bd2; font-weight: bold;">True</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#19968;&#20010;&#24320;&#22987;&#35760;&#24405;&#30340;&#24352;&#37327;,&#21487;&#20197;&#30475;&#21040;&#23427;&#30340;&#23646;&#24615;&#20540;&#20026; True:\nx\t=\t{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">y</span> = x + 2
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#30001;&#20989;&#25968;&#20135;&#29983;&#30340;&#24352;&#37327;,&#23427;&#26377;&#19968;&#20010;&#25351;&#21521;&#36825;&#20010;&#20989;&#25968;&#30340;&#23646;&#24615;:\ny\t=\tx + 2\t=\t{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>y<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">z</span> = y * y * 3
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">out</span> = z.mean<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#20877;&#21152;&#20837;&#19968;&#20123;&#25805;&#20316;:\nout\t=\t=\t&lt;3y^2&gt;\t=\t{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>out<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#36827;&#34892;&#33258;&#21160;&#27714;&#23548;"</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  out.backward<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#24471;&#21040;:\n $\\frac{{d(out)}}{{dx}}$ = {}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x.grad<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">import torch
+x = torch.ones(2, 2, requires_grad=True)
+print("一个开始记录的张量,可以看到它的属性值为 True:\nx\t=\t{}".format(x))
+y = x + 2
+print("由函数产生的张量,它有一个指向这个函数的属性:\ny\t=\tx + 2\t=\t{}".format(y))
+z = y * y * 3
+out = z.mean()
+print("再加入一些操作:\nout\t=\t=\t&lt;3y^2&gt;\t=\t{}".format(out))
+print("进行自动求导")
+out.backward()
+print("得到:\n $\\frac{{d(out)}}{{dx}}$ = {}".format(x.grad))
 
 </pre>
 </div>
-
-<pre class="example">
-     一个开始记录的张量,可以看到它的属性值为 True:
-     x	=	tensor([[1., 1.],
-             [1., 1.]], requires_grad=True)
-     由函数产生的张量,它有一个指向这个函数的属性:
-     y	=	x + 2	=	tensor([[3., 3.],
-             [3., 3.]], grad_fn=&lt;AddBackward&gt;)
-     再加入一些操作:
-     out	=	=	&lt;3y^2&gt;	=	27.0
-     进行自动求导
-     得到:
-      $\frac{d(out)}{dx}$ = tensor([[4.5000, 4.5000],
-             [4.5000, 4.5000]])
-</pre>
 </div>
 </li>
 <li><a id="org27d6ec6"></a>例子:自动求导, 指定自变量<br />
 <div class="outline-text-5" id="text-1-1-2-2">
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = torch.randn<span style="color: #2aa198;">(</span>3, requires_grad=<span style="color: #268bd2; font-weight: bold;">True</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#21021;&#22987;&#20540;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">y</span> = x * 2
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">while</span> y.data.norm<span style="color: #2aa198;">()</span> &lt;= 1000:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">y</span> = y * 2
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#20056;&#19978;n&#27425;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>y<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">gradients</span> = torch.tensor<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>0.1, 1.0, 0.0001<span style="color: #b58900;">]</span>, dtype=torch.<span style="color: #657b83; font-weight: bold;">float</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#38656;&#35201;&#25351;&#23450;&#33258;&#21464;&#37327;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>gradients<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  y.backward<span style="color: #2aa198;">(</span>gradients<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"&#33258;&#21160;&#27714;&#23548;:\n{}"</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>x.grad<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">import torch
+x = torch.randn(3, requires_grad=True)
+print("初始值:\n{}".format(x))
+y = x * 2
+while y.data.norm() &lt;= 1000:
+    y = y * 2
+    print("乘上n次:\n{}".format(y))
+    gradients = torch.tensor([0.1, 1.0, 0.0001], dtype=torch.float)
+    print("需要指定自变量:\n{}".format(gradients))
+    y.backward(gradients)
+    print("自动求导:\n{}".format(x.grad))
 </pre>
 </div>
-
-<pre class="example">
-初始值:
-tensor([-1.3286, -0.9627, -0.3640], requires_grad=True)
-乘上n次:
-tensor([-1360.4750,  -985.8559,  -372.7463], grad_fn=&lt;MulBackward&gt;)
-需要指定自变量:
-tensor([1.0000e-01, 1.0000e+00, 1.0000e-04])
-自动求导:
-tensor([ 102.4000, 1024.0000,    0.1024])
-</pre>
 </div>
 </li>
 </ol>
@@ -657,108 +619,82 @@ tensor([ 102.4000, 1024.0000,    0.1024])
 </ol>
 </div>
 <ol class="org-ol">
-<li><a id="org7ecf342"></a>定义神经网络<br />
+<li><a id="org0fd3eb6"></a>定义神经网络<br />
 <div class="outline-text-5" id="text-1-1-3-1">
 <p>
 只需要继承 <code>nn.Module</code> 类,并在 <code>__init__</code> 里定义所有的层, 以及在 <code>forward</code> 里定义向前传播的计算规则即可, 向后传播由自动微分自动完成.
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.nn <span style="color: #859900; font-weight: bold;">as</span> nn
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.nn.functional <span style="color: #859900; font-weight: bold;">as</span> F
+<pre class="src src-python">import torch
+import torch.nn as nn
+import torch.nn.functional as F
 
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Net</span><span style="color: #2aa198;">(</span>nn.Module<span style="color: #2aa198;">)</span>:
+class Net(nn.Module):
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span><span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #657b83; font-weight: bold;">super</span><span style="color: #2aa198;">(</span>Net, <span style="color: #859900; font-weight: bold;">self</span><span style="color: #2aa198;">)</span>.__init__<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1 input image channel, 6 output channels, 5x5 square convolution</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">kernel</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.conv1 = nn.Conv2d<span style="color: #2aa198;">(</span>1, 6, 5<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.conv2 = nn.Conv2d<span style="color: #2aa198;">(</span>6, 16, 5<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">an affine operation: y = Wx + b</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc1 = nn.Linear<span style="color: #2aa198;">(</span>16 * 5 * 5, 120<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc2 = nn.Linear<span style="color: #2aa198;">(</span>120, 84<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc3 = nn.Linear<span style="color: #2aa198;">(</span>84, 10<span style="color: #2aa198;">)</span>
+    def __init__(self):
+	super(Net, self).__init__()
+	# 1 input image channel, 6 output channels, 5x5 square convolution
+	# kernel
+	self.conv1 = nn.Conv2d(1, 6, 5)
+	self.conv2 = nn.Conv2d(6, 16, 5)
+	# an affine operation: y = Wx + b
+	self.fc1 = nn.Linear(16 * 5 * 5, 120)
+	self.fc2 = nn.Linear(120, 84)
+	self.fc3 = nn.Linear(84, 10)
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">forward</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>, x<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Max pooling over a (2, 2) window</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.max_pool2d<span style="color: #2aa198;">(</span>F.relu<span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">self</span>.conv1<span style="color: #268bd2;">(</span>x<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>, <span style="color: #b58900;">(</span>2, 2<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">If the size is a square you can only specify a single number</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.max_pool2d<span style="color: #2aa198;">(</span>F.relu<span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">self</span>.conv2<span style="color: #268bd2;">(</span>x<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>, 2<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = x.view<span style="color: #2aa198;">(</span>-1, <span style="color: #859900; font-weight: bold;">self</span>.num_flat_features<span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.relu<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>.fc1<span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.relu<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>.fc2<span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.fc3<span style="color: #2aa198;">(</span>x<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">return</span> x
+    def forward(self, x):
+	# Max pooling over a (2, 2) window
+	x = F.max_pool2d(F.relu(self.conv1(x)), (2, 2))
+	# If the size is a square you can only specify a single number
+	x = F.max_pool2d(F.relu(self.conv2(x)), 2)
+	x = x.view(-1, self.num_flat_features(x))
+	x = F.relu(self.fc1(x))
+	x = F.relu(self.fc2(x))
+	x = self.fc3(x)
+	return x
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">num_flat_features</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>, x<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">size</span> = x.size<span style="color: #2aa198;">()[</span>1:<span style="color: #2aa198;">]</span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">all dimensions except the batch dimension</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">num_features</span> = 1
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> s <span style="color: #859900; font-weight: bold;">in</span> size:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">num_features</span> *= s
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">return</span> num_features
+    def num_flat_features(self, x):
+	size = x.size()[1:]  # all dimensions except the batch dimension
+	num_features = 1
+	for s in size:
+	    num_features *= s
+	return num_features
 
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">net</span> = Net<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>net<span style="color: #2aa198;">)</span>
+net = Net()
+print(net)
 </pre>
 </div>
-
-<pre class="example">
-     Python 3.6.6 (default, Jun 27 2018, 14:44:17) 
-     [GCC 8.1.0] on linux
-     Type "help", "copyright", "credits" or "license" for more information.
-     Net(
-       (conv1): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
-       (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
-       (fc1): Linear(in_features=400, out_features=120, bias=True)
-       (fc2): Linear(in_features=120, out_features=84, bias=True)
-       (fc3): Linear(in_features=84, out_features=10, bias=True)
-     )
-     python.el: native completion setup loaded
-</pre>
 
 <p>
 神经网络的参数可以通过 <code>net.parameters()</code> 获得.
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">params</span> = <span style="color: #657b83; font-weight: bold;">list</span><span style="color: #2aa198;">(</span>net.parameters<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #657b83; font-weight: bold;">len</span><span style="color: #b58900;">(</span>params<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>params<span style="color: #b58900;">[</span>0<span style="color: #b58900;">]</span>.size<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">conv1's .weight</span>
+<pre class="src src-python">params = list(net.parameters())
+print(len(params))
+print(params[0].size())  # conv1's .weight
 
 </pre>
 </div>
-
-<pre class="example">
-10
-torch.Size([6, 1, 5, 5])
-</pre>
-
 
 <p>
 现在给一个 32x32的输入,可以看到它通过这个神经网络后的输出值大小:
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #657b83; font-weight: bold;">input</span> = torch.randn<span style="color: #2aa198;">(</span>1, 1, 32, 32<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">out</span> = net<span style="color: #2aa198;">(</span><span style="color: #657b83; font-weight: bold;">input</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>out<span style="color: #2aa198;">)</span>
+<pre class="src src-python">input = torch.randn(1, 1, 32, 32)
+out = net(input)
+print(out)
 </pre>
 </div>
-
-<pre class="example">
-tensor([[-0.0247, -0.0493, -0.1126,  0.0110,  0.0174,  0.1005, -0.0309, -0.0630,
-          0.0818,  0.1030]], grad_fn=&lt;ThAddmmBackward&gt;)
-</pre>
-
 
 <p>
 计算自动微分的方法很简单,只需要先通过 <code>net.zero_grad()</code> 方法将微分初值设为随机值, 再用 <code>out.backward()</code> 方法计算自动微分即可.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  net.zero_grad<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  out.backward<span style="color: #2aa198;">(</span>torch.randn<span style="color: #b58900;">(</span>1, 10<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">net.zero_grad()
+out.backward(torch.randn(1, 10))
 </pre>
 </div>
 
@@ -778,20 +714,15 @@ tensor([[-0.0247, -0.0493, -0.1126,  0.0110,  0.0174,  0.1005, -0.0309, -0.0630,
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">output</span> = net<span style="color: #2aa198;">(</span><span style="color: #657b83; font-weight: bold;">input</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">target</span> = torch.randn<span style="color: #2aa198;">(</span>10<span style="color: #2aa198;">)</span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">a dummy target, for example</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">target</span> = target.view<span style="color: #2aa198;">(</span>1, -1<span style="color: #2aa198;">)</span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">make it the same shape as output</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">criterion</span> = nn.MSELoss<span style="color: #2aa198;">()</span>
+<pre class="src src-python">output = net(input)
+target = torch.randn(10)  # a dummy target, for example
+target = target.view(1, -1)  # make it the same shape as output
+criterion = nn.MSELoss()
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">loss</span> = criterion<span style="color: #2aa198;">(</span>output, target<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>loss<span style="color: #2aa198;">)</span>
+loss = criterion(output, target)
+print(loss)
 </pre>
 </div>
-
-<pre class="example">
-tensor(0.8526, grad_fn=&lt;MseLossBackward&gt;)
-</pre>
-
 <p>
 如果使用 <code>loss.backward()</code> 整个图都会关于损失函数进行微分 ,因为现在被微分的栈是:
 </p>
@@ -813,22 +744,15 @@ input
 如果不进行清零的话, 自动微分值会累加.
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  net.zero_grad<span style="color: #2aa198;">()</span>     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">zeroes the gradient buffers of all parameters</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'conv1.bias.grad before backward'</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>net.conv1.bias.grad<span style="color: #2aa198;">)</span>
+<pre class="src src-python">net.zero_grad()     # zeroes the gradient buffers of all parameters
+print('conv1.bias.grad before backward')
+print(net.conv1.bias.grad)
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  loss.backward<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'conv1.bias.grad after backward'</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>net.conv1.bias.grad<span style="color: #2aa198;">)</span>
+loss.backward()
+print('conv1.bias.grad after backward')
+print(net.conv1.bias.grad)
 </pre>
 </div>
-
-<pre class="example">
-conv1.bias.grad before backward
-None
-conv1.bias.grad after backward
-tensor([ 0.0029, -0.0226, -0.0131, -0.0018,  0.0013,  0.0005])
-</pre>
 </div>
 </li>
 <li><a id="org3ee4fd2"></a>更新权重<br />
@@ -837,28 +761,27 @@ tensor([ 0.0029, -0.0226, -0.0131, -0.0018,  0.0013,  0.0005])
 最简单的更新规则是随机梯度下降(SGD), <code>新权重=旧权重-学习率*自动微分值</code>, 实现为:
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">learning_rate</span> = 0.01
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> f <span style="color: #859900; font-weight: bold;">in</span> net.parameters<span style="color: #2aa198;">()</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  f.data.sub_<span style="color: #2aa198;">(</span>f.grad.data * learning_rate<span style="color: #2aa198;">)</span>
+<pre class="src src-python">learning_rate = 0.01
+for f in net.parameters():
+    f.data.sub_(f.grad.data * learning_rate)
 </pre>
 </div>
-
 <p>
 常用的一些更新规则实现在了 <code>torch.optim</code> 包里, 使用步骤为 创建优化器-&gt;清零-&gt;计算损失函数-&gt;反向传播-&gt;优化器.下一步().
 下面是一个使用的例子:
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.optim <span style="color: #859900; font-weight: bold;">as</span> optim
+<pre class="src src-python">import torch.optim as optim
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">create your optimizer</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">optimizer</span> = optim.SGD<span style="color: #2aa198;">(</span>net.parameters<span style="color: #b58900;">()</span>, lr=0.01<span style="color: #2aa198;">)</span>
+# create your optimizer
+optimizer = optim.SGD(net.parameters(), lr=0.01)
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">in your training loop:</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  optimizer.zero_grad<span style="color: #2aa198;">()</span>   <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">zero the gradient buffers</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">output</span> = net<span style="color: #2aa198;">(</span><span style="color: #657b83; font-weight: bold;">input</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">loss</span> = criterion<span style="color: #2aa198;">(</span>output, target<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  loss.backward<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  optimizer.step<span style="color: #2aa198;">()</span>    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Does the update</span>
+# in your training loop:
+optimizer.zero_grad()   # zero the gradient buffers
+output = net(input)
+loss = criterion(output, target)
+loss.backward()
+optimizer.step()    # Does the update
 </pre>
 </div>
 </div>
@@ -912,97 +835,81 @@ tensor([ 0.0029, -0.0226, -0.0131, -0.0018,  0.0013,  0.0005])
 图片是 [0,1] 的, 所以得归一化到 [-1,1] 才行.
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torchvision
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torchvision.transforms <span style="color: #859900; font-weight: bold;">as</span> transforms
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">transform</span> = transforms.Compose<span style="color: #2aa198;">(</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #b58900;">[</span>transforms.ToTensor<span style="color: #268bd2;">()</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   transforms.Normalize<span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>0.5, 0.5, 0.5<span style="color: #6c71c4;">)</span>, <span style="color: #6c71c4;">(</span>0.5, 0.5, 0.5<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">import torch
+import torchvision
+import torchvision.transforms as transforms
+transform = transforms.Compose(
+    [transforms.ToTensor(),
+     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">trainset</span> = torchvision.datasets.CIFAR10<span style="color: #2aa198;">(</span>root=<span style="color: #2aa198;">'./PyTorch &#23398;&#20064;&#35760;&#24405;/data'</span>, train=<span style="color: #268bd2; font-weight: bold;">True</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  download=<span style="color: #268bd2; font-weight: bold;">True</span>, transform=transform<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">trainloader</span> = torch.utils.data.DataLoader<span style="color: #2aa198;">(</span>trainset, batch_size=4,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>shuffle=<span style="color: #268bd2; font-weight: bold;">True</span>, num_workers=2<span style="color: #2aa198;">)</span>
+trainset = torchvision.datasets.CIFAR10(root='./PyTorch 学习记录/data', train=True,
+					download=True, transform=transform)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
+					  shuffle=True, num_workers=2)
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">testset</span> = torchvision.datasets.CIFAR10<span style="color: #2aa198;">(</span>root=<span style="color: #2aa198;">'./PyTorch &#23398;&#20064;&#35760;&#24405;/data'</span>, train=<span style="color: #268bd2; font-weight: bold;">False</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> download=<span style="color: #268bd2; font-weight: bold;">True</span>, transform=transform<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">testloader</span> = torch.utils.data.DataLoader<span style="color: #2aa198;">(</span>testset, batch_size=4,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   shuffle=<span style="color: #268bd2; font-weight: bold;">False</span>, num_workers=2<span style="color: #2aa198;">)</span>
+testset = torchvision.datasets.CIFAR10(root='./PyTorch 学习记录/data', train=False,
+				       download=True, transform=transform)
+testloader = torch.utils.data.DataLoader(testset, batch_size=4,
+					 shuffle=False, num_workers=2)
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">classes</span> = <span style="color: #2aa198;">(</span><span style="color: #2aa198;">'plane'</span>, <span style="color: #2aa198;">'car'</span>, <span style="color: #2aa198;">'bird'</span>, <span style="color: #2aa198;">'cat'</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #2aa198;">'deer'</span>, <span style="color: #2aa198;">'dog'</span>, <span style="color: #2aa198;">'frog'</span>, <span style="color: #2aa198;">'horse'</span>, <span style="color: #2aa198;">'ship'</span>, <span style="color: #2aa198;">'truck'</span><span style="color: #2aa198;">)</span>
+classes = ('plane', 'car', 'bird', 'cat',
+	   'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 </pre>
 </div>
-
-<pre class="example">
-Python 3.6.6 (default, Jun 27 2018, 14:44:17) 
-[GCC 8.1.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
-Files already downloaded and verified
-Files already downloaded and verified
-python.el: native completion setup loaded
-</pre>
-
 
 <p>
 显示图片看看
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> matplotlib.pyplot <span style="color: #859900; font-weight: bold;">as</span> plt
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> numpy <span style="color: #859900; font-weight: bold;">as</span> np
+<pre class="src src-python">import matplotlib.pyplot as plt
+import numpy as np
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">functions to show an image</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">imshow</span><span style="color: #2aa198;">(</span>img<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">img</span> = img / 2 + 0.5     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">unnormalize</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">npimg</span> = img.numpy<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  plt.imshow<span style="color: #2aa198;">(</span>np.transpose<span style="color: #b58900;">(</span>npimg, <span style="color: #268bd2;">(</span>1, 2, 0<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  plt.tight_layout<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  plt.savefig<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"./PyTorch &#23398;&#20064;&#35760;&#24405;/fig/temp.png"</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"./PyTorch &#23398;&#20064;&#35760;&#24405;/fig/temp.png"</span>
+# functions to show an image
+def imshow(img):
+    img = img / 2 + 0.5     # unnormalize
+    npimg = img.numpy()
+    plt.imshow(np.transpose(npimg, (1, 2, 0)))
+    plt.tight_layout()
+    plt.savefig("./PyTorch 学习记录/fig/temp.png")
+    return "./PyTorch 学习记录/fig/temp.png"
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">get some random training images</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">dataiter</span> = <span style="color: #657b83; font-weight: bold;">iter</span><span style="color: #2aa198;">(</span>trainloader<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">images</span>, <span style="color: #268bd2;">labels</span> = dataiter.<span style="color: #657b83; font-weight: bold;">next</span><span style="color: #2aa198;">()</span>
+# get some random training images
+dataiter = iter(trainloader)
+images, labels = dataiter.next()
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">show images</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  imshow<span style="color: #2aa198;">(</span>torchvision.utils.make_grid<span style="color: #b58900;">(</span>images<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+# show images
+imshow(torchvision.utils.make_grid(images))
 </pre>
-</div>
-
-
-<div class="figure">
-<p><img src="./PyTorch 学习记录/fig/temp.png" alt="temp.png" />
-</p>
 </div>
 </div>
 </li>
 
-<li><a id="org665f0b2"></a>定义神经网络<br />
+<li><a id="org717e0a8"></a>定义神经网络<br />
 <div class="outline-text-5" id="text-1-1-4-2">
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.nn <span style="color: #859900; font-weight: bold;">as</span> nn
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.nn.functional <span style="color: #859900; font-weight: bold;">as</span> F
+<pre class="src src-python">import torch.nn as nn
+import torch.nn.functional as F
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Net</span><span style="color: #2aa198;">(</span>nn.Module<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span><span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #657b83; font-weight: bold;">super</span><span style="color: #2aa198;">(</span>Net, <span style="color: #859900; font-weight: bold;">self</span><span style="color: #2aa198;">)</span>.__init__<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.conv1 = nn.Conv2d<span style="color: #2aa198;">(</span>3, 6, 5<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.pool = nn.MaxPool2d<span style="color: #2aa198;">(</span>2, 2<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.conv2 = nn.Conv2d<span style="color: #2aa198;">(</span>6, 16, 5<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc1 = nn.Linear<span style="color: #2aa198;">(</span>16 * 5 * 5, 120<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc2 = nn.Linear<span style="color: #2aa198;">(</span>120, 84<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">self</span>.fc3 = nn.Linear<span style="color: #2aa198;">(</span>84, 10<span style="color: #2aa198;">)</span>
+class Net(nn.Module):
+    def __init__(self):
+	super(Net, self).__init__()
+	self.conv1 = nn.Conv2d(3, 6, 5)
+	self.pool = nn.MaxPool2d(2, 2)
+	self.conv2 = nn.Conv2d(6, 16, 5)
+	self.fc1 = nn.Linear(16 * 5 * 5, 120)
+	self.fc2 = nn.Linear(120, 84)
+	self.fc3 = nn.Linear(84, 10)
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">forward</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>, x<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.pool<span style="color: #2aa198;">(</span>F.relu<span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">self</span>.conv1<span style="color: #268bd2;">(</span>x<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.pool<span style="color: #2aa198;">(</span>F.relu<span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">self</span>.conv2<span style="color: #268bd2;">(</span>x<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = x.view<span style="color: #2aa198;">(</span>-1, 16 * 5 * 5<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.relu<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>.fc1<span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = F.relu<span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">self</span>.fc2<span style="color: #b58900;">(</span>x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">self</span>.fc3<span style="color: #2aa198;">(</span>x<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">return</span> x
+    def forward(self, x):
+	x = self.pool(F.relu(self.conv1(x)))
+	x = self.pool(F.relu(self.conv2(x)))
+	x = x.view(-1, 16 * 5 * 5)
+	x = F.relu(self.fc1(x))
+	x = F.relu(self.fc2(x))
+	x = self.fc3(x)
+	return x
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">net</span> = Net<span style="color: #2aa198;">()</span>
+net = Net()
 </pre>
 </div>
 </div>
@@ -1010,10 +917,10 @@ python.el: native completion setup loaded
 <li><a id="orgcce7462"></a>定义损失函数和优化器<br />
 <div class="outline-text-5" id="text-1-1-4-3">
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">import</span> torch.optim <span style="color: #859900; font-weight: bold;">as</span> optim
+<pre class="src src-python">import torch.optim as optim
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">criterion</span> = nn.CrossEntropyLoss<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">optimizer</span> = optim.SGD<span style="color: #2aa198;">(</span>net.parameters<span style="color: #b58900;">()</span>, lr=0.001, momentum=0.9<span style="color: #2aa198;">)</span>
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 </pre>
 </div>
 </div>
@@ -1021,48 +928,32 @@ python.el: native completion setup loaded
 <li><a id="org68dceb9"></a>训练神经网络<br />
 <div class="outline-text-5" id="text-1-1-4-4">
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> epoch <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #2aa198;">(</span>2<span style="color: #2aa198;">)</span>:  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">loop over the dataset multiple times</span>
+<pre class="src src-python">for epoch in range(2):  # loop over the dataset multiple times
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">running_loss</span> = 0.0
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> i, data <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">enumerate</span><span style="color: #2aa198;">(</span>trainloader, 0<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">get the inputs</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">inputs</span>, <span style="color: #268bd2;">labels</span> = data
+    running_loss = 0.0
+    for i, data in enumerate(trainloader, 0):
+	# get the inputs
+	inputs, labels = data
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">zero the parameter gradients</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  optimizer.zero_grad<span style="color: #2aa198;">()</span>
+	# zero the parameter gradients
+	optimizer.zero_grad()
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">forward + backward + optimize</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">outputs</span> = net<span style="color: #2aa198;">(</span>inputs<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">loss</span> = criterion<span style="color: #2aa198;">(</span>outputs, labels<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  loss.backward<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  optimizer.step<span style="color: #2aa198;">()</span>
+	# forward + backward + optimize
+	outputs = net(inputs)
+	loss = criterion(outputs, labels)
+	loss.backward()
+	optimizer.step()
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">print statistics</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">running_loss</span> += loss.item<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">if</span> i % 2000 == 1999:    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">print every 2000 mini-batches</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'[%d, %5d] loss: %.3f'</span> %
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span><span style="color: #b58900;">(</span>epoch + 1, i + 1, running_loss / 2000<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">running_loss</span> = 0.0
+	# print statistics
+	running_loss += loss.item()
+	if i % 2000 == 1999:    # print every 2000 mini-batches
+	    print('[%d, %5d] loss: %.3f' %
+		  (epoch + 1, i + 1, running_loss / 2000))
+	    running_loss = 0.0
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'Finished Training'</span><span style="color: #2aa198;">)</span>
+print('Finished Training')
 </pre>
 </div>
-
-<pre class="example">
-     [1,  2000] loss: 2.182
-     [1,  4000] loss: 1.825
-     [1,  6000] loss: 1.662
-     [1,  8000] loss: 1.572
-     [1, 10000] loss: 1.504
-     [1, 12000] loss: 1.463
-     [2,  2000] loss: 1.400
-     [2,  4000] loss: 1.357
-     [2,  6000] loss: 1.373
-     [2,  8000] loss: 1.310
-     [2, 10000] loss: 1.291
-     [2, 12000] loss: 1.290
-     Finished Training
-</pre>
 </div>
 </li>
 <li><a id="orgb355d9b"></a>在测试数据集上测试神经网络<br />
@@ -1072,19 +963,13 @@ python.el: native completion setup loaded
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">dataiter</span> = <span style="color: #657b83; font-weight: bold;">iter</span><span style="color: #2aa198;">(</span>testloader<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">images</span>, <span style="color: #268bd2;">labels</span> = dataiter.<span style="color: #657b83; font-weight: bold;">next</span><span style="color: #2aa198;">()</span>
+<pre class="src src-python">dataiter = iter(testloader)
+images, labels = dataiter.next()
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">print images</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'GroundTruth: '</span>, <span style="color: #2aa198;">' '</span>.join<span style="color: #b58900;">(</span><span style="color: #2aa198;">'%5s'</span> % classes<span style="color: #268bd2;">[</span>labels<span style="color: #6c71c4;">[</span>j<span style="color: #6c71c4;">]</span><span style="color: #268bd2;">]</span> <span style="color: #859900; font-weight: bold;">for</span> j <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #268bd2;">(</span>4<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  imshow<span style="color: #2aa198;">(</span>torchvision.utils.make_grid<span style="color: #b58900;">(</span>images<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+# print images
+print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(4)))
+imshow(torchvision.utils.make_grid(images))
 </pre>
-</div>
-
-
-<div class="figure">
-<p><img src="./PyTorch 学习记录/fig/temp.png" alt="temp.png" />
-</p>
 </div>
 
 <p>
@@ -1092,82 +977,58 @@ python.el: native completion setup loaded
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'GroundTruth: '</span>, <span style="color: #2aa198;">' '</span>.join<span style="color: #b58900;">(</span><span style="color: #2aa198;">'%5s'</span> % classes<span style="color: #268bd2;">[</span>labels<span style="color: #6c71c4;">[</span>j<span style="color: #6c71c4;">]</span><span style="color: #268bd2;">]</span> <span style="color: #859900; font-weight: bold;">for</span> j <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #268bd2;">(</span>4<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">outputs</span> = net<span style="color: #2aa198;">(</span>images<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">_</span>, <span style="color: #268bd2;">predicted</span> = torch.<span style="color: #657b83; font-weight: bold;">max</span><span style="color: #2aa198;">(</span>outputs, 1<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'Predicted: '</span>, <span style="color: #2aa198;">' '</span>.join<span style="color: #b58900;">(</span><span style="color: #2aa198;">'%5s'</span> % classes<span style="color: #268bd2;">[</span>predicted<span style="color: #6c71c4;">[</span>j<span style="color: #6c71c4;">]</span><span style="color: #268bd2;">]</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span><span style="color: #859900; font-weight: bold;">for</span> j <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #268bd2;">(</span>4<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(4)))
+outputs = net(images)
+_, predicted = torch.max(outputs, 1)
+print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]
+			      for j in range(4)))
 </pre>
 </div>
-
-<pre class="example">
-GroundTruth:    cat  ship  ship plane
-Predicted:    cat   car   car  ship
-</pre>
-
 
 <p>
 全数据集结果:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">correct</span> = 0
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">total</span> = 0
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">with</span> torch.no_grad<span style="color: #2aa198;">()</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> data <span style="color: #859900; font-weight: bold;">in</span> testloader:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">images</span>, <span style="color: #268bd2;">labels</span> = data
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">outputs</span> = net<span style="color: #2aa198;">(</span>images<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">_</span>, <span style="color: #268bd2;">predicted</span> = torch.<span style="color: #657b83; font-weight: bold;">max</span><span style="color: #2aa198;">(</span>outputs.data, 1<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">total</span> += labels.size<span style="color: #2aa198;">(</span>0<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">correct</span> += <span style="color: #2aa198;">(</span>predicted == labels<span style="color: #2aa198;">)</span>.<span style="color: #657b83; font-weight: bold;">sum</span><span style="color: #2aa198;">()</span>.item<span style="color: #2aa198;">()</span>
+<pre class="src src-python">correct = 0
+total = 0
+with torch.no_grad():
+    for data in testloader:
+	images, labels = data
+	outputs = net(images)
+	_, predicted = torch.max(outputs.data, 1)
+	total += labels.size(0)
+	correct += (predicted == labels).sum().item()
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'Accuracy of the network on the 10000 test images: %d %%'</span> % <span style="color: #b58900;">(</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  100 * correct / total<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+print('Accuracy of the network on the 10000 test images: %d %%' % (
+    100 * correct / total))
 </pre>
 </div>
-
-<pre class="example">
-Accuracy of the network on the 10000 test images: 54 %
-</pre>
-
 
 <p>
 分类的结果:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">class_correct</span> = <span style="color: #657b83; font-weight: bold;">list</span><span style="color: #2aa198;">(</span>0. <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #b58900;">(</span>10<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">class_total</span> = <span style="color: #657b83; font-weight: bold;">list</span><span style="color: #2aa198;">(</span>0. <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #b58900;">(</span>10<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">with</span> torch.no_grad<span style="color: #2aa198;">()</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> data <span style="color: #859900; font-weight: bold;">in</span> testloader:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">images</span>, <span style="color: #268bd2;">labels</span> = data
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">outputs</span> = net<span style="color: #2aa198;">(</span>images<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">_</span>, <span style="color: #268bd2;">predicted</span> = torch.<span style="color: #657b83; font-weight: bold;">max</span><span style="color: #2aa198;">(</span>outputs, 1<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">c</span> = <span style="color: #2aa198;">(</span>predicted == labels<span style="color: #2aa198;">)</span>.squeeze<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #2aa198;">(</span>4<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">label</span> = labels<span style="color: #2aa198;">[</span>i<span style="color: #2aa198;">]</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">class_correct</span><span style="color: #2aa198;">[</span>label<span style="color: #2aa198;">]</span> += c<span style="color: #2aa198;">[</span>i<span style="color: #2aa198;">]</span>.item<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">class_total</span><span style="color: #2aa198;">[</span>label<span style="color: #2aa198;">]</span> += 1
+<pre class="src src-python">class_correct = list(0. for i in range(10))
+class_total = list(0. for i in range(10))
+with torch.no_grad():
+    for data in testloader:
+	images, labels = data
+	outputs = net(images)
+	_, predicted = torch.max(outputs, 1)
+	c = (predicted == labels).squeeze()
+	for i in range(4):
+	    label = labels[i]
+	    class_correct[label] += c[i].item()
+	    class_total[label] += 1
 
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span><span style="color: #2aa198;">(</span>10<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">'Accuracy of %5s : %2d %%'</span> % <span style="color: #b58900;">(</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  classes<span style="color: #268bd2;">[</span>i<span style="color: #268bd2;">]</span>, 100 * class_correct<span style="color: #268bd2;">[</span>i<span style="color: #268bd2;">]</span> / class_total<span style="color: #268bd2;">[</span>i<span style="color: #268bd2;">]</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+for i in range(10):
+    print('Accuracy of %5s : %2d %%' % (
+	classes[i], 100 * class_correct[i] / class_total[i]))
 </pre>
 </div>
-
-<pre class="example">
-     Accuracy of plane : 57 %
-     Accuracy of   car : 67 %
-     Accuracy of  bird : 23 %
-     Accuracy of   cat : 29 %
-     Accuracy of  deer : 59 %
-     Accuracy of   dog : 57 %
-     Accuracy of  frog : 67 %
-     Accuracy of horse : 63 %
-     Accuracy of  ship : 51 %
-     Accuracy of truck : 71 %
-</pre>
 </div>
 </li>
 </ol>
@@ -1208,16 +1069,16 @@ Accuracy of the network on the 10000 test images: 54 %
 <h4 id="org015b358"><span class="section-number-4">2.1.2</span> 执行顺序</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #268bd2;">input1</span> = tf.constant<span style="color: #2aa198;">(</span>3.0<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #268bd2;">input2</span> = tf.constant<span style="color: #2aa198;">(</span>2.0<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #268bd2;">input3</span> = tf.constant<span style="color: #2aa198;">(</span>5.0<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #268bd2;">intermed</span> = tf.add<span style="color: #2aa198;">(</span>input2, input3<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #268bd2;">mul</span> = tf.mul<span style="color: #2aa198;">(</span>input1, intermed<span style="color: #2aa198;">)</span>
+<pre class="src src-python">input1 = tf.constant(3.0)
+input2 = tf.constant(2.0)
+input3 = tf.constant(5.0)
+intermed = tf.add(input2, input3)
+mul = tf.mul(input1, intermed)
 
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> <span style="color: #859900; font-weight: bold;">with</span> tf.Session<span style="color: #2aa198;">()</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">result</span> = sess.run<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>mul, intermed<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="color: #859900; font-weight: bold;">print</span> result
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   sess.run<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>output<span style="color: #b58900;">]</span>, feed_dict=<span style="color: #b58900;">{</span>input1:<span style="color: #268bd2;">[</span>7.<span style="color: #268bd2;">]</span>, input2:<span style="color: #268bd2;">[</span>2.<span style="color: #268bd2;">]</span><span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>
+with tf.Session():
+  result = sess.run([mul, intermed])
+  print result
+  sess.run([output], feed_dict={input1:[7.], input2:[2.]})
 </pre>
 </div>
 </div>
@@ -1366,7 +1227,7 @@ Accuracy of the network on the 10000 test images: 54 %
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:24</p>
+<p class="date">Created: 2020-12-19 Sat 14:08</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

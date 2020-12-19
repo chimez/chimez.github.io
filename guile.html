@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:23 -->
+<!-- 2020-12-19 Sat 14:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>guile</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -326,8 +329,8 @@ for the JavaScript code in this tag.
 只需在 <code>~/.guile</code> 中加入
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">       <span style="color: #2aa198;">(</span>use-modules <span style="color: #b58900;">(</span>ice-9 readline<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span>activate-readline<span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(use-modules (ice-9 readline))
+(activate-readline)
 </pre>
 </div>
 </div>
@@ -632,11 +635,11 @@ for the JavaScript code in this tag.
 脚本的基本格式如下:
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">       #!/usr/bin/guile -s
-       !#
-                                               <span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">coding:utf-8</span>
-       <span style="color: #2aa198;">(</span>display <span style="color: #2aa198;">"Hello, world!"</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span>newline<span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">#!/usr/bin/guile -s
+!#
+					; coding:utf-8
+(display "Hello, world!")
+(newline)
 </pre>
 </div>
 <ol class="org-ol">
@@ -652,10 +655,10 @@ for the JavaScript code in this tag.
 <li><a id="orge8211aa"></a><code>(command-line)</code> 获取所有命令行参数<br />
 <div class="outline-text-6" id="text-1-1-2-2-1">
 <div class="org-src-container">
-<pre class="src src-scheme">        #! /usr/local/bin/guile -s
-        !#
-        <span style="color: #2aa198;">(</span>write <span style="color: #b58900;">(</span>command-line<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-        <span style="color: #2aa198;">(</span>newline<span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">#! /usr/local/bin/guile -s
+!#
+(write (command-line))
+(newline)
 </pre>
 </div>
 <p>
@@ -667,12 +670,12 @@ for the JavaScript code in this tag.
 <li><a id="org99cfa73"></a>使用主函数方式<br />
 <div class="outline-text-6" id="text-1-1-2-2-2">
 <div class="org-src-container">
-<pre class="src src-scheme">        #! /usr/local/bin/guile \
-        -e main -s
-        !#
-        <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define</span> <span style="color: #b58900;">(</span><span style="color: #268bd2;">main</span> args<span style="color: #b58900;">)</span>
-          <span style="color: #b58900;">(</span>write args<span style="color: #b58900;">)</span>
-          <span style="color: #b58900;">(</span>newline<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">#! /usr/local/bin/guile \
+-e main -s
+!#
+(define (main args)
+  (write args)
+  (newline))
 </pre>
 </div>
 <p>
@@ -699,26 +702,26 @@ for the JavaScript code in this tag.
 样例 c 程序
 </p>
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">stdlib.h</span><span style="color: #2aa198;">&gt;</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">libguile.h</span><span style="color: #2aa198;">&gt;</span>
-      <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">SCM</span> <span style="color: #268bd2;">my_hostname</span> <span style="color: #2aa198;">(</span><span style="color: #b58900;">void</span><span style="color: #2aa198;">)</span>
-      <span style="color: #2aa198;">{</span>
-        <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">s</span> = getenv <span style="color: #b58900;">(</span><span style="color: #2aa198;">"HOSTNAME"</span><span style="color: #b58900;">)</span>;
-        <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #b58900;">(</span>s == <span style="color: #268bd2; font-weight: bold;">NULL</span><span style="color: #b58900;">)</span>
-          <span style="color: #859900; font-weight: bold;">return</span> SCM_BOOL_F;
-        <span style="color: #859900; font-weight: bold;">else</span>
-          <span style="color: #859900; font-weight: bold;">return</span> scm_from_locale_string <span style="color: #b58900;">(</span>s<span style="color: #b58900;">)</span>;
-      <span style="color: #2aa198;">}</span>
-      <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">inner_main</span> <span style="color: #2aa198;">(</span><span style="color: #b58900;">void</span> *<span style="color: #268bd2;">data</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> **<span style="color: #268bd2;">argv</span><span style="color: #2aa198;">)</span>
-      <span style="color: #2aa198;">{</span>
-        scm_c_define_gsubr <span style="color: #b58900;">(</span><span style="color: #2aa198;">"my-hostname"</span>, 0, 0, 0, my_hostname<span style="color: #b58900;">)</span>;
-        scm_shell <span style="color: #b58900;">(</span>argc, argv<span style="color: #b58900;">)</span>;
-      <span style="color: #2aa198;">}</span>
-      <span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span> <span style="color: #2aa198;">(</span><span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> **<span style="color: #268bd2;">argv</span><span style="color: #2aa198;">)</span>
-      <span style="color: #2aa198;">{</span>
-        scm_boot_guile <span style="color: #b58900;">(</span>argc, argv, inner_main, 0<span style="color: #b58900;">)</span>;
-        <span style="color: #859900; font-weight: bold;">return</span> 0; <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">never reached</span><span style="color: #93a1a1;"> */</span>
-      <span style="color: #2aa198;">}</span>
+<pre class="src src-c">#include &lt;stdlib.h&gt;
+#include &lt;libguile.h&gt;
+static SCM my_hostname (void)
+{
+  char *s = getenv ("HOSTNAME");
+  if (s == NULL)
+    return SCM_BOOL_F;
+  else
+    return scm_from_locale_string (s);
+}
+static void inner_main (void *data, int argc, char **argv)
+{
+  scm_c_define_gsubr ("my-hostname", 0, 0, 0, my_hostname);
+  scm_shell (argc, argv);
+}
+int main (int argc, char **argv)
+{
+  scm_boot_guile (argc, argv, inner_main, 0);
+  return 0; /* never reached */
+}
 </pre>
 </div>
 <p>
@@ -735,16 +738,16 @@ for the JavaScript code in this tag.
 样例程序
 </p>
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">math.h</span><span style="color: #2aa198;">&gt;</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">libguile.h</span><span style="color: #2aa198;">&gt;</span>
-      <span style="color: #b58900;">SCM</span> <span style="color: #268bd2;">j0_wrapper</span> <span style="color: #2aa198;">(</span><span style="color: #b58900;">SCM</span> <span style="color: #268bd2;">x</span><span style="color: #2aa198;">)</span>
-      <span style="color: #2aa198;">{</span>
-        <span style="color: #859900; font-weight: bold;">return</span> scm_from_double <span style="color: #b58900;">(</span>j0 <span style="color: #268bd2;">(</span>scm_to_double <span style="color: #6c71c4;">(</span>x<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>;
-      <span style="color: #2aa198;">}</span>
-      <span style="color: #b58900;">void</span> <span style="color: #268bd2;">init_bessel</span> <span style="color: #2aa198;">()</span>
-      <span style="color: #2aa198;">{</span>
-        scm_c_define_gsubr <span style="color: #b58900;">(</span><span style="color: #2aa198;">"j0"</span>, 1, 0, 0, j0_wrapper<span style="color: #b58900;">)</span>;
-      <span style="color: #2aa198;">}</span>
+<pre class="src src-c">#include &lt;math.h&gt;
+#include &lt;libguile.h&gt;
+SCM j0_wrapper (SCM x)
+{
+  return scm_from_double (j0 (scm_to_double (x)));
+}
+void init_bessel ()
+{
+  scm_c_define_gsubr ("j0", 1, 0, 0, j0_wrapper);
+}
 </pre>
 </div>
 <p>
@@ -756,8 +759,8 @@ for the JavaScript code in this tag.
 编译后的 so 文件可以直接在 guile repl中调用
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">      <span style="color: #2aa198;">(</span>load-extension <span style="color: #2aa198;">"./libguile-bessel"</span> <span style="color: #2aa198;">"init_bessel"</span><span style="color: #2aa198;">)</span>
-      <span style="color: #2aa198;">(</span>j0 2<span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(load-extension "./libguile-bessel" "init_bessel")
+(j0 2)
 </pre>
 </div>
 </div>
@@ -768,19 +771,15 @@ for the JavaScript code in this tag.
 <div class="outline-text-4" id="text-1-1-5">
 </div>
 <ol class="org-ol">
-<li><a id="org4b9094c"></a>使用模块<br />
+<li><a id="org7af6783"></a>使用模块<br />
 <div class="outline-text-5" id="text-1-1-5-1">
 <div class="org-src-container">
-<pre class="src src-scheme">       <span style="color: #2aa198;">(</span>use-modules <span style="color: #b58900;">(</span>ice-9 popen<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span>use-modules <span style="color: #b58900;">(</span>ice-9 rdelim<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define</span> <span style="color: #268bd2;">p</span> <span style="color: #b58900;">(</span>open-input-pipe <span style="color: #2aa198;">"pwd"</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span>read-line p<span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(use-modules (ice-9 popen))
+(use-modules (ice-9 rdelim))
+(define p (open-input-pipe "pwd"))
+(read-line p)
 </pre>
 </div>
-
-<pre class="example">
-/home/bacon/Documents/org/Computer/Clojure
-</pre>
 </div>
 </li>
 
@@ -791,9 +790,9 @@ for the JavaScript code in this tag.
 以 <code>(define-module)</code> 作为标志,当然也可以在模块里定义c扩展.
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">       <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define-module</span> <span style="color: #b58900;">(</span><span style="color: #b58900;">foo</span> bar<span style="color: #b58900;">)</span>
-         <span style="color: #657b83; font-weight: bold;">#:export</span> <span style="color: #b58900;">(</span>frob<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define</span> <span style="color: #b58900;">(</span><span style="color: #268bd2;">frob</span> x<span style="color: #b58900;">)</span> <span style="color: #b58900;">(</span>* 2 x<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(define-module (foo bar)
+  #:export (frob))
+(define (frob x) (* 2 x))
 </pre>
 </div>
 </div>
@@ -1029,18 +1028,18 @@ guile支持全部的r5rs规范,以及r6rs中的大部分,另外一些不支持�
 <li><a id="org4a49e90"></a>递归的示例<br />
 <div class="outline-text-5" id="text-1-2-1-1">
 <div class="org-src-container">
-<pre class="src src-scheme">       <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">let</span> <span style="color: #268bd2;">f</span> <span style="color: #b58900;">(</span><span style="color: #268bd2;">(</span>i 1<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span> 
-         <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span>= i 10<span style="color: #268bd2;">)</span> 
-             1 
-             <span style="color: #268bd2;">(</span>* i <span style="color: #6c71c4;">(</span>f <span style="color: #859900;">(</span>+ i 1<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(let f ((i 1)) 
+  (if (= i 10) 
+      1 
+      (* i (f (+ i 1)))))
 </pre>
 </div>
 <div class="org-src-container">
-<pre class="src src-clojure">       (loop [i 1 
-              n 1] 
-         (if (= i 10) 
-           n  
-           (recur (+ i 1) (* i n))))
+<pre class="src src-clojure">(loop [i 1 
+       n 1] 
+  (if (= i 10) 
+    n  
+    (recur (+ i 1) (* i n))))
 </pre>
 </div>
 </div>
@@ -1053,20 +1052,20 @@ guile支持全部的r5rs规范,以及r6rs中的大部分,另外一些不支持�
 scheme:
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">        <span style="color: #2aa198;">(</span>lambda* <span style="color: #b58900;">(</span> <span style="color: #268bd2;">[</span>var... <span style="color: #268bd2;">]</span>
-                   <span style="color: #268bd2;">[</span><span style="color: #657b83; font-weight: bold;">#:optional</span> vardef... <span style="color: #268bd2;">]</span>
-                   <span style="color: #268bd2;">[</span><span style="color: #657b83; font-weight: bold;">#:key</span> vardef... <span style="color: #6c71c4;">[</span><span style="color: #657b83; font-weight: bold;">#:allow-other-keys</span><span style="color: #6c71c4;">]</span><span style="color: #268bd2;">]</span>
-                   <span style="color: #268bd2;">[</span><span style="color: #657b83; font-weight: bold;">#:rest</span> var <span style="color: #2aa198;">| . var] )</span>
-<span style="color: #2aa198;">        body1 body2 ...)</span>
+<pre class="src src-scheme">(lambda* ( [var... ]
+	   [#:optional vardef... ]
+	   [#:key vardef... [#:allow-other-keys]]
+	   [#:rest var | . var] )
+body1 body2 ...)
 </pre>
 </div>
 <p>
 clojure:
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure">        (defn boo [a b &amp; {:keys [c d] :or {c 10 d 20} :as all-specified}]
-          (println all-specified)
-          (* a b c d))
+<pre class="src src-clojure">(defn boo [a b &amp; {:keys [c d] :or {c 10 d 20} :as all-specified}]
+  (println all-specified)
+  (* a b c d))
 </pre>
 </div>
 </div>
@@ -1077,19 +1076,19 @@ clojure:
 scheme通过 <code>case-lambda</code> 部分支持
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">        <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define</span> <span style="color: #b58900;">(</span><span style="color: #268bd2;">make-accum</span> n<span style="color: #b58900;">)</span>
-          <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">case-lambda</span>
-            <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">()</span> n<span style="color: #268bd2;">)</span>
-            <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>m<span style="color: #6c71c4;">)</span> <span style="color: #6c71c4;">(</span>set! n <span style="color: #859900;">(</span>+ n m<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span> n<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(define (make-accum n)
+  (case-lambda
+    (() n)
+    ((m) (set! n (+ n m)) n)))
 </pre>
 </div>
 <p>
 clojure 直接支持
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure">        (defn make-accum
-          ([n] n)
-          ([n m] (+ m n)))
+<pre class="src src-clojure">(defn make-accum
+  ([n] n)
+  ([n m] (+ m n)))
 </pre>
 </div>
 </div>
@@ -1296,13 +1295,13 @@ clojure 直接支持
 在 Scheme中定义语法宏非常容易
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">       <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define-syntax</span> <span style="color: #268bd2;">nil!</span> <span style="color: #93a1a1;">;</span><span style="color: #93a1a1;">&#23439;&#21517;</span>
-         <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">syntax-rules</span> <span style="color: #268bd2;">(</span>doit<span style="color: #268bd2;">)</span> <span style="color: #93a1a1;">;</span><span style="color: #93a1a1;">&#35268;&#21017;,&#31532;&#19968;&#20010;&#21442;&#25968;&#20026;&#20445;&#30041;&#20851;&#38190;&#23383;,&#21487;&#20197;&#36827;&#34892;&#21305;&#37197;</span>
-           <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>_ x<span style="color: #6c71c4;">)</span> <span style="color: #93a1a1;">;</span><span style="color: #93a1a1;">&#21464;&#25442;&#21069;&#30340;&#24418;&#24335;,&#23545;&#36755;&#20837;&#30340;&#20869;&#23481;&#36827;&#34892;&#27169;&#24335;&#21305;&#37197;,&#19979;&#21010;&#32447;&#34920;&#31034;&#23439;&#21517;</span>
-            <span style="color: #6c71c4;">(</span>set! x '<span style="color: #859900;">()</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span> <span style="color: #93a1a1;">;</span><span style="color: #93a1a1;">&#21464;&#25442;&#21518;&#30340;&#24418;&#24335;</span>
-           <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>_ ...<span style="color: #6c71c4;">)</span> <span style="color: #6c71c4;">(</span>...<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span> <span style="color: #93a1a1;">;</span><span style="color: #93a1a1;">&#21487;&#20197;&#21305;&#37197;&#22810;&#31181;&#24418;&#24335;,&#19977;&#20010;&#28857;&#34920;&#31034;&#21097;&#19979;&#30340;&#25152;&#26377;&#19996;&#35199;</span>
-           <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>_ x do y<span style="color: #6c71c4;">)</span> <span style="color: #6c71c4;">(</span>x y<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span> <span style="color: #93a1a1;">;</span><span style="color: #93a1a1;">&#21487;&#20197;&#21305;&#37197;&#20851;&#38190;&#23383;</span>
-           <span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(define-syntax nil! ;宏名
+  (syntax-rules (doit) ;规则,第一个参数为保留关键字,可以进行匹配
+    ((_ x) ;变换前的形式,对输入的内容进行模式匹配,下划线表示宏名
+     (set! x '())) ;变换后的形式
+    ((_ ...) (...)) ;可以匹配多种形式,三个点表示剩下的所有东西
+    ((_ x do y) (x y)) ;可以匹配关键字
+    ))
 </pre>
 </div>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -1416,9 +1415,9 @@ clojure 直接支持
 没有触发 <code>call/cc</code> 时:
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">      <span style="color: #2aa198;">(</span>= <span style="color: #b58900;">(</span>* 3 <span style="color: #268bd2;">(</span>+ 1 4<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-         <span style="color: #b58900;">(</span>* 3 <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">call/cc</span> <span style="color: #6c71c4;">(</span><span style="color: #859900; font-weight: bold;">lambda</span> <span style="color: #859900;">(</span>return<span style="color: #859900;">)</span>
-                         <span style="color: #859900;">(</span>+ 1 4<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(= (* 3 (+ 1 4))
+   (* 3 (call/cc (lambda (return)
+		   (+ 1 4)))))
 </pre>
 </div>
 
@@ -1426,9 +1425,9 @@ clojure 直接支持
 一旦触发了,就不按求值顺序返回了,直接把指定的这个东西返回回去:
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">      <span style="color: #2aa198;">(</span>= <span style="color: #b58900;">(</span>* 3 2<span style="color: #b58900;">)</span>
-         <span style="color: #b58900;">(</span>* 3 <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">call/cc</span> <span style="color: #6c71c4;">(</span><span style="color: #859900; font-weight: bold;">lambda</span> <span style="color: #859900;">(</span>return<span style="color: #859900;">)</span> 
-                         <span style="color: #859900;">(</span>+ 1 <span style="color: #b58900;">(</span>return 2<span style="color: #b58900;">)</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(= (* 3 2)
+   (* 3 (call/cc (lambda (return) 
+		   (+ 1 (return 2))))))
 </pre>
 </div>
 </div>
@@ -1453,18 +1452,18 @@ guile 通过 port 进行输入输出
 <li><a id="orge3be9d1"></a><code>(ice-9 textual-ports)</code> 简单的文件读写例子<br />
 <div class="outline-text-5" id="text-1-4-1-1">
 <div class="org-src-container">
-<pre class="src src-scheme">       <span style="color: #2aa198;">(</span>use-modules <span style="color: #b58900;">(</span>ice-9 textual-ports<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">call-with-output-file</span> <span style="color: #2aa198;">"foo.txt"</span>
-         <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">lambda</span> <span style="color: #268bd2;">(</span>port<span style="color: #268bd2;">)</span>
-           <span style="color: #268bd2;">(</span>display <span style="color: #2aa198;">"Hello, world!\n"</span> port<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-       <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">call-with-input-file</span> <span style="color: #2aa198;">"foo.txt"</span>
-         <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">lambda</span> <span style="color: #268bd2;">(</span>port<span style="color: #268bd2;">)</span>
-           <span style="color: #268bd2;">(</span>display <span style="color: #6c71c4;">(</span>get-string-all port<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(use-modules (ice-9 textual-ports))
+(call-with-output-file "foo.txt"
+  (lambda (port)
+    (display "Hello, world!\n" port)))
+(call-with-input-file "foo.txt"
+  (lambda (port)
+    (display (get-string-all port))))
 </pre>
 </div>
 </div>
 </li>
-<li><a id="orgddd6373"></a>常用函数<br />
+<li><a id="orgd7ac290"></a>常用函数<br />
 <div class="outline-text-5" id="text-1-4-1-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1619,7 +1618,7 @@ guile 通过 port 进行输入输出
 </ol>
 </div>
 <ol class="org-ol">
-<li><a id="org29b43b7"></a>常用函数<br />
+<li><a id="org4a55c3d"></a>常用函数<br />
 <div class="outline-text-5" id="text-1-4-2-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1742,18 +1741,13 @@ guile 通过 port 进行输入输出
 <li><a id="org535b0a8"></a><code>regexp-substitute port match item</code> 替换<br />
 <div class="outline-text-6" id="text-1-4-2-1-1">
 <div class="org-src-container">
-<pre class="src src-scheme">        <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define</span> <span style="color: #268bd2;">date-regex</span>
-          <span style="color: #2aa198;">"([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9])"</span><span style="color: #2aa198;">)</span>
-        <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define</span> <span style="color: #268bd2;">s</span> <span style="color: #2aa198;">"Date 20020429 12am."</span><span style="color: #2aa198;">)</span>
-        <span style="color: #2aa198;">(</span>regexp-substitute #f <span style="color: #b58900;">(</span>string-match date-regex s<span style="color: #b58900;">)</span>
-                           'pre 2 <span style="color: #2aa198;">"-"</span> 3 <span style="color: #2aa198;">"-"</span> 1 'post <span style="color: #2aa198;">" ("</span> 0 <span style="color: #2aa198;">")"</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(define date-regex
+  "([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9])")
+(define s "Date 20020429 12am.")
+(regexp-substitute #f (string-match date-regex s)
+		   'pre 2 "-" 3 "-" 1 'post " (" 0 ")")
 </pre>
 </div>
-
-<pre class="example">
-Date 04-29-2002 12am. (20020429)
-</pre>
-
 
 <ol class="org-ol">
 <li>port 设为 <code>#f</code> 可以不向port 输出,而只是返回值</li>
@@ -1766,14 +1760,10 @@ Date 04-29-2002 12am. (20020429)
 <li><a id="org6a656a2"></a><code>regexp-substitute/global</code> 全局替换<br />
 <div class="outline-text-6" id="text-1-4-2-1-2">
 <div class="org-src-container">
-<pre class="src src-scheme">        <span style="color: #2aa198;">(</span>regexp-substitute/global #f <span style="color: #2aa198;">"[ \t]+"</span>  <span style="color: #2aa198;">"this   is   the text"</span>
-                                  'pre <span style="color: #2aa198;">"-"</span> 'post<span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(regexp-substitute/global #f "[ \t]+"  "this   is   the text"
+			  'pre "-" 'post)
 </pre>
 </div>
-
-<pre class="example">
-this-is-the-text
-</pre>
 </div>
 </li>
 </ol>
@@ -2016,37 +2006,15 @@ this-is-the-text
 <li><a id="orgfda5d0e"></a>例子<br />
 <div class="outline-text-6" id="text-1-4-3-1-3">
 <div class="org-src-container">
-<pre class="src src-scheme">        <span style="color: #2aa198;">(</span>use-modules <span style="color: #b58900;">(</span>ice-9 peg<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-        <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define</span> <span style="color: #268bd2;">s</span> <span style="color: #2aa198;">"1+1"</span><span style="color: #2aa198;">)</span>
-        <span style="color: #2aa198;">(</span>define-peg-pattern op all <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">or</span> <span style="color: #2aa198;">"+"</span> <span style="color: #2aa198;">"-"</span> <span style="color: #2aa198;">"*"</span> <span style="color: #2aa198;">"/"</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-        <span style="color: #2aa198;">(</span>define-peg-string-patterns
-          <span style="color: #2aa198;">"expr &lt;-- num op num</span>
-<span style="color: #2aa198;">        num &lt;-- [0-9]+"</span><span style="color: #2aa198;">)</span>
-        <span style="color: #2aa198;">(</span>peg:tree <span style="color: #b58900;">(</span>match-pattern expr s<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(use-modules (ice-9 peg))
+(define s "1+1")
+(define-peg-pattern op all (or "+" "-" "*" "/"))
+(define-peg-string-patterns
+  "expr &lt;-- num op num
+num &lt;-- [0-9]+")
+(peg:tree (match-pattern expr s))
 </pre>
 </div>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">expr</td>
-<td class="org-left">(num 1)</td>
-<td class="org-left">(op +)</td>
-<td class="org-left">(num 1)</td>
-</tr>
-</tbody>
-</table>
 </div>
 </li>
 <li><a id="org5a9ab15"></a>匹配类型<br />
@@ -2106,16 +2074,16 @@ this-is-the-text
 <div class="outline-text-4" id="text-1-4-4">
 </div>
 <ol class="org-ol">
-<li><a id="orga5a61df"></a>使用模块<br />
+<li><a id="org88f9d1d"></a>使用模块<br />
 <div class="outline-text-5" id="text-1-4-4-1">
 <p>
 例子为:
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">       <span style="color: #2aa198;">(</span>use-modules <span style="color: #b58900;">(</span><span style="color: #268bd2;">(</span>ice-9 popen<span style="color: #268bd2;">)</span>
-                     <span style="color: #657b83; font-weight: bold;">#:select</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>open-pipe . pipe-open<span style="color: #6c71c4;">)</span> close-pipe<span style="color: #268bd2;">)</span>
-                     <span style="color: #657b83; font-weight: bold;">#:renamer</span> <span style="color: #268bd2;">(</span>symbol-prefix-proc 'unixy:<span style="color: #268bd2;">)</span>
-                     <span style="color: #657b83; font-weight: bold;">#:prefix</span> unixy:<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(use-modules ((ice-9 popen)
+	      #:select ((open-pipe . pipe-open) close-pipe)
+	      #:renamer (symbol-prefix-proc 'unixy:)
+	      #:prefix unixy:))
 </pre>
 </div>
 <p>
@@ -2152,7 +2120,7 @@ this-is-the-text
 也可以不导入模块,直接使用函数,语法为 <code>@ module func</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">       <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define</span> <span style="color: #268bd2;">unixy:pipe-open</span> <span style="color: #b58900;">(</span>@ <span style="color: #268bd2;">(</span>ice-9 popen<span style="color: #268bd2;">)</span> open-pipe<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(define unixy:pipe-open (@ (ice-9 popen) open-pipe))
 </pre>
 </div>
 </div>
@@ -2160,14 +2128,14 @@ this-is-the-text
 <li><a id="org7ab1e4e"></a>创建模块<br />
 <div class="outline-text-5" id="text-1-4-4-2">
 <div class="org-src-container">
-<pre class="src src-scheme">       <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define-module</span> <span style="color: #b58900;">(</span><span style="color: #b58900;">my</span> mod<span style="color: #b58900;">)</span>
-         <span style="color: #657b83; font-weight: bold;">#:autoload</span> <span style="color: #b58900;">(</span>srfi srfi-1<span style="color: #b58900;">)</span> <span style="color: #b58900;">(</span>partition delete-duplicates<span style="color: #b58900;">)</span>
-         <span style="color: #657b83; font-weight: bold;">#:use-module</span> interface-specification
-         <span style="color: #657b83; font-weight: bold;">#:export</span> <span style="color: #b58900;">(</span>list<span style="color: #b58900;">)</span>
-         <span style="color: #657b83; font-weight: bold;">#:re-export</span> <span style="color: #b58900;">(</span>list<span style="color: #b58900;">)</span>
-         <span style="color: #657b83; font-weight: bold;">#:replace</span> <span style="color: #b58900;">(</span>list<span style="color: #b58900;">)</span>
-         <span style="color: #657b83; font-weight: bold;">#:version</span> <span style="color: #b58900;">(</span>list<span style="color: #b58900;">)</span>
-         <span style="color: #657b83; font-weight: bold;">#:pure</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(define-module (my mod)
+  #:autoload (srfi srfi-1) (partition delete-duplicates)
+  #:use-module interface-specification
+  #:export (list)
+  #:re-export (list)
+  #:replace (list)
+  #:version (list)
+  #:pure)
 </pre>
 </div>
 </div>
@@ -2179,7 +2147,7 @@ this-is-the-text
 即在 <code>%load-path</code> 中的 <code>ice-9/popen</code> 文件   
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">       <span style="color: #2aa198;">(</span>add-to-load-path <span style="color: #b58900;">(</span>dirname <span style="color: #268bd2;">(</span>current-filename<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(add-to-load-path (dirname (current-filename)))
 </pre>
 </div>
 </div>
@@ -2263,18 +2231,14 @@ this-is-the-text
 <li><a id="org870a168"></a>输入命令并得到命令返回值的例子<br />
 <div class="outline-text-6" id="text-1-5-1-1-1">
 <div class="org-src-container">
-<pre class="src src-scheme">        <span style="color: #2aa198;">(</span>use-modules <span style="color: #b58900;">(</span>ice-9 popen<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-        <span style="color: #2aa198;">(</span>use-modules <span style="color: #b58900;">(</span>ice-9 textual-ports<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-        <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #b58900;">(</span><span style="color: #268bd2;">(</span>port <span style="color: #6c71c4;">(</span>open-input-pipe <span style="color: #2aa198;">"date"</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-               <span style="color: #268bd2;">(</span>str  <span style="color: #6c71c4;">(</span>get-string-all port<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-          <span style="color: #b58900;">(</span>close-pipe port<span style="color: #b58900;">)</span>
-          str<span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(use-modules (ice-9 popen))
+(use-modules (ice-9 textual-ports))
+(let* ((port (open-input-pipe "date"))
+       (str  (get-string-all port)))
+  (close-pipe port)
+  str)
 </pre>
 </div>
-
-<pre class="example">
-2018年 08月 02日 星期四 21:30:39 CST\n
-</pre>
 </div>
 </li>
 </ol>
@@ -2291,9 +2255,9 @@ this-is-the-text
 <li><a id="org89d5648"></a><code>(srfi srfi-26)</code> 简化lambda写法<br />
 <div class="outline-text-5" id="text-1-5-2-3">
 <div class="org-src-container">
-<pre class="src src-scheme">       <span style="color: #2aa198;">(</span>cut &lt;&gt; 1 2 3<span style="color: #2aa198;">)</span>
-       &#8658;
-       <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">lambda</span> <span style="color: #b58900;">(</span>proc<span style="color: #b58900;">)</span> <span style="color: #b58900;">(</span>proc 1 2 3<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-scheme">(cut &lt;&gt; 1 2 3)
+⇒
+(lambda (proc) (proc 1 2 3))
 </pre>
 </div>
 </div>
@@ -2308,37 +2272,37 @@ this-is-the-text
 命令行参数解析只有两个函数, <code>getopt-long</code> 和 <code>option-ref</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-scheme">      #!/usr/bin/guile \
-      -e main -s
-      !#
-      <span style="color: #2aa198;">(</span>use-modules <span style="color: #b58900;">(</span>ice-9 getopt-long<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-      <span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">define</span> <span style="color: #b58900;">(</span><span style="color: #268bd2;">main</span> arg<span style="color: #b58900;">)</span>
-        <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">let*</span> <span style="color: #268bd2;">(</span><span style="color: #6c71c4;">(</span>isstring? <span style="color: #859900;">(</span><span style="color: #859900; font-weight: bold;">lambda</span> <span style="color: #b58900;">(</span>s<span style="color: #b58900;">)</span> <span style="color: #b58900;">(</span>string? s<span style="color: #b58900;">)</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>option-spec
-                `<span style="color: #859900;">(</span><span style="color: #b58900;">(</span>version <span style="color: #268bd2;">(</span>single-char #\v<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">(</span>value #f<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-                  <span style="color: #b58900;">(</span>help    <span style="color: #268bd2;">(</span>single-char #\h<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">(</span>value #f<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-                  <span style="color: #b58900;">(</span>file-name <span style="color: #268bd2;">(</span>value #t<span style="color: #268bd2;">)</span>
-                             <span style="color: #268bd2;">(</span>single-char #\n<span style="color: #268bd2;">)</span>
-                             <span style="color: #268bd2;">(</span>required? #f<span style="color: #268bd2;">)</span>
-                             <span style="color: #268bd2;">(</span>predicate ,isstring?<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>options <span style="color: #859900;">(</span>getopt-long arg option-spec <span style="color: #657b83; font-weight: bold;">#:stop-at-first-non-option</span> #t<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>help-wanted <span style="color: #859900;">(</span>option-ref options 'help #f<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>version-wanted <span style="color: #859900;">(</span>option-ref options 'version #f<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-               <span style="color: #6c71c4;">(</span>file-name <span style="color: #859900;">(</span>option-ref options 'file-name <span style="color: #2aa198;">"nofile"</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
+<pre class="src src-scheme">#!/usr/bin/guile \
+-e main -s
+!#
+(use-modules (ice-9 getopt-long))
+(define (main arg)
+  (let* ((isstring? (lambda (s) (string? s)))
+	 (option-spec
+	  `((version (single-char #\v) (value #f))
+	    (help    (single-char #\h) (value #f))
+	    (file-name (value #t)
+		       (single-char #\n)
+		       (required? #f)
+		       (predicate ,isstring?))))
+	 (options (getopt-long arg option-spec #:stop-at-first-non-option #t))
+	 (help-wanted (option-ref options 'help #f))
+	 (version-wanted (option-ref options 'version #f))
+	 (file-name (option-ref options 'file-name "nofile")))
 
-          <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">when</span> version-wanted
-            <span style="color: #6c71c4;">(</span>display <span style="color: #2aa198;">"v1.0.0\n"</span><span style="color: #6c71c4;">)</span>
-            <span style="color: #6c71c4;">(</span>quit<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">when</span> help-wanted
-            <span style="color: #6c71c4;">(</span>display
-             <span style="color: #859900;">(</span>string-join '<span style="color: #b58900;">(</span><span style="color: #2aa198;">"getopt-long-example [options]"</span>
-                            <span style="color: #2aa198;">"-v,  --version  Display version"</span>
-                            <span style="color: #2aa198;">"-h,  --help     Display this help"</span>
-                            <span style="color: #2aa198;">""</span><span style="color: #b58900;">)</span>
-                          <span style="color: #2aa198;">"\n"</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
-            <span style="color: #6c71c4;">(</span>quit<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-          <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">when</span> file-name
-            <span style="color: #6c71c4;">(</span>display file-name<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+    (when version-wanted
+      (display "v1.0.0\n")
+      (quit))
+    (when help-wanted
+      (display
+       (string-join '("getopt-long-example [options]"
+		      "-v,  --version  Display version"
+		      "-h,  --help     Display this help"
+		      "")
+		    "\n"))
+      (quit))
+    (when file-name
+      (display file-name))))
 </pre>
 </div>
 </div>
@@ -2423,7 +2387,7 @@ this-is-the-text
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="date">Created: 2020-12-19 Sat 14:07</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:24 -->
+<!-- 2020-12-19 Sat 14:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Python科学计算</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -285,27 +288,35 @@ for the JavaScript code in this tag.
 </li>
 <li><a href="#org565ab03">4. matplotlib</a>
 <ul>
-<li><a href="#org30b8cda">4.1. 画 3D 曲面图</a></li>
-<li><a href="#org3434daf">4.2. 画 3D 箭头场图</a></li>
-<li><a href="#orgc860c8b">4.3. matplotlib使用中文与latex</a>
+<li><a href="#org4436566">4.1. 画多横线图</a></li>
+<li><a href="#org30b8cda">4.2. 画 3D 曲面图</a></li>
+<li><a href="#org3434daf">4.3. 画 3D 箭头场图</a></li>
+<li><a href="#orgc860c8b">4.4. matplotlib使用中文与latex</a>
 <ul>
-<li><a href="#orgf0db9cb">4.3.1. 图片中的文本使用latex符号</a></li>
-<li><a href="#orgdf727e5">4.3.2. 中文显示</a></li>
-<li><a href="#orgdfa4811">4.3.3. 图注和标签中的数学字体</a></li>
+<li><a href="#orgf0db9cb">4.4.1. 图片中的文本使用latex符号</a></li>
+<li><a href="#orgdf727e5">4.4.2. 中文显示</a></li>
+<li><a href="#orgdfa4811">4.4.3. 图注和标签中的数学字体</a></li>
 </ul>
 </li>
-<li><a href="#org54f665b">4.4. Legend中指定线和图例相对应的方法</a></li>
-<li><a href="#org2d08fb4">4.5. 并行化画图时,解决爆内存和同一图中画了好多线的方法</a></li>
-<li><a href="#orga4d2d9d">4.6. 让画出来的图片连在一起动起来的方法</a></li>
-<li><a href="#orgc6bad17">4.7. 保存图片时超出的部分存不上</a></li>
-<li><a href="#orgc72800a">4.8. 保存图片时没有 <code>suptitle</code> 部分</a></li>
-<li><a href="#orge3bdadf">4.9. 设置默认绘图样式</a>
+<li><a href="#org54f665b">4.5. Legend中指定线和图例相对应的方法</a></li>
+<li><a href="#org2d08fb4">4.6. 并行化画图时,解决爆内存和同一图中画了好多线的方法</a></li>
+<li><a href="#orga4d2d9d">4.7. 让画出来的图片连在一起动起来的方法</a></li>
+<li><a href="#orgc6bad17">4.8. 保存图片时超出的部分存不上</a></li>
+<li><a href="#orgc72800a">4.9. 保存图片时没有 <code>suptitle</code> 部分</a></li>
+<li><a href="#orge3bdadf">4.10. 设置默认绘图样式</a>
 <ul>
-<li><a href="#orge1353f5">4.9.1. 设置全局样式</a></li>
-<li><a href="#org5da83d8">4.9.2. 设置和使用局部样式</a></li>
+<li><a href="#orge1353f5">4.10.1. 设置全局样式</a></li>
+<li><a href="#org5da83d8">4.10.2. 设置和使用局部样式</a></li>
 </ul>
 </li>
-<li><a href="#org2974341">4.10. 在 JupyterLab 里让图动起来</a></li>
+<li><a href="#org2974341">4.11. 在 JupyterLab 里让图动起来</a></li>
+<li><a href="#org4a49653">4.12. 论文图片样式</a>
+<ul>
+<li><a href="#orgeeb483a">4.12.1. 设置方式</a></li>
+<li><a href="#org3d4ae9d">4.12.2. 通用样式 <code>paper.mplstyle</code></a></li>
+<li><a href="#orgce939a2">4.12.3. 单栏样式 <code>paper_onecol.mplstyle</code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#orge98542d">5. seaborn</a>
@@ -334,15 +345,15 @@ for the JavaScript code in this tag.
 </li>
 <li><a href="#org03f8580">7.6. 动态组件 ipywidgets</a>
 <ul>
-<li><a href="#org9fe71f7">7.6.1. 安装</a></li>
+<li><a href="#org507dc50">7.6.1. 安装</a></li>
 <li><a href="#org9ff2a58">7.6.2. 基本动态组件 - 使用 interact</a></li>
 </ul>
 </li>
 <li><a href="#org055998b">7.7. 自动重加载库</a></li>
 <li><a href="#org3838c8c">7.8. nbdime：diff 工具</a>
 <ul>
-<li><a href="#orgf66f69c">7.8.1. 安装</a></li>
-<li><a href="#org379adf8">7.8.2. 基本使用</a></li>
+<li><a href="#org77c0484">7.8.1. 安装</a></li>
+<li><a href="#org9ca4ff7">7.8.2. 基本使用</a></li>
 </ul>
 </li>
 </ul>
@@ -375,7 +386,7 @@ for the JavaScript code in this tag.
 <li><a href="#org6b0807c">11. ctypes: c 互操作标准库</a></li>
 <li><a href="#org5a767c3">12. cffi: c/c++ 互操作</a>
 <ul>
-<li><a href="#org3843369">12.1. 基本使用</a>
+<li><a href="#orgc0fc5df">12.1. 基本使用</a>
 <ul>
 <li><a href="#org27eb6a7">12.1.1. 内联调用方式</a></li>
 </ul>
@@ -383,12 +394,15 @@ for the JavaScript code in this tag.
 </ul>
 </li>
 <li><a href="#org30946f0">13. pytesseract: OCR 识别库</a></li>
+<li><a href="#org3d1ab48">14. h5py: 储存数据</a>
+<ul>
+<li><a href="#orgc9400da">14.1. 存</a></li>
+<li><a href="#org7124c51">14.2. 取</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
-
-
-
 
 <div id="outline-container-org3576466" class="outline-2">
 <h2 id="org3576466"><span class="section-number-2">1</span> numpy</h2>
@@ -405,7 +419,7 @@ for the JavaScript code in this tag.
 然后
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">python setup.py build -j 4 install --prefix $<span style="color: #268bd2;">HOME</span>/.local
+<pre class="src src-bash">python setup.py build -j 4 install --prefix $HOME/.local
 </pre>
 </div>
 </div>
@@ -417,17 +431,17 @@ for the JavaScript code in this tag.
 <a href="https://github.com/xianyi/OpenBLAS">https://github.com/xianyi/OpenBLAS</a>
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">make <span style="color: #268bd2;">FC</span>=gfortran
-make <span style="color: #268bd2;">PREFIX</span>=/opt/OpenBLAS install
+<pre class="src src-bash">make FC=gfortran
+make PREFIX=/opt/OpenBLAS install
 </pre>
 </div>
 <p>
 添加环境路径
 </p>
 <div class="org-src-container">
-<pre class="src src-bash"><span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">LD_LIBRARY_PATH</span>=/opt/OpenBLAS/lib:$<span style="color: #268bd2;">LD_LIBRARY_PATH</span>
-<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">C_INCLUDE_PATH</span>=/opt/OpenBLAS/include:$<span style="color: #268bd2;">C_INCLUDE_PATH</span> 
-<span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">CPLUS_INCLUDE_PATH</span>=/opt/OpenBLAS/include:$<span style="color: #268bd2;">CPLUS_INCLUDE_PATH</span> 
+<pre class="src src-bash">export LD_LIBRARY_PATH=/opt/OpenBLAS/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/opt/OpenBLAS/include:$C_INCLUDE_PATH 
+export CPLUS_INCLUDE_PATH=/opt/OpenBLAS/include:$CPLUS_INCLUDE_PATH 
 </pre>
 </div>
 </div>
@@ -442,10 +456,10 @@ make <span style="color: #268bd2;">PREFIX</span>=/opt/OpenBLAS install
 <div class="org-src-container">
 <pre class="src src-bash">cp site.cfg.example site.cfg
 
-<span style="color: #2aa198;">[</span>openblas<span style="color: #2aa198;">]</span>
-<span style="color: #268bd2;">libraries</span> = openblas
-<span style="color: #268bd2;">library_dirs</span> = /opt/OpenBLAS/lib
-<span style="color: #268bd2;">include_dirs</span> = /opt/OpenBLAS/include
+[openblas]
+libraries = openblas
+library_dirs = /opt/OpenBLAS/lib
+include_dirs = /opt/OpenBLAS/include
 ...
 </pre>
 </div>
@@ -598,10 +612,10 @@ make <span style="color: #268bd2;">PREFIX</span>=/opt/OpenBLAS install
 <h4 id="org7741dc2"><span class="section-number-4">3.1.1</span> 从点的坐标表格 <code>(x,y,z)</code> 得到矩阵</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #268bd2;">data</span> = pd.DataFrame<span style="color: #2aa198;">(</span><span style="color: #b58900;">{</span><span style="color: #2aa198;">"x"</span>: <span style="color: #268bd2;">[</span>1,1,2,2<span style="color: #268bd2;">]</span>, <span style="color: #2aa198;">"y"</span>:<span style="color: #268bd2;">[</span>3,4,3,4<span style="color: #268bd2;">]</span>,<span style="color: #2aa198;">"z"</span>:<span style="color: #268bd2;">[</span>9,8,7,6<span style="color: #268bd2;">]</span><span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">data_2x2</span> = data.pivot<span style="color: #2aa198;">(</span>index=<span style="color: #2aa198;">"x"</span>,columns=<span style="color: #2aa198;">"y"</span>, values=<span style="color: #2aa198;">"z"</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">data = pd.DataFrame({"x": [1,1,2,2], "y":[3,4,3,4],"z":[9,8,7,6]})
+data_2x2 = data.pivot(index="x",columns="y", values="z")
 
-<span style="color: #268bd2;">matrix</span> = data_2x2.to_numpy<span style="color: #2aa198;">()</span>
+matrix = data_2x2.to_numpy()
 </pre>
 </div>
 </div>
@@ -611,11 +625,11 @@ make <span style="color: #268bd2;">PREFIX</span>=/opt/OpenBLAS install
 <h4 id="org1ce6f6b"><span class="section-number-4">3.1.2</span> 从矩阵表格得到坐标表格</h4>
 <div class="outline-text-4" id="text-3-1-2">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #268bd2;">data</span> = pd.DataFrame<span style="color: #2aa198;">(</span><span style="color: #b58900;">{</span><span style="color: #2aa198;">"x"</span>: <span style="color: #268bd2;">[</span>1,1,2,2<span style="color: #268bd2;">]</span>, <span style="color: #2aa198;">"y"</span>:<span style="color: #268bd2;">[</span>3,4,3,4<span style="color: #268bd2;">]</span>,<span style="color: #2aa198;">"z"</span>:<span style="color: #268bd2;">[</span>9,8,7,6<span style="color: #268bd2;">]</span><span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">data_2x2</span> = data.pivot<span style="color: #2aa198;">(</span>index=<span style="color: #2aa198;">"x"</span>,columns=<span style="color: #2aa198;">"y"</span>, values=<span style="color: #2aa198;">"z"</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">data = pd.DataFrame({"x": [1,1,2,2], "y":[3,4,3,4],"z":[9,8,7,6]})
+data_2x2 = data.pivot(index="x",columns="y", values="z")
 
-<span style="color: #268bd2;">d</span> = data_2x2.unstack<span style="color: #2aa198;">()</span>.reset_index<span style="color: #2aa198;">()</span>
-<span style="color: #268bd2;">d.columns</span> = <span style="color: #2aa198;">[</span><span style="color: #2aa198;">'y'</span>,<span style="color: #2aa198;">'x'</span>,<span style="color: #2aa198;">'z'</span><span style="color: #2aa198;">]</span>
+d = data_2x2.unstack().reset_index()
+d.columns = ['y','x','z']
 </pre>
 </div>
 </div>
@@ -628,64 +642,111 @@ make <span style="color: #268bd2;">PREFIX</span>=/opt/OpenBLAS install
 <h2 id="org565ab03"><span class="section-number-2">4</span> matplotlib</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org30b8cda" class="outline-3">
-<h3 id="org30b8cda"><span class="section-number-3">4.1</span> 画 3D 曲面图</h3>
+<div id="outline-container-org4436566" class="outline-3">
+<h3 id="org4436566"><span class="section-number-3">4.1</span> 画多横线图</h3>
 <div class="outline-text-3" id="text-4-1">
+<p>
+<a href="https://matplotlib.org/matplotblog/posts/create-ridgeplots-in-matplotlib/">https://matplotlib.org/matplotblog/posts/create-ridgeplots-in-matplotlib/</a>
+</p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">import</span> matplotlib.pyplot <span style="color: #859900; font-weight: bold;">as</span> plt
-<span style="color: #859900; font-weight: bold;">from</span> matplotlib <span style="color: #859900; font-weight: bold;">import</span> cm
-<span style="color: #268bd2;">xl</span> = np.linspace<span style="color: #2aa198;">(</span>0,1,10<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">yl</span> = np.linspace<span style="color: #2aa198;">(</span>0,1,10<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">X</span>, <span style="color: #268bd2;">Y</span> = np.meshgrid<span style="color: #2aa198;">(</span>xl, yl<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">Z</span> = np.cos<span style="color: #2aa198;">(</span>X<span style="color: #2aa198;">)</span> + np.sin<span style="color: #2aa198;">(</span>Y<span style="color: #2aa198;">)</span>
+<pre class="src src-python">import matplotlib.gridspec as grid_spec
 
-<span style="color: #268bd2;">fig</span> = plt.figure<span style="color: #2aa198;">()</span>
-<span style="color: #268bd2;">ax</span> = fig.gca<span style="color: #2aa198;">(</span>projection=<span style="color: #2aa198;">'3d'</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">surf</span> = ax.plot_surface<span style="color: #2aa198;">(</span>X, Y, Z, cmap=cm.coolwarm,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  linewidth=0, antialiased=<span style="color: #268bd2; font-weight: bold;">False</span><span style="color: #2aa198;">)</span>
+x = np.linspace(-5,5,30)
+y = np.vstack([np.exp(-(x+a)**2) for a in np.linspace(0,3,8)])
+
+gs = (grid_spec.GridSpec(len(d.index),1))
+
+fig = plt.figure(figsize=(8,6))
+
+ax_objs = []
+
+for i in range(8):
+    ax = fig.add_subplot(gs[i:i+1, 0:])
+    ax_objs.append(ax)
+    ax.plot(x, y[i,:])
+    # ax.fill_between(x,y[i,:])
+
+
+    # make background transparent
+    rect = ax.patch
+    rect.set_alpha(0)
+
+
+    # remove borders, axis ticks, and labels
+    ax.set_yticklabels([])
+    ax.set_xticklabels([])
+    ax.set_ylabel('')
+
+    spines = ["top","right","left","bottom"]
+    for s in spines:
+	ax.spines[s].set_visible(False)
+
+
+gs.update(hspace= -0.7)
+# fig.tight_layout()
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org30b8cda" class="outline-3">
+<h3 id="org30b8cda"><span class="section-number-3">4.2</span> 画 3D 曲面图</h3>
+<div class="outline-text-3" id="text-4-2">
+<div class="org-src-container">
+<pre class="src src-python">import matplotlib.pyplot as plt
+from matplotlib import cm
+xl = np.linspace(0,1,10)
+yl = np.linspace(0,1,10)
+X, Y = np.meshgrid(xl, yl)
+Z = np.cos(X) + np.sin(Y)
+
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
+		       linewidth=0, antialiased=False)
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-org3434daf" class="outline-3">
-<h3 id="org3434daf"><span class="section-number-3">4.2</span> 画 3D 箭头场图</h3>
-<div class="outline-text-3" id="text-4-2">
+<h3 id="org3434daf"><span class="section-number-3">4.3</span> 画 3D 箭头场图</h3>
+<div class="outline-text-3" id="text-4-3">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">from</span> mpl_toolkits.mplot3d <span style="color: #859900; font-weight: bold;">import</span> axes3d
-<span style="color: #859900; font-weight: bold;">import</span> matplotlib.pyplot <span style="color: #859900; font-weight: bold;">as</span> plt
-<span style="color: #859900; font-weight: bold;">import</span> numpy <span style="color: #859900; font-weight: bold;">as</span> np
+<pre class="src src-python">from mpl_toolkits.mplot3d import axes3d
+import matplotlib.pyplot as plt
+import numpy as np
 
-<span style="color: #268bd2;">fig</span> = plt.figure<span style="color: #2aa198;">()</span>
-<span style="color: #268bd2;">ax</span> = fig.gca<span style="color: #2aa198;">(</span>projection=<span style="color: #2aa198;">'3d'</span><span style="color: #2aa198;">)</span>
+fig = plt.figure()
+ax = fig.gca(projection='3d')
 
-<span style="color: #268bd2;">x</span>, <span style="color: #268bd2;">y</span>, <span style="color: #268bd2;">z</span> = np.meshgrid<span style="color: #2aa198;">(</span>np.arange<span style="color: #b58900;">(</span>-0.8, 1, 0.2<span style="color: #b58900;">)</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> np.arange<span style="color: #b58900;">(</span>-0.8, 1, 0.2<span style="color: #b58900;">)</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> np.arange<span style="color: #b58900;">(</span>-0.8, 1, 0.8<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+x, y, z = np.meshgrid(np.arange(-0.8, 1, 0.2),
+		      np.arange(-0.8, 1, 0.2),
+		      np.arange(-0.8, 1, 0.8))
 
-<span style="color: #268bd2;">u</span> = np.sin<span style="color: #2aa198;">(</span>np.pi * x<span style="color: #2aa198;">)</span> * np.cos<span style="color: #2aa198;">(</span>np.pi * y<span style="color: #2aa198;">)</span> * np.cos<span style="color: #2aa198;">(</span>np.pi * z<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">v</span> = -np.cos<span style="color: #2aa198;">(</span>np.pi * x<span style="color: #2aa198;">)</span> * np.sin<span style="color: #2aa198;">(</span>np.pi * y<span style="color: #2aa198;">)</span> * np.cos<span style="color: #2aa198;">(</span>np.pi * z<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">w</span> = <span style="color: #2aa198;">(</span>np.sqrt<span style="color: #b58900;">(</span>2.0 / 3.0<span style="color: #b58900;">)</span> * np.cos<span style="color: #b58900;">(</span>np.pi * x<span style="color: #b58900;">)</span> * np.cos<span style="color: #b58900;">(</span>np.pi * y<span style="color: #b58900;">)</span> *
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>np.sin<span style="color: #b58900;">(</span>np.pi * z<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+u = np.sin(np.pi * x) * np.cos(np.pi * y) * np.cos(np.pi * z)
+v = -np.cos(np.pi * x) * np.sin(np.pi * y) * np.cos(np.pi * z)
+w = (np.sqrt(2.0 / 3.0) * np.cos(np.pi * x) * np.cos(np.pi * y) *
+     np.sin(np.pi * z))
 
-ax.quiver<span style="color: #2aa198;">(</span>x, y, z, u, v, w, length=0.1<span style="color: #2aa198;">)</span>
+ax.quiver(x, y, z, u, v, w, length=0.1)
 
-plt.show<span style="color: #2aa198;">()</span>
+plt.show()
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-orgc860c8b" class="outline-3">
-<h3 id="orgc860c8b"><span class="section-number-3">4.3</span> matplotlib使用中文与latex</h3>
-<div class="outline-text-3" id="text-4-3">
+<h3 id="orgc860c8b"><span class="section-number-3">4.4</span> matplotlib使用中文与latex</h3>
+<div class="outline-text-3" id="text-4-4">
 </div>
 <div id="outline-container-orgf0db9cb" class="outline-4">
-<h4 id="orgf0db9cb"><span class="section-number-4">4.3.1</span> 图片中的文本使用latex符号</h4>
-<div class="outline-text-4" id="text-4-3-1">
+<h4 id="orgf0db9cb"><span class="section-number-4">4.4.1</span> 图片中的文本使用latex符号</h4>
+<div class="outline-text-4" id="text-4-4-1">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">from</span> matplotlib <span style="color: #859900; font-weight: bold;">import</span> rc
-rc<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'text'</span>,usetex=<span style="color: #268bd2; font-weight: bold;">True</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">from matplotlib import rc
+rc('text',usetex=True)
 
 </pre>
 </div>
@@ -693,31 +754,31 @@ rc<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'text'</sp
 </div>
 
 <div id="outline-container-orgdf727e5" class="outline-4">
-<h4 id="orgdf727e5"><span class="section-number-4">4.3.2</span> 中文显示</h4>
-<div class="outline-text-4" id="text-4-3-2">
+<h4 id="orgdf727e5"><span class="section-number-4">4.4.2</span> 中文显示</h4>
+<div class="outline-text-4" id="text-4-4-2">
 <p>
 关键在于自己指定字体
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #268bd2;">plt.rcParams</span><span style="color: #2aa198;">[</span><span style="color: #2aa198;">'font.sans-serif'</span><span style="color: #2aa198;">]</span>=<span style="color: #2aa198;">[</span><span style="color: #2aa198;">'SimHei'</span><span style="color: #2aa198;">]</span> <span style="color: #93a1a1;">#</span><span style="color: #93a1a1;">&#29992;&#26469;&#27491;&#24120;&#26174;&#31034;&#20013;&#25991;&#26631;&#31614;</span>
-<span style="color: #268bd2;">plt.rcParams</span><span style="color: #2aa198;">[</span><span style="color: #2aa198;">'axes.unicode_minus'</span><span style="color: #2aa198;">]</span>=<span style="color: #268bd2; font-weight: bold;">False</span> <span style="color: #93a1a1;">#</span><span style="color: #93a1a1;">&#29992;&#26469;&#27491;&#24120;&#26174;&#31034;&#36127;&#21495;</span>
+<pre class="src src-python">plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-orgdfa4811" class="outline-4">
-<h4 id="orgdfa4811"><span class="section-number-4">4.3.3</span> 图注和标签中的数学字体</h4>
-<div class="outline-text-4" id="text-4-3-3">
+<h4 id="orgdfa4811"><span class="section-number-4">4.4.3</span> 图注和标签中的数学字体</h4>
+<div class="outline-text-4" id="text-4-4-3">
 <div class="org-src-container">
-<pre class="src src-python">plt.rcdefaults<span style="color: #2aa198;">()</span>
-<span style="color: #268bd2;">plt.rcParams</span><span style="color: #2aa198;">[</span><span style="color: #2aa198;">'mathtext.it'</span><span style="color: #2aa198;">]</span>=<span style="color: #2aa198;">'sans:italic'</span>
-<span style="color: #268bd2;">plt.rcParams</span><span style="color: #2aa198;">[</span><span style="color: #2aa198;">'mathtext.fontset'</span><span style="color: #2aa198;">]</span>=<span style="color: #2aa198;">'custom'</span>
-<span style="color: #268bd2;">plt.rcParams</span><span style="color: #2aa198;">[</span><span style="color: #2aa198;">'font.family'</span><span style="color: #2aa198;">]</span>=<span style="color: #2aa198;">'Times New Roman'</span>
-<span style="color: #268bd2;">plt.rcParams</span><span style="color: #2aa198;">[</span><span style="color: #2aa198;">'font.style'</span><span style="color: #2aa198;">]</span>=<span style="color: #2aa198;">'normal'</span>
-<span style="color: #268bd2;">plt.rcParams</span><span style="color: #2aa198;">[</span><span style="color: #2aa198;">'font.sans-serif'</span><span style="color: #2aa198;">]</span>=<span style="color: #2aa198;">[</span><span style="color: #2aa198;">'DejaVu Serif'</span><span style="color: #2aa198;">]</span>
-<span style="color: #268bd2;">plt.rcParams</span><span style="color: #2aa198;">[</span><span style="color: #2aa198;">'font.size'</span><span style="color: #2aa198;">]</span>=14
+<pre class="src src-python">plt.rcdefaults()
+plt.rcParams['mathtext.it']='sans:italic'
+plt.rcParams['mathtext.fontset']='custom'
+plt.rcParams['font.family']='Times New Roman'
+plt.rcParams['font.style']='normal'
+plt.rcParams['font.sans-serif']=['DejaVu Serif']
+plt.rcParams['font.size']=14
 </pre>
 </div>
 </div>
@@ -725,37 +786,37 @@ rc<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'text'</sp
 </div>
 
 <div id="outline-container-org54f665b" class="outline-3">
-<h3 id="org54f665b"><span class="section-number-3">4.4</span> Legend中指定线和图例相对应的方法</h3>
-<div class="outline-text-3" id="text-4-4">
+<h3 id="org54f665b"><span class="section-number-3">4.5</span> Legend中指定线和图例相对应的方法</h3>
+<div class="outline-text-3" id="text-4-5">
 <p>
 在plot时的返回参数是两个,所以加逗号忽略第二个参数,用第一个来加图例才行
 </p>
 <div class="org-src-container">
-<pre class="src src-python">a, = plt.plot<span style="color: #2aa198;">(</span>x,y<span style="color: #2aa198;">)</span>
-plt.legend<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>a<span style="color: #b58900;">]</span>,<span style="color: #b58900;">[</span><span style="color: #2aa198;">"a"</span><span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">a, = plt.plot(x,y)
+plt.legend([a],["a"])
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-org2d08fb4" class="outline-3">
-<h3 id="org2d08fb4"><span class="section-number-3">4.5</span> 并行化画图时,解决爆内存和同一图中画了好多线的方法</h3>
-<div class="outline-text-3" id="text-4-5">
+<h3 id="org2d08fb4"><span class="section-number-3">4.6</span> 并行化画图时,解决爆内存和同一图中画了好多线的方法</h3>
+<div class="outline-text-3" id="text-4-6">
 <ol class="org-ol">
 <li>利用随机数做画图编号</li>
 <li>画完图要关闭这个图</li>
 </ol>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">from</span> random <span style="color: #859900; font-weight: bold;">import</span> randint
-<span style="color: #268bd2;">fig_num</span> = randint<span style="color: #2aa198;">(</span>0,10**10<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">fig</span> = plt.figure<span style="color: #2aa198;">(</span>fig_num<span style="color: #2aa198;">)</span>
-cop, = plt.plot<span style="color: #2aa198;">(</span>tlist,na,label=<span style="color: #2aa198;">"$a^\\dagger a$"</span><span style="color: #2aa198;">)</span>
-z2p, = plt.plot<span style="color: #2aa198;">(</span>tlist,co,label=<span style="color: #2aa198;">"concurrence"</span><span style="color: #2aa198;">)</span>
-plt.legend<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>cop,z2p<span style="color: #b58900;">]</span>,<span style="color: #b58900;">[</span><span style="color: #2aa198;">"$a^\\dagger a$"</span>,<span style="color: #2aa198;">"concurrence"</span><span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">fig</span> = plt.gcf<span style="color: #2aa198;">()</span>
-fig.savefig<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'filename.png'</span><span style="color: #2aa198;">)</span>
-plt.close<span style="color: #2aa198;">(</span>fig_num<span style="color: #2aa198;">)</span>
+<pre class="src src-python">from random import randint
+fig_num = randint(0,10**10)
+fig = plt.figure(fig_num)
+cop, = plt.plot(tlist,na,label="$a^\\dagger a$")
+z2p, = plt.plot(tlist,co,label="concurrence")
+plt.legend([cop,z2p],["$a^\\dagger a$","concurrence"])
+fig = plt.gcf()
+fig.savefig('filename.png')
+plt.close(fig_num)
 
 </pre>
 </div>
@@ -763,8 +824,8 @@ plt.close<span style="color: #2aa198;">(</span>fig_num<span style="color: #2aa19
 </div>
 
 <div id="outline-container-orga4d2d9d" class="outline-3">
-<h3 id="orga4d2d9d"><span class="section-number-3">4.6</span> 让画出来的图片连在一起动起来的方法</h3>
-<div class="outline-text-3" id="text-4-6">
+<h3 id="orga4d2d9d"><span class="section-number-3">4.7</span> 让画出来的图片连在一起动起来的方法</h3>
+<div class="outline-text-3" id="text-4-7">
 <p>
 matplotlib本身并不能实现这个功能,可以采用的方法有ffmpeg, opencv, imagemagic等,这里选用最简单方便的imagemagic
 </p>
@@ -804,47 +865,47 @@ matplotlib本身并不能实现这个功能,可以采用的方法有ffmpeg, open
 </div>
 
 <div id="outline-container-orgc6bad17" class="outline-3">
-<h3 id="orgc6bad17"><span class="section-number-3">4.7</span> 保存图片时超出的部分存不上</h3>
-<div class="outline-text-3" id="text-4-7">
+<h3 id="orgc6bad17"><span class="section-number-3">4.8</span> 保存图片时超出的部分存不上</h3>
+<div class="outline-text-3" id="text-4-8">
 <div class="org-src-container">
-<pre class="src src-python">plt.tight_layout<span style="color: #2aa198;">(</span>pad=0,rect=<span style="color: #b58900;">(</span>0,0,1,1<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span> <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#35774;&#32622;&#20445;&#23384;&#22270;&#29255;&#30340;&#36793;&#32536;&#22823;&#23567;</span>
-plt.savefig<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"fig"</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">plt.tight_layout(pad=0,rect=(0,0,1,1)) # 设置保存图片的边缘大小
+plt.savefig("fig")
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-orgc72800a" class="outline-3">
-<h3 id="orgc72800a"><span class="section-number-3">4.8</span> 保存图片时没有 <code>suptitle</code> 部分</h3>
-<div class="outline-text-3" id="text-4-8">
+<h3 id="orgc72800a"><span class="section-number-3">4.9</span> 保存图片时没有 <code>suptitle</code> 部分</h3>
+<div class="outline-text-3" id="text-4-9">
 <p>
 在 <code>savefig</code> 时加上它，参见 <a href="https://stackoverflow.com/questions/33414819/matplotlib-doesnt-save-suptitle">Matplotlib doesn't save suptitle</a>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #268bd2;">true_vals</span> = <span style="color: #2aa198;">[</span>1,2,3<span style="color: #2aa198;">]</span>
+<pre class="src src-python">true_vals = [1,2,3]
 
-<span style="color: #268bd2;">f</span>, <span style="color: #268bd2;">ax_arr</span> = plt.subplots<span style="color: #2aa198;">(</span>1,3,figsize=<span style="color: #b58900;">(</span>15,5<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">ax_arr</span> = ax_arr.reshape<span style="color: #2aa198;">(</span>-1<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">my_suptitle</span> = f.suptitle<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"This is my suptitle\nThis is the second line"</span>, fontsize=20, y=1.1<span style="color: #2aa198;">)</span> 
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">y is set to 1.1 to keep the second line in the suptitle from hitting the top of the subplots.</span>
+f, ax_arr = plt.subplots(1,3,figsize=(15,5))
+ax_arr = ax_arr.reshape(-1)
+my_suptitle = f.suptitle("This is my suptitle\nThis is the second line", fontsize=20, y=1.1) 
+# y is set to 1.1 to keep the second line in the suptitle from hitting the top of the subplots.
 
-<span style="color: #859900; font-weight: bold;">for</span> idx, i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">enumerate</span><span style="color: #2aa198;">(</span>true_vals<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   ax_arr<span style="color: #2aa198;">[</span>idx<span style="color: #2aa198;">]</span>.boxplot<span style="color: #2aa198;">(</span>data<span style="color: #b58900;">[</span>:,idx<span style="color: #b58900;">]</span>, labels=i<span style="color: #2aa198;">)</span>
+for idx, i in enumerate(true_vals):
+    ax_arr[idx].boxplot(data[:,idx], labels=i)
 
-f.savefig<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'suptitle_test.pdf'</span>, dpi=f.dpi, bbox_inches=<span style="color: #2aa198;">'tight'</span>,bbox_extra_artists=<span style="color: #b58900;">[</span>my_suptitle<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+f.savefig('suptitle_test.pdf', dpi=f.dpi, bbox_inches='tight',bbox_extra_artists=[my_suptitle])
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-orge3bdadf" class="outline-3">
-<h3 id="orge3bdadf"><span class="section-number-3">4.9</span> 设置默认绘图样式</h3>
-<div class="outline-text-3" id="text-4-9">
+<h3 id="orge3bdadf"><span class="section-number-3">4.10</span> 设置默认绘图样式</h3>
+<div class="outline-text-3" id="text-4-10">
 </div>
 <div id="outline-container-orge1353f5" class="outline-4">
-<h4 id="orge1353f5"><span class="section-number-4">4.9.1</span> 设置全局样式</h4>
-<div class="outline-text-4" id="text-4-9-1">
+<h4 id="orge1353f5"><span class="section-number-4">4.10.1</span> 设置全局样式</h4>
+<div class="outline-text-4" id="text-4-10-1">
 <p>
 用 <code>matplotlib.get_configdir()</code> 查看设置文件路径, 一般可能是 <code>$HOME/.config/matplotlib</code>
 在这个路径新建文件 <code>matplotlibrc</code> 在这里设置, 相见 <a href="https://matplotlib.org/tutorials/introductory/customizing.html#customizing-with-matplotlibrc-files">文档</a>
@@ -862,8 +923,8 @@ font.size :12
 </div>
 
 <div id="outline-container-org5da83d8" class="outline-4">
-<h4 id="org5da83d8"><span class="section-number-4">4.9.2</span> 设置和使用局部样式</h4>
-<div class="outline-text-4" id="text-4-9-2">
+<h4 id="org5da83d8"><span class="section-number-4">4.10.2</span> 设置和使用局部样式</h4>
+<div class="outline-text-4" id="text-4-10-2">
 <p>
 在设置路径中新建文件夹 <code>$HOME/.config/matplotlib/stylelib</code> 
 并在这个文件夹中新建样式文件 <code>name.mplstyle</code>
@@ -874,16 +935,16 @@ font.size :12
 <li>局部使用</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">with</span> plt.style.context<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span><span style="color: #2aa198;">'dark_background'</span><span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   plt.plot<span style="color: #2aa198;">(</span>x,y<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   plt.show<span style="color: #2aa198;">()</span>
+<pre class="src src-python">with plt.style.context(['dark_background']):
+    plt.plot(x,y)
+    plt.show()
 </pre>
 </div>
 <ol class="org-ol">
 <li>全局使用</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-python">plt.style.use<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span><span style="color: #2aa198;">'style1'</span>,<span style="color: #2aa198;">'style2'</span><span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">plt.style.use(['style1','style2'])
 </pre>
 </div>
 </div>
@@ -891,8 +952,8 @@ font.size :12
 </div>
 
 <div id="outline-container-org2974341" class="outline-3">
-<h3 id="org2974341"><span class="section-number-3">4.10</span> 在 JupyterLab 里让图动起来</h3>
-<div class="outline-text-3" id="text-4-10">
+<h3 id="org2974341"><span class="section-number-3">4.11</span> 在 JupyterLab 里让图动起来</h3>
+<div class="outline-text-3" id="text-4-11">
 <p>
 见 <a href="https://github.com/matplotlib/ipympl">https://github.com/matplotlib/ipympl</a>
 要安装 
@@ -913,8 +974,55 @@ jupyter labextension install @jupyter-widgets/jupyterlab-manager jupyter-matplot
 </div>
 </div>
 </div>
+
+<div id="outline-container-org4a49653" class="outline-3">
+<h3 id="org4a49653"><span class="section-number-3">4.12</span> 论文图片样式</h3>
+<div class="outline-text-3" id="text-4-12">
+</div>
+<div id="outline-container-orgeeb483a" class="outline-4">
+<h4 id="orgeeb483a"><span class="section-number-4">4.12.1</span> 设置方式</h4>
+<div class="outline-text-4" id="text-4-12-1">
+<p>
+将样式文件保存在设置目录中，例如 <code>.config/matplotlib/stylelib</code> , 文件以 <code>.mplstyle</code> 为后缀。
+更多样式修改方式见<a href="https://github.com/matplotlib/matplotlib/blob/v3.3.2/matplotlibrc.template">matplotlib/matplotlibrc.template</a> 。
+使用方式如下
+</p>
+<div class="org-src-container">
+<pre class="src src-python">import matplotlib
+matplotlib.style.reload_library()
+matplotlib.style.use(['paper', 'paper_onecol'])
+</pre>
+</div>
+</div>
 </div>
 
+<div id="outline-container-org3d4ae9d" class="outline-4">
+<h4 id="org3d4ae9d"><span class="section-number-4">4.12.2</span> 通用样式 <code>paper.mplstyle</code></h4>
+<div class="outline-text-4" id="text-4-12-2">
+<pre class="example">
+axes.titlesize  : 20
+axes.labelsize  : 20
+xtick.labelsize : 16
+ytick.labelsize : 16
+text.usetex     : true
+font.family     : Times New Roman
+font.serif      : Latin Modern Math
+legend.title_fontsize: 16
+legend.fontsize : 16
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgce939a2" class="outline-4">
+<h4 id="orgce939a2"><span class="section-number-4">4.12.3</span> 单栏样式 <code>paper_onecol.mplstyle</code></h4>
+<div class="outline-text-4" id="text-4-12-3">
+<pre class="example">
+figure.figsize: 7, 4.3262379212492634
+</pre>
+</div>
+</div>
+</div>
+</div>
 
 <div id="outline-container-orge98542d" class="outline-2">
 <h2 id="orge98542d"><span class="section-number-2">5</span> seaborn</h2>
@@ -924,11 +1032,11 @@ jupyter labextension install @jupyter-widgets/jupyterlab-manager jupyter-matplot
 <h3 id="org577843c"><span class="section-number-3">5.1</span> 设置样式</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">import</span> seaborn <span style="color: #859900; font-weight: bold;">as</span> sns
-sns.<span style="color: #657b83; font-weight: bold;">set</span><span style="color: #2aa198;">()</span>
-sns.set_palette<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'muted'</span>,8<span style="color: #2aa198;">)</span>
-sns.set_style<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"whitegrid"</span><span style="color: #2aa198;">)</span>
-sns.set_context<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"notebook"</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">import seaborn as sns
+sns.set()
+sns.set_palette('muted',8)
+sns.set_style("whitegrid")
+sns.set_context("notebook")
 </pre>
 </div>
 
@@ -944,18 +1052,18 @@ sns.set_context<span style="color: #2aa198;">(</span><span style="color: #2aa198
 <h3 id="orge603db8"><span class="section-number-3">5.2</span> lineplot</h3>
 <div class="outline-text-3" id="text-5-2">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #268bd2;">data</span> = pd.DataFrame<span style="color: #2aa198;">(</span><span style="color: #b58900;">{</span><span style="color: #2aa198;">"x"</span>: <span style="color: #268bd2;">[</span>1, 2, 3<span style="color: #268bd2;">]</span>, <span style="color: #2aa198;">"y"</span>: <span style="color: #268bd2;">[</span>3, 4, 5<span style="color: #268bd2;">]</span>, <span style="color: #2aa198;">"z"</span>: <span style="color: #268bd2;">[</span>6, 7, 8<span style="color: #268bd2;">]</span><span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">ax</span> = sns.lineplot<span style="color: #2aa198;">(</span>x=<span style="color: #2aa198;">"x"</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> y=<span style="color: #2aa198;">"y"</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> data=data,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> hue=<span style="color: #2aa198;">"z"</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> palette=<span style="color: #2aa198;">"pastel"</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> legend=<span style="color: #2aa198;">"full"</span><span style="color: #2aa198;">)</span>
-ax.set_xlabel<span style="color: #2aa198;">(</span>r<span style="color: #2aa198;">"$x$"</span><span style="color: #2aa198;">)</span>
-ax.set_ylabel<span style="color: #2aa198;">(</span>r<span style="color: #2aa198;">"$y$"</span><span style="color: #2aa198;">)</span>
-ax.set_title<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"x-y for z"</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">handles</span>, <span style="color: #268bd2;">labels</span> = ax.get_legend_handles_labels<span style="color: #2aa198;">()</span>
-ax.legend<span style="color: #2aa198;">(</span>handles=handles<span style="color: #b58900;">[</span>1:<span style="color: #b58900;">]</span>, labels=labels<span style="color: #b58900;">[</span>1:<span style="color: #b58900;">]</span>, title=<span style="color: #2aa198;">"z"</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">data = pd.DataFrame({"x": [1, 2, 3], "y": [3, 4, 5], "z": [6, 7, 8]})
+ax = sns.lineplot(x="x",
+		  y="y",
+		  data=data,
+		  hue="z",
+		  palette="pastel",
+		  legend="full")
+ax.set_xlabel(r"$x$")
+ax.set_ylabel(r"$y$")
+ax.set_title("x-y for z")
+handles, labels = ax.get_legend_handles_labels()
+ax.legend(handles=handles[1:], labels=labels[1:], title="z")
 </pre>
 </div>
 </div>
@@ -965,10 +1073,10 @@ ax.legend<span style="color: #2aa198;">(</span>handles=handles<span style="color
 <h3 id="org7d7f94c"><span class="section-number-3">5.3</span> heatmap</h3>
 <div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #268bd2;">data</span> = pd.DataFrame<span style="color: #2aa198;">(</span><span style="color: #b58900;">{</span><span style="color: #2aa198;">"x"</span>: <span style="color: #268bd2;">[</span>1, 2, 3<span style="color: #268bd2;">]</span>, <span style="color: #2aa198;">"y"</span>: <span style="color: #268bd2;">[</span>3, 4, 5<span style="color: #268bd2;">]</span>, <span style="color: #2aa198;">"z"</span>: <span style="color: #268bd2;">[</span>6, 7, 8<span style="color: #268bd2;">]</span><span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">d</span> = data.pivot<span style="color: #2aa198;">(</span>index=<span style="color: #2aa198;">"x"</span>, columns=<span style="color: #2aa198;">"y"</span>, values=<span style="color: #2aa198;">"z"</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">ax</span> = sns.heatmap<span style="color: #2aa198;">(</span>d<span style="color: #2aa198;">)</span>
-ax.invert_yaxis<span style="color: #2aa198;">()</span>
+<pre class="src src-python">data = pd.DataFrame({"x": [1, 2, 3], "y": [3, 4, 5], "z": [6, 7, 8]})
+d = data.pivot(index="x", columns="y", values="z")
+ax = sns.heatmap(d)
+ax.invert_yaxis()
 </pre>
 </div>
 </div>
@@ -984,19 +1092,19 @@ ax.invert_yaxis<span style="color: #2aa198;">()</span>
 <h3 id="org919eb83"><span class="section-number-3">6.1</span> 基本示例</h3>
 <div class="outline-text-3" id="text-6-1">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#23548;&#20837;</span>
-<span style="color: #859900; font-weight: bold;">from</span> bokeh.plotting <span style="color: #859900; font-weight: bold;">import</span> figure,show,output_notebook
-output_notebook<span style="color: #2aa198;">()</span>
+<pre class="src src-python"># 导入
+from bokeh.plotting import figure,show,output_notebook
+output_notebook()
 
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#35745;&#31639;</span>
-<span style="color: #859900; font-weight: bold;">import</span> numpy <span style="color: #859900; font-weight: bold;">as</span> np
-<span style="color: #268bd2;">x</span> = np.linspace<span style="color: #2aa198;">(</span>0,10,100<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">y</span> = np.exp<span style="color: #2aa198;">(</span>x<span style="color: #2aa198;">)</span>
+# 计算
+import numpy as np
+x = np.linspace(0,10,100)
+y = np.exp(x)
 
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#30011;&#22270;</span>
-<span style="color: #268bd2;">p</span> = figure<span style="color: #2aa198;">(</span>x_axis_label=<span style="color: #2aa198;">"x"</span>, y_axis_label=<span style="color: #2aa198;">"y"</span>,y_axis_type=<span style="color: #2aa198;">"log"</span>,title=<span style="color: #2aa198;">"title"</span><span style="color: #2aa198;">)</span>
-p.line<span style="color: #2aa198;">(</span>x=x,y=y,legend_label=<span style="color: #2aa198;">"line"</span><span style="color: #2aa198;">)</span>
-show<span style="color: #2aa198;">(</span>p<span style="color: #2aa198;">)</span>
+# 画图
+p = figure(x_axis_label="x", y_axis_label="y",y_axis_type="log",title="title")
+p.line(x=x,y=y,legend_label="line")
+show(p)
 </pre>
 </div>
 </div>
@@ -1012,18 +1120,18 @@ show<span style="color: #2aa198;">(</span>p<span style="color: #2aa198;">)</span
 <h3 id="orge492349"><span class="section-number-3">7.1</span> 常用模板</h3>
 <div class="outline-text-3" id="text-7-1">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">import</span> numpy <span style="color: #859900; font-weight: bold;">as</span> np
-<span style="color: #859900; font-weight: bold;">import</span> matplotlib.pyplot <span style="color: #859900; font-weight: bold;">as</span> plt
-<span style="color: #859900; font-weight: bold;">import</span> seaborn <span style="color: #859900; font-weight: bold;">as</span> sns
-<span style="color: #859900; font-weight: bold;">from</span> ipywidgets <span style="color: #859900; font-weight: bold;">import</span> interact, widgets
-<span style="color: #859900; font-weight: bold;">from</span> bokeh.plotting <span style="color: #859900; font-weight: bold;">import</span> figure,show,output_notebook
-<span style="color: #859900; font-weight: bold;">from</span> tqdm <span style="color: #859900; font-weight: bold;">import</span> tqdm
-sns.<span style="color: #657b83; font-weight: bold;">set</span><span style="color: #2aa198;">()</span>
-sns.set_palette<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'muted'</span><span style="color: #2aa198;">)</span>
-sns.set_style<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"whitegrid"</span><span style="color: #2aa198;">)</span>
-sns.set_context<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"notebook"</span><span style="color: #2aa198;">)</span>
-np.set_printoptions<span style="color: #2aa198;">(</span>suppress=<span style="color: #268bd2; font-weight: bold;">True</span>, precision=4<span style="color: #2aa198;">)</span>
-output_notebook<span style="color: #2aa198;">()</span>
+<pre class="src src-python">import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from ipywidgets import interact, widgets
+from bokeh.plotting import figure,show,output_notebook
+from tqdm import tqdm
+sns.set()
+sns.set_palette('muted')
+sns.set_style("whitegrid")
+sns.set_context("notebook")
+np.set_printoptions(suppress=True, precision=4)
+output_notebook()
 %load_ext autoreload
 %autoreload 2
 </pre>
@@ -1052,8 +1160,8 @@ output_notebook<span style="color: #2aa198;">()</span>
 <li>在某位置设断点的方法</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">from</span> IPython.core.debugger <span style="color: #859900; font-weight: bold;">import</span> Tracer
-Tracer<span style="color: #2aa198;">()()</span><span style="color: #93a1a1;">#</span><span style="color: #93a1a1;">&#26029;&#28857;</span>
+<pre class="src src-python">from IPython.core.debugger import Tracer
+Tracer()()#断点
 </pre>
 </div>
 <ol class="org-ol">
@@ -1083,8 +1191,8 @@ Tracer<span style="color: #2aa198;">()()</span><span style="color: #93a1a1;">#</
 <h4 id="org6ab4bc2"><span class="section-number-4">7.5.1</span> 创建 DOM</h4>
 <div class="outline-text-4" id="text-7-5-1">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">import</span> ipywidgets
-ipywidgets.HTML<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'''&lt;div id="echarts" style="width: 600px;height:400px;"&gt;&lt;/div&gt;'''</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">import ipywidgets
+ipywidgets.HTML('''&lt;div id="echarts" style="width: 600px;height:400px;"&gt;&lt;/div&gt;''')
 </pre>
 </div>
 </div>
@@ -1098,32 +1206,32 @@ ipywidgets.HTML<span style="color: #2aa198;">(</span><span style="color: #2aa198
 <li><a id="org9978af2"></a>使用魔术指令<br />
 <div class="outline-text-5" id="text-7-5-2-1">
 <div class="org-src-container">
-<pre class="src src-javascript">%%javascript
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">s</span> = document.createElement<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'script'</span><span style="color: #2aa198;">)</span>;
-s.src = <span style="color: #2aa198;">"https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.min.js"</span>;
-document.getElementsByTagName<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"head"</span><span style="color: #2aa198;">)[</span>0<span style="color: #2aa198;">]</span>.appendChild<span style="color: #2aa198;">(</span>s<span style="color: #2aa198;">)</span>;
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">myChart</span> = echarts.init<span style="color: #2aa198;">(</span>document.getElementById<span style="color: #b58900;">(</span><span style="color: #2aa198;">'echarts'</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>;
+<pre class="src src-javascript">    %%javascript
+var s = document.createElement('script');
+s.src = "https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.min.js";
+document.getElementsByTagName("head")[0].appendChild(s);
+var myChart = echarts.init(document.getElementById('echarts'));
 
-<span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">option</span> = <span style="color: #2aa198;">{</span>
-    title: <span style="color: #b58900;">{</span>
-        text: <span style="color: #2aa198;">'ECharts &#20837;&#38376;&#31034;&#20363;'</span>
-    <span style="color: #b58900;">}</span>,
-    tooltip: <span style="color: #b58900;">{}</span>,
-    legend: <span style="color: #b58900;">{</span>
-        data:<span style="color: #268bd2;">[</span><span style="color: #2aa198;">'&#38144;&#37327;'</span><span style="color: #268bd2;">]</span>
-    <span style="color: #b58900;">}</span>,
-    xAxis: <span style="color: #b58900;">{</span>
-        data: <span style="color: #268bd2;">[</span><span style="color: #2aa198;">"&#34924;&#34923;"</span>,<span style="color: #2aa198;">"&#32650;&#27611;&#34923;"</span>,<span style="color: #2aa198;">"&#38634;&#32442;&#34923;"</span>,<span style="color: #2aa198;">"&#35044;&#23376;"</span>,<span style="color: #2aa198;">"&#39640;&#36319;&#38795;"</span>,<span style="color: #2aa198;">"&#34972;&#23376;"</span><span style="color: #268bd2;">]</span>
-    <span style="color: #b58900;">}</span>,
-    yAxis: <span style="color: #b58900;">{}</span>,
-    series: <span style="color: #b58900;">[</span><span style="color: #268bd2;">{</span>
-        name: <span style="color: #2aa198;">'&#38144;&#37327;'</span>,
-        type: <span style="color: #2aa198;">'bar'</span>,
-        data: <span style="color: #6c71c4;">[</span>5, 20, 36, 10, 10, 20<span style="color: #6c71c4;">]</span>
-    <span style="color: #268bd2;">}</span><span style="color: #b58900;">]</span>
-<span style="color: #2aa198;">}</span>;
+var option = {
+    title: {
+	text: 'ECharts 入门示例'
+    },
+    tooltip: {},
+    legend: {
+	data:['销量']
+    },
+    xAxis: {
+	data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+    },
+    yAxis: {},
+    series: [{
+	name: '销量',
+	type: 'bar',
+	data: [5, 20, 36, 10, 10, 20]
+    }]
+};
 
-myChart.setOption<span style="color: #2aa198;">(</span>option<span style="color: #2aa198;">)</span>;
+myChart.setOption(option);
 </pre>
 </div>
 </div>
@@ -1132,34 +1240,34 @@ myChart.setOption<span style="color: #2aa198;">(</span>option<span style="color:
 <li><a id="org2d42de4"></a>使用 python<br />
 <div class="outline-text-5" id="text-7-5-2-2">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">from</span> IPython.display <span style="color: #859900; font-weight: bold;">import</span> Javascript
-Javascript<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'''</span>
-<span style="color: #2aa198;">var s = document.createElement('script');</span>
-<span style="color: #2aa198;">s.src = "https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.min.js";</span>
-<span style="color: #2aa198;">document.getElementsByTagName("head")[0].appendChild(s);</span>
-<span style="color: #2aa198;">var myChart = echarts.init(document.getElementById('echarts'));</span>
+<pre class="src src-python">from IPython.display import Javascript
+Javascript('''
+var s = document.createElement('script');
+s.src = "https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.min.js";
+document.getElementsByTagName("head")[0].appendChild(s);
+var myChart = echarts.init(document.getElementById('echarts'));
 
-<span style="color: #2aa198;">var option = {</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   title: {</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   </span><span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   text: 'ECharts &#20837;&#38376;&#31034;&#20363;'</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   },</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   tooltip: {},</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   legend: {</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   </span><span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   data:['&#38144;&#37327;']</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   },</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   xAxis: {</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   </span><span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   data: ["&#34924;&#34923;","&#32650;&#27611;&#34923;","&#38634;&#32442;&#34923;","&#35044;&#23376;","&#39640;&#36319;&#38795;","&#34972;&#23376;"]</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   },</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   yAxis: {},</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   series: [{</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   </span><span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   name: '&#38144;&#37327;',</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   </span><span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   type: 'bar',</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   </span><span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   data: [5, 20, 36, 10, 10, 20]</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   }]</span>
-<span style="color: #2aa198;">};</span>
+var option = {
+    title: {
+	text: 'ECharts 入门示例'
+    },
+    tooltip: {},
+    legend: {
+	data:['销量']
+    },
+    xAxis: {
+	data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+    },
+    yAxis: {},
+    series: [{
+	name: '销量',
+	type: 'bar',
+	data: [5, 20, 36, 10, 10, 20]
+    }]
+};
 
-<span style="color: #2aa198;">myChart.setOption(option);</span>
-<span style="color: #2aa198;">'''</span><span style="color: #2aa198;">)</span>
+myChart.setOption(option);
+''')
 </pre>
 </div>
 </div>
@@ -1171,9 +1279,9 @@ Javascript<span style="color: #2aa198;">(</span><span style="color: #2aa198;">''
 三个语句，哪个都不能缺
 </p>
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #859900; font-weight: bold;">var</span> <span style="color: #268bd2;">s</span> = document.createElement<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'script'</span><span style="color: #2aa198;">)</span>;
-s.src = <span style="color: #2aa198;">"https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.min.js"</span>;
-document.getElementsByTagName<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"head"</span><span style="color: #2aa198;">)[</span>0<span style="color: #2aa198;">]</span>.appendChild<span style="color: #2aa198;">(</span>s<span style="color: #2aa198;">)</span>;
+<pre class="src src-js">var s = document.createElement('script');
+s.src = "https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.min.js";
+document.getElementsByTagName("head")[0].appendChild(s);
 </pre>
 </div>
 </div>
@@ -1182,26 +1290,26 @@ document.getElementsByTagName<span style="color: #2aa198;">(</span><span style="
 <li><a id="org62985c6"></a>通用方法<br />
 <div class="outline-text-5" id="text-7-5-2-4">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">from</span> IPython.display <span style="color: #859900; font-weight: bold;">import</span> Javascript
-Javascript<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'''</span>
-<span style="color: #2aa198;">var s = document.createElement('script');</span>
-<span style="color: #2aa198;">s.src = "http://www.echartsjs.com/dist/echarts.js";</span>
-<span style="color: #2aa198;">document.getElementsByTagName("head")[0].appendChild(s);</span>
-<span style="color: #2aa198;">var s = document.createElement('script');</span>
-<span style="color: #2aa198;">s.src = "http://www.echartsjs.com/dist/echarts-gl.js";</span>
-<span style="color: #2aa198;">document.getElementsByTagName("head")[0].appendChild(s);'''</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">from IPython.display import Javascript
+Javascript('''
+var s = document.createElement('script');
+s.src = "http://www.echartsjs.com/dist/echarts.js";
+document.getElementsByTagName("head")[0].appendChild(s);
+var s = document.createElement('script');
+s.src = "http://www.echartsjs.com/dist/echarts-gl.js";
+document.getElementsByTagName("head")[0].appendChild(s);''')
 
 
-<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">javascript_text</span><span style="color: #2aa198;">(</span>text<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">text</span> = <span style="color: #2aa198;">(</span><span style="color: #2aa198;">"""</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   var s = document.createElement('script');</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   s.text = `{}`;</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   document.getElementsByTagName("head")[0].appendChild(s);</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   """</span>.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #b58900;">(</span>text<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">(</span>text<span style="color: #2aa198;">)</span>
+def javascript_text(text):
+    text = ("""
+    var s = document.createElement('script');
+    s.text = `{}`;
+    document.getElementsByTagName("head")[0].appendChild(s);
+    """.format(text))
+    return (text)
 
 
-Javascript<span style="color: #2aa198;">(</span>javascript_text<span style="color: #b58900;">(</span><span style="color: #2aa198;">'alert("asd");'</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+Javascript(javascript_text('alert("asd");'))
 </pre>
 </div>
 </div>
@@ -1214,8 +1322,8 @@ Javascript<span style="color: #2aa198;">(</span>javascript_text<span style="colo
 <h3 id="org03f8580"><span class="section-number-3">7.6</span> 动态组件 ipywidgets</h3>
 <div class="outline-text-3" id="text-7-6">
 </div>
-<div id="outline-container-org9fe71f7" class="outline-4">
-<h4 id="org9fe71f7"><span class="section-number-4">7.6.1</span> 安装</h4>
+<div id="outline-container-org507dc50" class="outline-4">
+<h4 id="org507dc50"><span class="section-number-4">7.6.1</span> 安装</h4>
 <div class="outline-text-4" id="text-7-6-1">
 <p>
 对于 notebook
@@ -1240,12 +1348,12 @@ jupyter labextension install @jupyter-widgets/jupyterlab-manager
 <h4 id="org9ff2a58"><span class="section-number-4">7.6.2</span> 基本动态组件 - 使用 interact</h4>
 <div class="outline-text-4" id="text-7-6-2">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">from</span> ipywidgets <span style="color: #859900; font-weight: bold;">import</span> interact, widgets
+<pre class="src src-python">from ipywidgets import interact, widgets
 
-<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">f</span><span style="color: #2aa198;">(</span>x<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #859900; font-weight: bold;">return</span> x+100
+def f(x):
+    return x+100
 
-interact<span style="color: #2aa198;">(</span>f, x=10<span style="color: #2aa198;">)</span>
+interact(f, x=10)
 </pre>
 </div>
 
@@ -1253,7 +1361,7 @@ interact<span style="color: #2aa198;">(</span>f, x=10<span style="color: #2aa198
 或者定制组件范围
 </p>
 <div class="org-src-container">
-<pre class="src src-python">interact<span style="color: #2aa198;">(</span>f, x=widgets.FloatSlider<span style="color: #b58900;">(</span><span style="color: #657b83; font-weight: bold;">min</span>=0,<span style="color: #657b83; font-weight: bold;">max</span>=100,description=<span style="color: #2aa198;">"asd:"</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">interact(f, x=widgets.FloatSlider(min=0,max=100,description="asd:"))
 </pre>
 </div>
 </div>
@@ -1275,8 +1383,8 @@ interact<span style="color: #2aa198;">(</span>f, x=10<span style="color: #2aa198
 <h3 id="org3838c8c"><span class="section-number-3">7.8</span> nbdime：diff 工具</h3>
 <div class="outline-text-3" id="text-7-8">
 </div>
-<div id="outline-container-orgf66f69c" class="outline-4">
-<h4 id="orgf66f69c"><span class="section-number-4">7.8.1</span> 安装</h4>
+<div id="outline-container-org77c0484" class="outline-4">
+<h4 id="org77c0484"><span class="section-number-4">7.8.1</span> 安装</h4>
 <div class="outline-text-4" id="text-7-8-1">
 <ol class="org-ol">
 <li>安装 <code>pip install nbdime</code></li>
@@ -1285,8 +1393,8 @@ interact<span style="color: #2aa198;">(</span>f, x=10<span style="color: #2aa198
 </div>
 </div>
 
-<div id="outline-container-org379adf8" class="outline-4">
-<h4 id="org379adf8"><span class="section-number-4">7.8.2</span> 基本使用</h4>
+<div id="outline-container-org9ca4ff7" class="outline-4">
+<h4 id="org9ca4ff7"><span class="section-number-4">7.8.2</span> 基本使用</h4>
 <div class="outline-text-4" id="text-7-8-2">
 <ol class="org-ol">
 <li>比较 <code>nbdiff notebook_1.ipynb notebook_2.ipynb</code></li>
@@ -1309,19 +1417,19 @@ interact<span style="color: #2aa198;">(</span>f, x=10<span style="color: #2aa198
 <code>setup.py</code> 文件， <code>python3 setup.py build_ext -i</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">from</span> distutils.core <span style="color: #859900; font-weight: bold;">import</span> setup
-<span style="color: #859900; font-weight: bold;">from</span> distutils.extension <span style="color: #859900; font-weight: bold;">import</span> Extension
-<span style="color: #859900; font-weight: bold;">from</span> Cython.Build <span style="color: #859900; font-weight: bold;">import</span> cythonize
-<span style="color: #859900; font-weight: bold;">import</span> numpy
+<pre class="src src-python">from distutils.core import setup
+from distutils.extension import Extension
+from Cython.Build import cythonize
+import numpy
 
-setup<span style="color: #2aa198;">(</span>ext_modules=cythonize<span style="color: #b58900;">(</span><span style="color: #268bd2;">[</span>
-<span style="background-color: #eee8d5;"> </span>   Extension<span style="color: #6c71c4;">(</span><span style="color: #2aa198;">"f"</span>, <span style="color: #859900;">[</span><span style="color: #2aa198;">"f.pyx"</span><span style="color: #859900;">]</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> libraries=<span style="color: #859900;">[</span><span style="color: #2aa198;">"f"</span><span style="color: #859900;">]</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> runtime_library_dirs=<span style="color: #859900;">[</span><span style="color: #2aa198;">"."</span><span style="color: #859900;">]</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> include_dirs=<span style="color: #859900;">[</span>numpy.get_include<span style="color: #b58900;">()</span><span style="color: #859900;">]</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span> library_dirs=<span style="color: #859900;">[</span><span style="color: #2aa198;">"."</span><span style="color: #859900;">]</span><span style="color: #6c71c4;">)</span>
-<span style="color: #268bd2;">]</span>,
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   language_level=3<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+setup(ext_modules=cythonize([
+    Extension("f", ["f.pyx"],
+	      libraries=["f"],
+	      runtime_library_dirs=["."],
+	      include_dirs=[numpy.get_include()],
+	      library_dirs=["."])
+],
+			    language_level=3))
 </pre>
 </div>
 </div>
@@ -1338,8 +1446,8 @@ setup<span style="color: #2aa198;">(</span>ext_modules=cythonize<span style="col
 <li><code>setup.py</code> 里必须设置 <code>include_dirs</code></li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">import</span> numpy <span style="color: #859900; font-weight: bold;">as</span> np
-cimport numpy <span style="color: #859900; font-weight: bold;">as</span> np
+<pre class="src src-python">import numpy as np
+cimport numpy as np
 
 </pre>
 </div>
@@ -1356,12 +1464,12 @@ cimport numpy <span style="color: #859900; font-weight: bold;">as</span> np
 
 <div class="org-src-container">
 <pre class="src src-python">ctypedef np.float_t FLOAT_t
-<span style="color: #268bd2;">FLOAT</span> = np.<span style="color: #657b83; font-weight: bold;">float</span>
+FLOAT = np.float
 
-cpdef np.ndarray<span style="color: #2aa198;">[</span>FLOAT_t,ndim=1,mode=<span style="color: #2aa198;">"c"</span><span style="color: #2aa198;">]</span> l<span style="color: #2aa198;">()</span>:
-<span style="background-color: #eee8d5;"> </span>   cdef np.ndarray<span style="color: #2aa198;">[</span>FLOAT_t,ndim=1,mode=<span style="color: #2aa198;">"c"</span><span style="color: #2aa198;">]</span> z
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">z</span> = np.array<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>0<span style="color: #b58900;">]</span>,dtype=FLOAT<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #859900; font-weight: bold;">return</span> z
+cpdef np.ndarray[FLOAT_t,ndim=1,mode="c"] l():
+cdef np.ndarray[FLOAT_t,ndim=1,mode="c"] z
+z = np.array([0],dtype=FLOAT)
+    return z
 </pre>
 </div>
 </div>
@@ -1375,14 +1483,14 @@ cpdef np.ndarray<span style="color: #2aa198;">[</span>FLOAT_t,ndim=1,mode=<span 
 声明指针
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   cdef double<span style="color: #2aa198;">[</span>::1<span style="color: #2aa198;">]</span> <span style="color: #268bd2;">z_memview</span> = z
+<pre class="src src-python">cdef double[::1] z_memview = z
 </pre>
 </div></li>
 <li><p>
 向函数传递指针
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   cf.l<span style="color: #2aa198;">(</span>&amp;z_memview<span style="color: #b58900;">[</span>0<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">cf.l(&amp;z_memview[0])
 </pre>
 </div></li>
 </ol>
@@ -1401,7 +1509,7 @@ cpdef np.ndarray<span style="color: #2aa198;">[</span>FLOAT_t,ndim=1,mode=<span 
 声明的是数组
 </p>
 <div class="org-src-container">
-<pre class="src src-python">void f<span style="color: #2aa198;">(</span>double result<span style="color: #b58900;">[]</span><span style="color: #2aa198;">)</span>;
+<pre class="src src-python">void f(double result[]);
 </pre>
 </div>
 </div>
@@ -1414,7 +1522,7 @@ cpdef np.ndarray<span style="color: #2aa198;">[</span>FLOAT_t,ndim=1,mode=<span 
 声明的是指针
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   void f<span style="color: #2aa198;">(</span>double* result<span style="color: #2aa198;">)</span>
+<pre class="src src-python">void f(double* result)
 </pre>
 </div>
 </div>
@@ -1427,8 +1535,8 @@ cpdef np.ndarray<span style="color: #2aa198;">[</span>FLOAT_t,ndim=1,mode=<span 
 传递的是指针
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>   cdef double<span style="color: #2aa198;">[</span>::1<span style="color: #2aa198;">]</span> <span style="color: #268bd2;">z_memview</span> = z
-<span style="background-color: #eee8d5;"> </span>   cf.l<span style="color: #2aa198;">(</span>&amp;z_memview<span style="color: #b58900;">[</span>0<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">cdef double[::1] z_memview = z
+cf.l(&amp;z_memview[0])
 </pre>
 </div>
 </div>
@@ -1450,30 +1558,30 @@ cpdef np.ndarray<span style="color: #2aa198;">[</span>FLOAT_t,ndim=1,mode=<span 
 <h3 id="orgeb037e3"><span class="section-number-3">10.1</span> 对图片进行切边操作</h3>
 <div class="outline-text-3" id="text-10-1">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">import</span> matplotlib.pyplot <span style="color: #859900; font-weight: bold;">as</span> plt
-<span style="color: #859900; font-weight: bold;">import</span> cv2
-<span style="color: #859900; font-weight: bold;">import</span> numpy <span style="color: #859900; font-weight: bold;">as</span> np
+<pre class="src src-python">import matplotlib.pyplot as plt
+import cv2
+import numpy as np
 
-<span style="color: #268bd2;">text</span> = r<span style="color: #2aa198;">"\frac{1}{2}"</span>
-<span style="color: #268bd2;">file_name</span> = <span style="color: #2aa198;">"fi.png"</span>
+text = r"\frac{1}{2}"
+file_name = "fi.png"
 
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">make math text</span>
-plt.figure<span style="color: #2aa198;">(</span>figsize=<span style="color: #b58900;">(</span>5, 5<span style="color: #b58900;">)</span>, dpi=300<span style="color: #2aa198;">)</span>
-plt.axis<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'off'</span><span style="color: #2aa198;">)</span>
-plt.text<span style="color: #2aa198;">(</span>
-<span style="background-color: #eee8d5;"> </span>   0, 0, text.replace<span style="color: #b58900;">(</span>r<span style="color: #2aa198;">'\['</span>, r<span style="color: #2aa198;">'$'</span><span style="color: #b58900;">)</span>.replace<span style="color: #b58900;">(</span>r<span style="color: #2aa198;">'\]'</span>, r<span style="color: #2aa198;">'$'</span><span style="color: #b58900;">)</span>, ha=<span style="color: #2aa198;">'left'</span>, wrap=<span style="color: #268bd2; font-weight: bold;">True</span><span style="color: #2aa198;">)</span>
-plt.savefig<span style="color: #2aa198;">(</span>file_name, bbox_inches=<span style="color: #2aa198;">'tight'</span>, transparent=<span style="color: #268bd2; font-weight: bold;">True</span><span style="color: #2aa198;">)</span>
+# make math text
+plt.figure(figsize=(5, 5), dpi=300)
+plt.axis('off')
+plt.text(
+    0, 0, text.replace(r'\[', r'$').replace(r'\]', r'$'), ha='left', wrap=True)
+plt.savefig(file_name, bbox_inches='tight', transparent=True)
 
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">cut white side</span>
-<span style="color: #268bd2;">img</span> = cv2.imread<span style="color: #2aa198;">(</span>file_name<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">img2gray</span> = cv2.cvtColor<span style="color: #2aa198;">(</span>img, cv2.COLOR_BGR2GRAY<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">indexes</span> = np.argwhere<span style="color: #2aa198;">(</span>img2gray &lt; 255<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">x_min</span> = <span style="color: #657b83; font-weight: bold;">min</span><span style="color: #2aa198;">(</span>indexes<span style="color: #b58900;">[</span>:, 0<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">x_max</span> = <span style="color: #657b83; font-weight: bold;">max</span><span style="color: #2aa198;">(</span>indexes<span style="color: #b58900;">[</span>:, 0<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">y_min</span> = <span style="color: #657b83; font-weight: bold;">min</span><span style="color: #2aa198;">(</span>indexes<span style="color: #b58900;">[</span>:, 1<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">y_max</span> = <span style="color: #657b83; font-weight: bold;">max</span><span style="color: #2aa198;">(</span>indexes<span style="color: #b58900;">[</span>:, 1<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">img_new</span> = img<span style="color: #2aa198;">[</span>x_min:x_max, y_min:y_max<span style="color: #2aa198;">]</span>
-cv2.imwrite<span style="color: #2aa198;">(</span>file_name, img_new<span style="color: #2aa198;">)</span>
+# cut white side
+img = cv2.imread(file_name)
+img2gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+indexes = np.argwhere(img2gray &lt; 255)
+x_min = min(indexes[:, 0])
+x_max = max(indexes[:, 0])
+y_min = min(indexes[:, 1])
+y_max = max(indexes[:, 1])
+img_new = img[x_min:x_max, y_min:y_max]
+cv2.imwrite(file_name, img_new)
 </pre>
 </div>
 </div>
@@ -1512,6 +1620,8 @@ cv2.imwrite<span style="color: #2aa198;">(</span>file_name, img_new<span style="
 </div>
 </div>
 
+
+
 <div id="outline-container-org5a767c3" class="outline-2">
 <h2 id="org5a767c3"><span class="section-number-2">12</span> cffi: c/c++ 互操作</h2>
 <div class="outline-text-2" id="text-12">
@@ -1519,33 +1629,35 @@ cv2.imwrite<span style="color: #2aa198;">(</span>file_name, img_new<span style="
 cffi 是用来直接包裹 c 函数的库，与 ctypes 功能相同，不能将 python 编译成 c，即与 cython 不同
 </p>
 </div>
-<div id="outline-container-org3843369" class="outline-3">
-<h3 id="org3843369"><span class="section-number-3">12.1</span> 基本使用</h3>
+<div id="outline-container-orgc0fc5df" class="outline-3">
+<h3 id="orgc0fc5df"><span class="section-number-3">12.1</span> 基本使用</h3>
 <div class="outline-text-3" id="text-12-1">
 </div>
 <div id="outline-container-org27eb6a7" class="outline-4">
 <h4 id="org27eb6a7"><span class="section-number-4">12.1.1</span> 内联调用方式</h4>
 <div class="outline-text-4" id="text-12-1-1">
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span><span style="color: #859900; font-weight: bold;">import</span> cffi
+<pre class="src src-python">import cffi
 
-<span style="background-color: #eee8d5;"> </span><span style="color: #268bd2;">ffi</span> = cffi.FFI<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>ffi.cdef<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"""void f(double result[],double a_r, double a_i, double b_r, double b_i, double t,</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   </span><span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   double Delta, double omega, double c_var, double A,</span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   </span><span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   double epsilon_0);         </span>
-<span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   </span><span style="color: #2aa198; background-color: #eee8d5;"> </span><span style="color: #2aa198;">   """</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span><span style="color: #268bd2;">lib</span> = ffi.dlopen<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"./libf.so"</span><span style="color: #2aa198;">)</span>
+ ffi = cffi.FFI()
+ ffi.cdef("""void f(double result[],double a_r, double a_i, double b_r, double b_i, double t,
+	double Delta, double omega, double c_var, double A,
+	double epsilon_0);         
+	""")
+ lib = ffi.dlopen("./libf.so")
 
-<span style="background-color: #eee8d5;"> </span><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">cf</span><span style="color: #2aa198;">(</span>t,y,Delta,omega,c,A,epslion_0<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span><span style="color: #268bd2;">tt</span> = ffi.new<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"double[4]"</span><span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>lib.f<span style="color: #2aa198;">(</span>tt,y<span style="color: #b58900;">[</span>0<span style="color: #b58900;">]</span>,y<span style="color: #b58900;">[</span>1<span style="color: #b58900;">]</span>,y<span style="color: #b58900;">[</span>2<span style="color: #b58900;">]</span>,y<span style="color: #b58900;">[</span>3<span style="color: #b58900;">]</span>,t,Delta,omega,c,A,epslion_0<span style="color: #2aa198;">)</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span><span style="color: #859900; font-weight: bold;">return</span> <span style="color: #657b83; font-weight: bold;">list</span><span style="color: #2aa198;">(</span>tt<span style="color: #2aa198;">)</span>
+ def cf(t,y,Delta,omega,c,A,epslion_0):
+     tt = ffi.new("double[4]")
+     lib.f(tt,y[0],y[1],y[2],y[3],t,Delta,omega,c,A,epslion_0)
+     return list(tt)
 </pre>
 </div>
 </div>
 </div>
 </div>
 </div>
+
+
 
 <div id="outline-container-org30946f0" class="outline-2">
 <h2 id="org30946f0"><span class="section-number-2">13</span> pytesseract: OCR 识别库</h2>
@@ -1559,17 +1671,57 @@ cffi 是用来直接包裹 c 函数的库，与 ctypes 功能相同，不能将 
 示例如下：
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">import</span> pytesseract
-<span style="color: #859900; font-weight: bold;">from</span> PIL <span style="color: #859900; font-weight: bold;">import</span> Image
-<span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>pytesseract.image_to_string<span style="color: #b58900;">(</span>Image.<span style="color: #657b83; font-weight: bold;">open</span><span style="color: #268bd2;">(</span><span style="color: #2aa198;">'a.png'</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">import pytesseract
+from PIL import Image
+print(pytesseract.image_to_string(Image.open('a.png')))
 </pre>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org3d1ab48" class="outline-2">
+<h2 id="org3d1ab48"><span class="section-number-2">14</span> h5py: 储存数据</h2>
+<div class="outline-text-2" id="text-14">
+</div>
+<div id="outline-container-orgc9400da" class="outline-3">
+<h3 id="orgc9400da"><span class="section-number-3">14.1</span> 存</h3>
+<div class="outline-text-3" id="text-14-1">
+<div class="org-src-container">
+<pre class="src src-python">with h5py.File('data.h5', 'w') as hf:
+    hf.create_dataset("mat1", data=mat1, compression="gzip")
+    hf.create_dataset("mat2", data=mat2, compression="gzip")
+
+    g = hf.create_group("index")
+    g.create_dataset("mat1", data=mat1, compression="gzip")
+
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org7124c51" class="outline-3">
+<h3 id="org7124c51"><span class="section-number-3">14.2</span> 取</h3>
+<div class="outline-text-3" id="text-14-2">
+<div class="org-src-container">
+<pre class="src src-python">with h5py.File('data.h5', 'r') as hf:
+    mat1 = np.array(hf['mat1'])
+    mat2 = np.array(hf['mat2'])
+
+    g = hf['index']
+    g_mat1 = np.array(g['mat1'])
+
+</pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:24</p>
+<p class="date">Created: 2020-12-19 Sat 14:08</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

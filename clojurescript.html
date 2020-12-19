@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:23 -->
+<!-- 2020-12-19 Sat 14:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>clojurescript</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -257,7 +260,7 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#orgff5e285">1.1. ClojureScript基本流程</a>
 <ul>
-<li><a href="#org1fd4cdc">1.1.1. 安装</a></li>
+<li><a href="#org2bb61c4">1.1.1. 安装</a></li>
 <li><a href="#org5b82973">1.1.2. 项目目录结构</a></li>
 <li><a href="#orgfc35977">1.1.3. 编译方法</a></li>
 </ul>
@@ -276,8 +279,8 @@ for the JavaScript code in this tag.
 </li>
 <li><a href="#org364937f">3. cljs-ajax</a>
 <ul>
-<li><a href="#orga329f5e">3.1. 安装与引用</a></li>
-<li><a href="#org4e0fdf9">3.2. 基本使用</a>
+<li><a href="#org64e73a2">3.1. 安装与引用</a></li>
+<li><a href="#org7aa7b9f">3.2. 基本使用</a>
 <ul>
 <li><a href="#org61e63e2">3.2.1. 消息处理</a></li>
 <li><a href="#org0749737">3.2.2. 基本GET</a></li>
@@ -293,7 +296,7 @@ for the JavaScript code in this tag.
 <li><a href="#orgc4f315c">4.1.2. 设计思想</a></li>
 </ul>
 </li>
-<li><a href="#org09fb6fb">4.2. 基本使用</a>
+<li><a href="#orgf01beef">4.2. 基本使用</a>
 <ul>
 <li><a href="#orgba8c32b">4.2.1. app-db应用状态设计</a></li>
 <li><a href="#orgdbeb429">4.2.2. 第一步：定义事件</a></li>
@@ -326,13 +329,13 @@ for the JavaScript code in this tag.
 </li>
 <li><a href="#orgcb226a0">6. secretary</a>
 <ul>
-<li><a href="#org6e6e01d">6.1. 安装与引用</a>
+<li><a href="#org08ab53c">6.1. 安装与引用</a>
 <ul>
 <li><a href="#orge4dcc08">6.1.1. 依赖</a></li>
 <li><a href="#orge355ca5">6.1.2. 引用</a></li>
 </ul>
 </li>
-<li><a href="#org8b9bc34">6.2. 基本使用</a>
+<li><a href="#orgf441b81">6.2. 基本使用</a>
 <ul>
 <li><a href="#org6dd0bc2">6.2.1. html</a></li>
 <li><a href="#org2c02992">6.2.2. 源文件</a></li>
@@ -342,7 +345,7 @@ for the JavaScript code in this tag.
 </li>
 <li><a href="#orgb1dff13">7. shadow-cljs</a>
 <ul>
-<li><a href="#orge82e70c">7.1. 安装</a></li>
+<li><a href="#orgaeb7ef5">7.1. 安装</a></li>
 <li><a href="#orgd00543e">7.2. 编译</a>
 <ul>
 <li><a href="#orgeb98f73">7.2.1. 配置</a></li>
@@ -375,8 +378,8 @@ for the JavaScript code in this tag.
 <h3 id="orgff5e285"><span class="section-number-3">1.1</span> ClojureScript基本流程</h3>
 <div class="outline-text-3" id="text-1-1">
 </div>
-<div id="outline-container-org1fd4cdc" class="outline-4">
-<h4 id="org1fd4cdc"><span class="section-number-4">1.1.1</span> 安装</h4>
+<div id="outline-container-org2bb61c4" class="outline-4">
+<h4 id="org2bb61c4"><span class="section-number-4">1.1.1</span> 安装</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <ol class="org-ol">
 <li>不需要安装什么东西，只需要一个cljs.jar文件即可</li>
@@ -389,11 +392,11 @@ for the JavaScript code in this tag.
 <h4 id="org5b82973"><span class="section-number-4">1.1.2</span> 项目目录结构</h4>
 <div class="outline-text-4" id="text-1-1-2">
 <pre class="example">
-  源文件：/src/core.cljs
+源文件：/src/core.cljs
 
-    (ns hello-world.core) ;先声明名字空间
-    (enable-console-print!) ;启用控制台输出
-    (println "Hello world!")  ;在控制台里输出文字
+  (ns hello-world.core) ;先声明名字空间
+  (enable-console-print!) ;启用控制台输出
+  (println "Hello world!")  ;在控制台里输出文字
 </pre>
 </div>
 </div>
@@ -409,8 +412,8 @@ for the JavaScript code in this tag.
 在项目目录里创建文件 <code>build.clj</code> 
 </p>
 <pre class="example">
-  (require 'cljs.build.api)
-    (cljs.build.api/build "src" {:output-to "out/main.js"})')
+(require 'cljs.build.api)
+  (cljs.build.api/build "src" {:output-to "out/main.js"})')
 
 </pre>
 <p>
@@ -429,16 +432,16 @@ Linux:
 </p>
 
 <pre class="example">
-  &lt;html&gt;
-    &lt;body&gt;
-    &lt;script type="text/javascript" src="out/goog/base.js"&gt;&lt;/script&gt;
-    &lt;script type="text/javascript" src="out/main.js"&gt;&lt;/script&gt;
-    &lt;script type="text/javascript"&gt;
-    goog.require("hello_world.core");
-  // Note the underscore "_"!
-  &lt;/script&gt;
-    &lt;/body&gt;
-    &lt;/html&gt;
+&lt;html&gt;
+  &lt;body&gt;
+  &lt;script type="text/javascript" src="out/goog/base.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript" src="out/main.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript"&gt;
+  goog.require("hello_world.core");
+// Note the underscore "_"!
+&lt;/script&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;
 
 
 </pre>
@@ -454,21 +457,21 @@ html模板里要引用Google closure library， 编译的文件 并且还要执�
 在 <code>build.clj</code> 文件中指定主函数
 </p>
 <pre class="example">
-  (require 'cljs.build.api)
+(require 'cljs.build.api)
 
-    (cljs.build.api/build "src"
-     {:main 'hello-world.core
-     :output-to "out/main.js"})')
+  (cljs.build.api/build "src"
+   {:main 'hello-world.core
+   :output-to "out/main.js"})')
 </pre>
 <p>
 现在html模板可以写成
 </p>
 <pre class="example">
-  &lt;html&gt;
-    &lt;body&gt;
-    &lt;script type="text/javascript" src="out/main.js"&gt;&lt;/script&gt;
-    &lt;/body&gt;
-    &lt;/html&gt;
+&lt;html&gt;
+  &lt;body&gt;
+  &lt;script type="text/javascript" src="out/main.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;
 
 
 </pre>
@@ -485,17 +488,17 @@ html模板里要引用Google closure library， 编译的文件 并且还要执�
 </p>
 
 <pre class="example">
-  (require 'cljs.build.api)
+(require 'cljs.build.api)
 
-    (cljs.build.api/watch "src"
-     {:main 'hello-world.core
-     :output-to "out/main.js"})')
+  (cljs.build.api/watch "src"
+   {:main 'hello-world.core
+   :output-to "out/main.js"})')
 </pre>
 <p>
 执行自动编译
 </p>
 <pre class="example">
-  java -cp cljs.jar:src clojure.main watch.clj
+java -cp cljs.jar:src clojure.main watch.clj
 </pre>
 </div>
 </li>
@@ -506,26 +509,26 @@ html模板里要引用Google closure library， 编译的文件 并且还要执�
 在控制台启动REPL的方法，创建文件 <code>repl.clj</code> 
 </p>
 <pre class="example">
-  (require 'cljs.repl)
-    (require 'cljs.build.api)
-    (require 'cljs.repl.browser)
+(require 'cljs.repl)
+  (require 'cljs.build.api)
+  (require 'cljs.repl.browser)
 
-    (cljs.build.api/build "src"
-     {:main 'hello-world.core
-     :output-to "out/main.js"
-     :browser-repl true
-     :verbose true})
+  (cljs.build.api/build "src"
+   {:main 'hello-world.core
+   :output-to "out/main.js"
+   :browser-repl true
+   :verbose true})
 
-    (cljs.repl/repl (cljs.repl.browser/repl-env)
-     :watch "src"
-     :output-dir "out")')
+  (cljs.repl/repl (cljs.repl.browser/repl-env)
+   :watch "src"
+   :output-dir "out")')
 </pre>
 
 <p>
 运行命令
 </p>
 <pre class="example">
-  java -cp cljs.jar:src clojure.main repl.clj
+java -cp cljs.jar:src clojure.main repl.clj
 
 </pre>
 <p>
@@ -533,7 +536,7 @@ html模板里要引用Google closure library， 编译的文件 并且还要执�
 </p>
 
 <pre class="example">
-  rlwrap java -cp cljs.jar:src clojure.main repl.clj
+rlwrap java -cp cljs.jar:src clojure.main repl.clj
 
 </pre>
 
@@ -553,13 +556,13 @@ html模板里要引用Google closure library， 编译的文件 并且还要执�
 创建  <code>release.clj</code> 
 </p>
 <pre class="example">
-  (require 'cljs.build.api)
+(require 'cljs.build.api)
 
-    (cljs.build.api/build "src"
-     {:output-to "out/main.js"
-     :optimizations :advanced})
+  (cljs.build.api/build "src"
+   {:output-to "out/main.js"
+   :optimizations :advanced})
 
-    (System/exit 0)')
+  (System/exit 0)')
 </pre>
 
 <p>
@@ -613,11 +616,11 @@ html模板里要引用Google closure library， 编译的文件 并且还要执�
 这里使用了 ant.design 的按钮组件作为例子.
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure">      (ns name.space
-        (:require [reagent.core :as r]
-                  ["antd/lib/button" :as Button]))
-      (defn button [] 
-        [:&gt; Button "button"])
+<pre class="src src-clojure">(ns name.space
+  (:require [reagent.core :as r]
+	    ["antd/lib/button" :as Button]))
+(defn button [] 
+  [:&gt; Button "button"])
 </pre>
 </div>
 </div>
@@ -630,12 +633,12 @@ html模板里要引用Google closure library， 编译的文件 并且还要执�
 这里使用 lowdb 作为例子
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure">      (def low (js/require "lowdb"))
-      (def FileSync (js/require "lowdb/adapters/FileSync"))
-      (def fs (js/require "fs-extra"))
+<pre class="src src-clojure">(def low (js/require "lowdb"))
+(def FileSync (js/require "lowdb/adapters/FileSync"))
+(def fs (js/require "fs-extra"))
 
-      (def adapter-levels (FileSync. (str js/__dirname "/json/levels.json")))
-      (def db-levels (low adapter-levels))
+(def adapter-levels (FileSync. (str js/__dirname "/json/levels.json")))
+(def db-levels (low adapter-levels))
 </pre>
 </div>
 </div>
@@ -650,8 +653,8 @@ html模板里要引用Google closure library， 编译的文件 并且还要执�
 cljs-ajax为Clojure和ClojureScript提供相同Ajax的接口
 </p>
 </div>
-<div id="outline-container-orga329f5e" class="outline-3">
-<h3 id="orga329f5e"><span class="section-number-3">3.1</span> 安装与引用</h3>
+<div id="outline-container-org64e73a2" class="outline-3">
+<h3 id="org64e73a2"><span class="section-number-3">3.1</span> 安装与引用</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-clojure">[cljs-ajax "0.7.3"]
@@ -662,8 +665,8 @@ cljs-ajax为Clojure和ClojureScript提供相同Ajax的接口
 </div>
 </div>
 
-<div id="outline-container-org4e0fdf9" class="outline-3">
-<h3 id="org4e0fdf9"><span class="section-number-3">3.2</span> 基本使用</h3>
+<div id="outline-container-org7aa7b9f" class="outline-3">
+<h3 id="org7aa7b9f"><span class="section-number-3">3.2</span> 基本使用</h3>
 <div class="outline-text-3" id="text-3-2">
 </div>
 <div id="outline-container-org61e63e2" class="outline-4">
@@ -735,8 +738,8 @@ re-frame采用事件驱动，在主循环里分为六个连续的部分
 </div>
 </div>
 
-<div id="outline-container-org09fb6fb" class="outline-3">
-<h3 id="org09fb6fb"><span class="section-number-3">4.2</span> 基本使用</h3>
+<div id="outline-container-orgf01beef" class="outline-3">
+<h3 id="orgf01beef"><span class="section-number-3">4.2</span> 基本使用</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 这里介绍构建单页应用的基本流程，以 <code>example/simple</code> 为例，动态显示一个数字时钟，并可以改变颜色
@@ -784,7 +787,7 @@ re-frame采用事件驱动，在主循环里分为六个连续的部分
 使用re-frame/dispatch 函数来发送一个事件
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure">   (rf/dispatch [:event-id  value1 value2])
+<pre class="src src-clojure">(rf/dispatch [:event-id  value1 value2])
 
 </pre>
 </div>
@@ -1044,8 +1047,8 @@ re-frame提供了两个注册函数 <code>reg-event-fx, reg-event-db =，前者�
   [:div.color-input
    "Time color: "
    [:input {:type "text"
-            :value @(rf/subscribe [:time-color])        ;; subscribe
-            :on-change =(rf/dispatch [:time-color-change (-&gt; % .-target .-value)])}]])  ;; &lt;---
+	    :value @(rf/subscribe [:time-color])        ;; subscribe
+	    :on-change =(rf/dispatch [:time-color-change (-&gt; % .-target .-value)])}]])  ;; &lt;---
 
 </pre>
 </div>
@@ -1070,7 +1073,7 @@ re-frame提供了两个注册函数 <code>reg-event-fx, reg-event-db =，前者�
   []
   (rf/dispatch-sync [:initialize]) ;; puts a value into application state
   (reagent/render [ui]             ;; mount the application's ui into '&lt;div id="app" /&gt;'
-                  (js/document.getElementById "app")))
+		  (js/document.getElementById "app")))
 </pre>
 </div>
 </div>
@@ -1260,7 +1263,7 @@ class也可以嵌套表示
 <div class="org-src-container">
 <pre class="src src-clojure">(defn mountit []
   (r/render [childcaller]
-            (.-body js/document)))
+	    (.-body js/document)))
 (defn ^:export main [] ) ;使用export可以将函数暴漏出去，可以在页面的js里调用
 </pre>
 </div>
@@ -1346,8 +1349,8 @@ class也可以嵌套表示
 secretary是clojurescript的前端路由库，虽然三年没更新过，但是由于前端路由只是Google Closure Histroy的封装，对于一般的应用足够了，实在特殊的话就用直接用原生JS。
 </p>
 </div>
-<div id="outline-container-org6e6e01d" class="outline-3">
-<h3 id="org6e6e01d"><span class="section-number-3">6.1</span> 安装与引用</h3>
+<div id="outline-container-org08ab53c" class="outline-3">
+<h3 id="org08ab53c"><span class="section-number-3">6.1</span> 安装与引用</h3>
 <div class="outline-text-3" id="text-6-1">
 </div>
 <div id="outline-container-orge4dcc08" class="outline-4">
@@ -1370,10 +1373,10 @@ secretary是clojurescript的前端路由库，虽然三年没更新过，但是�
 ;; 如果需要用原生库
 (ns app.routes 
   (:require [secretary.core :as secretary]
-            [goog.events :as events])
+	    [goog.events :as events])
   (:require-macros [secretary.core :refer [defroute]])
   (:import goog.History
-           goog.history.EventType))
+	   goog.history.EventType))
 
 </pre>
 </div>
@@ -1381,8 +1384,8 @@ secretary是clojurescript的前端路由库，虽然三年没更新过，但是�
 </div>
 </div>
 
-<div id="outline-container-org8b9bc34" class="outline-3">
-<h3 id="org8b9bc34"><span class="section-number-3">6.2</span> 基本使用</h3>
+<div id="outline-container-orgf441b81" class="outline-3">
+<h3 id="orgf441b81"><span class="section-number-3">6.2</span> 基本使用</h3>
 <div class="outline-text-3" id="text-6-2">
 </div>
 <div id="outline-container-org6dd0bc2" class="outline-4">
@@ -1392,7 +1395,7 @@ secretary是clojurescript的前端路由库，虽然三年没更新过，但是�
 在网页中只需要写出链接地址就可以，剩下的由路由解决
 </p>
 <div class="org-src-container">
-<pre class="src src-html">    &lt;<span style="color: #268bd2;">a</span> <span style="color: #268bd2;">href</span>=<span style="color: #2aa198;">"=/users/jim"</span>&gt;Jim&lt;/<span style="color: #268bd2;">a</span>&gt;
+<pre class="src src-html">&lt;a href="=/users/jim"&gt;Jim&lt;/a&gt;
 </pre>
 </div>
 </div>
@@ -1471,8 +1474,8 @@ secretary是clojurescript的前端路由库，虽然三年没更新过，但是�
 shadow-cljs是clojurescript的打包编译工具，类似webpack
 </p>
 </div>
-<div id="outline-container-orge82e70c" class="outline-3">
-<h3 id="orge82e70c"><span class="section-number-3">7.1</span> 安装</h3>
+<div id="outline-container-orgaeb7ef5" class="outline-3">
+<h3 id="orgaeb7ef5"><span class="section-number-3">7.1</span> 安装</h3>
 <div class="outline-text-3" id="text-7-1">
 <ol class="org-ol">
 <li>npm全局 <code>npm install -g shadow-cljs</code></li>
@@ -1494,17 +1497,17 @@ shadow-cljs是clojurescript的打包编译工具，类似webpack
 <div class="org-src-container">
 <pre class="src src-clojure">{:source-paths ["src"]                                                 ;; 源文件目录
  :dependencies [[binaryage/devtools "0.9.8"]                           ;; 热替换必须依赖
-               ]                                                       ;; 依赖
+	       ]                                                       ;; 依赖
  :http {:host "localhost" :port 8081}                                  ;; 启动项目管理网页
  :builds {:app {:output-dir "public/js"                                ;; 生成文件目录
-                :asset-path "js"                                       ;; 资源存储路径，相对于output目录
-                :target :browser                                       ;; 编译目标：浏览器
-                :modules {:main {:entries [app.core]}}                 ;; 入口文件，这里是src/app/core.cljs
-                :devtools {:http-handler shadow.http.push-state/handle ;; 启用内置http server，watch模式必须
-                          :http-root "public"                          ;; 设置根目录
-                          :autoload true                               ;; 开启热替换
-                          :preloads [app.core]                         ;; 加载名字空间
-                          :after-load app.core/reload!                 ;; 在加载js后自动刷新页面，见下方设置
+		:asset-path "js"                                       ;; 资源存储路径，相对于output目录
+		:target :browser                                       ;; 编译目标：浏览器
+		:modules {:main {:entries [app.core]}}                 ;; 入口文件，这里是src/app/core.cljs
+		:devtools {:http-handler shadow.http.push-state/handle ;; 启用内置http server，watch模式必须
+			  :http-root "public"                          ;; 设置根目录
+			  :autoload true                               ;; 开启热替换
+			  :preloads [app.core]                         ;; 加载名字空间
+			  :after-load app.core/reload!                 ;; 在加载js后自动刷新页面，见下方设置
 </pre>
 </div>
 </div>
@@ -1636,7 +1639,7 @@ shadow-cljs release app --debug ;; 生成 release 的代码, 同时生成 Source
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="date">Created: 2020-12-19 Sat 14:07</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

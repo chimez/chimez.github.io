@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:23 -->
+<!-- 2020-12-19 Sat 14:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>C++</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -802,10 +805,10 @@ for the JavaScript code in this tag.
 <h4 id="org0ce5633"><span class="section-number-4">1.1.5</span> 头文件</h4>
 <div class="outline-text-4" id="text-1-1-5">
 <div class="org-src-container">
-<pre class="src src-c++"><span style="color: #268bd2;">      #if</span><span style="color: #268bd2; font-weight: bold;">n</span><span style="color: #268bd2;">def</span> name &#22914;&#26524;&#26410;&#23450;&#20041;
-<span style="color: #268bd2;">      #define</span> <span style="color: #268bd2;">name</span> &#23450;&#20041;
-      ...
-<span style="color: #268bd2;">      #endif</span> &#32467;&#26463;
+<pre class="src src-c++">#ifndef name 如果未定义
+#define name 定义
+...
+#endif 结束
 </pre>
 </div>
 </div>
@@ -826,9 +829,9 @@ for the JavaScript code in this tag.
 <li><a id="org58f78b7"></a>一般形式<br />
 <div class="outline-text-5" id="text-1-1-7-1">
 <div class="org-src-container">
-<pre class="src src-c++">       <span style="color: #859900; font-weight: bold;">template</span><span style="color: #2aa198;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">type</span>-parameter, <span style="color: #b58900;">[</span>, <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">type</span>-parameter<span style="color: #b58900;">]</span> ...<span style="color: #2aa198;">&gt;</span>
+<pre class="src src-c++">template&lt;class type-parameter, [, class type-parameter] ...&gt;
 
-       <span style="color: #b58900;">ret</span>-type function-name<span style="color: #2aa198;">(</span>parameter-list<span style="color: #2aa198;">)</span>
+ret-type function-name(parameter-list)
 </pre>
 </div>
 </div>
@@ -836,7 +839,7 @@ for the JavaScript code in this tag.
 <li><a id="org8b357e8"></a>示例<br />
 <div class="outline-text-5" id="text-1-1-7-2">
 <div class="org-src-container">
-<pre class="src src-c++">       <span style="color: #859900; font-weight: bold;">template</span><span style="color: #2aa198;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">T</span><span style="color: #2aa198;">&gt;</span> <span style="color: #b58900;">T</span> <span style="color: #268bd2;">zero</span><span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span><span style="color: #859900; font-weight: bold;">return</span> 0;<span style="color: #2aa198;">}</span>
+<pre class="src src-c++">template&lt;class T&gt; T zero() {return 0;}
 </pre>
 </div>
 </div>
@@ -844,7 +847,7 @@ for the JavaScript code in this tag.
 <li><a id="orgff94046"></a>在函数内需要用到未知类型时的变量声明<br />
 <div class="outline-text-5" id="text-1-1-7-3">
 <div class="org-src-container">
-<pre class="src src-c++">       <span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">T</span>::<span style="color: #b58900;">size_type</span> <span style="color: #268bd2;">name</span>;
+<pre class="src src-c++">typename T::size_type name;
 </pre>
 </div>
 </div>
@@ -911,7 +914,7 @@ for the JavaScript code in this tag.
 <h4 id="org9bbcd6b"><span class="section-number-4">1.1.10</span> struct 结构体</h4>
 <div class="outline-text-4" id="text-1-1-10">
 <div class="org-src-container">
-<pre class="src src-c++">      <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">name</span> <span style="color: #2aa198;">{}</span> ;
+<pre class="src src-c++">struct name {} ;
 </pre>
 </div>
 </div>
@@ -2131,22 +2134,22 @@ vector&lt;double&gt;&amp; haha = happy;
 编译 <code>g++ -I/usr/include/eigen3 a.cpp</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-c++"><span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">iostream</span><span style="color: #2aa198;">&gt;</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">Eigen/Dense</span><span style="color: #2aa198;">&gt;</span>
-      <span style="color: #859900; font-weight: bold;">using</span> <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">Eigen</span>;
-      <span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span><span style="color: #2aa198;">()</span>
-      <span style="color: #2aa198;">{</span>
-        <span style="color: #b58900;">MatrixXd</span> <span style="color: #268bd2;">m</span><span style="color: #b58900;">(</span>2,5<span style="color: #b58900;">)</span>;
-        m.resize<span style="color: #b58900;">(</span>4,3<span style="color: #b58900;">)</span>;
-        <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; <span style="color: #2aa198;">"The matrix m is of size "</span>
-                  &lt;&lt; m.rows<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #2aa198;">"x"</span> &lt;&lt; m.cols<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #268bd2; font-weight: bold;">std</span>::endl;
-        <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; <span style="color: #2aa198;">"It has "</span> &lt;&lt; m.size<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #2aa198;">" coefficients"</span> &lt;&lt; <span style="color: #268bd2; font-weight: bold;">std</span>::endl;
-        <span style="color: #b58900;">VectorXd</span> <span style="color: #268bd2;">v</span><span style="color: #b58900;">(</span>2<span style="color: #b58900;">)</span>;
-        v.resize<span style="color: #b58900;">(</span>5<span style="color: #b58900;">)</span>;
-        <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; <span style="color: #2aa198;">"The vector v is of size "</span> &lt;&lt; v.size<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #268bd2; font-weight: bold;">std</span>::endl;
-        <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; <span style="color: #2aa198;">"As a matrix, v is of size "</span>
-                  &lt;&lt; v.rows<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #2aa198;">"x"</span> &lt;&lt; v.cols<span style="color: #b58900;">()</span> &lt;&lt; <span style="color: #268bd2; font-weight: bold;">std</span>::endl;
-      <span style="color: #2aa198;">}</span>
+<pre class="src src-c++">#include &lt;iostream&gt;
+#include &lt;Eigen/Dense&gt;
+using namespace Eigen;
+int main()
+{
+  MatrixXd m(2,5);
+  m.resize(4,3);
+  std::cout &lt;&lt; "The matrix m is of size "
+	    &lt;&lt; m.rows() &lt;&lt; "x" &lt;&lt; m.cols() &lt;&lt; std::endl;
+  std::cout &lt;&lt; "It has " &lt;&lt; m.size() &lt;&lt; " coefficients" &lt;&lt; std::endl;
+  VectorXd v(2);
+  v.resize(5);
+  std::cout &lt;&lt; "The vector v is of size " &lt;&lt; v.size() &lt;&lt; std::endl;
+  std::cout &lt;&lt; "As a matrix, v is of size "
+	    &lt;&lt; v.rows() &lt;&lt; "x" &lt;&lt; v.cols() &lt;&lt; std::endl;
+}
 </pre>
 </div>
 </div>
@@ -2155,13 +2158,13 @@ vector&lt;double&gt;&amp; haha = happy;
 <h4 id="org17d975d"><span class="section-number-4">2.1.2</span> 使用 MKL</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <div class="org-src-container">
-<pre class="src src-bash">      g++ -I/usr/include/eigen3 -I/usr/include/eigen3/unsupported -I/usr/include/mkl <span style="color: #6c71c4; font-weight: bold;">`pkg-config --libs mkl-sdl-lp64`</span> -g   -std=c++17 d.cpp
+<pre class="src src-bash">g++ -I/usr/include/eigen3 -I/usr/include/eigen3/unsupported -I/usr/include/mkl `pkg-config --libs mkl-sdl-lp64` -g   -std=c++17 d.cpp
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-c++"><span style="color: #268bd2;">      #define</span> <span style="color: #268bd2;">EIGEN_USE_MKL_ALL</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">Eigen/Dense</span><span style="color: #2aa198;">&gt;</span>
+<pre class="src src-c++">#define EIGEN_USE_MKL_ALL
+#include &lt;Eigen/Dense&gt;
 
 </pre>
 </div>
@@ -2186,75 +2189,75 @@ vector&lt;double&gt;&amp; haha = happy;
 <code>odeint_array.hpp</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-c++"><span style="color: #268bd2;">      #if</span><span style="color: #268bd2; font-weight: bold;">n</span><span style="color: #268bd2;">def</span> ODEINT_ARRAY_HPP
-<span style="color: #268bd2;">      #define</span> <span style="color: #268bd2;">ODEINT_ARRAY_HPP</span>
+<pre class="src src-c++">#ifndef ODEINT_ARRAY_HPP
+#define ODEINT_ARRAY_HPP
 
 
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">Eigen/Dense</span><span style="color: #2aa198;">&gt;</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/numeric/odeint/algebra/vector_space_algebra.hpp</span><span style="color: #2aa198;">&gt;</span>
+#include &lt;Eigen/Dense&gt;
+#include &lt;boost/numeric/odeint/algebra/vector_space_algebra.hpp&gt;
 
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/numeric/odeint/util/is_resizeable.hpp</span><span style="color: #2aa198;">&gt;</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/numeric/odeint/util/resize.hpp</span><span style="color: #2aa198;">&gt;</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/numeric/odeint/util/same_size.hpp</span><span style="color: #2aa198;">&gt;</span>
+#include &lt;boost/numeric/odeint/util/is_resizeable.hpp&gt;
+#include &lt;boost/numeric/odeint/util/resize.hpp&gt;
+#include &lt;boost/numeric/odeint/util/same_size.hpp&gt;
 
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/utility/enable_if.hpp</span><span style="color: #2aa198;">&gt;</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/type_traits/is_base_of.hpp</span><span style="color: #2aa198;">&gt;</span>
+#include &lt;boost/utility/enable_if.hpp&gt;
+#include &lt;boost/type_traits/is_base_of.hpp&gt;
 
 
-      <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">boost</span> <span style="color: #2aa198;">{</span>
-        <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">numeric</span> <span style="color: #b58900;">{</span>
-          <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">odeint</span> <span style="color: #268bd2;">{</span>
+namespace boost {
+  namespace numeric {
+    namespace odeint {
 
-            <span style="color: #859900; font-weight: bold;">template</span> <span style="color: #6c71c4;">&lt;&gt;</span> <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">vector_space_norm_inf</span><span style="color: #6c71c4;">&lt;</span><span style="color: #268bd2; font-weight: bold;">Eigen</span>::ArrayXcd<span style="color: #6c71c4;">&gt;</span> <span style="color: #6c71c4;">{</span>
-              <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #b58900;">double</span> <span style="color: #b58900;">result_type</span>;
-              <span style="color: #b58900;">double</span> <span style="color: #859900; font-weight: bold;">operator</span><span style="color: #859900;">()</span><span style="color: #859900;">(</span><span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayXcd</span> &amp;<span style="color: #268bd2;">m</span><span style="color: #859900;">)</span> <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #859900;">{</span>
-                <span style="color: #859900; font-weight: bold;">return</span> m.matrix<span style="color: #b58900;">()</span>.lpNorm<span style="color: #b58900;">&lt;</span><span style="color: #268bd2; font-weight: bold;">Eigen</span>::Infinity<span style="color: #b58900;">&gt;()</span>;
-              <span style="color: #859900;">}</span>
-            <span style="color: #6c71c4;">}</span>;
+      template &lt;&gt; struct vector_space_norm_inf&lt;Eigen::ArrayXcd&gt; {
+	typedef double result_type;
+	double operator()(const Eigen::ArrayXcd &amp;m) const {
+	  return m.matrix().lpNorm&lt;Eigen::Infinity&gt;();
+	}
+      };
 
-            <span style="color: #859900; font-weight: bold;">template</span> <span style="color: #6c71c4;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Derived</span><span style="color: #6c71c4;">&gt;</span>
-            <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">algebra_dispatcher_sfinae</span><span style="color: #6c71c4;">&lt;</span>
-              <span style="color: #b58900;">Derived</span>, <span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">enable_if</span><span style="color: #859900;">&lt;</span><span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">is_base_of</span><span style="color: #b58900;">&lt;</span>
-                                                   <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #268bd2;">&gt;</span>, <span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #859900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #6c71c4;">&gt;</span> <span style="color: #6c71c4;">{</span>
-              <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #b58900;">vector_space_algebra</span> <span style="color: #b58900;">algebra_type</span>;
-            <span style="color: #6c71c4;">}</span>;
+      template &lt;class Derived&gt;
+      struct algebra_dispatcher_sfinae&lt;
+	Derived, typename boost::enable_if&lt;typename boost::is_base_of&lt;
+					     Eigen::ArrayBase&lt;Derived&gt;, Derived&gt;::type&gt;::type&gt; {
+	typedef vector_space_algebra algebra_type;
+      };
 
-            <span style="color: #859900; font-weight: bold;">template</span> <span style="color: #6c71c4;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Derived</span><span style="color: #6c71c4;">&gt;</span>
-            <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">is_resizeable_sfinae</span><span style="color: #6c71c4;">&lt;</span>
-              <span style="color: #b58900;">Derived</span>, <span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">enable_if</span><span style="color: #859900;">&lt;</span><span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">is_base_of</span><span style="color: #b58900;">&lt;</span>
-                                                   <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #268bd2;">&gt;</span>, <span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #859900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #6c71c4;">&gt;</span> <span style="color: #6c71c4;">{</span>
-              <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #b58900;">true_type</span> <span style="color: #b58900;">type</span>;
-              <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">bool</span> <span style="color: #268bd2;">value</span> = <span style="color: #268bd2; font-weight: bold;">type</span>::value;
-            <span style="color: #6c71c4;">}</span>;
+      template &lt;class Derived&gt;
+      struct is_resizeable_sfinae&lt;
+	Derived, typename boost::enable_if&lt;typename boost::is_base_of&lt;
+					     Eigen::ArrayBase&lt;Derived&gt;, Derived&gt;::type&gt;::type&gt; {
+	typedef boost::true_type type;
+	const static bool value = type::value;
+      };
 
-            <span style="color: #859900; font-weight: bold;">template</span> <span style="color: #6c71c4;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Derived</span><span style="color: #6c71c4;">&gt;</span>
-            <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">same_size_impl_sfinae</span><span style="color: #6c71c4;">&lt;</span>
-              <span style="color: #b58900;">Derived</span>, <span style="color: #b58900;">Derived</span>,
-              <span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">enable_if</span><span style="color: #859900;">&lt;</span><span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">is_base_of</span><span style="color: #b58900;">&lt;</span>
-                                          <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #268bd2;">&gt;</span>, <span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #859900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #6c71c4;">&gt;</span> <span style="color: #6c71c4;">{</span>
-              <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">bool</span> <span style="color: #268bd2;">same_size</span><span style="color: #859900;">(</span><span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #b58900;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span> &amp;v1,
-                                    <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #b58900;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span> &amp;v2<span style="color: #859900;">)</span> <span style="color: #859900;">{</span>
-                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #b58900;">(</span><span style="color: #268bd2;">(</span>v1.innerSize<span style="color: #6c71c4;">()</span> == v2.innerSize<span style="color: #6c71c4;">()</span><span style="color: #268bd2;">)</span> &amp;&amp;
-                        <span style="color: #268bd2;">(</span>v1.outerSize<span style="color: #6c71c4;">()</span> == v2.outerSize<span style="color: #6c71c4;">()</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>;
-              <span style="color: #859900;">}</span>
-            <span style="color: #6c71c4;">}</span>;
+      template &lt;class Derived&gt;
+      struct same_size_impl_sfinae&lt;
+	Derived, Derived,
+	typename boost::enable_if&lt;typename boost::is_base_of&lt;
+				    Eigen::ArrayBase&lt;Derived&gt;, Derived&gt;::type&gt;::type&gt; {
+	static bool same_size(const Eigen::ArrayBase&lt;Derived&gt; &amp;v1,
+			      const Eigen::ArrayBase&lt;Derived&gt; &amp;v2) {
+	  return ((v1.innerSize() == v2.innerSize()) &amp;&amp;
+		  (v1.outerSize() == v2.outerSize()));
+	}
+      };
 
-            <span style="color: #859900; font-weight: bold;">template</span> <span style="color: #6c71c4;">&lt;</span><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Derived</span><span style="color: #6c71c4;">&gt;</span>
-            <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">resize_impl_sfinae</span><span style="color: #6c71c4;">&lt;</span>
-              <span style="color: #b58900;">Derived</span>, <span style="color: #b58900;">Derived</span>,
-              <span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">enable_if</span><span style="color: #859900;">&lt;</span><span style="color: #859900; font-weight: bold;">typename</span> <span style="color: #268bd2; font-weight: bold;">boost</span>::<span style="color: #268bd2; font-weight: bold;">is_base_of</span><span style="color: #b58900;">&lt;</span>
-                                          <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #268bd2;">&gt;</span>, <span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #859900;">&gt;</span>::<span style="color: #b58900;">type</span><span style="color: #6c71c4;">&gt;</span> <span style="color: #6c71c4;">{</span>
-              <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">resize</span><span style="color: #859900;">(</span><span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #b58900;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span> &amp;v1,
-                                 <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2; font-weight: bold;">Eigen</span>::<span style="color: #b58900;">ArrayBase</span><span style="color: #b58900;">&lt;</span><span style="color: #b58900;">Derived</span><span style="color: #b58900;">&gt;</span> &amp;v2<span style="color: #859900;">)</span> <span style="color: #859900;">{</span>
-                v1.derived<span style="color: #b58900;">()</span>.resizeLike<span style="color: #b58900;">(</span>v2<span style="color: #b58900;">)</span>;
-              <span style="color: #859900;">}</span>
-            <span style="color: #6c71c4;">}</span>;
+      template &lt;class Derived&gt;
+      struct resize_impl_sfinae&lt;
+	Derived, Derived,
+	typename boost::enable_if&lt;typename boost::is_base_of&lt;
+				    Eigen::ArrayBase&lt;Derived&gt;, Derived&gt;::type&gt;::type&gt; {
+	static void resize(Eigen::ArrayBase&lt;Derived&gt; &amp;v1,
+			   const Eigen::ArrayBase&lt;Derived&gt; &amp;v2) {
+	  v1.derived().resizeLike(v2);
+	}
+      };
 
-          <span style="color: #268bd2;">}</span> <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">namespace odeint</span>
-        <span style="color: #b58900;">}</span> <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">namespace numeric</span>
-      <span style="color: #2aa198;">}</span> <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">namespace boost</span>
+    } // namespace odeint
+  } // namespace numeric
+} // namespace boost
 
-<span style="color: #268bd2;">      #endif</span>
+#endif
 
 </pre>
 </div>
@@ -2268,44 +2271,44 @@ vector&lt;double&gt;&amp; haha = happy;
 注意 <code>include</code> 的顺序
 </p>
 <div class="org-src-container">
-<pre class="src src-c"><span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">cmath</span><span style="color: #2aa198;">&gt;</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">complex</span><span style="color: #2aa198;">&gt;</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">iostream</span><span style="color: #2aa198;">&gt;</span>
+<pre class="src src-c">#include &lt;cmath&gt;
+#include &lt;complex&gt;
+#include &lt;iostream&gt;
 
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">Eigen/Dense</span><span style="color: #2aa198;">&gt;</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">&lt;</span><span style="color: #2aa198;">boost/numeric/odeint.hpp</span><span style="color: #2aa198;">&gt;</span>
-<span style="color: #268bd2;">      #include</span> <span style="color: #2aa198;">"odeint_array.hpp"</span>
+#include &lt;Eigen/Dense&gt;
+#include &lt;boost/numeric/odeint.hpp&gt;
+#include "odeint_array.hpp"
 
-      using <span style="color: #b58900;">namespace</span> <span style="color: #268bd2;">std</span>;
-      using <span style="color: #b58900;">namespace</span> <span style="color: #268bd2;">Eigen</span>;
-      using <span style="color: #b58900;">namespace</span> <span style="color: #268bd2;">boost</span>::numeric::odeint;
+using namespace std;
+using namespace Eigen;
+using namespace boost::numeric::odeint;
 
-      <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #b58900;">ArrayXcd</span> <span style="color: #b58900;">point3D</span>;
+typedef ArrayXcd point3D;
 
-      <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">sigma</span> = 10.0;
-      <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">R</span> = 28.0;
-      <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">b</span> = 8.0 / 3.0;
+const double sigma = 10.0;
+const double R = 28.0;
+const double b = 8.0 / 3.0;
 
-      <span style="color: #b58900;">void</span> <span style="color: #268bd2;">lorenz</span><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">point3D</span> &amp;x, point3D &amp;dxdt, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">t</span><span style="color: #2aa198;">)</span> <span style="color: #2aa198;">{</span>
-        dxdt<span style="color: #b58900;">(</span>0<span style="color: #b58900;">)</span> = sigma * <span style="color: #b58900;">(</span>x<span style="color: #268bd2;">(</span>1<span style="color: #268bd2;">)</span> - x<span style="color: #268bd2;">(</span>0<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>;
-        dxdt<span style="color: #b58900;">(</span>1<span style="color: #b58900;">)</span> = R * x<span style="color: #b58900;">(</span>0<span style="color: #b58900;">)</span> - x<span style="color: #b58900;">(</span>1<span style="color: #b58900;">)</span> - x<span style="color: #b58900;">(</span>0<span style="color: #b58900;">)</span> * x<span style="color: #b58900;">(</span>2<span style="color: #b58900;">)</span>;
-        dxdt<span style="color: #b58900;">(</span>2<span style="color: #b58900;">)</span> = -b * x<span style="color: #b58900;">(</span>2<span style="color: #b58900;">)</span> + x<span style="color: #b58900;">(</span>0<span style="color: #b58900;">)</span> * x<span style="color: #b58900;">(</span>1<span style="color: #b58900;">)</span>;
-      <span style="color: #2aa198;">}</span>
+void lorenz(const point3D &amp;x, point3D &amp;dxdt, const double t) {
+  dxdt(0) = sigma * (x(1) - x(0));
+  dxdt(1) = R * x(0) - x(1) - x(0) * x(2);
+  dxdt(2) = -b * x(2) + x(0) * x(1);
+}
 
-      <span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span><span style="color: #2aa198;">()</span> <span style="color: #2aa198;">{</span>
-        <span style="color: #b58900;">point3D</span> <span style="color: #268bd2;">x</span><span style="color: #b58900;">(</span>3, 1<span style="color: #b58900;">)</span>;
-        x<span style="color: #b58900;">(</span>0<span style="color: #b58900;">)</span> = 10.0;
-        x<span style="color: #b58900;">(</span>1<span style="color: #b58900;">)</span> = 5.0;
-        x<span style="color: #b58900;">(</span>2<span style="color: #b58900;">)</span> = 5.0;
+int main() {
+  point3D x(3, 1);
+  x(0) = 10.0;
+  x(1) = 5.0;
+  x(2) = 5.0;
 
-        <span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #b58900;">runge_kutta_dopri5</span>&lt;point3D, <span style="color: #b58900;">double</span>, point3D, <span style="color: #b58900;">double</span>,
-          vector_space_algebra&gt;
-          stepper;
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">steps</span> = integrate_adaptive<span style="color: #b58900;">(</span>make_controlled&lt;stepper&gt;<span style="color: #268bd2;">(</span>1E-10, 1E-10<span style="color: #268bd2;">)</span>, lorenz,
-                                       x, 0.0, 10.0, 0.1<span style="color: #b58900;">)</span>;
-        std::cout &lt;&lt; x &lt;&lt; std::endl;
-        std::cout &lt;&lt; <span style="color: #2aa198;">"steps: "</span> &lt;&lt; steps &lt;&lt; std::endl;
-      <span style="color: #2aa198;">}</span>
+  typedef runge_kutta_dopri5&lt;point3D, double, point3D, double,
+    vector_space_algebra&gt;
+    stepper;
+  int steps = integrate_adaptive(make_controlled&lt;stepper&gt;(1E-10, 1E-10), lorenz,
+				 x, 0.0, 10.0, 0.1);
+  std::cout &lt;&lt; x &lt;&lt; std::endl;
+  std::cout &lt;&lt; "steps: " &lt;&lt; steps &lt;&lt; std::endl;
+}
 </pre>
 </div>
 </div>
@@ -2343,7 +2346,7 @@ vector&lt;double&gt;&amp; haha = happy;
 例如
 </p>
 <div class="org-src-container">
-<pre class="src src-bash"><span style="color: #657b83; font-weight: bold;">export</span> <span style="color: #268bd2;">CMAKE_PREFIX_PATH</span>=<span style="color: #2aa198;">"$HOME/.local:$HOME/app"</span>
+<pre class="src src-bash">export CMAKE_PREFIX_PATH="$HOME/.local:$HOME/app"
 </pre>
 </div>
 </div>
@@ -2352,7 +2355,7 @@ vector&lt;double&gt;&amp; haha = happy;
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="date">Created: 2020-12-19 Sat 14:07</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:24 -->
+<!-- 2020-12-19 Sat 14:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>把尾递归改写成循环</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -267,17 +270,13 @@ for the JavaScript code in this tag.
 <h2 id="org65bee43"><span class="section-number-2">1</span> 递归求和，非尾递归。</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">ss</span> <span style="color: #b58900;">(</span>l<span style="color: #b58900;">)</span>
-  <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span>eq l '<span style="color: #6c71c4;">()</span><span style="color: #268bd2;">)</span>
+<pre class="src src-emacs-lisp">(defun ss (l)
+  (if (eq l '())
       0
-    <span style="color: #268bd2;">(</span>+ <span style="color: #6c71c4;">(</span>car l<span style="color: #6c71c4;">)</span> <span style="color: #6c71c4;">(</span>ss <span style="color: #859900;">(</span>cdr l<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="color: #2aa198;">(</span>print <span style="color: #b58900;">(</span>ss '<span style="color: #268bd2;">(</span>1 2 3 4 5<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+    (+ (car l) (ss (cdr l)))))
+(print (ss '(1 2 3 4 5)))
 </pre>
 </div>
-
-<pre class="example">
-15
-</pre>
 </div>
 </div>
 
@@ -286,20 +285,16 @@ for the JavaScript code in this tag.
 <h2 id="org59e3619"><span class="section-number-2">2</span> 递归求和，尾递归</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #2aa198;">(</span><span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">ss</span> <span style="color: #b58900;">(</span>l0<span style="color: #b58900;">)</span>
-  <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">progn</span>
-    <span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">defun</span> <span style="color: #268bd2;">s0</span> <span style="color: #6c71c4;">(</span>l a<span style="color: #6c71c4;">)</span>
-      <span style="color: #6c71c4;">(</span><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #859900;">(</span>eq l '<span style="color: #b58900;">()</span><span style="color: #859900;">)</span>
-          a
-        <span style="color: #859900;">(</span>s0 <span style="color: #b58900;">(</span>cdr l<span style="color: #b58900;">)</span> <span style="color: #b58900;">(</span>+ a <span style="color: #268bd2;">(</span>car l<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-    <span style="color: #268bd2;">(</span>s0 l0 0<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="color: #2aa198;">(</span>print <span style="color: #b58900;">(</span>ss '<span style="color: #268bd2;">(</span>1 2 3 4 5 <span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-emacs-lisp">(defun ss (l0)
+  (progn
+    (defun s0 (l a)
+      (if (eq l '())
+	  a
+	(s0 (cdr l) (+ a (car l)))))
+    (s0 l0 0)))
+(print (ss '(1 2 3 4 5 )))
 </pre>
 </div>
-
-<pre class="example">
-15
-</pre>
 </div>
 </div>
 
@@ -315,17 +310,17 @@ for the JavaScript code in this tag.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">ss</span><span style="color: #2aa198;">(</span>l<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">a</span> = 0
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #268bd2; font-weight: bold;">True</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #657b83; font-weight: bold;">len</span><span style="color: #2aa198;">(</span>l<span style="color: #2aa198;">)</span> == 0:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">return</span> a
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">break</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">else</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">a</span> = a + l<span style="color: #2aa198;">[</span>0<span style="color: #2aa198;">]</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>  <span style="color: #268bd2;">l</span> = l<span style="color: #2aa198;">[</span>1:<span style="color: #2aa198;">]</span>
+<pre class="src src-python">def ss(l):
+    a = 0
+    while True:
+	if len(l) == 0:
+	    return a
+	    break
+	else:
+	    a = a + l[0]
+	    l = l[1:]
 
-<span style="background-color: #eee8d5;"> </span>  <span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>ss<span style="color: #b58900;">(</span><span style="color: #268bd2;">[</span>1,2,3,4,5<span style="color: #268bd2;">]</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+print(ss([1,2,3,4,5]))
 </pre>
 </div></li>
 </ol>
@@ -334,7 +329,7 @@ for the JavaScript code in this tag.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:24</p>
+<p class="date">Created: 2020-12-19 Sat 14:08</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:23 -->
+<!-- 2020-12-19 Sat 14:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>pdftk:修改pdf文件</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -315,14 +318,14 @@ BookmarkPageNumber: 3
 或者python
 </p>
 <div class="org-src-container">
-<pre class="src src-python">u<span style="color: #2aa198;">"&#38463;&#26031;&#39039;"</span>.encode<span style="color: #2aa198;">(</span><span style="color: #2aa198;">'ascii'</span>, <span style="color: #2aa198;">'xmlcharrefreplace'</span><span style="color: #2aa198;">)</span>
+<pre class="src src-python">u"阿斯顿".encode('ascii', 'xmlcharrefreplace')
 
-<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">utf8_to_ascii_xml</span><span style="color: #2aa198;">(</span>filename<span style="color: #2aa198;">)</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #859900; font-weight: bold;">with</span> <span style="color: #657b83; font-weight: bold;">open</span><span style="color: #2aa198;">(</span>filename,<span style="color: #2aa198;">'r'</span>,encoding=<span style="color: #2aa198;">'utf-8'</span><span style="color: #2aa198;">)</span> <span style="color: #859900; font-weight: bold;">as</span> fi:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">lines</span> = fi.readlines<span style="color: #2aa198;">()</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">lines_ascii</span> = <span style="color: #2aa198;">[</span>x.encode<span style="color: #b58900;">(</span><span style="color: #2aa198;">'ascii'</span>, <span style="color: #2aa198;">'xmlcharrefreplace'</span><span style="color: #b58900;">)</span> <span style="color: #859900; font-weight: bold;">for</span> x <span style="color: #859900; font-weight: bold;">in</span> lines<span style="color: #2aa198;">]</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #859900; font-weight: bold;">with</span> <span style="color: #657b83; font-weight: bold;">open</span><span style="color: #2aa198;">(</span>f<span style="color: #2aa198;">"{filename}.ascii"</span>, <span style="color: #2aa198;">'wb'</span><span style="color: #2aa198;">)</span> <span style="color: #859900; font-weight: bold;">as</span> fi:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   fi.writelines<span style="color: #2aa198;">(</span>lines_ascii<span style="color: #2aa198;">)</span>
+def utf8_to_ascii_xml(filename):
+    with open(filename,'r',encoding='utf-8') as fi:
+	lines = fi.readlines()
+    lines_ascii = [x.encode('ascii', 'xmlcharrefreplace') for x in lines]
+    with open(f"{filename}.ascii", 'wb') as fi:
+	fi.writelines(lines_ascii)
 
 </pre>
 </div>
@@ -343,44 +346,44 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
 <h3 id="org2035b57"><span class="section-number-3">1.3</span> 添加目录的示例流程</h3>
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">import</span>
-<span style="color: #859900; font-weight: bold;">import</span> pytesseract
-<span style="color: #859900; font-weight: bold;">from</span> PIL <span style="color: #859900; font-weight: bold;">import</span> Image
-<span style="color: #859900; font-weight: bold;">import</span> numpy <span style="color: #859900; font-weight: bold;">as</span> np
-<span style="color: #859900; font-weight: bold;">import</span> pandas <span style="color: #859900; font-weight: bold;">as</span> pd
-<span style="color: #859900; font-weight: bold;">import</span> re
+<pre class="src src-python"># import
+import pytesseract
+from PIL import Image
+import numpy as np
+import pandas as pd
+import re
 
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#21033;&#29992; OCR &#29983;&#25104;&#30446;&#24405;</span>
-<span style="color: #859900; font-weight: bold;">print</span><span style="color: #2aa198;">(</span>pytesseract.image_to_string<span style="color: #b58900;">(</span>Image.<span style="color: #657b83; font-weight: bold;">open</span><span style="color: #268bd2;">(</span><span style="color: #2aa198;">'a.png'</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+# 利用 OCR 生成目录
+print(pytesseract.image_to_string(Image.open('a.png')))
 
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#25163;&#21160;&#32534;&#36753;&#30446;&#24405;&#65292;&#20351;&#29992; orgmode &#30340;&#34920;&#26684;</span>
-<span style="color: #268bd2;">data</span> = pd.read_csv<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"a.txt"</span>, sep=<span style="color: #2aa198;">"|"</span><span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">darr</span> = np.array<span style="color: #2aa198;">(</span>data<span style="color: #2aa198;">)</span>
-<span style="color: #268bd2;">darr</span><span style="color: #2aa198;">[</span>:,1<span style="color: #2aa198;">]</span> = <span style="color: #2aa198;">[</span>i.strip<span style="color: #b58900;">()</span> <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> darr<span style="color: #b58900;">[</span>:,1<span style="color: #b58900;">]</span><span style="color: #2aa198;">]</span>
-<span style="color: #268bd2;">darr</span><span style="color: #2aa198;">[</span>:,2<span style="color: #2aa198;">]</span> = <span style="color: #2aa198;">[</span>i.strip<span style="color: #b58900;">()</span> <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> darr<span style="color: #b58900;">[</span>:,2<span style="color: #b58900;">]</span><span style="color: #2aa198;">]</span>
-<span style="color: #268bd2;">darr</span><span style="color: #2aa198;">[</span>2:,3<span style="color: #2aa198;">]</span> = darr<span style="color: #2aa198;">[</span>2:,3<span style="color: #2aa198;">]</span>+9
-<span style="color: #268bd2;">data</span> = pd.DataFrame<span style="color: #2aa198;">(</span>darr<span style="color: #b58900;">[</span>:,1:-1<span style="color: #b58900;">]</span><span style="color: #2aa198;">)</span>
+# 手动编辑目录，使用 orgmode 的表格
+data = pd.read_csv("a.txt", sep="|")
+darr = np.array(data)
+darr[:,1] = [i.strip() for i in darr[:,1]]
+darr[:,2] = [i.strip() for i in darr[:,2]]
+darr[2:,3] = darr[2:,3]+9
+data = pd.DataFrame(darr[:,1:-1])
 data
 
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#29983;&#25104;&#30446;&#24405;&#26684;&#24335;&#24182;&#20445;&#23384;</span>
-<span style="color: #268bd2;">block</span> = <span style="color: #2aa198;">"""BookmarkBegin</span>
-<span style="color: #2aa198;">BookmarkTitle: {title}</span>
-<span style="color: #2aa198;">BookmarkLevel: {level}</span>
-<span style="color: #2aa198;">BookmarkPageNumber: {page}</span>
-<span style="color: #2aa198;">"""</span>
-<span style="color: #268bd2;">txt</span> = <span style="color: #2aa198;">""</span>
-<span style="color: #859900; font-weight: bold;">for</span> line <span style="color: #859900; font-weight: bold;">in</span> darr:
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">index</span> = line<span style="color: #2aa198;">[</span>1<span style="color: #2aa198;">]</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">title</span> = line<span style="color: #2aa198;">[</span>2<span style="color: #2aa198;">]</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">page</span> = line<span style="color: #2aa198;">[</span>3<span style="color: #2aa198;">]</span>
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #859900; font-weight: bold;">if</span> index == <span style="color: #2aa198;">''</span> <span style="color: #859900; font-weight: bold;">or</span> index<span style="color: #2aa198;">[</span>-1<span style="color: #2aa198;">]</span> == <span style="color: #2aa198;">'.'</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">level</span> = 1
-<span style="background-color: #eee8d5;"> </span>   <span style="color: #859900; font-weight: bold;">else</span>:
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">level</span> = 2
-<span style="background-color: #eee8d5;"> </span>   <span style="background-color: #eee8d5;"> </span>   <span style="color: #268bd2;">txt</span> += block.<span style="color: #657b83; font-weight: bold;">format</span><span style="color: #2aa198;">(</span>title=f<span style="color: #2aa198;">"{index} {title}"</span>, level=level, page=page<span style="color: #2aa198;">)</span>
+# 生成目录格式并保存
+block = """BookmarkBegin
+BookmarkTitle: {title}
+BookmarkLevel: {level}
+BookmarkPageNumber: {page}
+"""
+txt = ""
+for line in darr:
+    index = line[1]
+    title = line[2]
+    page = line[3]
+    if index == '' or index[-1] == '.':
+	level = 1
+    else:
+	level = 2
+	txt += block.format(title=f"{index} {title}", level=level, page=page)
 
-<span style="color: #859900; font-weight: bold;">with</span> <span style="color: #657b83; font-weight: bold;">open</span><span style="color: #2aa198;">(</span><span style="color: #2aa198;">"b.txt"</span>,<span style="color: #2aa198;">'w'</span><span style="color: #2aa198;">)</span> <span style="color: #859900; font-weight: bold;">as</span> fi:
-<span style="background-color: #eee8d5;"> </span>   fi.writelines<span style="color: #2aa198;">(</span>txt<span style="color: #2aa198;">)</span>
+with open("b.txt",'w') as fi:
+    fi.writelines(txt)
 </pre>
 </div>
 </div>
@@ -414,7 +417,7 @@ pdftk in1.pdf in2.pdf cat output out1.pdf
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="date">Created: 2020-12-19 Sat 14:08</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

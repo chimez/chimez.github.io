@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:23 -->
+<!-- 2020-12-19 Sat 14:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LaTeX 踩坑记录</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -442,22 +445,22 @@ for the JavaScript code in this tag.
 示例：
 </p>
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\documentclass</span>[<span style="color: #268bd2;">11pt,tightenlines</span>]{<span style="color: #268bd2;">revtex4</span>}
+<pre class="src src-latex">\documentclass[11pt,tightenlines]{revtex4}
 
-<span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">Alternative A</span>
-<span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">\usepackage</span><span style="color: #93a1a1;">{etoolbox}</span>
-<span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">\patchcmd</span><span style="color: #93a1a1;">{</span><span style="color: #93a1a1;">\normalsize</span><span style="color: #93a1a1;">}{13.6}{13}{}{}</span>
+% Alternative A
+% \usepackage{etoolbox}
+% \patchcmd{\normalsize}{13.6}{13}{}{}
 
-<span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">Alternative B</span>
-<span style="color: #586e75;">\linespread</span>{0.956}
+% Alternative B
+\linespread{0.956}
 
-<span style="color: #859900; font-weight: bold;">\usepackage</span>{<span style="color: #268bd2;">lipsum</span>}
+\usepackage{lipsum}
 
-<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">document</span>}
+\begin{document}
 
-<span style="color: #586e75;">\lipsum</span>[1]
+\lipsum[1]
 
-<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">document</span>}
+\end{document}
 </pre>
 </div>
 </div>
@@ -518,7 +521,7 @@ for the JavaScript code in this tag.
 <pre class="src src-bash">mv cid-x.map dvipdfm/config/
 mv cjk.map dvips/config/
 cp /usr/share/texmf/dvips/config/config.ps dvips/config/
-<span style="color: #657b83; font-weight: bold;">echo</span> <span style="color: #2aa198;">'p +cjk.map'</span> &gt;&gt; dvips/config/config.ps
+echo 'p +cjk.map' &gt;&gt; dvips/config/config.ps
 mv pdftex.cfg pdftex/config/
 mktexlsr
 </pre>
@@ -537,15 +540,15 @@ mktexlsr
 复制完成后应该就能用了，示例文件如下：
 </p>
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">!TeX encoding = GBK</span>
+<pre class="src src-latex">% !TeX encoding = GBK
 
-<span style="color: #859900; font-weight: bold;">\documentclass</span>{<span style="color: #268bd2;">article</span>}
-<span style="color: #859900; font-weight: bold;">\usepackage</span>{<span style="color: #268bd2;">CJK</span>}
-<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">document</span>}
-    <span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">CJK</span>}{GBK}{song}
-    <span style="color: #859900; font-weight: bold;">\LaTeX</span> &#27979;&#35797;
-    <span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">CJK</span>}
-<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">document</span>}
+\documentclass{article}
+\usepackage{CJK}
+\begin{document}
+    \begin{CJK}{GBK}{song}
+    \LaTeX 测试
+    \end{CJK}
+\end{document}
 </pre>
 </div>
 
@@ -599,25 +602,25 @@ ttc格式是微软开发的新一代格式，基本上相当于几个ttf格式�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\documentclass</span>[<span style="color: #268bd2;">twocolumn</span>]{<span style="color: #268bd2;">article</span>}
+<pre class="src src-latex">\documentclass[twocolumn]{article}
 
-<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">document</span>}
+\begin{document}
 
-<span style="color: #586e75;">\maketitle</span>
-<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">abstract</span>}
+\maketitle
+\begin{abstract}
   The abstract
-<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">abstract</span>}
+\end{abstract}
 
-<span style="color: #586e75;">\twocolumn</span>
+\twocolumn
 
-<span style="color: #859900; font-weight: bold;">\section</span>{<span style="color: #b58900; font-size: 133%; font-weight: bold;">Introduction</span>}
+\section{Introduction}
 body
 
-<span style="color: #586e75;">\onecolumn</span>
+\onecolumn
 
-<span style="color: #859900; font-weight: bold;">\bibliographystyle</span>{<span style="color: #268bd2;">plain</span>}
-<span style="color: #859900; font-weight: bold;">\bibliography</span>{<span style="color: #268bd2; font-weight: bold;">paper-o</span>}
-<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">document</span>}
+\bibliographystyle{plain}
+\bibliography{paper-o}
+\end{document}
 
 </pre>
 </div>
@@ -783,7 +786,7 @@ $out_dir = "temp";
 属性预定义:
 </p>
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">tikzpicture</span>}[L1Node/.style={circle,   draw=blue!50, fill=blue!20, very thick, minimum size=10mm},
+<pre class="src src-latex">\begin{tikzpicture}[L1Node/.style={circle,   draw=blue!50, fill=blue!20, very thick, minimum size=10mm},
     L2Node/.style={rectangle,draw=green!50,fill=green!20,very thick, minimum size=10mm}]
 </pre>
 </div>
@@ -929,7 +932,7 @@ $out_dir = "temp";
 语法：
 </p>
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #586e75;">\draw</span>[dashed, line width=2] (1,2)--(3,4);
+<pre class="src src-latex">\draw[dashed, line width=2] (1,2)--(3,4);
 </pre>
 </div>
 <p>
@@ -1219,7 +1222,7 @@ $out_dir = "temp";
 语法：
 </p>
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #586e75;">\node</span>[fill=yellow!20,align=center]{hi}
+<pre class="src src-latex">\node[fill=yellow!20,align=center]{hi}
 </pre>
 </div>
 <p>
@@ -1473,15 +1476,15 @@ bbbbb \tikzmark{b} aaaaaaaaaaaaaaaaaaaaaaaa
 <h4 id="org9988d71"><span class="section-number-4">6.2.4</span> 自动树</h4>
 <div class="outline-text-4" id="text-6-2-4">
 <div class="org-src-container">
-<pre class="src src-latex">    [sibling distance=10em]<span style="color: #93a1a1;">%&#35774;&#32622;&#21508;&#39033;&#38388;&#36317;&#31163;</span>
-    <span style="color: #586e75;">\node</span> {Formulas}
-    child { node {single-line} }
-    child { node {multi-line}
-        child { node {aligned at}
-            child { node {relation sign} }
-            child { node {several places} }
-            child { node {center} } }
-        child { node {first left,<span style="color: #cb4b16; font-weight: bold;">\\</span>centered,<span style="color: #cb4b16; font-weight: bold;">\\</span>last right} } };
+<pre class="src src-latex">[sibling distance=10em]%设置各项间距离
+\node {Formulas}
+child { node {single-line} }
+child { node {multi-line}
+	child { node {aligned at}
+		child { node {relation sign} }
+		child { node {several places} }
+		child { node {center} } }
+	child { node {first left,\\centered,\\last right} } };
 </pre>
 </div>
 </div>
@@ -1494,22 +1497,22 @@ bbbbb \tikzmark{b} aaaaaaaaaaaaaaaaaaaaaaaa
 使用下面的代码,并用命令 <code>latex --shell-escape</code> 
 </p>
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\documentclass</span>{<span style="color: #268bd2;">article</span>}
-<span style="color: #859900; font-weight: bold;">\usepackage</span>{<span style="color: #268bd2;">tikz</span>}
+<pre class="src src-latex">\documentclass{article}
+\usepackage{tikz}
 
-<span style="color: #93a1a1;">% </span><span style="color: #93a1a1;">set up externalization</span>
-<span style="color: #586e75;">\usetikzlibrary</span>{external}
-<span style="color: #586e75;">\tikzset</span>{external/system call={latex <span style="color: #586e75;">\tikzexternalcheckshellescape</span> -halt-on-error
--interaction=batchmode -jobname "<span style="color: #586e75;">\image</span>" "<span style="color: #586e75;">\texsource</span>";
-dvips -o "<span style="color: #586e75;">\image</span>".ps "<span style="color: #586e75;">\image</span>".dvi;
-ps2eps "<span style="color: #586e75;">\image</span>.ps"}}
-<span style="color: #586e75;">\tikzexternalize</span>
+% set up externalization
+\usetikzlibrary{external}
+\tikzset{external/system call={latex \tikzexternalcheckshellescape -halt-on-error
+-interaction=batchmode -jobname "\image" "\texsource";
+dvips -o "\image".ps "\image".dvi;
+ps2eps "\image.ps"}}
+\tikzexternalize
 
-<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">document</span>}
-<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">tikzpicture</span>}
+\begin{document}
+\begin{tikzpicture}
 [some graphic]
-<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">tikzpicture</span>}
-<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">document</span>}
+\end{tikzpicture}
+\end{document}
 </pre>
 </div>
 </div>
@@ -1527,43 +1530,43 @@ ps2eps "<span style="color: #586e75;">\image</span>.ps"}}
 </p>
 <div class="org-src-container">
 <pre class="src src-latex">
-<span style="color: #586e75;">\usetikzlibrary</span>{<span style="color: #93a1a1;">%</span>
-    arrows.meta,<span style="color: #93a1a1;">%</span>
-    calc,<span style="color: #93a1a1;">%</span>
-    fit,<span style="color: #93a1a1;">%</span>
-    patterns,<span style="color: #93a1a1;">%</span>
-    plotmarks,<span style="color: #93a1a1;">%</span>
-    shapes.geometric,<span style="color: #93a1a1;">%</span>
-    shapes.misc,<span style="color: #93a1a1;">%</span>
-    shapes.symbols,<span style="color: #93a1a1;">%</span>
-    shapes.arrows,<span style="color: #93a1a1;">%</span>
-    shapes.callouts,<span style="color: #93a1a1;">%</span>
-    <span style="color: #93a1a1;">% shapes.multipart,%</span>
-    <span style="color: #93a1a1;">% shapes.gates.logic.US,%</span>
-    <span style="color: #93a1a1;">% shapes.gates.logic.IEC,%</span>
-    <span style="color: #93a1a1;">% er,%</span>
-    <span style="color: #93a1a1;">% automata,%</span>
-    backgrounds,<span style="color: #93a1a1;">%</span>
-    chains,<span style="color: #93a1a1;">%</span>
-    topaths,<span style="color: #93a1a1;">%</span>
-    trees,<span style="color: #93a1a1;">%</span>
-    petri,<span style="color: #93a1a1;">%</span>
-    mindmap,<span style="color: #93a1a1;">%</span>
-    matrix,<span style="color: #93a1a1;">%</span>
-    <span style="color: #93a1a1;">% calendar,%</span>
-    folding,<span style="color: #93a1a1;">%</span>
-    fadings,<span style="color: #93a1a1;">%</span>
-    through,<span style="color: #93a1a1;">%</span>
-    positioning,<span style="color: #93a1a1;">%</span>
-    scopes,<span style="color: #93a1a1;">%</span>
-    decorations.fractals,<span style="color: #93a1a1;">%</span>
-    decorations.shapes,<span style="color: #93a1a1;">%</span>
-    decorations.text,<span style="color: #93a1a1;">%</span>
-    decorations.pathmorphing,<span style="color: #93a1a1;">%</span>
-    decorations.pathreplacing,<span style="color: #93a1a1;">%</span>
-    decorations.footprints,<span style="color: #93a1a1;">%</span>
-    decorations.markings,<span style="color: #93a1a1;">%</span>
-    shadows}
+\usetikzlibrary{%
+	arrows.meta,%
+	calc,%
+	fit,%
+	patterns,%
+	plotmarks,%
+	shapes.geometric,%
+	shapes.misc,%
+	shapes.symbols,%
+	shapes.arrows,%
+	shapes.callouts,%
+	% shapes.multipart,%
+	% shapes.gates.logic.US,%
+	% shapes.gates.logic.IEC,%
+	% er,%
+	% automata,%
+	backgrounds,%
+	chains,%
+	topaths,%
+	trees,%
+	petri,%
+	mindmap,%
+	matrix,%
+	% calendar,%
+	folding,%
+	fadings,%
+	through,%
+	positioning,%
+	scopes,%
+	decorations.fractals,%
+	decorations.shapes,%
+	decorations.text,%
+	decorations.pathmorphing,%
+	decorations.pathreplacing,%
+	decorations.footprints,%
+	decorations.markings,%
+	shadows}
 
 </pre>
 </div>
@@ -1604,11 +1607,11 @@ ps2eps "<span style="color: #586e75;">\image</span>.ps"}}
 </table>
 
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #586e75;">\usetikzlibrary</span>{automata}
-<span style="color: #93a1a1;">%</span><span style="color: #93a1a1;">tikzpicture</span>
-    [auto, node distance=5em]
-    <span style="color: #586e75;">\node</span> (1_1) {&#29289;&#29702;};
-    <span style="color: #586e75;">\node</span> (&#21147;&#23398;)  [above right of=1_1]  {&#21147;&#23398;};
+<pre class="src src-latex">\usetikzlibrary{automata}
+%tikzpicture
+	[auto, node distance=5em]
+	\node (1_1) {物理};
+	\node (力学)  [above right of=1_1]  {力学};
 </pre>
 </div>
 </div>
@@ -1621,17 +1624,17 @@ ps2eps "<span style="color: #586e75;">\image</span>.ps"}}
 可以画一条线,不再是直线而是波浪线或别的,也可以画大括号
 </p>
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #586e75;">\usetikzlibrary</span>{decorations.pathreplacing}
+<pre class="src src-latex">\usetikzlibrary{decorations.pathreplacing}
 
-<span style="color: #586e75;">\tikzset</span>{
+\tikzset{
 mybrace/.style={decorate,decoration={brace,aspect=#1}}
 }
 
-<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">tikzpicture</span>}
-<span style="color: #586e75;">\draw</span>[mybrace=0.5] (0,0) -- (3,1);
-<span style="color: #586e75;">\draw</span>[mybrace=0.75] (0,1) -- (3,2);
-<span style="color: #586e75;">\draw</span>[mybrace=0.25] (0,2) -- (3,3);
-<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">tikzpicture</span>}
+\begin{tikzpicture}
+\draw[mybrace=0.5] (0,0) -- (3,1);
+\draw[mybrace=0.75] (0,1) -- (3,2);
+\draw[mybrace=0.25] (0,2) -- (3,3);
+\end{tikzpicture}
 </pre>
 </div>
 </div>
@@ -1654,9 +1657,9 @@ mybrace/.style={decorate,decoration={brace,aspect=#1}}
 <code>\newcommand{命令名}[可选参数1-9]{命令内容,使用#1-#9引入参数}</code> 
 </p>
 <div class="org-src-container">
-<pre class="src src-latex">    <span style="color: #859900; font-weight: bold;">\newcommand</span>{<span style="color: #268bd2;">\commandname</span>}[<span style="color: #268bd2;">1</span>]{
-<span style="color: #268bd2;">        </span><span style="color: #268bd2;">\alpha</span><span style="color: #268bd2;"> </span><span style="color: #268bd2; font-weight: bold;">\emph</span><span style="color: #268bd2;">{</span><span style="color: #268bd2; font-style: italic;">#1</span><span style="color: #268bd2;">}</span>
-<span style="color: #268bd2;">    </span>}
+<pre class="src src-latex">\newcommand{\commandname}[1]{
+	\alpha \emph{#1}
+}
 </pre>
 </div>
 </div>
@@ -1668,9 +1671,9 @@ mybrace/.style={decorate,decoration={brace,aspect=#1}}
 与定义命令相同,只是要定义开始和结束两部分
 </p>
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\newenvironment</span>{<span style="color: #268bd2;">name</span>}[<span style="color: #268bd2;">1</span>]
-{<span style="color: #268bd2;">befor</span>}
-{<span style="color: #268bd2;">after</span>}
+<pre class="src src-latex">\newenvironment{name}[1]
+{befor}
+{after}
 </pre>
 </div>
 </div>
@@ -1684,8 +1687,8 @@ mybrace/.style={decorate,decoration={brace,aspect=#1}}
 文件名为 <code>name.sty</code> 
 </p>
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #586e75;">\ProvidesPackage</span>{name} <span style="color: #93a1a1;">%&#21253;&#21517;,&#19982;&#25991;&#20214;&#21517;&#30456;&#21516;</span>
-<span style="color: #586e75;">\RequirePackage</span>{}<span style="color: #93a1a1;">%&#24341;&#20837;&#20854;&#20182;&#23439;&#21253;</span>
+<pre class="src src-latex">\ProvidesPackage{name} %包名,与文件名相同
+\RequirePackage{}%引入其他宏包
 </pre>
 </div>
 </div>
@@ -1697,8 +1700,8 @@ mybrace/.style={decorate,decoration={brace,aspect=#1}}
 文件名为 <code>name.cls</code> 
 </p>
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #586e75;">\ProcidesClass</span>{name} <span style="color: #93a1a1;">%&#31867;&#21517;,&#19982;&#25991;&#20214;&#21517;&#30456;&#21516;</span>
-<span style="color: #586e75;">\LoadClass</span>{} <span style="color: #93a1a1;">%&#24341;&#20837;&#20854;&#20182;&#25991;&#26723;&#31867;</span>
+<pre class="src src-latex">\ProcidesClass{name} %类名,与文件名相同
+\LoadClass{} %引入其他文档类
 </pre>
 </div>
 </div>
@@ -1853,23 +1856,23 @@ mybrace/.style={decorate,decoration={brace,aspect=#1}}
 <h2 id="org3fbd157"><span class="section-number-2">8</span> LaTeX插入图片=</h2>
 <div class="outline-text-2" id="text-8">
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">figure</span>}
-    <span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">minipage</span>}{<span style="color: #586e75;">\linewidth</span>}
-    <span style="color: #859900; font-weight: bold;">\centering</span>
-    <span style="color: #586e75;">\subfloat</span>[&#22270;1]{
-        <span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">minipage</span>}{6.5cm}
-        <span style="color: #859900; font-weight: bold;">\centering</span>
-        <span style="color: #586e75;">\includegraphics</span>[width=6.5cm]{img/16}
-        <span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">minipage</span>}}
-    <span style="color: #586e75;">\subfloat</span>[&#22270;2]{
-        <span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">minipage</span>}{6.5cm}
-        <span style="color: #859900; font-weight: bold;">\centering</span>
-        <span style="color: #586e75;">\includegraphics</span>[width=6.5cm]{img/16-bode}
-        <span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">minipage</span>}}
-    <span style="color: #859900; font-weight: bold;">\caption</span>{<span style="color: #b58900;">100</span><span style="color: #6c71c4;">$</span><span style="color: #6c71c4;">\Omega</span><span style="color: #6c71c4;">$</span><span style="color: #b58900;">&#30005;&#38459;</span>}
-    <span style="color: #859900; font-weight: bold;">\label</span>{<span style="color: #268bd2; font-weight: bold;">16</span>}
-    <span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">minipage</span>}
-<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">figure</span>}
+<pre class="src src-latex">\begin{figure}
+	\begin{minipage}{\linewidth}
+	\centering
+	\subfloat[图1]{
+	    \begin{minipage}{6.5cm}
+	    \centering
+	    \includegraphics[width=6.5cm]{img/16}
+	    \end{minipage}}
+	\subfloat[图2]{
+	    \begin{minipage}{6.5cm}
+	    \centering
+	    \includegraphics[width=6.5cm]{img/16-bode}
+	    \end{minipage}}
+	\caption{100$\Omega$电阻}
+	\label{16}
+	\end{minipage}
+\end{figure}
 </pre>
 </div>
 </div>
@@ -2694,12 +2697,12 @@ mybrace/.style={decorate,decoration={brace,aspect=#1}}
 <div class="outline-text-5" id="text-9-1-6-1">
 <div class="org-src-container">
 <pre class="src src-latex">
-<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">figure</span>}
-    <span style="color: #859900; font-weight: bold;">\centering</span>
-    <span style="color: #586e75;">\includegraphics</span>[width=0.7<span style="color: #586e75;">\linewidth</span>]{a}
-    <span style="color: #859900; font-weight: bold;">\caption</span>{<span style="color: #b58900;">title</span>}
-    <span style="color: #859900; font-weight: bold;">\label</span>{<span style="color: #268bd2; font-weight: bold;">fig:a</span>}
-<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">figure</span>}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{a}
+	\caption{title}
+	\label{fig:a}
+\end{figure}
 </pre>
 </div>
 </div>
@@ -2707,13 +2710,13 @@ mybrace/.style={decorate,decoration={brace,aspect=#1}}
 <li><a id="orgf5da516"></a>子图<br />
 <div class="outline-text-5" id="text-9-1-6-2">
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\usepackage</span>{<span style="color: #268bd2;">subfig</span>}
-<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">figure</span>}
-    <span style="color: #859900; font-weight: bold;">\centering</span>
-    <span style="color: #586e75;">\subfloat</span>[title a]{<span style="color: #586e75;">\includegraphics</span>[width=0.4<span style="color: #586e75;">\linewidth</span>]{../pic/1}}<span style="color: #859900; font-weight: bold;">\qquad</span>
-    <span style="color: #586e75;">\subfloat</span>[title b]{<span style="color: #586e75;">\includegraphics</span>[width=0.4<span style="color: #586e75;">\linewidth</span>]{../pic/2}}
-    <span style="color: #859900; font-weight: bold;">\caption</span>{<span style="color: #b58900;">main title</span>}
-<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">figure</span>}
+<pre class="src src-latex">\usepackage{subfig}
+\begin{figure}
+	\centering
+	\subfloat[title a]{\includegraphics[width=0.4\linewidth]{../pic/1}}\qquad
+	\subfloat[title b]{\includegraphics[width=0.4\linewidth]{../pic/2}}
+	\caption{main title}
+\end{figure}
 </pre>
 </div>
 </div>
@@ -2907,20 +2910,20 @@ mybrace/.style={decorate,decoration={brace,aspect=#1}}
 <h3 id="org03730d6"><span class="section-number-3">10.1</span> 定制标题</h3>
 <div class="outline-text-3" id="text-10-1">
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\newcounter</span>{<span style="color: #268bd2;">mynumber</span>}
+<pre class="src src-latex">\newcounter{mynumber}
 
-<span style="color: #586e75;">\makeatletter</span>
-<span style="color: #586e75;">\setbeamertemplate</span>{subsection in toc}{
-    <span style="color: #586e75;">\leavevmode\leftskip</span>=5ex<span style="color: #93a1a1;">%</span>
-  <span style="color: #586e75;">\llap</span>{<span style="color: #93a1a1;">%</span>
-    <span style="color: #586e75;">\usebeamerfont</span>*{section number projected}<span style="color: #93a1a1;">%</span>
-    <span style="color: #586e75;">\usebeamercolor</span>[bg]{section number projected}<span style="color: #93a1a1;">%</span>
-    <span style="color: #586e75;">\vrule</span> width2.25ex height1.85ex depth.4ex<span style="color: #93a1a1;">%</span>
-    <span style="color: #586e75;">\hskip</span>-2.25ex<span style="color: #93a1a1;">%</span>
-    <span style="color: #859900; font-weight: bold;">\setcounter</span>{<span style="color: #268bd2;">mynumber</span>}{<span style="color: #268bd2;">\inserttocsubsectionnumber</span>}<span style="color: #93a1a1;">%</span>
-    <span style="color: #586e75;">\hbox</span> to2.25ex{<span style="color: #586e75;">\hfil\color</span>{fg}<span style="color: #859900; font-weight: bold;">\alph</span>{<span style="color: #268bd2;">mynumber</span>}<span style="color: #586e75;">\hfil</span>}}<span style="color: #93a1a1;">%</span>
-  <span style="color: #586e75;">\kern</span>1.25ex<span style="color: #586e75;">\inserttocsubsection\par</span>}
-<span style="color: #586e75;">\makeatother</span> 
+\makeatletter
+\setbeamertemplate{subsection in toc}{
+    \leavevmode\leftskip=5ex%
+  \llap{%
+    \usebeamerfont*{section number projected}%
+    \usebeamercolor[bg]{section number projected}%
+    \vrule width2.25ex height1.85ex depth.4ex%
+    \hskip-2.25ex%
+    \setcounter{mynumber}{\inserttocsubsectionnumber}%
+    \hbox to2.25ex{\hfil\color{fg}\alph{mynumber}\hfil}}%
+  \kern1.25ex\inserttocsubsection\par}
+\makeatother 
 </pre>
 </div>
 </div>
@@ -2930,11 +2933,11 @@ mybrace/.style={decorate,decoration={brace,aspect=#1}}
 <div class="outline-text-3" id="text-10-2">
 <div class="org-src-container">
 <pre class="src src-latex">
-<span style="color: #859900; font-weight: bold;">\begin</span>{<span style="color: #268bd2;">frame</span>}[allowframebreaks]
-<span style="color: #586e75;">\frametitle</span>{&#21442;&#32771;&#25991;&#29486;}
-<span style="color: #859900; font-weight: bold;">\bibliography</span>{<span style="color: #268bd2; font-weight: bold;">&#24320;&#39064;&#25253;&#21578;</span>}
-<span style="color: #859900; font-weight: bold;">\bibliographystyle</span>{<span style="color: #268bd2;">plain</span>}
-<span style="color: #859900; font-weight: bold;">\end</span>{<span style="color: #268bd2;">frame</span>}
+\begin{frame}[allowframebreaks]
+\frametitle{参考文献}
+\bibliography{开题报告}
+\bibliographystyle{plain}
+\end{frame}
 </pre>
 </div>
 </div>
@@ -2947,7 +2950,7 @@ mybrace/.style={decorate,decoration={brace,aspect=#1}}
 使用 <code>helvet</code> 字体,可能别的也行,但目前只知道这个可以
 </p>
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #859900; font-weight: bold;">\usepackage</span>{<span style="color: #268bd2;">helvet</span>}
+<pre class="src src-latex">\usepackage{helvet}
 </pre>
 </div>
 </div>
@@ -2956,7 +2959,7 @@ mybrace/.style={decorate,decoration={brace,aspect=#1}}
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="date">Created: 2020-12-19 Sat 14:07</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

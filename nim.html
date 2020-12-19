@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:23 -->
+<!-- 2020-12-19 Sat 14:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>nim</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -302,11 +305,11 @@ for the JavaScript code in this tag.
 <li>用 <code>dealloc</code> 释放内存</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-nim">      const size:int = 1600*1600
-      var A = cast[ptr array[0..size-1, float64]](alloc0(sizeof(float64)*size))
-      A[1] = 1.2
-      echo A[]
-      dealloc(A)
+<pre class="src src-nim">const size:int = 1600*1600
+var A = cast[ptr array[0..size-1, float64]](alloc0(sizeof(float64)*size))
+A[1] = 1.2
+echo A[]
+dealloc(A)
 </pre>
 </div>
 </div>
@@ -318,16 +321,16 @@ for the JavaScript code in this tag.
 <li>使用 <code>ref object</code> 创建自动管理的对象</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-nim">      const size:int = 1600*1600
-      type ta = ref object
-        data:array[0..size-1, float64]
+<pre class="src src-nim">const size:int = 1600*1600
+type ta = ref object
+  data:array[0..size-1, float64]
 
-      var A:ta
-      new(A)
+var A:ta
+new(A)
 
-      for i in 0..size-1:
-        A.data[i] = (float64)i
-        echo len(A.data)
+for i in 0..size-1:
+  A.data[i] = (float64)i
+  echo len(A.data)
 </pre>
 </div>
 </div>
@@ -346,17 +349,17 @@ for the JavaScript code in this tag.
 整个应用: 需要指定代码存储位置 <code>nimcache</code>, 以及头文件 <code>header</code>
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">           nim cpp --path:./src --passc:<span style="color: #2aa198;">"-I/usr/include/eigen3"</span> --nimcache:cc1 --header tests/test_matrix.nim
+<pre class="src src-bash">nim cpp --path:./src --passc:"-I/usr/include/eigen3" --nimcache:cc1 --header tests/test_matrix.nim
 </pre>
 </div></li>
 <li><p>
 链接库： 需要指定代码存储位置，无 <code>main</code> 头文件
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">           <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#21160;&#24577;&#38142;&#25509;</span>
-           nim c --noMain --noLinking --header:fib.h fib.nim
-           <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#38745;&#24577;&#38142;&#25509;</span>
-           nim c --app:staticLib --noMain --header fib.nim
+<pre class="src src-bash"># 动态链接
+nim c --noMain --noLinking --header:fib.h fib.nim
+# 静态链接
+nim c --app:staticLib --noMain --header fib.nim
 </pre>
 </div></li>
 </ol></li>
@@ -364,10 +367,10 @@ for the JavaScript code in this tag.
 编译： 需要指定代码存储位置，nim库，和编译用的其它东西
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#21333;&#32431;&#20195;&#30721;</span>
-        g++  -Ipath/to/nimcache -Ipath/to/nim/lib $<span style="color: #268bd2;">HOME</span>/.cache/nim/fib_d/*.c maths.c
-        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&#38745;&#24577;&#38142;&#25509;</span>
-        gcc -o m -Inimcache -Ipath/to/nim/lib libfib.nim.a maths.c
+<pre class="src src-bash"># 单纯代码
+g++  -Ipath/to/nimcache -Ipath/to/nim/lib $HOME/.cache/nim/fib_d/*.c maths.c
+# 静态链接
+gcc -o m -Inimcache -Ipath/to/nim/lib libfib.nim.a maths.c
 </pre>
 </div></li>
 </ol>
@@ -399,22 +402,22 @@ for the JavaScript code in this tag.
 <li>指针</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-nim">     # include lib header
-     {.passL: gorge("pkg-config --libs gsl").}
+<pre class="src src-nim"># include lib header
+{.passL: gorge("pkg-config --libs gsl").}
 
-     # functions
-     # function with multi args
-     proc printf(formatstr: cstring) {.header: "&lt;stdio.h&gt;", importc: "printf", varargs.}
-     # function with return type
-     proc gsl_sf_bessel_J0(x: cdouble): cdouble {.header: "&lt;gsl/gsl_sf_bessel.h&gt;", importc: "$1"}
+# functions
+# function with multi args
+proc printf(formatstr: cstring) {.header: "&lt;stdio.h&gt;", importc: "printf", varargs.}
+# function with return type
+proc gsl_sf_bessel_J0(x: cdouble): cdouble {.header: "&lt;gsl/gsl_sf_bessel.h&gt;", importc: "$1"}
 
-     # use
-     const x = 5.0
-     let  y:cdouble = gsl_sf_bessel_J0(x)
-     echo y
+# use
+const x = 5.0
+let  y:cdouble = gsl_sf_bessel_J0(x)
+echo y
 
-     # use without returns
-     printf("J0(%g) = %.18e\n", x, y)
+# use without returns
+printf("J0(%g) = %.18e\n", x, y)
 </pre>
 </div>
 </div>
@@ -457,41 +460,41 @@ for the JavaScript code in this tag.
 <h4 id="orge6c1e6f"><span class="section-number-4">2.3.3</span> 普通模板类</h4>
 <div class="outline-text-4" id="text-2-3-3">
 <div class="org-src-container">
-<pre class="src src-nim">      {.emit"""/*TYPESECTION*/
-      template &lt;typename T&gt;
-      class Complex{
+<pre class="src src-nim">{.emit"""/*TYPESECTION*/
+template &lt;typename T&gt;
+class Complex{
 
-      public:
-          //构造函数
-          Complex(T a, T b)
-          {
-              this-&gt;a = a;
-              this-&gt;b = b;
-          }
+public:
+    //构造函数
+    Complex(T a, T b)
+    {
+	this-&gt;a = a;
+	this-&gt;b = b;
+    }
 
-          //运算符重载
-          Complex&lt;T&gt; operator+(Complex &amp;c)
-          {
-              Complex&lt;T&gt; tmp(this-&gt;a+c.a, this-&gt;b+c.b);
-              return tmp;
-          }
+    //运算符重载
+    Complex&lt;T&gt; operator+(Complex &amp;c)
+    {
+	Complex&lt;T&gt; tmp(this-&gt;a+c.a, this-&gt;b+c.b);
+	return tmp;
+    }
 
-      T a;
-          T b;
-      };
+T a;
+    T b;
+};
 
-      """.}
+""".}
 
-      type Complex[T] {.importcpp:"Complex".} = object
-          a,b:T
+type Complex[T] {.importcpp:"Complex".} = object
+    a,b:T
 
-      proc newComplex[T](a,b:T):ptr Complex[T] {.importcpp:"new Complex&lt;'**0&gt;(@)", nodecl.}
-      proc `+`[T](a,b:Complex[T]):ptr Complex[T]{.importcpp:"&amp;(# + #)"}
-      let c= newComplex[int](1,2)
+proc newComplex[T](a,b:T):ptr Complex[T] {.importcpp:"new Complex&lt;'**0&gt;(@)", nodecl.}
+proc `+`[T](a,b:Complex[T]):ptr Complex[T]{.importcpp:"&amp;(# + #)"}
+let c= newComplex[int](1,2)
 
-      echo c[].a
-      echo c[].b
-      echo (c[] + c[]).a
+echo c[].a
+echo c[].b
+echo (c[] + c[]).a
 
 </pre>
 </div>
@@ -502,24 +505,24 @@ for the JavaScript code in this tag.
 <h4 id="org9188046"><span class="section-number-4">2.3.4</span> 数字参数模板类的构造函数</h4>
 <div class="outline-text-4" id="text-2-3-4">
 <div class="org-src-container">
-<pre class="src src-nim">      {.emit: """/*TYPESECTION*/
-      template &lt;int N, typename T&gt;
-      class AAAA {
-      public:
-        T data[N];
-        AAAA(int a){
-          this-&gt;data[0] = a;
-      }
-      };
+<pre class="src src-nim">{.emit: """/*TYPESECTION*/
+template &lt;int N, typename T&gt;
+class AAAA {
+public:
+  T data[N];
+  AAAA(int a){
+    this-&gt;data[0] = a;
+}
+};
 
-      """ .}
+""" .}
 
-      type AAAAType {.importcpp: "AAAA&lt;'0, '1&gt;".} [N: static[int]; T] = object
-          data: array[N, T]
+type AAAAType {.importcpp: "AAAA&lt;'0, '1&gt;".} [N: static[int]; T] = object
+    data: array[N, T]
 
-      proc cc[T](a:int):ptr AAAAType[1, T]{.importcpp:"new AAAA&lt;1, '1&gt;(@)", nodecl.}
+proc cc[T](a:int):ptr AAAAType[1, T]{.importcpp:"new AAAA&lt;1, '1&gt;(@)", nodecl.}
 
-      let aa = cc[int](1)
+let aa = cc[int](1)
 
 </pre>
 </div>
@@ -530,7 +533,7 @@ for the JavaScript code in this tag.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="date">Created: 2020-12-19 Sat 14:08</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

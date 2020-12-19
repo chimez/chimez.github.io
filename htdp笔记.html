@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 17:23 -->
+<!-- 2020-12-19 Sat 14:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>HtDP笔记</title>
@@ -193,12 +193,15 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/htmlize.css"/>
-<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/styles/readtheorg/css/readtheorg.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/lib/js/jquery.stickytableheaders.min.js"></script>
-<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/styles/readtheorg/js/readtheorg.js"></script>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="static/readtheorg_theme/css/readtheorg.css"/>
+<script type="text/javascript" static="static/lib/js/jquery.min.js"></script>
+<script type="text/javascript" static="static/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" static="static/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" static="static/readtheorg_theme/js/readtheorg.js"></script>
+<style> #content{max-width:1800px;}</style>
+<style> p{max-width:800px;}</style>
+<style> li{max-width:800px;}</style
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -302,8 +305,8 @@ for the JavaScript code in this tag.
 <li><a href="#orgc482e1c">3.2.1. 定义列表</a></li>
 <li><a href="#orgb05382c">3.2.2. 签名、目的陈述和函数头</a></li>
 <li><a href="#org1dae39c">3.2.3. 函数示例</a></li>
-<li><a href="#orgd377d84">3.2.4. 函数模板</a></li>
-<li><a href="#orgc75b3c3">3.2.5. 实现函数</a></li>
+<li><a href="#org58343d5">3.2.4. 函数模板</a></li>
+<li><a href="#org9b36909">3.2.5. 实现函数</a></li>
 </ul>
 </li>
 <li><a href="#org904dfb7">3.3. 集合</a></li>
@@ -314,7 +317,7 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#org944938b">4.1. 设计抽象</a>
 <ul>
-<li><a href="#org39dd60d">4.1.1. 设计步骤</a></li>
+<li><a href="#orgb46b9ea">4.1.1. 设计步骤</a></li>
 <li><a href="#org3341c8f">4.1.2. 设计通用签名</a></li>
 </ul>
 </li>
@@ -332,7 +335,7 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#orga635e6a">6.1. 设计算法</a>
 <ul>
-<li><a href="#org348ff57">6.1.1. 设计步骤</a></li>
+<li><a href="#orgdded52f">6.1.1. 设计步骤</a></li>
 <li><a href="#org14f4134">6.1.2. 终止</a></li>
 </ul>
 </li>
@@ -516,10 +519,10 @@ for the JavaScript code in this tag.
 结构体类型定义时要写清楚对应的类型和解释信息的方法，例如：
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #2aa198;">(</span>define-struct posn [x y]<span style="color: #2aa198;">)</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">A Posn is a structure: </span>
-<span style="color: #93a1a1;">;   </span><span style="color: #93a1a1;">(make-posn Number Number)</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">interpretation a point x pixels from left, y from top</span>
+<pre class="src src-lisp">(define-struct posn [x y])
+; A Posn is a structure: 
+;   (make-posn Number Number)
+; interpretation a point x pixels from left, y from top
 </pre>
 </div>
 
@@ -547,12 +550,12 @@ for the JavaScript code in this tag.
 定义字段时应该同时指出它的类型，并附带一些例子：
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #2aa198;">(</span>define-struct r3 [x y z]<span style="color: #2aa198;">)</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">An R3 is a structure:</span>
-<span style="color: #93a1a1;">;   </span><span style="color: #93a1a1;">(make-r3 Number Number Number)</span>
- 
-<span style="color: #2aa198;">(</span>define ex1 <span style="color: #b58900;">(</span>make-r3 1 2 13<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
-<span style="color: #2aa198;">(</span>define ex2 <span style="color: #b58900;">(</span>make-r3 -1 0 3<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">(define-struct r3 [x y z])
+; An R3 is a structure:
+;   (make-r3 Number Number Number)
+
+(define ex1 (make-r3 1 2 13))
+(define ex2 (make-r3 -1 0 3))
 </pre>
 </div>
 </div>
@@ -574,22 +577,22 @@ for the JavaScript code in this tag.
 </div>
 </li>
 
-<li><a id="org581510d"></a>函数模板<br />
+<li><a id="orgc65a273"></a>函数模板<br />
 <div class="outline-text-5" id="text-2-2-1-4">
 <p>
 一般来说函数总是要对结构体的每个字段进行操作的，所以可以先写下来选择器。
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">R3 -&gt; Number </span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">determines the distance of p to the origin </span>
-<span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>r3-distance-to-0 p<span style="color: #b58900;">)</span>
-  <span style="color: #b58900;">(</span>... <span style="color: #268bd2;">(</span>r3-x p<span style="color: #268bd2;">)</span> ... <span style="color: #268bd2;">(</span>r3-y p<span style="color: #268bd2;">)</span> ... <span style="color: #268bd2;">(</span>r3-z p<span style="color: #268bd2;">)</span> ...<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">; R3 -&gt; Number 
+; determines the distance of p to the origin 
+(define (r3-distance-to-0 p)
+  (... (r3-x p) ... (r3-y p) ... (r3-z p) ...))
 </pre>
 </div>
 </div>
 </li>
 
-<li><a id="org22786b1"></a>实现函数<br />
+<li><a id="org4eb4690"></a>实现函数<br />
 <div class="outline-text-5" id="text-2-2-1-5">
 <p>
 不变，注意对结构体选择器的操作。
@@ -655,7 +658,7 @@ for the JavaScript code in this tag.
 为你认为至关重要的数据类制定数据定义。
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">We use numbers to represent centimeters. </span>
+<pre class="src src-lisp">; We use numbers to represent centimeters. 
 </pre>
 </div>
 </div>
@@ -667,9 +670,9 @@ for the JavaScript code in this tag.
 函数签名是告诉读者你设计的函数要有多少个输入以及产生什么类型。
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">String -&gt; Number</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">Temperature -&gt; String</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">Number String Image -&gt; Image</span>
+<pre class="src src-lisp">; String -&gt; Number
+; Temperature -&gt; String
+; Number String Image -&gt; Image
 </pre>
 </div>
 
@@ -683,9 +686,9 @@ for the JavaScript code in this tag.
 函数头是简化的函数定义，也就是占位代码，给签名里的类型选择一个变量名。然后返回一个类型符合的东西。
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>f a-string<span style="color: #b58900;">)</span> 0<span style="color: #2aa198;">)</span>
-<span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>g n<span style="color: #b58900;">)</span> <span style="color: #2aa198;">"a"</span><span style="color: #2aa198;">)</span>
-<span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>h num str img<span style="color: #b58900;">)</span> <span style="color: #b58900;">(</span>empty-scene 100 100<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">(define (f a-string) 0)
+(define (g n) "a")
+(define (h num str img) (empty-scene 100 100))
 </pre>
 </div>
 
@@ -693,11 +696,11 @@ for the JavaScript code in this tag.
 完整示例：
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">Number String Image -&gt; Image </span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">adds s to img,</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">y pixels from the top and 10 from the left </span>
-<span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>add-image y s img<span style="color: #b58900;">)</span>
-  <span style="color: #b58900;">(</span>empty-scene 100 100<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">; Number String Image -&gt; Image 
+; adds s to img,
+; y pixels from the top and 10 from the left 
+(define (add-image y s img)
+  (empty-scene 100 100))
 </pre>
 </div>
 </div>
@@ -709,11 +712,11 @@ for the JavaScript code in this tag.
 要构建一个功能示例，请从签名的每个输入类型中选择一条数据，然后确定您希望获得的结果
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">Number -&gt; Number</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">computes the area of a square with side len </span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">given: 2, expect: 4</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">given: 7, expect: 49</span>
-<span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>area-of-square len<span style="color: #b58900;">)</span> 0<span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">; Number -&gt; Number
+; computes the area of a square with side len 
+; given: 2, expect: 4
+; given: 7, expect: 49
+(define (area-of-square len) 0)
 </pre>
 </div>
 </div>
@@ -725,8 +728,8 @@ for the JavaScript code in this tag.
 想想都有什么东西是要被计算的，简单的函数里就只有参数。还有全局变量。
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>area-of-square len<span style="color: #b58900;">)</span>
-   <span style="color: #b58900;">(</span>... len ...<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">(define (area-of-square len)
+   (... len ...))
 </pre>
 </div>
 </div>
@@ -739,12 +742,12 @@ for the JavaScript code in this tag.
 例1：
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">Number -&gt; Number</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">computes the area of a square with side len </span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">given: 2, expect: 4</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">given: 7, expect: 49</span>
-<span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>area-of-square len<span style="color: #b58900;">)</span>
-  <span style="color: #b58900;">(</span>sqr len<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">; Number -&gt; Number
+; computes the area of a square with side len 
+; given: 2, expect: 4
+; given: 7, expect: 49
+(define (area-of-square len)
+  (sqr len))
 </pre>
 </div>
 
@@ -752,17 +755,17 @@ for the JavaScript code in this tag.
 例2，设计过程：
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">Number String Image -&gt; Image</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">adds s to img, y pixels from top, 10 pixels to the left</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">given: </span>
-<span style="color: #93a1a1;">;    </span><span style="color: #93a1a1;">5 for y, </span>
-<span style="color: #93a1a1;">;    </span><span style="color: #93a1a1;">"hello" for s, and</span>
-<span style="color: #93a1a1;">;    </span><span style="color: #93a1a1;">(empty-scene 100 100) for img</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">expected: </span>
-<span style="color: #93a1a1;">;    </span><span style="color: #93a1a1;">(place-image (text "hello" 10 "red") 10 5 ...)</span>
-<span style="color: #93a1a1;">;    </span><span style="color: #93a1a1;">where ... is (empty-scene 100 100)</span>
-<span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>add-image y s img<span style="color: #b58900;">)</span>
-  <span style="color: #b58900;">(</span>place-image <span style="color: #268bd2;">(</span>text s 10 <span style="color: #2aa198;">"red"</span><span style="color: #268bd2;">)</span> 10 y img<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">; Number String Image -&gt; Image
+; adds s to img, y pixels from top, 10 pixels to the left
+; given: 
+;    5 for y, 
+;    "hello" for s, and
+;    (empty-scene 100 100) for img
+; expected: 
+;    (place-image (text "hello" 10 "red") 10 5 ...)
+;    where ... is (empty-scene 100 100)
+(define (add-image y s img)
+  (place-image (text s 10 "red") 10 y img))
 </pre>
 </div>
 </div>
@@ -897,10 +900,10 @@ for the JavaScript code in this tag.
 所以列表的定义是自引用的，例如：
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">A List-of-names is one of: </span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">&#8211; '()</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">&#8211; (cons String List-of-names)</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">interpretation a list of invitees, by last name</span>
+<pre class="src src-lisp">; A List-of-names is one of: 
+; – '()
+; – (cons String List-of-names)
+; interpretation a list of invitees, by last name
 </pre>
 </div>
 
@@ -956,20 +959,20 @@ for the JavaScript code in this tag.
 例如在列表上的搜索：
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">List-of-names -&gt; Boolean</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">determines whether "Flatt" occurs on alon</span>
-<span style="color: #2aa198;">(</span>check-expect
-  <span style="color: #b58900;">(</span>contains-flatt? <span style="color: #268bd2;">(</span>cons <span style="color: #2aa198;">"X"</span> <span style="color: #6c71c4;">(</span>cons <span style="color: #2aa198;">"Y"</span>  <span style="color: #859900;">(</span>cons <span style="color: #2aa198;">"Z"</span> '<span style="color: #b58900;">()</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-  #false<span style="color: #2aa198;">)</span>
-<span style="color: #2aa198;">(</span>check-expect
-  <span style="color: #b58900;">(</span>contains-flatt? <span style="color: #268bd2;">(</span>cons <span style="color: #2aa198;">"A"</span> <span style="color: #6c71c4;">(</span>cons <span style="color: #2aa198;">"Flatt"</span> <span style="color: #859900;">(</span>cons <span style="color: #2aa198;">"C"</span> '<span style="color: #b58900;">()</span><span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span>
-  #true<span style="color: #2aa198;">)</span>
-<span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>contains-flatt? alon<span style="color: #b58900;">)</span>
-  <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">cond</span>
-    [<span style="color: #268bd2;">(</span>empty? alon<span style="color: #268bd2;">)</span> #false]
-    [<span style="color: #268bd2;">(</span>cons? alon<span style="color: #268bd2;">)</span>
-     <span style="color: #268bd2;">(</span>or <span style="color: #6c71c4;">(</span>string=? <span style="color: #859900;">(</span>first alon<span style="color: #859900;">)</span> <span style="color: #2aa198;">"Flatt"</span><span style="color: #6c71c4;">)</span>
-         <span style="color: #6c71c4;">(</span>contains-flatt? <span style="color: #859900;">(</span>rest alon<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #cb4b16; font-weight: bold;">]</span><span style="color: #b58900; font-weight: bold;">)</span><span style="color: #2aa198; font-weight: bold;">)</span>
+<pre class="src src-lisp">; List-of-names -&gt; Boolean
+; determines whether "Flatt" occurs on alon
+(check-expect
+  (contains-flatt? (cons "X" (cons "Y"  (cons "Z" '()))))
+  #false)
+(check-expect
+  (contains-flatt? (cons "A" (cons "Flatt" (cons "C" '()))))
+  #true)
+(define (contains-flatt? alon)
+  (cond
+    [(empty? alon) #false]
+    [(cons? alon)
+     (or (string=? (first alon) "Flatt")
+	 (contains-flatt? (rest alon)))]))
 </pre>
 </div>
 </div>
@@ -1059,8 +1062,8 @@ for the JavaScript code in this tag.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd377d84" class="outline-4">
-<h4 id="orgd377d84"><span class="section-number-4">3.2.4</span> 函数模板</h4>
+<div id="outline-container-org58343d5" class="outline-4">
+<h4 id="org58343d5"><span class="section-number-4">3.2.4</span> 函数模板</h4>
 <div class="outline-text-4" id="text-3-2-4">
 <p>
 自引用数据的定义与结构体类似，因此可以用同样的步骤把结构体定义翻译成函数模板，一般来说 <code>cond</code> 语句的数量是一样多的。而且函数的结构与数据的结构应该相同，如果数据里第i项是自引用，函数里第i项也应该是自引用。
@@ -1106,8 +1109,8 @@ for the JavaScript code in this tag.
 </table>
 </div>
 </div>
-<div id="outline-container-orgc75b3c3" class="outline-4">
-<h4 id="orgc75b3c3"><span class="section-number-4">3.2.5</span> 实现函数</h4>
+<div id="outline-container-org9b36909" class="outline-4">
+<h4 id="org9b36909"><span class="section-number-4">3.2.5</span> 实现函数</h4>
 <div class="outline-text-4" id="text-3-2-5">
 <p>
 就按照模板把该填上的都填上，使用和示例里给的公式写完函数，然后就是“信仰的飞跃”，函数一定会和我们想的一样工作的，在数学上这是因为归纳法。
@@ -1179,8 +1182,8 @@ for the JavaScript code in this tag.
 <h3 id="org944938b"><span class="section-number-3">4.1</span> 设计抽象</h3>
 <div class="outline-text-3" id="text-4-1">
 </div>
-<div id="outline-container-org39dd60d" class="outline-4">
-<h4 id="org39dd60d"><span class="section-number-4">4.1.1</span> 设计步骤</h4>
+<div id="outline-container-orgb46b9ea" class="outline-4">
+<h4 id="orgb46b9ea"><span class="section-number-4">4.1.1</span> 设计步骤</h4>
 <div class="outline-text-4" id="text-4-1-1">
 <ol class="org-ol">
 <li>比较相似处:函数定义的某处相似就标记这个位置，如果多处相似，就把相似的东西写到同一行里。</li>
@@ -1205,10 +1208,10 @@ for the JavaScript code in this tag.
 例：
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">[List-of Number] -&gt; [List-of Number]</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">[List-of String] -&gt; [List-of String]</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">&#21464;&#25104;</span>
-<span style="color: #93a1a1;">; </span><span style="color: #93a1a1;">[X Y] [List-of X] -&gt; [List-of Y]</span>
+<pre class="src src-lisp">; [List-of Number] -&gt; [List-of Number]
+; [List-of String] -&gt; [List-of String]
+; 变成
+; [X Y] [List-of X] -&gt; [List-of Y]
 </pre>
 </div>
 </div>
@@ -1293,8 +1296,8 @@ for the JavaScript code in this tag.
 <h3 id="orga635e6a"><span class="section-number-3">6.1</span> 设计算法</h3>
 <div class="outline-text-3" id="text-6-1">
 </div>
-<div id="outline-container-org348ff57" class="outline-4">
-<h4 id="org348ff57"><span class="section-number-4">6.1.1</span> 设计步骤</h4>
+<div id="outline-container-orgdded52f" class="outline-4">
+<h4 id="orgdded52f"><span class="section-number-4">6.1.1</span> 设计步骤</h4>
 <div class="outline-text-4" id="text-6-1-1">
 <ol class="org-ol">
 <li>和之前一样得把问题信息表示为数据。不同的数据表示方法会影响对计算过程的思考，所以需要考虑一个合适的表示方法。</li>
@@ -1315,18 +1318,18 @@ for the JavaScript code in this tag.
 通用函数模板：
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>generative-recursive-fun problem<span style="color: #b58900;">)</span>
-  <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">cond</span>
-   [<span style="color: #268bd2;">(</span>trivially-solvable? problem<span style="color: #268bd2;">)</span>
-    <span style="color: #268bd2;">(</span>determine-solution problem<span style="color: #268bd2;">)</span>]
+<pre class="src src-lisp">(define (generative-recursive-fun problem)
+  (cond
+   [(trivially-solvable? problem)
+    (determine-solution problem)]
    [else
-    <span style="color: #268bd2;">(</span>combine-solutions
+    (combine-solutions
      ... problem ...
-     <span style="color: #6c71c4;">(</span>generative-recursive-fun
-      <span style="color: #859900;">(</span>generate-problem-1 problem<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span>
+     (generative-recursive-fun
+      (generate-problem-1 problem))
      ...
-     <span style="color: #6c71c4;">(</span>generative-recursive-fun
-      <span style="color: #859900;">(</span>generate-problem-n problem<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #cb4b16; font-weight: bold;">]</span><span style="color: #b58900; font-weight: bold;">)</span><span style="color: #2aa198; font-weight: bold;">)</span>
+     (generative-recursive-fun
+      (generate-problem-n problem)))]))
 </pre>
 </div>
 </div>
@@ -1449,13 +1452,13 @@ for the JavaScript code in this tag.
 累加器模板
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Domain -&gt; Range </span>
-<span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>function d0<span style="color: #b58900;">)</span>
-  <span style="color: #b58900;">(</span>local <span style="color: #268bd2;">(</span><span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">Domain AccuDomain -&gt; Range</span>
-          <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">accumulator ...</span>
-          <span style="color: #6c71c4;">(</span>define <span style="color: #859900;">(</span>function/a d a<span style="color: #859900;">)</span>
-            ...<span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span>
-         <span style="color: #268bd2;">(</span>function/a d0 a0<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">;; Domain -&gt; Range 
+(define (function d0)
+  (local (;; Domain AccuDomain -&gt; Range
+	  ;; accumulator ...
+	  (define (function/a d a)
+	    ...))
+	 (function/a d0 a0)))
 </pre>
 </div>
 </div>
@@ -1485,12 +1488,12 @@ for the JavaScript code in this tag.
 求和函数，普通递归版本
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">List-of-Number -&gt; Number</span>
-<span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>sum l<span style="color: #b58900;">)</span>
-  <span style="color: #b58900;">(</span><span style="color: #859900; font-weight: bold;">cond</span>
-   [<span style="color: #268bd2;">(</span>empty? l<span style="color: #268bd2;">)</span> 0]
-   [else <span style="color: #268bd2;">(</span>+ <span style="color: #6c71c4;">(</span>first l<span style="color: #6c71c4;">)</span>
-            <span style="color: #6c71c4;">(</span>sum <span style="color: #859900;">(</span>rest l<span style="color: #859900;">)</span><span style="color: #6c71c4;">)</span><span style="color: #268bd2;">)</span><span style="color: #cb4b16; font-weight: bold;">]</span><span style="color: #b58900; font-weight: bold;">)</span><span style="color: #2aa198; font-weight: bold;">)</span>
+<pre class="src src-lisp">;; List-of-Number -&gt; Number
+(define (sum l)
+  (cond
+   [(empty? l) 0]
+   [else (+ (first l)
+	    (sum (rest l)))]))
 </pre>
 </div>
 
@@ -1498,16 +1501,16 @@ for the JavaScript code in this tag.
 求和函数，累加器版本
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">List-of-Number -&gt; Number</span>
-<span style="color: #2aa198;">(</span>define <span style="color: #b58900;">(</span>sum l0<span style="color: #b58900;">)</span>
-  <span style="color: #b58900;">(</span>local <span style="color: #268bd2;">(</span><span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">[List-of-Number, Number] -&gt; Number</span>
-          <span style="color: #93a1a1;">;; </span><span style="color: #93a1a1;">accumulator</span>
-          <span style="color: #6c71c4;">(</span>define <span style="color: #859900;">(</span>sum/a l a<span style="color: #859900;">)</span>
-            <span style="color: #859900;">(</span><span style="color: #859900; font-weight: bold;">cond</span>
-             [<span style="color: #b58900;">(</span>empty? l<span style="color: #b58900;">)</span> a]
-             [else <span style="color: #b58900;">(</span>sum/a <span style="color: #268bd2;">(</span>rest l<span style="color: #268bd2;">)</span>
-                          <span style="color: #268bd2;">(</span>+ <span style="color: #6c71c4;">(</span>first l<span style="color: #6c71c4;">)</span> a<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #cb4b16; font-weight: bold;">]</span><span style="color: #859900; font-weight: bold;">)</span><span style="color: #6c71c4; font-weight: bold;">)</span><span style="color: #268bd2; font-weight: bold;">)</span>
-         <span style="color: #268bd2;">(</span>sum/a l0 0<span style="color: #268bd2;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+<pre class="src src-lisp">;; List-of-Number -&gt; Number
+(define (sum l0)
+  (local (;; [List-of-Number, Number] -&gt; Number
+	  ;; accumulator
+	  (define (sum/a l a)
+	    (cond
+	     [(empty? l) a]
+	     [else (sum/a (rest l)
+			  (+ (first l) a))])))
+	 (sum/a l0 0)))
 </pre>
 </div>
 
@@ -1521,7 +1524,7 @@ for the JavaScript code in this tag.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: chimez</p>
-<p class="date">Created: 2020-09-27 Sun 17:23</p>
+<p class="date">Created: 2020-12-19 Sat 14:07</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
