@@ -1,5 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about tools)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/cat_tools.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sat, 19 Dec 2020 08:04:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>nikola: static site generator</title><link>https://chimez.github.io/posts/nikola-static-site-generator/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgdef9274" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about tools)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/cat_tools.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Thu, 24 Dec 2020 05:05:02 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>samba 文件共享</title><link>https://chimez.github.io/posts/samba/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgf9e1121" class="outline-2"&gt;
+&lt;h2 id="orgf9e1121"&gt;Samba 基本配置&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf9e1121"&gt;
+&lt;p&gt;
+参考 &lt;a href="https://www.fosslinux.com/8703/how-to-setup-samba-file-sharing-server-on-ubuntu.htm"&gt;FossLinux 的文章&lt;/a&gt;。
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgf36e951" class="outline-3"&gt;
+&lt;h3 id="orgf36e951"&gt;安装 Samba&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf36e951"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   apt install samba
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org23c6147" class="outline-3"&gt;
+&lt;h3 id="org23c6147"&gt;添加组和用户&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org23c6147"&gt;
+&lt;p&gt;
+假定已经有一个本地用户 &lt;code&gt;mylocaluser&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 创建 smb 的组
+   /usr/sbin/addgroup smbgroup
+   # 把用户加到组里
+   /usr/sbin/usermod -aG smbgroup mylocaluser
+   # 设置用户的远程密码，可以与本地登录密码不同
+   smbpasswd -a mylocaluser
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6fc88e9" class="outline-3"&gt;
+&lt;h3 id="org6fc88e9"&gt;配置文件&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6fc88e9"&gt;
+&lt;p&gt;
+首先一定要备份一份
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   cp /etc/samba/smb.conf /etc/samba/smb.conf.backup
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+配置文件修改如下，没有的项目就加进去，已有的就修改一下
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   [global]
+
+   # 允许用户登录
+   security = user
+
+   [homes]
+
+   read only = no
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+如果要加入其它登录地址，例如 &lt;code&gt;smb://ip/newport&lt;/code&gt; 就如下配置
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   [newport]
+   path = /path/to/files
+   valid users = @smbgroup
+   guest ok = no
+   writable = yes
+   browsable = yes
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+&lt;div id="outline-container-org2657310" class="outline-2"&gt;
+&lt;h2 id="org2657310"&gt;软链接权限&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2657310"&gt;
+&lt;p&gt;
+从别处软链接过来的文件夹打不开，因为没有配置软链接的权限，只要在 &lt;code&gt;[global]&lt;/code&gt; 里加入下面的内容就行了。
+&lt;/p&gt;
+
+&lt;p&gt;
+参考：&lt;a href="https://blog.csdn.net/cityzenoldwang/article/details/61189653"&gt;这个博客&lt;/a&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  [global]
+  wide links = yes
+  symlinks = yes
+  unix extensions = no
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>linux</category><category>samba</category><guid>https://chimez.github.io/posts/samba/</guid><pubDate>Thu, 24 Dec 2020 04:37:06 GMT</pubDate></item><item><title>nikola: static site generator</title><link>https://chimez.github.io/posts/nikola-static-site-generator/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgdef9274" class="outline-2"&gt;
 &lt;h2 id="orgdef9274"&gt;Nikola: 基本用法&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-orgdef9274"&gt;
 &lt;p&gt;
