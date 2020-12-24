@@ -1,0 +1,167 @@
+<div id="outline-container-org04539e1" class="outline-2">
+<h2 id="org04539e1">systemctl: 管理服务</h2>
+<div class="outline-text-2" id="text-org04539e1">
+<ul class="org-ul">
+<li>systemd 中的服务后缀名 <code>.service</code> 可以不写，会自动补全。</li>
+<li>systemd 中把服务称作 <code>unit</code> , <code>unit</code> 有多种类型包括 <code>.service, .target</code> 等</li>
+</ul>
+</div>
+
+
+<div id="outline-container-org6699e85" class="outline-3">
+<h3 id="org6699e85">列出服务</h3>
+<div class="outline-text-3" id="text-org6699e85">
+<div class="highlight"><pre><span></span>   # 查看系统所有安装的服务项
+   systemctl list-unit-files --type=service
+
+   # 查看系统所有运行的服务项
+   systemctl list-units --type=service
+
+   # 查看系统所有开机自启动的服务项
+   systemctl list-unit-files --type=service | grep enabled
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org02a29ce" class="outline-3">
+<h3 id="org02a29ce">查看特定服务</h3>
+<div class="outline-text-3" id="text-org02a29ce">
+<div class="highlight"><pre><span></span>   # 查看指定服务项状态
+   systemctl status &lt;服务项名称&gt;
+
+   # 查看服务项的依赖关系
+   systemctl list-dependencies &lt;服务项名称&gt;
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgfb1a0ba" class="outline-3">
+<h3 id="orgfb1a0ba">查看系统状态</h3>
+<div class="outline-text-3" id="text-orgfb1a0ba">
+<div class="highlight"><pre><span></span>   # 查看系统启动耗时
+   systemd-analyze
+
+   # 查看各项服务启动耗时
+   systemd-analyze blame | grep .service
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgd3be718" class="outline-3">
+<h3 id="orgd3be718">管理服务</h3>
+<div class="outline-text-3" id="text-orgd3be718">
+<div class="highlight"><pre><span></span>   # 启动服务
+   systemctl start &lt;服务项名称&gt;
+
+   # 停止服务
+   systemctl stop &lt;服务项名称&gt;
+
+   # 重启服务
+   systemctl restart &lt;服务项名称&gt;
+
+   # 重新读取配置文件
+   # 如果该服务不能重启，但又必须使用新的配置，这条命令会很有用
+   systemctl reload &lt;服务项名称&gt;
+
+   # 使服务开机自启动
+   systemctl enable &lt;服务项名称&gt;
+
+   # 使服务不要开机自启动
+   systemctl disable &lt;服务项名称&gt;
+
+   # 禁用服务
+   # 这可以防止服务被其他服务间接启动，也无法通过 start 或 restart 命令来启动服务。
+   systemctl mask &lt;服务项名称&gt;
+
+   # 不再禁用服务
+   systemctl unmask &lt;服务项名称&gt;
+
+   # 重新读取所有服务项
+   # 修改、添加、删除服务项之后需要执行以下命令。
+   systemctl daemon-reload
+</pre></div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org4942166" class="outline-2">
+<h2 id="org4942166">编写简单的服务</h2>
+<div class="outline-text-2" id="text-org4942166">
+<p>
+服务文件都存放在 <code>/etc/systemd/system/</code> 中，后缀名为 <code>.service</code>
+</p>
+</div>
+
+<div id="outline-container-org77cbca7" class="outline-3">
+<h3 id="org77cbca7">简单的自启动脚本</h3>
+<div class="outline-text-3" id="text-org77cbca7">
+<ul class="org-ul">
+<li><code>Type=simple</code> 表示启动并一直运行</li>
+<li><code>ExecStart=/...</code> 表示要执行的命令，路径要写全</li>
+<li><code>WantedBy=multi-user.target</code> 表示当用户能登录的时候就该启动这个服务了</li>
+</ul>
+
+<div class="highlight"><pre><span></span>   [Unit]
+   Description=My Startup
+
+   [Service]
+   Type=simple
+   ExecStart=/path/to/server --server
+
+   [Install]
+   WantedBy=multi-user.target
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org45e3330" class="outline-3">
+<h3 id="org45e3330">配置自启动 jupyterlab</h3>
+<div class="outline-text-3" id="text-org45e3330">
+<p>
+<code>/etc/systemd/system/jupyterlab.service</code>
+</p>
+<div class="highlight"><pre><span></span>   # start jupyter lab
+   [Unit]
+   Description=jupyter lab
+   After=nginx.target
+
+   [Service]
+   Type=simple
+   Environment=&quot;PATH=&#39;/home/username/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games&#39;&quot; &quot;PYTHONPATH=&#39;/home/username/.local/bin:/usr/lib/python39.zip:/usr/lib/python3.9:/usr/lib/python3.9/lib-dynload:/home/username/.local/lib/python3.9/site-packages:/usr/local/lib/python3.9/dist-packages:/usr/lib/python3/dist-packages:/home/username/.local/lib/python3.9/site-packages/IPython/extensions:/home/username/.ipython&#39;&quot;
+   ExecStart=/home/username/.local/bin/jupyter lab --LabApp.app_dir=/home/username/.local/share/jupyter/lab --notebook-dir=/home/username/Projects --allow-root --config=/home/username/.jupyter/jupyter_lab_config.py
+
+   [Install]
+   WantedBy=multi-user.target
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orgb018a3a" class="outline-3">
+<h3 id="orgb018a3a">配置自动挂载</h3>
+<div class="outline-text-3" id="text-orgb018a3a">
+<p>
+配置文件路径： <code>/etc/systemd/system/path-to-dir.mount</code> 。
+</p>
+
+<p>
+注意：文件名必须是挂载路径名，例如要把 <code>/dev/sdb1</code> 挂载到 <code>/mnt/sds</code> ，配置文件应该叫做 <code>mnt-sds.mount</code>
+</p>
+
+<div class="highlight"><pre><span></span>   [Unit]
+   Description=mount 
+
+   [Mount]
+   What=/dev/sdb1
+   Where=/mnt/sds
+   Options=defaults
+
+   [Install]
+   WantedBy=local-fs.target
+</pre></div>
+</div>
+</div>
+</div>

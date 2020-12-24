@@ -1,5 +1,344 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about linux)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Thu, 24 Dec 2020 05:05:02 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>samba 文件共享</title><link>https://chimez.github.io/posts/samba/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgf9e1121" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about linux)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Thu, 24 Dec 2020 13:17:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>ssh</title><link>https://chimez.github.io/posts/ssh/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgafe7863" class="outline-2"&gt;
+&lt;h2 id="orgafe7863"&gt;SSH 端口转发&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgafe7863"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org8a3720a" class="outline-3"&gt;
+&lt;h3 id="org8a3720a"&gt;本地转发: 本地访问远程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org8a3720a"&gt;
+&lt;p&gt;
+本地转发，顾名思义就是把本地主机端口通过待登录主机端口转发到远程主机端口上去。
+&lt;/p&gt;
+
+&lt;p&gt;
+本地转发通过参数 -L 指定，格式：-L [本地主机:]本地主机端口:远程网络主机:远程网络主机端口。加上ssh待登录主机，这里就有了三台主机。
+&lt;/p&gt;
+
+&lt;p&gt;
+举例：~ssh -L 0.0.0.0:50000:host2:80 user@host1~ 。这条命令将host2的80端口映射到本地的50000端口，前提是待登录主机host1上可以正常连接到host2的80端口。
+&lt;/p&gt;
+
+&lt;p&gt;
+畅想一下这个功能的作用：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;因为本地的mysql更顺手，想用本地的mysql客户端命令连接受限网络环境的mysql服务端。&lt;/li&gt;
+&lt;li&gt;本地安装了开发工具，想用这个开发工具连接受限网络环境中某个服务的远程调试端口。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6db3198" class="outline-3"&gt;
+&lt;h3 id="org6db3198"&gt;远程转发: 远程访问本地&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6db3198"&gt;
+&lt;p&gt;
+远程转发是指把登录主机所在网络中某个端口通过本地主机端口转发到远程主机上。
+&lt;/p&gt;
+
+&lt;p&gt;
+远程转发通过参数 -R 指定，格式：-R [登录主机:]登录主机端口:本地网络主机:本地网络主机端口。
+&lt;/p&gt;
+
+&lt;p&gt;
+举例：~ssh -R 0.0.0.0:8080:host2:80 user@host1~ 。这条命令将host2的80端口映射到待登录主机host1的8080端口，前提是本地主机可以正常连接host2的80端口。
+&lt;/p&gt;
+
+&lt;p&gt;
+畅想一下这个功能的作用：
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;本地网络中有一个http代理，通过这个代理可以上外网，因此通过这条命令将这个http代理映射到待登录主机的某个端口，这样受限网络环境中所有其它服务器即可使用这个http代理上外网了。&lt;/li&gt;
+&lt;li&gt;在本机开发了一个web应用，想拿给别人测试，但现在你却处在内网，外网是无法直接访问内网的主机的，怎么办！？很多人可能会说，找台有公网IP的主机，重新部署一下就行了。这样可行，但太麻烦。然而自从你了解了ssh的远程转发之后，一切都变得简单了。只需在本地主机上执行一下上面例子的命令即可实现外网访问内网的web应用。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+注意：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;sshd&lt;sub&gt;config里要打开AllowTcpForwarding选项&lt;/sub&gt;，否则-R远程端口转发会失败。&lt;/li&gt;
+&lt;li&gt;默认转发到远程主机上的端口绑定的是127.0.0.1，如要绑定0.0.0.0需要打开sshd&lt;sub&gt;config里的GatewayPorts选项&lt;/sub&gt;。这个选项如果由于权限没法打开也有办法，可配合ssh -L将端口绑定到0.0.0.0，聪明的你应该能想到办法，呵呵。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org409963c" class="outline-3"&gt;
+&lt;h3 id="org409963c"&gt;动态转发&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org409963c"&gt;
+&lt;p&gt;
+相对于本地转发和远程转发的单一端口转发模式而言，动态转发有点更加强劲的端口转发功能，即是无需固定指定被访问目标主机的端口号。这个端口号需要在本地通过协议指定，该协议就是简单、安全、实用的 SOCKS 协议。
+&lt;/p&gt;
+
+&lt;p&gt;
+动态转发通过参数 -D 指定，格式：-D [本地主机:]本地主机端口。相对于前两个来说，动态转发无需再指定远程主机及其端口。它们由通过 SOCKS协议 连接到本地主机端口的那个主机。
+&lt;/p&gt;
+
+&lt;p&gt;
+举例：~ssh -D 50000 user@host1~ 。这条命令创建了一个SOCKS代理，所以通过该SOCKS代理发出的数据包将经过host1转发出去。
+&lt;/p&gt;
+
+&lt;p&gt;
+怎么使用？
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;用firefox浏览器，在浏览器里设置使用socks5代理127.0.0.1:50000，然后浏览器就可以访问host1所在网络内的任何IP了。&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+如果是普通命令行应用，使用proxychains-ng，参考命令如下：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;      brew install proxychains-ng
+      vim /usr/local/etc/proxychains.conf # 在ProxyList配置段下添加配置 "socks5 	127.0.0.1 50000"
+      proxychains-ng wget http://host2 # 在其它命令行前添加proxychains-ng即可
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+如果是ssh，则用以下命令使用socks5代理：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;      ssh -o ProxyCommand='/usr/bin/nc -X 5 -x 127.0.0.1:5000 %h %p' user@host2
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+畅想一下这个功能的作用：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;想访问受限网络环境中的多种服务&lt;/li&gt;
+&lt;li&gt;FQ&lt;/li&gt;
+&lt;li&gt;……&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org62f0719" class="outline-2"&gt;
+&lt;h2 id="org62f0719"&gt;免密码登录&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org62f0719"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6c7a4d4" class="outline-3"&gt;
+&lt;h3 id="org6c7a4d4"&gt;在本地机器生成密钥对&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6c7a4d4"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ssh-keygen -t rsa
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+根据提示设置文件名和密码
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge364648" class="outline-3"&gt;
+&lt;h3 id="orge364648"&gt;授权登录&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge364648"&gt;
+&lt;p&gt;
+将公钥追加到目标服务器的 &lt;code&gt;$HOME/.ssh/authorized_keys&lt;/code&gt; 文件中，该文件的权限应为 &lt;code&gt;600&lt;/code&gt; ， &lt;code&gt;.ssh&lt;/code&gt; 目录权限应为 &lt;code&gt;700&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   touch ~/.ssh/authorized_keys
+   chmod 600 ~/.ssh/authorized_keys
+   cat ~/.ssh/a_rsa.pub &amp;gt;&amp;gt; ~/.ssh/authorized_keys
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+测试一下
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ssh username@localhost
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org8b39acc" class="outline-2"&gt;
+&lt;h2 id="org8b39acc"&gt;配置别名&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8b39acc"&gt;
+&lt;p&gt;
+在 &lt;code&gt;~/.ssh/config&lt;/code&gt; 中配置别名，就不用记 ip 了。
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  # 指定使用 bash 登录
+  Host thbash
+      HostName 10.0.0.101
+      User username
+      RequestTTY yes
+      RemoteCommand bash
+
+  # 指定使用 zsh 登录
+  Host th
+      HostName 10.0.0.101
+      User username
+      RequestTTY yes
+      RemoteCommand zsh
+
+  # 最基本的设置
+  Host group1
+      Hostname 10.0.5.90
+      User username
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>linux</category><category>ssh</category><guid>https://chimez.github.io/posts/ssh/</guid><pubDate>Thu, 24 Dec 2020 13:07:46 GMT</pubDate></item><item><title>systemd</title><link>https://chimez.github.io/posts/systemd/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org04539e1" class="outline-2"&gt;
+&lt;h2 id="org04539e1"&gt;systemctl: 管理服务&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org04539e1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;systemd 中的服务后缀名 &lt;code&gt;.service&lt;/code&gt; 可以不写，会自动补全。&lt;/li&gt;
+&lt;li&gt;systemd 中把服务称作 &lt;code&gt;unit&lt;/code&gt; , &lt;code&gt;unit&lt;/code&gt; 有多种类型包括 &lt;code&gt;.service, .target&lt;/code&gt; 等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org6699e85" class="outline-3"&gt;
+&lt;h3 id="org6699e85"&gt;列出服务&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6699e85"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 查看系统所有安装的服务项
+   systemctl list-unit-files --type=service
+
+   # 查看系统所有运行的服务项
+   systemctl list-units --type=service
+
+   # 查看系统所有开机自启动的服务项
+   systemctl list-unit-files --type=service | grep enabled
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org02a29ce" class="outline-3"&gt;
+&lt;h3 id="org02a29ce"&gt;查看特定服务&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org02a29ce"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 查看指定服务项状态
+   systemctl status &amp;lt;服务项名称&amp;gt;
+
+   # 查看服务项的依赖关系
+   systemctl list-dependencies &amp;lt;服务项名称&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfb1a0ba" class="outline-3"&gt;
+&lt;h3 id="orgfb1a0ba"&gt;查看系统状态&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfb1a0ba"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 查看系统启动耗时
+   systemd-analyze
+
+   # 查看各项服务启动耗时
+   systemd-analyze blame | grep .service
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd3be718" class="outline-3"&gt;
+&lt;h3 id="orgd3be718"&gt;管理服务&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd3be718"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 启动服务
+   systemctl start &amp;lt;服务项名称&amp;gt;
+
+   # 停止服务
+   systemctl stop &amp;lt;服务项名称&amp;gt;
+
+   # 重启服务
+   systemctl restart &amp;lt;服务项名称&amp;gt;
+
+   # 重新读取配置文件
+   # 如果该服务不能重启，但又必须使用新的配置，这条命令会很有用
+   systemctl reload &amp;lt;服务项名称&amp;gt;
+
+   # 使服务开机自启动
+   systemctl enable &amp;lt;服务项名称&amp;gt;
+
+   # 使服务不要开机自启动
+   systemctl disable &amp;lt;服务项名称&amp;gt;
+
+   # 禁用服务
+   # 这可以防止服务被其他服务间接启动，也无法通过 start 或 restart 命令来启动服务。
+   systemctl mask &amp;lt;服务项名称&amp;gt;
+
+   # 不再禁用服务
+   systemctl unmask &amp;lt;服务项名称&amp;gt;
+
+   # 重新读取所有服务项
+   # 修改、添加、删除服务项之后需要执行以下命令。
+   systemctl daemon-reload
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+&lt;div id="outline-container-org4942166" class="outline-2"&gt;
+&lt;h2 id="org4942166"&gt;编写简单的服务&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4942166"&gt;
+&lt;p&gt;
+服务文件都存放在 &lt;code&gt;/etc/systemd/system/&lt;/code&gt; 中，后缀名为 &lt;code&gt;.service&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org77cbca7" class="outline-3"&gt;
+&lt;h3 id="org77cbca7"&gt;简单的自启动脚本&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org77cbca7"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;Type=simple&lt;/code&gt; 表示启动并一直运行&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ExecStart=/...&lt;/code&gt; 表示要执行的命令，路径要写全&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WantedBy=multi-user.target&lt;/code&gt; 表示当用户能登录的时候就该启动这个服务了&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   [Unit]
+   Description=My Startup
+
+   [Service]
+   Type=simple
+   ExecStart=/path/to/server --server
+
+   [Install]
+   WantedBy=multi-user.target
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org45e3330" class="outline-3"&gt;
+&lt;h3 id="org45e3330"&gt;配置自启动 jupyterlab&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org45e3330"&gt;
+&lt;p&gt;
+&lt;code&gt;/etc/systemd/system/jupyterlab.service&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # start jupyter lab
+   [Unit]
+   Description=jupyter lab
+   After=nginx.target
+
+   [Service]
+   Type=simple
+   Environment="PATH='/home/username/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games'" "PYTHONPATH='/home/username/.local/bin:/usr/lib/python39.zip:/usr/lib/python3.9:/usr/lib/python3.9/lib-dynload:/home/username/.local/lib/python3.9/site-packages:/usr/local/lib/python3.9/dist-packages:/usr/lib/python3/dist-packages:/home/username/.local/lib/python3.9/site-packages/IPython/extensions:/home/username/.ipython'"
+   ExecStart=/home/username/.local/bin/jupyter lab --LabApp.app_dir=/home/username/.local/share/jupyter/lab --notebook-dir=/home/username/Projects --allow-root --config=/home/username/.jupyter/jupyter_lab_config.py
+
+   [Install]
+   WantedBy=multi-user.target
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgb018a3a" class="outline-3"&gt;
+&lt;h3 id="orgb018a3a"&gt;配置自动挂载&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb018a3a"&gt;
+&lt;p&gt;
+配置文件路径： &lt;code&gt;/etc/systemd/system/path-to-dir.mount&lt;/code&gt; 。
+&lt;/p&gt;
+
+&lt;p&gt;
+注意：文件名必须是挂载路径名，例如要把 &lt;code&gt;/dev/sdb1&lt;/code&gt; 挂载到 &lt;code&gt;/mnt/sds&lt;/code&gt; ，配置文件应该叫做 &lt;code&gt;mnt-sds.mount&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   [Unit]
+   Description=mount 
+
+   [Mount]
+   What=/dev/sdb1
+   Where=/mnt/sds
+   Options=defaults
+
+   [Install]
+   WantedBy=local-fs.target
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>linux</category><guid>https://chimez.github.io/posts/systemd/</guid><pubDate>Thu, 24 Dec 2020 11:55:29 GMT</pubDate></item><item><title>samba 文件共享</title><link>https://chimez.github.io/posts/samba/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgf9e1121" class="outline-2"&gt;
 &lt;h2 id="orgf9e1121"&gt;Samba 基本配置&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-orgf9e1121"&gt;
 &lt;p&gt;

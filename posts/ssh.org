@@ -1,0 +1,115 @@
+#+BEGIN_COMMENT
+.. title: ssh
+.. slug: ssh
+.. date: 2020-12-24 21:07:46 UTC+08:00
+.. tags: linux, ssh
+.. category: tools
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+* SSH 端口转发
+  
+** 本地转发: 本地访问远程
+   本地转发，顾名思义就是把本地主机端口通过待登录主机端口转发到远程主机端口上去。
+
+   本地转发通过参数 -L 指定，格式：-L [本地主机:]本地主机端口:远程网络主机:远程网络主机端口。加上ssh待登录主机，这里就有了三台主机。
+
+   举例：~ssh -L 0.0.0.0:50000:host2:80 user@host1~ 。这条命令将host2的80端口映射到本地的50000端口，前提是待登录主机host1上可以正常连接到host2的80端口。
+
+   畅想一下这个功能的作用：
+   1. 因为本地的mysql更顺手，想用本地的mysql客户端命令连接受限网络环境的mysql服务端。
+   2. 本地安装了开发工具，想用这个开发工具连接受限网络环境中某个服务的远程调试端口。
+
+** 远程转发: 远程访问本地
+   远程转发是指把登录主机所在网络中某个端口通过本地主机端口转发到远程主机上。
+
+   远程转发通过参数 -R 指定，格式：-R [登录主机:]登录主机端口:本地网络主机:本地网络主机端口。
+
+   举例：~ssh -R 0.0.0.0:8080:host2:80 user@host1~ 。这条命令将host2的80端口映射到待登录主机host1的8080端口，前提是本地主机可以正常连接host2的80端口。
+
+   畅想一下这个功能的作用：
+
+   1. 本地网络中有一个http代理，通过这个代理可以上外网，因此通过这条命令将这个http代理映射到待登录主机的某个端口，这样受限网络环境中所有其它服务器即可使用这个http代理上外网了。
+   2. 在本机开发了一个web应用，想拿给别人测试，但现在你却处在内网，外网是无法直接访问内网的主机的，怎么办！？很多人可能会说，找台有公网IP的主机，重新部署一下就行了。这样可行，但太麻烦。然而自从你了解了ssh的远程转发之后，一切都变得简单了。只需在本地主机上执行一下上面例子的命令即可实现外网访问内网的web应用。
+
+   注意：
+   1. sshd_config里要打开AllowTcpForwarding选项，否则-R远程端口转发会失败。
+   2. 默认转发到远程主机上的端口绑定的是127.0.0.1，如要绑定0.0.0.0需要打开sshd_config里的GatewayPorts选项。这个选项如果由于权限没法打开也有办法，可配合ssh -L将端口绑定到0.0.0.0，聪明的你应该能想到办法，呵呵。
+
+** 动态转发
+   相对于本地转发和远程转发的单一端口转发模式而言，动态转发有点更加强劲的端口转发功能，即是无需固定指定被访问目标主机的端口号。这个端口号需要在本地通过协议指定，该协议就是简单、安全、实用的 SOCKS 协议。
+
+   动态转发通过参数 -D 指定，格式：-D [本地主机:]本地主机端口。相对于前两个来说，动态转发无需再指定远程主机及其端口。它们由通过 SOCKS协议 连接到本地主机端口的那个主机。
+
+   举例：~ssh -D 50000 user@host1~ 。这条命令创建了一个SOCKS代理，所以通过该SOCKS代理发出的数据包将经过host1转发出去。
+
+   怎么使用？
+
+   1. 用firefox浏览器，在浏览器里设置使用socks5代理127.0.0.1:50000，然后浏览器就可以访问host1所在网络内的任何IP了。
+   2. 如果是普通命令行应用，使用proxychains-ng，参考命令如下：
+      #+begin_src bash
+brew install proxychains-ng
+vim /usr/local/etc/proxychains.conf # 在ProxyList配置段下添加配置 "socks5 	127.0.0.1 50000"
+proxychains-ng wget http://host2 # 在其它命令行前添加proxychains-ng即可
+      #+end_src 
+   3. 如果是ssh，则用以下命令使用socks5代理：
+      #+begin_src bash
+ssh -o ProxyCommand='/usr/bin/nc -X 5 -x 127.0.0.1:5000 %h %p' user@host2
+      #+end_src
+
+   畅想一下这个功能的作用：
+   1. 想访问受限网络环境中的多种服务
+   2. FQ
+   3. ……
+
+      
+* 免密码登录
+  
+** 在本地机器生成密钥对
+   #+begin_src bash
+ssh-keygen -t rsa
+   #+end_src 
+   根据提示设置文件名和密码
+
+** 授权登录
+   将公钥追加到目标服务器的 ~$HOME/.ssh/authorized_keys~ 文件中，该文件的权限应为 ~600~ ， ~.ssh~ 目录权限应为 ~700~
+   #+begin_src bash
+touch ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+cat ~/.ssh/a_rsa.pub >> ~/.ssh/authorized_keys
+   #+end_src
+
+   测试一下
+   #+begin_src bash
+ssh username@localhost
+   #+end_src 
+
+* 配置别名
+  在 ~~/.ssh/config~ 中配置别名，就不用记 ip 了。
+  
+  #+BEGIN_SRC conf
+# 指定使用 bash 登录
+Host thbash
+    HostName 10.0.0.101
+    User username
+    RequestTTY yes
+    RemoteCommand bash
+
+# 指定使用 zsh 登录
+Host th
+    HostName 10.0.0.101
+    User username
+    RequestTTY yes
+    RemoteCommand zsh
+
+# 最基本的设置
+Host group1
+    Hostname 10.0.5.90
+    User username
+
+  #+END_SRC
+
