@@ -5,7 +5,7 @@ STOP_RENDERING = runtime.STOP_RENDERING
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 10
-_modified_time = 1608644357.1501286
+_modified_time = 1608786472.5710013
 _enable_loop = True
 _template_filename = '/home/beaconwsl/app/base/lib/python3.9/site-packages/nikola/data/themes/bootstrap4/templates/pagination_helper.tmpl'
 _template_uri = 'pagination_helper.tmpl'
@@ -29,8 +29,8 @@ def render_page_navigation(context,current_page,page_links,prevlink,nextlink,pre
     try:
         abs = context.get('abs', UNDEFINED)
         len = context.get('len', UNDEFINED)
-        enumerate = context.get('enumerate', UNDEFINED)
         messages = context.get('messages', UNDEFINED)
+        enumerate = context.get('enumerate', UNDEFINED)
         __M_writer = context.writer()
         __M_writer('\n<nav aria-label="Page navigation">\n  <ul class="pagination">\n')
         if prev_next_links_reversed:

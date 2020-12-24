@@ -1,0 +1,88 @@
+<div id="outline-container-orgf9e1121" class="outline-2">
+<h2 id="orgf9e1121">Samba 基本配置</h2>
+<div class="outline-text-2" id="text-orgf9e1121">
+<p>
+参考 <a href="https://www.fosslinux.com/8703/how-to-setup-samba-file-sharing-server-on-ubuntu.htm">FossLinux 的文章</a>。
+</p>
+</div>
+
+
+<div id="outline-container-orgf36e951" class="outline-3">
+<h3 id="orgf36e951">安装 Samba</h3>
+<div class="outline-text-3" id="text-orgf36e951">
+<div class="highlight"><pre><span></span>   apt install samba
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org23c6147" class="outline-3">
+<h3 id="org23c6147">添加组和用户</h3>
+<div class="outline-text-3" id="text-org23c6147">
+<p>
+假定已经有一个本地用户 <code>mylocaluser</code>
+</p>
+<div class="highlight"><pre><span></span>   # 创建 smb 的组
+   /usr/sbin/addgroup smbgroup
+   # 把用户加到组里
+   /usr/sbin/usermod -aG smbgroup mylocaluser
+   # 设置用户的远程密码，可以与本地登录密码不同
+   smbpasswd -a mylocaluser
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org6fc88e9" class="outline-3">
+<h3 id="org6fc88e9">配置文件</h3>
+<div class="outline-text-3" id="text-org6fc88e9">
+<p>
+首先一定要备份一份
+</p>
+<div class="highlight"><pre><span></span>   cp /etc/samba/smb.conf /etc/samba/smb.conf.backup
+</pre></div>
+
+<p>
+配置文件修改如下，没有的项目就加进去，已有的就修改一下
+</p>
+<div class="highlight"><pre><span></span>   [global]
+
+   # 允许用户登录
+   security = user
+
+   [homes]
+
+   read only = no
+</pre></div>
+
+<p>
+如果要加入其它登录地址，例如 <code>smb://ip/newport</code> 就如下配置
+</p>
+<div class="highlight"><pre><span></span>   [newport]
+   path = /path/to/files
+   valid users = @smbgroup
+   guest ok = no
+   writable = yes
+   browsable = yes
+</pre></div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org2657310" class="outline-2">
+<h2 id="org2657310">软链接权限</h2>
+<div class="outline-text-2" id="text-org2657310">
+<p>
+从别处软链接过来的文件夹打不开，因为没有配置软链接的权限，只要在 <code>[global]</code> 里加入下面的内容就行了。
+</p>
+
+<p>
+参考：<a href="https://blog.csdn.net/cityzenoldwang/article/details/61189653">这个博客</a>
+</p>
+<div class="highlight"><pre><span></span>  [global]
+  wide links = yes
+  symlinks = yes
+  unix extensions = no
+</pre></div>
+</div>
+</div>

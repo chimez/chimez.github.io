@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>samba 文件共享 | chimez's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://chimez.github.io/posts/samba/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
+<link rel="prev" href="../exact-diagonalization/" title="Exact Diagonalization" type="text/html">
+<meta property="og:site_name" content="chimez's blog">
+<meta property="og:title" content="samba 文件共享">
+<meta property="og:url" content="https://chimez.github.io/posts/samba/">
+<meta property="og:description" content="Samba 基本配置
+
+
+参考 FossLinux 的文章。
+
+
+
+
+
+安装 Samba
+
+   apt install samba
+
+
+
+
+
+添加组和用户
+
+
+假定已经有一个本地用户 mylocaluser
+
+   # 创建 smb 的组
+   /usr/sbin/addgroup smbgroup
+   # 把用户加到组里
+   /usr/sbin/usermod -aG smbgroup m">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-12-24T12:37:06+08:00">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="samba">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">chimez's blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">samba 文件共享</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    chimez
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-12-24T12:37:06+08:00" itemprop="datePublished" title="2020-12-24 12:37">2020-12-24 12:37</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-orgf9e1121" class="outline-2">
+<h2 id="orgf9e1121">Samba 基本配置</h2>
+<div class="outline-text-2" id="text-orgf9e1121">
+<p>
+参考 <a href="https://www.fosslinux.com/8703/how-to-setup-samba-file-sharing-server-on-ubuntu.htm">FossLinux 的文章</a>。
+</p>
+</div>
+
+
+<div id="outline-container-orgf36e951" class="outline-3">
+<h3 id="orgf36e951">安装 Samba</h3>
+<div class="outline-text-3" id="text-orgf36e951">
+<div class="highlight"><pre><span></span>   apt install samba
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org23c6147" class="outline-3">
+<h3 id="org23c6147">添加组和用户</h3>
+<div class="outline-text-3" id="text-org23c6147">
+<p>
+假定已经有一个本地用户 <code>mylocaluser</code>
+</p>
+<div class="highlight"><pre><span></span>   # 创建 smb 的组
+   /usr/sbin/addgroup smbgroup
+   # 把用户加到组里
+   /usr/sbin/usermod -aG smbgroup mylocaluser
+   # 设置用户的远程密码，可以与本地登录密码不同
+   smbpasswd -a mylocaluser
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org6fc88e9" class="outline-3">
+<h3 id="org6fc88e9">配置文件</h3>
+<div class="outline-text-3" id="text-org6fc88e9">
+<p>
+首先一定要备份一份
+</p>
+<div class="highlight"><pre><span></span>   cp /etc/samba/smb.conf /etc/samba/smb.conf.backup
+</pre></div>
+
+<p>
+配置文件修改如下，没有的项目就加进去，已有的就修改一下
+</p>
+<div class="highlight"><pre><span></span>   [global]
+
+   # 允许用户登录
+   security = user
+
+   [homes]
+
+   read only = no
+</pre></div>
+
+<p>
+如果要加入其它登录地址，例如 <code>smb://ip/newport</code> 就如下配置
+</p>
+<div class="highlight"><pre><span></span>   [newport]
+   path = /path/to/files
+   valid users = @smbgroup
+   guest ok = no
+   writable = yes
+   browsable = yes
+</pre></div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org2657310" class="outline-2">
+<h2 id="org2657310">软链接权限</h2>
+<div class="outline-text-2" id="text-org2657310">
+<p>
+从别处软链接过来的文件夹打不开，因为没有配置软链接的权限，只要在 <code>[global]</code> 里加入下面的内容就行了。
+</p>
+
+<p>
+参考：<a href="https://blog.csdn.net/cityzenoldwang/article/details/61189653">这个博客</a>
+</p>
+<div class="highlight"><pre><span></span>  [global]
+  wide links = yes
+  symlinks = yes
+  unix extensions = no
+</pre></div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
+            <li><a class="tag p-category" href="../../categories/samba/" rel="tag">samba</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../exact-diagonalization/" rel="prev" title="Exact Diagonalization">Previous post</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2020         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>
