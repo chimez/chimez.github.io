@@ -1,0 +1,147 @@
+#+BEGIN_COMMENT
+.. title: systemd
+.. slug: systemd
+.. date: 2020-12-24 19:55:29 UTC+08:00
+.. tags: linux
+.. category: tools
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* systemctl: 管理服务
+
+  - systemd 中的服务后缀名 ~.service~ 可以不写，会自动补全。
+  - systemd 中把服务称作 ~unit~ , ~unit~ 有多种类型包括 ~.service, .target~ 等 
+  
+  
+** 列出服务
+
+   #+begin_src bash
+# 查看系统所有安装的服务项
+systemctl list-unit-files --type=service
+
+# 查看系统所有运行的服务项
+systemctl list-units --type=service
+
+# 查看系统所有开机自启动的服务项
+systemctl list-unit-files --type=service | grep enabled
+   #+end_src 
+   
+** 查看特定服务
+   #+begin_src bash
+# 查看指定服务项状态
+systemctl status <服务项名称>
+
+# 查看服务项的依赖关系
+systemctl list-dependencies <服务项名称>
+
+   #+end_src    
+
+** 查看系统状态
+
+   #+begin_src bash
+# 查看系统启动耗时
+systemd-analyze
+
+# 查看各项服务启动耗时
+systemd-analyze blame | grep .service
+   #+end_src  
+  
+** 管理服务
+   
+   #+begin_src bash
+# 启动服务
+systemctl start <服务项名称>
+
+# 停止服务
+systemctl stop <服务项名称>
+
+# 重启服务
+systemctl restart <服务项名称>
+
+# 重新读取配置文件
+# 如果该服务不能重启，但又必须使用新的配置，这条命令会很有用
+systemctl reload <服务项名称>
+
+# 使服务开机自启动
+systemctl enable <服务项名称>
+
+# 使服务不要开机自启动
+systemctl disable <服务项名称>
+
+# 禁用服务
+# 这可以防止服务被其他服务间接启动，也无法通过 start 或 restart 命令来启动服务。
+systemctl mask <服务项名称>
+
+# 不再禁用服务
+systemctl unmask <服务项名称>
+
+# 重新读取所有服务项
+# 修改、添加、删除服务项之后需要执行以下命令。
+systemctl daemon-reload
+
+   #+end_src 
+
+
+   
+* 编写简单的服务
+  服务文件都存放在 ~/etc/systemd/system/~ 中，后缀名为 ~.service~
+
+** 简单的自启动脚本
+   - ~Type=simple~ 表示启动并一直运行
+   - ~ExecStart=/...~ 表示要执行的命令，路径要写全
+   - ~WantedBy=multi-user.target~ 表示当用户能登录的时候就该启动这个服务了
+   
+   #+begin_src conf
+[Unit]
+Description=My Startup
+
+[Service]
+Type=simple
+ExecStart=/path/to/server --server
+
+[Install]
+WantedBy=multi-user.target
+   #+end_src 
+
+   
+** 配置自启动 jupyterlab
+   ~/etc/systemd/system/jupyterlab.service~
+   #+BEGIN_SRC conf
+# start jupyter lab
+[Unit]
+Description=jupyter lab
+After=nginx.target
+
+[Service]
+Type=simple
+Environment="PATH='/home/username/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games'" "PYTHONPATH='/home/username/.local/bin:/usr/lib/python39.zip:/usr/lib/python3.9:/usr/lib/python3.9/lib-dynload:/home/username/.local/lib/python3.9/site-packages:/usr/local/lib/python3.9/dist-packages:/usr/lib/python3/dist-packages:/home/username/.local/lib/python3.9/site-packages/IPython/extensions:/home/username/.ipython'"
+ExecStart=/home/username/.local/bin/jupyter lab --LabApp.app_dir=/home/username/.local/share/jupyter/lab --notebook-dir=/home/username/Projects --allow-root --config=/home/username/.jupyter/jupyter_lab_config.py
+
+[Install]
+WantedBy=multi-user.target
+   #+END_SRC
+
+   
+** 配置自动挂载
+   配置文件路径： ~/etc/systemd/system/path-to-dir.mount~ 。
+
+   注意：文件名必须是挂载路径名，例如要把 ~/dev/sdb1~ 挂载到 ~/mnt/sds~ ，配置文件应该叫做 ~mnt-sds.mount~
+
+   #+BEGIN_SRC conf
+[Unit]
+Description=mount 
+
+[Mount]
+What=/dev/sdb1
+Where=/mnt/sds
+Options=defaults
+
+[Install]
+WantedBy=local-fs.target
+   #+END_SRC
+
+   
+   

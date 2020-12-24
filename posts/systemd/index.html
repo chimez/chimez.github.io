@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>systemd | chimez's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://chimez.github.io/posts/systemd/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
+<link rel="prev" href="../samba/" title="samba 文件共享" type="text/html">
+<link rel="next" href="../ssh/" title="ssh" type="text/html">
+<meta property="og:site_name" content="chimez's blog">
+<meta property="og:title" content="systemd">
+<meta property="og:url" content="https://chimez.github.io/posts/systemd/">
+<meta property="og:description" content="systemctl: 管理服务
+
+
+systemd 中的服务后缀名 .service 可以不写，会自动补全。
+systemd 中把服务称作 unit , unit 有多种类型包括 .service, .target 等
+
+
+
+
+
+列出服务
+
+   # 查看系统所有安装的服务项
+   systemctl list-unit-files --type=service
+
+   # 查看系统所有运行的服务">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-12-24T19:55:29+08:00">
+<meta property="article:tag" content="linux">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">chimez's blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">systemd</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    chimez
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2020-12-24T19:55:29+08:00" itemprop="datePublished" title="2020-12-24 19:55">2020-12-24 19:55</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-org04539e1" class="outline-2">
+<h2 id="org04539e1">systemctl: 管理服务</h2>
+<div class="outline-text-2" id="text-org04539e1">
+<ul class="org-ul">
+<li>systemd 中的服务后缀名 <code>.service</code> 可以不写，会自动补全。</li>
+<li>systemd 中把服务称作 <code>unit</code> , <code>unit</code> 有多种类型包括 <code>.service, .target</code> 等</li>
+</ul>
+</div>
+
+
+<div id="outline-container-org6699e85" class="outline-3">
+<h3 id="org6699e85">列出服务</h3>
+<div class="outline-text-3" id="text-org6699e85">
+<div class="highlight"><pre><span></span>   # 查看系统所有安装的服务项
+   systemctl list-unit-files --type=service
+
+   # 查看系统所有运行的服务项
+   systemctl list-units --type=service
+
+   # 查看系统所有开机自启动的服务项
+   systemctl list-unit-files --type=service | grep enabled
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org02a29ce" class="outline-3">
+<h3 id="org02a29ce">查看特定服务</h3>
+<div class="outline-text-3" id="text-org02a29ce">
+<div class="highlight"><pre><span></span>   # 查看指定服务项状态
+   systemctl status &lt;服务项名称&gt;
+
+   # 查看服务项的依赖关系
+   systemctl list-dependencies &lt;服务项名称&gt;
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgfb1a0ba" class="outline-3">
+<h3 id="orgfb1a0ba">查看系统状态</h3>
+<div class="outline-text-3" id="text-orgfb1a0ba">
+<div class="highlight"><pre><span></span>   # 查看系统启动耗时
+   systemd-analyze
+
+   # 查看各项服务启动耗时
+   systemd-analyze blame | grep .service
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgd3be718" class="outline-3">
+<h3 id="orgd3be718">管理服务</h3>
+<div class="outline-text-3" id="text-orgd3be718">
+<div class="highlight"><pre><span></span>   # 启动服务
+   systemctl start &lt;服务项名称&gt;
+
+   # 停止服务
+   systemctl stop &lt;服务项名称&gt;
+
+   # 重启服务
+   systemctl restart &lt;服务项名称&gt;
+
+   # 重新读取配置文件
+   # 如果该服务不能重启，但又必须使用新的配置，这条命令会很有用
+   systemctl reload &lt;服务项名称&gt;
+
+   # 使服务开机自启动
+   systemctl enable &lt;服务项名称&gt;
+
+   # 使服务不要开机自启动
+   systemctl disable &lt;服务项名称&gt;
+
+   # 禁用服务
+   # 这可以防止服务被其他服务间接启动，也无法通过 start 或 restart 命令来启动服务。
+   systemctl mask &lt;服务项名称&gt;
+
+   # 不再禁用服务
+   systemctl unmask &lt;服务项名称&gt;
+
+   # 重新读取所有服务项
+   # 修改、添加、删除服务项之后需要执行以下命令。
+   systemctl daemon-reload
+</pre></div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org4942166" class="outline-2">
+<h2 id="org4942166">编写简单的服务</h2>
+<div class="outline-text-2" id="text-org4942166">
+<p>
+服务文件都存放在 <code>/etc/systemd/system/</code> 中，后缀名为 <code>.service</code>
+</p>
+</div>
+
+<div id="outline-container-org77cbca7" class="outline-3">
+<h3 id="org77cbca7">简单的自启动脚本</h3>
+<div class="outline-text-3" id="text-org77cbca7">
+<ul class="org-ul">
+<li>
+<code>Type=simple</code> 表示启动并一直运行</li>
+<li>
+<code>ExecStart=/...</code> 表示要执行的命令，路径要写全</li>
+<li>
+<code>WantedBy=multi-user.target</code> 表示当用户能登录的时候就该启动这个服务了</li>
+</ul>
+<div class="highlight"><pre><span></span>   [Unit]
+   Description=My Startup
+
+   [Service]
+   Type=simple
+   ExecStart=/path/to/server --server
+
+   [Install]
+   WantedBy=multi-user.target
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org45e3330" class="outline-3">
+<h3 id="org45e3330">配置自启动 jupyterlab</h3>
+<div class="outline-text-3" id="text-org45e3330">
+<p>
+<code>/etc/systemd/system/jupyterlab.service</code>
+</p>
+<div class="highlight"><pre><span></span>   # start jupyter lab
+   [Unit]
+   Description=jupyter lab
+   After=nginx.target
+
+   [Service]
+   Type=simple
+   Environment="PATH='/home/username/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games'" "PYTHONPATH='/home/username/.local/bin:/usr/lib/python39.zip:/usr/lib/python3.9:/usr/lib/python3.9/lib-dynload:/home/username/.local/lib/python3.9/site-packages:/usr/local/lib/python3.9/dist-packages:/usr/lib/python3/dist-packages:/home/username/.local/lib/python3.9/site-packages/IPython/extensions:/home/username/.ipython'"
+   ExecStart=/home/username/.local/bin/jupyter lab --LabApp.app_dir=/home/username/.local/share/jupyter/lab --notebook-dir=/home/username/Projects --allow-root --config=/home/username/.jupyter/jupyter_lab_config.py
+
+   [Install]
+   WantedBy=multi-user.target
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orgb018a3a" class="outline-3">
+<h3 id="orgb018a3a">配置自动挂载</h3>
+<div class="outline-text-3" id="text-orgb018a3a">
+<p>
+配置文件路径： <code>/etc/systemd/system/path-to-dir.mount</code> 。
+</p>
+
+<p>
+注意：文件名必须是挂载路径名，例如要把 <code>/dev/sdb1</code> 挂载到 <code>/mnt/sds</code> ，配置文件应该叫做 <code>mnt-sds.mount</code>
+</p>
+
+<div class="highlight"><pre><span></span>   [Unit]
+   Description=mount 
+
+   [Mount]
+   What=/dev/sdb1
+   Where=/mnt/sds
+   Options=defaults
+
+   [Install]
+   WantedBy=local-fs.target
+</pre></div>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../samba/" rel="prev" title="samba 文件共享">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../ssh/" rel="next" title="ssh">Next post</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2020         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>
