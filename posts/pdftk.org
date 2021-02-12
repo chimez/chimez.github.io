@@ -1,0 +1,118 @@
+#+BEGIN_COMMENT
+.. title: pdftk: The PDF Toolkit
+.. slug: pdftk
+.. date: 2021-01-08 11:09:45 UTC+08:00
+.. tags: pdf, linux
+.. category: tools 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* 添加目录与修改元信息
+  参见： https://www.pdflabs.com/blog/export-and-import-pdf-bookmarks/
+** 从pdf中提取目录和元信息
+   #+BEGIN_SRC
+pdftk C:\Users\Sid\Desktop\doc.pdf dump_data output C:\Users\Sid\Desktop\doc_data.txt
+   #+END_SRC
+   
+** 给pdf添加或更新目录
+   
+   #+BEGIN_SRC
+pdftk C:\Users\Sid\Desktop\doc.pdf update_info C:\Users\Sid\Desktop\doc_data.txt output C:\Users\Sid\Desktop\updated.pdf
+   #+END_SRC
+
+   目录文件格式：
+   #+BEGIN_SRC
+BookmarkBegin
+BookmarkTitle: PDF Reference (Version 1.5)
+BookmarkLevel: 1
+BookmarkPageNumber: 1
+BookmarkBegin
+BookmarkTitle: Contents
+BookmarkLevel: 2
+BookmarkPageNumber: 3
+   #+END_SRC
+
+   其中字符应编码成 html entitle 的样子。
+   可以用 https://tool.oschina.net/encode , https://www.online-toolz.com/tools/unicode-html-entities-convertor.php 这里的 Native/Unicode 转换工具。
+   
+   或者python
+   #+BEGIN_SRC python 
+u"阿斯顿".encode('ascii', 'xmlcharrefreplace')
+
+def utf8_to_ascii_xml(filename):
+    with open(filename,'r',encoding='utf-8') as fi:
+        lines = fi.readlines()
+        lines_ascii = [x.encode('ascii', 'xmlcharrefreplace') for x in lines]
+    with open(f"{filename}.ascii", 'wb') as fi:
+        fi.writelines(lines_ascii)
+
+   #+END_SRC
+
+   常用正则替换
+   #+BEGIN_EXAMPLE
+s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPageNumber: \2/
+   #+END_EXAMPLE
+
+** 添加目录的示例流程
+   #+begin_src python
+# import
+import pytesseract
+from PIL import Image
+import numpy as np
+import pandas as pd
+import re
+
+# 利用 OCR 生成目录
+print(pytesseract.image_to_string(Image.open('a.png')))
+
+# 手动编辑目录，使用 orgmode 的表格
+data = pd.read_csv("a.txt", sep="|")
+darr = np.array(data)
+darr[:,1] = [i.strip() for i in darr[:,1]]
+darr[:,2] = [i.strip() for i in darr[:,2]]
+darr[2:,3] = darr[2:,3]+9
+data = pd.DataFrame(darr[:,1:-1])
+data
+
+# 生成目录格式并保存
+block = """BookmarkBegin
+BookmarkTitle: {title}
+BookmarkLevel: {level}
+BookmarkPageNumber: {page}
+"""
+txt = ""
+for line in darr:
+    index = line[1]
+    title = line[2]
+    page = line[3]
+    if index == '' or index[-1] == '.':
+        level = 1
+    else:
+        level = 2
+        txt += block.format(title=f"{index} {title}", level=level, page=page)
+
+with open("b.txt",'w') as fi:
+    fi.writelines(txt)
+   #+end_src
+
+   
+* 合并pdf文件
+  #+BEGIN_SRC bash
+pdftk in1.pdf in2.pdf cat output out1.pdf
+  #+END_SRC
+
+  
+* djvu to pdf
+  1. djvulibre
+  #+begin_src bash
+ddjvu -format=pdf -quality=85 -verbose a.djvu a.pdf
+  #+end_src 
+
+  
+* 分割文件
+#+begin_src bash
+pdftk in.pdf burst output out_%04d.pdf
+#+end_src   

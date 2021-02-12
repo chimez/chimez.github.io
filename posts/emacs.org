@@ -1,0 +1,89 @@
+#+BEGIN_COMMENT
+.. title: emacs
+.. slug: emacs
+.. date: 2021-01-26 18:28:36 UTC+08:00
+.. tags: linux emacs
+.. category: tools
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+* 从源码编译安装
+
+** 查看特性
+   1. 查看 ~system-configuration-features~ 中的信息
+
+** 查看编译选项
+   1. 查看 ~system-configuration-options~ 中的信息
+
+   #+begin_src bash
+./configure --without-compress-install --with-modules 'CFLAGS=-O2 -g3'
+   #+end_src 
+
+
+* 在正则表达式中使用lisp代码
+  使用 ~\,~ 后加一个表达式
+  #+BEGIN_SRC emacs-lisp
+:s/\(.*?\)a\(.*?\)b/\1\,(+ (string-to-number \2) 100)/
+  #+END_SRC
+
+  
+* 正则表达式的非贪心匹配
+  non greedy regex
+  星号后加问号
+#+BEGIN_SRC
+:s/.*?//
+#+END_SRC
+
+
+* 文件编码问题
+** 改变显示文件编码,解决乱码问题
+   使用命令
+   #+BEGIN_SRC emacs-lisp :tangle yes
+revert-buffer-with-file-coding-system
+   #+END_SRC
+
+** 修改编码
+   在按下 ~M-x~ 后使用命令改变编码再保存即可
+   #+BEGIN_SRC emacs-lisp :tangle yes
+set-buffer-file-coding-system
+   #+END_SRC
+
+** 常见的编码
+   1. 中文
+      1. cp936
+      2. gb2312
+      3. gb18030
+   2. 日文
+      1. cp932
+
+
+* 对齐排版代码
+  使用 ~align-regexp, sort-regexp-fields, sort-columns~
+
+
+* Tramp 远程编辑
+
+** 配置 ssh
+   注意 tramp 的远程登陆只支持 bash, 不支持 zsh, 所以要进行设置，tramp 登陆用 ~namebash~, ssh 登陆用 ~namezsh~ 就行了
+
+   文件 ~$HOME/.ssh/config~
+   #+BEGIN_SRC
+Host namebash
+    HostName 10.0.0.1
+    User username
+    RequestTTY yes
+    RemoteCommand bash
+
+Host namezsh
+    HostName 10.0.0.1
+    User username
+    RequestTTY yes
+    RemoteCommand zsh
+
+   #+END_SRC
+
+

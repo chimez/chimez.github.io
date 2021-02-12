@@ -1,0 +1,110 @@
+#+BEGIN_COMMENT
+.. title: git
+.. slug: git
+.. date: 2021-01-24 12:51:36 UTC+08:00
+.. tags: linux git
+.. category: tools
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* 使用案例
+** 新建仓库
+   #+begin_src bash
+git init .
+   #+end_src 
+   
+** 下载远程仓库
+   #+begin_src bash
+git clone --depth=1 https://...
+   #+end_src 
+   ~--depth=1~ 表示只下载一部分历史
+   
+** gitignore：忽略文件
+   见 [[https://github.com/github/gitignore][gitignore]]
+   
+** 添加本地更改
+   #+begin_src bash
+git add --all 
+git commit -m "sth"
+   #+end_src 
+   
+** 从远端获取更新
+   #+begin_src bash
+git pull
+   #+end_src 
+   
+** 推送更新到远端
+   #+begin_src bash
+git push origin master
+   #+end_src 
+   
+** 使用代理
+   #+begin_src bash
+git config --global http.proxy http://proxy.mycompany:80
+   #+end_src 
+   
+** 记录里显示中文
+   #+begin_src bash
+git config --global core.quotepath false
+   #+end_src 
+   
+* git-lfs: 用 git 管理大文件
+** 安装
+   从包管理器中安装 ~git-lfs~ ，windows版本已经包含了
+   
+** 使用
+   1. 对账户启用 ~git lfs install~
+   2. 对仓库设置要追踪的文件类型 ~git lfs track "*.psd"~
+   3. 把配置文件加到追踪列表里 ~git add .gitattributes~
+
+** 常用大文件
+   见 [[https://github.com/alexkaratarakis/gitattributes][gitattributes]]
+   #+begin_src bash
+git lfs track "*.png"
+git lfs track "*.jpg"
+git lfs track "*.jpeg"
+git lfs track "*.gif"
+
+git lfs track "*.mp4"
+git lfs track "*.mpeg"
+git lfs track "*.mkv"
+   #+end_src 
+
+   ~.gitattributes~ 文件内容为
+   #+BEGIN_EXAMPLE
+*.pdf   filter=lfs diff=lfs merge=lfs -text
+*.jpg   filter=lfs diff=lfs merge=lfs -text
+*.jpeg  filter=lfs diff=lfs merge=lfs -text
+*.png   filter=lfs diff=lfs merge=lfs -text
+*.gif   filter=lfs diff=lfs merge=lfs -text
+*.ico   filter=lfs diff=lfs merge=lfs -text
+*.eps   filter=lfs diff=lfs merge=lfs -text
+*.bmp   filter=lfs diff=lfs merge=lfs -text
+*.psb   filter=lfs diff=lfs merge=lfs -text
+*.tiff  filter=lfs diff=lfs merge=lfs -text
+*.wbmp  filter=lfs diff=lfs merge=lfs -text
+*.webp  filter=lfs diff=lfs merge=lfs -text
+   #+END_EXAMPLE
+
+* git-remote-dropbox: 用 Dropbox 做私人仓库
+  [[https://github.com/anishathalye/git-remote-dropbox][git-remote-dropbox]]
+** 安装
+   1. 安装 ~pip install git-remote-dropbox~
+   2. 在网站上生成 OAuth 2 密钥 [[https://www.dropbox.com/developers/apps][app console]]
+   3. 把密钥存在文件 ~/.config/git/git-remote-dropbox.json or ~/.git-remote-dropbox.json
+      ~{"default":"token"}~
+   4. 配置别名 ~git config --global alias.dropbox '!git-dropbox-manage'~
+
+** 使用
+*** clone 已有仓库
+    #+begin_src bash
+git clone "dropbox:///path/to/repo"
+    #+end_src 
+    
+*** 创建远程仓库
+    #+begin_src bash
+git remote add origin "dropbox:///path/to/repo"
+    #+end_src 

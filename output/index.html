@@ -13,7 +13,7 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://chimez.github.io/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/ssh/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/git/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -70,7 +70,369 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/ssh/" class="u-url">ssh</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/git/" class="u-url">git</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/git/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-24T12:51:36+08:00" itemprop="datePublished" title="2021-01-24 12:51">2021-01-24 12:51</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org6e88fe3" class="outline-2">
+<h2 id="org6e88fe3">使用案例</h2>
+<div class="outline-text-2" id="text-org6e88fe3">
+</div>
+<div id="outline-container-org6a40f45" class="outline-3">
+<h3 id="org6a40f45">新建仓库</h3>
+<div class="outline-text-3" id="text-org6a40f45">
+<div class="highlight"><pre><span></span>   git init .
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgcb6961d" class="outline-3">
+<h3 id="orgcb6961d">下载远程仓库</h3>
+<div class="outline-text-3" id="text-orgcb6961d">
+<div class="highlight"><pre><span></span>   git clone --depth=1 https://...
+</pre></div>
+<p>
+<code>--depth=1</code> 表示只下载一部分历史
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2a4e425" class="outline-3">
+<h3 id="org2a4e425">gitignore：忽略文件</h3>
+<div class="outline-text-3" id="text-org2a4e425">
+<p>
+见 <a href="https://github.com/github/gitignore">gitignore</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3abcd5a" class="outline-3">
+<h3 id="org3abcd5a">添加本地更改</h3>
+<div class="outline-text-3" id="text-org3abcd5a">
+<div class="highlight"><pre><span></span>   git add --all 
+   git commit -m "sth"
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgf95e506" class="outline-3">
+<h3 id="orgf95e506">从远端获取更新</h3>
+<div class="outline-text-3" id="text-orgf95e506">
+<div class="highlight"><pre><span></span>   git pull
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgb9c27cf" class="outline-3">
+<h3 id="orgb9c27cf">推送更新到远端</h3>
+<div class="outline-text-3" id="text-orgb9c27cf">
+<div class="highlight"><pre><span></span>   git push origin master
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org503c960" class="outline-3">
+<h3 id="org503c960">使用代理</h3>
+<div class="outline-text-3" id="text-org503c960">
+<div class="highlight"><pre><span></span>   git config --global http.proxy http://proxy.mycompany:80
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org404ac7d" class="outline-3">
+<h3 id="org404ac7d">记录里显示中文</h3>
+<div class="outline-text-3" id="text-org404ac7d">
+<div class="highlight"><pre><span></span>   git config --global core.quotepath false
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6602367" class="outline-2">
+<h2 id="org6602367">git-lfs: 用 git 管理大文件</h2>
+<div class="outline-text-2" id="text-org6602367">
+</div>
+<div id="outline-container-orgbf9e2a8" class="outline-3">
+<h3 id="orgbf9e2a8">安装</h3>
+<div class="outline-text-3" id="text-orgbf9e2a8">
+<p>
+从包管理器中安装 <code>git-lfs</code> ，windows版本已经包含了
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5f733aa" class="outline-3">
+<h3 id="org5f733aa">使用</h3>
+<div class="outline-text-3" id="text-org5f733aa">
+<ol class="org-ol">
+<li>对账户启用 <code>git lfs install</code>
+</li>
+<li>对仓库设置要追踪的文件类型 <code>git lfs track "*.psd"</code>
+</li>
+<li>把配置文件加到追踪列表里 <code>git add .gitattributes</code>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgeb454ed" class="outline-3">
+<h3 id="orgeb454ed">常用大文件</h3>
+<div class="outline-text-3" id="text-orgeb454ed">
+<p>
+见 <a href="https://github.com/alexkaratarakis/gitattributes">gitattributes</a>
+</p>
+<div class="highlight"><pre><span></span>   git lfs track "*.png"
+   git lfs track "*.jpg"
+   git lfs track "*.jpeg"
+   git lfs track "*.gif"
+
+   git lfs track "*.mp4"
+   git lfs track "*.mpeg"
+   git lfs track "*.mkv"
+</pre></div>
+
+<p>
+<code>.gitattributes</code> 文件内容为
+</p>
+<pre class="example">
+*.pdf   filter=lfs diff=lfs merge=lfs -text
+*.jpg   filter=lfs diff=lfs merge=lfs -text
+*.jpeg  filter=lfs diff=lfs merge=lfs -text
+*.png   filter=lfs diff=lfs merge=lfs -text
+*.gif   filter=lfs diff=lfs merge=lfs -text
+*.ico   filter=lfs diff=lfs merge=lfs -text
+*.eps   filter=lfs diff=lfs merge=lfs -text
+*.bmp   filter=lfs diff=lfs merge=lfs -text
+*.psb   filter=lfs diff=lfs merge=lfs -text
+*.tiff  filter=lfs diff=lfs merge=lfs -text
+*.wbmp  filter=lfs diff=lfs merge=lfs -text
+*.webp  filter=lfs diff=lfs merge=lfs -text
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc602fc0" class="outline-2">
+<h2 id="orgc602fc0">git-remote-dropbox: 用 Dropbox 做私人仓库</h2>
+<div class="outline-text-2" id="text-orgc602fc0">
+<p>
+<a href="https://github.com/anishathalye/git-remote-dropbox">git-remote-dropbox</a>
+</p>
+</div>
+<div id="outline-container-orgec98b91" class="outline-3">
+<h3 id="orgec98b91">安装</h3>
+<div class="outline-text-3" id="text-orgec98b91">
+<ol class="org-ol">
+<li>安装 <code>pip install git-remote-dropbox</code>
+</li>
+<li>在网站上生成 OAuth 2 密钥 <a href="https://www.dropbox.com/developers/apps">app console</a>
+</li>
+<li>把密钥存在文件 <code>/.config/git/git-remote-dropbox.json or ~/.git-remote-dropbox.json
+      ~{"default":"token"}</code>
+</li>
+<li>配置别名 <code>git config --global alias.dropbox '!git-dropbox-manage'</code>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org8673798" class="outline-3">
+<h3 id="org8673798">使用</h3>
+<div class="outline-text-3" id="text-org8673798">
+</div>
+<div id="outline-container-orgef9c9bf" class="outline-4">
+<h4 id="orgef9c9bf">clone 已有仓库</h4>
+<div class="outline-text-4" id="text-orgef9c9bf">
+<div class="highlight"><pre><span></span>    git clone "dropbox:///path/to/repo"
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgddc1a51" class="outline-4">
+<h4 id="orgddc1a51">创建远程仓库</h4>
+<div class="outline-text-4" id="text-orgddc1a51">
+<div class="highlight"><pre><span></span>    git remote add origin "dropbox:///path/to/repo"
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pdftk/" class="u-url">pdftk: The PDF Toolkit</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/pdftk/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-08T11:09:45+08:00" itemprop="datePublished" title="2021-01-08 11:09">2021-01-08 11:09</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org5348be7" class="outline-2">
+<h2 id="org5348be7">添加目录与修改元信息</h2>
+<div class="outline-text-2" id="text-org5348be7">
+<p>
+参见： <a href="https://www.pdflabs.com/blog/export-and-import-pdf-bookmarks/">https://www.pdflabs.com/blog/export-and-import-pdf-bookmarks/</a>
+</p>
+</div>
+<div id="outline-container-orgc8e36be" class="outline-3">
+<h3 id="orgc8e36be">从pdf中提取目录和元信息</h3>
+<div class="outline-text-3" id="text-orgc8e36be">
+<div class="highlight"><pre><span></span>   pdftk C:\Users\Sid\Desktop\doc.pdf dump_data output C:\Users\Sid\Desktop\doc_data.txt
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org72a8cbe" class="outline-3">
+<h3 id="org72a8cbe">给pdf添加或更新目录</h3>
+<div class="outline-text-3" id="text-org72a8cbe">
+<div class="highlight"><pre><span></span>   pdftk C:\Users\Sid\Desktop\doc.pdf update_info C:\Users\Sid\Desktop\doc_data.txt output C:\Users\Sid\Desktop\updated.pdf
+</pre></div>
+
+<p>
+目录文件格式：
+</p>
+<div class="highlight"><pre><span></span>   BookmarkBegin
+   BookmarkTitle: PDF Reference (Version 1.5)
+   BookmarkLevel: 1
+   BookmarkPageNumber: 1
+   BookmarkBegin
+   BookmarkTitle: Contents
+   BookmarkLevel: 2
+   BookmarkPageNumber: 3
+</pre></div>
+
+<p>
+其中字符应编码成 html entitle 的样子。
+可以用 <a href="https://tool.oschina.net/encode">https://tool.oschina.net/encode</a> , <a href="https://www.online-toolz.com/tools/unicode-html-entities-convertor.php">https://www.online-toolz.com/tools/unicode-html-entities-convertor.php</a> 这里的 Native/Unicode 转换工具。
+</p>
+
+<p>
+或者python
+</p>
+<div class="highlight"><pre><span></span>   <span class="sa">u</span><span class="s2">"阿斯顿"</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">'ascii'</span><span class="p">,</span> <span class="s1">'xmlcharrefreplace'</span><span class="p">)</span>
+
+   <span class="k">def</span> <span class="nf">utf8_to_ascii_xml</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+       <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">'r'</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+	   <span class="n">lines</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+	   <span class="n">lines_ascii</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">'ascii'</span><span class="p">,</span> <span class="s1">'xmlcharrefreplace'</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+       <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.ascii"</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+	   <span class="n">fi</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">lines_ascii</span><span class="p">)</span>
+</pre></div>
+
+<p>
+常用正则替换
+</p>
+<pre class="example">
+s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPageNumber: \2/
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgdf63e31" class="outline-3">
+<h3 id="orgdf63e31">添加目录的示例流程</h3>
+<div class="outline-text-3" id="text-orgdf63e31">
+<div class="highlight"><pre><span></span>   <span class="c1"># import</span>
+   <span class="kn">import</span> <span class="nn">pytesseract</span>
+   <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+   <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+   <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+   <span class="kn">import</span> <span class="nn">re</span>
+
+   <span class="c1"># 利用 OCR 生成目录</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">pytesseract</span><span class="o">.</span><span class="n">image_to_string</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">'a.png'</span><span class="p">)))</span>
+
+   <span class="c1"># 手动编辑目录，使用 orgmode 的表格</span>
+   <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"a.txt"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"|"</span><span class="p">)</span>
+   <span class="n">darr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+   <span class="n">darr</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">darr</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]]</span>
+   <span class="n">darr</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">darr</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]]</span>
+   <span class="n">darr</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">darr</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="mi">9</span>
+   <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">darr</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+   <span class="n">data</span>
+
+   <span class="c1"># 生成目录格式并保存</span>
+   <span class="n">block</span> <span class="o">=</span> <span class="s2">"""BookmarkBegin</span>
+<span class="s2">   BookmarkTitle: </span><span class="si">{title}</span><span class="s2"></span>
+<span class="s2">   BookmarkLevel: </span><span class="si">{level}</span><span class="s2"></span>
+<span class="s2">   BookmarkPageNumber: </span><span class="si">{page}</span><span class="s2"></span>
+<span class="s2">   """</span>
+   <span class="n">txt</span> <span class="o">=</span> <span class="s2">""</span>
+   <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">darr</span><span class="p">:</span>
+       <span class="n">index</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+       <span class="n">title</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+       <span class="n">page</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+       <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="s1">''</span> <span class="ow">or</span> <span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'.'</span><span class="p">:</span>
+	   <span class="n">level</span> <span class="o">=</span> <span class="mi">1</span>
+       <span class="k">else</span><span class="p">:</span>
+	   <span class="n">level</span> <span class="o">=</span> <span class="mi">2</span>
+	   <span class="n">txt</span> <span class="o">+=</span> <span class="n">block</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">)</span>
+
+   <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"b.txt"</span><span class="p">,</span><span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+       <span class="n">fi</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org5074803" class="outline-2">
+<h2 id="org5074803">合并pdf文件</h2>
+<div class="outline-text-2" id="text-org5074803">
+<div class="highlight"><pre><span></span>  pdftk in1.pdf in2.pdf cat output out1.pdf
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orgec1e89b" class="outline-2">
+<h2 id="orgec1e89b">djvu to pdf</h2>
+<div class="outline-text-2" id="text-orgec1e89b">
+<ol class="org-ol">
+<li>djvulibre</li>
+</ol>
+<div class="highlight"><pre><span></span>  ddjvu -format=pdf -quality=85 -verbose a.djvu a.pdf
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org5ad867d" class="outline-2">
+<h2 id="org5ad867d">分割文件</h2>
+<div class="outline-text-2" id="text-org5ad867d">
+<div class="highlight"><pre><span></span>pdftk in.pdf burst output out_%04d.pdf
+</pre></div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/early-history-of-bosonization/" class="u-url">Early History of Bosonization</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/early-history-of-bosonization/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-07T10:46:46+08:00" itemprop="datePublished" title="2021-01-07 10:46">2021-01-07 10:46</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <p>
+本文是 A. O. Gogolin, A. A. Nersesyan, A. M. Tsvelik 的 "Bosonization and Strongly Correlated Systems" 一书的序言，简短地回顾了强关联领域和1990年以前的玻色化方法的历史，对了解强关联领域很有帮助。
+</p>
+
+<div id="outline-container-org4332ef5" class="outline-2">
+<h2 id="org4332ef5">玻色化的早期历史</h2>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/ssh/" class="u-url">ssh</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -81,13 +443,13 @@
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgafe7863" class="outline-2">
-<h2 id="orgafe7863">SSH 端口转发</h2>
-<div class="outline-text-2" id="text-orgafe7863">
+                    <div id="outline-container-org6a6531d" class="outline-2">
+<h2 id="org6a6531d">SSH 端口转发</h2>
+<div class="outline-text-2" id="text-org6a6531d">
 </div>
-<div id="outline-container-org8a3720a" class="outline-3">
-<h3 id="org8a3720a">本地转发: 本地访问远程</h3>
-<div class="outline-text-3" id="text-org8a3720a">
+<div id="outline-container-orgbd75d23" class="outline-3">
+<h3 id="orgbd75d23">本地转发: 本地访问远程</h3>
+<div class="outline-text-3" id="text-orgbd75d23">
 <p>
 本地转发，顾名思义就是把本地主机端口通过待登录主机端口转发到远程主机端口上去。
 </p>
@@ -110,9 +472,9 @@
 </div>
 </div>
 
-<div id="outline-container-org6db3198" class="outline-3">
-<h3 id="org6db3198">远程转发: 远程访问本地</h3>
-<div class="outline-text-3" id="text-org6db3198">
+<div id="outline-container-orgb1fad58" class="outline-3">
+<h3 id="orgb1fad58">远程转发: 远程访问本地</h3>
+<div class="outline-text-3" id="text-orgb1fad58">
 <p>
 远程转发是指把登录主机所在网络中某个端口通过本地主机端口转发到远程主机上。
 </p>
@@ -143,9 +505,9 @@
 </div>
 </div>
 
-<div id="outline-container-org409963c" class="outline-3">
-<h3 id="org409963c">动态转发</h3>
-<div class="outline-text-3" id="text-org409963c">
+<div id="outline-container-orgfdd86e7" class="outline-3">
+<h3 id="orgfdd86e7">动态转发</h3>
+<div class="outline-text-3" id="text-orgfdd86e7">
 <p>
 相对于本地转发和远程转发的单一端口转发模式而言，动态转发有点更加强劲的端口转发功能，即是无需固定指定被访问目标主机的端口号。这个端口号需要在本地通过协议指定，该协议就是简单、安全、实用的 SOCKS 协议。
 </p>
@@ -194,13 +556,13 @@
 </div>
 
 
-<div id="outline-container-org62f0719" class="outline-2">
-<h2 id="org62f0719">免密码登录</h2>
-<div class="outline-text-2" id="text-org62f0719">
+<div id="outline-container-org9b6a1b3" class="outline-2">
+<h2 id="org9b6a1b3">免密码登录</h2>
+<div class="outline-text-2" id="text-org9b6a1b3">
 </div>
-<div id="outline-container-org6c7a4d4" class="outline-3">
-<h3 id="org6c7a4d4">在本地机器生成密钥对</h3>
-<div class="outline-text-3" id="text-org6c7a4d4">
+<div id="outline-container-org21a5191" class="outline-3">
+<h3 id="org21a5191">在本地机器生成密钥对</h3>
+<div class="outline-text-3" id="text-org21a5191">
 <div class="highlight"><pre><span></span>   ssh-keygen -t rsa
 </pre></div>
 <p>
@@ -209,9 +571,9 @@
 </div>
 </div>
 
-<div id="outline-container-orge364648" class="outline-3">
-<h3 id="orge364648">授权登录</h3>
-<div class="outline-text-3" id="text-orge364648">
+<div id="outline-container-orga52e116" class="outline-3">
+<h3 id="orga52e116">授权登录</h3>
+<div class="outline-text-3" id="text-orga52e116">
 <p>
 将公钥追加到目标服务器的 <code>$HOME/.ssh/authorized_keys</code> 文件中，该文件的权限应为 <code>600</code> ， <code>.ssh</code> 目录权限应为 <code>700</code>
 </p>
@@ -229,9 +591,9 @@
 </div>
 </div>
 
-<div id="outline-container-org8b39acc" class="outline-2">
-<h2 id="org8b39acc">配置别名</h2>
-<div class="outline-text-2" id="text-org8b39acc">
+<div id="outline-container-org4b23451" class="outline-2">
+<h2 id="org4b23451">配置别名</h2>
+<div class="outline-text-2" id="text-org4b23451">
 <p>
 在 <code>~/.ssh/config</code> 中配置别名，就不用记 ip 了。
 </p>
@@ -269,9 +631,9 @@
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org04539e1" class="outline-2">
-<h2 id="org04539e1">systemctl: 管理服务</h2>
-<div class="outline-text-2" id="text-org04539e1">
+                    <div id="outline-container-orgd37aab0" class="outline-2">
+<h2 id="orgd37aab0">systemctl: 管理服务</h2>
+<div class="outline-text-2" id="text-orgd37aab0">
 <ul class="org-ul">
 <li>systemd 中的服务后缀名 <code>.service</code> 可以不写，会自动补全。</li>
 <li>systemd 中把服务称作 <code>unit</code> , <code>unit</code> 有多种类型包括 <code>.service, .target</code> 等</li>
@@ -279,9 +641,9 @@
 </div>
 
 
-<div id="outline-container-org6699e85" class="outline-3">
-<h3 id="org6699e85">列出服务</h3>
-<div class="outline-text-3" id="text-org6699e85">
+<div id="outline-container-org4ecdf0d" class="outline-3">
+<h3 id="org4ecdf0d">列出服务</h3>
+<div class="outline-text-3" id="text-org4ecdf0d">
 <div class="highlight"><pre><span></span>   # 查看系统所有安装的服务项
    systemctl list-unit-files --type=service
 
@@ -294,9 +656,9 @@
 </div>
 </div>
 
-<div id="outline-container-org02a29ce" class="outline-3">
-<h3 id="org02a29ce">查看特定服务</h3>
-<div class="outline-text-3" id="text-org02a29ce">
+<div id="outline-container-orge2fc0ce" class="outline-3">
+<h3 id="orge2fc0ce">查看特定服务</h3>
+<div class="outline-text-3" id="text-orge2fc0ce">
 <div class="highlight"><pre><span></span>   # 查看指定服务项状态
    systemctl status &lt;服务项名称&gt;
 
@@ -306,9 +668,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgfb1a0ba" class="outline-3">
-<h3 id="orgfb1a0ba">查看系统状态</h3>
-<div class="outline-text-3" id="text-orgfb1a0ba">
+<div id="outline-container-org0734a8e" class="outline-3">
+<h3 id="org0734a8e">查看系统状态</h3>
+<div class="outline-text-3" id="text-org0734a8e">
 <div class="highlight"><pre><span></span>   # 查看系统启动耗时
    systemd-analyze
 
@@ -318,9 +680,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgd3be718" class="outline-3">
-<h3 id="orgd3be718">管理服务</h3>
-<div class="outline-text-3" id="text-orgd3be718">
+<div id="outline-container-orgc903d87" class="outline-3">
+<h3 id="orgc903d87">管理服务</h3>
+<div class="outline-text-3" id="text-orgc903d87">
 <div class="highlight"><pre><span></span>   # 启动服务
    systemctl start &lt;服务项名称&gt;
 
@@ -357,17 +719,17 @@
 
 
 
-<div id="outline-container-org4942166" class="outline-2">
-<h2 id="org4942166">编写简单的服务</h2>
-<div class="outline-text-2" id="text-org4942166">
+<div id="outline-container-orgf4e89c2" class="outline-2">
+<h2 id="orgf4e89c2">编写简单的服务</h2>
+<div class="outline-text-2" id="text-orgf4e89c2">
 <p>
 服务文件都存放在 <code>/etc/systemd/system/</code> 中，后缀名为 <code>.service</code>
 </p>
 </div>
 
-<div id="outline-container-org77cbca7" class="outline-3">
-<h3 id="org77cbca7">简单的自启动脚本</h3>
-<div class="outline-text-3" id="text-org77cbca7">
+<div id="outline-container-orgdb2883b" class="outline-3">
+<h3 id="orgdb2883b">简单的自启动脚本</h3>
+<div class="outline-text-3" id="text-orgdb2883b">
 <ul class="org-ul">
 <li>
 <code>Type=simple</code> 表示启动并一直运行</li>
@@ -390,9 +752,9 @@
 </div>
 
 
-<div id="outline-container-org45e3330" class="outline-3">
-<h3 id="org45e3330">配置自启动 jupyterlab</h3>
-<div class="outline-text-3" id="text-org45e3330">
+<div id="outline-container-org7d495ab" class="outline-3">
+<h3 id="org7d495ab">配置自启动 jupyterlab</h3>
+<div class="outline-text-3" id="text-org7d495ab">
 <p>
 <code>/etc/systemd/system/jupyterlab.service</code>
 </p>
@@ -413,9 +775,9 @@
 </div>
 
 
-<div id="outline-container-orgb018a3a" class="outline-3">
-<h3 id="orgb018a3a">配置自动挂载</h3>
-<div class="outline-text-3" id="text-orgb018a3a">
+<div id="outline-container-org1725d46" class="outline-3">
+<h3 id="org1725d46">配置自动挂载</h3>
+<div class="outline-text-3" id="text-org1725d46">
 <p>
 配置文件路径： <code>/etc/systemd/system/path-to-dir.mount</code> 。
 </p>
@@ -450,26 +812,26 @@
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgf9e1121" class="outline-2">
-<h2 id="orgf9e1121">Samba 基本配置</h2>
-<div class="outline-text-2" id="text-orgf9e1121">
+                    <div id="outline-container-orgfd1ec41" class="outline-2">
+<h2 id="orgfd1ec41">Samba 基本配置</h2>
+<div class="outline-text-2" id="text-orgfd1ec41">
 <p>
 参考 <a href="https://www.fosslinux.com/8703/how-to-setup-samba-file-sharing-server-on-ubuntu.htm">FossLinux 的文章</a>。
 </p>
 </div>
 
 
-<div id="outline-container-orgf36e951" class="outline-3">
-<h3 id="orgf36e951">安装 Samba</h3>
-<div class="outline-text-3" id="text-orgf36e951">
+<div id="outline-container-org2995730" class="outline-3">
+<h3 id="org2995730">安装 Samba</h3>
+<div class="outline-text-3" id="text-org2995730">
 <div class="highlight"><pre><span></span>   apt install samba
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org23c6147" class="outline-3">
-<h3 id="org23c6147">添加组和用户</h3>
-<div class="outline-text-3" id="text-org23c6147">
+<div id="outline-container-org8098e73" class="outline-3">
+<h3 id="org8098e73">添加组和用户</h3>
+<div class="outline-text-3" id="text-org8098e73">
 <p>
 假定已经有一个本地用户 <code>mylocaluser</code>
 </p>
@@ -483,9 +845,9 @@
 </div>
 </div>
 
-<div id="outline-container-org6fc88e9" class="outline-3">
-<h3 id="org6fc88e9">配置文件</h3>
-<div class="outline-text-3" id="text-org6fc88e9">
+<div id="outline-container-orga024d96" class="outline-3">
+<h3 id="orga024d96">配置文件</h3>
+<div class="outline-text-3" id="text-orga024d96">
 <p>
 首先一定要备份一份
 </p>
@@ -521,9 +883,9 @@
 
 
 
-<div id="outline-container-org2657310" class="outline-2">
-<h2 id="org2657310">软链接权限</h2>
-<div class="outline-text-2" id="text-org2657310">
+<div id="outline-container-orgfa8a470" class="outline-2">
+<h2 id="orgfa8a470">软链接权限</h2>
+<div class="outline-text-2" id="text-orgfa8a470">
 <p>
 从别处软链接过来的文件夹打不开，因为没有配置软链接的权限，只要在 <code>[global]</code> 里加入下面的内容就行了。
 </p>
@@ -2123,9 +2485,9 @@ $$</p>
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgdef9274" class="outline-2">
-<h2 id="orgdef9274">Nikola: 基本用法</h2>
-<div class="outline-text-2" id="text-orgdef9274">
+                    <div id="outline-container-org56d217a" class="outline-2">
+<h2 id="org56d217a">Nikola: 基本用法</h2>
+<div class="outline-text-2" id="text-org56d217a">
 <p>
 Nikola 是一个 python 写的静态博客生成器。参见官网<a href="https://getnikola.com">getnikola</a> 。主要的特色是原生支持 orgmode 和 ipynb 格式作为博客，看起来很方便。
 </p>
@@ -2134,13 +2496,13 @@ Nikola 是一个 python 写的静态博客生成器。参见官网<a href="https
 
 
 
-<div id="outline-container-orgbf67d44" class="outline-2">
-<h2 id="orgbf67d44">备查资料</h2>
-<div class="outline-text-2" id="text-orgbf67d44">
+<div id="outline-container-org8261de0" class="outline-2">
+<h2 id="org8261de0">备查资料</h2>
+<div class="outline-text-2" id="text-org8261de0">
 </div>
-<div id="outline-container-org7c1e1df" class="outline-3">
-<h3 id="org7c1e1df">时间的格式</h3>
-<div class="outline-text-3" id="text-org7c1e1df">
+<div id="outline-container-orgb959cd2" class="outline-3">
+<h3 id="orgb959cd2">时间的格式</h3>
+<div class="outline-text-3" id="text-orgb959cd2">
 <div class="highlight"><pre><span></span>date +"%F %T UTC%:z"
 </pre></div>
 </div>
@@ -2148,17 +2510,17 @@ Nikola 是一个 python 写的静态博客生成器。参见官网<a href="https
 </div>
 
 
-<div id="outline-container-orgf1ce9dc" class="outline-2">
-<h2 id="orgf1ce9dc">博客模板</h2>
-<div class="outline-text-2" id="text-orgf1ce9dc">
+<div id="outline-container-org0ff828f" class="outline-2">
+<h2 id="org0ff828f">博客模板</h2>
+<div class="outline-text-2" id="text-org0ff828f">
 <p>
 tags 用逗号分隔， category 被看做一个词。
 </p>
 </div>
 
-<div id="outline-container-org5ecaf64" class="outline-3">
-<h3 id="org5ecaf64">orgmode</h3>
-<div class="outline-text-3" id="text-org5ecaf64">
+<div id="outline-container-org5415b41" class="outline-3">
+<h3 id="org5415b41">orgmode</h3>
+<div class="outline-text-3" id="text-org5415b41">
 <div class="highlight"><pre><span></span>#+BEGIN_COMMENT
 .. title: nikola: static site generator
 .. slug: nikola-static-site-generator
@@ -2177,9 +2539,9 @@ blog here.
 </div>
 </div>
 
-<div id="outline-container-orgecd5c21" class="outline-3">
-<h3 id="orgecd5c21">ipynb</h3>
-<div class="outline-text-3" id="text-orgecd5c21">
+<div id="outline-container-org8726e01" class="outline-3">
+<h3 id="org8726e01">ipynb</h3>
+<div class="outline-text-3" id="text-org8726e01">
 <div class="highlight"><pre><span></span>   "metadata": {
      "nikola": {
       "title": "Power Method for Eigenvalues",
@@ -2218,7 +2580,7 @@ MathJax.Hub.Config({
     }
 });
 </script><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>
