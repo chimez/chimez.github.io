@@ -1,0 +1,48 @@
+#+BEGIN_COMMENT
+.. title: ffmpeg
+.. slug: ffmpeg
+.. date: 2021-01-28 15:57:49 UTC+08:00
+.. tags: linux ffmpeg
+.. category: tools
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* 合并视频
+  #+BEGIN_SRC bash
+ffmpeg -f concat -i filelist.txt -c copy out.mkv
+  #+END_SRC
+
+~filelist.txt~ 内容如下， 需要加 ~file~ ，还要用单引号括起来，或者加选项 ~-safe 0~
+
+  #+BEGIN_EXAMPLE
+file '/home/a1.mkv'
+file '/home/a2.mkv'
+...
+  #+END_EXAMPLE
+
+* 转换格式
+  #+BEGIN_SRC bash
+ffmpeg -i in.mpeg -q:a 0 -q:v 0 out.mkv
+  #+END_SRC
+
+  | *选项*   | *说明*           |
+  |----------+------------------|
+  | ~-q:a 0~ | 最高等级转换音频 |
+  | ~-q:v 0~ | 最高等级转换视频 |
+
+* 分割视频
+  #+BEGIN_SRC bash
+ffmpeg -i in.mp4 -ss 00:10:00 -t 00:30:40 -acodec copy -vcodec copy output.mp4
+  #+END_SRC
+
+  命令的结果是分割得到00:10:00 --> 00:40:40 的原格式视频片段
+
+  | *选项*         | *说明*             |
+  |----------------+--------------------|
+  | ~-ss 00:10:00~ | 从00:10:00开始分割 |
+  | ~-t  00:30:40~ | 分割时长00:30:40   |
+  | ~-acodec copy~ | 音频与原格式相同   |
+  | ~-vcodec copy~ | 视频与原格式相同   |

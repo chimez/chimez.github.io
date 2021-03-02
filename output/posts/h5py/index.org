@@ -1,0 +1,39 @@
+#+BEGIN_COMMENT
+.. title: h5py
+.. slug: h5py
+.. date: 2021-02-28 22:11:33 UTC+08:00
+.. tags: python
+.. category: library
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+  
+* h5py: 储存数据
+  
+  [[https://www.h5py.org/][h5py]] 是 HDF5 库的 python 封装，基本提供了所有对应的 C API，因此适合用在简单并底层的应用中，特别适合对 HDF5 文件有定制的应用中。
+  
+** 存
+   #+begin_src python
+with h5py.File('data.h5', 'w') as hf:
+    hf.create_dataset("mat1", data=mat1, compression="gzip")
+    hf.create_dataset("mat2", data=mat2, compression="gzip")
+    
+    g = hf.create_group("index")
+    g.create_dataset("mat1", data=mat1, compression="gzip")
+
+   #+end_src
+
+   
+** 取
+   #+begin_src python
+with h5py.File('data.h5', 'r') as hf:
+    mat1 = np.array(hf['mat1'])
+    mat2 = np.array(hf['mat2'])
+
+    g = hf['index']
+    g_mat1 = np.array(g['mat1'])
+
+   #+end_src

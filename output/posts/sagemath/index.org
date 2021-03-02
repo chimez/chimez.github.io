@@ -1,0 +1,147 @@
+#+BEGIN_COMMENT
+.. title: SageMath
+.. slug: sagemath
+.. date: 2021-02-19 14:27:07 UTC+08:00
+.. tags: 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* 量子力学算符代数计算
+  参见 [[https://sheaves.github.io/Noncommutative-Sage/][Noncommutative Algebras in Sage]].
+
+  例如要做满足 $[a, a^{\dagger}]=1, [b,b^{\dagger}]=1, [a,b]=0$ 的两个算符 $a,b$ 的代数计算
+  #+begin_src python
+F.<a, a_d, b, b_d> = FreeAlgebra(QQ)
+
+U_relations = {
+    b_d * b: b * b_d - 1,
+    a_d * a: a * a_d - 1,
+}
+
+U = F.g_algebra(U_relations)
+U._latex_names = ["a", r"a^\dagger", "b", r"b^\dagger"]
+U.inject_variables()
+  #+end_src
+
+  注意：
+  1. 定义规则时，必须是后定义的字母乘在前面，例如定义时 ~F.<a,b,c>~ 规则中应该写作 ~c*b: ..., b*a: ...~ 等
+  2. 变量的 latex 显示名顺序要和变量定义顺序相同
+  3. 没有指定规则的乘法默认就是可对易的
+
+
+
+  
+* 安装为 jupyter 内核
+#+begin_src bash
+jupyter kernelspec install ./SageMath/local/share/jupyter/kernels/sagemath
+#+end_src 
+
+* 基本特性
+  1. 直接输入数学运算公式可以作为计算器来用
+  2. 继承自python的面向对象系统，即任何东西都是对象
+  3. 在命令行模式下使用TAB补全，在notebook里似乎有bug
+  4. 内置交互式帮助系统，在命令后加一个问号即可显示帮助   ~c.diameter?~ 
+
+* 符号运算
+** 基础操作
+   | ~x = var('x')~                             | 定义符号                              |
+   | ~f = 1 - sin(x)^2~                         | 定义一个函数                          |
+   | ~print(f)~                                 | 普通打印函数                          |
+   | ~print(maxima(f))~                         | 美化打印函数                          |
+   | ~f.simplify_trig()~                        | 化简表达式                            |
+   | ~f(x=pi/2)~                                | 计算函数值                            |
+   | ~ingtegrate(f, x)~                         | 不定积分                              |
+   | ~f.differentiate(2).substitude({x: 3/pi})~ | 计算二阶微分，并代替值                |
+   | ~a = var('a')~                             | x是默认隐含符号，需要更多符号就要定义 |
+   | ~S = solve(x^2 + x == a, x)~               | 解代数方程                            |
+   | ~S[0].rhs()~                               | 显示代数方程解                        |
+   | ~show(plot(sin(x)+ sin(1.6*x)), 0, 40)~    | 解析画图                              |
+   | ~F = factor(x^99 + y^99)~                  | 分解因式                              |
+   | ~F.expand()~                               | 乘开因式                              |
+    
+**  代数
+   用对象表示代数结构，群环域
+**  组合数学
+
+* 数值运算
+
+** 基础操作
+   |  ~3 + 5~                                               | 加法                       |
+   |  ~57.1 ^ 100~                                          | 乘方                       |
+   |  ~matrix([[1,2], [3,4]])~                              | 创建矩阵，按行写           |
+   |  ~g = sin(x) + (1- x^2)~                               | 定义一个函数               |
+   |  ~find_root(g, 0, 2)~                                  | 在区间[0, 2]寻根           |
+   |  ~var('x y z')~                                        | 定义一些符号               |
+   |  ~f = (1+ (y+ x^2)^2 + (1+ z+ y^2)^2)^2~               | 新定义一个函数             |
+   |  ~minimize(f, [1, 2, 3], disp=1, algorithm='powell')~  | 计算最优化，指定算法和初值 |
+   |  ~m = random_matrix(RDF, 500)~                         | 创建复数500×500随机矩阵    |
+   |  ~e = m.eigenvalues()~                                 | 计算矩阵的本征值           |
+   |  ~w = [(i, abs(e[i])) for i in range(len(e))]~         | 循环方式创建list           |
+   |  ~show(points(w))~                                     | 成对点画图                 |
+   |  ~factorial(100)~                                      | 计算阶乘                   |
+   |  ~N(pi, digits=100)~                                   | 保留100位小数，四舍五入    |
+   |  ~z = Partitions(10^8).cardinality()~                  | 计算数的划分并给出基数     |
+    
+   包括以下几种浮点数类型：
+   | Python            | float, complex, decimal          |
+   | SageMath specific | RDF, CDF, RQDF, CC, RR, RIF, CIF |
+   | included Systems  | pari, maxima                     |
+
+* 绘图
+  可绘制的类型：
+  | interact               | 动态交互图，可以显示一个滑块，滑动改变图 |
+  | Regions Plot/ Contours | 显示一个不等式区间                       |
+  | Density Plot           | 密度图，热力图                           |
+  | filled plot            | 可以上色显示两条线之间的区间             |
+  | multiedge graph        | 可以显示一个有向图                       |
+  [[https://wiki.sagemath.org/interact][这里]] 有各种动态图的例子
+
+* 技巧和常用代码片段
+** 与 tex 联合使用
+*** sagetex：可以在tex中显示sage命令的运算结果
+    首先需要安装 [[http://doc.sagemath.org/html/en/tutorial/sagetex.html][sagetex]]
+
+    注意： 在网站下载的二进制包千万别手贱用 sage -i 自己再编译，由于包含文件不全，这样只会破坏已编译好的文件
+
+    #+BEGIN_SRC
+kpsewhich -var-value=TEXMFHOME                  # 获得TEXMFHOME目录位置，一般是$HOME/texmf
+cp -R SAGE_ROOT/local/share/texmf/tex TEXMFHOME # 把sagetex复制到目录里
+texhash                                         # 让latex重新索引包
+    #+END_SRC
+    使用方法
+    #+BEGIN_SRC tex
+  \usepackage{sagetex}              % 引入包
+  \usepackage[imagemagick]{sagetex} % 可选项
+  \setlength{\sagetexindent}{10ex}  % 设置间隔
+  $2+2=\sage{2+2}$                  % 行内计算sage表达式的数学结果
+  \begin{sageblock}                 % 引用sage/python代码
+    1+1
+    var('a,b,c')
+    eqn ~ [a+b*c==1, b-a*c==0, a+b=~5]
+    s = solve(eqn, a,b,c)
+  \end{sageblock} 
+  \begin{sagesilent}      % 多行计算sage表达式
+    e = 2
+    e = 3*e + 1
+  \end{sagesilent}
+  $e=\sage{e}$            % 在同一文件内可以直接使用定义的变量
+  \sageplot{E.plot(-3,3)} % sage画图
+  \sagetexpause           % 在pause宏之间的sage表达式不被求值，便于修改
+  \sagetexunpause
+    #+END_SRC
+** 三角函数和指数之间转换
+   [[https://ask.sagemath.org/question/7672/complex-exponentialtrigonometric/][参考这个回答]]
+   
+   #+begin_src python
+def exponentialize(x):
+    """从三角函数形式变换成e指数形式"""
+    return sageobj(x._maxima_().expand().exponentialize())
+
+def demoivre(x):
+    """从e指数形式变换成三角函数形式"""
+    return sageobj(x._maxima_().expand().demoivre())
+   #+end_src
