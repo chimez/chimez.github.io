@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about linux emacs)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/linux-emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 02 Mar 2021 03:38:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>emacs</title><link>https://chimez.github.io/posts/emacs/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org90d1b99" class="outline-2"&gt;
+&lt;h2 id="org90d1b99"&gt;从源码编译安装&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org90d1b99"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orga297daa" class="outline-3"&gt;
+&lt;h3 id="orga297daa"&gt;查看特性&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga297daa"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;查看 &lt;code&gt;system-configuration-features&lt;/code&gt; 中的信息&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf147b0d" class="outline-3"&gt;
+&lt;h3 id="orgf147b0d"&gt;查看编译选项&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf147b0d"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;查看 &lt;code&gt;system-configuration-options&lt;/code&gt; 中的信息&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure --without-compress-install --with-modules 'CFLAGS=-O2 -g3'
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgfaa32b7" class="outline-2"&gt;
+&lt;h2 id="orgfaa32b7"&gt;在正则表达式中使用lisp代码&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfaa32b7"&gt;
+&lt;p&gt;
+使用 &lt;code&gt;\,&lt;/code&gt; 后加一个表达式
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class="nv"&gt;:s/&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;*?&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;*?&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;b/&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;+ &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;string-to-number&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;/&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org0874aec" class="outline-2"&gt;
+&lt;h2 id="org0874aec"&gt;正则表达式的非贪心匹配&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0874aec"&gt;
+&lt;p&gt;
+non greedy regex
+星号后加问号
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;:s/.*?//
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgc7155b2" class="outline-2"&gt;
+&lt;h2 id="orgc7155b2"&gt;文件编码问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc7155b2"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgeeafcf5" class="outline-3"&gt;
+&lt;h3 id="orgeeafcf5"&gt;改变显示文件编码,解决乱码问题&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgeeafcf5"&gt;
+&lt;p&gt;
+使用命令
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="nv"&gt;revert-buffer-with-file-coding-system&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org305e8e2" class="outline-3"&gt;
+&lt;h3 id="org305e8e2"&gt;修改编码&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org305e8e2"&gt;
+&lt;p&gt;
+在按下 &lt;code&gt;M-x&lt;/code&gt; 后使用命令改变编码再保存即可
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="nv"&gt;set-buffer-file-coding-system&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org33052e6" class="outline-3"&gt;
+&lt;h3 id="org33052e6"&gt;常见的编码&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org33052e6"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;中文
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;cp936&lt;/li&gt;
+&lt;li&gt;gb2312&lt;/li&gt;
+&lt;li&gt;gb18030&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;日文
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;cp932&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orge16b717" class="outline-2"&gt;
+&lt;h2 id="orge16b717"&gt;对齐排版代码&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge16b717"&gt;
+&lt;p&gt;
+使用 &lt;code&gt;align-regexp, sort-regexp-fields, sort-columns&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgdbeb338" class="outline-2"&gt;
+&lt;h2 id="orgdbeb338"&gt;Tramp 远程编辑&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdbeb338"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgcf875c1" class="outline-3"&gt;
+&lt;h3 id="orgcf875c1"&gt;配置 ssh&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgcf875c1"&gt;
+&lt;p&gt;
+注意 tramp 的远程登陆只支持 bash, 不支持 zsh, 所以要进行设置，tramp 登陆用 &lt;code&gt;namebash&lt;/code&gt;, ssh 登陆用 &lt;code&gt;namezsh&lt;/code&gt; 就行了
+&lt;/p&gt;
+
+&lt;p&gt;
+文件 &lt;code&gt;$HOME/.ssh/config&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   Host namebash
+       HostName 10.0.0.1
+       User username
+       RequestTTY yes
+       RemoteCommand bash
+
+   Host namezsh
+       HostName 10.0.0.1
+       User username
+       RequestTTY yes
+       RemoteCommand zsh
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>linux emacs</category><guid>https://chimez.github.io/posts/emacs/</guid><pubDate>Tue, 26 Jan 2021 10:28:36 GMT</pubDate></item></channel></rss>

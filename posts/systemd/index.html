@@ -111,9 +111,9 @@ systemd 中把服务称作 unit , unit 有多种类型包括 .service, .target �
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org04539e1" class="outline-2">
-<h2 id="org04539e1">systemctl: 管理服务</h2>
-<div class="outline-text-2" id="text-org04539e1">
+    <div id="outline-container-org75deb40" class="outline-2">
+<h2 id="org75deb40">systemctl: 管理服务</h2>
+<div class="outline-text-2" id="text-org75deb40">
 <ul class="org-ul">
 <li>systemd 中的服务后缀名 <code>.service</code> 可以不写，会自动补全。</li>
 <li>systemd 中把服务称作 <code>unit</code> , <code>unit</code> 有多种类型包括 <code>.service, .target</code> 等</li>
@@ -121,9 +121,9 @@ systemd 中把服务称作 unit , unit 有多种类型包括 .service, .target �
 </div>
 
 
-<div id="outline-container-org6699e85" class="outline-3">
-<h3 id="org6699e85">列出服务</h3>
-<div class="outline-text-3" id="text-org6699e85">
+<div id="outline-container-org62285bb" class="outline-3">
+<h3 id="org62285bb">列出服务</h3>
+<div class="outline-text-3" id="text-org62285bb">
 <div class="highlight"><pre><span></span>   # 查看系统所有安装的服务项
    systemctl list-unit-files --type=service
 
@@ -136,9 +136,9 @@ systemd 中把服务称作 unit , unit 有多种类型包括 .service, .target �
 </div>
 </div>
 
-<div id="outline-container-org02a29ce" class="outline-3">
-<h3 id="org02a29ce">查看特定服务</h3>
-<div class="outline-text-3" id="text-org02a29ce">
+<div id="outline-container-orgb7647ab" class="outline-3">
+<h3 id="orgb7647ab">查看特定服务</h3>
+<div class="outline-text-3" id="text-orgb7647ab">
 <div class="highlight"><pre><span></span>   # 查看指定服务项状态
    systemctl status &lt;服务项名称&gt;
 
@@ -148,9 +148,9 @@ systemd 中把服务称作 unit , unit 有多种类型包括 .service, .target �
 </div>
 </div>
 
-<div id="outline-container-orgfb1a0ba" class="outline-3">
-<h3 id="orgfb1a0ba">查看系统状态</h3>
-<div class="outline-text-3" id="text-orgfb1a0ba">
+<div id="outline-container-orgee96fb0" class="outline-3">
+<h3 id="orgee96fb0">查看系统状态</h3>
+<div class="outline-text-3" id="text-orgee96fb0">
 <div class="highlight"><pre><span></span>   # 查看系统启动耗时
    systemd-analyze
 
@@ -160,9 +160,9 @@ systemd 中把服务称作 unit , unit 有多种类型包括 .service, .target �
 </div>
 </div>
 
-<div id="outline-container-orgd3be718" class="outline-3">
-<h3 id="orgd3be718">管理服务</h3>
-<div class="outline-text-3" id="text-orgd3be718">
+<div id="outline-container-orge13ee06" class="outline-3">
+<h3 id="orge13ee06">管理服务</h3>
+<div class="outline-text-3" id="text-orge13ee06">
 <div class="highlight"><pre><span></span>   # 启动服务
    systemctl start &lt;服务项名称&gt;
 
@@ -199,17 +199,17 @@ systemd 中把服务称作 unit , unit 有多种类型包括 .service, .target �
 
 
 
-<div id="outline-container-org4942166" class="outline-2">
-<h2 id="org4942166">编写简单的服务</h2>
-<div class="outline-text-2" id="text-org4942166">
+<div id="outline-container-org0f67697" class="outline-2">
+<h2 id="org0f67697">编写简单的服务</h2>
+<div class="outline-text-2" id="text-org0f67697">
 <p>
 服务文件都存放在 <code>/etc/systemd/system/</code> 中，后缀名为 <code>.service</code>
 </p>
 </div>
 
-<div id="outline-container-org77cbca7" class="outline-3">
-<h3 id="org77cbca7">简单的自启动脚本</h3>
-<div class="outline-text-3" id="text-org77cbca7">
+<div id="outline-container-org2dc9651" class="outline-3">
+<h3 id="org2dc9651">简单的自启动脚本</h3>
+<div class="outline-text-3" id="text-org2dc9651">
 <ul class="org-ul">
 <li>
 <code>Type=simple</code> 表示启动并一直运行</li>
@@ -217,6 +217,9 @@ systemd 中把服务称作 unit , unit 有多种类型包括 .service, .target �
 <code>ExecStart=/...</code> 表示要执行的命令，路径要写全</li>
 <li>
 <code>WantedBy=multi-user.target</code> 表示当用户能登录的时候就该启动这个服务了</li>
+<li>
+<code>User=name</code> 表示运行程序时使用的用户，默认为 <code>root</code>
+</li>
 </ul>
 <div class="highlight"><pre><span></span>   [Unit]
    Description=My Startup
@@ -232,9 +235,9 @@ systemd 中把服务称作 unit , unit 有多种类型包括 .service, .target �
 </div>
 
 
-<div id="outline-container-org45e3330" class="outline-3">
-<h3 id="org45e3330">配置自启动 jupyterlab</h3>
-<div class="outline-text-3" id="text-org45e3330">
+<div id="outline-container-orge4ee669" class="outline-3">
+<h3 id="orge4ee669">配置自启动 jupyterlab</h3>
+<div class="outline-text-3" id="text-orge4ee669">
 <p>
 <code>/etc/systemd/system/jupyterlab.service</code>
 </p>
@@ -255,9 +258,9 @@ systemd 中把服务称作 unit , unit 有多种类型包括 .service, .target �
 </div>
 
 
-<div id="outline-container-orgb018a3a" class="outline-3">
-<h3 id="orgb018a3a">配置自动挂载</h3>
-<div class="outline-text-3" id="text-orgb018a3a">
+<div id="outline-container-org1370a3e" class="outline-3">
+<h3 id="org1370a3e">配置自动挂载</h3>
+<div class="outline-text-3" id="text-org1370a3e">
 <p>
 配置文件路径： <code>/etc/systemd/system/path-to-dir.mount</code> 。
 </p>
@@ -292,7 +295,7 @@ systemd 中把服务称作 unit , unit 有多种类型包括 .service, .target �
                 <a href="../ssh/" rel="next" title="ssh">Next post</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>

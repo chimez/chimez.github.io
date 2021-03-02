@@ -13,7 +13,8 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://chimez.github.io/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/ssh/" type="text/html">
+<link rel="next" href="index-1.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/pytables/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -70,2155 +71,1102 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/ssh/" class="u-url">ssh</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pytables/" class="u-url">PyTables</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
                     </span></p>
             <p class="dateline">
-            <a href="posts/ssh/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-12-24T21:07:46+08:00" itemprop="datePublished" title="2020-12-24 21:07">2020-12-24 21:07</time></a>
+            <a href="posts/pytables/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-01T11:23:19+08:00" itemprop="datePublished" title="2021-03-01 11:23">2021-03-01 11:23</time></a>
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgafe7863" class="outline-2">
-<h2 id="orgafe7863">SSH 端口转发</h2>
-<div class="outline-text-2" id="text-orgafe7863">
-</div>
-<div id="outline-container-org8a3720a" class="outline-3">
-<h3 id="org8a3720a">本地转发: 本地访问远程</h3>
-<div class="outline-text-3" id="text-org8a3720a">
+                    <div id="outline-container-orgd750a7f" class="outline-2">
+<h2 id="orgd750a7f">PyTables: 分层数据集</h2>
+<div class="outline-text-2" id="text-orgd750a7f">
 <p>
-本地转发，顾名思义就是把本地主机端口通过待登录主机端口转发到远程主机端口上去。
+<a href="https://www.pytables.org">PyTables</a> 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5py 更高层。适合用在存储比 csv 表格更复杂更大的数据，同时又不想自己实现一些基本的数据操作的情况中，并且经过简单的处理就能用 pandas 进行进一步数据分析。
 </p>
-
-<p>
-本地转发通过参数 -L 指定，格式：-L [本地主机:]本地主机端口:远程网络主机:远程网络主机端口。加上ssh待登录主机，这里就有了三台主机。
-</p>
-
-<p>
-举例：~ssh -L 0.0.0.0:50000:host2:80 user@host1~ 。这条命令将host2的80端口映射到本地的50000端口，前提是待登录主机host1上可以正常连接到host2的80端口。
-</p>
-
-<p>
-畅想一下这个功能的作用：
-</p>
-<ol class="org-ol">
-<li>因为本地的mysql更顺手，想用本地的mysql客户端命令连接受限网络环境的mysql服务端。</li>
-<li>本地安装了开发工具，想用这个开发工具连接受限网络环境中某个服务的远程调试端口。</li>
-</ol>
-</div>
 </div>
 
-<div id="outline-container-org6db3198" class="outline-3">
-<h3 id="org6db3198">远程转发: 远程访问本地</h3>
-<div class="outline-text-3" id="text-org6db3198">
+
+<div id="outline-container-org2fafe12" class="outline-3">
+<h3 id="org2fafe12">安装</h3>
+<div class="outline-text-3" id="text-org2fafe12">
+<div class="highlight"><pre><span></span>   # 使用 conda
+   conda install pytables
+   # 或者 pip
+   python3 -m pip install tables
+</pre></div>
+
 <p>
-远程转发是指把登录主机所在网络中某个端口通过本地主机端口转发到远程主机上。
+测试
+</p>
+<div class="highlight"><pre><span></span>   <span class="kn">import</span> <span class="nn">tables</span> <span class="k">as</span> <span class="nn">tb</span>
+
+   <span class="n">tb</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgdad18c3" class="outline-3">
+<h3 id="orgdad18c3">基本使用</h3>
+<div class="outline-text-3" id="text-orgdad18c3">
+<p>
+pytables 的基本逻辑是
+</p>
+</div>
+
+<div id="outline-container-orgb313891" class="outline-4">
+<h4 id="orgb313891">创建一个 HDF5 文件</h4>
+<div class="outline-text-4" id="text-orgb313891">
+<div class="highlight"><pre><span></span>    <span class="n">f</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s2">"filename.h5"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"file title"</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">tb</span><span class="o">.</span><span class="n">Filters</span><span class="p">(</span><span class="n">complevel</span><span class="o">=</span><span class="mi">9</span><span class="p">))</span>
+
+    <span class="c1"># 别忘了还要关闭它</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org677ccf5" class="outline-4">
+<h4 id="org677ccf5">在文件中创建任意层的数据集</h4>
+<div class="outline-text-4" id="text-org677ccf5">
+<div class="highlight"><pre><span></span>    <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">"/parent/group"</span><span class="p">,</span> <span class="s2">"group_name"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"group title"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org45ab039" class="outline-4">
+<h4 id="org45ab039">在数据集中创建若干个数据表</h4>
+<div class="outline-text-4" id="text-org45ab039">
+<div class="highlight"><pre><span></span>    <span class="c1"># 需要创建对数据的描述</span>
+    <span class="k">class</span> <span class="nc">data_description</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
+	<span class="n">name</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">StringCol</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+	<span class="n">idn</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">Int64Col</span><span class="p">()</span>
+	<span class="k">class</span> <span class="nc">sub_data</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
+	    <span class="n">name</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">StringCol</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+	    <span class="n">id2</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">Float64Col</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+    <span class="c1"># 然后创建空的数据表       </span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">"table_name"</span><span class="p">,</span> <span class="n">data_description</span><span class="p">)</span>
+
+    <span class="c1"># 在里面循环添加记录</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+	<span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"a"</span>
+	<span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="s2">"idn"</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+	<span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="s2">"sub_data"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s1">'asd_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+	<span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">()</span>
+
+    <span class="c1"># 最后刷新一下缓存，确保数据都写入到磁盘</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org1d09d09" class="outline-2">
+<h2 id="org1d09d09">遇到的问题</h2>
+<div class="outline-text-2" id="text-org1d09d09">
+</div>
+<div id="outline-container-orgc09afc9" class="outline-3">
+<h3 id="orgc09afc9">在不支持 <code>flock</code> 的集群上运行</h3>
+<div class="outline-text-3" id="text-orgc09afc9">
+<p>
+需要设置环境变量
+</p>
+
+<div class="highlight"><pre><span></span>   export HDF5_USE_FILE_LOCKING=FALSE
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/h5py/" class="u-url">h5py</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/h5py/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-02-28T22:11:33+08:00" itemprop="datePublished" title="2021-02-28 22:11">2021-02-28 22:11</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org4def8a7" class="outline-2">
+<h2 id="org4def8a7">h5py: 储存数据</h2>
+<div class="outline-text-2" id="text-org4def8a7">
+<p>
+<a href="https://www.h5py.org/">h5py</a> 是 HDF5 库的 python 封装，基本提供了所有对应的 C API，因此适合用在简单并底层的应用中，特别适合对 HDF5 文件有定制的应用中。
+</p>
+</div>
+
+<div id="outline-container-org57b8b73" class="outline-3">
+<h3 id="org57b8b73">存</h3>
+<div class="outline-text-3" id="text-org57b8b73">
+<div class="highlight"><pre><span></span>   <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'data.h5'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
+       <span class="n">hf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat1"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat1</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
+       <span class="n">hf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat2"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat2</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
+
+       <span class="n">g</span> <span class="o">=</span> <span class="n">hf</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">"index"</span><span class="p">)</span>
+       <span class="n">g</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat1"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat1</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org33db263" class="outline-3">
+<h3 id="org33db263">取</h3>
+<div class="outline-text-3" id="text-org33db263">
+<div class="highlight"><pre><span></span>   <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'data.h5'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
+       <span class="n">mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hf</span><span class="p">[</span><span class="s1">'mat1'</span><span class="p">])</span>
+       <span class="n">mat2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hf</span><span class="p">[</span><span class="s1">'mat2'</span><span class="p">])</span>
+
+       <span class="n">g</span> <span class="o">=</span> <span class="n">hf</span><span class="p">[</span><span class="s1">'index'</span><span class="p">]</span>
+       <span class="n">g_mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">'mat1'</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/openmp/" class="u-url">OpenMP</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/openmp/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-02-20T15:37:55+08:00" itemprop="datePublished" title="2021-02-20 15:37">2021-02-20 15:37</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org048ca89" class="outline-2">
+<h2 id="org048ca89">OpenMP 共享内存并行</h2>
+<div class="outline-text-2" id="text-org048ca89">
+</div>
+<div id="outline-container-orgf0afc85" class="outline-3">
+<h3 id="orgf0afc85">常用函数总结</h3>
+<div class="outline-text-3" id="text-orgf0afc85">
+<ul class="org-ul">
+<li><code>parallel</code></li>
+<li><code>for</code></li>
+<li><code>parallel for</code></li>
+<li><code>sections</code></li>
+<li><code>parallel sections</code></li>
+<li><code>critical</code></li>
+<li><code>single</code></li>
+<li><code>omp_get_num_procs</code></li>
+<li><code>omp_get_num_threads</code></li>
+<li><code>omp_get_thread_num</code></li>
+<li><code>omp_set_num_threads</code></li>
+</ul>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sagemath/" class="u-url">SageMath</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/sagemath/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-02-19T14:27:07+08:00" itemprop="datePublished" title="2021-02-19 14:27">2021-02-19 14:27</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org7b0e5f4" class="outline-2">
+<h2 id="org7b0e5f4">量子力学算符代数计算</h2>
+<div class="outline-text-2" id="text-org7b0e5f4">
+<p>
+参见 <a href="https://sheaves.github.io/Noncommutative-Sage/">Noncommutative Algebras in Sage</a>.
 </p>
 
 <p>
-远程转发通过参数 -R 指定，格式：-R [登录主机:]登录主机端口:本地网络主机:本地网络主机端口。
+例如要做满足 \([a, a^{\dagger}]=1, [b,b^{\dagger}]=1, [a,b]=0\) 的两个算符 \(a,b\) 的代数计算
 </p>
+<div class="highlight"><pre><span></span>  <span class="n">F</span><span class="o">.&lt;</span><span class="n">a</span><span class="p">,</span> <span class="n">a_d</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">b_d</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">FreeAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
 
-<p>
-举例：~ssh -R 0.0.0.0:8080:host2:80 user@host1~ 。这条命令将host2的80端口映射到待登录主机host1的8080端口，前提是本地主机可以正常连接host2的80端口。
-</p>
+  <span class="n">U_relations</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="n">b_d</span> <span class="o">*</span> <span class="n">b</span><span class="p">:</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b_d</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="n">a_d</span> <span class="o">*</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a_d</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="p">}</span>
 
-<p>
-畅想一下这个功能的作用：
-</p>
+  <span class="n">U</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">g_algebra</span><span class="p">(</span><span class="n">U_relations</span><span class="p">)</span>
+  <span class="n">U</span><span class="o">.</span><span class="n">_latex_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span> <span class="sa">r</span><span class="s2">"a^\dagger"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="sa">r</span><span class="s2">"b^\dagger"</span><span class="p">]</span>
+  <span class="n">U</span><span class="o">.</span><span class="n">inject_variables</span><span class="p">()</span>
+</pre></div>
 
-<ol class="org-ol">
-<li>本地网络中有一个http代理，通过这个代理可以上外网，因此通过这条命令将这个http代理映射到待登录主机的某个端口，这样受限网络环境中所有其它服务器即可使用这个http代理上外网了。</li>
-<li>在本机开发了一个web应用，想拿给别人测试，但现在你却处在内网，外网是无法直接访问内网的主机的，怎么办！？很多人可能会说，找台有公网IP的主机，重新部署一下就行了。这样可行，但太麻烦。然而自从你了解了ssh的远程转发之后，一切都变得简单了。只需在本地主机上执行一下上面例子的命令即可实现外网访问内网的web应用。</li>
-</ol>
 <p>
 注意：
 </p>
 <ol class="org-ol">
-<li>sshd<sub>config里要打开AllowTcpForwarding选项</sub>，否则-R远程端口转发会失败。</li>
-<li>默认转发到远程主机上的端口绑定的是127.0.0.1，如要绑定0.0.0.0需要打开sshd<sub>config里的GatewayPorts选项</sub>。这个选项如果由于权限没法打开也有办法，可配合ssh -L将端口绑定到0.0.0.0，聪明的你应该能想到办法，呵呵。</li>
+<li>定义规则时，必须是后定义的字母乘在前面，例如定义时 <code>F.&lt;a,b,c&gt;</code> 规则中应该写作 <code>c*b: ..., b*a: ...</code> 等</li>
+<li>变量的 latex 显示名顺序要和变量定义顺序相同</li>
+<li>没有指定规则的乘法默认就是可对易的</li>
 </ol>
 </div>
 </div>
 
-<div id="outline-container-org409963c" class="outline-3">
-<h3 id="org409963c">动态转发</h3>
-<div class="outline-text-3" id="text-org409963c">
-<p>
-相对于本地转发和远程转发的单一端口转发模式而言，动态转发有点更加强劲的端口转发功能，即是无需固定指定被访问目标主机的端口号。这个端口号需要在本地通过协议指定，该协议就是简单、安全、实用的 SOCKS 协议。
-</p>
 
-<p>
-动态转发通过参数 -D 指定，格式：-D [本地主机:]本地主机端口。相对于前两个来说，动态转发无需再指定远程主机及其端口。它们由通过 SOCKS协议 连接到本地主机端口的那个主机。
-</p>
 
-<p>
-举例：~ssh -D 50000 user@host1~ 。这条命令创建了一个SOCKS代理，所以通过该SOCKS代理发出的数据包将经过host1转发出去。
-</p>
 
-<p>
-怎么使用？
-</p>
+<div id="outline-container-org83d3ebb" class="outline-2">
+<h2 id="org83d3ebb">安装为 jupyter 内核</h2>
+<div class="outline-text-2" id="text-org83d3ebb">
+<div class="highlight"><pre><span></span>jupyter kernelspec install ./SageMath/local/share/jupyter/kernels/sagemath
+</pre></div>
+</div>
+</div>
 
+<div id="outline-container-orgf16501c" class="outline-2">
+<h2 id="orgf16501c">基本特性</h2>
+<div class="outline-text-2" id="text-orgf16501c">
 <ol class="org-ol">
-<li>用firefox浏览器，在浏览器里设置使用socks5代理127.0.0.1:50000，然后浏览器就可以访问host1所在网络内的任何IP了。</li>
-<li>
-<p>
-如果是普通命令行应用，使用proxychains-ng，参考命令如下：
-</p>
-<div class="highlight"><pre><span></span>      brew install proxychains-ng
-      vim /usr/local/etc/proxychains.conf # 在ProxyList配置段下添加配置 "socks5 	127.0.0.1 50000"
-      proxychains-ng wget http://host2 # 在其它命令行前添加proxychains-ng即可
-</pre></div>
-</li>
-<li>
-<p>
-如果是ssh，则用以下命令使用socks5代理：
-</p>
-<div class="highlight"><pre><span></span>      ssh -o ProxyCommand='/usr/bin/nc -X 5 -x 127.0.0.1:5000 %h %p' user@host2
-</pre></div>
+<li>直接输入数学运算公式可以作为计算器来用</li>
+<li>继承自python的面向对象系统，即任何东西都是对象</li>
+<li>在命令行模式下使用TAB补全，在notebook里似乎有bug</li>
+<li>内置交互式帮助系统，在命令后加一个问号即可显示帮助   <code>c.diameter?</code>
 </li>
 </ol>
+</div>
+</div>
+
+<div id="outline-container-org7498a9b" class="outline-2">
+<h2 id="org7498a9b">符号运算</h2>
+<div class="outline-text-2" id="text-org7498a9b">
+</div>
+<div id="outline-container-org5378ec7" class="outline-3">
+<h3 id="org5378ec7">基础操作</h3>
+<div class="outline-text-3" id="text-org5378ec7">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>x = var('x')</code></td>
+<td class="org-left">定义符号</td>
+</tr>
+<tr>
+<td class="org-left"><code>f = 1 - sin(x)^2</code></td>
+<td class="org-left">定义一个函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>print(f)</code></td>
+<td class="org-left">普通打印函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>print(maxima(f))</code></td>
+<td class="org-left">美化打印函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>f.simplify_trig()</code></td>
+<td class="org-left">化简表达式</td>
+</tr>
+<tr>
+<td class="org-left"><code>f(x=pi/2)</code></td>
+<td class="org-left">计算函数值</td>
+</tr>
+<tr>
+<td class="org-left"><code>ingtegrate(f, x)</code></td>
+<td class="org-left">不定积分</td>
+</tr>
+<tr>
+<td class="org-left"><code>f.differentiate(2).substitude({x: 3/pi})</code></td>
+<td class="org-left">计算二阶微分，并代替值</td>
+</tr>
+<tr>
+<td class="org-left"><code>a = var('a')</code></td>
+<td class="org-left">x是默认隐含符号，需要更多符号就要定义</td>
+</tr>
+<tr>
+<td class="org-left"><code>S = solve(x^2 + x == a, x)</code></td>
+<td class="org-left">解代数方程</td>
+</tr>
+<tr>
+<td class="org-left"><code>S[0].rhs()</code></td>
+<td class="org-left">显示代数方程解</td>
+</tr>
+<tr>
+<td class="org-left"><code>show(plot(sin(x)+ sin(1.6*x)), 0, 40)</code></td>
+<td class="org-left">解析画图</td>
+</tr>
+<tr>
+<td class="org-left"><code>F = factor(x^99 + y^99)</code></td>
+<td class="org-left">分解因式</td>
+</tr>
+<tr>
+<td class="org-left"><code>F.expand()</code></td>
+<td class="org-left">乘开因式</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgf6ffd3a" class="outline-3">
+<h3 id="orgf6ffd3a">代数</h3>
+<div class="outline-text-3" id="text-orgf6ffd3a">
 <p>
-畅想一下这个功能的作用：
+用对象表示代数结构，群环域
+</p>
+</div>
+</div>
+<div id="outline-container-orgc768a1b" class="outline-3">
+<h3 id="orgc768a1b">组合数学</h3>
+</div>
+</div>
+
+<div id="outline-container-org2f4a581" class="outline-2">
+<h2 id="org2f4a581">数值运算</h2>
+<div class="outline-text-2" id="text-org2f4a581">
+</div>
+<div id="outline-container-orgd1b0273" class="outline-3">
+<h3 id="orgd1b0273">基础操作</h3>
+<div class="outline-text-3" id="text-orgd1b0273">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>3 + 5</code></td>
+<td class="org-left">加法</td>
+</tr>
+<tr>
+<td class="org-left"><code>57.1 ^ 100</code></td>
+<td class="org-left">乘方</td>
+</tr>
+<tr>
+<td class="org-left"><code>matrix([[1,2], [3,4]])</code></td>
+<td class="org-left">创建矩阵，按行写</td>
+</tr>
+<tr>
+<td class="org-left"><code>g = sin(x) + (1- x^2)</code></td>
+<td class="org-left">定义一个函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>find_root(g, 0, 2)</code></td>
+<td class="org-left">在区间[0, 2]寻根</td>
+</tr>
+<tr>
+<td class="org-left"><code>var('x y z')</code></td>
+<td class="org-left">定义一些符号</td>
+</tr>
+<tr>
+<td class="org-left"><code>f = (1+ (y+ x^2)^2 + (1+ z+ y^2)^2)^2</code></td>
+<td class="org-left">新定义一个函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>minimize(f, [1, 2, 3], disp=1, algorithm='powell')</code></td>
+<td class="org-left">计算最优化，指定算法和初值</td>
+</tr>
+<tr>
+<td class="org-left"><code>m = random_matrix(RDF, 500)</code></td>
+<td class="org-left">创建复数500×500随机矩阵</td>
+</tr>
+<tr>
+<td class="org-left"><code>e = m.eigenvalues()</code></td>
+<td class="org-left">计算矩阵的本征值</td>
+</tr>
+<tr>
+<td class="org-left"><code>w = [(i, abs(e[i])) for i in range(len(e))]</code></td>
+<td class="org-left">循环方式创建list</td>
+</tr>
+<tr>
+<td class="org-left"><code>show(points(w))</code></td>
+<td class="org-left">成对点画图</td>
+</tr>
+<tr>
+<td class="org-left"><code>factorial(100)</code></td>
+<td class="org-left">计算阶乘</td>
+</tr>
+<tr>
+<td class="org-left"><code>N(pi, digits=100)</code></td>
+<td class="org-left">保留100位小数，四舍五入</td>
+</tr>
+<tr>
+<td class="org-left"><code>z = Partitions(10^8).cardinality()</code></td>
+<td class="org-left">计算数的划分并给出基数</td>
+</tr>
+</tbody>
+</table>
+<p>
+包括以下几种浮点数类型：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Python</td>
+<td class="org-left">float, complex, decimal</td>
+</tr>
+<tr>
+<td class="org-left">SageMath specific</td>
+<td class="org-left">RDF, CDF, RQDF, CC, RR, RIF, CIF</td>
+</tr>
+<tr>
+<td class="org-left">included Systems</td>
+<td class="org-left">pari, maxima</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0c7c197" class="outline-2">
+<h2 id="org0c7c197">绘图</h2>
+<div class="outline-text-2" id="text-org0c7c197">
+<p>
+可绘制的类型：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">interact</td>
+<td class="org-left">动态交互图，可以显示一个滑块，滑动改变图</td>
+</tr>
+<tr>
+<td class="org-left">Regions Plot/ Contours</td>
+<td class="org-left">显示一个不等式区间</td>
+</tr>
+<tr>
+<td class="org-left">Density Plot</td>
+<td class="org-left">密度图，热力图</td>
+</tr>
+<tr>
+<td class="org-left">filled plot</td>
+<td class="org-left">可以上色显示两条线之间的区间</td>
+</tr>
+<tr>
+<td class="org-left">multiedge graph</td>
+<td class="org-left">可以显示一个有向图</td>
+</tr>
+</tbody>
+</table>
+<p>
+<a href="https://wiki.sagemath.org/interact">这里</a> 有各种动态图的例子
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga6aba5a" class="outline-2">
+<h2 id="orga6aba5a">技巧和常用代码片段</h2>
+<div class="outline-text-2" id="text-orga6aba5a">
+</div>
+<div id="outline-container-org5bdf62a" class="outline-3">
+<h3 id="org5bdf62a">与 tex 联合使用</h3>
+<div class="outline-text-3" id="text-org5bdf62a">
+</div>
+<div id="outline-container-orgf627399" class="outline-4">
+<h4 id="orgf627399">sagetex：可以在tex中显示sage命令的运算结果</h4>
+<div class="outline-text-4" id="text-orgf627399">
+<p>
+首先需要安装 <a href="http://doc.sagemath.org/html/en/tutorial/sagetex.html">sagetex</a>
+</p>
+
+<p>
+注意： 在网站下载的二进制包千万别手贱用 sage -i 自己再编译，由于包含文件不全，这样只会破坏已编译好的文件
+</p>
+
+<div class="highlight"><pre><span></span>    kpsewhich -var-value=TEXMFHOME                  # 获得TEXMFHOME目录位置，一般是$HOME/texmf
+    cp -R SAGE_ROOT/local/share/texmf/tex TEXMFHOME # 把sagetex复制到目录里
+    texhash                                         # 让latex重新索引包
+</pre></div>
+<p>
+使用方法
+</p>
+<div class="highlight"><pre><span></span>    \usepackage{sagetex}              % 引入包
+    \usepackage[imagemagick]{sagetex} % 可选项
+    \setlength{\sagetexindent}{10ex}  % 设置间隔
+    $2+2=\sage{2+2}$                  % 行内计算sage表达式的数学结果
+    \begin{sageblock}                 % 引用sage/python代码
+      1+1
+      var('a,b,c')
+      eqn ~ [a+b*c==1, b-a*c==0, a+b=~5]
+      s = solve(eqn, a,b,c)
+    \end{sageblock} 
+    \begin{sagesilent}      % 多行计算sage表达式
+      e = 2
+      e = 3*e + 1
+    \end{sagesilent}
+    $e=\sage{e}$            % 在同一文件内可以直接使用定义的变量
+    \sageplot{E.plot(-3,3)} % sage画图
+    \sagetexpause           % 在pause宏之间的sage表达式不被求值，便于修改
+    \sagetexunpause
+</pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-org6e6da16" class="outline-3">
+<h3 id="org6e6da16">三角函数和指数之间转换</h3>
+<div class="outline-text-3" id="text-org6e6da16">
+<p>
+<a href="https://ask.sagemath.org/question/7672/complex-exponentialtrigonometric/">参考这个回答</a>
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">exponentialize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+       <span class="sd">"""从三角函数形式变换成e指数形式"""</span>
+       <span class="k">return</span> <span class="n">sageobj</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_maxima_</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">exponentialize</span><span class="p">())</span>
+
+   <span class="k">def</span> <span class="nf">demoivre</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+       <span class="sd">"""从e指数形式变换成三角函数形式"""</span>
+       <span class="k">return</span> <span class="n">sageobj</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_maxima_</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">demoivre</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/c-memory-management/" class="u-url">C Memory Management</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/c-memory-management/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-02-12T08:37:35+08:00" itemprop="datePublished" title="2021-02-12 08:37">2021-02-12 08:37</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org5940465" class="outline-2">
+<h2 id="org5940465">C 语言内存管理</h2>
+</div>
+
+<div id="outline-container-orgdbb935c" class="outline-2">
+<h2 id="orgdbb935c">关键字</h2>
+<div class="outline-text-2" id="text-orgdbb935c">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"><b>关键字</b></th>
+<th scope="col" class="org-left"><b>存储类别</b></th>
+<th scope="col" class="org-left"><b>存储期</b></th>
+<th scope="col" class="org-left"><b>作用域</b></th>
+<th scope="col" class="org-left"><b>链接</b></th>
+<th scope="col" class="org-left"><b>声明方式</b></th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">可选 (<code>auto</code>)</td>
+<td class="org-left">自动</td>
+<td class="org-left">自动</td>
+<td class="org-left">块</td>
+<td class="org-left">无</td>
+<td class="org-left">块内</td>
+</tr>
+<tr>
+<td class="org-left"><code>register</code></td>
+<td class="org-left">寄存器</td>
+<td class="org-left">自动</td>
+<td class="org-left">块</td>
+<td class="org-left">无</td>
+<td class="org-left">块内</td>
+</tr>
+<tr>
+<td class="org-left">无</td>
+<td class="org-left">静态外部链接</td>
+<td class="org-left">静态</td>
+<td class="org-left">文件</td>
+<td class="org-left">外部</td>
+<td class="org-left">函数外</td>
+</tr>
+<tr>
+<td class="org-left"><code>static</code></td>
+<td class="org-left">静态内部链接</td>
+<td class="org-left">静态</td>
+<td class="org-left">文件</td>
+<td class="org-left">内部</td>
+<td class="org-left">函数外</td>
+</tr>
+<tr>
+<td class="org-left"><code>static</code></td>
+<td class="org-left">静态无链接</td>
+<td class="org-left">静态</td>
+<td class="org-left">块</td>
+<td class="org-left">无</td>
+<td class="org-left">块内</td>
+</tr>
+<tr>
+<td class="org-left"><code>extern</code></td>
+<td class="org-left">外部</td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>_Thread_local</code></td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>const</code></td>
+<td class="org-left">不可变</td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>inline</code></td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>volatile</code></td>
+<td class="org-left">代理，可由其它程序改变</td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>restrict</code></td>
+<td class="org-left">限定唯一的指针</td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>_Atomic</code></td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+</tbody>
+</table>
+<ol class="org-ol">
+<li>好的设计不应该使用文件作用域的变量</li>
+<li>
+<code>auto</code> 关键字用于明确显示使用了与外部同名的变量名，与 c++ 中的完全不同，不建议使用</li>
+<li>函数的默认类别是 <code>extern</code> 除非使用了 <code>static</code> 指定为模块私有</li>
+<li>
+<code>static</code> 静态指的是生命周期一直在， <code>const</code> 才是不可变</li>
+<li>
+<code>const</code> 变量只能初始化，不能修改</li>
+<li>
+<code>const float * pf</code> 指针 <code>pf</code> 指向 <code>const float</code> 类型的对象，即对象内容不可变，但指针可以指向其它地址</li>
+<li>
+<code>float const * pf</code> 同上</li>
+<li>
+<code>float * const pf</code> 指针 <code>pf</code> 指向 <code>float</code> 类型的对象，即对象内容可变，但指针不能指向其它地址</li>
+<li>即 <code>const</code> 在 <code>*</code> 前面表示指向的值不能变，在 <code>*</code> 后面表示指针本身不能变</li>
+<li>函数的形参中有 <code>const</code> 表示传递的值不变</li>
+<li>
+<code>restrict</code> 限制指针是指向内存的唯一和初始方式，用于优化</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org9823553" class="outline-2">
+<h2 id="org9823553"></h2>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pandas/" class="u-url">pandas</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/pandas/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-30T13:27:04+08:00" itemprop="datePublished" title="2021-01-30 13:27">2021-01-30 13:27</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org017fc6e" class="outline-2">
+<h2 id="org017fc6e">数据表格和矩阵之间的转换</h2>
+<div class="outline-text-2" id="text-org017fc6e">
+</div>
+<div id="outline-container-org5aa5a38" class="outline-3">
+<h3 id="org5aa5a38">从点的坐标表格 <code>(x,y,z)</code> 得到矩阵</h3>
+<div class="outline-text-3" id="text-org5aa5a38">
+<div class="highlight"><pre><span></span>   <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"y"</span><span class="p">:[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="s2">"z"</span><span class="p">:[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">]})</span>
+   <span class="n">data_2x2</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">"z"</span><span class="p">)</span>
+
+   <span class="n">matrix</span> <span class="o">=</span> <span class="n">data_2x2</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgec33a5f" class="outline-3">
+<h3 id="orgec33a5f">从矩阵表格得到坐标表格</h3>
+<div class="outline-text-3" id="text-orgec33a5f">
+<div class="highlight"><pre><span></span>   <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"y"</span><span class="p">:[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="s2">"z"</span><span class="p">:[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">]})</span>
+   <span class="n">data_2x2</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">"z"</span><span class="p">)</span>
+
+   <span class="n">d</span> <span class="o">=</span> <span class="n">data_2x2</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+   <span class="n">d</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'y'</span><span class="p">,</span><span class="s1">'x'</span><span class="p">,</span><span class="s1">'z'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge28d107" class="outline-2">
+<h2 id="orge28d107">groupby: 分开-计算-合并</h2>
+<div class="outline-text-2" id="text-orge28d107">
+<p>
+<a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/groupby.html">groupby guide</a>
+通过 <code>groupby</code> 可以做涉及到如下三个过程的一些操作：
 </p>
 <ol class="org-ol">
-<li>想访问受限网络环境中的多种服务</li>
-<li>FQ</li>
-<li>……</li>
-</ol>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-org62f0719" class="outline-2">
-<h2 id="org62f0719">免密码登录</h2>
-<div class="outline-text-2" id="text-org62f0719">
-</div>
-<div id="outline-container-org6c7a4d4" class="outline-3">
-<h3 id="org6c7a4d4">在本地机器生成密钥对</h3>
-<div class="outline-text-3" id="text-org6c7a4d4">
-<div class="highlight"><pre><span></span>   ssh-keygen -t rsa
-</pre></div>
-<p>
-根据提示设置文件名和密码
-</p>
-</div>
-</div>
-
-<div id="outline-container-orge364648" class="outline-3">
-<h3 id="orge364648">授权登录</h3>
-<div class="outline-text-3" id="text-orge364648">
-<p>
-将公钥追加到目标服务器的 <code>$HOME/.ssh/authorized_keys</code> 文件中，该文件的权限应为 <code>600</code> ， <code>.ssh</code> 目录权限应为 <code>700</code>
-</p>
-<div class="highlight"><pre><span></span>   touch ~/.ssh/authorized_keys
-   chmod 600 ~/.ssh/authorized_keys
-   cat ~/.ssh/a_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
-</pre></div>
-
-<p>
-测试一下
-</p>
-<div class="highlight"><pre><span></span>   ssh username@localhost
-</pre></div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org8b39acc" class="outline-2">
-<h2 id="org8b39acc">配置别名</h2>
-<div class="outline-text-2" id="text-org8b39acc">
-<p>
-在 <code>~/.ssh/config</code> 中配置别名，就不用记 ip 了。
-</p>
-
-<div class="highlight"><pre><span></span>  # 指定使用 bash 登录
-  Host thbash
-      HostName 10.0.0.101
-      User username
-      RequestTTY yes
-      RemoteCommand bash
-
-  # 指定使用 zsh 登录
-  Host th
-      HostName 10.0.0.101
-      User username
-      RequestTTY yes
-      RemoteCommand zsh
-
-  # 最基本的设置
-  Host group1
-      Hostname 10.0.5.90
-      User username
-</pre></div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/systemd/" class="u-url">systemd</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/systemd/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-12-24T19:55:29+08:00" itemprop="datePublished" title="2020-12-24 19:55">2020-12-24 19:55</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-org04539e1" class="outline-2">
-<h2 id="org04539e1">systemctl: 管理服务</h2>
-<div class="outline-text-2" id="text-org04539e1">
-<ul class="org-ul">
-<li>systemd 中的服务后缀名 <code>.service</code> 可以不写，会自动补全。</li>
-<li>systemd 中把服务称作 <code>unit</code> , <code>unit</code> 有多种类型包括 <code>.service, .target</code> 等</li>
-</ul>
-</div>
-
-
-<div id="outline-container-org6699e85" class="outline-3">
-<h3 id="org6699e85">列出服务</h3>
-<div class="outline-text-3" id="text-org6699e85">
-<div class="highlight"><pre><span></span>   # 查看系统所有安装的服务项
-   systemctl list-unit-files --type=service
-
-   # 查看系统所有运行的服务项
-   systemctl list-units --type=service
-
-   # 查看系统所有开机自启动的服务项
-   systemctl list-unit-files --type=service | grep enabled
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org02a29ce" class="outline-3">
-<h3 id="org02a29ce">查看特定服务</h3>
-<div class="outline-text-3" id="text-org02a29ce">
-<div class="highlight"><pre><span></span>   # 查看指定服务项状态
-   systemctl status &lt;服务项名称&gt;
-
-   # 查看服务项的依赖关系
-   systemctl list-dependencies &lt;服务项名称&gt;
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orgfb1a0ba" class="outline-3">
-<h3 id="orgfb1a0ba">查看系统状态</h3>
-<div class="outline-text-3" id="text-orgfb1a0ba">
-<div class="highlight"><pre><span></span>   # 查看系统启动耗时
-   systemd-analyze
-
-   # 查看各项服务启动耗时
-   systemd-analyze blame | grep .service
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orgd3be718" class="outline-3">
-<h3 id="orgd3be718">管理服务</h3>
-<div class="outline-text-3" id="text-orgd3be718">
-<div class="highlight"><pre><span></span>   # 启动服务
-   systemctl start &lt;服务项名称&gt;
-
-   # 停止服务
-   systemctl stop &lt;服务项名称&gt;
-
-   # 重启服务
-   systemctl restart &lt;服务项名称&gt;
-
-   # 重新读取配置文件
-   # 如果该服务不能重启，但又必须使用新的配置，这条命令会很有用
-   systemctl reload &lt;服务项名称&gt;
-
-   # 使服务开机自启动
-   systemctl enable &lt;服务项名称&gt;
-
-   # 使服务不要开机自启动
-   systemctl disable &lt;服务项名称&gt;
-
-   # 禁用服务
-   # 这可以防止服务被其他服务间接启动，也无法通过 start 或 restart 命令来启动服务。
-   systemctl mask &lt;服务项名称&gt;
-
-   # 不再禁用服务
-   systemctl unmask &lt;服务项名称&gt;
-
-   # 重新读取所有服务项
-   # 修改、添加、删除服务项之后需要执行以下命令。
-   systemctl daemon-reload
-</pre></div>
-</div>
-</div>
-</div>
-
-
-
-<div id="outline-container-org4942166" class="outline-2">
-<h2 id="org4942166">编写简单的服务</h2>
-<div class="outline-text-2" id="text-org4942166">
-<p>
-服务文件都存放在 <code>/etc/systemd/system/</code> 中，后缀名为 <code>.service</code>
-</p>
-</div>
-
-<div id="outline-container-org77cbca7" class="outline-3">
-<h3 id="org77cbca7">简单的自启动脚本</h3>
-<div class="outline-text-3" id="text-org77cbca7">
-<ul class="org-ul">
-<li>
-<code>Type=simple</code> 表示启动并一直运行</li>
-<li>
-<code>ExecStart=/...</code> 表示要执行的命令，路径要写全</li>
-<li>
-<code>WantedBy=multi-user.target</code> 表示当用户能登录的时候就该启动这个服务了</li>
-</ul>
-<div class="highlight"><pre><span></span>   [Unit]
-   Description=My Startup
-
-   [Service]
-   Type=simple
-   ExecStart=/path/to/server --server
-
-   [Install]
-   WantedBy=multi-user.target
-</pre></div>
-</div>
-</div>
-
-
-<div id="outline-container-org45e3330" class="outline-3">
-<h3 id="org45e3330">配置自启动 jupyterlab</h3>
-<div class="outline-text-3" id="text-org45e3330">
-<p>
-<code>/etc/systemd/system/jupyterlab.service</code>
-</p>
-<div class="highlight"><pre><span></span>   # start jupyter lab
-   [Unit]
-   Description=jupyter lab
-   After=nginx.target
-
-   [Service]
-   Type=simple
-   Environment="PATH='/home/username/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games'" "PYTHONPATH='/home/username/.local/bin:/usr/lib/python39.zip:/usr/lib/python3.9:/usr/lib/python3.9/lib-dynload:/home/username/.local/lib/python3.9/site-packages:/usr/local/lib/python3.9/dist-packages:/usr/lib/python3/dist-packages:/home/username/.local/lib/python3.9/site-packages/IPython/extensions:/home/username/.ipython'"
-   ExecStart=/home/username/.local/bin/jupyter lab --LabApp.app_dir=/home/username/.local/share/jupyter/lab --notebook-dir=/home/username/Projects --allow-root --config=/home/username/.jupyter/jupyter_lab_config.py
-
-   [Install]
-   WantedBy=multi-user.target
-</pre></div>
-</div>
-</div>
-
-
-<div id="outline-container-orgb018a3a" class="outline-3">
-<h3 id="orgb018a3a">配置自动挂载</h3>
-<div class="outline-text-3" id="text-orgb018a3a">
-<p>
-配置文件路径： <code>/etc/systemd/system/path-to-dir.mount</code> 。
-</p>
-
-<p>
-注意：文件名必须是挂载路径名，例如要把 <code>/dev/sdb1</code> 挂载到 <code>/mnt/sds</code> ，配置文件应该叫做 <code>mnt-sds.mount</code>
-</p>
-
-<div class="highlight"><pre><span></span>   [Unit]
-   Description=mount 
-
-   [Mount]
-   What=/dev/sdb1
-   Where=/mnt/sds
-   Options=defaults
-
-   [Install]
-   WantedBy=local-fs.target
-</pre></div>
-</div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/samba/" class="u-url">samba 文件共享</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/samba/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-12-24T12:37:06+08:00" itemprop="datePublished" title="2020-12-24 12:37">2020-12-24 12:37</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-orgf9e1121" class="outline-2">
-<h2 id="orgf9e1121">Samba 基本配置</h2>
-<div class="outline-text-2" id="text-orgf9e1121">
-<p>
-参考 <a href="https://www.fosslinux.com/8703/how-to-setup-samba-file-sharing-server-on-ubuntu.htm">FossLinux 的文章</a>。
-</p>
-</div>
-
-
-<div id="outline-container-orgf36e951" class="outline-3">
-<h3 id="orgf36e951">安装 Samba</h3>
-<div class="outline-text-3" id="text-orgf36e951">
-<div class="highlight"><pre><span></span>   apt install samba
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org23c6147" class="outline-3">
-<h3 id="org23c6147">添加组和用户</h3>
-<div class="outline-text-3" id="text-org23c6147">
-<p>
-假定已经有一个本地用户 <code>mylocaluser</code>
-</p>
-<div class="highlight"><pre><span></span>   # 创建 smb 的组
-   /usr/sbin/addgroup smbgroup
-   # 把用户加到组里
-   /usr/sbin/usermod -aG smbgroup mylocaluser
-   # 设置用户的远程密码，可以与本地登录密码不同
-   smbpasswd -a mylocaluser
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org6fc88e9" class="outline-3">
-<h3 id="org6fc88e9">配置文件</h3>
-<div class="outline-text-3" id="text-org6fc88e9">
-<p>
-首先一定要备份一份
-</p>
-<div class="highlight"><pre><span></span>   cp /etc/samba/smb.conf /etc/samba/smb.conf.backup
-</pre></div>
-
-<p>
-配置文件修改如下，没有的项目就加进去，已有的就修改一下
-</p>
-<div class="highlight"><pre><span></span>   [global]
-
-   # 允许用户登录
-   security = user
-
-   [homes]
-
-   read only = no
-</pre></div>
-
-<p>
-如果要加入其它登录地址，例如 <code>smb://ip/newport</code> 就如下配置
-</p>
-<div class="highlight"><pre><span></span>   [newport]
-   path = /path/to/files
-   valid users = @smbgroup
-   guest ok = no
-   writable = yes
-   browsable = yes
-</pre></div>
-</div>
-</div>
-</div>
-
-
-
-<div id="outline-container-org2657310" class="outline-2">
-<h2 id="org2657310">软链接权限</h2>
-<div class="outline-text-2" id="text-org2657310">
-<p>
-从别处软链接过来的文件夹打不开，因为没有配置软链接的权限，只要在 <code>[global]</code> 里加入下面的内容就行了。
-</p>
-
-<p>
-参考：<a href="https://blog.csdn.net/cityzenoldwang/article/details/61189653">这个博客</a>
-</p>
-<div class="highlight"><pre><span></span>  [global]
-  wide links = yes
-  symlinks = yes
-  unix extensions = no
-</pre></div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/exact-diagonalization/" class="u-url">Exact Diagonalization</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/exact-diagonalization/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-12-20T13:18:31+08:00" itemprop="datePublished" title="2020-12-20 13:18">2020-12-20 13:18</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="精确对角化">精确对角化<a class="anchor-link" href="posts/exact-diagonalization/#%E7%B2%BE%E7%A1%AE%E5%AF%B9%E8%A7%92%E5%8C%96">¶</a>
-</h2>
-<p>参考材料：</p>
-<ol>
-<li>Anders W. Sandvik 的综述 <a href="https://arxiv.org/abs/1101.3281">Computational Studies of Quantum Spin Systems</a> </li>
-<li>以及他的课程ppt <a href="https://physics.bu.edu/~sandvik/vietri/index.html">XIV Training Course in the Physics of Strongly Correlated Systems </a>
+<li>根据某些标准将数据 <b>分类</b>
 </li>
-<li>Ralf Schneider, et.al. "Computational Many-Particle Physics" 的第 18 章</li>
+<li>对每类数据分别 <b>应用</b> 某个函数</li>
+<li>将应用的结果 <b>合并</b> 回数据表中</li>
 </ol>
-<p>精确对角化实际上就是把哈密顿量写成矩阵表示，然后再求这个矩阵的最小本征值和本征矢，也就是基态和基态能量。</p>
-<p>对于单电子图像的哈密顿量是很容易表示成矩阵形式的，多体哈密顿量的直接表示也不是很难。但是由于多体系统随着尺寸增加，矩阵的维数迅速增大，很容易就会超过计算机甚至超算的内存能力。所以精确对角化方法的核心就是如何利用系统的对称性把哈密顿量的矩阵划分成更小的矩阵。</p>
+<p>
+分开数据后通常要应用三种函数
+</p>
+<ol class="org-ol">
+<li>
+<b>累积</b> ：计算每组的和、平均值、总数等</li>
+<li>
+<b>变换</b> ：进行与组内数据相关的计算并返回类似索引的列表，如对组内数据标准化、根据组的数据填上新的数据等</li>
+<li>
+<b>筛选</b> ：去掉某些不符合条件的组等</li>
+</ol>
+</div>
 
+<div id="outline-container-orgd6abc61" class="outline-3">
+<h3 id="orgd6abc61">变换(transform)</h3>
+<div class="outline-text-3" id="text-orgd6abc61">
+<div class="highlight"><pre><span></span>   <span class="n">transformed</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+       <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+   <span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>下面先以海森堡自旋 $\frac{1}{2}$ 链为例说明如何利用对称性划分哈密顿量矩阵。最后再给出一个利用这些对称性的 Fermi-Hubbard 模型例子。其它所有一维电子模型都可以用与这两个例子类似的方法实现。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="直接表示哈密顿量的矩阵">直接表示哈密顿量的矩阵<a class="anchor-link" href="posts/exact-diagonalization/#%E7%9B%B4%E6%8E%A5%E8%A1%A8%E7%A4%BA%E5%93%88%E5%AF%86%E9%A1%BF%E9%87%8F%E7%9A%84%E7%9F%A9%E9%98%B5">¶</a>
-</h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Heisenberg $S= \frac{1}{2}$ 链
-$$ H = J\sum_{i=1}^{N} S_i \cdot S_{i+1} = J \sum_{i=1}^{N} \left( S_i^xS_{i+1}^x+S_i^yS_{i+1}^y+S_i^zS_{i+1}^z \right) $$
-$$ H = J \sum_{i=1}^{N} \left[ \frac{1}{2} \left( S_i^+S_{i+1}^-+S_i^-S_{i+1}^+ \right) + S_i^zS_{i+1}^z \right] $$</p>
-<p>为了简化起见，下面都取 $J=1$ ，即反铁磁Heisenberg模型。</p>
-
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/vim/" class="u-url">vimrc: vim</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/vim/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-28T18:33:00+08:00" itemprop="datePublished" title="2021-01-28 18:33">2021-01-28 18:33</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org9dd8385" class="outline-2">
+<h2 id="org9dd8385">正则表达式中使用非贪心匹配</h2>
+<div class="outline-text-2" id="text-org9dd8385">
+<p>
+<code>.*</code> 变成 <code>.\{-}</code>
+<code>.+</code> 变成 <code>.\{-1,\}</code>
+</p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="算符张量积构造哈密顿量">算符张量积构造哈密顿量<a class="anchor-link" href="posts/exact-diagonalization/#%E7%AE%97%E7%AC%A6%E5%BC%A0%E9%87%8F%E7%A7%AF%E6%9E%84%E9%80%A0%E5%93%88%E5%AF%86%E9%A1%BF%E9%87%8F">¶</a>
-</h4>
-<p>一般单粒子的哈密顿量都会由算符的张量积构造得到，如下</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-
-<span class="k">def</span> <span class="nf">tensor_product</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-    <span class="n">result</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">result</span>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/ffmpeg/" class="u-url">ffmpeg</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/ffmpeg/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-28T15:57:49+08:00" itemprop="datePublished" title="2021-01-28 15:57">2021-01-28 15:57</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orge5f6e6b" class="outline-2">
+<h2 id="orge5f6e6b">合并视频</h2>
+<div class="outline-text-2" id="text-orge5f6e6b">
+<div class="highlight"><pre><span></span>  ffmpeg -f concat -i filelist.txt -c copy out.mkv
 </pre></div>
 
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>首先定义每个格点上的算符</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Sz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
-<span class="n">Sp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
-<span class="n">Sm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
-<span class="n">II</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>接下来把所有格点的项全部加起来，这里以4个格点为例</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">H</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">tensor_product</span><span class="p">(</span><span class="n">Sp</span><span class="p">,</span> <span class="n">Sm</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">II</span><span class="p">)</span> <span class="o">+</span> <span class="n">tensor_product</span><span class="p">(</span><span class="n">Sm</span><span class="p">,</span> <span class="n">Sp</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">II</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">tensor_product</span><span class="p">(</span><span class="n">Sz</span><span class="p">,</span> <span class="n">Sz</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">II</span><span class="p">)</span>
-    <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">tensor_product</span><span class="p">(</span><span class="n">II</span><span class="p">,</span> <span class="n">Sp</span><span class="p">,</span> <span class="n">Sm</span><span class="p">,</span> <span class="n">II</span><span class="p">)</span> <span class="o">+</span> <span class="n">tensor_product</span><span class="p">(</span><span class="n">II</span><span class="p">,</span> <span class="n">Sm</span><span class="p">,</span> <span class="n">Sp</span><span class="p">,</span> <span class="n">II</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">tensor_product</span><span class="p">(</span><span class="n">II</span><span class="p">,</span> <span class="n">Sz</span><span class="p">,</span> <span class="n">Sz</span><span class="p">,</span> <span class="n">II</span><span class="p">)</span>
-    <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">tensor_product</span><span class="p">(</span><span class="n">II</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">Sp</span><span class="p">,</span> <span class="n">Sm</span><span class="p">)</span> <span class="o">+</span> <span class="n">tensor_product</span><span class="p">(</span><span class="n">II</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">Sm</span><span class="p">,</span> <span class="n">Sp</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">tensor_product</span><span class="p">(</span><span class="n">II</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">Sz</span><span class="p">,</span> <span class="n">Sz</span><span class="p">)</span>
-    <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">tensor_product</span><span class="p">(</span><span class="n">Sm</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">Sp</span><span class="p">)</span> <span class="o">+</span> <span class="n">tensor_product</span><span class="p">(</span><span class="n">Sp</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">Sm</span><span class="p">))</span>
-    <span class="o">+</span> <span class="n">tensor_product</span><span class="p">(</span><span class="n">Sz</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">II</span><span class="p">,</span> <span class="n">Sz</span><span class="p">)</span>
-<span class="p">)</span>
-<span class="n">H111</span> <span class="o">=</span> <span class="n">H</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>有了哈密顿量矩阵就可以对它进行对角化求基态了，这里调用 Arpack 求最小的本征值</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="kn">import</span> <span class="n">eigsh</span>
-
-<span class="n">eigvals</span><span class="p">,</span> <span class="n">eigvecs</span> <span class="o">=</span> <span class="n">eigsh</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">"SA"</span><span class="p">)</span>
-<span class="n">eigvals</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[4]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([-4.44948974])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="根据基矢构造哈密顿量">根据基矢构造哈密顿量<a class="anchor-link" href="posts/exact-diagonalization/#%E6%A0%B9%E6%8D%AE%E5%9F%BA%E7%9F%A2%E6%9E%84%E9%80%A0%E5%93%88%E5%AF%86%E9%A1%BF%E9%87%8F">¶</a>
-</h4>
-<p>从上面最一般的过程能看出，构造哈密顿量需要做大量的张量积计算，而且这些张量积中乘的项大多数都是单位矩阵，也就是说哈密顿量矩阵是非常稀疏的，所以我们其实可以用稀疏矩阵来表示哈密顿量，并且直接找到有数字的那些基矢，往哈密顿量里填数字就行了。</p>
-<p>在上面的张量积构造过程中我们实际上取的表象是按照格点顺序排列的，即
-$$
-\begin{array}{lll}
-|0\rangle &amp;= |\uparrow\uparrow\uparrow\uparrow\rangle     &amp;= (0000) \\
-|1\rangle &amp;= |\uparrow\uparrow\uparrow\downarrow\rangle   &amp;= (0001) \\
-|2\rangle &amp;= |\uparrow\uparrow\downarrow\uparrow\rangle   &amp;= (0010) \\
-|3\rangle &amp;= |\uparrow\uparrow\downarrow\downarrow\rangle &amp;= (0011) \\
-\cdots &amp;= \cdots &amp;= \cdots
-\end{array}
-$$
-很容易发现基矢的表示自然地与数字的二进制联系起来了，因为每个格点恰好也只有两种可能的基矢，上下自旋分别对应于数字0和1。</p>
-<p>这样我们就得到了一个关系
-$$
-\begin{array}{llll}
-S^z &amp;\Rightarrow &amp; 0\rightarrow 0 &amp; 1\rightarrow 1 \\
-S^- &amp;\Rightarrow &amp; 0\rightarrow \emptyset &amp; 1\rightarrow 0 \\
-S^+ &amp;\Rightarrow &amp; 0\rightarrow 1 &amp; 1\rightarrow \emptyset
-\end{array}
-$$
-即，$S^z$ 作用无效果，$S^-$ 相当于如果bit是0就翻转为1，如果是1，这个基矢就消失掉。</p>
-<p>综合起来，对于最近邻的两个态的四种情况，哈密顿量的作用结果为
-$$
-\begin{array}{lllll}
-               &amp;   (00)   &amp;     (01)   &amp;     (10)   &amp;     (11) \\
-S_i^zS_{i+1}^z &amp;   (00)   &amp;   -1(01)   &amp;   -1(10)   &amp;     (11) \\
-S_i^+S_{i+1}^- &amp;\emptyset &amp;     (10)   &amp;\emptyset   &amp;\emptyset \\
-S_i^-S_{i+1}^+ &amp;\emptyset &amp;\emptyset   &amp;     (01)   &amp;\emptyset
-\end{array}
-$$</p>
-<p>接下来只要遍历所有的基矢，并在每个基矢上作用一遍哈密顿量的所有项，找到对应的基矢，把这两个基矢作为指标填上数字就行了。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_state_index</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">"""获得一个整数某位置处的二进制值"""</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">index</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">state</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">index</span>
-
-
-<span class="k">def</span> <span class="nf">flip_state</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">"""翻转一个整数某位置处的二进制值"""</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">index</span>
-    <span class="k">return</span> <span class="n">state</span> <span class="o">^</span> <span class="n">mask</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span> <span class="o">**</span> <span class="n">N</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">N</span><span class="p">))</span>
-
-<span class="c1"># a is a basis</span>
-<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">N</span><span class="p">):</span>
-    <span class="c1"># i is position of this basis</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="c1"># j is the nearest neighbor, mod N for periodic boundary conditions</span>
-        <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span>
-        <span class="n">ai</span> <span class="o">=</span> <span class="n">get_state_index</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-        <span class="n">aj</span> <span class="o">=</span> <span class="n">get_state_index</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-
-        <span class="c1"># Sz</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
-        <span class="k">if</span> <span class="n">ai</span> <span class="o">==</span> <span class="n">aj</span><span class="p">:</span>
-            <span class="n">H</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">H</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="mi">1</span>
-
-        <span class="c1"># SxSx + SySy</span>
-        <span class="k">if</span> <span class="n">ai</span> <span class="o">!=</span> <span class="n">aj</span><span class="p">:</span>
-            <span class="n">b</span> <span class="o">=</span> <span class="n">flip_state</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">b</span> <span class="o">=</span> <span class="n">flip_state</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-            <span class="n">H</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span>
-
-<span class="n">H112</span> <span class="o">=</span> <span class="n">H</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>这样直接构造的结果与张量积乘出来的哈密顿量当然是一样的</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">eigvals</span><span class="p">,</span> <span class="n">eigvecs</span> <span class="o">=</span> <span class="n">eigsh</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">"SA"</span><span class="p">)</span>
-<span class="n">eigvals</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">H112</span> <span class="o">-</span> <span class="n">H111</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[7]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(array([-4.44948974]), True)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="利用对称性：组合型">利用对称性：组合型<a class="anchor-link" href="posts/exact-diagonalization/#%E5%88%A9%E7%94%A8%E5%AF%B9%E7%A7%B0%E6%80%A7%EF%BC%9A%E7%BB%84%E5%90%88%E5%9E%8B">¶</a>
-</h3>
-<p>从基矢构造哈密顿量的过程实际上分为两步，首先要确定基矢的总数和表象，之前我们取得表象就是最自然的全部排列，一共有 $2^N$ 个，然后把这些基矢按照哈密顿量的规则变换成另一组基矢，两组基矢作为哈密顿量矩阵的两个指标来填数字。</p>
-<p>利用对称性主要就是改变前一步，不同的对称性子空间实际上限制的是基矢的数目，只要我们把某个子空间中的全部基矢找到，再用这组基矢构造哈密顿量，得到的就是这个对称性子空间中的哈密顿量了。只要把所有子空间都对角化一遍，自然就能得到全部的本征态。</p>
-<p>这里先利用的对称性是最简单的一类，这些对称性只与基矢的总数有关，而与基矢内部的排列方式无关，例如总磁矩和总粒子数。总磁矩就是把每个格点上的磁矩全部加起来，总粒子数同样就是把每个格点上的粒子数加起来。总和一样的那些基矢就全部属于同一个子空间。反过来看，也可以是一个总的量子数在所有格点上的不同组合。</p>
-<p>这里利用的是Heisenberg模型的总磁矩守恒
-$$S^z_{\mathrm{tot}} = \sum_i s[i] $$
-例如 $|0011\rangle, |1010\rangle$ 这两个态的总磁矩就是一样的，都是 $1$。</p>
-<p>所以找到总磁矩为 1 的所有基矢有两种方法，一是遍历一遍所有的态，二是按照组合数的方式找到N个格点中取2个的所有组合。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="c1"># 这里的总自旋写2是因为总的因子 1/2 被省略了</span>
-<span class="n">Nz</span> <span class="o">=</span> <span class="mi">2</span>
-
-<span class="n">state_list</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">N</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">"1"</span><span class="p">)</span> <span class="o">==</span> <span class="n">Nz</span><span class="p">:</span>
-        <span class="n">state_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-
-<span class="n">state_list</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[8]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[3, 5, 6, 9, 10, 12]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
-
-<span class="n">state_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">([</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">Nz</span><span class="p">)]</span>
-<span class="n">state_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-<span class="n">state_list</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[9]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[3, 5, 6, 9, 10, 12]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>接下来就是利用已经找到的这些基矢来构造哈密顿量，构造的过程完全一样，只是要注意，判断基矢规则时要用原来的基矢，之后要把这个基矢对应到新的子空间基矢里。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">state_list</span><span class="p">),)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">new_a</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">state_list</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span>
-        <span class="n">ai</span> <span class="o">=</span> <span class="n">get_state_index</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-        <span class="n">aj</span> <span class="o">=</span> <span class="n">get_state_index</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-
-        <span class="c1"># Sz</span>
-        <span class="n">new_b</span> <span class="o">=</span> <span class="n">new_a</span>
-        <span class="k">if</span> <span class="n">ai</span> <span class="o">==</span> <span class="n">aj</span><span class="p">:</span>
-            <span class="n">H</span><span class="p">[</span><span class="n">new_a</span><span class="p">,</span> <span class="n">new_b</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">H</span><span class="p">[</span><span class="n">new_a</span><span class="p">,</span> <span class="n">new_b</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="mi">1</span>
-
-        <span class="c1"># SxSx + SySy</span>
-        <span class="k">if</span> <span class="n">ai</span> <span class="o">!=</span> <span class="n">aj</span><span class="p">:</span>
-            <span class="n">b</span> <span class="o">=</span> <span class="n">flip_state</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">b</span> <span class="o">=</span> <span class="n">flip_state</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-            <span class="n">new_b</span> <span class="o">=</span> <span class="n">state_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-            <span class="n">H</span><span class="p">[</span><span class="n">new_a</span><span class="p">,</span> <span class="n">new_b</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>可以发现对于4格点周期边界情况，基态是在总自旋为1的空间里的，因为这是个反铁磁的Heisenberg链。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">eigvals</span><span class="p">,</span> <span class="n">eigvecs</span> <span class="o">=</span> <span class="n">eigsh</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">"SA"</span><span class="p">)</span>
-<span class="n">eigvals</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[11]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([-4.44948974])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="利用对称性：平移对称性">利用对称性：平移对称性<a class="anchor-link" href="posts/exact-diagonalization/#%E5%88%A9%E7%94%A8%E5%AF%B9%E7%A7%B0%E6%80%A7%EF%BC%9A%E5%B9%B3%E7%A7%BB%E5%AF%B9%E7%A7%B0%E6%80%A7">¶</a>
-</h3>
-<p>一维周期边界的链满足平移对称性，平移算符的本征态可以表示为
-$$T | n \rangle = e^{ik}|n\rangle, k = m \frac{2\pi}{N}, m=0,1,\cdots,N-1$$
-平移算符的作用就是把态在格点上移动一个
-$$T | S^z_1, S^z_2, \cdots, S^z_N \rangle = | S^z_N, S^z_1, \cdots, S^z_{N-1} \rangle $$</p>
-<p>在平移算符的本征子空间中的基矢可以由投影算符构造
-$$ P_k = \frac{1}{L} \sum_r^{L-1} e^{ i \frac{2\pi}{L} k r } T^r$$
-例如从 $|0011\rangle$ 生成的一组基矢为
-\[ P_k |0011\rangle = \frac{1}{4} \left( |0011\rangle</p>
-<ul>
-<li>e^{i \frac{2\pi}{4} k \cdot 1} |0110\rangle </li>
-<li>e^{i \frac{2\pi}{4} k \cdot 2} |1100\rangle </li>
-<li>e^{i \frac{2\pi}{4} k \cdot 3} |1001\rangle \right) \]
-这样就能够得到一组基矢，可以记作 $|r^a(k)\rangle=P_k|r^a\rangle$ ，对于其它的初始基矢还可以得到其它组基矢，记作 $|r^b(k)\rangle=P_k|r^b\rangle$ 等。</li>
-</ul>
-<p>那么在这一组新的基矢 $\left\lbrace|r(k)\rangle\right\rbrace$ 下的哈密顿量一共有$L$ 个，分别对应 $k=0,1,\cdots,L-1$，它的矩阵元为
-$$ H_{mn} = \langle r^m(k) | H | r^n(k) \rangle =  \langle r^m| P_k H P_k | r^n \rangle = \langle r^m| P_k H | r^n \rangle$$ 
-其中用到 $[P_k, H]=0$ 因为 $[T,H]=0$ ，和 $P_k^2=P_k$ 因为 $P_k$ 是投影算符。注意：这里所有计算过程中保持归一化。</p>
-<p>所以计算这个新的哈密顿量块只需要把每组新基矢在哈密顿量作用下进行变换，再求这个基矢与 $k=0$ 时的那个基矢的内积就行了。因为 $|r^a(k=0)\rangle = |r^a\rangle$ 。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">state_cycle_shift</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">"""循环移位操作"""</span>
-    <span class="n">low</span> <span class="o">=</span> <span class="n">state</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="n">total</span> <span class="o">-</span> <span class="n">shift</span><span class="p">)</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">total</span> <span class="o">-</span> <span class="n">shift</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">high</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">&amp;</span> <span class="n">state</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">high</span> <span class="o">&lt;&lt;</span> <span class="n">shift</span><span class="p">)</span> <span class="o">+</span> <span class="n">low</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>首先要从所有态里面把属于同一组的找出来</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_list_temp</span> <span class="o">=</span> <span class="n">state_list</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">state_k_all</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">state_list_temp</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">state_k_list</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">s_first</span> <span class="o">=</span> <span class="n">state_list_temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">s_first</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">state_k_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-        <span class="n">state_list_temp</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-        <span class="n">s_next</span> <span class="o">=</span> <span class="n">state_cycle_shift</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">s_next</span> <span class="o">==</span> <span class="n">s_first</span><span class="p">:</span>
-            <span class="k">break</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="n">s_next</span>
-
-    <span class="n">state_k_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-    <span class="n">state_k_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state_k_list</span><span class="p">)</span>
-
-<span class="n">state_k_all</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[13]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[[3, 6, 9, 12], [5, 10]]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>然后就可以构造哈密顿量了，构造哈密顿量的过程中需要计算哈密顿量与基矢的乘积，这里直接把基矢构造成矩阵，把最后一步整合成矩阵乘法了，否则的话要写嵌套4层循环才行。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">Hk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">state_k_all</span><span class="p">),)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">complex</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">new_b</span><span class="p">,</span> <span class="n">b_list</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">state_k_all</span><span class="p">):</span>
-
-    <span class="c1"># build state_b</span>
-    <span class="n">state_new_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">state_list</span><span class="p">)))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">complex</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">rb</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">b_list</span><span class="p">):</span>
-        <span class="n">ib</span> <span class="o">=</span> <span class="n">state_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-        <span class="n">state_new_b</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">ib</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">state_new_b</span> <span class="o">=</span> <span class="n">state_new_b</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">state_new_b</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">new_a</span><span class="p">,</span> <span class="n">a_list</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">state_k_all</span><span class="p">):</span>
-        <span class="n">state_new_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">state_list</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">complex</span><span class="p">)</span>
-
-        <span class="c1"># build state_a</span>
-        <span class="n">state_new_a_temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">state_list</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">complex</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">ra</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a_list</span><span class="p">):</span>
-            <span class="n">ia</span> <span class="o">=</span> <span class="n">state_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-            <span class="n">state_new_a_temp</span><span class="p">[</span><span class="n">ia</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">N</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">ra</span><span class="p">)</span>
-        <span class="n">state_new_a_temp</span> <span class="o">=</span> <span class="n">state_new_a_temp</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">state_new_a_temp</span><span class="p">)</span>
-
-        <span class="c1"># H @ state_a</span>
-        <span class="k">for</span> <span class="n">ra</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a_list</span><span class="p">):</span>
-            <span class="n">ia</span> <span class="o">=</span> <span class="n">state_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-                <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span>
-                <span class="n">ai</span> <span class="o">=</span> <span class="n">get_state_index</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-                <span class="n">aj</span> <span class="o">=</span> <span class="n">get_state_index</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-
-                <span class="c1"># Sz</span>
-                <span class="n">new_ia</span> <span class="o">=</span> <span class="n">ia</span>
-                <span class="k">if</span> <span class="n">ai</span> <span class="o">==</span> <span class="n">aj</span><span class="p">:</span>
-                    <span class="n">state_new_a</span><span class="p">[</span><span class="n">new_ia</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">state_new_a_temp</span><span class="p">[</span><span class="n">ia</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">state_new_a</span><span class="p">[</span><span class="n">new_ia</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">state_new_a_temp</span><span class="p">[</span><span class="n">ia</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-
-                <span class="c1"># SxSx + SySy</span>
-                <span class="k">if</span> <span class="n">ai</span> <span class="o">!=</span> <span class="n">aj</span><span class="p">:</span>
-                    <span class="n">b</span> <span class="o">=</span> <span class="n">flip_state</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-                    <span class="n">b</span> <span class="o">=</span> <span class="n">flip_state</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-                    <span class="n">new_ib</span> <span class="o">=</span> <span class="n">state_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-                    <span class="n">state_new_a</span><span class="p">[</span><span class="n">new_ib</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">state_new_a_temp</span><span class="p">[</span><span class="n">ia</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="c1"># Hk</span>
-        <span class="n">Hk</span><span class="p">[</span><span class="n">new_a</span><span class="p">,</span> <span class="n">new_b</span><span class="p">]</span> <span class="o">=</span> <span class="n">state_new_b</span> <span class="o">@</span> <span class="n">state_new_a</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>这里构造得到的 $k=0$ 子空间只有 $2\times 2$ 维，从这里计算得到的也是基态。一般来说，基态总是在 $k=0$ 的子空间中。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">Hk</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[15]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([-4.44948974,  0.44948974])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="利用对称性：其它离散对称性">利用对称性：其它离散对称性<a class="anchor-link" href="posts/exact-diagonalization/#%E5%88%A9%E7%94%A8%E5%AF%B9%E7%A7%B0%E6%80%A7%EF%BC%9A%E5%85%B6%E5%AE%83%E7%A6%BB%E6%95%A3%E5%AF%B9%E7%A7%B0%E6%80%A7">¶</a>
-</h3>
-<p>除了总磁矩和平移对称性之外还有一些其它的离散对称性，例如对于 $k=0,\pi$ 时有宇称对称性和自旋翻转对称性等等。但是这些对称性与平移对称性并不对易，所以不能从平移对称性的结果中继续细分，而是要联合平移对称性一起去找基矢。</p>
-<p>比如联合使用平移对称性和宇称对称性，要同时考虑平移算符和宇称算符来构造基矢，例如
-$$ \mathcal{P}_k = \frac{1}{L} \sum_r^{L-1} C^\sigma\left( \frac{2\pi}{L} k r \right) T^r (1+P) $$
-$$ C^\sigma\left( \frac{2\pi}{L} k r \right) = \left\lbrace \begin{array}{ll} 
-\cos( \frac{2\pi}{L} k r), &amp; p = 1 \\
-\sin( \frac{2\pi}{L} k r), &amp; p = -1
-\end{array} \right. $$</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>程序待写</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Fermi-Hubbard-模型">Fermi-Hubbard 模型<a class="anchor-link" href="posts/exact-diagonalization/#Fermi-Hubbard-%E6%A8%A1%E5%9E%8B">¶</a>
-</h3>$$ H = -t \sum_{i,\sigma} \left( c^\dagger_{i,\sigma} c_{i+1,\sigma} + c^\dagger_{i+1,\sigma} c_{i,\sigma}  \right) + U \sum_{i} n_{i\uparrow}n_{i\downarrow}$$
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>首先定义哈密顿量作用到基矢上的结果，基本原则就是如果作用有效果就返回作用后的基矢，如果作用为0就返回 <code>None</code>。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
-
-
-<span class="k">def</span> <span class="nf">check_U</span><span class="p">(</span><span class="n">state_up</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">state_down</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-    <span class="n">state_up_i</span> <span class="o">=</span> <span class="n">get_state_index</span><span class="p">(</span><span class="n">state_up</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-    <span class="n">state_down_i</span> <span class="o">=</span> <span class="n">get_state_index</span><span class="p">(</span><span class="n">state_down</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">state_up_i</span> <span class="o">==</span> <span class="n">state_down_i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">state_up</span><span class="p">,</span> <span class="n">state_down</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-
-<span class="k">def</span> <span class="nf">check_t</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-    <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span>
-    <span class="n">state_i</span> <span class="o">=</span> <span class="n">get_state_index</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-    <span class="n">state_j</span> <span class="o">=</span> <span class="n">get_state_index</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">state_i</span><span class="p">,</span> <span class="n">state_j</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">state_i</span><span class="p">,</span> <span class="n">state_j</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="n">state_new</span> <span class="o">=</span> <span class="n">flip_state</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-        <span class="n">state_new</span> <span class="o">=</span> <span class="n">flip_state</span><span class="p">(</span><span class="n">state_new</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">state_new</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>先实现一个全对角化，以此作为检查标准。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">t</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">U</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span> <span class="o">**</span> <span class="n">N</span><span class="p">,</span> <span class="mi">4</span> <span class="o">**</span> <span class="n">N</span><span class="p">))</span>
-<span class="n">al</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">a_up</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">N</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">a_down</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">N</span><span class="p">):</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a_up</span> <span class="o">&lt;&lt;</span> <span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">a_down</span>
-        <span class="n">al</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-            <span class="c1"># t</span>
-            <span class="n">b_up</span> <span class="o">=</span> <span class="n">check_t</span><span class="p">(</span><span class="n">a_up</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">b_up</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">b_up</span> <span class="o">&lt;&lt;</span> <span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">a_down</span>
-                <span class="n">H</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">t</span>
-
-            <span class="n">b_down</span> <span class="o">=</span> <span class="n">check_t</span><span class="p">(</span><span class="n">a_down</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">b_down</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">a_up</span> <span class="o">&lt;&lt;</span> <span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">b_down</span>
-                <span class="n">H</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">t</span>
-
-            <span class="c1"># U</span>
-            <span class="n">b_result</span> <span class="o">=</span> <span class="n">check_U</span><span class="p">(</span><span class="n">a_up</span><span class="p">,</span> <span class="n">a_down</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">b_result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">b_result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="n">b_result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">H</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">+=</span> <span class="n">U</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># eigvals, eigvecs = eigsh(H, k=1, which='SA')</span>
-<span class="c1"># eigvals</span>
-<span class="n">eigvals_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>首先利用粒子数对称性，这里考虑的是粒子数的分别守恒，总数守恒就把两组整数一起组合就行了。</p>
-<p>这里取半满且两种自旋数目相同。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">Nup</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">Ndown</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">t</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">U</span> <span class="o">=</span> <span class="mi">1</span>
-
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
-
-<span class="n">state_up_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">([</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">Nup</span><span class="p">)]</span>
-<span class="n">state_up_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-<span class="n">state_down_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">([</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">Ndown</span><span class="p">)]</span>
-<span class="n">state_down_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-<span class="n">state_total_list</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">state_up_list</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">state_down_list</span><span class="p">]</span>
-<span class="n">state_up_list</span><span class="p">,</span> <span class="n">state_down_list</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[19]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>([3, 5, 6, 9, 10, 12], [3, 5, 6, 9, 10, 12])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>接下来找平移对称性，因为有两组基矢，所以平移的时候要同时对它们都操作。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">state_list_temp</span> <span class="o">=</span> <span class="n">state_total_list</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">state_k_all</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">state_list_temp</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">state_k_list</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">s_first</span> <span class="o">=</span> <span class="n">state_list_temp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">s_first</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">state_k_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-        <span class="n">state_list_temp</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-
-        <span class="n">s0_next</span> <span class="o">=</span> <span class="n">state_cycle_shift</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-        <span class="n">s1_next</span> <span class="o">=</span> <span class="n">state_cycle_shift</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-        <span class="n">s_next</span> <span class="o">=</span> <span class="p">(</span><span class="n">s0_next</span><span class="p">,</span> <span class="n">s1_next</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">s_next</span> <span class="o">==</span> <span class="n">s_first</span><span class="p">:</span>
-            <span class="k">break</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="n">s_next</span>
-
-    <span class="n">state_k_list</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-    <span class="n">state_k_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state_k_list</span><span class="p">)</span>
-
-<span class="c1"># state_k_all</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>接下来就构造哈密顿量。</p>
-<p>这里取动量为$0$。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">Hk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">state_k_all</span><span class="p">),)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">complex</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">new_b</span><span class="p">,</span> <span class="n">b_list</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">state_k_all</span><span class="p">):</span>
-
-    <span class="c1"># build state_b</span>
-    <span class="n">state_new_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">state_total_list</span><span class="p">)))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">complex</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">rb</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">b_list</span><span class="p">):</span>
-        <span class="n">ib</span> <span class="o">=</span> <span class="n">state_total_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-        <span class="n">state_new_b</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">ib</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">state_new_b</span> <span class="o">=</span> <span class="n">state_new_b</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">state_new_b</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">new_a</span><span class="p">,</span> <span class="n">a_list</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">state_k_all</span><span class="p">):</span>
-        <span class="n">state_new_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">state_total_list</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">complex</span><span class="p">)</span>
-
-        <span class="c1"># build state_a</span>
-        <span class="n">state_new_a_temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">state_total_list</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">complex</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">ra</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a_list</span><span class="p">):</span>
-            <span class="n">ia</span> <span class="o">=</span> <span class="n">state_total_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-            <span class="n">state_new_a_temp</span><span class="p">[</span><span class="n">ia</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">N</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">ra</span><span class="p">)</span>
-        <span class="n">state_new_a_temp</span> <span class="o">=</span> <span class="n">state_new_a_temp</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">state_new_a_temp</span><span class="p">)</span>
-
-        <span class="c1"># H @ state_a</span>
-        <span class="k">for</span> <span class="n">ra</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a_list</span><span class="p">):</span>
-            <span class="n">a_up</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">a_down</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">ia</span> <span class="o">=</span> <span class="n">state_total_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-
-                <span class="c1"># t</span>
-                <span class="n">b_up</span> <span class="o">=</span> <span class="n">check_t</span><span class="p">(</span><span class="n">a_up</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">b_up</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">b_up</span><span class="p">,</span> <span class="n">a_down</span><span class="p">)</span>
-                    <span class="n">new_ib</span> <span class="o">=</span> <span class="n">state_total_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-                    <span class="n">state_new_a</span><span class="p">[</span><span class="n">new_ib</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">state_new_a_temp</span><span class="p">[</span><span class="n">ia</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-
-                <span class="n">b_down</span> <span class="o">=</span> <span class="n">check_t</span><span class="p">(</span><span class="n">a_down</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">b_down</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">a_up</span><span class="p">,</span> <span class="n">b_down</span><span class="p">)</span>
-                    <span class="n">new_ib</span> <span class="o">=</span> <span class="n">state_total_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-                    <span class="n">state_new_a</span><span class="p">[</span><span class="n">new_ib</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">state_new_a_temp</span><span class="p">[</span><span class="n">ia</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-
-                <span class="c1"># U</span>
-                <span class="n">b_result</span> <span class="o">=</span> <span class="n">check_U</span><span class="p">(</span><span class="n">a_up</span><span class="p">,</span> <span class="n">a_down</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">b_result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">b</span> <span class="o">=</span> <span class="n">b_result</span>
-                    <span class="n">new_ib</span> <span class="o">=</span> <span class="n">state_total_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-                    <span class="n">state_new_a</span><span class="p">[</span><span class="n">new_ib</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">U</span> <span class="o">*</span> <span class="n">state_new_a_temp</span><span class="p">[</span><span class="n">ia</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="c1"># Hk</span>
-        <span class="n">Hk</span><span class="p">[</span><span class="n">new_a</span><span class="p">,</span> <span class="n">new_b</span><span class="p">]</span> <span class="o">=</span> <span class="n">state_new_b</span> <span class="o">@</span> <span class="n">state_new_a</span>
-
-<span class="c1"># Hk</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>对角化一下新构造的哈密顿量，这个新哈密顿量的所有本征值都在全哈密顿量的谱里，这说明写对了。</p>
-<p>从这个结果中我们知道，Fermi-Hubbard 模型的基态既是半满的，又是动量为$0$的。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">eigvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvalsh</span><span class="p">(</span><span class="n">Hk</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">eigvals</span><span class="p">:</span>
-    <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eigvals_all</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">eigvals_all</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">x</span><span class="p">),</span> <span class="n">eigvals_all</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>True -4.723265519527195 -4.723265519527192
-True 1.3836255242112377e-16 1.1102230246251525e-16
-True 0.5058018686891442 0.5058018686891443
-True 0.9999999999999989 0.999999999999999
-True 0.9999999999999996 0.9999999999999996
-True 1.0 1.0
-True 1.0000000000000002 1.0000000000000002
-True 1.4941981313108506 1.494198131310855
-True 2.0 2.0
-True 6.723265519527201 6.723265519527191
+<p>
+<code>filelist.txt</code> 内容如下， 需要加 <code>file</code> ，还要用单引号括起来，或者加选项 <code>-safe 0</code>
+</p>
+
+<pre class="example">
+file '/home/a1.mkv'
+file '/home/a2.mkv'
+...
 </pre>
 </div>
 </div>
 
-</div>
-</div>
-
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/gram-schmidt-orthogonalization/" class="u-url">Gram-Schmidt Orthogonalization</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/gram-schmidt-orthogonalization/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-12-19T16:11:37+08:00" itemprop="datePublished" title="2020-12-19 16:11">2020-12-19 16:11</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Gram-Schmidt-正交化方法">Gram-Schmidt 正交化方法<a class="anchor-link" href="posts/gram-schmidt-orthogonalization/#Gram-Schmidt-%E6%AD%A3%E4%BA%A4%E5%8C%96%E6%96%B9%E6%B3%95">¶</a>
-</h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>把一组向量正交化的常用方法就是 Gram-Schmidt 正交化过程。
-这个过程基于投影
-$$
-\mathrm{proj}_u(v) = \frac{\langle u,v \rangle}{\langle u , u \rangle} u
-$$
-每一次迭代得到一个与之前所有矢量都正交的新矢量
-$$
-\begin{array}{lll}
-b_1 &amp;=&amp; a_1 \\
-b_2 &amp;=&amp; a_2 - \mathrm{proj}_{b_1}(a_2) \\
-b_3 &amp;=&amp; a_3 - \mathrm{proj}_{b_1}(a_3) - \mathrm{proj}_{b_2}(a_3) \\
-b_k &amp;=&amp; a_k - \sum_{i=1}^{k-1}\mathrm{proj}_{b_i}(a_k)
-\end{array}
-$$</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div id="outline-container-orgba5d20a" class="outline-2">
+<h2 id="orgba5d20a">转换格式</h2>
+<div class="outline-text-2" id="text-orgba5d20a">
+<div class="highlight"><pre><span></span>  ffmpeg -i in.mpeg -q:a 0 -q:v 0 out.mkv
 </pre></div>
 
-    </div>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"><b>选项</b></th>
+<th scope="col" class="org-left"><b>说明</b></th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><code>-q:a 0</code></td>
+<td class="org-left">最高等级转换音频</td>
+</tr>
+<tr>
+<td class="org-left"><code>-q:v 0</code></td>
+<td class="org-left">最高等级转换视频</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">do_norm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">do_norm</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vdot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vdot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span>
-    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<div id="outline-container-org89ff66f" class="outline-2">
+<h2 id="org89ff66f">分割视频</h2>
+<div class="outline-text-2" id="text-org89ff66f">
+<div class="highlight"><pre><span></span>  ffmpeg -i in.mp4 -ss 00:10:00 -t 00:30:40 -acodec copy -vcodec copy output.mp4
 </pre></div>
 
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">gram_schmidt</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">b</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-        <span class="n">b</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> 
-                  <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span>
-                      <span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">proj</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">b</span><span class="p">[:,</span><span class="n">i</span><span class="p">]),</span> 
-                      <span class="mi">0</span><span class="p">,</span> 
-                      <span class="n">b</span><span class="p">[:,:</span><span class="n">i</span><span class="p">]),</span>
-                           <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
-        <span class="n">b</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">[:,</span><span class="n">i</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">b</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">gram_schmidt</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="mi">2</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">b</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="o">@</span> <span class="n">b</span><span class="p">[:,</span><span class="n">j</span><span class="p">],</span> <span class="mi">0</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>True
-True
-True
-True
-True
-True
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [ ]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/power-method-for-eigenvalues/" class="u-url">Power Method for Eigenvalues</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/power-method-for-eigenvalues/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-12-19T15:20:52+08:00" itemprop="datePublished" title="2020-12-19 15:20">2020-12-19 15:20</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="幂法：矩阵本征值迭代求解的基本方法">幂法：矩阵本征值迭代求解的基本方法<a class="anchor-link" href="posts/power-method-for-eigenvalues/#%E5%B9%82%E6%B3%95%EF%BC%9A%E7%9F%A9%E9%98%B5%E6%9C%AC%E5%BE%81%E5%80%BC%E8%BF%AD%E4%BB%A3%E6%B1%82%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95">¶</a>
-</h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="基本的幂法：求矩阵的最大本征值">基本的幂法：求矩阵的最大本征值<a class="anchor-link" href="posts/power-method-for-eigenvalues/#%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%B9%82%E6%B3%95%EF%BC%9A%E6%B1%82%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9C%80%E5%A4%A7%E6%9C%AC%E5%BE%81%E5%80%BC">¶</a>
-</h3>$$
-Ax^{(k)} = x^{(k+1)}
-$$<p>只要把任何一个初始随机向量反复地被一个矩阵作用，同时除以一个足够大的数保证不超过数值精度，那么最终的收敛结果就是矩阵的最大本征矢。</p>
-<p>这种方法可行的原因是，矩阵可以看做是一个线性变换，对任何一个向量连续地作用同一个变换的结果，总是会让这个向量趋近于变换的主向量，也就是矩阵的最大本征值对应的本征矢。</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">power_iteration</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">num_simulations</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">v0</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">v0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="k">else</span><span class="p">:</span> 
-        <span class="n">v</span> <span class="o">=</span> <span class="n">v0</span>
-        
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_simulations</span><span class="p">):</span>     
-        <span class="n">v</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">v</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">v</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">e2</span><span class="p">,</span><span class="n">v2</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="n">ei2</span> <span class="o">=</span> <span class="n">e2</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
-<span class="n">e2</span><span class="p">[</span><span class="n">ei2</span><span class="p">],</span> <span class="n">v2</span><span class="p">[:,</span><span class="n">ei2</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v2</span><span class="p">[:,</span><span class="n">ei2</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[3]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>((2.1973691032607885+0j),
- array([0.54317076+0.j, 0.56821252+0.j, 0.28769568+0.j, 0.54711174+0.j]))</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">v1</span> <span class="o">=</span> <span class="n">power_iteration</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="p">(</span><span class="n">a</span> <span class="o">@</span> <span class="n">v1</span> <span class="o">/</span> <span class="n">v1</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v1</span><span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[4]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(2.197369103260788, array([0.54317076, 0.56821252, 0.28769568, 0.54711174]))</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="反幂法：求矩阵的最小本征矢">反幂法：求矩阵的最小本征矢<a class="anchor-link" href="posts/power-method-for-eigenvalues/#%E5%8F%8D%E5%B9%82%E6%B3%95%EF%BC%9A%E6%B1%82%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9C%80%E5%B0%8F%E6%9C%AC%E5%BE%81%E7%9F%A2">¶</a>
-</h3>
-<p>与幂法完全相同，只不过迭代的是矩阵的逆，显然矩阵的逆的最大本征值就是原矩阵的模最小的本征值。
-$$
-A^{-1}x^{(k)} = x^{(k+1)}
-$$
-不过由于矩阵求逆计算复杂度很大，可以把它转化成求线性方程组：
-$$
-A x^{(k+1)} = x^{(k)}
-$$</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">inverse_power_iteration</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">num_simulations</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">v0</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">v0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="k">else</span><span class="p">:</span> 
-        <span class="n">v</span> <span class="o">=</span> <span class="n">v0</span>
-        
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_simulations</span><span class="p">):</span>  
-        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> 
-        <span class="c1"># v = np.linalg.inv(A) @ v</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">v</span>
-    
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">e2</span><span class="p">,</span><span class="n">v2</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="n">ei2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">e2</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
-<span class="n">e2</span><span class="p">[</span><span class="n">ei2</span><span class="p">],</span> <span class="n">v2</span><span class="p">[:,</span><span class="n">ei2</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v2</span><span class="p">[:,</span><span class="n">ei2</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[6]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(0.0934634074161824,
- array([ 0.06236468, -0.34577788,  0.87179586, -0.34135067]))</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">v1</span> <span class="o">=</span> <span class="n">inverse_power_iteration</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="mi">1</span><span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">@</span> <span class="n">v1</span> <span class="o">/</span> <span class="n">v1</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v1</span><span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[7]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(0.09346340741618211,
- array([ 0.06236468, -0.34577788,  0.87179586, -0.34135067]))</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In [ ]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/nikola-static-site-generator/" class="u-url">nikola: static site generator</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/nikola-static-site-generator/" rel="bookmark">
-            <time class="published dt-published" datetime="2020-12-19T15:19:12+08:00" itemprop="datePublished" title="2020-12-19 15:19">2020-12-19 15:19</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-orgdef9274" class="outline-2">
-<h2 id="orgdef9274">Nikola: 基本用法</h2>
-<div class="outline-text-2" id="text-orgdef9274">
 <p>
-Nikola 是一个 python 写的静态博客生成器。参见官网<a href="https://getnikola.com">getnikola</a> 。主要的特色是原生支持 orgmode 和 ipynb 格式作为博客，看起来很方便。
+命令的结果是分割得到00:10:00 –&gt; 00:40:40 的原格式视频片段
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"><b>选项</b></th>
+<th scope="col" class="org-left"><b>说明</b></th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><code>-ss 00:10:00</code></td>
+<td class="org-left">从00:10:00开始分割</td>
+</tr>
+<tr>
+<td class="org-left"><code>-t  00:30:40</code></td>
+<td class="org-left">分割时长00:30:40</td>
+</tr>
+<tr>
+<td class="org-left"><code>-acodec copy</code></td>
+<td class="org-left">音频与原格式相同</td>
+</tr>
+<tr>
+<td class="org-left"><code>-vcodec copy</code></td>
+<td class="org-left">视频与原格式相同</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/emacs/" class="u-url">emacs</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/emacs/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-26T18:28:36+08:00" itemprop="datePublished" title="2021-01-26 18:28">2021-01-26 18:28</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org90d1b99" class="outline-2">
+<h2 id="org90d1b99">从源码编译安装</h2>
+<div class="outline-text-2" id="text-org90d1b99">
+</div>
+<div id="outline-container-orga297daa" class="outline-3">
+<h3 id="orga297daa">查看特性</h3>
+<div class="outline-text-3" id="text-orga297daa">
+<ol class="org-ol">
+<li>查看 <code>system-configuration-features</code> 中的信息</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgf147b0d" class="outline-3">
+<h3 id="orgf147b0d">查看编译选项</h3>
+<div class="outline-text-3" id="text-orgf147b0d">
+<ol class="org-ol">
+<li>查看 <code>system-configuration-options</code> 中的信息</li>
+</ol>
+<div class="highlight"><pre><span></span>   ./configure --without-compress-install --with-modules 'CFLAGS=-O2 -g3'
+</pre></div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfaa32b7" class="outline-2">
+<h2 id="orgfaa32b7">在正则表达式中使用lisp代码</h2>
+<div class="outline-text-2" id="text-orgfaa32b7">
+<p>
+使用 <code>\,</code> 后加一个表达式
+</p>
+<div class="highlight"><pre><span></span>  <span class="nv">:s/</span><span class="err">\</span><span class="p">(</span><span class="o">.</span><span class="nv">*?</span><span class="err">\</span><span class="p">)</span><span class="nv">a</span><span class="err">\</span><span class="p">(</span><span class="o">.</span><span class="nv">*?</span><span class="err">\</span><span class="p">)</span><span class="nv">b/</span><span class="err">\</span><span class="mi">1</span><span class="err">\</span><span class="o">,</span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">string-to-number</span> <span class="err">\</span><span class="mi">2</span><span class="p">)</span> <span class="mi">100</span><span class="p">)</span><span class="nv">/</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org0874aec" class="outline-2">
+<h2 id="org0874aec">正则表达式的非贪心匹配</h2>
+<div class="outline-text-2" id="text-org0874aec">
+<p>
+non greedy regex
+星号后加问号
+</p>
+<div class="highlight"><pre><span></span>:s/.*?//
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-orgc7155b2" class="outline-2">
+<h2 id="orgc7155b2">文件编码问题</h2>
+<div class="outline-text-2" id="text-orgc7155b2">
+</div>
+<div id="outline-container-orgeeafcf5" class="outline-3">
+<h3 id="orgeeafcf5">改变显示文件编码,解决乱码问题</h3>
+<div class="outline-text-3" id="text-orgeeafcf5">
+<p>
+使用命令
+</p>
+<div class="highlight"><pre><span></span>   <span class="nv">revert-buffer-with-file-coding-system</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org305e8e2" class="outline-3">
+<h3 id="org305e8e2">修改编码</h3>
+<div class="outline-text-3" id="text-org305e8e2">
+<p>
+在按下 <code>M-x</code> 后使用命令改变编码再保存即可
+</p>
+<div class="highlight"><pre><span></span>   <span class="nv">set-buffer-file-coding-system</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org33052e6" class="outline-3">
+<h3 id="org33052e6">常见的编码</h3>
+<div class="outline-text-3" id="text-org33052e6">
+<ol class="org-ol">
+<li>中文
+<ol class="org-ol">
+<li>cp936</li>
+<li>gb2312</li>
+<li>gb18030</li>
+</ol>
+</li>
+<li>日文
+<ol class="org-ol">
+<li>cp932</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orge16b717" class="outline-2">
+<h2 id="orge16b717">对齐排版代码</h2>
+<div class="outline-text-2" id="text-orge16b717">
+<p>
+使用 <code>align-regexp, sort-regexp-fields, sort-columns</code>
 </p>
 </div>
 </div>
 
 
-
-<div id="outline-container-orgbf67d44" class="outline-2">
-<h2 id="orgbf67d44">备查资料</h2>
-<div class="outline-text-2" id="text-orgbf67d44">
+<div id="outline-container-orgdbeb338" class="outline-2">
+<h2 id="orgdbeb338">Tramp 远程编辑</h2>
+<div class="outline-text-2" id="text-orgdbeb338">
 </div>
-<div id="outline-container-org7c1e1df" class="outline-3">
-<h3 id="org7c1e1df">时间的格式</h3>
-<div class="outline-text-3" id="text-org7c1e1df">
-<div class="highlight"><pre><span></span>date +"%F %T UTC%:z"
-</pre></div>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-orgf1ce9dc" class="outline-2">
-<h2 id="orgf1ce9dc">博客模板</h2>
-<div class="outline-text-2" id="text-orgf1ce9dc">
+<div id="outline-container-orgcf875c1" class="outline-3">
+<h3 id="orgcf875c1">配置 ssh</h3>
+<div class="outline-text-3" id="text-orgcf875c1">
 <p>
-tags 用逗号分隔， category 被看做一个词。
+注意 tramp 的远程登陆只支持 bash, 不支持 zsh, 所以要进行设置，tramp 登陆用 <code>namebash</code>, ssh 登陆用 <code>namezsh</code> 就行了
 </p>
-</div>
 
-<div id="outline-container-org5ecaf64" class="outline-3">
-<h3 id="org5ecaf64">orgmode</h3>
-<div class="outline-text-3" id="text-org5ecaf64">
-<div class="highlight"><pre><span></span>#+BEGIN_COMMENT
-.. title: nikola: static site generator
-.. slug: nikola-static-site-generator
-.. date: 2020-12-19 15:19:12 UTC+08:00
-.. tags: python, blog
-.. category: tools
-.. link: 
-.. description: 
-.. type: text
-.. has_math: true
+<p>
+文件 <code>$HOME/.ssh/config</code>
+</p>
+<div class="highlight"><pre><span></span>   Host namebash
+       HostName 10.0.0.1
+       User username
+       RequestTTY yes
+       RemoteCommand bash
 
-#+END_COMMENT
-
-blog here.
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orgecd5c21" class="outline-3">
-<h3 id="orgecd5c21">ipynb</h3>
-<div class="outline-text-3" id="text-orgecd5c21">
-<div class="highlight"><pre><span></span>   "metadata": {
-     "nikola": {
-      "title": "Power Method for Eigenvalues",
-      "slug": "power-method-for-eigenvalues",
-      "date": "2020-12-19 15:20:52 UTC+08:00",
-      "tags": "Numerical Algorithm,Linear Algebra",
-      "category": "Algorithm",
-      "link": "",
-      "description": "",
-      "type": "text"
-     }
-   }
+   Host namezsh
+       HostName 10.0.0.1
+       User username
+       RequestTTY yes
+       RemoteCommand zsh
 </pre></div>
 </div>
 </div>
 </div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/vimrc/" class="u-url">vimrc: vim配置文件</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/vimrc/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-24T13:57:00+08:00" itemprop="datePublished" title="2021-01-24 13:57">2021-01-24 13:57</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <p>
+&lt;src
+</p>
+
+
+
+<p>
+Write your post here.
+</p>
                 </div>
             </article>
 </div>
     
-
-    
-
-    
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-        processEscapes: true
-    },
-    displayAlign: 'center', // Change this to 'left' if you want left-aligned equations.
-    "HTML-CSS": {
-        styles: {'.MathJax_Display': {"margin": 0}}
-    }
-});
-</script><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+        <ul class="pager postindexpager clearfix">
+<li class="next"><a href="index-1.html" rel="next">Older posts</a></li>
+        </ul>
+<!--End of body content--><footer id="footer">
+            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>

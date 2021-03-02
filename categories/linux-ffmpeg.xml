@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about linux ffmpeg)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/linux-ffmpeg.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 02 Mar 2021 03:38:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>ffmpeg</title><link>https://chimez.github.io/posts/ffmpeg/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge5f6e6b" class="outline-2"&gt;
+&lt;h2 id="orge5f6e6b"&gt;合并视频&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge5f6e6b"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  ffmpeg -f concat -i filelist.txt -c copy out.mkv
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;code&gt;filelist.txt&lt;/code&gt; 内容如下， 需要加 &lt;code&gt;file&lt;/code&gt; ，还要用单引号括起来，或者加选项 &lt;code&gt;-safe 0&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;pre class="example"&gt;
+file '/home/a1.mkv'
+file '/home/a2.mkv'
+...
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgba5d20a" class="outline-2"&gt;
+&lt;h2 id="orgba5d20a"&gt;转换格式&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgba5d20a"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  ffmpeg -i in.mpeg -q:a 0 -q:v 0 out.mkv
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;b&gt;选项&lt;/b&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;b&gt;说明&lt;/b&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;-q:a 0&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最高等级转换音频&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;-q:v 0&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最高等级转换视频&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org89ff66f" class="outline-2"&gt;
+&lt;h2 id="org89ff66f"&gt;分割视频&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org89ff66f"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  ffmpeg -i in.mp4 -ss 00:10:00 -t 00:30:40 -acodec copy -vcodec copy output.mp4
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+命令的结果是分割得到00:10:00 –&amp;gt; 00:40:40 的原格式视频片段
+&lt;/p&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;b&gt;选项&lt;/b&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;b&gt;说明&lt;/b&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;-ss 00:10:00&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;从00:10:00开始分割&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;-t  00:30:40&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;分割时长00:30:40&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;-acodec copy&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;音频与原格式相同&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;-vcodec copy&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;视频与原格式相同&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>linux ffmpeg</category><guid>https://chimez.github.io/posts/ffmpeg/</guid><pubDate>Thu, 28 Jan 2021 07:57:49 GMT</pubDate></item></channel></rss>

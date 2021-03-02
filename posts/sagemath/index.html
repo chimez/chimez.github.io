@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SageMath | chimez's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://chimez.github.io/posts/sagemath/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
+<link rel="prev" href="../c-memory-management/" title="C Memory Management" type="text/html">
+<link rel="next" href="../openmp/" title="OpenMP" type="text/html">
+<meta property="og:site_name" content="chimez's blog">
+<meta property="og:title" content="SageMath">
+<meta property="og:url" content="https://chimez.github.io/posts/sagemath/">
+<meta property="og:description" content="量子力学算符代数计算
+
+
+参见 Noncommutative Algebras in Sage.
+
+
+
+例如要做满足 \([a, a^{\dagger}]=1, [b,b^{\dagger}]=1, [a,b]=0\) 的两个算符 \(a,b\) 的代数计算
+
+  F.&lt;a, a_d, b, b_d&gt; = FreeAlgebra(QQ)
+
+  U_relations = {
+      b_d *">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-02-19T14:27:07+08:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">chimez's blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">SageMath</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    chimez
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2021-02-19T14:27:07+08:00" itemprop="datePublished" title="2021-02-19 14:27">2021-02-19 14:27</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-org7b0e5f4" class="outline-2">
+<h2 id="org7b0e5f4">量子力学算符代数计算</h2>
+<div class="outline-text-2" id="text-org7b0e5f4">
+<p>
+参见 <a href="https://sheaves.github.io/Noncommutative-Sage/">Noncommutative Algebras in Sage</a>.
+</p>
+
+<p>
+例如要做满足 \([a, a^{\dagger}]=1, [b,b^{\dagger}]=1, [a,b]=0\) 的两个算符 \(a,b\) 的代数计算
+</p>
+<div class="highlight"><pre><span></span>  <span class="n">F</span><span class="o">.&lt;</span><span class="n">a</span><span class="p">,</span> <span class="n">a_d</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">b_d</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">FreeAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
+
+  <span class="n">U_relations</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="n">b_d</span> <span class="o">*</span> <span class="n">b</span><span class="p">:</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b_d</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="n">a_d</span> <span class="o">*</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a_d</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="p">}</span>
+
+  <span class="n">U</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">g_algebra</span><span class="p">(</span><span class="n">U_relations</span><span class="p">)</span>
+  <span class="n">U</span><span class="o">.</span><span class="n">_latex_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span> <span class="sa">r</span><span class="s2">"a^\dagger"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="sa">r</span><span class="s2">"b^\dagger"</span><span class="p">]</span>
+  <span class="n">U</span><span class="o">.</span><span class="n">inject_variables</span><span class="p">()</span>
+</pre></div>
+
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>定义规则时，必须是后定义的字母乘在前面，例如定义时 <code>F.&lt;a,b,c&gt;</code> 规则中应该写作 <code>c*b: ..., b*a: ...</code> 等</li>
+<li>变量的 latex 显示名顺序要和变量定义顺序相同</li>
+<li>没有指定规则的乘法默认就是可对易的</li>
+</ol>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-org83d3ebb" class="outline-2">
+<h2 id="org83d3ebb">安装为 jupyter 内核</h2>
+<div class="outline-text-2" id="text-org83d3ebb">
+<div class="highlight"><pre><span></span>jupyter kernelspec install ./SageMath/local/share/jupyter/kernels/sagemath
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgf16501c" class="outline-2">
+<h2 id="orgf16501c">基本特性</h2>
+<div class="outline-text-2" id="text-orgf16501c">
+<ol class="org-ol">
+<li>直接输入数学运算公式可以作为计算器来用</li>
+<li>继承自python的面向对象系统，即任何东西都是对象</li>
+<li>在命令行模式下使用TAB补全，在notebook里似乎有bug</li>
+<li>内置交互式帮助系统，在命令后加一个问号即可显示帮助   <code>c.diameter?</code>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org7498a9b" class="outline-2">
+<h2 id="org7498a9b">符号运算</h2>
+<div class="outline-text-2" id="text-org7498a9b">
+</div>
+<div id="outline-container-org5378ec7" class="outline-3">
+<h3 id="org5378ec7">基础操作</h3>
+<div class="outline-text-3" id="text-org5378ec7">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>x = var('x')</code></td>
+<td class="org-left">定义符号</td>
+</tr>
+<tr>
+<td class="org-left"><code>f = 1 - sin(x)^2</code></td>
+<td class="org-left">定义一个函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>print(f)</code></td>
+<td class="org-left">普通打印函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>print(maxima(f))</code></td>
+<td class="org-left">美化打印函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>f.simplify_trig()</code></td>
+<td class="org-left">化简表达式</td>
+</tr>
+<tr>
+<td class="org-left"><code>f(x=pi/2)</code></td>
+<td class="org-left">计算函数值</td>
+</tr>
+<tr>
+<td class="org-left"><code>ingtegrate(f, x)</code></td>
+<td class="org-left">不定积分</td>
+</tr>
+<tr>
+<td class="org-left"><code>f.differentiate(2).substitude({x: 3/pi})</code></td>
+<td class="org-left">计算二阶微分，并代替值</td>
+</tr>
+<tr>
+<td class="org-left"><code>a = var('a')</code></td>
+<td class="org-left">x是默认隐含符号，需要更多符号就要定义</td>
+</tr>
+<tr>
+<td class="org-left"><code>S = solve(x^2 + x == a, x)</code></td>
+<td class="org-left">解代数方程</td>
+</tr>
+<tr>
+<td class="org-left"><code>S[0].rhs()</code></td>
+<td class="org-left">显示代数方程解</td>
+</tr>
+<tr>
+<td class="org-left"><code>show(plot(sin(x)+ sin(1.6*x)), 0, 40)</code></td>
+<td class="org-left">解析画图</td>
+</tr>
+<tr>
+<td class="org-left"><code>F = factor(x^99 + y^99)</code></td>
+<td class="org-left">分解因式</td>
+</tr>
+<tr>
+<td class="org-left"><code>F.expand()</code></td>
+<td class="org-left">乘开因式</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgf6ffd3a" class="outline-3">
+<h3 id="orgf6ffd3a">代数</h3>
+<div class="outline-text-3" id="text-orgf6ffd3a">
+<p>
+用对象表示代数结构，群环域
+</p>
+</div>
+</div>
+<div id="outline-container-orgc768a1b" class="outline-3">
+<h3 id="orgc768a1b">组合数学</h3>
+</div>
+</div>
+
+<div id="outline-container-org2f4a581" class="outline-2">
+<h2 id="org2f4a581">数值运算</h2>
+<div class="outline-text-2" id="text-org2f4a581">
+</div>
+<div id="outline-container-orgd1b0273" class="outline-3">
+<h3 id="orgd1b0273">基础操作</h3>
+<div class="outline-text-3" id="text-orgd1b0273">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>3 + 5</code></td>
+<td class="org-left">加法</td>
+</tr>
+<tr>
+<td class="org-left"><code>57.1 ^ 100</code></td>
+<td class="org-left">乘方</td>
+</tr>
+<tr>
+<td class="org-left"><code>matrix([[1,2], [3,4]])</code></td>
+<td class="org-left">创建矩阵，按行写</td>
+</tr>
+<tr>
+<td class="org-left"><code>g = sin(x) + (1- x^2)</code></td>
+<td class="org-left">定义一个函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>find_root(g, 0, 2)</code></td>
+<td class="org-left">在区间[0, 2]寻根</td>
+</tr>
+<tr>
+<td class="org-left"><code>var('x y z')</code></td>
+<td class="org-left">定义一些符号</td>
+</tr>
+<tr>
+<td class="org-left"><code>f = (1+ (y+ x^2)^2 + (1+ z+ y^2)^2)^2</code></td>
+<td class="org-left">新定义一个函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>minimize(f, [1, 2, 3], disp=1, algorithm='powell')</code></td>
+<td class="org-left">计算最优化，指定算法和初值</td>
+</tr>
+<tr>
+<td class="org-left"><code>m = random_matrix(RDF, 500)</code></td>
+<td class="org-left">创建复数500×500随机矩阵</td>
+</tr>
+<tr>
+<td class="org-left"><code>e = m.eigenvalues()</code></td>
+<td class="org-left">计算矩阵的本征值</td>
+</tr>
+<tr>
+<td class="org-left"><code>w = [(i, abs(e[i])) for i in range(len(e))]</code></td>
+<td class="org-left">循环方式创建list</td>
+</tr>
+<tr>
+<td class="org-left"><code>show(points(w))</code></td>
+<td class="org-left">成对点画图</td>
+</tr>
+<tr>
+<td class="org-left"><code>factorial(100)</code></td>
+<td class="org-left">计算阶乘</td>
+</tr>
+<tr>
+<td class="org-left"><code>N(pi, digits=100)</code></td>
+<td class="org-left">保留100位小数，四舍五入</td>
+</tr>
+<tr>
+<td class="org-left"><code>z = Partitions(10^8).cardinality()</code></td>
+<td class="org-left">计算数的划分并给出基数</td>
+</tr>
+</tbody>
+</table>
+<p>
+包括以下几种浮点数类型：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Python</td>
+<td class="org-left">float, complex, decimal</td>
+</tr>
+<tr>
+<td class="org-left">SageMath specific</td>
+<td class="org-left">RDF, CDF, RQDF, CC, RR, RIF, CIF</td>
+</tr>
+<tr>
+<td class="org-left">included Systems</td>
+<td class="org-left">pari, maxima</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0c7c197" class="outline-2">
+<h2 id="org0c7c197">绘图</h2>
+<div class="outline-text-2" id="text-org0c7c197">
+<p>
+可绘制的类型：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">interact</td>
+<td class="org-left">动态交互图，可以显示一个滑块，滑动改变图</td>
+</tr>
+<tr>
+<td class="org-left">Regions Plot/ Contours</td>
+<td class="org-left">显示一个不等式区间</td>
+</tr>
+<tr>
+<td class="org-left">Density Plot</td>
+<td class="org-left">密度图，热力图</td>
+</tr>
+<tr>
+<td class="org-left">filled plot</td>
+<td class="org-left">可以上色显示两条线之间的区间</td>
+</tr>
+<tr>
+<td class="org-left">multiedge graph</td>
+<td class="org-left">可以显示一个有向图</td>
+</tr>
+</tbody>
+</table>
+<p>
+<a href="https://wiki.sagemath.org/interact">这里</a> 有各种动态图的例子
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga6aba5a" class="outline-2">
+<h2 id="orga6aba5a">技巧和常用代码片段</h2>
+<div class="outline-text-2" id="text-orga6aba5a">
+</div>
+<div id="outline-container-org5bdf62a" class="outline-3">
+<h3 id="org5bdf62a">与 tex 联合使用</h3>
+<div class="outline-text-3" id="text-org5bdf62a">
+</div>
+<div id="outline-container-orgf627399" class="outline-4">
+<h4 id="orgf627399">sagetex：可以在tex中显示sage命令的运算结果</h4>
+<div class="outline-text-4" id="text-orgf627399">
+<p>
+首先需要安装 <a href="http://doc.sagemath.org/html/en/tutorial/sagetex.html">sagetex</a>
+</p>
+
+<p>
+注意： 在网站下载的二进制包千万别手贱用 sage -i 自己再编译，由于包含文件不全，这样只会破坏已编译好的文件
+</p>
+
+<div class="highlight"><pre><span></span>    kpsewhich -var-value=TEXMFHOME                  # 获得TEXMFHOME目录位置，一般是$HOME/texmf
+    cp -R SAGE_ROOT/local/share/texmf/tex TEXMFHOME # 把sagetex复制到目录里
+    texhash                                         # 让latex重新索引包
+</pre></div>
+<p>
+使用方法
+</p>
+<div class="highlight"><pre><span></span>    \usepackage{sagetex}              % 引入包
+    \usepackage[imagemagick]{sagetex} % 可选项
+    \setlength{\sagetexindent}{10ex}  % 设置间隔
+    $2+2=\sage{2+2}$                  % 行内计算sage表达式的数学结果
+    \begin{sageblock}                 % 引用sage/python代码
+      1+1
+      var('a,b,c')
+      eqn ~ [a+b*c==1, b-a*c==0, a+b=~5]
+      s = solve(eqn, a,b,c)
+    \end{sageblock} 
+    \begin{sagesilent}      % 多行计算sage表达式
+      e = 2
+      e = 3*e + 1
+    \end{sagesilent}
+    $e=\sage{e}$            % 在同一文件内可以直接使用定义的变量
+    \sageplot{E.plot(-3,3)} % sage画图
+    \sagetexpause           % 在pause宏之间的sage表达式不被求值，便于修改
+    \sagetexunpause
+</pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-org6e6da16" class="outline-3">
+<h3 id="org6e6da16">三角函数和指数之间转换</h3>
+<div class="outline-text-3" id="text-org6e6da16">
+<p>
+<a href="https://ask.sagemath.org/question/7672/complex-exponentialtrigonometric/">参考这个回答</a>
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">exponentialize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+       <span class="sd">"""从三角函数形式变换成e指数形式"""</span>
+       <span class="k">return</span> <span class="n">sageobj</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_maxima_</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">exponentialize</span><span class="p">())</span>
+
+   <span class="k">def</span> <span class="nf">demoivre</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+       <span class="sd">"""从e指数形式变换成三角函数形式"""</span>
+       <span class="k">return</span> <span class="n">sageobj</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_maxima_</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">demoivre</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../c-memory-management/" rel="prev" title="C Memory Management">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../openmp/" rel="next" title="OpenMP">Next post</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>

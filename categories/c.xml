@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about C)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/c.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 02 Mar 2021 03:38:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C Memory Management</title><link>https://chimez.github.io/posts/c-memory-management/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org5940465" class="outline-2"&gt;
+&lt;h2 id="org5940465"&gt;C 语言内存管理&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgdbb935c" class="outline-2"&gt;
+&lt;h2 id="orgdbb935c"&gt;关键字&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdbb935c"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;b&gt;关键字&lt;/b&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;b&gt;存储类别&lt;/b&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;b&gt;存储期&lt;/b&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;b&gt;作用域&lt;/b&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;b&gt;链接&lt;/b&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;b&gt;声明方式&lt;/b&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;可选 (&lt;code&gt;auto&lt;/code&gt;)&lt;/td&gt;
+&lt;td class="org-left"&gt;自动&lt;/td&gt;
+&lt;td class="org-left"&gt;自动&lt;/td&gt;
+&lt;td class="org-left"&gt;块&lt;/td&gt;
+&lt;td class="org-left"&gt;无&lt;/td&gt;
+&lt;td class="org-left"&gt;块内&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;register&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;寄存器&lt;/td&gt;
+&lt;td class="org-left"&gt;自动&lt;/td&gt;
+&lt;td class="org-left"&gt;块&lt;/td&gt;
+&lt;td class="org-left"&gt;无&lt;/td&gt;
+&lt;td class="org-left"&gt;块内&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;无&lt;/td&gt;
+&lt;td class="org-left"&gt;静态外部链接&lt;/td&gt;
+&lt;td class="org-left"&gt;静态&lt;/td&gt;
+&lt;td class="org-left"&gt;文件&lt;/td&gt;
+&lt;td class="org-left"&gt;外部&lt;/td&gt;
+&lt;td class="org-left"&gt;函数外&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;static&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;静态内部链接&lt;/td&gt;
+&lt;td class="org-left"&gt;静态&lt;/td&gt;
+&lt;td class="org-left"&gt;文件&lt;/td&gt;
+&lt;td class="org-left"&gt;内部&lt;/td&gt;
+&lt;td class="org-left"&gt;函数外&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;static&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;静态无链接&lt;/td&gt;
+&lt;td class="org-left"&gt;静态&lt;/td&gt;
+&lt;td class="org-left"&gt;块&lt;/td&gt;
+&lt;td class="org-left"&gt;无&lt;/td&gt;
+&lt;td class="org-left"&gt;块内&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;extern&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;外部&lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;_Thread_local&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;const&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;不可变&lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;inline&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;volatile&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;代理，可由其它程序改变&lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;restrict&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;限定唯一的指针&lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;_Atomic&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;好的设计不应该使用文件作用域的变量&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;auto&lt;/code&gt; 关键字用于明确显示使用了与外部同名的变量名，与 c++ 中的完全不同，不建议使用&lt;/li&gt;
+&lt;li&gt;函数的默认类别是 &lt;code&gt;extern&lt;/code&gt; 除非使用了 &lt;code&gt;static&lt;/code&gt; 指定为模块私有&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;static&lt;/code&gt; 静态指的是生命周期一直在， &lt;code&gt;const&lt;/code&gt; 才是不可变&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;const&lt;/code&gt; 变量只能初始化，不能修改&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;const float * pf&lt;/code&gt; 指针 &lt;code&gt;pf&lt;/code&gt; 指向 &lt;code&gt;const float&lt;/code&gt; 类型的对象，即对象内容不可变，但指针可以指向其它地址&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;float const * pf&lt;/code&gt; 同上&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;float * const pf&lt;/code&gt; 指针 &lt;code&gt;pf&lt;/code&gt; 指向 &lt;code&gt;float&lt;/code&gt; 类型的对象，即对象内容可变，但指针不能指向其它地址&lt;/li&gt;
+&lt;li&gt;即 &lt;code&gt;const&lt;/code&gt; 在 &lt;code&gt;*&lt;/code&gt; 前面表示指向的值不能变，在 &lt;code&gt;*&lt;/code&gt; 后面表示指针本身不能变&lt;/li&gt;
+&lt;li&gt;函数的形参中有 &lt;code&gt;const&lt;/code&gt; 表示传递的值不变&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;restrict&lt;/code&gt; 限制指针是指向内存的唯一和初始方式，用于优化&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org9823553" class="outline-2"&gt;
+&lt;h2 id="org9823553"&gt;&lt;/h2&gt;
+&lt;/div&gt;</description><category>C</category><category>Memory Management</category><guid>https://chimez.github.io/posts/c-memory-management/</guid><pubDate>Fri, 12 Feb 2021 00:37:35 GMT</pubDate></item></channel></rss>

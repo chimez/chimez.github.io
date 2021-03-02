@@ -1,0 +1,51 @@
+#+BEGIN_COMMENT
+.. title: pandas
+.. slug: pandas
+.. date: 2021-01-30 13:27:04 UTC+08:00
+.. tags: python pandas
+.. category: python
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+      
+* 数据表格和矩阵之间的转换
+   
+** 从点的坐标表格 ~(x,y,z)~ 得到矩阵
+
+   #+begin_src python
+data = pd.DataFrame({"x": [1,1,2,2], "y":[3,4,3,4],"z":[9,8,7,6]})
+data_2x2 = data.pivot(index="x",columns="y", values="z")
+
+matrix = data_2x2.to_numpy()
+   #+end_src
+ 
+** 从矩阵表格得到坐标表格
+   #+begin_src python
+data = pd.DataFrame({"x": [1,1,2,2], "y":[3,4,3,4],"z":[9,8,7,6]})
+data_2x2 = data.pivot(index="x",columns="y", values="z")
+
+d = data_2x2.unstack().reset_index()
+d.columns = ['y','x','z']
+   #+end_src
+  
+* groupby: 分开-计算-合并
+  [[https://pandas.pydata.org/pandas-docs/stable/user_guide/groupby.html][groupby guide]]
+  通过 ~groupby~ 可以做涉及到如下三个过程的一些操作：
+  1. 根据某些标准将数据 *分类*
+  2. 对每类数据分别 *应用* 某个函数
+  3. 将应用的结果 *合并* 回数据表中
+
+  分开数据后通常要应用三种函数
+  1. *累积* ：计算每组的和、平均值、总数等
+  2. *变换* ：进行与组内数据相关的计算并返回类似索引的列表，如对组内数据标准化、根据组的数据填上新的数据等
+  3. *筛选* ：去掉某些不符合条件的组等
+
+** 变换(transform)
+   #+BEGIN_SRC python
+transformed = ts.groupby(lambda x: x.year).transform(
+    lambda x: (x - x.mean()) / x.std()
+)
+   #+END_SRC

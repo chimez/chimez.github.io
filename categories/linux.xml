@@ -1,11 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about linux)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Thu, 24 Dec 2020 13:17:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>ssh</title><link>https://chimez.github.io/posts/ssh/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgafe7863" class="outline-2"&gt;
-&lt;h2 id="orgafe7863"&gt;SSH 端口转发&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgafe7863"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about linux)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 02 Mar 2021 03:38:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>pdftk: The PDF Toolkit</title><link>https://chimez.github.io/posts/pdftk/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org3c5d45d" class="outline-2"&gt;
+&lt;h2 id="org3c5d45d"&gt;添加目录与修改元信息&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3c5d45d"&gt;
+&lt;p&gt;
+参见： &lt;a href="https://www.pdflabs.com/blog/export-and-import-pdf-bookmarks/"&gt;https://www.pdflabs.com/blog/export-and-import-pdf-bookmarks/&lt;/a&gt;
+&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8a3720a" class="outline-3"&gt;
-&lt;h3 id="org8a3720a"&gt;本地转发: 本地访问远程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org8a3720a"&gt;
+&lt;div id="outline-container-orgbefbfff" class="outline-3"&gt;
+&lt;h3 id="orgbefbfff"&gt;从pdf中提取目录和元信息&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgbefbfff"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   pdftk C:\Users\Sid\Desktop\doc.pdf dump_data output C:\Users\Sid\Desktop\doc_data.txt
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgcaa869b" class="outline-3"&gt;
+&lt;h3 id="orgcaa869b"&gt;给pdf添加或更新目录&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgcaa869b"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   pdftk C:\Users\Sid\Desktop\doc.pdf update_info C:\Users\Sid\Desktop\doc_data.txt output C:\Users\Sid\Desktop\updated.pdf
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+目录文件格式：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   BookmarkBegin
+   BookmarkTitle: PDF Reference (Version 1.5)
+   BookmarkLevel: 1
+   BookmarkPageNumber: 1
+   BookmarkBegin
+   BookmarkTitle: Contents
+   BookmarkLevel: 2
+   BookmarkPageNumber: 3
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+其中字符应编码成 html entitle 的样子。
+可以用 &lt;a href="https://tool.oschina.net/encode"&gt;https://tool.oschina.net/encode&lt;/a&gt; , &lt;a href="https://www.online-toolz.com/tools/unicode-html-entities-convertor.php"&gt;https://www.online-toolz.com/tools/unicode-html-entities-convertor.php&lt;/a&gt; 这里的 Native/Unicode 转换工具。
+&lt;/p&gt;
+
+&lt;p&gt;
+或者python
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="sa"&gt;u&lt;/span&gt;&lt;span class="s2"&gt;"阿斯顿"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'ascii'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'xmlcharrefreplace'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;utf8_to_ascii_xml&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+       &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;'r'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;encoding&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'utf-8'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fi&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+	   &lt;span class="n"&gt;lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fi&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+	   &lt;span class="n"&gt;lines_ascii&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'ascii'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'xmlcharrefreplace'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+       &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;.ascii"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'wb'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fi&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+	   &lt;span class="n"&gt;fi&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;writelines&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lines_ascii&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+常用正则替换
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPageNumber: \2/
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgbde89df" class="outline-3"&gt;
+&lt;h3 id="orgbde89df"&gt;添加目录的示例流程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgbde89df"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="c1"&gt;# import&lt;/span&gt;
+   &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pytesseract&lt;/span&gt;
+   &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;
+   &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+   &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+   &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+
+   &lt;span class="c1"&gt;# 利用 OCR 生成目录&lt;/span&gt;
+   &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pytesseract&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;image_to_string&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'a.png'&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+
+   &lt;span class="c1"&gt;# 手动编辑目录，使用 orgmode 的表格&lt;/span&gt;
+   &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"a.txt"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sep&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"|"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="n"&gt;darr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="n"&gt;darr&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;darr&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
+   &lt;span class="n"&gt;darr&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;darr&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]]&lt;/span&gt;
+   &lt;span class="n"&gt;darr&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;:,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;darr&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;:,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;
+   &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;darr&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+   &lt;span class="n"&gt;data&lt;/span&gt;
+
+   &lt;span class="c1"&gt;# 生成目录格式并保存&lt;/span&gt;
+   &lt;span class="n"&gt;block&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"""BookmarkBegin&lt;/span&gt;
+&lt;span class="s2"&gt;   BookmarkTitle: &lt;/span&gt;&lt;span class="si"&gt;{title}&lt;/span&gt;&lt;span class="s2"&gt;&lt;/span&gt;
+&lt;span class="s2"&gt;   BookmarkLevel: &lt;/span&gt;&lt;span class="si"&gt;{level}&lt;/span&gt;&lt;span class="s2"&gt;&lt;/span&gt;
+&lt;span class="s2"&gt;   BookmarkPageNumber: &lt;/span&gt;&lt;span class="si"&gt;{page}&lt;/span&gt;&lt;span class="s2"&gt;&lt;/span&gt;
+&lt;span class="s2"&gt;   """&lt;/span&gt;
+   &lt;span class="n"&gt;txt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;""&lt;/span&gt;
+   &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;darr&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+       &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+       &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+       &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+       &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;''&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;'.'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+	   &lt;span class="n"&gt;level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+       &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+	   &lt;span class="n"&gt;level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+	   &lt;span class="n"&gt;txt&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;block&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+   &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"b.txt"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;'w'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fi&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+       &lt;span class="n"&gt;fi&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;writelines&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgea7fccc" class="outline-2"&gt;
+&lt;h2 id="orgea7fccc"&gt;合并pdf文件&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgea7fccc"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  pdftk in1.pdf in2.pdf cat output out1.pdf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org5ebc6f4" class="outline-2"&gt;
+&lt;h2 id="org5ebc6f4"&gt;djvu to pdf&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5ebc6f4"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;djvulibre&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  ddjvu -format=pdf -quality=85 -verbose a.djvu a.pdf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org6a567ff" class="outline-2"&gt;
+&lt;h2 id="org6a567ff"&gt;分割文件&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6a567ff"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pdftk in.pdf burst output out_%04d.pdf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>linux</category><category>pdf</category><guid>https://chimez.github.io/posts/pdftk/</guid><pubDate>Fri, 08 Jan 2021 03:09:45 GMT</pubDate></item><item><title>ssh</title><link>https://chimez.github.io/posts/ssh/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org40f3837" class="outline-2"&gt;
+&lt;h2 id="org40f3837"&gt;SSH 端口转发&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org40f3837"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6fcf1dc" class="outline-3"&gt;
+&lt;h3 id="org6fcf1dc"&gt;本地转发: 本地访问远程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6fcf1dc"&gt;
 &lt;p&gt;
 本地转发，顾名思义就是把本地主机端口通过待登录主机端口转发到远程主机端口上去。
 &lt;/p&gt;
@@ -28,9 +163,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6db3198" class="outline-3"&gt;
-&lt;h3 id="org6db3198"&gt;远程转发: 远程访问本地&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6db3198"&gt;
+&lt;div id="outline-container-orgd4f523c" class="outline-3"&gt;
+&lt;h3 id="orgd4f523c"&gt;远程转发: 远程访问本地&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd4f523c"&gt;
 &lt;p&gt;
 远程转发是指把登录主机所在网络中某个端口通过本地主机端口转发到远程主机上。
 &lt;/p&gt;
@@ -62,9 +197,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org409963c" class="outline-3"&gt;
-&lt;h3 id="org409963c"&gt;动态转发&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org409963c"&gt;
+&lt;div id="outline-container-org34ebfb8" class="outline-3"&gt;
+&lt;h3 id="org34ebfb8"&gt;动态转发&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org34ebfb8"&gt;
 &lt;p&gt;
 相对于本地转发和远程转发的单一端口转发模式而言，动态转发有点更加强劲的端口转发功能，即是无需固定指定被访问目标主机的端口号。这个端口号需要在本地通过协议指定，该协议就是简单、安全、实用的 SOCKS 协议。
 &lt;/p&gt;
@@ -110,13 +245,13 @@
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org62f0719" class="outline-2"&gt;
-&lt;h2 id="org62f0719"&gt;免密码登录&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org62f0719"&gt;
+&lt;div id="outline-container-orgc09b049" class="outline-2"&gt;
+&lt;h2 id="orgc09b049"&gt;免密码登录&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc09b049"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6c7a4d4" class="outline-3"&gt;
-&lt;h3 id="org6c7a4d4"&gt;在本地机器生成密钥对&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6c7a4d4"&gt;
+&lt;div id="outline-container-org29351a7" class="outline-3"&gt;
+&lt;h3 id="org29351a7"&gt;在本地机器生成密钥对&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org29351a7"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ssh-keygen -t rsa
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;
@@ -125,9 +260,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge364648" class="outline-3"&gt;
-&lt;h3 id="orge364648"&gt;授权登录&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orge364648"&gt;
+&lt;div id="outline-container-orga0d6385" class="outline-3"&gt;
+&lt;h3 id="orga0d6385"&gt;授权登录&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga0d6385"&gt;
 &lt;p&gt;
 将公钥追加到目标服务器的 &lt;code&gt;$HOME/.ssh/authorized_keys&lt;/code&gt; 文件中，该文件的权限应为 &lt;code&gt;600&lt;/code&gt; ， &lt;code&gt;.ssh&lt;/code&gt; 目录权限应为 &lt;code&gt;700&lt;/code&gt;
 &lt;/p&gt;
@@ -145,9 +280,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8b39acc" class="outline-2"&gt;
-&lt;h2 id="org8b39acc"&gt;配置别名&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8b39acc"&gt;
+&lt;div id="outline-container-org37dc43f" class="outline-2"&gt;
+&lt;h2 id="org37dc43f"&gt;配置别名&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org37dc43f"&gt;
 &lt;p&gt;
 在 &lt;code&gt;~/.ssh/config&lt;/code&gt; 中配置别名，就不用记 ip 了。
 &lt;/p&gt;
@@ -172,9 +307,9 @@
       User username
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>linux</category><category>ssh</category><guid>https://chimez.github.io/posts/ssh/</guid><pubDate>Thu, 24 Dec 2020 13:07:46 GMT</pubDate></item><item><title>systemd</title><link>https://chimez.github.io/posts/systemd/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org04539e1" class="outline-2"&gt;
-&lt;h2 id="org04539e1"&gt;systemctl: 管理服务&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org04539e1"&gt;
+&lt;/div&gt;</description><category>linux</category><category>ssh</category><guid>https://chimez.github.io/posts/ssh/</guid><pubDate>Thu, 24 Dec 2020 13:07:46 GMT</pubDate></item><item><title>systemd</title><link>https://chimez.github.io/posts/systemd/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org75deb40" class="outline-2"&gt;
+&lt;h2 id="org75deb40"&gt;systemctl: 管理服务&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org75deb40"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;systemd 中的服务后缀名 &lt;code&gt;.service&lt;/code&gt; 可以不写，会自动补全。&lt;/li&gt;
 &lt;li&gt;systemd 中把服务称作 &lt;code&gt;unit&lt;/code&gt; , &lt;code&gt;unit&lt;/code&gt; 有多种类型包括 &lt;code&gt;.service, .target&lt;/code&gt; 等&lt;/li&gt;
@@ -182,9 +317,9 @@
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org6699e85" class="outline-3"&gt;
-&lt;h3 id="org6699e85"&gt;列出服务&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6699e85"&gt;
+&lt;div id="outline-container-org62285bb" class="outline-3"&gt;
+&lt;h3 id="org62285bb"&gt;列出服务&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org62285bb"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 查看系统所有安装的服务项
    systemctl list-unit-files --type=service
 
@@ -197,9 +332,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org02a29ce" class="outline-3"&gt;
-&lt;h3 id="org02a29ce"&gt;查看特定服务&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org02a29ce"&gt;
+&lt;div id="outline-container-orgb7647ab" class="outline-3"&gt;
+&lt;h3 id="orgb7647ab"&gt;查看特定服务&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb7647ab"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 查看指定服务项状态
    systemctl status &amp;lt;服务项名称&amp;gt;
 
@@ -209,9 +344,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfb1a0ba" class="outline-3"&gt;
-&lt;h3 id="orgfb1a0ba"&gt;查看系统状态&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgfb1a0ba"&gt;
+&lt;div id="outline-container-orgee96fb0" class="outline-3"&gt;
+&lt;h3 id="orgee96fb0"&gt;查看系统状态&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgee96fb0"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 查看系统启动耗时
    systemd-analyze
 
@@ -221,9 +356,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd3be718" class="outline-3"&gt;
-&lt;h3 id="orgd3be718"&gt;管理服务&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd3be718"&gt;
+&lt;div id="outline-container-orge13ee06" class="outline-3"&gt;
+&lt;h3 id="orge13ee06"&gt;管理服务&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge13ee06"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 启动服务
    systemctl start &amp;lt;服务项名称&amp;gt;
 
@@ -260,21 +395,22 @@
 
 
 
-&lt;div id="outline-container-org4942166" class="outline-2"&gt;
-&lt;h2 id="org4942166"&gt;编写简单的服务&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4942166"&gt;
+&lt;div id="outline-container-org0f67697" class="outline-2"&gt;
+&lt;h2 id="org0f67697"&gt;编写简单的服务&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0f67697"&gt;
 &lt;p&gt;
 服务文件都存放在 &lt;code&gt;/etc/systemd/system/&lt;/code&gt; 中，后缀名为 &lt;code&gt;.service&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org77cbca7" class="outline-3"&gt;
-&lt;h3 id="org77cbca7"&gt;简单的自启动脚本&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org77cbca7"&gt;
+&lt;div id="outline-container-org2dc9651" class="outline-3"&gt;
+&lt;h3 id="org2dc9651"&gt;简单的自启动脚本&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2dc9651"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;Type=simple&lt;/code&gt; 表示启动并一直运行&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;ExecStart=/...&lt;/code&gt; 表示要执行的命令，路径要写全&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;WantedBy=multi-user.target&lt;/code&gt; 表示当用户能登录的时候就该启动这个服务了&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;User=name&lt;/code&gt; 表示运行程序时使用的用户，默认为 &lt;code&gt;root&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   [Unit]
@@ -291,9 +427,9 @@
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org45e3330" class="outline-3"&gt;
-&lt;h3 id="org45e3330"&gt;配置自启动 jupyterlab&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org45e3330"&gt;
+&lt;div id="outline-container-orge4ee669" class="outline-3"&gt;
+&lt;h3 id="orge4ee669"&gt;配置自启动 jupyterlab&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge4ee669"&gt;
 &lt;p&gt;
 &lt;code&gt;/etc/systemd/system/jupyterlab.service&lt;/code&gt;
 &lt;/p&gt;
@@ -314,9 +450,9 @@
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgb018a3a" class="outline-3"&gt;
-&lt;h3 id="orgb018a3a"&gt;配置自动挂载&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb018a3a"&gt;
+&lt;div id="outline-container-org1370a3e" class="outline-3"&gt;
+&lt;h3 id="org1370a3e"&gt;配置自动挂载&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1370a3e"&gt;
 &lt;p&gt;
 配置文件路径： &lt;code&gt;/etc/systemd/system/path-to-dir.mount&lt;/code&gt; 。
 &lt;/p&gt;
@@ -338,26 +474,26 @@
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>linux</category><guid>https://chimez.github.io/posts/systemd/</guid><pubDate>Thu, 24 Dec 2020 11:55:29 GMT</pubDate></item><item><title>samba 文件共享</title><link>https://chimez.github.io/posts/samba/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgf9e1121" class="outline-2"&gt;
-&lt;h2 id="orgf9e1121"&gt;Samba 基本配置&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf9e1121"&gt;
+&lt;/div&gt;</description><category>linux</category><guid>https://chimez.github.io/posts/systemd/</guid><pubDate>Thu, 24 Dec 2020 11:55:29 GMT</pubDate></item><item><title>samba 文件共享</title><link>https://chimez.github.io/posts/samba/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org00d0337" class="outline-2"&gt;
+&lt;h2 id="org00d0337"&gt;Samba 基本配置&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org00d0337"&gt;
 &lt;p&gt;
 参考 &lt;a href="https://www.fosslinux.com/8703/how-to-setup-samba-file-sharing-server-on-ubuntu.htm"&gt;FossLinux 的文章&lt;/a&gt;。
 &lt;/p&gt;
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgf36e951" class="outline-3"&gt;
-&lt;h3 id="orgf36e951"&gt;安装 Samba&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf36e951"&gt;
+&lt;div id="outline-container-org632dd86" class="outline-3"&gt;
+&lt;h3 id="org632dd86"&gt;安装 Samba&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org632dd86"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   apt install samba
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org23c6147" class="outline-3"&gt;
-&lt;h3 id="org23c6147"&gt;添加组和用户&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org23c6147"&gt;
+&lt;div id="outline-container-org1cdcba0" class="outline-3"&gt;
+&lt;h3 id="org1cdcba0"&gt;添加组和用户&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1cdcba0"&gt;
 &lt;p&gt;
 假定已经有一个本地用户 &lt;code&gt;mylocaluser&lt;/code&gt;
 &lt;/p&gt;
@@ -371,9 +507,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6fc88e9" class="outline-3"&gt;
-&lt;h3 id="org6fc88e9"&gt;配置文件&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6fc88e9"&gt;
+&lt;div id="outline-container-org3629d12" class="outline-3"&gt;
+&lt;h3 id="org3629d12"&gt;配置文件&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org3629d12"&gt;
 &lt;p&gt;
 首先一定要备份一份
 &lt;/p&gt;
@@ -409,9 +545,9 @@
 
 
 
-&lt;div id="outline-container-org2657310" class="outline-2"&gt;
-&lt;h2 id="org2657310"&gt;软链接权限&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2657310"&gt;
+&lt;div id="outline-container-org19a8c0e" class="outline-2"&gt;
+&lt;h2 id="org19a8c0e"&gt;软链接权限&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org19a8c0e"&gt;
 &lt;p&gt;
 从别处软链接过来的文件夹打不开，因为没有配置软链接的权限，只要在 &lt;code&gt;[global]&lt;/code&gt; 里加入下面的内容就行了。
 &lt;/p&gt;
