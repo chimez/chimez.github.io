@@ -82,18 +82,18 @@
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgd750a7f" class="outline-2">
-<h2 id="orgd750a7f">PyTables: 分层数据集</h2>
-<div class="outline-text-2" id="text-orgd750a7f">
+                    <div id="outline-container-orgc54e73f" class="outline-2">
+<h2 id="orgc54e73f">PyTables: 分层数据集</h2>
+<div class="outline-text-2" id="text-orgc54e73f">
 <p>
 <a href="https://www.pytables.org">PyTables</a> 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5py 更高层。适合用在存储比 csv 表格更复杂更大的数据，同时又不想自己实现一些基本的数据操作的情况中，并且经过简单的处理就能用 pandas 进行进一步数据分析。
 </p>
 </div>
 
 
-<div id="outline-container-org2fafe12" class="outline-3">
-<h3 id="org2fafe12">安装</h3>
-<div class="outline-text-3" id="text-org2fafe12">
+<div id="outline-container-org2f46282" class="outline-3">
+<h3 id="org2f46282">安装</h3>
+<div class="outline-text-3" id="text-org2f46282">
 <div class="highlight"><pre><span></span>   # 使用 conda
    conda install pytables
    # 或者 pip
@@ -110,17 +110,17 @@
 </div>
 </div>
 
-<div id="outline-container-orgdad18c3" class="outline-3">
-<h3 id="orgdad18c3">基本使用</h3>
-<div class="outline-text-3" id="text-orgdad18c3">
+<div id="outline-container-org67cb12c" class="outline-3">
+<h3 id="org67cb12c">基本使用</h3>
+<div class="outline-text-3" id="text-org67cb12c">
 <p>
 pytables 的基本逻辑是
 </p>
 </div>
 
-<div id="outline-container-orgb313891" class="outline-4">
-<h4 id="orgb313891">创建一个 HDF5 文件</h4>
-<div class="outline-text-4" id="text-orgb313891">
+<div id="outline-container-orgc3ba833" class="outline-4">
+<h4 id="orgc3ba833">创建一个 HDF5 文件</h4>
+<div class="outline-text-4" id="text-orgc3ba833">
 <div class="highlight"><pre><span></span>    <span class="n">f</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s2">"filename.h5"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"file title"</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">tb</span><span class="o">.</span><span class="n">Filters</span><span class="p">(</span><span class="n">complevel</span><span class="o">=</span><span class="mi">9</span><span class="p">))</span>
 
     <span class="c1"># 别忘了还要关闭它</span>
@@ -129,17 +129,17 @@ pytables 的基本逻辑是
 </div>
 </div>
 
-<div id="outline-container-org677ccf5" class="outline-4">
-<h4 id="org677ccf5">在文件中创建任意层的数据集</h4>
-<div class="outline-text-4" id="text-org677ccf5">
+<div id="outline-container-org005d4b5" class="outline-4">
+<h4 id="org005d4b5">在文件中创建任意层的数据集</h4>
+<div class="outline-text-4" id="text-org005d4b5">
 <div class="highlight"><pre><span></span>    <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">"/parent/group"</span><span class="p">,</span> <span class="s2">"group_name"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"group title"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org45ab039" class="outline-4">
-<h4 id="org45ab039">在数据集中创建若干个数据表</h4>
-<div class="outline-text-4" id="text-org45ab039">
+<div id="outline-container-org9e9e3a8" class="outline-4">
+<h4 id="org9e9e3a8">在数据集中创建若干个数据表</h4>
+<div class="outline-text-4" id="text-org9e9e3a8">
 <div class="highlight"><pre><span></span>    <span class="c1"># 需要创建对数据的描述</span>
     <span class="k">class</span> <span class="nc">data_description</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
 	<span class="n">name</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">StringCol</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
@@ -167,13 +167,13 @@ pytables 的基本逻辑是
 </div>
 
 
-<div id="outline-container-org1d09d09" class="outline-2">
-<h2 id="org1d09d09">遇到的问题</h2>
-<div class="outline-text-2" id="text-org1d09d09">
+<div id="outline-container-orgea59456" class="outline-2">
+<h2 id="orgea59456">遇到的问题</h2>
+<div class="outline-text-2" id="text-orgea59456">
 </div>
-<div id="outline-container-orgc09afc9" class="outline-3">
-<h3 id="orgc09afc9">在不支持 <code>flock</code> 的集群上运行</h3>
-<div class="outline-text-3" id="text-orgc09afc9">
+<div id="outline-container-orga789dfa" class="outline-3">
+<h3 id="orga789dfa">在不支持 <code>flock</code> 的集群上运行</h3>
+<div class="outline-text-3" id="text-orga789dfa">
 <p>
 需要设置环境变量
 </p>
@@ -195,17 +195,17 @@ pytables 的基本逻辑是
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org4def8a7" class="outline-2">
-<h2 id="org4def8a7">h5py: 储存数据</h2>
-<div class="outline-text-2" id="text-org4def8a7">
+                    <div id="outline-container-orga6ad85b" class="outline-2">
+<h2 id="orga6ad85b">h5py: 储存数据</h2>
+<div class="outline-text-2" id="text-orga6ad85b">
 <p>
 <a href="https://www.h5py.org/">h5py</a> 是 HDF5 库的 python 封装，基本提供了所有对应的 C API，因此适合用在简单并底层的应用中，特别适合对 HDF5 文件有定制的应用中。
 </p>
 </div>
 
-<div id="outline-container-org57b8b73" class="outline-3">
-<h3 id="org57b8b73">存</h3>
-<div class="outline-text-3" id="text-org57b8b73">
+<div id="outline-container-orgbd84bf7" class="outline-3">
+<h3 id="orgbd84bf7">存</h3>
+<div class="outline-text-3" id="text-orgbd84bf7">
 <div class="highlight"><pre><span></span>   <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'data.h5'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
        <span class="n">hf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat1"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat1</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
        <span class="n">hf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat2"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat2</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
@@ -217,9 +217,9 @@ pytables 的基本逻辑是
 </div>
 
 
-<div id="outline-container-org33db263" class="outline-3">
-<h3 id="org33db263">取</h3>
-<div class="outline-text-3" id="text-org33db263">
+<div id="outline-container-org5d867f0" class="outline-3">
+<h3 id="org5d867f0">取</h3>
+<div class="outline-text-3" id="text-org5d867f0">
 <div class="highlight"><pre><span></span>   <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'data.h5'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
        <span class="n">mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hf</span><span class="p">[</span><span class="s1">'mat1'</span><span class="p">])</span>
        <span class="n">mat2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hf</span><span class="p">[</span><span class="s1">'mat2'</span><span class="p">])</span>
@@ -242,13 +242,13 @@ pytables 的基本逻辑是
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org048ca89" class="outline-2">
-<h2 id="org048ca89">OpenMP 共享内存并行</h2>
-<div class="outline-text-2" id="text-org048ca89">
+                    <div id="outline-container-org185110b" class="outline-2">
+<h2 id="org185110b">OpenMP 共享内存并行</h2>
+<div class="outline-text-2" id="text-org185110b">
 </div>
-<div id="outline-container-orgf0afc85" class="outline-3">
-<h3 id="orgf0afc85">常用函数总结</h3>
-<div class="outline-text-3" id="text-orgf0afc85">
+<div id="outline-container-org84c1363" class="outline-3">
+<h3 id="org84c1363">常用函数总结</h3>
+<div class="outline-text-3" id="text-org84c1363">
 <ul class="org-ul">
 <li><code>parallel</code></li>
 <li><code>for</code></li>
@@ -277,9 +277,9 @@ pytables 的基本逻辑是
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org7b0e5f4" class="outline-2">
-<h2 id="org7b0e5f4">量子力学算符代数计算</h2>
-<div class="outline-text-2" id="text-org7b0e5f4">
+                    <div id="outline-container-org4909e87" class="outline-2">
+<h2 id="org4909e87">量子力学算符代数计算</h2>
+<div class="outline-text-2" id="text-org4909e87">
 <p>
 参见 <a href="https://sheaves.github.io/Noncommutative-Sage/">Noncommutative Algebras in Sage</a>.
 </p>
@@ -313,17 +313,17 @@ pytables 的基本逻辑是
 
 
 
-<div id="outline-container-org83d3ebb" class="outline-2">
-<h2 id="org83d3ebb">安装为 jupyter 内核</h2>
-<div class="outline-text-2" id="text-org83d3ebb">
+<div id="outline-container-orgbc8f12f" class="outline-2">
+<h2 id="orgbc8f12f">安装为 jupyter 内核</h2>
+<div class="outline-text-2" id="text-orgbc8f12f">
 <div class="highlight"><pre><span></span>jupyter kernelspec install ./SageMath/local/share/jupyter/kernels/sagemath
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orgf16501c" class="outline-2">
-<h2 id="orgf16501c">基本特性</h2>
-<div class="outline-text-2" id="text-orgf16501c">
+<div id="outline-container-org1b76577" class="outline-2">
+<h2 id="org1b76577">基本特性</h2>
+<div class="outline-text-2" id="text-org1b76577">
 <ol class="org-ol">
 <li>直接输入数学运算公式可以作为计算器来用</li>
 <li>继承自python的面向对象系统，即任何东西都是对象</li>
@@ -334,13 +334,13 @@ pytables 的基本逻辑是
 </div>
 </div>
 
-<div id="outline-container-org7498a9b" class="outline-2">
-<h2 id="org7498a9b">符号运算</h2>
-<div class="outline-text-2" id="text-org7498a9b">
+<div id="outline-container-orgc71646d" class="outline-2">
+<h2 id="orgc71646d">符号运算</h2>
+<div class="outline-text-2" id="text-orgc71646d">
 </div>
-<div id="outline-container-org5378ec7" class="outline-3">
-<h3 id="org5378ec7">基础操作</h3>
-<div class="outline-text-3" id="text-org5378ec7">
+<div id="outline-container-org9fabdb6" class="outline-3">
+<h3 id="org9fabdb6">基础操作</h3>
+<div class="outline-text-3" id="text-org9fabdb6">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -408,26 +408,26 @@ pytables 的基本逻辑是
 </div>
 </div>
 
-<div id="outline-container-orgf6ffd3a" class="outline-3">
-<h3 id="orgf6ffd3a">代数</h3>
-<div class="outline-text-3" id="text-orgf6ffd3a">
+<div id="outline-container-org75c8276" class="outline-3">
+<h3 id="org75c8276">代数</h3>
+<div class="outline-text-3" id="text-org75c8276">
 <p>
 用对象表示代数结构，群环域
 </p>
 </div>
 </div>
-<div id="outline-container-orgc768a1b" class="outline-3">
-<h3 id="orgc768a1b">组合数学</h3>
+<div id="outline-container-org0e444fa" class="outline-3">
+<h3 id="org0e444fa">组合数学</h3>
 </div>
 </div>
 
-<div id="outline-container-org2f4a581" class="outline-2">
-<h2 id="org2f4a581">数值运算</h2>
-<div class="outline-text-2" id="text-org2f4a581">
+<div id="outline-container-org34e7cd4" class="outline-2">
+<h2 id="org34e7cd4">数值运算</h2>
+<div class="outline-text-2" id="text-org34e7cd4">
 </div>
-<div id="outline-container-orgd1b0273" class="outline-3">
-<h3 id="orgd1b0273">基础操作</h3>
-<div class="outline-text-3" id="text-orgd1b0273">
+<div id="outline-container-org322c8dc" class="outline-3">
+<h3 id="org322c8dc">基础操作</h3>
+<div class="outline-text-3" id="text-org322c8dc">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -523,9 +523,9 @@ pytables 的基本逻辑是
 </div>
 </div>
 
-<div id="outline-container-org0c7c197" class="outline-2">
-<h2 id="org0c7c197">绘图</h2>
-<div class="outline-text-2" id="text-org0c7c197">
+<div id="outline-container-org6463c3f" class="outline-2">
+<h2 id="org6463c3f">绘图</h2>
+<div class="outline-text-2" id="text-org6463c3f">
 <p>
 可绘制的类型：
 </p>
@@ -563,17 +563,17 @@ pytables 的基本逻辑是
 </div>
 </div>
 
-<div id="outline-container-orga6aba5a" class="outline-2">
-<h2 id="orga6aba5a">技巧和常用代码片段</h2>
-<div class="outline-text-2" id="text-orga6aba5a">
+<div id="outline-container-org81a0f29" class="outline-2">
+<h2 id="org81a0f29">技巧和常用代码片段</h2>
+<div class="outline-text-2" id="text-org81a0f29">
 </div>
-<div id="outline-container-org5bdf62a" class="outline-3">
-<h3 id="org5bdf62a">与 tex 联合使用</h3>
-<div class="outline-text-3" id="text-org5bdf62a">
+<div id="outline-container-orgf167fe7" class="outline-3">
+<h3 id="orgf167fe7">与 tex 联合使用</h3>
+<div class="outline-text-3" id="text-orgf167fe7">
 </div>
-<div id="outline-container-orgf627399" class="outline-4">
-<h4 id="orgf627399">sagetex：可以在tex中显示sage命令的运算结果</h4>
-<div class="outline-text-4" id="text-orgf627399">
+<div id="outline-container-org517473b" class="outline-4">
+<h4 id="org517473b">sagetex：可以在tex中显示sage命令的运算结果</h4>
+<div class="outline-text-4" id="text-org517473b">
 <p>
 首先需要安装 <a href="http://doc.sagemath.org/html/en/tutorial/sagetex.html">sagetex</a>
 </p>
@@ -611,9 +611,9 @@ pytables 的基本逻辑是
 </div>
 </div>
 </div>
-<div id="outline-container-org6e6da16" class="outline-3">
-<h3 id="org6e6da16">三角函数和指数之间转换</h3>
-<div class="outline-text-3" id="text-org6e6da16">
+<div id="outline-container-org37e44cb" class="outline-3">
+<h3 id="org37e44cb">三角函数和指数之间转换</h3>
+<div class="outline-text-3" id="text-org37e44cb">
 <p>
 <a href="https://ask.sagemath.org/question/7672/complex-exponentialtrigonometric/">参考这个回答</a>
 </p>
@@ -641,13 +641,13 @@ pytables 的基本逻辑是
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org5940465" class="outline-2">
-<h2 id="org5940465">C 语言内存管理</h2>
+                    <div id="outline-container-orgcc5bf1f" class="outline-2">
+<h2 id="orgcc5bf1f">C 语言内存管理</h2>
 </div>
 
-<div id="outline-container-orgdbb935c" class="outline-2">
-<h2 id="orgdbb935c">关键字</h2>
-<div class="outline-text-2" id="text-orgdbb935c">
+<div id="outline-container-org05975d0" class="outline-2">
+<h2 id="org05975d0">关键字</h2>
+<div class="outline-text-2" id="text-org05975d0">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -788,8 +788,8 @@ pytables 的基本逻辑是
 </div>
 
 
-<div id="outline-container-org9823553" class="outline-2">
-<h2 id="org9823553"></h2>
+<div id="outline-container-org9a32617" class="outline-2">
+<h2 id="org9a32617"></h2>
 </div>
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pandas/" class="u-url">pandas</a></h1>
@@ -803,13 +803,13 @@ pytables 的基本逻辑是
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org017fc6e" class="outline-2">
-<h2 id="org017fc6e">数据表格和矩阵之间的转换</h2>
-<div class="outline-text-2" id="text-org017fc6e">
+                    <div id="outline-container-org61b6faf" class="outline-2">
+<h2 id="org61b6faf">数据表格和矩阵之间的转换</h2>
+<div class="outline-text-2" id="text-org61b6faf">
 </div>
-<div id="outline-container-org5aa5a38" class="outline-3">
-<h3 id="org5aa5a38">从点的坐标表格 <code>(x,y,z)</code> 得到矩阵</h3>
-<div class="outline-text-3" id="text-org5aa5a38">
+<div id="outline-container-org2812846" class="outline-3">
+<h3 id="org2812846">从点的坐标表格 <code>(x,y,z)</code> 得到矩阵</h3>
+<div class="outline-text-3" id="text-org2812846">
 <div class="highlight"><pre><span></span>   <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"y"</span><span class="p">:[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="s2">"z"</span><span class="p">:[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">]})</span>
    <span class="n">data_2x2</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">"z"</span><span class="p">)</span>
 
@@ -818,9 +818,9 @@ pytables 的基本逻辑是
 </div>
 </div>
 
-<div id="outline-container-orgec33a5f" class="outline-3">
-<h3 id="orgec33a5f">从矩阵表格得到坐标表格</h3>
-<div class="outline-text-3" id="text-orgec33a5f">
+<div id="outline-container-org5884971" class="outline-3">
+<h3 id="org5884971">从矩阵表格得到坐标表格</h3>
+<div class="outline-text-3" id="text-org5884971">
 <div class="highlight"><pre><span></span>   <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"y"</span><span class="p">:[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="s2">"z"</span><span class="p">:[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">]})</span>
    <span class="n">data_2x2</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">"z"</span><span class="p">)</span>
 
@@ -831,9 +831,9 @@ pytables 的基本逻辑是
 </div>
 </div>
 
-<div id="outline-container-orge28d107" class="outline-2">
-<h2 id="orge28d107">groupby: 分开-计算-合并</h2>
-<div class="outline-text-2" id="text-orge28d107">
+<div id="outline-container-org33eca5f" class="outline-2">
+<h2 id="org33eca5f">groupby: 分开-计算-合并</h2>
+<div class="outline-text-2" id="text-org33eca5f">
 <p>
 <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/groupby.html">groupby guide</a>
 通过 <code>groupby</code> 可以做涉及到如下三个过程的一些操作：
@@ -857,9 +857,9 @@ pytables 的基本逻辑是
 </ol>
 </div>
 
-<div id="outline-container-orgd6abc61" class="outline-3">
-<h3 id="orgd6abc61">变换(transform)</h3>
-<div class="outline-text-3" id="text-orgd6abc61">
+<div id="outline-container-org5c11d2f" class="outline-3">
+<h3 id="org5c11d2f">变换(transform)</h3>
+<div class="outline-text-3" id="text-org5c11d2f">
 <div class="highlight"><pre><span></span>   <span class="n">transformed</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
    <span class="p">)</span>
@@ -879,9 +879,9 @@ pytables 的基本逻辑是
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org9dd8385" class="outline-2">
-<h2 id="org9dd8385">正则表达式中使用非贪心匹配</h2>
-<div class="outline-text-2" id="text-org9dd8385">
+                    <div id="outline-container-org01bbf54" class="outline-2">
+<h2 id="org01bbf54">正则表达式中使用非贪心匹配</h2>
+<div class="outline-text-2" id="text-org01bbf54">
 <p>
 <code>.*</code> 变成 <code>.\{-}</code>
 <code>.+</code> 变成 <code>.\{-1,\}</code>
@@ -900,9 +900,9 @@ pytables 的基本逻辑是
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orge5f6e6b" class="outline-2">
-<h2 id="orge5f6e6b">合并视频</h2>
-<div class="outline-text-2" id="text-orge5f6e6b">
+                    <div id="outline-container-org1143fa6" class="outline-2">
+<h2 id="org1143fa6">合并视频</h2>
+<div class="outline-text-2" id="text-org1143fa6">
 <div class="highlight"><pre><span></span>  ffmpeg -f concat -i filelist.txt -c copy out.mkv
 </pre></div>
 
@@ -910,7 +910,7 @@ pytables 的基本逻辑是
 <code>filelist.txt</code> 内容如下， 需要加 <code>file</code> ，还要用单引号括起来，或者加选项 <code>-safe 0</code>
 </p>
 
-<pre class="example">
+<pre class="example" id="org160845a">
 file '/home/a1.mkv'
 file '/home/a2.mkv'
 ...
@@ -918,9 +918,9 @@ file '/home/a2.mkv'
 </div>
 </div>
 
-<div id="outline-container-orgba5d20a" class="outline-2">
-<h2 id="orgba5d20a">转换格式</h2>
-<div class="outline-text-2" id="text-orgba5d20a">
+<div id="outline-container-org97c4a70" class="outline-2">
+<h2 id="org97c4a70">转换格式</h2>
+<div class="outline-text-2" id="text-org97c4a70">
 <div class="highlight"><pre><span></span>  ffmpeg -i in.mpeg -q:a 0 -q:v 0 out.mkv
 </pre></div>
 
@@ -947,9 +947,9 @@ file '/home/a2.mkv'
 </div>
 </div>
 
-<div id="outline-container-org89ff66f" class="outline-2">
-<h2 id="org89ff66f">分割视频</h2>
-<div class="outline-text-2" id="text-org89ff66f">
+<div id="outline-container-org46b97ff" class="outline-2">
+<h2 id="org46b97ff">分割视频</h2>
+<div class="outline-text-2" id="text-org46b97ff">
 <div class="highlight"><pre><span></span>  ffmpeg -i in.mp4 -ss 00:10:00 -t 00:30:40 -acodec copy -vcodec copy output.mp4
 </pre></div>
 
@@ -999,22 +999,22 @@ file '/home/a2.mkv'
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org90d1b99" class="outline-2">
-<h2 id="org90d1b99">从源码编译安装</h2>
-<div class="outline-text-2" id="text-org90d1b99">
+                    <div id="outline-container-org4753fae" class="outline-2">
+<h2 id="org4753fae">从源码编译安装</h2>
+<div class="outline-text-2" id="text-org4753fae">
 </div>
-<div id="outline-container-orga297daa" class="outline-3">
-<h3 id="orga297daa">查看特性</h3>
-<div class="outline-text-3" id="text-orga297daa">
+<div id="outline-container-org59d6baf" class="outline-3">
+<h3 id="org59d6baf">查看特性</h3>
+<div class="outline-text-3" id="text-org59d6baf">
 <ol class="org-ol">
 <li>查看 <code>system-configuration-features</code> 中的信息</li>
 </ol>
 </div>
 </div>
 
-<div id="outline-container-orgf147b0d" class="outline-3">
-<h3 id="orgf147b0d">查看编译选项</h3>
-<div class="outline-text-3" id="text-orgf147b0d">
+<div id="outline-container-org0422539" class="outline-3">
+<h3 id="org0422539">查看编译选项</h3>
+<div class="outline-text-3" id="text-org0422539">
 <ol class="org-ol">
 <li>查看 <code>system-configuration-options</code> 中的信息</li>
 </ol>
@@ -1025,9 +1025,9 @@ file '/home/a2.mkv'
 </div>
 
 
-<div id="outline-container-orgfaa32b7" class="outline-2">
-<h2 id="orgfaa32b7">在正则表达式中使用lisp代码</h2>
-<div class="outline-text-2" id="text-orgfaa32b7">
+<div id="outline-container-orgbeca7b6" class="outline-2">
+<h2 id="orgbeca7b6">在正则表达式中使用lisp代码</h2>
+<div class="outline-text-2" id="text-orgbeca7b6">
 <p>
 使用 <code>\,</code> 后加一个表达式
 </p>
@@ -1037,9 +1037,9 @@ file '/home/a2.mkv'
 </div>
 
 
-<div id="outline-container-org0874aec" class="outline-2">
-<h2 id="org0874aec">正则表达式的非贪心匹配</h2>
-<div class="outline-text-2" id="text-org0874aec">
+<div id="outline-container-orgafb8393" class="outline-2">
+<h2 id="orgafb8393">正则表达式的非贪心匹配</h2>
+<div class="outline-text-2" id="text-orgafb8393">
 <p>
 non greedy regex
 星号后加问号
@@ -1050,13 +1050,13 @@ non greedy regex
 </div>
 
 
-<div id="outline-container-orgc7155b2" class="outline-2">
-<h2 id="orgc7155b2">文件编码问题</h2>
-<div class="outline-text-2" id="text-orgc7155b2">
+<div id="outline-container-org96d85b6" class="outline-2">
+<h2 id="org96d85b6">文件编码问题</h2>
+<div class="outline-text-2" id="text-org96d85b6">
 </div>
-<div id="outline-container-orgeeafcf5" class="outline-3">
-<h3 id="orgeeafcf5">改变显示文件编码,解决乱码问题</h3>
-<div class="outline-text-3" id="text-orgeeafcf5">
+<div id="outline-container-org961d9a2" class="outline-3">
+<h3 id="org961d9a2">改变显示文件编码,解决乱码问题</h3>
+<div class="outline-text-3" id="text-org961d9a2">
 <p>
 使用命令
 </p>
@@ -1065,9 +1065,9 @@ non greedy regex
 </div>
 </div>
 
-<div id="outline-container-org305e8e2" class="outline-3">
-<h3 id="org305e8e2">修改编码</h3>
-<div class="outline-text-3" id="text-org305e8e2">
+<div id="outline-container-org6bb0349" class="outline-3">
+<h3 id="org6bb0349">修改编码</h3>
+<div class="outline-text-3" id="text-org6bb0349">
 <p>
 在按下 <code>M-x</code> 后使用命令改变编码再保存即可
 </p>
@@ -1076,9 +1076,9 @@ non greedy regex
 </div>
 </div>
 
-<div id="outline-container-org33052e6" class="outline-3">
-<h3 id="org33052e6">常见的编码</h3>
-<div class="outline-text-3" id="text-org33052e6">
+<div id="outline-container-orgce426ae" class="outline-3">
+<h3 id="orgce426ae">常见的编码</h3>
+<div class="outline-text-3" id="text-orgce426ae">
 <ol class="org-ol">
 <li>中文
 <ol class="org-ol">
@@ -1098,9 +1098,9 @@ non greedy regex
 </div>
 
 
-<div id="outline-container-orge16b717" class="outline-2">
-<h2 id="orge16b717">对齐排版代码</h2>
-<div class="outline-text-2" id="text-orge16b717">
+<div id="outline-container-org1c440cc" class="outline-2">
+<h2 id="org1c440cc">对齐排版代码</h2>
+<div class="outline-text-2" id="text-org1c440cc">
 <p>
 使用 <code>align-regexp, sort-regexp-fields, sort-columns</code>
 </p>
@@ -1108,13 +1108,13 @@ non greedy regex
 </div>
 
 
-<div id="outline-container-orgdbeb338" class="outline-2">
-<h2 id="orgdbeb338">Tramp 远程编辑</h2>
-<div class="outline-text-2" id="text-orgdbeb338">
+<div id="outline-container-org3fbb9ee" class="outline-2">
+<h2 id="org3fbb9ee">Tramp 远程编辑</h2>
+<div class="outline-text-2" id="text-org3fbb9ee">
 </div>
-<div id="outline-container-orgcf875c1" class="outline-3">
-<h3 id="orgcf875c1">配置 ssh</h3>
-<div class="outline-text-3" id="text-orgcf875c1">
+<div id="outline-container-orgfd8d9b9" class="outline-3">
+<h3 id="orgfd8d9b9">配置 ssh</h3>
+<div class="outline-text-3" id="text-orgfd8d9b9">
 <p>
 注意 tramp 的远程登陆只支持 bash, 不支持 zsh, 所以要进行设置，tramp 登陆用 <code>namebash</code>, ssh 登陆用 <code>namezsh</code> 就行了
 </p>

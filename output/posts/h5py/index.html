@@ -107,17 +107,17 @@ h5py 是 HDF5 库的 python 封装，基本提供了所有对应的 C API，因�
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org4def8a7" class="outline-2">
-<h2 id="org4def8a7">h5py: 储存数据</h2>
-<div class="outline-text-2" id="text-org4def8a7">
+    <div id="outline-container-orga6ad85b" class="outline-2">
+<h2 id="orga6ad85b">h5py: 储存数据</h2>
+<div class="outline-text-2" id="text-orga6ad85b">
 <p>
 <a href="https://www.h5py.org/">h5py</a> 是 HDF5 库的 python 封装，基本提供了所有对应的 C API，因此适合用在简单并底层的应用中，特别适合对 HDF5 文件有定制的应用中。
 </p>
 </div>
 
-<div id="outline-container-org57b8b73" class="outline-3">
-<h3 id="org57b8b73">存</h3>
-<div class="outline-text-3" id="text-org57b8b73">
+<div id="outline-container-orgbd84bf7" class="outline-3">
+<h3 id="orgbd84bf7">存</h3>
+<div class="outline-text-3" id="text-orgbd84bf7">
 <div class="highlight"><pre><span></span>   <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'data.h5'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
        <span class="n">hf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat1"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat1</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
        <span class="n">hf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat2"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat2</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
@@ -129,9 +129,9 @@ h5py 是 HDF5 库的 python 封装，基本提供了所有对应的 C API，因�
 </div>
 
 
-<div id="outline-container-org33db263" class="outline-3">
-<h3 id="org33db263">取</h3>
-<div class="outline-text-3" id="text-org33db263">
+<div id="outline-container-org5d867f0" class="outline-3">
+<h3 id="org5d867f0">取</h3>
+<div class="outline-text-3" id="text-org5d867f0">
 <div class="highlight"><pre><span></span>   <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'data.h5'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
        <span class="n">mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hf</span><span class="p">[</span><span class="s1">'mat1'</span><span class="p">])</span>
        <span class="n">mat2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hf</span><span class="p">[</span><span class="s1">'mat2'</span><span class="p">])</span>

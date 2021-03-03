@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 02 Mar 2021 03:38:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PyTables</title><link>https://chimez.github.io/posts/pytables/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgd750a7f" class="outline-2"&gt;
-&lt;h2 id="orgd750a7f"&gt;PyTables: 分层数据集&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd750a7f"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 03 Mar 2021 08:05:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PyTables</title><link>https://chimez.github.io/posts/pytables/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgc54e73f" class="outline-2"&gt;
+&lt;h2 id="orgc54e73f"&gt;PyTables: 分层数据集&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc54e73f"&gt;
 &lt;p&gt;
 &lt;a href="https://www.pytables.org"&gt;PyTables&lt;/a&gt; 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5py 更高层。适合用在存储比 csv 表格更复杂更大的数据，同时又不想自己实现一些基本的数据操作的情况中，并且经过简单的处理就能用 pandas 进行进一步数据分析。
 &lt;/p&gt;
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org2fafe12" class="outline-3"&gt;
-&lt;h3 id="org2fafe12"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org2fafe12"&gt;
+&lt;div id="outline-container-org2f46282" class="outline-3"&gt;
+&lt;h3 id="org2f46282"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2f46282"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 使用 conda
    conda install pytables
    # 或者 pip
@@ -27,17 +27,17 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdad18c3" class="outline-3"&gt;
-&lt;h3 id="orgdad18c3"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgdad18c3"&gt;
+&lt;div id="outline-container-org67cb12c" class="outline-3"&gt;
+&lt;h3 id="org67cb12c"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org67cb12c"&gt;
 &lt;p&gt;
 pytables 的基本逻辑是
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb313891" class="outline-4"&gt;
-&lt;h4 id="orgb313891"&gt;创建一个 HDF5 文件&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgb313891"&gt;
+&lt;div id="outline-container-orgc3ba833" class="outline-4"&gt;
+&lt;h4 id="orgc3ba833"&gt;创建一个 HDF5 文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc3ba833"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open_file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"filename.h5"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"w"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"file title"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;filters&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Filters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;complevel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
     &lt;span class="c1"&gt;# 别忘了还要关闭它&lt;/span&gt;
@@ -46,17 +46,17 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org677ccf5" class="outline-4"&gt;
-&lt;h4 id="org677ccf5"&gt;在文件中创建任意层的数据集&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org677ccf5"&gt;
+&lt;div id="outline-container-org005d4b5" class="outline-4"&gt;
+&lt;h4 id="org005d4b5"&gt;在文件中创建任意层的数据集&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org005d4b5"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;g&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"/parent/group"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"group_name"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"group title"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org45ab039" class="outline-4"&gt;
-&lt;h4 id="org45ab039"&gt;在数据集中创建若干个数据表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org45ab039"&gt;
+&lt;div id="outline-container-org9e9e3a8" class="outline-4"&gt;
+&lt;h4 id="org9e9e3a8"&gt;在数据集中创建若干个数据表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9e9e3a8"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="c1"&gt;# 需要创建对数据的描述&lt;/span&gt;
     &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;data_description&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;IsDescription&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
 	&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;StringCol&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -84,13 +84,13 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org1d09d09" class="outline-2"&gt;
-&lt;h2 id="org1d09d09"&gt;遇到的问题&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1d09d09"&gt;
+&lt;div id="outline-container-orgea59456" class="outline-2"&gt;
+&lt;h2 id="orgea59456"&gt;遇到的问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgea59456"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc09afc9" class="outline-3"&gt;
-&lt;h3 id="orgc09afc9"&gt;在不支持 &lt;code&gt;flock&lt;/code&gt; 的集群上运行&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgc09afc9"&gt;
+&lt;div id="outline-container-orga789dfa" class="outline-3"&gt;
+&lt;h3 id="orga789dfa"&gt;在不支持 &lt;code&gt;flock&lt;/code&gt; 的集群上运行&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga789dfa"&gt;
 &lt;p&gt;
 需要设置环境变量
 &lt;/p&gt;
@@ -99,17 +99,17 @@ pytables 的基本逻辑是
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>python</category><guid>https://chimez.github.io/posts/pytables/</guid><pubDate>Mon, 01 Mar 2021 03:23:19 GMT</pubDate></item><item><title>h5py</title><link>https://chimez.github.io/posts/h5py/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org4def8a7" class="outline-2"&gt;
-&lt;h2 id="org4def8a7"&gt;h5py: 储存数据&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4def8a7"&gt;
+&lt;/div&gt;</description><category>python</category><guid>https://chimez.github.io/posts/pytables/</guid><pubDate>Mon, 01 Mar 2021 03:23:19 GMT</pubDate></item><item><title>h5py</title><link>https://chimez.github.io/posts/h5py/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga6ad85b" class="outline-2"&gt;
+&lt;h2 id="orga6ad85b"&gt;h5py: 储存数据&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga6ad85b"&gt;
 &lt;p&gt;
 &lt;a href="https://www.h5py.org/"&gt;h5py&lt;/a&gt; 是 HDF5 库的 python 封装，基本提供了所有对应的 C API，因此适合用在简单并底层的应用中，特别适合对 HDF5 文件有定制的应用中。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org57b8b73" class="outline-3"&gt;
-&lt;h3 id="org57b8b73"&gt;存&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org57b8b73"&gt;
+&lt;div id="outline-container-orgbd84bf7" class="outline-3"&gt;
+&lt;h3 id="orgbd84bf7"&gt;存&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgbd84bf7"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;h5py&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'data.h5'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'w'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
        &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_dataset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"mat1"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;mat1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;compression&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"gzip"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
        &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_dataset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"mat2"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;mat2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;compression&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"gzip"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -121,9 +121,9 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org33db263" class="outline-3"&gt;
-&lt;h3 id="org33db263"&gt;取&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org33db263"&gt;
+&lt;div id="outline-container-org5d867f0" class="outline-3"&gt;
+&lt;h3 id="org5d867f0"&gt;取&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5d867f0"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;h5py&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'data.h5'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'r'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
        &lt;span class="n"&gt;mat1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'mat1'&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
        &lt;span class="n"&gt;mat2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'mat2'&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
@@ -133,13 +133,13 @@ pytables 的基本逻辑是
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>python</category><guid>https://chimez.github.io/posts/h5py/</guid><pubDate>Sun, 28 Feb 2021 14:11:33 GMT</pubDate></item><item><title>OpenMP</title><link>https://chimez.github.io/posts/openmp/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org048ca89" class="outline-2"&gt;
-&lt;h2 id="org048ca89"&gt;OpenMP 共享内存并行&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org048ca89"&gt;
+&lt;/div&gt;</description><category>python</category><guid>https://chimez.github.io/posts/h5py/</guid><pubDate>Sun, 28 Feb 2021 14:11:33 GMT</pubDate></item><item><title>OpenMP</title><link>https://chimez.github.io/posts/openmp/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org185110b" class="outline-2"&gt;
+&lt;h2 id="org185110b"&gt;OpenMP 共享内存并行&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org185110b"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf0afc85" class="outline-3"&gt;
-&lt;h3 id="orgf0afc85"&gt;常用函数总结&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf0afc85"&gt;
+&lt;div id="outline-container-org84c1363" class="outline-3"&gt;
+&lt;h3 id="org84c1363"&gt;常用函数总结&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org84c1363"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;parallel&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;for&lt;/code&gt;&lt;/li&gt;
@@ -155,9 +155,9 @@ pytables 的基本逻辑是
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://chimez.github.io/posts/openmp/</guid><pubDate>Sat, 20 Feb 2021 07:37:55 GMT</pubDate></item><item><title>SageMath</title><link>https://chimez.github.io/posts/sagemath/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org7b0e5f4" class="outline-2"&gt;
-&lt;h2 id="org7b0e5f4"&gt;量子力学算符代数计算&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7b0e5f4"&gt;
+&lt;/div&gt;</description><guid>https://chimez.github.io/posts/openmp/</guid><pubDate>Sat, 20 Feb 2021 07:37:55 GMT</pubDate></item><item><title>SageMath</title><link>https://chimez.github.io/posts/sagemath/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org4909e87" class="outline-2"&gt;
+&lt;h2 id="org4909e87"&gt;量子力学算符代数计算&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4909e87"&gt;
 &lt;p&gt;
 参见 &lt;a href="https://sheaves.github.io/Noncommutative-Sage/"&gt;Noncommutative Algebras in Sage&lt;/a&gt;.
 &lt;/p&gt;
@@ -191,17 +191,17 @@ pytables 的基本逻辑是
 
 
 
-&lt;div id="outline-container-org83d3ebb" class="outline-2"&gt;
-&lt;h2 id="org83d3ebb"&gt;安装为 jupyter 内核&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org83d3ebb"&gt;
+&lt;div id="outline-container-orgbc8f12f" class="outline-2"&gt;
+&lt;h2 id="orgbc8f12f"&gt;安装为 jupyter 内核&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbc8f12f"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;jupyter kernelspec install ./SageMath/local/share/jupyter/kernels/sagemath
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf16501c" class="outline-2"&gt;
-&lt;h2 id="orgf16501c"&gt;基本特性&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf16501c"&gt;
+&lt;div id="outline-container-org1b76577" class="outline-2"&gt;
+&lt;h2 id="org1b76577"&gt;基本特性&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1b76577"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;直接输入数学运算公式可以作为计算器来用&lt;/li&gt;
 &lt;li&gt;继承自python的面向对象系统，即任何东西都是对象&lt;/li&gt;
@@ -211,13 +211,13 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7498a9b" class="outline-2"&gt;
-&lt;h2 id="org7498a9b"&gt;符号运算&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7498a9b"&gt;
+&lt;div id="outline-container-orgc71646d" class="outline-2"&gt;
+&lt;h2 id="orgc71646d"&gt;符号运算&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc71646d"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5378ec7" class="outline-3"&gt;
-&lt;h3 id="org5378ec7"&gt;基础操作&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5378ec7"&gt;
+&lt;div id="outline-container-org9fabdb6" class="outline-3"&gt;
+&lt;h3 id="org9fabdb6"&gt;基础操作&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9fabdb6"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -301,26 +301,26 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf6ffd3a" class="outline-3"&gt;
-&lt;h3 id="orgf6ffd3a"&gt;代数&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf6ffd3a"&gt;
+&lt;div id="outline-container-org75c8276" class="outline-3"&gt;
+&lt;h3 id="org75c8276"&gt;代数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org75c8276"&gt;
 &lt;p&gt;
 用对象表示代数结构，群环域
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgc768a1b" class="outline-3"&gt;
-&lt;h3 id="orgc768a1b"&gt;组合数学&lt;/h3&gt;
+&lt;div id="outline-container-org0e444fa" class="outline-3"&gt;
+&lt;h3 id="org0e444fa"&gt;组合数学&lt;/h3&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2f4a581" class="outline-2"&gt;
-&lt;h2 id="org2f4a581"&gt;数值运算&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2f4a581"&gt;
+&lt;div id="outline-container-org34e7cd4" class="outline-2"&gt;
+&lt;h2 id="org34e7cd4"&gt;数值运算&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org34e7cd4"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd1b0273" class="outline-3"&gt;
-&lt;h3 id="orgd1b0273"&gt;基础操作&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd1b0273"&gt;
+&lt;div id="outline-container-org322c8dc" class="outline-3"&gt;
+&lt;h3 id="org322c8dc"&gt;基础操作&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org322c8dc"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -439,9 +439,9 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0c7c197" class="outline-2"&gt;
-&lt;h2 id="org0c7c197"&gt;绘图&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0c7c197"&gt;
+&lt;div id="outline-container-org6463c3f" class="outline-2"&gt;
+&lt;h2 id="org6463c3f"&gt;绘图&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6463c3f"&gt;
 &lt;p&gt;
 可绘制的类型：
 &lt;/p&gt;
@@ -486,17 +486,17 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga6aba5a" class="outline-2"&gt;
-&lt;h2 id="orga6aba5a"&gt;技巧和常用代码片段&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga6aba5a"&gt;
+&lt;div id="outline-container-org81a0f29" class="outline-2"&gt;
+&lt;h2 id="org81a0f29"&gt;技巧和常用代码片段&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org81a0f29"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5bdf62a" class="outline-3"&gt;
-&lt;h3 id="org5bdf62a"&gt;与 tex 联合使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5bdf62a"&gt;
+&lt;div id="outline-container-orgf167fe7" class="outline-3"&gt;
+&lt;h3 id="orgf167fe7"&gt;与 tex 联合使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf167fe7"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf627399" class="outline-4"&gt;
-&lt;h4 id="orgf627399"&gt;sagetex：可以在tex中显示sage命令的运算结果&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf627399"&gt;
+&lt;div id="outline-container-org517473b" class="outline-4"&gt;
+&lt;h4 id="org517473b"&gt;sagetex：可以在tex中显示sage命令的运算结果&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org517473b"&gt;
 &lt;p&gt;
 首先需要安装 &lt;a href="http://doc.sagemath.org/html/en/tutorial/sagetex.html"&gt;sagetex&lt;/a&gt;
 &lt;/p&gt;
@@ -534,9 +534,9 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6e6da16" class="outline-3"&gt;
-&lt;h3 id="org6e6da16"&gt;三角函数和指数之间转换&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6e6da16"&gt;
+&lt;div id="outline-container-org37e44cb" class="outline-3"&gt;
+&lt;h3 id="org37e44cb"&gt;三角函数和指数之间转换&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org37e44cb"&gt;
 &lt;p&gt;
 &lt;a href="https://ask.sagemath.org/question/7672/complex-exponentialtrigonometric/"&gt;参考这个回答&lt;/a&gt;
 &lt;/p&gt;
@@ -551,13 +551,13 @@ pytables 的基本逻辑是
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><guid>https://chimez.github.io/posts/sagemath/</guid><pubDate>Fri, 19 Feb 2021 06:27:07 GMT</pubDate></item><item><title>C Memory Management</title><link>https://chimez.github.io/posts/c-memory-management/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org5940465" class="outline-2"&gt;
-&lt;h2 id="org5940465"&gt;C 语言内存管理&lt;/h2&gt;
+&lt;/div&gt;</description><guid>https://chimez.github.io/posts/sagemath/</guid><pubDate>Fri, 19 Feb 2021 06:27:07 GMT</pubDate></item><item><title>C Memory Management</title><link>https://chimez.github.io/posts/c-memory-management/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgcc5bf1f" class="outline-2"&gt;
+&lt;h2 id="orgcc5bf1f"&gt;C 语言内存管理&lt;/h2&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdbb935c" class="outline-2"&gt;
-&lt;h2 id="orgdbb935c"&gt;关键字&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdbb935c"&gt;
+&lt;div id="outline-container-org05975d0" class="outline-2"&gt;
+&lt;h2 id="org05975d0"&gt;关键字&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org05975d0"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -713,15 +713,15 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org9823553" class="outline-2"&gt;
-&lt;h2 id="org9823553"&gt;&lt;/h2&gt;
-&lt;/div&gt;</description><category>C</category><category>Memory Management</category><guid>https://chimez.github.io/posts/c-memory-management/</guid><pubDate>Fri, 12 Feb 2021 00:37:35 GMT</pubDate></item><item><title>pandas</title><link>https://chimez.github.io/posts/pandas/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org017fc6e" class="outline-2"&gt;
-&lt;h2 id="org017fc6e"&gt;数据表格和矩阵之间的转换&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org017fc6e"&gt;
+&lt;div id="outline-container-org9a32617" class="outline-2"&gt;
+&lt;h2 id="org9a32617"&gt;&lt;/h2&gt;
+&lt;/div&gt;</description><category>C</category><category>Memory Management</category><guid>https://chimez.github.io/posts/c-memory-management/</guid><pubDate>Fri, 12 Feb 2021 00:37:35 GMT</pubDate></item><item><title>pandas</title><link>https://chimez.github.io/posts/pandas/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org61b6faf" class="outline-2"&gt;
+&lt;h2 id="org61b6faf"&gt;数据表格和矩阵之间的转换&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org61b6faf"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5aa5a38" class="outline-3"&gt;
-&lt;h3 id="org5aa5a38"&gt;从点的坐标表格 &lt;code&gt;(x,y,z)&lt;/code&gt; 得到矩阵&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5aa5a38"&gt;
+&lt;div id="outline-container-org2812846" class="outline-3"&gt;
+&lt;h3 id="org2812846"&gt;从点的坐标表格 &lt;code&gt;(x,y,z)&lt;/code&gt; 得到矩阵&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2812846"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s2"&gt;"x"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="s2"&gt;"y"&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="s2"&gt;"z"&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;]})&lt;/span&gt;
    &lt;span class="n"&gt;data_2x2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pivot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"x"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"y"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"z"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
@@ -730,9 +730,9 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgec33a5f" class="outline-3"&gt;
-&lt;h3 id="orgec33a5f"&gt;从矩阵表格得到坐标表格&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgec33a5f"&gt;
+&lt;div id="outline-container-org5884971" class="outline-3"&gt;
+&lt;h3 id="org5884971"&gt;从矩阵表格得到坐标表格&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5884971"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s2"&gt;"x"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="s2"&gt;"y"&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="s2"&gt;"z"&lt;/span&gt;&lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;]})&lt;/span&gt;
    &lt;span class="n"&gt;data_2x2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pivot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"x"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"y"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"z"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
@@ -743,9 +743,9 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge28d107" class="outline-2"&gt;
-&lt;h2 id="orge28d107"&gt;groupby: 分开-计算-合并&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge28d107"&gt;
+&lt;div id="outline-container-org33eca5f" class="outline-2"&gt;
+&lt;h2 id="org33eca5f"&gt;groupby: 分开-计算-合并&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org33eca5f"&gt;
 &lt;p&gt;
 &lt;a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/groupby.html"&gt;groupby guide&lt;/a&gt;
 通过 &lt;code&gt;groupby&lt;/code&gt; 可以做涉及到如下三个过程的一些操作：
@@ -766,26 +766,26 @@ pytables 的基本逻辑是
 &lt;/ol&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd6abc61" class="outline-3"&gt;
-&lt;h3 id="orgd6abc61"&gt;变换(transform)&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd6abc61"&gt;
+&lt;div id="outline-container-org5c11d2f" class="outline-3"&gt;
+&lt;h3 id="org5c11d2f"&gt;变换(transform)&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5c11d2f"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;transformed&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ts&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;groupby&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;year&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
        &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
    &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>python pandas</category><guid>https://chimez.github.io/posts/pandas/</guid><pubDate>Sat, 30 Jan 2021 05:27:04 GMT</pubDate></item><item><title>vimrc: vim</title><link>https://chimez.github.io/posts/vim/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org9dd8385" class="outline-2"&gt;
-&lt;h2 id="org9dd8385"&gt;正则表达式中使用非贪心匹配&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9dd8385"&gt;
+&lt;/div&gt;</description><category>python pandas</category><guid>https://chimez.github.io/posts/pandas/</guid><pubDate>Sat, 30 Jan 2021 05:27:04 GMT</pubDate></item><item><title>vimrc: vim</title><link>https://chimez.github.io/posts/vim/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org01bbf54" class="outline-2"&gt;
+&lt;h2 id="org01bbf54"&gt;正则表达式中使用非贪心匹配&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org01bbf54"&gt;
 &lt;p&gt;
 &lt;code&gt;.*&lt;/code&gt; 变成 &lt;code&gt;.\{-}&lt;/code&gt;
 &lt;code&gt;.+&lt;/code&gt; 变成 &lt;code&gt;.\{-1,\}&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>linux vim</category><guid>https://chimez.github.io/posts/vim/</guid><pubDate>Thu, 28 Jan 2021 10:33:00 GMT</pubDate></item><item><title>ffmpeg</title><link>https://chimez.github.io/posts/ffmpeg/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge5f6e6b" class="outline-2"&gt;
-&lt;h2 id="orge5f6e6b"&gt;合并视频&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge5f6e6b"&gt;
+&lt;/div&gt;</description><category>linux vim</category><guid>https://chimez.github.io/posts/vim/</guid><pubDate>Thu, 28 Jan 2021 10:33:00 GMT</pubDate></item><item><title>ffmpeg</title><link>https://chimez.github.io/posts/ffmpeg/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org1143fa6" class="outline-2"&gt;
+&lt;h2 id="org1143fa6"&gt;合并视频&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1143fa6"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  ffmpeg -f concat -i filelist.txt -c copy out.mkv
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -793,7 +793,7 @@ pytables 的基本逻辑是
 &lt;code&gt;filelist.txt&lt;/code&gt; 内容如下， 需要加 &lt;code&gt;file&lt;/code&gt; ，还要用单引号括起来，或者加选项 &lt;code&gt;-safe 0&lt;/code&gt;
 &lt;/p&gt;
 
-&lt;pre class="example"&gt;
+&lt;pre class="example" id="org160845a"&gt;
 file '/home/a1.mkv'
 file '/home/a2.mkv'
 ...
@@ -801,9 +801,9 @@ file '/home/a2.mkv'
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgba5d20a" class="outline-2"&gt;
-&lt;h2 id="orgba5d20a"&gt;转换格式&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgba5d20a"&gt;
+&lt;div id="outline-container-org97c4a70" class="outline-2"&gt;
+&lt;h2 id="org97c4a70"&gt;转换格式&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org97c4a70"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  ffmpeg -i in.mpeg -q:a 0 -q:v 0 out.mkv
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -836,9 +836,9 @@ file '/home/a2.mkv'
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org89ff66f" class="outline-2"&gt;
-&lt;h2 id="org89ff66f"&gt;分割视频&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org89ff66f"&gt;
+&lt;div id="outline-container-org46b97ff" class="outline-2"&gt;
+&lt;h2 id="org46b97ff"&gt;分割视频&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org46b97ff"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  ffmpeg -i in.mp4 -ss 00:10:00 -t 00:30:40 -acodec copy -vcodec copy output.mp4
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -883,22 +883,22 @@ file '/home/a2.mkv'
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>linux ffmpeg</category><guid>https://chimez.github.io/posts/ffmpeg/</guid><pubDate>Thu, 28 Jan 2021 07:57:49 GMT</pubDate></item><item><title>emacs</title><link>https://chimez.github.io/posts/emacs/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org90d1b99" class="outline-2"&gt;
-&lt;h2 id="org90d1b99"&gt;从源码编译安装&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org90d1b99"&gt;
+&lt;/div&gt;</description><category>linux ffmpeg</category><guid>https://chimez.github.io/posts/ffmpeg/</guid><pubDate>Thu, 28 Jan 2021 07:57:49 GMT</pubDate></item><item><title>emacs</title><link>https://chimez.github.io/posts/emacs/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org4753fae" class="outline-2"&gt;
+&lt;h2 id="org4753fae"&gt;从源码编译安装&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4753fae"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga297daa" class="outline-3"&gt;
-&lt;h3 id="orga297daa"&gt;查看特性&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga297daa"&gt;
+&lt;div id="outline-container-org59d6baf" class="outline-3"&gt;
+&lt;h3 id="org59d6baf"&gt;查看特性&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org59d6baf"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;查看 &lt;code&gt;system-configuration-features&lt;/code&gt; 中的信息&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf147b0d" class="outline-3"&gt;
-&lt;h3 id="orgf147b0d"&gt;查看编译选项&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf147b0d"&gt;
+&lt;div id="outline-container-org0422539" class="outline-3"&gt;
+&lt;h3 id="org0422539"&gt;查看编译选项&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0422539"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;查看 &lt;code&gt;system-configuration-options&lt;/code&gt; 中的信息&lt;/li&gt;
 &lt;/ol&gt;
@@ -910,9 +910,9 @@ file '/home/a2.mkv'
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgfaa32b7" class="outline-2"&gt;
-&lt;h2 id="orgfaa32b7"&gt;在正则表达式中使用lisp代码&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfaa32b7"&gt;
+&lt;div id="outline-container-orgbeca7b6" class="outline-2"&gt;
+&lt;h2 id="orgbeca7b6"&gt;在正则表达式中使用lisp代码&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbeca7b6"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;\,&lt;/code&gt; 后加一个表达式
 &lt;/p&gt;
@@ -922,9 +922,9 @@ file '/home/a2.mkv'
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org0874aec" class="outline-2"&gt;
-&lt;h2 id="org0874aec"&gt;正则表达式的非贪心匹配&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0874aec"&gt;
+&lt;div id="outline-container-orgafb8393" class="outline-2"&gt;
+&lt;h2 id="orgafb8393"&gt;正则表达式的非贪心匹配&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgafb8393"&gt;
 &lt;p&gt;
 non greedy regex
 星号后加问号
@@ -935,13 +935,13 @@ non greedy regex
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgc7155b2" class="outline-2"&gt;
-&lt;h2 id="orgc7155b2"&gt;文件编码问题&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc7155b2"&gt;
+&lt;div id="outline-container-org96d85b6" class="outline-2"&gt;
+&lt;h2 id="org96d85b6"&gt;文件编码问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org96d85b6"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgeeafcf5" class="outline-3"&gt;
-&lt;h3 id="orgeeafcf5"&gt;改变显示文件编码,解决乱码问题&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgeeafcf5"&gt;
+&lt;div id="outline-container-org961d9a2" class="outline-3"&gt;
+&lt;h3 id="org961d9a2"&gt;改变显示文件编码,解决乱码问题&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org961d9a2"&gt;
 &lt;p&gt;
 使用命令
 &lt;/p&gt;
@@ -950,9 +950,9 @@ non greedy regex
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org305e8e2" class="outline-3"&gt;
-&lt;h3 id="org305e8e2"&gt;修改编码&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org305e8e2"&gt;
+&lt;div id="outline-container-org6bb0349" class="outline-3"&gt;
+&lt;h3 id="org6bb0349"&gt;修改编码&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6bb0349"&gt;
 &lt;p&gt;
 在按下 &lt;code&gt;M-x&lt;/code&gt; 后使用命令改变编码再保存即可
 &lt;/p&gt;
@@ -961,9 +961,9 @@ non greedy regex
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org33052e6" class="outline-3"&gt;
-&lt;h3 id="org33052e6"&gt;常见的编码&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org33052e6"&gt;
+&lt;div id="outline-container-orgce426ae" class="outline-3"&gt;
+&lt;h3 id="orgce426ae"&gt;常见的编码&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgce426ae"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;中文
 &lt;ol class="org-ol"&gt;
@@ -981,9 +981,9 @@ non greedy regex
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orge16b717" class="outline-2"&gt;
-&lt;h2 id="orge16b717"&gt;对齐排版代码&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge16b717"&gt;
+&lt;div id="outline-container-org1c440cc" class="outline-2"&gt;
+&lt;h2 id="org1c440cc"&gt;对齐排版代码&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1c440cc"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;align-regexp, sort-regexp-fields, sort-columns&lt;/code&gt;
 &lt;/p&gt;
@@ -991,13 +991,13 @@ non greedy regex
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgdbeb338" class="outline-2"&gt;
-&lt;h2 id="orgdbeb338"&gt;Tramp 远程编辑&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdbeb338"&gt;
+&lt;div id="outline-container-org3fbb9ee" class="outline-2"&gt;
+&lt;h2 id="org3fbb9ee"&gt;Tramp 远程编辑&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3fbb9ee"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgcf875c1" class="outline-3"&gt;
-&lt;h3 id="orgcf875c1"&gt;配置 ssh&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgcf875c1"&gt;
+&lt;div id="outline-container-orgfd8d9b9" class="outline-3"&gt;
+&lt;h3 id="orgfd8d9b9"&gt;配置 ssh&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfd8d9b9"&gt;
 &lt;p&gt;
 注意 tramp 的远程登陆只支持 bash, 不支持 zsh, 所以要进行设置，tramp 登陆用 &lt;code&gt;namebash&lt;/code&gt;, ssh 登陆用 &lt;code&gt;namezsh&lt;/code&gt; 就行了
 &lt;/p&gt;
