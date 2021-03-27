@@ -1,0 +1,138 @@
+#+BEGIN_COMMENT
+.. title: Linear Regression and Gradient Descent
+.. slug: linear-regression-and-gradient-descent
+.. date: 2021-03-21 20:16:36 UTC+08:00
+.. tags: Linear Regression, Gradient Descent, optimization
+.. category: Machine Learning
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* 线性回归与梯度下降
+
+** 加载数据
+   加载数据(load data)，需要完成如下几个工作
+   1. 读取和准备数据
+   2. 对数据归一化
+   3. 划分训练数据和测试数据
+   
+   数据应该是有 $x_{1},x_{2},\cdots,x_{n}$ 和一组 $y$
+
+   记住要对数据归一化, 可以选择基本的移动归一化，即减去最小值再除以最大最小之差
+   $$
+   x' = \frac{x - \mathrm{min}(x)}{\mathrm{max}(x) - \mathrm{min}(x)}
+   $$
+
+   或者减平均值除方差
+
+   $$
+   x' = \frac{x - \mathrm{mean}(x)}{\mathrm{std}(x)}
+   $$
+
+** 前向传播
+   前向传播(forward propagation) 就是从输入参数计算得到输出参数。
+
+   线性回归公式是
+   $$
+   y = \sum_{j=1}^{M} x_{j}w_{j} + b
+   $$
+
+   所以前向传播很容易写
+
+   #+begin_src python
+def forward(x, w, b):
+    result = np.dot(x, w) + b
+    return result
+   #+end_src 
+
+** 损失函数
+   损失函数(loss function) 是衡量前向计算结果与数据目标结果之间偏差的函数。
+
+   简单的损失函数是均方误差
+   $$
+   \mathrm{Loss} = \frac{1}{N} \sum_{j=1}^{N} (y_{i} - z_{i})^{2}
+   $$
+   其中 $y_{i}$ 是目标结果， $z_{i}$ 是计算结果。
+
+   #+begin_src python
+def loss(z, y):
+    result = np.mean((z - y) ** 2)
+    return result
+   #+end_src   
+   
+** 梯度
+   梯度(gradient) 是损失函数随参数变化的改变。
+
+   对于这里的线性回归模型和均方误差损失函数，梯度定义如下
+   $$
+   \nabla \mathrm{Loss} = \left( \frac{\partial \mathrm{Loss}}{\partial w_{i}}, \dots \right)
+   $$
+
+   对于我们要计算的损失函数
+   $$
+   L = \frac{1}{2N} \sum_{i} (y_{i} - z_{i})^{2}
+   $$
+   预测值为
+   $$
+   z_{i} = \sum_{j} x_{i}^{j} w^{j} + b
+   $$
+   其中 $i$ 是样本的指标，$j$ 是参数的指标。
+   那么损失函数 $L$ 对参数 $w_{j}$ 的微分为
+   $$
+   \frac{\partial L}{\partial w_{j}} = \frac{ 1 }{ N  } \sum_{i} (z_{i}- y_{i}) \frac{\partial z_{i }}{\partial w_{j}}
+   =\frac{ 1 }{ N  } \sum_{i} (z_{i}- y_{i}) x_{i}^{j}
+   $$
+
+   
+   #+begin_src python
+def gradient(x, y, z, w, b):
+    gradient_w = np.mean((z - y) * x, axis=1)
+    gradient_b = np.mean((z - y))
+    return gradient_w, gradient_b
+   #+end_src
+
+** 梯度下降
+   梯度下降(gradient descent) 就是根据梯度来更新参数，最终到达收敛的过程。
+
+   在这部分要实现两个函数
+   1. 更新(update)，即从这一步梯度和学习率(learning rate)计算下一步的梯度
+   2. 训练(train)，即迭代执行前向计算-梯度-更新，并根据损失函数判断是否收敛
+
+   梯度下降的更新函数就是用上一步的参数减去学习率与梯度之积
+   $$
+   w_{i+1}^{j} = w_{i}^{j} - \eta \frac{\partial \mathrm{Loss}}{\partial w_{i}^{j}}
+   $$
+
+   #+begin_src python
+def update(w, b, gradient_w, gradient_b, eta):
+    w_new = w - eta * gradient_w
+    b_new = b - eta * gradient_b
+    return w_new, b_new
+   #+end_src   
+
+   #+begin_src python
+def train(x, y, w, b, eta, N):
+    L_list = []
+    for i in range(N):
+        z = forward(x, w, b)
+        L = loss(z, y)
+        gradient_w, gradient_b = gradient(x, y, z, w, b)
+        w, b = update(w, b, gradient_w, gradient_b, eta)
+        L_list.append(L)
+    return w, b, L_list
+   #+end_src
+
+** 随机梯度下降
+   随机梯度下降(Stochastic Gradient Descent, SGD) 是指每步迭代时从总训练集抽取一小部分来计算梯度，通过这种方式能够加快训练。
+   一些概念：
+   - mini batch: 每次迭代时用到的那一小部分数据集
+   - batch size: 一个 mini batch 中的样本数
+   - epoch: 迭代时不断抽取 mini batch，当取过一遍整个数据集时就叫做一轮 epoch
+
+   具体的操作：
+   1. 将总的数据集随机打乱
+   2. 将打乱后的数据集划分成若干个 mini batch
+   3. 用每个 mini batch 进行一次训练
+   4. 用所有 mini batch 训练过一遍后，返回第 1 步，开启下一轮 epoch

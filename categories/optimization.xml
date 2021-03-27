@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about optimization)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/optimization.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sat, 27 Mar 2021 06:53:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Linear Regression and Gradient Descent</title><link>https://chimez.github.io/posts/linear-regression-and-gradient-descent/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgb68d35f" class="outline-2"&gt;
+&lt;h2 id="orgb68d35f"&gt;线性回归与梯度下降&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb68d35f"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org82119b0" class="outline-3"&gt;
+&lt;h3 id="org82119b0"&gt;加载数据&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org82119b0"&gt;
+&lt;p&gt;
+加载数据(load data)，需要完成如下几个工作
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;读取和准备数据&lt;/li&gt;
+&lt;li&gt;对数据归一化&lt;/li&gt;
+&lt;li&gt;划分训练数据和测试数据&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+数据应该是有 \(x_{1},x_{2},\cdots,x_{n}\) 和一组 \(y\)
+&lt;/p&gt;
+
+&lt;p&gt;
+记住要对数据归一化, 可以选择基本的移动归一化，即减去最小值再除以最大最小之差
+\[
+   x' = \frac{x - \mathrm{min}(x)}{\mathrm{max}(x) - \mathrm{min}(x)}
+   \]
+&lt;/p&gt;
+
+&lt;p&gt;
+或者减平均值除方差
+&lt;/p&gt;
+
+&lt;p&gt;
+\[
+   x' = \frac{x - \mathrm{mean}(x)}{\mathrm{std}(x)}
+   \]
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgb71ac2d" class="outline-3"&gt;
+&lt;h3 id="orgb71ac2d"&gt;前向传播&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb71ac2d"&gt;
+&lt;p&gt;
+前向传播(forward propagation) 就是从输入参数计算得到输出参数。
+&lt;/p&gt;
+
+&lt;p&gt;
+线性回归公式是
+\[
+   y = \sum_{j=1}^{M} x_{j}w_{j} + b
+   \]
+&lt;/p&gt;
+
+&lt;p&gt;
+所以前向传播很容易写
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;forward&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+       &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org445188a" class="outline-3"&gt;
+&lt;h3 id="org445188a"&gt;损失函数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org445188a"&gt;
+&lt;p&gt;
+损失函数(loss function) 是衡量前向计算结果与数据目标结果之间偏差的函数。
+&lt;/p&gt;
+
+&lt;p&gt;
+简单的损失函数是均方误差
+\[
+   \mathrm{Loss} = \frac{1}{N} \sum_{j=1}^{N} (y_{i} - z_{i})^{2}
+   \]
+其中 \(y_{i}\) 是目标结果， \(z_{i}\) 是计算结果。
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;loss&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+       &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc430027" class="outline-3"&gt;
+&lt;h3 id="orgc430027"&gt;梯度&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc430027"&gt;
+&lt;p&gt;
+梯度(gradient) 是损失函数随参数变化的改变。
+&lt;/p&gt;
+
+&lt;p&gt;
+对于这里的线性回归模型和均方误差损失函数，梯度定义如下
+\[
+   \nabla \mathrm{Loss} = \left( \frac{\partial \mathrm{Loss}}{\partial w_{i}}, \dots \right)
+   \]
+&lt;/p&gt;
+
+&lt;p&gt;
+对于我们要计算的损失函数
+\[
+   L = \frac{1}{2N} \sum_{i} (y_{i} - z_{i})^{2}
+   \]
+预测值为
+\[
+   z_{i} = \sum_{j} x_{i}^{j} w^{j} + b
+   \]
+其中 \(i\) 是样本的指标，\(j\) 是参数的指标。
+那么损失函数 \(L\) 对参数 \(w_{j}\) 的微分为
+\[
+   \frac{\partial L}{\partial w_{j}} = \frac{ 1 }{ N  } \sum_{i} (z_{i}- y_{i}) \frac{\partial z_{i }}{\partial w_{j}}
+   =\frac{ 1 }{ N  } \sum_{i} (z_{i}- y_{i}) x_{i}^{j}
+   \]
+&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;gradient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+       &lt;span class="n"&gt;gradient_w&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+       &lt;span class="n"&gt;gradient_b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;gradient_w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gradient_b&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org073216d" class="outline-3"&gt;
+&lt;h3 id="org073216d"&gt;梯度下降&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org073216d"&gt;
+&lt;p&gt;
+梯度下降(gradient descent) 就是根据梯度来更新参数，最终到达收敛的过程。
+&lt;/p&gt;
+
+&lt;p&gt;
+在这部分要实现两个函数
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;更新(update)，即从这一步梯度和学习率(learning rate)计算下一步的梯度&lt;/li&gt;
+&lt;li&gt;训练(train)，即迭代执行前向计算-梯度-更新，并根据损失函数判断是否收敛&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+梯度下降的更新函数就是用上一步的参数减去学习率与梯度之积
+\[
+   w_{i+1}^{j} = w_{i}^{j} - \eta \frac{\partial \mathrm{Loss}}{\partial w_{i}^{j}}
+   \]
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gradient_w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gradient_b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;eta&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+       &lt;span class="n"&gt;w_new&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;eta&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;gradient_w&lt;/span&gt;
+       &lt;span class="n"&gt;b_new&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;eta&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;gradient_b&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;w_new&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b_new&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;train&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;eta&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+       &lt;span class="n"&gt;L_list&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+       &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+	   &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;forward&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	   &lt;span class="n"&gt;L&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;loss&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	   &lt;span class="n"&gt;gradient_w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gradient_b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gradient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	   &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gradient_w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gradient_b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;eta&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	   &lt;span class="n"&gt;L_list&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;L&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;L_list&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org43e11fa" class="outline-3"&gt;
+&lt;h3 id="org43e11fa"&gt;随机梯度下降&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org43e11fa"&gt;
+&lt;p&gt;
+随机梯度下降(Stochastic Gradient Descent, SGD) 是指每步迭代时从总训练集抽取一小部分来计算梯度，通过这种方式能够加快训练。
+一些概念：
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;mini batch: 每次迭代时用到的那一小部分数据集&lt;/li&gt;
+&lt;li&gt;batch size: 一个 mini batch 中的样本数&lt;/li&gt;
+&lt;li&gt;epoch: 迭代时不断抽取 mini batch，当取过一遍整个数据集时就叫做一轮 epoch&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+具体的操作：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;将总的数据集随机打乱&lt;/li&gt;
+&lt;li&gt;将打乱后的数据集划分成若干个 mini batch&lt;/li&gt;
+&lt;li&gt;用每个 mini batch 进行一次训练&lt;/li&gt;
+&lt;li&gt;用所有 mini batch 训练过一遍后，返回第 1 步，开启下一轮 epoch&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>Gradient Descent</category><category>Linear Regression</category><category>optimization</category><guid>https://chimez.github.io/posts/linear-regression-and-gradient-descent/</guid><pubDate>Sun, 21 Mar 2021 12:16:36 GMT</pubDate></item></channel></rss>

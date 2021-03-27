@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about git)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/git.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sat, 27 Mar 2021 06:53:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>dvc: Data Version Control</title><link>https://chimez.github.io/posts/dvc-data-version-control/</link><dc:creator>chimez</dc:creator><description>&lt;p&gt;
+&lt;a href="https://dvc.org"&gt;dvc&lt;/a&gt; 是一个增强 git 管理大二进制文件能力的工具。
+&lt;/p&gt;
+
+&lt;div id="outline-container-org6e94d32" class="outline-2"&gt;
+&lt;h2 id="org6e94d32"&gt;基本使用&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6e94d32"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgfaf0f31" class="outline-3"&gt;
+&lt;h3 id="orgfaf0f31"&gt;初始化 dvc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfaf0f31"&gt;
+&lt;p&gt;
+在一个 git 项目目录中运行
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   dvc init
+   git commit -m "Initialize DVC"
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+就自动创建好了 dvc 需要东西。
+&lt;/p&gt;
+
+&lt;p&gt;
+dvc 是寄生在git中的，其本身不提供版本管理能力，完全依靠 git 。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0b0ddc6" class="outline-3"&gt;
+&lt;h3 id="org0b0ddc6"&gt;添加数据&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0b0ddc6"&gt;
+&lt;p&gt;
+如果有一个大的数据文件 &lt;code&gt;data/data.h5&lt;/code&gt; ，那么就首先将它添加给 dvc， 然后把dvc创建的记录 &lt;code&gt;*.dvc&lt;/code&gt; 和自动生成的 &lt;code&gt;.gitignore&lt;/code&gt; 一起加到 git 中，之后再用 dvc 上传数据即可
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   dvc add data/data.h5
+   git add data/data.h5.dvc data/.gitignore
+   git commit -m "Add raw data"
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd07007f" class="outline-3"&gt;
+&lt;h3 id="orgd07007f"&gt;dvc的远程库&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd07007f"&gt;
+&lt;p&gt;
+dvc 支持多种远程库，甚至是本地的远程库
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   mkdir -p /tmp/dvcstore
+   dvc remote add -d myremote /tmp/dvcstore
+   git commit .dvc/config -m "Configure local remote"
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge6eaa58" class="outline-3"&gt;
+&lt;h3 id="orge6eaa58"&gt;保存和同步数据&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge6eaa58"&gt;
+&lt;p&gt;
+如果已经配置好了远程库，那么上传和下载数据操作就类似于 git
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   dvc pull
+
+   dvc push
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>git</category><category>linux</category><guid>https://chimez.github.io/posts/dvc-data-version-control/</guid><pubDate>Fri, 19 Mar 2021 05:53:14 GMT</pubDate></item><item><title>git</title><link>https://chimez.github.io/posts/git/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org73c8ab7" class="outline-2"&gt;
+&lt;h2 id="org73c8ab7"&gt;使用案例&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org73c8ab7"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org3d372ab" class="outline-3"&gt;
+&lt;h3 id="org3d372ab"&gt;新建仓库&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org3d372ab"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git init .
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5292870" class="outline-3"&gt;
+&lt;h3 id="org5292870"&gt;下载远程仓库&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5292870"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git clone --depth=1 https://...
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+&lt;code&gt;--depth=1&lt;/code&gt; 表示只下载一部分历史
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgad8e29f" class="outline-3"&gt;
+&lt;h3 id="orgad8e29f"&gt;gitignore：忽略文件&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgad8e29f"&gt;
+&lt;p&gt;
+见 &lt;a href="https://github.com/github/gitignore"&gt;gitignore&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org2019557" class="outline-3"&gt;
+&lt;h3 id="org2019557"&gt;添加本地更改&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2019557"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git add --all 
+   git commit -m "sth"
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge88d9f7" class="outline-3"&gt;
+&lt;h3 id="orge88d9f7"&gt;从远端获取更新&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge88d9f7"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git pull
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org77b8a79" class="outline-3"&gt;
+&lt;h3 id="org77b8a79"&gt;推送更新到远端&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org77b8a79"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git push origin master
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org24cda7c" class="outline-3"&gt;
+&lt;h3 id="org24cda7c"&gt;使用代理&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org24cda7c"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git config --global http.proxy http://proxy.mycompany:80
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org27f6cd7" class="outline-3"&gt;
+&lt;h3 id="org27f6cd7"&gt;记录里显示中文&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org27f6cd7"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git config --global core.quotepath false
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org131eec9" class="outline-3"&gt;
+&lt;h3 id="org131eec9"&gt;设置默认编辑器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org131eec9"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git config --global core.editor "vim"
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org85fb94f" class="outline-2"&gt;
+&lt;h2 id="org85fb94f"&gt;git-lfs: 用 git 管理大文件&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org85fb94f"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgeecb932" class="outline-3"&gt;
+&lt;h3 id="orgeecb932"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgeecb932"&gt;
+&lt;p&gt;
+从包管理器中安装 &lt;code&gt;git-lfs&lt;/code&gt; ，windows版本已经包含了
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfeb78eb" class="outline-3"&gt;
+&lt;h3 id="orgfeb78eb"&gt;使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfeb78eb"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;对账户启用 &lt;code&gt;git lfs install&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;对仓库设置要追踪的文件类型 &lt;code&gt;git lfs track "*.psd"&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;把配置文件加到追踪列表里 &lt;code&gt;git add .gitattributes&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org8b80a40" class="outline-3"&gt;
+&lt;h3 id="org8b80a40"&gt;常用大文件&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org8b80a40"&gt;
+&lt;p&gt;
+见 &lt;a href="https://github.com/alexkaratarakis/gitattributes"&gt;gitattributes&lt;/a&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git lfs track "*.png"
+   git lfs track "*.jpg"
+   git lfs track "*.jpeg"
+   git lfs track "*.gif"
+
+   git lfs track "*.mp4"
+   git lfs track "*.mpeg"
+   git lfs track "*.mkv"
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;code&gt;.gitattributes&lt;/code&gt; 文件内容为
+&lt;/p&gt;
+&lt;pre class="example" id="org51f6366"&gt;
+*.pdf   filter=lfs diff=lfs merge=lfs -text
+*.jpg   filter=lfs diff=lfs merge=lfs -text
+*.jpeg  filter=lfs diff=lfs merge=lfs -text
+*.png   filter=lfs diff=lfs merge=lfs -text
+*.gif   filter=lfs diff=lfs merge=lfs -text
+*.ico   filter=lfs diff=lfs merge=lfs -text
+*.eps   filter=lfs diff=lfs merge=lfs -text
+*.bmp   filter=lfs diff=lfs merge=lfs -text
+*.psb   filter=lfs diff=lfs merge=lfs -text
+*.tiff  filter=lfs diff=lfs merge=lfs -text
+*.wbmp  filter=lfs diff=lfs merge=lfs -text
+*.webp  filter=lfs diff=lfs merge=lfs -text
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9c33158" class="outline-2"&gt;
+&lt;h2 id="org9c33158"&gt;git-remote-dropbox: 用 Dropbox 做私人仓库&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9c33158"&gt;
+&lt;p&gt;
+&lt;a href="https://github.com/anishathalye/git-remote-dropbox"&gt;git-remote-dropbox&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org417c2e2" class="outline-3"&gt;
+&lt;h3 id="org417c2e2"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org417c2e2"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;安装 &lt;code&gt;pip install git-remote-dropbox&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;在网站上生成 OAuth 2 密钥 &lt;a href="https://www.dropbox.com/developers/apps"&gt;app console&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;把密钥存在文件 &lt;code&gt;/.config/git/git-remote-dropbox.json or ~/.git-remote-dropbox.json
+      ~{"default":"token"}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;配置别名 &lt;code&gt;git config --global alias.dropbox '!git-dropbox-manage'&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfd43eff" class="outline-3"&gt;
+&lt;h3 id="orgfd43eff"&gt;使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfd43eff"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org5a30f99" class="outline-4"&gt;
+&lt;h4 id="org5a30f99"&gt;clone 已有仓库&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5a30f99"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    git clone "dropbox:///path/to/repo"
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgbe221aa" class="outline-4"&gt;
+&lt;h4 id="orgbe221aa"&gt;创建远程仓库&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbe221aa"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    git remote add origin "dropbox:///path/to/repo"
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>git</category><category>linux</category><guid>https://chimez.github.io/posts/git/</guid><pubDate>Sun, 24 Jan 2021 04:51:36 GMT</pubDate></item></channel></rss>

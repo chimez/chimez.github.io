@@ -1,5 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about tools)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/cat_tools.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 03 Mar 2021 08:05:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>vimrc: vim</title><link>https://chimez.github.io/posts/vim/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org01bbf54" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about tools)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/cat_tools.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sat, 27 Mar 2021 06:53:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>dvc: Data Version Control</title><link>https://chimez.github.io/posts/dvc-data-version-control/</link><dc:creator>chimez</dc:creator><description>&lt;p&gt;
+&lt;a href="https://dvc.org"&gt;dvc&lt;/a&gt; 是一个增强 git 管理大二进制文件能力的工具。
+&lt;/p&gt;
+
+&lt;div id="outline-container-org6e94d32" class="outline-2"&gt;
+&lt;h2 id="org6e94d32"&gt;基本使用&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6e94d32"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgfaf0f31" class="outline-3"&gt;
+&lt;h3 id="orgfaf0f31"&gt;初始化 dvc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfaf0f31"&gt;
+&lt;p&gt;
+在一个 git 项目目录中运行
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   dvc init
+   git commit -m "Initialize DVC"
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+就自动创建好了 dvc 需要东西。
+&lt;/p&gt;
+
+&lt;p&gt;
+dvc 是寄生在git中的，其本身不提供版本管理能力，完全依靠 git 。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0b0ddc6" class="outline-3"&gt;
+&lt;h3 id="org0b0ddc6"&gt;添加数据&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0b0ddc6"&gt;
+&lt;p&gt;
+如果有一个大的数据文件 &lt;code&gt;data/data.h5&lt;/code&gt; ，那么就首先将它添加给 dvc， 然后把dvc创建的记录 &lt;code&gt;*.dvc&lt;/code&gt; 和自动生成的 &lt;code&gt;.gitignore&lt;/code&gt; 一起加到 git 中，之后再用 dvc 上传数据即可
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   dvc add data/data.h5
+   git add data/data.h5.dvc data/.gitignore
+   git commit -m "Add raw data"
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd07007f" class="outline-3"&gt;
+&lt;h3 id="orgd07007f"&gt;dvc的远程库&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd07007f"&gt;
+&lt;p&gt;
+dvc 支持多种远程库，甚至是本地的远程库
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   mkdir -p /tmp/dvcstore
+   dvc remote add -d myremote /tmp/dvcstore
+   git commit .dvc/config -m "Configure local remote"
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge6eaa58" class="outline-3"&gt;
+&lt;h3 id="orge6eaa58"&gt;保存和同步数据&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge6eaa58"&gt;
+&lt;p&gt;
+如果已经配置好了远程库，那么上传和下载数据操作就类似于 git
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   dvc pull
+
+   dvc push
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>git</category><category>linux</category><guid>https://chimez.github.io/posts/dvc-data-version-control/</guid><pubDate>Fri, 19 Mar 2021 05:53:14 GMT</pubDate></item><item><title>vimrc: vim</title><link>https://chimez.github.io/posts/vim/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org01bbf54" class="outline-2"&gt;
 &lt;h2 id="org01bbf54"&gt;正则表达式中使用非贪心匹配&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-org01bbf54"&gt;
 &lt;p&gt;
@@ -7,9 +76,9 @@
 &lt;code&gt;.+&lt;/code&gt; 变成 &lt;code&gt;.\{-1,\}&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>linux vim</category><guid>https://chimez.github.io/posts/vim/</guid><pubDate>Thu, 28 Jan 2021 10:33:00 GMT</pubDate></item><item><title>ffmpeg</title><link>https://chimez.github.io/posts/ffmpeg/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org1143fa6" class="outline-2"&gt;
-&lt;h2 id="org1143fa6"&gt;合并视频&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1143fa6"&gt;
+&lt;/div&gt;</description><category>linux vim</category><guid>https://chimez.github.io/posts/vim/</guid><pubDate>Thu, 28 Jan 2021 10:33:00 GMT</pubDate></item><item><title>ffmpeg</title><link>https://chimez.github.io/posts/ffmpeg/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org8101429" class="outline-2"&gt;
+&lt;h2 id="org8101429"&gt;合并视频&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8101429"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  ffmpeg -f concat -i filelist.txt -c copy out.mkv
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -17,7 +86,7 @@
 &lt;code&gt;filelist.txt&lt;/code&gt; 内容如下， 需要加 &lt;code&gt;file&lt;/code&gt; ，还要用单引号括起来，或者加选项 &lt;code&gt;-safe 0&lt;/code&gt;
 &lt;/p&gt;
 
-&lt;pre class="example" id="org160845a"&gt;
+&lt;pre class="example" id="org445f797"&gt;
 file '/home/a1.mkv'
 file '/home/a2.mkv'
 ...
@@ -25,9 +94,9 @@ file '/home/a2.mkv'
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org97c4a70" class="outline-2"&gt;
-&lt;h2 id="org97c4a70"&gt;转换格式&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org97c4a70"&gt;
+&lt;div id="outline-container-org292fa30" class="outline-2"&gt;
+&lt;h2 id="org292fa30"&gt;转换格式&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org292fa30"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  ffmpeg -i in.mpeg -q:a 0 -q:v 0 out.mkv
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -60,9 +129,9 @@ file '/home/a2.mkv'
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org46b97ff" class="outline-2"&gt;
-&lt;h2 id="org46b97ff"&gt;分割视频&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org46b97ff"&gt;
+&lt;div id="outline-container-org56bac72" class="outline-2"&gt;
+&lt;h2 id="org56bac72"&gt;分割视频&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org56bac72"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  ffmpeg -i in.mp4 -ss 00:10:00 -t 00:30:40 -acodec copy -vcodec copy output.mp4
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -107,22 +176,22 @@ file '/home/a2.mkv'
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>linux ffmpeg</category><guid>https://chimez.github.io/posts/ffmpeg/</guid><pubDate>Thu, 28 Jan 2021 07:57:49 GMT</pubDate></item><item><title>emacs</title><link>https://chimez.github.io/posts/emacs/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org4753fae" class="outline-2"&gt;
-&lt;h2 id="org4753fae"&gt;从源码编译安装&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4753fae"&gt;
+&lt;/div&gt;</description><category>ffmpeg</category><category>linux</category><guid>https://chimez.github.io/posts/ffmpeg/</guid><pubDate>Thu, 28 Jan 2021 07:57:49 GMT</pubDate></item><item><title>emacs</title><link>https://chimez.github.io/posts/emacs/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org7135aa8" class="outline-2"&gt;
+&lt;h2 id="org7135aa8"&gt;从源码编译安装&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7135aa8"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org59d6baf" class="outline-3"&gt;
-&lt;h3 id="org59d6baf"&gt;查看特性&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org59d6baf"&gt;
+&lt;div id="outline-container-orgfd5be86" class="outline-3"&gt;
+&lt;h3 id="orgfd5be86"&gt;查看特性&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfd5be86"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;查看 &lt;code&gt;system-configuration-features&lt;/code&gt; 中的信息&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0422539" class="outline-3"&gt;
-&lt;h3 id="org0422539"&gt;查看编译选项&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0422539"&gt;
+&lt;div id="outline-container-orgf466d79" class="outline-3"&gt;
+&lt;h3 id="orgf466d79"&gt;查看编译选项&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf466d79"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;查看 &lt;code&gt;system-configuration-options&lt;/code&gt; 中的信息&lt;/li&gt;
 &lt;/ol&gt;
@@ -134,9 +203,9 @@ file '/home/a2.mkv'
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgbeca7b6" class="outline-2"&gt;
-&lt;h2 id="orgbeca7b6"&gt;在正则表达式中使用lisp代码&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgbeca7b6"&gt;
+&lt;div id="outline-container-org626cf43" class="outline-2"&gt;
+&lt;h2 id="org626cf43"&gt;在正则表达式中使用lisp代码&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org626cf43"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;\,&lt;/code&gt; 后加一个表达式
 &lt;/p&gt;
@@ -146,9 +215,9 @@ file '/home/a2.mkv'
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgafb8393" class="outline-2"&gt;
-&lt;h2 id="orgafb8393"&gt;正则表达式的非贪心匹配&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgafb8393"&gt;
+&lt;div id="outline-container-org063939f" class="outline-2"&gt;
+&lt;h2 id="org063939f"&gt;正则表达式的非贪心匹配&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org063939f"&gt;
 &lt;p&gt;
 non greedy regex
 星号后加问号
@@ -159,13 +228,13 @@ non greedy regex
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org96d85b6" class="outline-2"&gt;
-&lt;h2 id="org96d85b6"&gt;文件编码问题&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org96d85b6"&gt;
+&lt;div id="outline-container-org0a2b763" class="outline-2"&gt;
+&lt;h2 id="org0a2b763"&gt;文件编码问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0a2b763"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org961d9a2" class="outline-3"&gt;
-&lt;h3 id="org961d9a2"&gt;改变显示文件编码,解决乱码问题&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org961d9a2"&gt;
+&lt;div id="outline-container-org8d80786" class="outline-3"&gt;
+&lt;h3 id="org8d80786"&gt;改变显示文件编码,解决乱码问题&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org8d80786"&gt;
 &lt;p&gt;
 使用命令
 &lt;/p&gt;
@@ -174,9 +243,9 @@ non greedy regex
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6bb0349" class="outline-3"&gt;
-&lt;h3 id="org6bb0349"&gt;修改编码&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6bb0349"&gt;
+&lt;div id="outline-container-orga4100bf" class="outline-3"&gt;
+&lt;h3 id="orga4100bf"&gt;修改编码&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga4100bf"&gt;
 &lt;p&gt;
 在按下 &lt;code&gt;M-x&lt;/code&gt; 后使用命令改变编码再保存即可
 &lt;/p&gt;
@@ -185,9 +254,9 @@ non greedy regex
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgce426ae" class="outline-3"&gt;
-&lt;h3 id="orgce426ae"&gt;常见的编码&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgce426ae"&gt;
+&lt;div id="outline-container-org794bc55" class="outline-3"&gt;
+&lt;h3 id="org794bc55"&gt;常见的编码&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org794bc55"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;中文
 &lt;ol class="org-ol"&gt;
@@ -205,9 +274,9 @@ non greedy regex
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org1c440cc" class="outline-2"&gt;
-&lt;h2 id="org1c440cc"&gt;对齐排版代码&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1c440cc"&gt;
+&lt;div id="outline-container-orgf975755" class="outline-2"&gt;
+&lt;h2 id="orgf975755"&gt;对齐排版代码&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf975755"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;align-regexp, sort-regexp-fields, sort-columns&lt;/code&gt;
 &lt;/p&gt;
@@ -215,13 +284,13 @@ non greedy regex
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org3fbb9ee" class="outline-2"&gt;
-&lt;h2 id="org3fbb9ee"&gt;Tramp 远程编辑&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3fbb9ee"&gt;
+&lt;div id="outline-container-org5287680" class="outline-2"&gt;
+&lt;h2 id="org5287680"&gt;Tramp 远程编辑&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5287680"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfd8d9b9" class="outline-3"&gt;
-&lt;h3 id="orgfd8d9b9"&gt;配置 ssh&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgfd8d9b9"&gt;
+&lt;div id="outline-container-org462a652" class="outline-3"&gt;
+&lt;h3 id="org462a652"&gt;配置 ssh&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org462a652"&gt;
 &lt;p&gt;
 注意 tramp 的远程登陆只支持 bash, 不支持 zsh, 所以要进行设置，tramp 登陆用 &lt;code&gt;namebash&lt;/code&gt;, ssh 登陆用 &lt;code&gt;namezsh&lt;/code&gt; 就行了
 &lt;/p&gt;
@@ -243,7 +312,7 @@ non greedy regex
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>linux emacs</category><guid>https://chimez.github.io/posts/emacs/</guid><pubDate>Tue, 26 Jan 2021 10:28:36 GMT</pubDate></item><item><title>vimrc: vim配置文件</title><link>https://chimez.github.io/posts/vimrc/</link><dc:creator>chimez</dc:creator><description>&lt;p&gt;
+&lt;/div&gt;</description><category>emacs</category><category>linux</category><guid>https://chimez.github.io/posts/emacs/</guid><pubDate>Tue, 26 Jan 2021 10:28:36 GMT</pubDate></item><item><title>vimrc: vim配置文件</title><link>https://chimez.github.io/posts/vimrc/</link><dc:creator>chimez</dc:creator><description>&lt;p&gt;
 &amp;lt;src
 &lt;/p&gt;
 
@@ -251,21 +320,21 @@ non greedy regex
 
 &lt;p&gt;
 Write your post here.
-&lt;/p&gt;</description><category>linux vim</category><guid>https://chimez.github.io/posts/vimrc/</guid><pubDate>Sun, 24 Jan 2021 05:57:00 GMT</pubDate></item><item><title>git</title><link>https://chimez.github.io/posts/git/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org1601c14" class="outline-2"&gt;
-&lt;h2 id="org1601c14"&gt;使用案例&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1601c14"&gt;
+&lt;/p&gt;</description><category>linux vim</category><guid>https://chimez.github.io/posts/vimrc/</guid><pubDate>Sun, 24 Jan 2021 05:57:00 GMT</pubDate></item><item><title>git</title><link>https://chimez.github.io/posts/git/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org73c8ab7" class="outline-2"&gt;
+&lt;h2 id="org73c8ab7"&gt;使用案例&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org73c8ab7"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org17ce7c6" class="outline-3"&gt;
-&lt;h3 id="org17ce7c6"&gt;新建仓库&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org17ce7c6"&gt;
+&lt;div id="outline-container-org3d372ab" class="outline-3"&gt;
+&lt;h3 id="org3d372ab"&gt;新建仓库&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org3d372ab"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git init .
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7e33053" class="outline-3"&gt;
-&lt;h3 id="org7e33053"&gt;下载远程仓库&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org7e33053"&gt;
+&lt;div id="outline-container-org5292870" class="outline-3"&gt;
+&lt;h3 id="org5292870"&gt;下载远程仓库&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5292870"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git clone --depth=1 https://...
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;
@@ -274,81 +343,81 @@ Write your post here.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org655c5b3" class="outline-3"&gt;
-&lt;h3 id="org655c5b3"&gt;gitignore：忽略文件&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org655c5b3"&gt;
+&lt;div id="outline-container-orgad8e29f" class="outline-3"&gt;
+&lt;h3 id="orgad8e29f"&gt;gitignore：忽略文件&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgad8e29f"&gt;
 &lt;p&gt;
 见 &lt;a href="https://github.com/github/gitignore"&gt;gitignore&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org337d254" class="outline-3"&gt;
-&lt;h3 id="org337d254"&gt;添加本地更改&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org337d254"&gt;
+&lt;div id="outline-container-org2019557" class="outline-3"&gt;
+&lt;h3 id="org2019557"&gt;添加本地更改&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2019557"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git add --all 
    git commit -m "sth"
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbcb3321" class="outline-3"&gt;
-&lt;h3 id="orgbcb3321"&gt;从远端获取更新&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgbcb3321"&gt;
+&lt;div id="outline-container-orge88d9f7" class="outline-3"&gt;
+&lt;h3 id="orge88d9f7"&gt;从远端获取更新&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge88d9f7"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git pull
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org48869a5" class="outline-3"&gt;
-&lt;h3 id="org48869a5"&gt;推送更新到远端&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org48869a5"&gt;
+&lt;div id="outline-container-org77b8a79" class="outline-3"&gt;
+&lt;h3 id="org77b8a79"&gt;推送更新到远端&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org77b8a79"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git push origin master
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcf19140" class="outline-3"&gt;
-&lt;h3 id="orgcf19140"&gt;使用代理&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgcf19140"&gt;
+&lt;div id="outline-container-org24cda7c" class="outline-3"&gt;
+&lt;h3 id="org24cda7c"&gt;使用代理&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org24cda7c"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git config --global http.proxy http://proxy.mycompany:80
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6adc675" class="outline-3"&gt;
-&lt;h3 id="org6adc675"&gt;记录里显示中文&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6adc675"&gt;
+&lt;div id="outline-container-org27f6cd7" class="outline-3"&gt;
+&lt;h3 id="org27f6cd7"&gt;记录里显示中文&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org27f6cd7"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git config --global core.quotepath false
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd737602" class="outline-3"&gt;
-&lt;h3 id="orgd737602"&gt;设置默认编辑器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd737602"&gt;
+&lt;div id="outline-container-org131eec9" class="outline-3"&gt;
+&lt;h3 id="org131eec9"&gt;设置默认编辑器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org131eec9"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   git config --global core.editor "vim"
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge8ccbcf" class="outline-2"&gt;
-&lt;h2 id="orge8ccbcf"&gt;git-lfs: 用 git 管理大文件&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge8ccbcf"&gt;
+&lt;div id="outline-container-org85fb94f" class="outline-2"&gt;
+&lt;h2 id="org85fb94f"&gt;git-lfs: 用 git 管理大文件&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org85fb94f"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5642c1f" class="outline-3"&gt;
-&lt;h3 id="org5642c1f"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5642c1f"&gt;
+&lt;div id="outline-container-orgeecb932" class="outline-3"&gt;
+&lt;h3 id="orgeecb932"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgeecb932"&gt;
 &lt;p&gt;
 从包管理器中安装 &lt;code&gt;git-lfs&lt;/code&gt; ，windows版本已经包含了
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org33e8a48" class="outline-3"&gt;
-&lt;h3 id="org33e8a48"&gt;使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org33e8a48"&gt;
+&lt;div id="outline-container-orgfeb78eb" class="outline-3"&gt;
+&lt;h3 id="orgfeb78eb"&gt;使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfeb78eb"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;对账户启用 &lt;code&gt;git lfs install&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;对仓库设置要追踪的文件类型 &lt;code&gt;git lfs track "*.psd"&lt;/code&gt;&lt;/li&gt;
@@ -357,9 +426,9 @@ Write your post here.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org13cf29c" class="outline-3"&gt;
-&lt;h3 id="org13cf29c"&gt;常用大文件&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org13cf29c"&gt;
+&lt;div id="outline-container-org8b80a40" class="outline-3"&gt;
+&lt;h3 id="org8b80a40"&gt;常用大文件&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org8b80a40"&gt;
 &lt;p&gt;
 见 &lt;a href="https://github.com/alexkaratarakis/gitattributes"&gt;gitattributes&lt;/a&gt;
 &lt;/p&gt;
@@ -376,7 +445,7 @@ Write your post here.
 &lt;p&gt;
 &lt;code&gt;.gitattributes&lt;/code&gt; 文件内容为
 &lt;/p&gt;
-&lt;pre class="example" id="orgb1ad766"&gt;
+&lt;pre class="example" id="org51f6366"&gt;
 *.pdf   filter=lfs diff=lfs merge=lfs -text
 *.jpg   filter=lfs diff=lfs merge=lfs -text
 *.jpeg  filter=lfs diff=lfs merge=lfs -text
@@ -394,16 +463,16 @@ Write your post here.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge92ddee" class="outline-2"&gt;
-&lt;h2 id="orge92ddee"&gt;git-remote-dropbox: 用 Dropbox 做私人仓库&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge92ddee"&gt;
+&lt;div id="outline-container-org9c33158" class="outline-2"&gt;
+&lt;h2 id="org9c33158"&gt;git-remote-dropbox: 用 Dropbox 做私人仓库&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9c33158"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/anishathalye/git-remote-dropbox"&gt;git-remote-dropbox&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6b3d185" class="outline-3"&gt;
-&lt;h3 id="org6b3d185"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6b3d185"&gt;
+&lt;div id="outline-container-org417c2e2" class="outline-3"&gt;
+&lt;h3 id="org417c2e2"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org417c2e2"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;安装 &lt;code&gt;pip install git-remote-dropbox&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;在网站上生成 OAuth 2 密钥 &lt;a href="https://www.dropbox.com/developers/apps"&gt;app console&lt;/a&gt;&lt;/li&gt;
@@ -414,27 +483,27 @@ Write your post here.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd2e7a35" class="outline-3"&gt;
-&lt;h3 id="orgd2e7a35"&gt;使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd2e7a35"&gt;
+&lt;div id="outline-container-orgfd43eff" class="outline-3"&gt;
+&lt;h3 id="orgfd43eff"&gt;使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfd43eff"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3c25709" class="outline-4"&gt;
-&lt;h4 id="org3c25709"&gt;clone 已有仓库&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3c25709"&gt;
+&lt;div id="outline-container-org5a30f99" class="outline-4"&gt;
+&lt;h4 id="org5a30f99"&gt;clone 已有仓库&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5a30f99"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    git clone "dropbox:///path/to/repo"
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org63b7852" class="outline-4"&gt;
-&lt;h4 id="org63b7852"&gt;创建远程仓库&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org63b7852"&gt;
+&lt;div id="outline-container-orgbe221aa" class="outline-4"&gt;
+&lt;h4 id="orgbe221aa"&gt;创建远程仓库&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbe221aa"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    git remote add origin "dropbox:///path/to/repo"
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>linux git</category><guid>https://chimez.github.io/posts/git/</guid><pubDate>Sun, 24 Jan 2021 04:51:36 GMT</pubDate></item><item><title>pdftk: The PDF Toolkit</title><link>https://chimez.github.io/posts/pdftk/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgd98570a" class="outline-2"&gt;
+&lt;/div&gt;</description><category>git</category><category>linux</category><guid>https://chimez.github.io/posts/git/</guid><pubDate>Sun, 24 Jan 2021 04:51:36 GMT</pubDate></item><item><title>pdftk: The PDF Toolkit</title><link>https://chimez.github.io/posts/pdftk/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgd98570a" class="outline-2"&gt;
 &lt;h2 id="orgd98570a"&gt;添加目录与修改元信息&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-orgd98570a"&gt;
 &lt;p&gt;
@@ -742,9 +811,9 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
       User username
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>linux</category><category>ssh</category><guid>https://chimez.github.io/posts/ssh/</guid><pubDate>Thu, 24 Dec 2020 13:07:46 GMT</pubDate></item><item><title>systemd</title><link>https://chimez.github.io/posts/systemd/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgf0ded9a" class="outline-2"&gt;
-&lt;h2 id="orgf0ded9a"&gt;systemctl: 管理服务&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf0ded9a"&gt;
+&lt;/div&gt;</description><category>linux</category><category>ssh</category><guid>https://chimez.github.io/posts/ssh/</guid><pubDate>Thu, 24 Dec 2020 13:07:46 GMT</pubDate></item><item><title>systemd</title><link>https://chimez.github.io/posts/systemd/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge93072a" class="outline-2"&gt;
+&lt;h2 id="orge93072a"&gt;systemctl: 管理服务&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge93072a"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;systemd 中的服务后缀名 &lt;code&gt;.service&lt;/code&gt; 可以不写，会自动补全。&lt;/li&gt;
 &lt;li&gt;systemd 中把服务称作 &lt;code&gt;unit&lt;/code&gt; , &lt;code&gt;unit&lt;/code&gt; 有多种类型包括 &lt;code&gt;.service, .target&lt;/code&gt; 等&lt;/li&gt;
@@ -752,9 +821,9 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org8f6257a" class="outline-3"&gt;
-&lt;h3 id="org8f6257a"&gt;列出服务&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org8f6257a"&gt;
+&lt;div id="outline-container-org2e2e4f5" class="outline-3"&gt;
+&lt;h3 id="org2e2e4f5"&gt;列出服务&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2e2e4f5"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 查看系统所有安装的服务项
    systemctl list-unit-files --type=service
 
@@ -767,9 +836,9 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3d8a0a0" class="outline-3"&gt;
-&lt;h3 id="org3d8a0a0"&gt;查看特定服务&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org3d8a0a0"&gt;
+&lt;div id="outline-container-orgd267867" class="outline-3"&gt;
+&lt;h3 id="orgd267867"&gt;查看特定服务&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd267867"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 查看指定服务项状态
    systemctl status &amp;lt;服务项名称&amp;gt;
 
@@ -779,9 +848,9 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4d980ef" class="outline-3"&gt;
-&lt;h3 id="org4d980ef"&gt;查看系统状态&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4d980ef"&gt;
+&lt;div id="outline-container-orgc38ba80" class="outline-3"&gt;
+&lt;h3 id="orgc38ba80"&gt;查看系统状态&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc38ba80"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 查看系统启动耗时
    systemd-analyze
 
@@ -791,9 +860,9 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga88b1d4" class="outline-3"&gt;
-&lt;h3 id="orga88b1d4"&gt;管理服务&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga88b1d4"&gt;
+&lt;div id="outline-container-orgf80ef83" class="outline-3"&gt;
+&lt;h3 id="orgf80ef83"&gt;管理服务&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf80ef83"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 启动服务
    systemctl start &amp;lt;服务项名称&amp;gt;
 
@@ -830,17 +899,17 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
 
 
 
-&lt;div id="outline-container-org1f61dbe" class="outline-2"&gt;
-&lt;h2 id="org1f61dbe"&gt;编写简单的服务&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org1f61dbe"&gt;
+&lt;div id="outline-container-org2eba9fa" class="outline-2"&gt;
+&lt;h2 id="org2eba9fa"&gt;编写简单的服务&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2eba9fa"&gt;
 &lt;p&gt;
 服务文件都存放在 &lt;code&gt;/etc/systemd/system/&lt;/code&gt; 中，后缀名为 &lt;code&gt;.service&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgffe2bc8" class="outline-3"&gt;
-&lt;h3 id="orgffe2bc8"&gt;简单的自启动脚本&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgffe2bc8"&gt;
+&lt;div id="outline-container-orge84e0fe" class="outline-3"&gt;
+&lt;h3 id="orge84e0fe"&gt;简单的自启动脚本&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge84e0fe"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;Type=simple&lt;/code&gt; 表示启动并一直运行&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;ExecStart=/...&lt;/code&gt; 表示要执行的命令，路径要写全&lt;/li&gt;
@@ -862,9 +931,9 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org7070686" class="outline-3"&gt;
-&lt;h3 id="org7070686"&gt;配置自启动 jupyterlab&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org7070686"&gt;
+&lt;div id="outline-container-org7f588f7" class="outline-3"&gt;
+&lt;h3 id="org7f588f7"&gt;配置自启动 jupyterlab&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7f588f7"&gt;
 &lt;p&gt;
 &lt;code&gt;/etc/systemd/system/jupyterlab.service&lt;/code&gt;
 &lt;/p&gt;
@@ -885,9 +954,9 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orga2ae363" class="outline-3"&gt;
-&lt;h3 id="orga2ae363"&gt;配置自动挂载&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga2ae363"&gt;
+&lt;div id="outline-container-orga56a9f0" class="outline-3"&gt;
+&lt;h3 id="orga56a9f0"&gt;配置自动挂载&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga56a9f0"&gt;
 &lt;p&gt;
 配置文件路径： &lt;code&gt;/etc/systemd/system/path-to-dir.mount&lt;/code&gt; 。
 &lt;/p&gt;
@@ -907,6 +976,27 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
    [Install]
    WantedBy=local-fs.target
 &lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+
+
+
+&lt;div id="outline-container-org8d1cd6c" class="outline-2"&gt;
+&lt;h2 id="org8d1cd6c"&gt;问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8d1cd6c"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org024d6b0" class="outline-3"&gt;
+&lt;h3 id="org024d6b0"&gt;用户定义服务&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org024d6b0"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;命令使用 &lt;code&gt;systemctl --user&lt;/code&gt; 剩下一样。&lt;/li&gt;
+&lt;li&gt;配置文件放在 &lt;code&gt;$HOME/.config/systemd/user&lt;/code&gt; 里&lt;/li&gt;
+&lt;li&gt;然后执行一次 &lt;code&gt;loginctl enable-linger username&lt;/code&gt; 让开机时自启动用户&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description><category>linux</category><guid>https://chimez.github.io/posts/systemd/</guid><pubDate>Thu, 24 Dec 2020 11:55:29 GMT</pubDate></item><item><title>samba 文件共享</title><link>https://chimez.github.io/posts/samba/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org660a8aa" class="outline-2"&gt;
@@ -996,76 +1086,4 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
   unix extensions = no
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>linux</category><category>samba</category><guid>https://chimez.github.io/posts/samba/</guid><pubDate>Thu, 24 Dec 2020 04:37:06 GMT</pubDate></item><item><title>nikola: static site generator</title><link>https://chimez.github.io/posts/nikola-static-site-generator/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga8bdcef" class="outline-2"&gt;
-&lt;h2 id="orga8bdcef"&gt;Nikola: 基本用法&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga8bdcef"&gt;
-&lt;p&gt;
-Nikola 是一个 python 写的静态博客生成器。参见官网&lt;a href="https://getnikola.com"&gt;getnikola&lt;/a&gt; 。主要的特色是原生支持 orgmode 和 ipynb 格式作为博客，看起来很方便。
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-
-
-&lt;div id="outline-container-orgd41ca09" class="outline-2"&gt;
-&lt;h2 id="orgd41ca09"&gt;备查资料&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd41ca09"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgbaf3210" class="outline-3"&gt;
-&lt;h3 id="orgbaf3210"&gt;时间的格式&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgbaf3210"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;date +"%F %T UTC%:z"
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;div id="outline-container-org9bca222" class="outline-2"&gt;
-&lt;h2 id="org9bca222"&gt;博客模板&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9bca222"&gt;
-&lt;p&gt;
-tags 用逗号分隔， category 被看做一个词。
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org75c4bd5" class="outline-3"&gt;
-&lt;h3 id="org75c4bd5"&gt;orgmode&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org75c4bd5"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#+BEGIN_COMMENT
-.. title: nikola: static site generator
-.. slug: nikola-static-site-generator
-.. date: 2020-12-19 15:19:12 UTC+08:00
-.. tags: python, blog
-.. category: tools
-.. link: 
-.. description: 
-.. type: text
-.. has_math: true
-
-#+END_COMMENT
-
-blog here.
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org0d5db4f" class="outline-3"&gt;
-&lt;h3 id="org0d5db4f"&gt;ipynb&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0d5db4f"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   "metadata": {
-     "nikola": {
-      "title": "Power Method for Eigenvalues",
-      "slug": "power-method-for-eigenvalues",
-      "date": "2020-12-19 15:20:52 UTC+08:00",
-      "tags": "Numerical Algorithm,Linear Algebra",
-      "category": "Algorithm",
-      "link": "",
-      "description": "",
-      "type": "text"
-     }
-   }
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>blog</category><category>python</category><guid>https://chimez.github.io/posts/nikola-static-site-generator/</guid><pubDate>Sat, 19 Dec 2020 07:19:12 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>linux</category><category>samba</category><guid>https://chimez.github.io/posts/samba/</guid><pubDate>Thu, 24 Dec 2020 04:37:06 GMT</pubDate></item></channel></rss>

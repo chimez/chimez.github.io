@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linear Regression and Gradient Descent | chimez's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://chimez.github.io/posts/linear-regression-and-gradient-descent/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
+<link rel="prev" href="../dvc-data-version-control/" title="dvc: Data Version Control" type="text/html">
+<link rel="next" href="../c-library/" title="C Library" type="text/html">
+<meta property="og:site_name" content="chimez's blog">
+<meta property="og:title" content="Linear Regression and Gradient Descent">
+<meta property="og:url" content="https://chimez.github.io/posts/linear-regression-and-gradient-descent/">
+<meta property="og:description" content="线性回归与梯度下降
+
+
+
+加载数据
+
+
+加载数据(load data)，需要完成如下几个工作
+
+
+读取和准备数据
+对数据归一化
+划分训练数据和测试数据
+
+
+
+数据应该是有 \(x_{1},x_{2},\cdots,x_{n}\) 和一组 \(y\)
+
+
+
+记住要对数据归一化, 可以选择基本的移动归一化，即减去最小值再除以最大最小之差
+\[
+   x' = \frac{x - \mathrm{min">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-03-21T20:16:36+08:00">
+<meta property="article:tag" content="Gradient Descent">
+<meta property="article:tag" content="Linear Regression">
+<meta property="article:tag" content="optimization">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">chimez's blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Linear Regression and Gradient Descent</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    chimez
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-21T20:16:36+08:00" itemprop="datePublished" title="2021-03-21 20:16">2021-03-21 20:16</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-orgb68d35f" class="outline-2">
+<h2 id="orgb68d35f">线性回归与梯度下降</h2>
+<div class="outline-text-2" id="text-orgb68d35f">
+</div>
+<div id="outline-container-org82119b0" class="outline-3">
+<h3 id="org82119b0">加载数据</h3>
+<div class="outline-text-3" id="text-org82119b0">
+<p>
+加载数据(load data)，需要完成如下几个工作
+</p>
+<ol class="org-ol">
+<li>读取和准备数据</li>
+<li>对数据归一化</li>
+<li>划分训练数据和测试数据</li>
+</ol>
+<p>
+数据应该是有 \(x_{1},x_{2},\cdots,x_{n}\) 和一组 \(y\)
+</p>
+
+<p>
+记住要对数据归一化, 可以选择基本的移动归一化，即减去最小值再除以最大最小之差
+\[
+   x' = \frac{x - \mathrm{min}(x)}{\mathrm{max}(x) - \mathrm{min}(x)}
+   \]
+</p>
+
+<p>
+或者减平均值除方差
+</p>
+
+<p>
+\[
+   x' = \frac{x - \mathrm{mean}(x)}{\mathrm{std}(x)}
+   \]
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb71ac2d" class="outline-3">
+<h3 id="orgb71ac2d">前向传播</h3>
+<div class="outline-text-3" id="text-orgb71ac2d">
+<p>
+前向传播(forward propagation) 就是从输入参数计算得到输出参数。
+</p>
+
+<p>
+线性回归公式是
+\[
+   y = \sum_{j=1}^{M} x_{j}w_{j} + b
+   \]
+</p>
+
+<p>
+所以前向传播很容易写
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+       <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+       <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org445188a" class="outline-3">
+<h3 id="org445188a">损失函数</h3>
+<div class="outline-text-3" id="text-org445188a">
+<p>
+损失函数(loss function) 是衡量前向计算结果与数据目标结果之间偏差的函数。
+</p>
+
+<p>
+简单的损失函数是均方误差
+\[
+   \mathrm{Loss} = \frac{1}{N} \sum_{j=1}^{N} (y_{i} - z_{i})^{2}
+   \]
+其中 \(y_{i}\) 是目标结果， \(z_{i}\) 是计算结果。
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+       <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">z</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+       <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgc430027" class="outline-3">
+<h3 id="orgc430027">梯度</h3>
+<div class="outline-text-3" id="text-orgc430027">
+<p>
+梯度(gradient) 是损失函数随参数变化的改变。
+</p>
+
+<p>
+对于这里的线性回归模型和均方误差损失函数，梯度定义如下
+\[
+   \nabla \mathrm{Loss} = \left( \frac{\partial \mathrm{Loss}}{\partial w_{i}}, \dots \right)
+   \]
+</p>
+
+<p>
+对于我们要计算的损失函数
+\[
+   L = \frac{1}{2N} \sum_{i} (y_{i} - z_{i})^{2}
+   \]
+预测值为
+\[
+   z_{i} = \sum_{j} x_{i}^{j} w^{j} + b
+   \]
+其中 \(i\) 是样本的指标，\(j\) 是参数的指标。
+那么损失函数 \(L\) 对参数 \(w_{j}\) 的微分为
+\[
+   \frac{\partial L}{\partial w_{j}} = \frac{ 1 }{ N  } \sum_{i} (z_{i}- y_{i}) \frac{\partial z_{i }}{\partial w_{j}}
+   =\frac{ 1 }{ N  } \sum_{i} (z_{i}- y_{i}) x_{i}^{j}
+   \]
+</p>
+
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+       <span class="n">gradient_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">z</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+       <span class="n">gradient_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">z</span> <span class="o">-</span> <span class="n">y</span><span class="p">))</span>
+       <span class="k">return</span> <span class="n">gradient_w</span><span class="p">,</span> <span class="n">gradient_b</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org073216d" class="outline-3">
+<h3 id="org073216d">梯度下降</h3>
+<div class="outline-text-3" id="text-org073216d">
+<p>
+梯度下降(gradient descent) 就是根据梯度来更新参数，最终到达收敛的过程。
+</p>
+
+<p>
+在这部分要实现两个函数
+</p>
+<ol class="org-ol">
+<li>更新(update)，即从这一步梯度和学习率(learning rate)计算下一步的梯度</li>
+<li>训练(train)，即迭代执行前向计算-梯度-更新，并根据损失函数判断是否收敛</li>
+</ol>
+<p>
+梯度下降的更新函数就是用上一步的参数减去学习率与梯度之积
+\[
+   w_{i+1}^{j} = w_{i}^{j} - \eta \frac{\partial \mathrm{Loss}}{\partial w_{i}^{j}}
+   \]
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">gradient_w</span><span class="p">,</span> <span class="n">gradient_b</span><span class="p">,</span> <span class="n">eta</span><span class="p">):</span>
+       <span class="n">w_new</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">gradient_w</span>
+       <span class="n">b_new</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">gradient_b</span>
+       <span class="k">return</span> <span class="n">w_new</span><span class="p">,</span> <span class="n">b_new</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+       <span class="n">L_list</span> <span class="o">=</span> <span class="p">[]</span>
+       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+	   <span class="n">z</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+	   <span class="n">L</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+	   <span class="n">gradient_w</span><span class="p">,</span> <span class="n">gradient_b</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+	   <span class="n">w</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">gradient_w</span><span class="p">,</span> <span class="n">gradient_b</span><span class="p">,</span> <span class="n">eta</span><span class="p">)</span>
+	   <span class="n">L_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+       <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">L_list</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org43e11fa" class="outline-3">
+<h3 id="org43e11fa">随机梯度下降</h3>
+<div class="outline-text-3" id="text-org43e11fa">
+<p>
+随机梯度下降(Stochastic Gradient Descent, SGD) 是指每步迭代时从总训练集抽取一小部分来计算梯度，通过这种方式能够加快训练。
+一些概念：
+</p>
+<ul class="org-ul">
+<li>mini batch: 每次迭代时用到的那一小部分数据集</li>
+<li>batch size: 一个 mini batch 中的样本数</li>
+<li>epoch: 迭代时不断抽取 mini batch，当取过一遍整个数据集时就叫做一轮 epoch</li>
+</ul>
+<p>
+具体的操作：
+</p>
+<ol class="org-ol">
+<li>将总的数据集随机打乱</li>
+<li>将打乱后的数据集划分成若干个 mini batch</li>
+<li>用每个 mini batch 进行一次训练</li>
+<li>用所有 mini batch 训练过一遍后，返回第 1 步，开启下一轮 epoch</li>
+</ol>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/gradient-descent/" rel="tag">Gradient Descent</a></li>
+            <li><a class="tag p-category" href="../../categories/linear-regression/" rel="tag">Linear Regression</a></li>
+            <li><a class="tag p-category" href="../../categories/optimization/" rel="tag">optimization</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../dvc-data-version-control/" rel="prev" title="dvc: Data Version Control">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../c-library/" rel="next" title="C Library">Next post</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>

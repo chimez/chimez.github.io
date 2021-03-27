@@ -1,11 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about Memory Management)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/memory-management.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 03 Mar 2021 08:05:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C Memory Management</title><link>https://chimez.github.io/posts/c-memory-management/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgcc5bf1f" class="outline-2"&gt;
-&lt;h2 id="orgcc5bf1f"&gt;C 语言内存管理&lt;/h2&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about Memory Management)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/memory-management.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sat, 27 Mar 2021 06:53:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C 指针与内存管理</title><link>https://chimez.github.io/posts/c-memory-management/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgb349241" class="outline-2"&gt;
+&lt;h2 id="orgb349241"&gt;动态存储分配&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb349241"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgdb28086" class="outline-3"&gt;
+&lt;h3 id="orgdb28086"&gt;内存分配函数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgdb28086"&gt;
+&lt;p&gt;
+在 &lt;code&gt;&amp;lt;stdlib.h&amp;gt;&lt;/code&gt; 头文件中的
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;malloc&lt;/code&gt; 分配内存，不初始化&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;calloc&lt;/code&gt; 分配内存，并清零&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;realloc&lt;/code&gt; 调制分配内存大小&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+内存分配函数返回 &lt;code&gt;void *&lt;/code&gt; 类型，本质上只是内存地址
+&lt;/p&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org05975d0" class="outline-2"&gt;
-&lt;h2 id="org05975d0"&gt;关键字&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org05975d0"&gt;
+&lt;div id="outline-container-orgae39fa0" class="outline-3"&gt;
+&lt;h3 id="orgae39fa0"&gt;空指针&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgae39fa0"&gt;
+&lt;p&gt;
+内存分配函数有可能返回空指针 &lt;code&gt;NULL&lt;/code&gt; ，使用空指针会导致程序崩溃，所以要判断指针是否为空指针。
+&lt;/p&gt;
+
+&lt;p&gt;
+c语言中空指针为假，非空指针都为真。
+&lt;/p&gt;
+
+&lt;p&gt;
+常用如下方式进行判断
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+		&lt;span class="p"&gt;...;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga144854" class="outline-3"&gt;
+&lt;h3 id="orga144854"&gt;malloc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga144854"&gt;
+&lt;p&gt;
+原型 &lt;code&gt;void *malloc(size_t size);&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+惯用法
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org8b54770" class="outline-3"&gt;
+&lt;h3 id="org8b54770"&gt;calloc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org8b54770"&gt;
+&lt;p&gt;
+原型 &lt;code&gt;void *calloc(size_t nmemb, size_t size);&lt;/code&gt;
+分配 nmemb 个元素，每个元素大小为 size.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org34c1e11" class="outline-3"&gt;
+&lt;h3 id="org34c1e11"&gt;realloc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org34c1e11"&gt;
+&lt;p&gt;
+原型 &lt;code&gt;void *realloc(void *ptr, size_t size);&lt;/code&gt;
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;扩展时，不会对新加进来的做初始化&lt;/li&gt;
+&lt;li&gt;扩展失败时，返回空指针并不影响原来的元素&lt;/li&gt;
+&lt;li&gt;传入空指针时，与 &lt;code&gt;malloc&lt;/code&gt; 行为一致&lt;/li&gt;
+&lt;li&gt;第二个参数是0时，释放内存&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+一旦 &lt;code&gt;realloc&lt;/code&gt; 返回，记得更新之前的所有指针，因为可能会把元素都复制到了别的地址
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org7664587" class="outline-3"&gt;
+&lt;h3 id="org7664587"&gt;释放内存 free&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7664587"&gt;
+&lt;p&gt;
+原型 &lt;code&gt;void free(void *ptr);&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgee1c17b" class="outline-2"&gt;
+&lt;h2 id="orgee1c17b"&gt;声明&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgee1c17b"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org60cafa0" class="outline-3"&gt;
+&lt;h3 id="org60cafa0"&gt;声明说明符&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org60cafa0"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;存储类型。包括 &lt;code&gt;auto, static, extern, register&lt;/code&gt; ，只能有一个，必须放在最前面&lt;/li&gt;
+&lt;li&gt;类型限定符。包括 &lt;code&gt;const, volatile, restrict(C99)&lt;/code&gt; ，可以有一个或多个&lt;/li&gt;
+&lt;li&gt;类型说明符。包括基本类型、结构、枚举和联合&lt;/li&gt;
+&lt;li&gt;函数说明符。包括 &lt;code&gt;inline(C99)&lt;/code&gt; ，只用于函数声明&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4888746" class="outline-3"&gt;
+&lt;h3 id="org4888746"&gt;解释复杂的声明符&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4888746"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;始终从内往外读声明符&lt;/li&gt;
+&lt;li&gt;[]和()优先于 * ,即 *p[] 是数组， *f() 是函数&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgac00477" class="outline-3"&gt;
+&lt;h3 id="orgac00477"&gt;关键字&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgac00477"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -159,8 +282,14 @@
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;/div&gt;
 
 
-&lt;div id="outline-container-org9a32617" class="outline-2"&gt;
-&lt;h2 id="org9a32617"&gt;&lt;/h2&gt;
+&lt;div id="outline-container-orga0bc1bc" class="outline-2"&gt;
+&lt;h2 id="orga0bc1bc"&gt;TODO&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga0bc1bc"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;-Ofast -flto -march=native -funroll-loops -fPIC&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
 &lt;/div&gt;</description><category>C</category><category>Memory Management</category><guid>https://chimez.github.io/posts/c-memory-management/</guid><pubDate>Fri, 12 Feb 2021 00:37:35 GMT</pubDate></item></channel></rss>

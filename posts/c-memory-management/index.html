@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>C Memory Management | chimez's blog</title>
+<title>C 指针与内存管理 | chimez's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
@@ -16,88 +16,38 @@
 <link rel="prev" href="../pandas/" title="pandas" type="text/html">
 <link rel="next" href="../sagemath/" title="SageMath" type="text/html">
 <meta property="og:site_name" content="chimez's blog">
-<meta property="og:title" content="C Memory Management">
+<meta property="og:title" content="C 指针与内存管理">
 <meta property="og:url" content="https://chimez.github.io/posts/c-memory-management/">
-<meta property="og:description" content="C 语言内存管理
+<meta property="og:description" content="动态存储分配
 
 
 
-关键字
+内存分配函数
+
+
+在 &lt;stdlib.h&gt; 头文件中的
+
+
+malloc 分配内存，不初始化
+calloc 分配内存，并清零
+realloc 调制分配内存大小
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+内存分配函数返回 void * 类型，本质上只是内存地址
 
 
 
 
 
-关键字
-存储类别
-存储期
-作用域
-链接
-声明方式
+空指针
+
+
+内存分配函数有可能返回空指针 NULL ，使用空指针会导致程序崩溃，所以要判断指针是否为空指针。
 
 
 
-
-可选 (auto)
-自动
-自动
-块
-无
-块内
-
-
-
-register
-寄存器
-自动
-块
-无
-块内
-
-
-
-无
-静态外部链接
-静态
-文件
-外部
-函数外
-
-
-
-static
-静态内部链接
-静态
-文件
-内部
-函数外
-
-
-
-static
-静态无链接
-静态
-块
-无
-块内
-
-
-
-ext">
+c语言中空指针为假，非空指针都">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2021-02-12T08:37:35+08:00">
 <meta property="article:tag" content="C">
@@ -159,7 +109,7 @@ ext">
         
         
         
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">C Memory Management</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">C 指针与内存管理</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
@@ -176,13 +126,137 @@ ext">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgcc5bf1f" class="outline-2">
-<h2 id="orgcc5bf1f">C 语言内存管理</h2>
+    <div id="outline-container-orgb349241" class="outline-2">
+<h2 id="orgb349241">动态存储分配</h2>
+<div class="outline-text-2" id="text-orgb349241">
+</div>
+<div id="outline-container-orgdb28086" class="outline-3">
+<h3 id="orgdb28086">内存分配函数</h3>
+<div class="outline-text-3" id="text-orgdb28086">
+<p>
+在 <code>&lt;stdlib.h&gt;</code> 头文件中的
+</p>
+<ol class="org-ol">
+<li>
+<code>malloc</code> 分配内存，不初始化</li>
+<li>
+<code>calloc</code> 分配内存，并清零</li>
+<li>
+<code>realloc</code> 调制分配内存大小</li>
+</ol>
+<p>
+内存分配函数返回 <code>void *</code> 类型，本质上只是内存地址
+</p>
+</div>
 </div>
 
-<div id="outline-container-org05975d0" class="outline-2">
-<h2 id="org05975d0">关键字</h2>
-<div class="outline-text-2" id="text-org05975d0">
+<div id="outline-container-orgae39fa0" class="outline-3">
+<h3 id="orgae39fa0">空指针</h3>
+<div class="outline-text-3" id="text-orgae39fa0">
+<p>
+内存分配函数有可能返回空指针 <code>NULL</code> ，使用空指针会导致程序崩溃，所以要判断指针是否为空指针。
+</p>
+
+<p>
+c语言中空指针为假，非空指针都为真。
+</p>
+
+<p>
+常用如下方式进行判断
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="p">...;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orga144854" class="outline-3">
+<h3 id="orga144854">malloc</h3>
+<div class="outline-text-3" id="text-orga144854">
+<p>
+原型 <code>void *malloc(size_t size);</code>
+</p>
+
+<p>
+惯用法
+</p>
+<div class="highlight"><pre><span></span><span class="kt">double</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org8b54770" class="outline-3">
+<h3 id="org8b54770">calloc</h3>
+<div class="outline-text-3" id="text-org8b54770">
+<p>
+原型 <code>void *calloc(size_t nmemb, size_t size);</code>
+分配 nmemb 个元素，每个元素大小为 size.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org34c1e11" class="outline-3">
+<h3 id="org34c1e11">realloc</h3>
+<div class="outline-text-3" id="text-org34c1e11">
+<p>
+原型 <code>void *realloc(void *ptr, size_t size);</code>
+</p>
+<ol class="org-ol">
+<li>扩展时，不会对新加进来的做初始化</li>
+<li>扩展失败时，返回空指针并不影响原来的元素</li>
+<li>传入空指针时，与 <code>malloc</code> 行为一致</li>
+<li>第二个参数是0时，释放内存</li>
+</ol>
+<p>
+一旦 <code>realloc</code> 返回，记得更新之前的所有指针，因为可能会把元素都复制到了别的地址
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org7664587" class="outline-3">
+<h3 id="org7664587">释放内存 free</h3>
+<div class="outline-text-3" id="text-org7664587">
+<p>
+原型 <code>void free(void *ptr);</code>
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgee1c17b" class="outline-2">
+<h2 id="orgee1c17b">声明</h2>
+<div class="outline-text-2" id="text-orgee1c17b">
+</div>
+<div id="outline-container-org60cafa0" class="outline-3">
+<h3 id="org60cafa0">声明说明符</h3>
+<div class="outline-text-3" id="text-org60cafa0">
+<ol class="org-ol">
+<li>存储类型。包括 <code>auto, static, extern, register</code> ，只能有一个，必须放在最前面</li>
+<li>类型限定符。包括 <code>const, volatile, restrict(C99)</code> ，可以有一个或多个</li>
+<li>类型说明符。包括基本类型、结构、枚举和联合</li>
+<li>函数说明符。包括 <code>inline(C99)</code> ，只用于函数声明</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4888746" class="outline-3">
+<h3 id="org4888746">解释复杂的声明符</h3>
+<div class="outline-text-3" id="text-org4888746">
+<ol class="org-ol">
+<li>始终从内往外读声明符</li>
+<li>[]和()优先于 * ,即 *p[] 是数组， *f() 是函数</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgac00477" class="outline-3">
+<h3 id="orgac00477">关键字</h3>
+<div class="outline-text-3" id="text-orgac00477">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -321,10 +395,16 @@ ext">
 </ol>
 </div>
 </div>
+</div>
 
 
-<div id="outline-container-org9a32617" class="outline-2">
-<h2 id="org9a32617"></h2>
+<div id="outline-container-orga0bc1bc" class="outline-2">
+<h2 id="orga0bc1bc">TODO</h2>
+<div class="outline-text-2" id="text-orga0bc1bc">
+<ol class="org-ol">
+<li>-Ofast -flto -march=native -funroll-loops -fPIC</li>
+</ol>
+</div>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">

@@ -1,0 +1,263 @@
+#+BEGIN_COMMENT
+.. title: C Library
+.. slug: c-library
+.. date: 2021-03-26 16:17:14 UTC+08:00
+.. tags: 
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* C 语言标准库
+  C89有 15 个头文件， C99 新增了 9 个，一共 24个。
+
+  
+** 标识符命名限制
+   1. 由一个下划线和一个大写字母或两个下划线开头的标识符是标准库保留的
+   2. 由一个下划线开头的是文件作用域保留的
+   3. 标准库中的外部链接标识符都是保留的
+
+      
+* 输入/输出
+  绝大部分内容都在 ~<stdio.h>~ 头中
+
+** 流
+   流(stream) 表示任意输入/输出的源或目的地，一般程序都是从一个流获得输入，再通过另一个流输出。
+   
+*** 文件指针
+    C中访问流是通过文件指针实现的，类型为 ~FILE *~
+    
+*** 标准流
+    1. ~stdin~ 标准输入
+    2. ~stdout~ 标准输出
+    3. ~stderr~ 标准错误
+    
+*** 文件类型
+    c中支持两种文件类型
+    1. 文本文件，可分为若干行，并在文件末尾可以有一个特殊标记
+    2. 二进制文件
+    
+** 文件操作
+   
+*** 打开文件
+    #+begin_src c
+FILE *fopen(const char * restrict filename, const char * restrict mode);
+    #+end_src 
+    1. 当文件无法打开时返回 ~NULL~
+    2. 模式中有 "b" 说明是二进制文件
+
+    模式说明
+    1. "r" 读
+    2. "w" 写
+    3. "a" 追加
+    4. "r+" 从文件头开始读和写
+    5. "w+" 读和写文件，覆盖
+    6. "a+" 读和写文件，追加
+
+       常用模式
+       #+begin_src c
+if ((fp = fopen(filename, "r")) == NULL) {}
+       #+end_src
+
+*** 关闭文件
+    #+begin_src c
+int fclose(FILE *stream);
+    #+end_src
+    1. 成功关闭返回 0，否则返回错误代码 ~EOF~
+
+       
+*** 为流重新指定文件
+    #+begin_src c
+FILE *freopen(const char * restrict filename,
+              const char * restrict mode,
+              FILE * restrict stream);
+    #+end_src
+    
+*** 临时文件
+    #+begin_src c
+/* 创建临时文件 */
+FILE *tmpfile(void);
+
+/* 获取临时文件的名字 */
+char *tmpnam(char *s);
+    #+end_src
+    
+*** 文件缓冲
+    #+begin_src c
+/* 清洗缓冲区 */
+int fflush(FILE *stream);
+
+/* 设置缓冲流 */
+int setvbuf(FILE * restrict stream, char * restrict buf, int mode, size_t size);
+    #+end_src
+
+*** 删除文件
+    #+begin_src c
+/* 删除文件 */
+int remove(const char *filename);
+
+/* 重命名文件 */
+int rename(const char *old, const char *new);
+    #+end_src 
+* 数学与数值计算
+  1. <float.h> 定义浮点类型的范围和精度，其中没有类型和函数
+  2. <limits.h> 定义整数类型的取值范围，其中没有类型和函数
+  3. <math.h> 定义数学计算的函数
+  4. <stdint.h> 整数类型
+  5. <inttypes.h> 整数类型的格式转换
+  6. <complex.h> 复数
+  7. <tgmath.h> 泛型数学
+  8. <fenv.h> 浮点环境
+
+** 错误
+   当发生错误时，大多数函数会将一个错误码存储到 ~errno~ 变量中。此外，如果函数返回值大于double类型最大值会返回 ~HUGE_VAL~ 值。
+   1. 定义域错误。当函数的参数超出定义域，会将 ~EDOM~ 存储到 ~errno~ 中
+   2. 取值范围错误。当函数返回值超出double范围时，会将 ~ERANGE~ 存储到 ~errno~ 中
+      
+** 紧缩(constraction)
+   C99中新增加了融合乘加 (fused multiply-add) 函数，即
+   #+begin_src c
+a = b * c + d;
+a = fma(b, c, d);
+   #+end_src
+   这种合并可能会速度更快一点，编译器是否自动进行紧缩可以由 ~#pragma STDC FP_CONTRACT ON/OFF/DEFAULT~ 来控制。
+
+
+* 字符、字符串与国际化
+  1. <ctype.h> 处理字符
+  2. <string.h> 处理字符串
+  3. <locale.h> 本地化
+  4. <iso646.h> 拼写替换
+  5. <wchar.h> 多字节和宽字符工具
+  6. <wctype.h> 宽字符分类和映射工具
+  
+  
+** <string.h>
+   提供了5种函数
+   1. 复制: memcpy, memmove, strcpy, strncpy
+   2. 拼接: strcat, strncat
+   3. 比较: memcmp, strcmp, strcoll, strncmp, strxfrm
+   4. 搜索: memchr, strchr, strcpn, strpbrk, strrchr, strspn, strstr, strtok
+   5. 其它（初始化、长度）: memset, strlen
+
+* 错误处理
+  1. <assert.h> 诊断
+  2. <errno.h> 错误
+  3. <signal.h> 信号处理
+  4. <setjmp.h> 非局部跳转
+  
+** <assert.h> 诊断
+   assert 是一个宏。当参数值为 0 时，assert 会向 stderr 写消息，并调用 abort 函数中止程序。
+   
+   #+begin_src c
+void assert(scalar expression);
+   #+end_src
+
+** <errno.h> 错误
+   错误代码存储在 errno 变量中，每次使用都要把它置零
+
+   errno 主要作用是说明错误类型，而不是发生错误
+
+** <signal.h> 信号处理
+   
+*** 信号宏
+    UNIX 系统提供了更多信号宏，都是 SIG开头
+    1. SIGABRT: 异常终止(可能来自abort)
+    2. SIGFPE: 算术错误(除0或溢出)
+    3. SIGILL: 无效指令
+    4. SIGINT: 中断
+    5. SIGSEGV: 无效存储访问
+    6. SIGTERM: 终止请求
+
+*** signal 函数
+    #+begin_src c
+void (*signal(int sig, void (*func)(int)))(int);
+
+signal(SIG, handler);
+    #+end_src
+    指定信号的处理函数
+    
+*** 信号处理函数
+    1. SIG_DFL: 按默认方式处理，实现定义，大多数时候是终止程序
+    2. SIG_IGN: 忽略信号
+   
+*** raise 函数
+    #+begin_src c
+int raise(int sig);
+    #+end_src
+    产生一个信号，0表示调用成功。
+
+** <setjmp.h> 非局部跳转
+   #+begin_src c
+/* 设置跳转位置 */
+int setjmp(jmp_buf env);
+
+/* 跳转到 val 位置 */
+void longjmp(jmp_buf env, int val);
+   #+end_src
+   可以实现跨函数的跳转
+
+   
+* 可变参数
+  <stdarg.h> 头
+  
+  #+begin_src c
+/* 可变参数类型，其中保存所有的可变参数 */
+va_list ap;
+
+/* 将 src 中的参数复制到 dest 中 */
+void va_copy(va_list dest, va_list src);
+
+/* 开始读取参数列表， parmN 为保存参数个数的变量名 */
+void va_start(va_list ap, parmN);
+
+/* 获取一个类型为 type 的参数，类似出栈 */
+type va_arg(va_list ap; type);
+
+/* 清理参数列表, 每次函数结束前都要用 */
+void va_end(va_list ap);
+  #+end_src
+
+* 日期和时间
+  <time.h> 中提供三种类型
+  1. clock_t 按时钟度量
+  2. time_t 日历时间
+  3. struct tm 分解时间
+  
+** 时间处理函数
+   #+begin_src c
+clock_t clock(void);
+
+double difftime(time_t time1, time_t time0);
+
+time_t mktime(struct tm *timeptr);
+
+time_t time(time_t *timer);
+   #+end_src
+
+** 时间转换函数
+   #+begin_src c
+char *asctime(const struct tm *timeptr);
+
+char *ctime(const time_t *timer);
+
+struct tm *gmtime(const time_t *timer);
+
+struct tm *localtime(const time_t *timer);
+
+size_t strftime(char * restrict s, size_t maxsize,
+                const char * restrict format,
+                const struct tm * restrict timeptr);
+   #+end_src
+* 实用工具
+  包括
+  1. 数值转换函数: atof, atoi, atol, strtod, strtol, strtoul, atoll, strtof, strtold, strtoll, strtoull
+  2. 伪随机序列生成函数: rand, srand
+  3. 内存管理函数: malloc, calloc, realloc, free
+  4. 与外部通信: abort, atexit, exit, _Exit, getenv, system
+  5. 搜索与排序: bsearch, qsort
+  6. 整数运算函数: abs, labs, llabs, div, ldiv, lldiv
+  7. 多字节/宽字符转换函数
+  8. 多字节/宽字符串转换函数
