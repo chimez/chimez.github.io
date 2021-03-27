@@ -13,8 +13,8 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://chimez.github.io/">
-<link rel="next" href="index-1.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/pytables/" type="text/html">
+<link rel="next" href="index-2.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/c-library/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -71,7 +71,761 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pytables/" class="u-url">PyTables</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/c-library/" class="u-url">C Library</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/c-library/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-26T16:17:14+08:00" itemprop="datePublished" title="2021-03-26 16:17">2021-03-26 16:17</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orgae9a5be" class="outline-2">
+<h2 id="orgae9a5be">C 语言标准库</h2>
+<div class="outline-text-2" id="text-orgae9a5be">
+<p>
+C89有 15 个头文件， C99 新增了 9 个，一共 24个。
+</p>
+</div>
+
+
+<div id="outline-container-orgd956bc6" class="outline-3">
+<h3 id="orgd956bc6">标识符命名限制</h3>
+<div class="outline-text-3" id="text-orgd956bc6">
+<ol class="org-ol">
+<li>由一个下划线和一个大写字母或两个下划线开头的标识符是标准库保留的</li>
+<li>由一个下划线开头的是文件作用域保留的</li>
+<li>标准库中的外部链接标识符都是保留的</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org3f8abc6" class="outline-2">
+<h2 id="org3f8abc6">输入/输出</h2>
+<div class="outline-text-2" id="text-org3f8abc6">
+<p>
+绝大部分内容都在 <code>&lt;stdio.h&gt;</code> 头中
+</p>
+</div>
+
+<div id="outline-container-orgdc67b76" class="outline-3">
+<h3 id="orgdc67b76">流</h3>
+<div class="outline-text-3" id="text-orgdc67b76">
+<p>
+流(stream) 表示任意输入/输出的源或目的地，一般程序都是从一个流获得输入，再通过另一个流输出。
+</p>
+</div>
+
+<div id="outline-container-org159c6ed" class="outline-4">
+<h4 id="org159c6ed">文件指针</h4>
+<div class="outline-text-4" id="text-org159c6ed">
+<p>
+C中访问流是通过文件指针实现的，类型为 <code>FILE *</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orged55478" class="outline-4">
+<h4 id="orged55478">标准流</h4>
+<div class="outline-text-4" id="text-orged55478">
+<ol class="org-ol">
+<li>
+<code>stdin</code> 标准输入</li>
+<li>
+<code>stdout</code> 标准输出</li>
+<li>
+<code>stderr</code> 标准错误</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org0790a78" class="outline-4">
+<h4 id="org0790a78">文件类型</h4>
+<div class="outline-text-4" id="text-org0790a78">
+<p>
+c中支持两种文件类型
+</p>
+<ol class="org-ol">
+<li>文本文件，可分为若干行，并在文件末尾可以有一个特殊标记</li>
+<li>二进制文件</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org52114ab" class="outline-3">
+<h3 id="org52114ab">文件操作</h3>
+<div class="outline-text-3" id="text-org52114ab">
+</div>
+<div id="outline-container-org2fb9e09" class="outline-4">
+<h4 id="org2fb9e09">打开文件</h4>
+<div class="outline-text-4" id="text-org2fb9e09">
+<div class="highlight"><pre><span></span>    <span class="kt">FILE</span> <span class="o">*</span><span class="nf">fopen</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="kr">restrict</span> <span class="n">filename</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="kr">restrict</span> <span class="n">mode</span><span class="p">);</span>
+</pre></div>
+<ol class="org-ol">
+<li>当文件无法打开时返回 <code>NULL</code>
+</li>
+<li>模式中有 "b" 说明是二进制文件</li>
+</ol>
+<p>
+模式说明
+</p>
+<ol class="org-ol">
+<li>"r" 读</li>
+<li>"w" 写</li>
+<li>"a" 追加</li>
+<li>"r+" 从文件头开始读和写</li>
+<li>"w+" 读和写文件，覆盖</li>
+<li>
+<p>
+"a+" 读和写文件，追加
+</p>
+
+<p>
+常用模式
+</p>
+<div class="highlight"><pre><span></span>       <span class="k">if</span> <span class="p">((</span><span class="n">fp</span> <span class="o">=</span> <span class="n">fopen</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">"r"</span><span class="p">))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{}</span>
+</pre></div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org388ef0d" class="outline-4">
+<h4 id="org388ef0d">关闭文件</h4>
+<div class="outline-text-4" id="text-org388ef0d">
+<div class="highlight"><pre><span></span>    <span class="kt">int</span> <span class="nf">fclose</span><span class="p">(</span><span class="kt">FILE</span> <span class="o">*</span><span class="n">stream</span><span class="p">);</span>
+</pre></div>
+<ol class="org-ol">
+<li>成功关闭返回 0，否则返回错误代码 <code>EOF</code>
+</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgab599e0" class="outline-4">
+<h4 id="orgab599e0">为流重新指定文件</h4>
+<div class="outline-text-4" id="text-orgab599e0">
+<div class="highlight"><pre><span></span>    <span class="kt">FILE</span> <span class="o">*</span><span class="nf">freopen</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="kr">restrict</span> <span class="n">filename</span><span class="p">,</span>
+		  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="kr">restrict</span> <span class="n">mode</span><span class="p">,</span>
+		  <span class="kt">FILE</span> <span class="o">*</span> <span class="kr">restrict</span> <span class="n">stream</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org0bdeb7d" class="outline-4">
+<h4 id="org0bdeb7d">临时文件</h4>
+<div class="outline-text-4" id="text-org0bdeb7d">
+<div class="highlight"><pre><span></span>    <span class="cm">/* 创建临时文件 */</span>
+    <span class="kt">FILE</span> <span class="o">*</span><span class="nf">tmpfile</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+    <span class="cm">/* 获取临时文件的名字 */</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="nf">tmpnam</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">s</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgb50d548" class="outline-4">
+<h4 id="orgb50d548">文件缓冲</h4>
+<div class="outline-text-4" id="text-orgb50d548">
+<div class="highlight"><pre><span></span>    <span class="cm">/* 清洗缓冲区 */</span>
+    <span class="kt">int</span> <span class="nf">fflush</span><span class="p">(</span><span class="kt">FILE</span> <span class="o">*</span><span class="n">stream</span><span class="p">);</span>
+
+    <span class="cm">/* 设置缓冲流 */</span>
+    <span class="kt">int</span> <span class="nf">setvbuf</span><span class="p">(</span><span class="kt">FILE</span> <span class="o">*</span> <span class="kr">restrict</span> <span class="n">stream</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span> <span class="kr">restrict</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mode</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org9ad5ca6" class="outline-4">
+<h4 id="org9ad5ca6">删除文件</h4>
+<div class="outline-text-4" id="text-org9ad5ca6">
+<div class="highlight"><pre><span></span>    <span class="cm">/* 删除文件 */</span>
+    <span class="kt">int</span> <span class="nf">remove</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">filename</span><span class="p">);</span>
+
+    <span class="cm">/* 重命名文件 */</span>
+    <span class="kt">int</span> <span class="nf">rename</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">old</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">new</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge75ece9" class="outline-2">
+<h2 id="orge75ece9">数学与数值计算</h2>
+<div class="outline-text-2" id="text-orge75ece9">
+<ol class="org-ol">
+<li>&lt;float.h&gt; 定义浮点类型的范围和精度，其中没有类型和函数</li>
+<li>&lt;limits.h&gt; 定义整数类型的取值范围，其中没有类型和函数</li>
+<li>&lt;math.h&gt; 定义数学计算的函数</li>
+<li>&lt;stdint.h&gt; 整数类型</li>
+<li>&lt;inttypes.h&gt; 整数类型的格式转换</li>
+<li>&lt;complex.h&gt; 复数</li>
+<li>&lt;tgmath.h&gt; 泛型数学</li>
+<li>&lt;fenv.h&gt; 浮点环境</li>
+</ol>
+</div>
+
+<div id="outline-container-orga1250d5" class="outline-3">
+<h3 id="orga1250d5">错误</h3>
+<div class="outline-text-3" id="text-orga1250d5">
+<p>
+当发生错误时，大多数函数会将一个错误码存储到 <code>errno</code> 变量中。此外，如果函数返回值大于double类型最大值会返回 <code>HUGE_VAL</code> 值。
+</p>
+<ol class="org-ol">
+<li>定义域错误。当函数的参数超出定义域，会将 <code>EDOM</code> 存储到 <code>errno</code> 中</li>
+<li>取值范围错误。当函数返回值超出double范围时，会将 <code>ERANGE</code> 存储到 <code>errno</code> 中</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org8615447" class="outline-3">
+<h3 id="org8615447">紧缩(constraction)</h3>
+<div class="outline-text-3" id="text-org8615447">
+<p>
+C99中新增加了融合乘加 (fused multiply-add) 函数，即
+</p>
+<div class="highlight"><pre><span></span>   <span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span> <span class="o">+</span> <span class="n">d</span><span class="p">;</span>
+   <span class="n">a</span> <span class="o">=</span> <span class="n">fma</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+</pre></div>
+<p>
+这种合并可能会速度更快一点，编译器是否自动进行紧缩可以由 <code>#pragma STDC FP_CONTRACT ON/OFF/DEFAULT</code> 来控制。
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org7cb7d23" class="outline-2">
+<h2 id="org7cb7d23">字符、字符串与国际化</h2>
+<div class="outline-text-2" id="text-org7cb7d23">
+<ol class="org-ol">
+<li>&lt;ctype.h&gt; 处理字符</li>
+<li>&lt;string.h&gt; 处理字符串</li>
+<li>&lt;locale.h&gt; 本地化</li>
+<li>&lt;iso646.h&gt; 拼写替换</li>
+<li>&lt;wchar.h&gt; 多字节和宽字符工具</li>
+<li>&lt;wctype.h&gt; 宽字符分类和映射工具</li>
+</ol>
+</div>
+
+
+<div id="outline-container-org3356762" class="outline-3">
+<h3 id="org3356762">&lt;string.h&gt;</h3>
+<div class="outline-text-3" id="text-org3356762">
+<p>
+提供了5种函数
+</p>
+<ol class="org-ol">
+<li>复制: memcpy, memmove, strcpy, strncpy</li>
+<li>拼接: strcat, strncat</li>
+<li>比较: memcmp, strcmp, strcoll, strncmp, strxfrm</li>
+<li>搜索: memchr, strchr, strcpn, strpbrk, strrchr, strspn, strstr, strtok</li>
+<li>其它（初始化、长度）: memset, strlen</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org72e6849" class="outline-2">
+<h2 id="org72e6849">错误处理</h2>
+<div class="outline-text-2" id="text-org72e6849">
+<ol class="org-ol">
+<li>&lt;assert.h&gt; 诊断</li>
+<li>&lt;errno.h&gt; 错误</li>
+<li>&lt;signal.h&gt; 信号处理</li>
+<li>&lt;setjmp.h&gt; 非局部跳转</li>
+</ol>
+</div>
+
+<div id="outline-container-org110f606" class="outline-3">
+<h3 id="org110f606">&lt;assert.h&gt; 诊断</h3>
+<div class="outline-text-3" id="text-org110f606">
+<p>
+assert 是一个宏。当参数值为 0 时，assert 会向 stderr 写消息，并调用 abort 函数中止程序。
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="kt">void</span> <span class="nf">assert</span><span class="p">(</span><span class="n">scalar</span> <span class="n">expression</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org9804dec" class="outline-3">
+<h3 id="org9804dec">&lt;errno.h&gt; 错误</h3>
+<div class="outline-text-3" id="text-org9804dec">
+<p>
+错误代码存储在 errno 变量中，每次使用都要把它置零
+</p>
+
+<p>
+errno 主要作用是说明错误类型，而不是发生错误
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4226c4a" class="outline-3">
+<h3 id="org4226c4a">&lt;signal.h&gt; 信号处理</h3>
+<div class="outline-text-3" id="text-org4226c4a">
+</div>
+<div id="outline-container-org9f121d4" class="outline-4">
+<h4 id="org9f121d4">信号宏</h4>
+<div class="outline-text-4" id="text-org9f121d4">
+<p>
+UNIX 系统提供了更多信号宏，都是 SIG开头
+</p>
+<ol class="org-ol">
+<li>SIGABRT: 异常终止(可能来自abort)</li>
+<li>SIGFPE: 算术错误(除0或溢出)</li>
+<li>SIGILL: 无效指令</li>
+<li>SIGINT: 中断</li>
+<li>SIGSEGV: 无效存储访问</li>
+<li>SIGTERM: 终止请求</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgad6f193" class="outline-4">
+<h4 id="orgad6f193">signal 函数</h4>
+<div class="outline-text-4" id="text-orgad6f193">
+<div class="highlight"><pre><span></span>    <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">signal</span><span class="p">(</span><span class="kt">int</span> <span class="n">sig</span><span class="p">,</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="kt">int</span><span class="p">)))(</span><span class="kt">int</span><span class="p">);</span>
+
+    <span class="n">signal</span><span class="p">(</span><span class="n">SIG</span><span class="p">,</span> <span class="n">handler</span><span class="p">);</span>
+</pre></div>
+<p>
+指定信号的处理函数
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga92f09a" class="outline-4">
+<h4 id="orga92f09a">信号处理函数</h4>
+<div class="outline-text-4" id="text-orga92f09a">
+<ol class="org-ol">
+<li>SIG<sub>DFL</sub>: 按默认方式处理，实现定义，大多数时候是终止程序</li>
+<li>SIG<sub>IGN</sub>: 忽略信号</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org05fb66b" class="outline-4">
+<h4 id="org05fb66b">raise 函数</h4>
+<div class="outline-text-4" id="text-org05fb66b">
+<div class="highlight"><pre><span></span>    <span class="kt">int</span> <span class="nf">raise</span><span class="p">(</span><span class="kt">int</span> <span class="n">sig</span><span class="p">);</span>
+</pre></div>
+<p>
+产生一个信号，0表示调用成功。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org56d051e" class="outline-3">
+<h3 id="org56d051e">&lt;setjmp.h&gt; 非局部跳转</h3>
+<div class="outline-text-3" id="text-org56d051e">
+<div class="highlight"><pre><span></span>   <span class="cm">/* 设置跳转位置 */</span>
+   <span class="kt">int</span> <span class="nf">setjmp</span><span class="p">(</span><span class="kt">jmp_buf</span> <span class="n">env</span><span class="p">);</span>
+
+   <span class="cm">/* 跳转到 val 位置 */</span>
+   <span class="kt">void</span> <span class="nf">longjmp</span><span class="p">(</span><span class="kt">jmp_buf</span> <span class="n">env</span><span class="p">,</span> <span class="kt">int</span> <span class="n">val</span><span class="p">);</span>
+</pre></div>
+<p>
+可以实现跨函数的跳转
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf3fbb3c" class="outline-2">
+<h2 id="orgf3fbb3c">可变参数</h2>
+<div class="outline-text-2" id="text-orgf3fbb3c">
+<p>
+&lt;stdarg.h&gt; 头
+</p>
+
+<div class="highlight"><pre><span></span>  <span class="cm">/* 可变参数类型，其中保存所有的可变参数 */</span>
+  <span class="kt">va_list</span> <span class="n">ap</span><span class="p">;</span>
+
+  <span class="cm">/* 将 src 中的参数复制到 dest 中 */</span>
+  <span class="kt">void</span> <span class="nf">va_copy</span><span class="p">(</span><span class="kt">va_list</span> <span class="n">dest</span><span class="p">,</span> <span class="kt">va_list</span> <span class="n">src</span><span class="p">);</span>
+
+  <span class="cm">/* 开始读取参数列表， parmN 为保存参数个数的变量名 */</span>
+  <span class="kt">void</span> <span class="nf">va_start</span><span class="p">(</span><span class="kt">va_list</span> <span class="n">ap</span><span class="p">,</span> <span class="n">parmN</span><span class="p">);</span>
+
+  <span class="cm">/* 获取一个类型为 type 的参数，类似出栈 */</span>
+  <span class="n">type</span> <span class="n">va_arg</span><span class="p">(</span><span class="kt">va_list</span> <span class="n">ap</span><span class="p">;</span> <span class="n">type</span><span class="p">);</span>
+
+  <span class="cm">/* 清理参数列表, 每次函数结束前都要用 */</span>
+  <span class="kt">void</span> <span class="nf">va_end</span><span class="p">(</span><span class="kt">va_list</span> <span class="n">ap</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org7de6b44" class="outline-2">
+<h2 id="org7de6b44">日期和时间</h2>
+<div class="outline-text-2" id="text-org7de6b44">
+<p>
+&lt;time.h&gt; 中提供三种类型
+</p>
+<ol class="org-ol">
+<li>clock<sub>t</sub> 按时钟度量</li>
+<li>time<sub>t</sub> 日历时间</li>
+<li>struct tm 分解时间</li>
+</ol>
+</div>
+
+<div id="outline-container-org336d2a1" class="outline-3">
+<h3 id="org336d2a1">时间处理函数</h3>
+<div class="outline-text-3" id="text-org336d2a1">
+<div class="highlight"><pre><span></span>   <span class="kt">clock_t</span> <span class="nf">clock</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+   <span class="kt">double</span> <span class="nf">difftime</span><span class="p">(</span><span class="kt">time_t</span> <span class="n">time1</span><span class="p">,</span> <span class="kt">time_t</span> <span class="n">time0</span><span class="p">);</span>
+
+   <span class="kt">time_t</span> <span class="nf">mktime</span><span class="p">(</span><span class="k">struct</span> <span class="nc">tm</span> <span class="o">*</span><span class="n">timeptr</span><span class="p">);</span>
+
+   <span class="kt">time_t</span> <span class="nf">time</span><span class="p">(</span><span class="kt">time_t</span> <span class="o">*</span><span class="n">timer</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org9a7c348" class="outline-3">
+<h3 id="org9a7c348">时间转换函数</h3>
+<div class="outline-text-3" id="text-org9a7c348">
+<div class="highlight"><pre><span></span>   <span class="kt">char</span> <span class="o">*</span><span class="nf">asctime</span><span class="p">(</span><span class="k">const</span> <span class="k">struct</span> <span class="nc">tm</span> <span class="o">*</span><span class="n">timeptr</span><span class="p">);</span>
+
+   <span class="kt">char</span> <span class="o">*</span><span class="nf">ctime</span><span class="p">(</span><span class="k">const</span> <span class="kt">time_t</span> <span class="o">*</span><span class="n">timer</span><span class="p">);</span>
+
+   <span class="k">struct</span> <span class="nc">tm</span> <span class="o">*</span><span class="n">gmtime</span><span class="p">(</span><span class="k">const</span> <span class="kt">time_t</span> <span class="o">*</span><span class="n">timer</span><span class="p">);</span>
+
+   <span class="k">struct</span> <span class="nc">tm</span> <span class="o">*</span><span class="n">localtime</span><span class="p">(</span><span class="k">const</span> <span class="kt">time_t</span> <span class="o">*</span><span class="n">timer</span><span class="p">);</span>
+
+   <span class="kt">size_t</span> <span class="nf">strftime</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span> <span class="kr">restrict</span> <span class="n">s</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">maxsize</span><span class="p">,</span>
+		   <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="kr">restrict</span> <span class="n">format</span><span class="p">,</span>
+		   <span class="k">const</span> <span class="k">struct</span> <span class="nc">tm</span> <span class="o">*</span> <span class="kr">restrict</span> <span class="n">timeptr</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-orga0a6659" class="outline-2">
+<h2 id="orga0a6659">实用工具</h2>
+<div class="outline-text-2" id="text-orga0a6659">
+<p>
+包括
+</p>
+<ol class="org-ol">
+<li>数值转换函数: atof, atoi, atol, strtod, strtol, strtoul, atoll, strtof, strtold, strtoll, strtoull</li>
+<li>伪随机序列生成函数: rand, srand</li>
+<li>内存管理函数: malloc, calloc, realloc, free</li>
+<li>与外部通信: abort, atexit, exit, _Exit, getenv, system</li>
+<li>搜索与排序: bsearch, qsort</li>
+<li>整数运算函数: abs, labs, llabs, div, ldiv, lldiv</li>
+<li>多字节/宽字符转换函数</li>
+<li>多字节/宽字符串转换函数</li>
+</ol>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/linear-regression-and-gradient-descent/" class="u-url">Linear Regression and Gradient Descent</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/linear-regression-and-gradient-descent/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-21T20:16:36+08:00" itemprop="datePublished" title="2021-03-21 20:16">2021-03-21 20:16</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orgb68d35f" class="outline-2">
+<h2 id="orgb68d35f">线性回归与梯度下降</h2>
+<div class="outline-text-2" id="text-orgb68d35f">
+</div>
+<div id="outline-container-org82119b0" class="outline-3">
+<h3 id="org82119b0">加载数据</h3>
+<div class="outline-text-3" id="text-org82119b0">
+<p>
+加载数据(load data)，需要完成如下几个工作
+</p>
+<ol class="org-ol">
+<li>读取和准备数据</li>
+<li>对数据归一化</li>
+<li>划分训练数据和测试数据</li>
+</ol>
+<p>
+数据应该是有 \(x_{1},x_{2},\cdots,x_{n}\) 和一组 \(y\)
+</p>
+
+<p>
+记住要对数据归一化, 可以选择基本的移动归一化，即减去最小值再除以最大最小之差
+\[
+   x' = \frac{x - \mathrm{min}(x)}{\mathrm{max}(x) - \mathrm{min}(x)}
+   \]
+</p>
+
+<p>
+或者减平均值除方差
+</p>
+
+<p>
+\[
+   x' = \frac{x - \mathrm{mean}(x)}{\mathrm{std}(x)}
+   \]
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb71ac2d" class="outline-3">
+<h3 id="orgb71ac2d">前向传播</h3>
+<div class="outline-text-3" id="text-orgb71ac2d">
+<p>
+前向传播(forward propagation) 就是从输入参数计算得到输出参数。
+</p>
+
+<p>
+线性回归公式是
+\[
+   y = \sum_{j=1}^{M} x_{j}w_{j} + b
+   \]
+</p>
+
+<p>
+所以前向传播很容易写
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+       <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+       <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org445188a" class="outline-3">
+<h3 id="org445188a">损失函数</h3>
+<div class="outline-text-3" id="text-org445188a">
+<p>
+损失函数(loss function) 是衡量前向计算结果与数据目标结果之间偏差的函数。
+</p>
+
+<p>
+简单的损失函数是均方误差
+\[
+   \mathrm{Loss} = \frac{1}{N} \sum_{j=1}^{N} (y_{i} - z_{i})^{2}
+   \]
+其中 \(y_{i}\) 是目标结果， \(z_{i}\) 是计算结果。
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+       <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">z</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+       <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgc430027" class="outline-3">
+<h3 id="orgc430027">梯度</h3>
+<div class="outline-text-3" id="text-orgc430027">
+<p>
+梯度(gradient) 是损失函数随参数变化的改变。
+</p>
+
+<p>
+对于这里的线性回归模型和均方误差损失函数，梯度定义如下
+\[
+   \nabla \mathrm{Loss} = \left( \frac{\partial \mathrm{Loss}}{\partial w_{i}}, \dots \right)
+   \]
+</p>
+
+<p>
+对于我们要计算的损失函数
+\[
+   L = \frac{1}{2N} \sum_{i} (y_{i} - z_{i})^{2}
+   \]
+预测值为
+\[
+   z_{i} = \sum_{j} x_{i}^{j} w^{j} + b
+   \]
+其中 \(i\) 是样本的指标，\(j\) 是参数的指标。
+那么损失函数 \(L\) 对参数 \(w_{j}\) 的微分为
+\[
+   \frac{\partial L}{\partial w_{j}} = \frac{ 1 }{ N  } \sum_{i} (z_{i}- y_{i}) \frac{\partial z_{i }}{\partial w_{j}}
+   =\frac{ 1 }{ N  } \sum_{i} (z_{i}- y_{i}) x_{i}^{j}
+   \]
+</p>
+
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+       <span class="n">gradient_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">z</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+       <span class="n">gradient_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">z</span> <span class="o">-</span> <span class="n">y</span><span class="p">))</span>
+       <span class="k">return</span> <span class="n">gradient_w</span><span class="p">,</span> <span class="n">gradient_b</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org073216d" class="outline-3">
+<h3 id="org073216d">梯度下降</h3>
+<div class="outline-text-3" id="text-org073216d">
+<p>
+梯度下降(gradient descent) 就是根据梯度来更新参数，最终到达收敛的过程。
+</p>
+
+<p>
+在这部分要实现两个函数
+</p>
+<ol class="org-ol">
+<li>更新(update)，即从这一步梯度和学习率(learning rate)计算下一步的梯度</li>
+<li>训练(train)，即迭代执行前向计算-梯度-更新，并根据损失函数判断是否收敛</li>
+</ol>
+<p>
+梯度下降的更新函数就是用上一步的参数减去学习率与梯度之积
+\[
+   w_{i+1}^{j} = w_{i}^{j} - \eta \frac{\partial \mathrm{Loss}}{\partial w_{i}^{j}}
+   \]
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">gradient_w</span><span class="p">,</span> <span class="n">gradient_b</span><span class="p">,</span> <span class="n">eta</span><span class="p">):</span>
+       <span class="n">w_new</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">gradient_w</span>
+       <span class="n">b_new</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">gradient_b</span>
+       <span class="k">return</span> <span class="n">w_new</span><span class="p">,</span> <span class="n">b_new</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+       <span class="n">L_list</span> <span class="o">=</span> <span class="p">[]</span>
+       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+	   <span class="n">z</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+	   <span class="n">L</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+	   <span class="n">gradient_w</span><span class="p">,</span> <span class="n">gradient_b</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+	   <span class="n">w</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">gradient_w</span><span class="p">,</span> <span class="n">gradient_b</span><span class="p">,</span> <span class="n">eta</span><span class="p">)</span>
+	   <span class="n">L_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+       <span class="k">return</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">L_list</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org43e11fa" class="outline-3">
+<h3 id="org43e11fa">随机梯度下降</h3>
+<div class="outline-text-3" id="text-org43e11fa">
+<p>
+随机梯度下降(Stochastic Gradient Descent, SGD) 是指每步迭代时从总训练集抽取一小部分来计算梯度，通过这种方式能够加快训练。
+一些概念：
+</p>
+<ul class="org-ul">
+<li>mini batch: 每次迭代时用到的那一小部分数据集</li>
+<li>batch size: 一个 mini batch 中的样本数</li>
+<li>epoch: 迭代时不断抽取 mini batch，当取过一遍整个数据集时就叫做一轮 epoch</li>
+</ul>
+<p>
+具体的操作：
+</p>
+<ol class="org-ol">
+<li>将总的数据集随机打乱</li>
+<li>将打乱后的数据集划分成若干个 mini batch</li>
+<li>用每个 mini batch 进行一次训练</li>
+<li>用所有 mini batch 训练过一遍后，返回第 1 步，开启下一轮 epoch</li>
+</ol>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/dvc-data-version-control/" class="u-url">dvc: Data Version Control</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/dvc-data-version-control/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-19T13:53:14+08:00" itemprop="datePublished" title="2021-03-19 13:53">2021-03-19 13:53</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <p>
+<a href="https://dvc.org">dvc</a> 是一个增强 git 管理大二进制文件能力的工具。
+</p>
+
+<div id="outline-container-org6e94d32" class="outline-2">
+<h2 id="org6e94d32">基本使用</h2>
+<div class="outline-text-2" id="text-org6e94d32">
+</div>
+<div id="outline-container-orgfaf0f31" class="outline-3">
+<h3 id="orgfaf0f31">初始化 dvc</h3>
+<div class="outline-text-3" id="text-orgfaf0f31">
+<p>
+在一个 git 项目目录中运行
+</p>
+
+<div class="highlight"><pre><span></span>   dvc init
+   git commit -m "Initialize DVC"
+</pre></div>
+
+<p>
+就自动创建好了 dvc 需要东西。
+</p>
+
+<p>
+dvc 是寄生在git中的，其本身不提供版本管理能力，完全依靠 git 。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0b0ddc6" class="outline-3">
+<h3 id="org0b0ddc6">添加数据</h3>
+<div class="outline-text-3" id="text-org0b0ddc6">
+<p>
+如果有一个大的数据文件 <code>data/data.h5</code> ，那么就首先将它添加给 dvc， 然后把dvc创建的记录 <code>*.dvc</code> 和自动生成的 <code>.gitignore</code> 一起加到 git 中，之后再用 dvc 上传数据即可
+</p>
+
+<div class="highlight"><pre><span></span>   dvc add data/data.h5
+   git add data/data.h5.dvc data/.gitignore
+   git commit -m "Add raw data"
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgd07007f" class="outline-3">
+<h3 id="orgd07007f">dvc的远程库</h3>
+<div class="outline-text-3" id="text-orgd07007f">
+<p>
+dvc 支持多种远程库，甚至是本地的远程库
+</p>
+
+<div class="highlight"><pre><span></span>   mkdir -p /tmp/dvcstore
+   dvc remote add -d myremote /tmp/dvcstore
+   git commit .dvc/config -m "Configure local remote"
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orge6eaa58" class="outline-3">
+<h3 id="orge6eaa58">保存和同步数据</h3>
+<div class="outline-text-3" id="text-orge6eaa58">
+<p>
+如果已经配置好了远程库，那么上传和下载数据操作就类似于 git
+</p>
+<div class="highlight"><pre><span></span>   dvc pull
+
+   dvc push
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/orgmode/" class="u-url">orgmode</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/orgmode/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-19T13:52:11+08:00" itemprop="datePublished" title="2021-03-19 13:52">2021-03-19 13:52</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <p>Write your post here.</p>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pytables/" class="u-url">PyTables</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -630,7 +1384,7 @@ pytables 的基本逻辑是
 </div>
 </div>
                 </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/c-memory-management/" class="u-url">C Memory Management</a></h1>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/c-memory-management/" class="u-url">C 指针与内存管理</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -641,13 +1395,137 @@ pytables 的基本逻辑是
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgcc5bf1f" class="outline-2">
-<h2 id="orgcc5bf1f">C 语言内存管理</h2>
+                    <div id="outline-container-orgb349241" class="outline-2">
+<h2 id="orgb349241">动态存储分配</h2>
+<div class="outline-text-2" id="text-orgb349241">
+</div>
+<div id="outline-container-orgdb28086" class="outline-3">
+<h3 id="orgdb28086">内存分配函数</h3>
+<div class="outline-text-3" id="text-orgdb28086">
+<p>
+在 <code>&lt;stdlib.h&gt;</code> 头文件中的
+</p>
+<ol class="org-ol">
+<li>
+<code>malloc</code> 分配内存，不初始化</li>
+<li>
+<code>calloc</code> 分配内存，并清零</li>
+<li>
+<code>realloc</code> 调制分配内存大小</li>
+</ol>
+<p>
+内存分配函数返回 <code>void *</code> 类型，本质上只是内存地址
+</p>
+</div>
 </div>
 
-<div id="outline-container-org05975d0" class="outline-2">
-<h2 id="org05975d0">关键字</h2>
-<div class="outline-text-2" id="text-org05975d0">
+<div id="outline-container-orgae39fa0" class="outline-3">
+<h3 id="orgae39fa0">空指针</h3>
+<div class="outline-text-3" id="text-orgae39fa0">
+<p>
+内存分配函数有可能返回空指针 <code>NULL</code> ，使用空指针会导致程序崩溃，所以要判断指针是否为空指针。
+</p>
+
+<p>
+c语言中空指针为假，非空指针都为真。
+</p>
+
+<p>
+常用如下方式进行判断
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="p">...;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orga144854" class="outline-3">
+<h3 id="orga144854">malloc</h3>
+<div class="outline-text-3" id="text-orga144854">
+<p>
+原型 <code>void *malloc(size_t size);</code>
+</p>
+
+<p>
+惯用法
+</p>
+<div class="highlight"><pre><span></span><span class="kt">double</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org8b54770" class="outline-3">
+<h3 id="org8b54770">calloc</h3>
+<div class="outline-text-3" id="text-org8b54770">
+<p>
+原型 <code>void *calloc(size_t nmemb, size_t size);</code>
+分配 nmemb 个元素，每个元素大小为 size.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org34c1e11" class="outline-3">
+<h3 id="org34c1e11">realloc</h3>
+<div class="outline-text-3" id="text-org34c1e11">
+<p>
+原型 <code>void *realloc(void *ptr, size_t size);</code>
+</p>
+<ol class="org-ol">
+<li>扩展时，不会对新加进来的做初始化</li>
+<li>扩展失败时，返回空指针并不影响原来的元素</li>
+<li>传入空指针时，与 <code>malloc</code> 行为一致</li>
+<li>第二个参数是0时，释放内存</li>
+</ol>
+<p>
+一旦 <code>realloc</code> 返回，记得更新之前的所有指针，因为可能会把元素都复制到了别的地址
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org7664587" class="outline-3">
+<h3 id="org7664587">释放内存 free</h3>
+<div class="outline-text-3" id="text-org7664587">
+<p>
+原型 <code>void free(void *ptr);</code>
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgee1c17b" class="outline-2">
+<h2 id="orgee1c17b">声明</h2>
+<div class="outline-text-2" id="text-orgee1c17b">
+</div>
+<div id="outline-container-org60cafa0" class="outline-3">
+<h3 id="org60cafa0">声明说明符</h3>
+<div class="outline-text-3" id="text-org60cafa0">
+<ol class="org-ol">
+<li>存储类型。包括 <code>auto, static, extern, register</code> ，只能有一个，必须放在最前面</li>
+<li>类型限定符。包括 <code>const, volatile, restrict(C99)</code> ，可以有一个或多个</li>
+<li>类型说明符。包括基本类型、结构、枚举和联合</li>
+<li>函数说明符。包括 <code>inline(C99)</code> ，只用于函数声明</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4888746" class="outline-3">
+<h3 id="org4888746">解释复杂的声明符</h3>
+<div class="outline-text-3" id="text-org4888746">
+<ol class="org-ol">
+<li>始终从内往外读声明符</li>
+<li>[]和()优先于 * ,即 *p[] 是数组， *f() 是函数</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgac00477" class="outline-3">
+<h3 id="orgac00477">关键字</h3>
+<div class="outline-text-3" id="text-orgac00477">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -786,10 +1664,16 @@ pytables 的基本逻辑是
 </ol>
 </div>
 </div>
+</div>
 
 
-<div id="outline-container-org9a32617" class="outline-2">
-<h2 id="org9a32617"></h2>
+<div id="outline-container-orga0bc1bc" class="outline-2">
+<h2 id="orga0bc1bc">TODO</h2>
+<div class="outline-text-2" id="text-orga0bc1bc">
+<ol class="org-ol">
+<li>-Ofast -flto -march=native -funroll-loops -fPIC</li>
+</ol>
+</div>
 </div>
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pandas/" class="u-url">pandas</a></h1>
@@ -868,302 +1752,11 @@ pytables 的基本逻辑是
 </div>
 </div>
                 </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/vim/" class="u-url">vimrc: vim</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/vim/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-01-28T18:33:00+08:00" itemprop="datePublished" title="2021-01-28 18:33">2021-01-28 18:33</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-org01bbf54" class="outline-2">
-<h2 id="org01bbf54">正则表达式中使用非贪心匹配</h2>
-<div class="outline-text-2" id="text-org01bbf54">
-<p>
-<code>.*</code> 变成 <code>.\{-}</code>
-<code>.+</code> 变成 <code>.\{-1,\}</code>
-</p>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/ffmpeg/" class="u-url">ffmpeg</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/ffmpeg/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-01-28T15:57:49+08:00" itemprop="datePublished" title="2021-01-28 15:57">2021-01-28 15:57</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-org1143fa6" class="outline-2">
-<h2 id="org1143fa6">合并视频</h2>
-<div class="outline-text-2" id="text-org1143fa6">
-<div class="highlight"><pre><span></span>  ffmpeg -f concat -i filelist.txt -c copy out.mkv
-</pre></div>
-
-<p>
-<code>filelist.txt</code> 内容如下， 需要加 <code>file</code> ，还要用单引号括起来，或者加选项 <code>-safe 0</code>
-</p>
-
-<pre class="example" id="org160845a">
-file '/home/a1.mkv'
-file '/home/a2.mkv'
-...
-</pre>
-</div>
-</div>
-
-<div id="outline-container-org97c4a70" class="outline-2">
-<h2 id="org97c4a70">转换格式</h2>
-<div class="outline-text-2" id="text-org97c4a70">
-<div class="highlight"><pre><span></span>  ffmpeg -i in.mpeg -q:a 0 -q:v 0 out.mkv
-</pre></div>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col class="org-left">
-<col class="org-left">
-</colgroup>
-<thead><tr>
-<th scope="col" class="org-left"><b>选项</b></th>
-<th scope="col" class="org-left"><b>说明</b></th>
-</tr></thead>
-<tbody>
-<tr>
-<td class="org-left"><code>-q:a 0</code></td>
-<td class="org-left">最高等级转换音频</td>
-</tr>
-<tr>
-<td class="org-left"><code>-q:v 0</code></td>
-<td class="org-left">最高等级转换视频</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-
-<div id="outline-container-org46b97ff" class="outline-2">
-<h2 id="org46b97ff">分割视频</h2>
-<div class="outline-text-2" id="text-org46b97ff">
-<div class="highlight"><pre><span></span>  ffmpeg -i in.mp4 -ss 00:10:00 -t 00:30:40 -acodec copy -vcodec copy output.mp4
-</pre></div>
-
-<p>
-命令的结果是分割得到00:10:00 –&gt; 00:40:40 的原格式视频片段
-</p>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col class="org-left">
-<col class="org-left">
-</colgroup>
-<thead><tr>
-<th scope="col" class="org-left"><b>选项</b></th>
-<th scope="col" class="org-left"><b>说明</b></th>
-</tr></thead>
-<tbody>
-<tr>
-<td class="org-left"><code>-ss 00:10:00</code></td>
-<td class="org-left">从00:10:00开始分割</td>
-</tr>
-<tr>
-<td class="org-left"><code>-t  00:30:40</code></td>
-<td class="org-left">分割时长00:30:40</td>
-</tr>
-<tr>
-<td class="org-left"><code>-acodec copy</code></td>
-<td class="org-left">音频与原格式相同</td>
-</tr>
-<tr>
-<td class="org-left"><code>-vcodec copy</code></td>
-<td class="org-left">视频与原格式相同</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/emacs/" class="u-url">emacs</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/emacs/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-01-26T18:28:36+08:00" itemprop="datePublished" title="2021-01-26 18:28">2021-01-26 18:28</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-org4753fae" class="outline-2">
-<h2 id="org4753fae">从源码编译安装</h2>
-<div class="outline-text-2" id="text-org4753fae">
-</div>
-<div id="outline-container-org59d6baf" class="outline-3">
-<h3 id="org59d6baf">查看特性</h3>
-<div class="outline-text-3" id="text-org59d6baf">
-<ol class="org-ol">
-<li>查看 <code>system-configuration-features</code> 中的信息</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-org0422539" class="outline-3">
-<h3 id="org0422539">查看编译选项</h3>
-<div class="outline-text-3" id="text-org0422539">
-<ol class="org-ol">
-<li>查看 <code>system-configuration-options</code> 中的信息</li>
-</ol>
-<div class="highlight"><pre><span></span>   ./configure --without-compress-install --with-modules 'CFLAGS=-O2 -g3'
-</pre></div>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-orgbeca7b6" class="outline-2">
-<h2 id="orgbeca7b6">在正则表达式中使用lisp代码</h2>
-<div class="outline-text-2" id="text-orgbeca7b6">
-<p>
-使用 <code>\,</code> 后加一个表达式
-</p>
-<div class="highlight"><pre><span></span>  <span class="nv">:s/</span><span class="err">\</span><span class="p">(</span><span class="o">.</span><span class="nv">*?</span><span class="err">\</span><span class="p">)</span><span class="nv">a</span><span class="err">\</span><span class="p">(</span><span class="o">.</span><span class="nv">*?</span><span class="err">\</span><span class="p">)</span><span class="nv">b/</span><span class="err">\</span><span class="mi">1</span><span class="err">\</span><span class="o">,</span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">string-to-number</span> <span class="err">\</span><span class="mi">2</span><span class="p">)</span> <span class="mi">100</span><span class="p">)</span><span class="nv">/</span>
-</pre></div>
-</div>
-</div>
-
-
-<div id="outline-container-orgafb8393" class="outline-2">
-<h2 id="orgafb8393">正则表达式的非贪心匹配</h2>
-<div class="outline-text-2" id="text-orgafb8393">
-<p>
-non greedy regex
-星号后加问号
-</p>
-<div class="highlight"><pre><span></span>:s/.*?//
-</pre></div>
-</div>
-</div>
-
-
-<div id="outline-container-org96d85b6" class="outline-2">
-<h2 id="org96d85b6">文件编码问题</h2>
-<div class="outline-text-2" id="text-org96d85b6">
-</div>
-<div id="outline-container-org961d9a2" class="outline-3">
-<h3 id="org961d9a2">改变显示文件编码,解决乱码问题</h3>
-<div class="outline-text-3" id="text-org961d9a2">
-<p>
-使用命令
-</p>
-<div class="highlight"><pre><span></span>   <span class="nv">revert-buffer-with-file-coding-system</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org6bb0349" class="outline-3">
-<h3 id="org6bb0349">修改编码</h3>
-<div class="outline-text-3" id="text-org6bb0349">
-<p>
-在按下 <code>M-x</code> 后使用命令改变编码再保存即可
-</p>
-<div class="highlight"><pre><span></span>   <span class="nv">set-buffer-file-coding-system</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orgce426ae" class="outline-3">
-<h3 id="orgce426ae">常见的编码</h3>
-<div class="outline-text-3" id="text-orgce426ae">
-<ol class="org-ol">
-<li>中文
-<ol class="org-ol">
-<li>cp936</li>
-<li>gb2312</li>
-<li>gb18030</li>
-</ol>
-</li>
-<li>日文
-<ol class="org-ol">
-<li>cp932</li>
-</ol>
-</li>
-</ol>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-org1c440cc" class="outline-2">
-<h2 id="org1c440cc">对齐排版代码</h2>
-<div class="outline-text-2" id="text-org1c440cc">
-<p>
-使用 <code>align-regexp, sort-regexp-fields, sort-columns</code>
-</p>
-</div>
-</div>
-
-
-<div id="outline-container-org3fbb9ee" class="outline-2">
-<h2 id="org3fbb9ee">Tramp 远程编辑</h2>
-<div class="outline-text-2" id="text-org3fbb9ee">
-</div>
-<div id="outline-container-orgfd8d9b9" class="outline-3">
-<h3 id="orgfd8d9b9">配置 ssh</h3>
-<div class="outline-text-3" id="text-orgfd8d9b9">
-<p>
-注意 tramp 的远程登陆只支持 bash, 不支持 zsh, 所以要进行设置，tramp 登陆用 <code>namebash</code>, ssh 登陆用 <code>namezsh</code> 就行了
-</p>
-
-<p>
-文件 <code>$HOME/.ssh/config</code>
-</p>
-<div class="highlight"><pre><span></span>   Host namebash
-       HostName 10.0.0.1
-       User username
-       RequestTTY yes
-       RemoteCommand bash
-
-   Host namezsh
-       HostName 10.0.0.1
-       User username
-       RequestTTY yes
-       RemoteCommand zsh
-</pre></div>
-</div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/vimrc/" class="u-url">vimrc: vim配置文件</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/vimrc/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-01-24T13:57:00+08:00" itemprop="datePublished" title="2021-01-24 13:57">2021-01-24 13:57</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <p>
-&lt;src
-</p>
-
-
-
-<p>
-Write your post here.
-</p>
-                </div>
             </article>
 </div>
     
         <ul class="pager postindexpager clearfix">
-<li class="next"><a href="index-1.html" rel="next">Older posts</a></li>
+<li class="next"><a href="index-2.html" rel="next">Older posts</a></li>
         </ul>
 <!--End of body content--><footer id="footer">
             Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         

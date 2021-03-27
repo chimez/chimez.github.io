@@ -1,0 +1,53 @@
+#+BEGIN_COMMENT
+.. title: dvc: Data Version Control
+.. slug: dvc-data-version-control
+.. date: 2021-03-19 13:53:14 UTC+08:00
+.. tags: git, linux
+.. category: tools
+.. link:
+.. description:
+.. type: text
+
+#+END_COMMENT
+
+[[https://dvc.org][dvc]] 是一个增强 git 管理大二进制文件能力的工具。
+
+* 基本使用
+
+** 初始化 dvc
+   在一个 git 项目目录中运行
+
+   #+begin_src bash
+dvc init
+git commit -m "Initialize DVC"
+   #+end_src
+
+   就自动创建好了 dvc 需要东西。
+
+   dvc 是寄生在git中的，其本身不提供版本管理能力，完全依靠 git 。
+
+** 添加数据
+   如果有一个大的数据文件 ~data/data.h5~ ，那么就首先将它添加给 dvc， 然后把dvc创建的记录 ~*.dvc~ 和自动生成的 ~.gitignore~ 一起加到 git 中，之后再用 dvc 上传数据即可
+
+   #+begin_src bash
+dvc add data/data.h5
+git add data/data.h5.dvc data/.gitignore
+git commit -m "Add raw data"
+   #+end_src
+
+** dvc的远程库
+   dvc 支持多种远程库，甚至是本地的远程库
+
+   #+begin_src bash
+mkdir -p /tmp/dvcstore
+dvc remote add -d myremote /tmp/dvcstore
+git commit .dvc/config -m "Configure local remote"
+   #+end_src
+
+** 保存和同步数据
+   如果已经配置好了远程库，那么上传和下载数据操作就类似于 git
+   #+begin_src bash
+dvc pull
+
+dvc push
+   #+end_src
