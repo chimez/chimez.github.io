@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about SageMath)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/sagemath.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Thu, 08 Apr 2021 06:45:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SageMath</title><link>https://chimez.github.io/posts/sagemath/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgdd18f2c" class="outline-2"&gt;
+&lt;h2 id="orgdd18f2c"&gt;量子力学算符代数计算&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdd18f2c"&gt;
+&lt;p&gt;
+参见 &lt;a href="https://sheaves.github.io/Noncommutative-Sage/"&gt;Noncommutative Algebras in Sage&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+例如要做满足 \([a, a^{\dagger}]=1, [b,b^{\dagger}]=1, [a,b]=0\) 的两个算符 \(a,b\) 的代数计算
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class="n"&gt;F&lt;/span&gt;&lt;span class="o"&gt;.&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a_d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b_d&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;FreeAlgebra&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;QQ&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+  &lt;span class="n"&gt;U_relations&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;b_d&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;b_d&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="n"&gt;a_d&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;a_d&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="n"&gt;U&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;F&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;g_algebra&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;U_relations&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_latex_names&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"a"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s2"&gt;"a^\dagger"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"b"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s2"&gt;"b^\dagger"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+  &lt;span class="n"&gt;U&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;inject_variables&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+注意：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;定义规则时，必须是后定义的字母乘在前面，例如定义时 &lt;code&gt;F.&amp;lt;a,b,c&amp;gt;&lt;/code&gt; 规则中应该写作 &lt;code&gt;c*b: ..., b*a: ...&lt;/code&gt; 等&lt;/li&gt;
+&lt;li&gt;变量的 latex 显示名顺序要和变量定义顺序相同&lt;/li&gt;
+&lt;li&gt;没有指定规则的乘法默认就是可对易的&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+
+&lt;div id="outline-container-org09be71c" class="outline-2"&gt;
+&lt;h2 id="org09be71c"&gt;安装为 jupyter 内核&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org09be71c"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;jupyter kernelspec install ./SageMath/local/share/jupyter/kernels/sagemath
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4d665bf" class="outline-2"&gt;
+&lt;h2 id="org4d665bf"&gt;基本特性&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4d665bf"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;直接输入数学运算公式可以作为计算器来用&lt;/li&gt;
+&lt;li&gt;继承自python的面向对象系统，即任何东西都是对象&lt;/li&gt;
+&lt;li&gt;在命令行模式下使用TAB补全，在notebook里似乎有bug&lt;/li&gt;
+&lt;li&gt;内置交互式帮助系统，在命令后加一个问号即可显示帮助   &lt;code&gt;c.diameter?&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6c82ab5" class="outline-2"&gt;
+&lt;h2 id="org6c82ab5"&gt;符号运算&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6c82ab5"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgb9ba3f0" class="outline-3"&gt;
+&lt;h3 id="orgb9ba3f0"&gt;基础操作&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb9ba3f0"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;x = var('x')&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;定义符号&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;f = 1 - sin(x)^2&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;定义一个函数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;print(f)&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;普通打印函数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;print(maxima(f))&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;美化打印函数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;f.simplify_trig()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;化简表达式&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;f(x=pi/2)&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;计算函数值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;ingtegrate(f, x)&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;不定积分&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;f.differentiate(2).substitude({x: 3/pi})&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;计算二阶微分，并代替值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;a = var('a')&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;x是默认隐含符号，需要更多符号就要定义&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;S = solve(x^2 + x == a, x)&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;解代数方程&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;S[0].rhs()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;显示代数方程解&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;show(plot(sin(x)+ sin(1.6*x)), 0, 40)&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;解析画图&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;F = factor(x^99 + y^99)&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;分解因式&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;F.expand()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;乘开因式&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org67ce9df" class="outline-3"&gt;
+&lt;h3 id="org67ce9df"&gt;代数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org67ce9df"&gt;
+&lt;p&gt;
+用对象表示代数结构，群环域
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6cc48ab" class="outline-3"&gt;
+&lt;h3 id="org6cc48ab"&gt;组合数学&lt;/h3&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org7381f34" class="outline-2"&gt;
+&lt;h2 id="org7381f34"&gt;数值运算&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7381f34"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org72a4481" class="outline-3"&gt;
+&lt;h3 id="org72a4481"&gt;基础操作&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org72a4481"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;3 + 5&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;加法&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;57.1 ^ 100&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;乘方&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;matrix([[1,2], [3,4]])&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;创建矩阵，按行写&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;g = sin(x) + (1- x^2)&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;定义一个函数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;find_root(g, 0, 2)&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;在区间[0, 2]寻根&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;var('x y z')&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;定义一些符号&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;f = (1+ (y+ x^2)^2 + (1+ z+ y^2)^2)^2&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;新定义一个函数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;minimize(f, [1, 2, 3], disp=1, algorithm='powell')&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;计算最优化，指定算法和初值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;m = random_matrix(RDF, 500)&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;创建复数500×500随机矩阵&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;e = m.eigenvalues()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;计算矩阵的本征值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;w = [(i, abs(e[i])) for i in range(len(e))]&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;循环方式创建list&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;show(points(w))&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;成对点画图&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;factorial(100)&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;计算阶乘&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;N(pi, digits=100)&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;保留100位小数，四舍五入&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;z = Partitions(10^8).cardinality()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;计算数的划分并给出基数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;
+包括以下几种浮点数类型：
+&lt;/p&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Python&lt;/td&gt;
+&lt;td class="org-left"&gt;float, complex, decimal&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;SageMath specific&lt;/td&gt;
+&lt;td class="org-left"&gt;RDF, CDF, RQDF, CC, RR, RIF, CIF&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;included Systems&lt;/td&gt;
+&lt;td class="org-left"&gt;pari, maxima&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgdfc864d" class="outline-2"&gt;
+&lt;h2 id="orgdfc864d"&gt;绘图&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdfc864d"&gt;
+&lt;p&gt;
+可绘制的类型：
+&lt;/p&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;interact&lt;/td&gt;
+&lt;td class="org-left"&gt;动态交互图，可以显示一个滑块，滑动改变图&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Regions Plot/ Contours&lt;/td&gt;
+&lt;td class="org-left"&gt;显示一个不等式区间&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Density Plot&lt;/td&gt;
+&lt;td class="org-left"&gt;密度图，热力图&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;filled plot&lt;/td&gt;
+&lt;td class="org-left"&gt;可以上色显示两条线之间的区间&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;multiedge graph&lt;/td&gt;
+&lt;td class="org-left"&gt;可以显示一个有向图&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;
+&lt;a href="https://wiki.sagemath.org/interact"&gt;这里&lt;/a&gt; 有各种动态图的例子
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4b786b8" class="outline-2"&gt;
+&lt;h2 id="org4b786b8"&gt;技巧和常用代码片段&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4b786b8"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgb2a0df6" class="outline-3"&gt;
+&lt;h3 id="orgb2a0df6"&gt;与 tex 联合使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb2a0df6"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org09188f3" class="outline-4"&gt;
+&lt;h4 id="org09188f3"&gt;sagetex：可以在tex中显示sage命令的运算结果&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org09188f3"&gt;
+&lt;p&gt;
+首先需要安装 &lt;a href="http://doc.sagemath.org/html/en/tutorial/sagetex.html"&gt;sagetex&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+注意： 在网站下载的二进制包千万别手贱用 sage -i 自己再编译，由于包含文件不全，这样只会破坏已编译好的文件
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    kpsewhich -var-value=TEXMFHOME                  # 获得TEXMFHOME目录位置，一般是$HOME/texmf
+    cp -R SAGE_ROOT/local/share/texmf/tex TEXMFHOME # 把sagetex复制到目录里
+    texhash                                         # 让latex重新索引包
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+使用方法
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    \usepackage{sagetex}              % 引入包
+    \usepackage[imagemagick]{sagetex} % 可选项
+    \setlength{\sagetexindent}{10ex}  % 设置间隔
+    $2+2=\sage{2+2}$                  % 行内计算sage表达式的数学结果
+    \begin{sageblock}                 % 引用sage/python代码
+      1+1
+      var('a,b,c')
+      eqn ~ [a+b*c==1, b-a*c==0, a+b=~5]
+      s = solve(eqn, a,b,c)
+    \end{sageblock} 
+    \begin{sagesilent}      % 多行计算sage表达式
+      e = 2
+      e = 3*e + 1
+    \end{sagesilent}
+    $e=\sage{e}$            % 在同一文件内可以直接使用定义的变量
+    \sageplot{E.plot(-3,3)} % sage画图
+    \sagetexpause           % 在pause宏之间的sage表达式不被求值，便于修改
+    \sagetexunpause
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org4827cc8" class="outline-3"&gt;
+&lt;h3 id="org4827cc8"&gt;三角函数和指数之间转换&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4827cc8"&gt;
+&lt;p&gt;
+&lt;a href="https://ask.sagemath.org/question/7672/complex-exponentialtrigonometric/"&gt;参考这个回答&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;exponentialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+       &lt;span class="sd"&gt;"""从三角函数形式变换成e指数形式"""&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;sageobj&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_maxima_&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exponentialize&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;demoivre&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+       &lt;span class="sd"&gt;"""从e指数形式变换成三角函数形式"""&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;sageobj&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_maxima_&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;expand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;demoivre&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>SageMath</category><guid>https://chimez.github.io/posts/sagemath/</guid><pubDate>Fri, 19 Feb 2021 06:27:07 GMT</pubDate></item></channel></rss>
