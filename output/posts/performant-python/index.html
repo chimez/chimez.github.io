@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Performant Python | chimez's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://chimez.github.io/posts/performant-python/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
+<link rel="prev" href="../petsc/" title="PETSc" type="text/html">
+<link rel="next" href="../bose-hubbard-model-mean-field-theory/" title="Bose-Hubbard model mean field theory" type="text/html">
+<meta property="og:site_name" content="chimez's blog">
+<meta property="og:title" content="Performant Python">
+<meta property="og:url" content="https://chimez.github.io/posts/performant-python/">
+<meta property="og:description" content="Python 性能
+
+
+
+计算机结构
+
+
+简单来说，计算机由计算单元、储存单元和二者之间的通信构成。
+
+
+
+
+计算单元
+
+
+计算单元一般是 CPU 和 GPU 等。
+
+
+
+计算单元重要的两个参数是
+
+
+每周期指令 (instructions per cycle, IPC): 每个时钟周期执行的指令数
+时钟速度：每秒的时钟周期
+
+
+
+如果提高时钟速度了，当然运行速度会变快。另一种方法是增加每个指令的">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-04-23T22:03:52+08:00">
+<meta property="article:tag" content="python">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">chimez's blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Performant Python</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    chimez
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2021-04-23T22:03:52+08:00" itemprop="datePublished" title="2021-04-23 22:03">2021-04-23 22:03</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-org0b6cff9" class="outline-2">
+<h2 id="org0b6cff9">Python 性能</h2>
+<div class="outline-text-2" id="text-org0b6cff9">
+</div>
+<div id="outline-container-orgf738e66" class="outline-3">
+<h3 id="orgf738e66">计算机结构</h3>
+<div class="outline-text-3" id="text-orgf738e66">
+<p>
+简单来说，计算机由计算单元、储存单元和二者之间的通信构成。
+</p>
+</div>
+
+<div id="outline-container-org5869ca2" class="outline-4">
+<h4 id="org5869ca2">计算单元</h4>
+<div class="outline-text-4" id="text-org5869ca2">
+<p>
+计算单元一般是 CPU 和 GPU 等。
+</p>
+
+<p>
+计算单元重要的两个参数是
+</p>
+<ol class="org-ol">
+<li>每周期指令 (instructions per cycle, IPC): 每个时钟周期执行的指令数</li>
+<li>时钟速度：每秒的时钟周期</li>
+</ol>
+<p>
+如果提高时钟速度了，当然运行速度会变快。另一种方法是增加每个指令的计算量，通过向量化的方式，可以在一个指令中同时处理多个数据，即 SIMD(single instruction multiple data).
+</p>
+
+<p>
+由于物理和技术限制，时钟速度的增加基本停止了，所以增加同一时间内运算量的方法就是增加更多的 CPU， 即并行化。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga82a97f" class="outline-4">
+<h4 id="orga82a97f">Amdahl'a law</h4>
+<div class="outline-text-4" id="text-orga82a97f">
+<p>
+经验定律：并行程序的加速上限取决于不能并行化的最小单元。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2f22611" class="outline-4">
+<h4 id="org2f22611">存储单元</h4>
+<div class="outline-text-4" id="text-org2f22611">
+<p>
+存储单元包括：机械硬盘、固态硬盘、RAM、L1/L2 等。主要的区别就是速度。一般来说速度越快容量越小。
+</p>
+
+<p>
+存储单元速度通常比计算单元慢，所以主要的优化手段就是异步 I/O 和预先缓存，保证计算设备进行计算的时候数据已经准备好了。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4e920dc" class="outline-4">
+<h4 id="org4e920dc">总线</h4>
+<div class="outline-text-4" id="text-org4e920dc">
+<p>
+计算单元和存储单元通过总线连接。
+总线最重要的参数是总线宽度和总线频率。
+</p>
+</div>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/python/" rel="tag">python</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../petsc/" rel="prev" title="PETSc">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../bose-hubbard-model-mean-field-theory/" rel="next" title="Bose-Hubbard model mean field theory">Next post</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>
