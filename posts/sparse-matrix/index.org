@@ -1,0 +1,67 @@
+#+BEGIN_COMMENT
+.. title: Sparse Matrix
+.. slug: sparse-matrix
+.. date: 2021-04-19 14:12:16 UTC+08:00
+.. tags: Sparse Matrix, Numerical Algorithm
+.. category: Algorithm
+.. link: 
+.. description: 
+.. type: text
+.. has_math: true
+
+#+END_COMMENT
+
+
+* 稀疏矩阵
+  
+** 定义
+
+   1. 稀疏矩阵指的是那些有很多元素为 0 的矩阵
+   2. 一般而言 $m\times n$ 的矩阵， 其非零元素的个数在 $O(\mathrm{min}(m,n))$ 就可以作为稀疏矩阵来处理，一般来说就是每行或每列的元素个数是常数
+   3. 很多非零元是 $O(\mathrm{log}(n))$ 的矩阵不能作为稀疏矩阵
+
+** 稀疏矩阵的性质
+
+   1. 稀疏矩阵 $A$ 的逆 $A^{ -1}$ 一般来说是稠密的
+   2. 稀疏矩阵 $A$ 的 LU 分解 $L$ 和  $U$ 矩阵可以也是稀疏的
+   
+** Cayley-Hamilton 定理
+   
+   矩阵满足其特征方程。
+
+   例：考虑矩阵 $A = \begin{pmatrix} 1&2 \\ 3&4 \end{pmatrix}$ ，其特征方程为
+
+\begin{equation*}
+\mathrm{det} \left( \lambda I - A \right) =
+\mathrm{det}
+\begin{pmatrix}
+\lambda - 1 & 2 \\
+3 & \lambda - 4
+\end{pmatrix}
+= \lambda^2 - 5 \lambda - 2 = 0
+\end{equation*}
+
+   那么有
+
+   \[
+   A^{2} - 5 A - 2 = 0
+   \]
+
+** 稀疏矩阵的图表示
+
+   稀疏矩阵可以用图来表示，进而可以用图论的方法分析。
+
+   *图的定义* 图 $G$ 定义为一个集合 $G = (V,E)$,  $E \subset V \times V$ ，其中 $V$ 是顶点 (vertex) 的集合, $E$ 是边 (edge) 的集合。
+
+   1. 图是无向图，当且仅当矩阵是对称的。
+   2. 矩阵的图表示，就是将行和列作为顶点的标号，非零矩阵元表示顶点间的连线。
+   
+** 稀疏矩阵与偏微分方程
+   典型的偏微分方程数值模拟的过程是：
+   1. 物理问题
+   2. 非线性偏微分方程
+   3. 离散化
+   4. 线性化近似
+   5. 变成稀疏矩阵线性代数问题
+
+   可以想象成将自变量作为矩阵指标，离散化的偏微分方程每一步的作用结果就是利用周围的几个点的数值得到下一步当前点的值，这个过程可以写成一个稀疏矩阵。

@@ -1,0 +1,108 @@
+#+BEGIN_COMMENT
+.. title: Data Structures for Sparse Matrix
+.. slug: data-structures-for-sparse-matrix
+.. date: 2021-04-19 15:24:09 UTC+08:00
+.. tags: Sparse Matrix, Numerical Algorithm
+.. category: Algorithm
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* 稀疏矩阵的数据结构
+
+  
+** 常见结构
+   - COO: Coordinate or triplet
+   - CSR: Compressed Sparse Row
+   - CSC: Compressed Sparse Column
+   - DIA: Diagonal
+   - BSR: Block Sparse Row
+   
+** COO: coordinate
+   1. 也叫做 triplet 格式
+   2. 最简单和基本的格式，通常用做向其它格式转换的入门格式
+   3. 顺序是任意的
+   4. 保存三列数据：值、行指标、列指标
+
+#+BEGIN_EXAMPLE
+A:
+   [[ 1,  0,  0,  2,  0],
+    [ 3,  4,  0,  5,  0],
+    [ 6,  0,  7,  8,  9],
+    [ 0,  0, 10, 11,  0],
+    [ 0,  0,  0,  0, 12]]
+
+data:   [1, 3, 6, 4, 7, 10, 2, 5, 8, 11, 9, 12]
+row(i): [0, 0, 1, 1, 1,  2, 2, 2, 2,  3, 3,  4]
+col(j): [0, 3, 0, 1, 3,  0, 2, 3, 4,  2, 3,  4]
+
+A[ i[k], j[k] ] = data[k]
+#+END_EXAMPLE
+
+** CSR: Compressed Sparse Row
+   1. 按行压缩，即coo格式中的数据值、列指标不变，但行指标改成指向这一行开始的列的指标
+   2. 一般来说，Fortran 里使用这种格式
+
+#+BEGIN_EXAMPLE
+A:
+   [[ 1,  0,  0,  2,  0],
+    [ 3,  4,  0,  5,  0],
+    [ 6,  0,  7,  8,  9],
+    [ 0,  0, 10, 11,  0],
+    [ 0,  0,  0,  0, 12]]
+
+data:   [1, 3, 6, 4, 7, 10, 2, 5, 8, 11, 9, 12]
+row(i): [0, 2, 5, 9, 11, 12]
+col(j): [0, 3, 0, 1, 3,  0, 2, 3, 4,  2, 3,  4]
+
+#+END_EXAMPLE
+
+** CSC: Compressed Sparse Column
+   1. 按列压缩，与 CSR 类似，不过行列换一下
+   2. c 中常用这种格式
+
+#+BEGIN_EXAMPLE
+A:
+   [[ 1,  0,  0,  2,  0],
+    [ 3,  4,  0,  5,  0],
+    [ 6,  0,  7,  8,  9],
+    [ 0,  0, 10, 11,  0],
+    [ 0,  0,  0,  0, 12]]
+
+data:   [1, 3, 6, 4, 7, 10, 2, 5, 8, 11, 9, 12]
+row(i): [0, 1, 2, 1, 2,  3, 0, 1, 2,  3, 2,  4]
+col(j): [0, 3, 4, 6, 10, 12]
+
+#+END_EXAMPLE
+
+** DIA: The Diagonal format
+   1. 按对角线压缩，保存偏移值，负的偏移忽略头元素，正的偏移忽略尾元素
+
+#+BEGIN_EXAMPLE
+A:
+   [[ 1.,  0.,  2.,  0.,  0.],
+    [ 3.,  4.,  0.,  5.,  0.],
+    [ 0.,  6.,  7.,  0.,  8.],
+    [ 0.,  0.,  9., 10.,  0.],
+    [ 0.,  0.,  0., 11., 12.]]
+
+data:
+   [[ 3.,  6.,  9., 11., nan],
+    [ 1.,  4.,  7., 10., 12.],
+    [nan, nan,  2.,  5.,  8.]]
+
+offsets: [-1,  0,  2]
+
+#+END_EXAMPLE
+
+** BSR: Block matrices
+   1. 类似 CSR，只不过每个行列指的是一个小的矩阵，这些小矩阵大小都相等
+
+** scipy 格式
+   1. 很容易使用，参考 [[https://docs.scipy.org/doc/scipy/reference/sparse.html][scipy - sparse]]
+      
+** suitesparse 格式
+
+** MKL 格式

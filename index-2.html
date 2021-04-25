@@ -72,7 +72,821 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/vim/" class="u-url">vimrc: vim</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/h5py/" class="u-url">h5py</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/h5py/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-02-28T22:11:33+08:00" itemprop="datePublished" title="2021-02-28 22:11">2021-02-28 22:11</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orga6ad85b" class="outline-2">
+<h2 id="orga6ad85b">h5py: 储存数据</h2>
+<div class="outline-text-2" id="text-orga6ad85b">
+<p>
+<a href="https://www.h5py.org/">h5py</a> 是 HDF5 库的 python 封装，基本提供了所有对应的 C API，因此适合用在简单并底层的应用中，特别适合对 HDF5 文件有定制的应用中。
+</p>
+</div>
+
+<div id="outline-container-orgbd84bf7" class="outline-3">
+<h3 id="orgbd84bf7">存</h3>
+<div class="outline-text-3" id="text-orgbd84bf7">
+<div class="highlight"><pre><span></span>   <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'data.h5'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
+       <span class="n">hf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat1"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat1</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
+       <span class="n">hf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat2"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat2</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
+
+       <span class="n">g</span> <span class="o">=</span> <span class="n">hf</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">"index"</span><span class="p">)</span>
+       <span class="n">g</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat1"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat1</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org5d867f0" class="outline-3">
+<h3 id="org5d867f0">取</h3>
+<div class="outline-text-3" id="text-org5d867f0">
+<div class="highlight"><pre><span></span>   <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'data.h5'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
+       <span class="n">mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hf</span><span class="p">[</span><span class="s1">'mat1'</span><span class="p">])</span>
+       <span class="n">mat2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hf</span><span class="p">[</span><span class="s1">'mat2'</span><span class="p">])</span>
+
+       <span class="n">g</span> <span class="o">=</span> <span class="n">hf</span><span class="p">[</span><span class="s1">'index'</span><span class="p">]</span>
+       <span class="n">g_mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">'mat1'</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/openmp/" class="u-url">OpenMP</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/openmp/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-02-20T15:37:55+08:00" itemprop="datePublished" title="2021-02-20 15:37">2021-02-20 15:37</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org185110b" class="outline-2">
+<h2 id="org185110b">OpenMP 共享内存并行</h2>
+<div class="outline-text-2" id="text-org185110b">
+</div>
+<div id="outline-container-org84c1363" class="outline-3">
+<h3 id="org84c1363">常用函数总结</h3>
+<div class="outline-text-3" id="text-org84c1363">
+<ul class="org-ul">
+<li><code>parallel</code></li>
+<li><code>for</code></li>
+<li><code>parallel for</code></li>
+<li><code>sections</code></li>
+<li><code>parallel sections</code></li>
+<li><code>critical</code></li>
+<li><code>single</code></li>
+<li><code>omp_get_num_procs</code></li>
+<li><code>omp_get_num_threads</code></li>
+<li><code>omp_get_thread_num</code></li>
+<li><code>omp_set_num_threads</code></li>
+</ul>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sagemath/" class="u-url">SageMath</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/sagemath/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-02-19T14:27:07+08:00" itemprop="datePublished" title="2021-02-19 14:27">2021-02-19 14:27</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orgdd18f2c" class="outline-2">
+<h2 id="orgdd18f2c">量子力学算符代数计算</h2>
+<div class="outline-text-2" id="text-orgdd18f2c">
+<p>
+参见 <a href="https://sheaves.github.io/Noncommutative-Sage/">Noncommutative Algebras in Sage</a>.
+</p>
+
+<p>
+例如要做满足 \([a, a^{\dagger}]=1, [b,b^{\dagger}]=1, [a,b]=0\) 的两个算符 \(a,b\) 的代数计算
+</p>
+<div class="highlight"><pre><span></span>  <span class="n">F</span><span class="o">.&lt;</span><span class="n">a</span><span class="p">,</span> <span class="n">a_d</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">b_d</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">FreeAlgebra</span><span class="p">(</span><span class="n">QQ</span><span class="p">)</span>
+
+  <span class="n">U_relations</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="n">b_d</span> <span class="o">*</span> <span class="n">b</span><span class="p">:</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b_d</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="n">a_d</span> <span class="o">*</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a_d</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="p">}</span>
+
+  <span class="n">U</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">g_algebra</span><span class="p">(</span><span class="n">U_relations</span><span class="p">)</span>
+  <span class="n">U</span><span class="o">.</span><span class="n">_latex_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span> <span class="sa">r</span><span class="s2">"a^\dagger"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="sa">r</span><span class="s2">"b^\dagger"</span><span class="p">]</span>
+  <span class="n">U</span><span class="o">.</span><span class="n">inject_variables</span><span class="p">()</span>
+</pre></div>
+
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>定义规则时，必须是后定义的字母乘在前面，例如定义时 <code>F.&lt;a,b,c&gt;</code> 规则中应该写作 <code>c*b: ..., b*a: ...</code> 等</li>
+<li>变量的 latex 显示名顺序要和变量定义顺序相同</li>
+<li>没有指定规则的乘法默认就是可对易的</li>
+</ol>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-org09be71c" class="outline-2">
+<h2 id="org09be71c">安装为 jupyter 内核</h2>
+<div class="outline-text-2" id="text-org09be71c">
+<div class="highlight"><pre><span></span>jupyter kernelspec install ./SageMath/local/share/jupyter/kernels/sagemath
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org4d665bf" class="outline-2">
+<h2 id="org4d665bf">基本特性</h2>
+<div class="outline-text-2" id="text-org4d665bf">
+<ol class="org-ol">
+<li>直接输入数学运算公式可以作为计算器来用</li>
+<li>继承自python的面向对象系统，即任何东西都是对象</li>
+<li>在命令行模式下使用TAB补全，在notebook里似乎有bug</li>
+<li>内置交互式帮助系统，在命令后加一个问号即可显示帮助   <code>c.diameter?</code>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org6c82ab5" class="outline-2">
+<h2 id="org6c82ab5">符号运算</h2>
+<div class="outline-text-2" id="text-org6c82ab5">
+</div>
+<div id="outline-container-orgb9ba3f0" class="outline-3">
+<h3 id="orgb9ba3f0">基础操作</h3>
+<div class="outline-text-3" id="text-orgb9ba3f0">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>x = var('x')</code></td>
+<td class="org-left">定义符号</td>
+</tr>
+<tr>
+<td class="org-left"><code>f = 1 - sin(x)^2</code></td>
+<td class="org-left">定义一个函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>print(f)</code></td>
+<td class="org-left">普通打印函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>print(maxima(f))</code></td>
+<td class="org-left">美化打印函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>f.simplify_trig()</code></td>
+<td class="org-left">化简表达式</td>
+</tr>
+<tr>
+<td class="org-left"><code>f(x=pi/2)</code></td>
+<td class="org-left">计算函数值</td>
+</tr>
+<tr>
+<td class="org-left"><code>ingtegrate(f, x)</code></td>
+<td class="org-left">不定积分</td>
+</tr>
+<tr>
+<td class="org-left"><code>f.differentiate(2).substitude({x: 3/pi})</code></td>
+<td class="org-left">计算二阶微分，并代替值</td>
+</tr>
+<tr>
+<td class="org-left"><code>a = var('a')</code></td>
+<td class="org-left">x是默认隐含符号，需要更多符号就要定义</td>
+</tr>
+<tr>
+<td class="org-left"><code>S = solve(x^2 + x == a, x)</code></td>
+<td class="org-left">解代数方程</td>
+</tr>
+<tr>
+<td class="org-left"><code>S[0].rhs()</code></td>
+<td class="org-left">显示代数方程解</td>
+</tr>
+<tr>
+<td class="org-left"><code>show(plot(sin(x)+ sin(1.6*x)), 0, 40)</code></td>
+<td class="org-left">解析画图</td>
+</tr>
+<tr>
+<td class="org-left"><code>F = factor(x^99 + y^99)</code></td>
+<td class="org-left">分解因式</td>
+</tr>
+<tr>
+<td class="org-left"><code>F.expand()</code></td>
+<td class="org-left">乘开因式</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org67ce9df" class="outline-3">
+<h3 id="org67ce9df">代数</h3>
+<div class="outline-text-3" id="text-org67ce9df">
+<p>
+用对象表示代数结构，群环域
+</p>
+</div>
+</div>
+<div id="outline-container-org6cc48ab" class="outline-3">
+<h3 id="org6cc48ab">组合数学</h3>
+</div>
+</div>
+
+<div id="outline-container-org7381f34" class="outline-2">
+<h2 id="org7381f34">数值运算</h2>
+<div class="outline-text-2" id="text-org7381f34">
+</div>
+<div id="outline-container-org72a4481" class="outline-3">
+<h3 id="org72a4481">基础操作</h3>
+<div class="outline-text-3" id="text-org72a4481">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>3 + 5</code></td>
+<td class="org-left">加法</td>
+</tr>
+<tr>
+<td class="org-left"><code>57.1 ^ 100</code></td>
+<td class="org-left">乘方</td>
+</tr>
+<tr>
+<td class="org-left"><code>matrix([[1,2], [3,4]])</code></td>
+<td class="org-left">创建矩阵，按行写</td>
+</tr>
+<tr>
+<td class="org-left"><code>g = sin(x) + (1- x^2)</code></td>
+<td class="org-left">定义一个函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>find_root(g, 0, 2)</code></td>
+<td class="org-left">在区间[0, 2]寻根</td>
+</tr>
+<tr>
+<td class="org-left"><code>var('x y z')</code></td>
+<td class="org-left">定义一些符号</td>
+</tr>
+<tr>
+<td class="org-left"><code>f = (1+ (y+ x^2)^2 + (1+ z+ y^2)^2)^2</code></td>
+<td class="org-left">新定义一个函数</td>
+</tr>
+<tr>
+<td class="org-left"><code>minimize(f, [1, 2, 3], disp=1, algorithm='powell')</code></td>
+<td class="org-left">计算最优化，指定算法和初值</td>
+</tr>
+<tr>
+<td class="org-left"><code>m = random_matrix(RDF, 500)</code></td>
+<td class="org-left">创建复数500×500随机矩阵</td>
+</tr>
+<tr>
+<td class="org-left"><code>e = m.eigenvalues()</code></td>
+<td class="org-left">计算矩阵的本征值</td>
+</tr>
+<tr>
+<td class="org-left"><code>w = [(i, abs(e[i])) for i in range(len(e))]</code></td>
+<td class="org-left">循环方式创建list</td>
+</tr>
+<tr>
+<td class="org-left"><code>show(points(w))</code></td>
+<td class="org-left">成对点画图</td>
+</tr>
+<tr>
+<td class="org-left"><code>factorial(100)</code></td>
+<td class="org-left">计算阶乘</td>
+</tr>
+<tr>
+<td class="org-left"><code>N(pi, digits=100)</code></td>
+<td class="org-left">保留100位小数，四舍五入</td>
+</tr>
+<tr>
+<td class="org-left"><code>z = Partitions(10^8).cardinality()</code></td>
+<td class="org-left">计算数的划分并给出基数</td>
+</tr>
+</tbody>
+</table>
+<p>
+包括以下几种浮点数类型：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Python</td>
+<td class="org-left">float, complex, decimal</td>
+</tr>
+<tr>
+<td class="org-left">SageMath specific</td>
+<td class="org-left">RDF, CDF, RQDF, CC, RR, RIF, CIF</td>
+</tr>
+<tr>
+<td class="org-left">included Systems</td>
+<td class="org-left">pari, maxima</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdfc864d" class="outline-2">
+<h2 id="orgdfc864d">绘图</h2>
+<div class="outline-text-2" id="text-orgdfc864d">
+<p>
+可绘制的类型：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">interact</td>
+<td class="org-left">动态交互图，可以显示一个滑块，滑动改变图</td>
+</tr>
+<tr>
+<td class="org-left">Regions Plot/ Contours</td>
+<td class="org-left">显示一个不等式区间</td>
+</tr>
+<tr>
+<td class="org-left">Density Plot</td>
+<td class="org-left">密度图，热力图</td>
+</tr>
+<tr>
+<td class="org-left">filled plot</td>
+<td class="org-left">可以上色显示两条线之间的区间</td>
+</tr>
+<tr>
+<td class="org-left">multiedge graph</td>
+<td class="org-left">可以显示一个有向图</td>
+</tr>
+</tbody>
+</table>
+<p>
+<a href="https://wiki.sagemath.org/interact">这里</a> 有各种动态图的例子
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4b786b8" class="outline-2">
+<h2 id="org4b786b8">技巧和常用代码片段</h2>
+<div class="outline-text-2" id="text-org4b786b8">
+</div>
+<div id="outline-container-orgb2a0df6" class="outline-3">
+<h3 id="orgb2a0df6">与 tex 联合使用</h3>
+<div class="outline-text-3" id="text-orgb2a0df6">
+</div>
+<div id="outline-container-org09188f3" class="outline-4">
+<h4 id="org09188f3">sagetex：可以在tex中显示sage命令的运算结果</h4>
+<div class="outline-text-4" id="text-org09188f3">
+<p>
+首先需要安装 <a href="http://doc.sagemath.org/html/en/tutorial/sagetex.html">sagetex</a>
+</p>
+
+<p>
+注意： 在网站下载的二进制包千万别手贱用 sage -i 自己再编译，由于包含文件不全，这样只会破坏已编译好的文件
+</p>
+
+<div class="highlight"><pre><span></span>    kpsewhich -var-value=TEXMFHOME                  # 获得TEXMFHOME目录位置，一般是$HOME/texmf
+    cp -R SAGE_ROOT/local/share/texmf/tex TEXMFHOME # 把sagetex复制到目录里
+    texhash                                         # 让latex重新索引包
+</pre></div>
+<p>
+使用方法
+</p>
+<div class="highlight"><pre><span></span>    \usepackage{sagetex}              % 引入包
+    \usepackage[imagemagick]{sagetex} % 可选项
+    \setlength{\sagetexindent}{10ex}  % 设置间隔
+    $2+2=\sage{2+2}$                  % 行内计算sage表达式的数学结果
+    \begin{sageblock}                 % 引用sage/python代码
+      1+1
+      var('a,b,c')
+      eqn ~ [a+b*c==1, b-a*c==0, a+b=~5]
+      s = solve(eqn, a,b,c)
+    \end{sageblock} 
+    \begin{sagesilent}      % 多行计算sage表达式
+      e = 2
+      e = 3*e + 1
+    \end{sagesilent}
+    $e=\sage{e}$            % 在同一文件内可以直接使用定义的变量
+    \sageplot{E.plot(-3,3)} % sage画图
+    \sagetexpause           % 在pause宏之间的sage表达式不被求值，便于修改
+    \sagetexunpause
+</pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-org4827cc8" class="outline-3">
+<h3 id="org4827cc8">三角函数和指数之间转换</h3>
+<div class="outline-text-3" id="text-org4827cc8">
+<p>
+<a href="https://ask.sagemath.org/question/7672/complex-exponentialtrigonometric/">参考这个回答</a>
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">exponentialize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+       <span class="sd">"""从三角函数形式变换成e指数形式"""</span>
+       <span class="k">return</span> <span class="n">sageobj</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_maxima_</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">exponentialize</span><span class="p">())</span>
+
+   <span class="k">def</span> <span class="nf">demoivre</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+       <span class="sd">"""从e指数形式变换成三角函数形式"""</span>
+       <span class="k">return</span> <span class="n">sageobj</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_maxima_</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">demoivre</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/c-memory-management/" class="u-url">C 指针与内存管理</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/c-memory-management/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-02-12T08:37:35+08:00" itemprop="datePublished" title="2021-02-12 08:37">2021-02-12 08:37</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orgb349241" class="outline-2">
+<h2 id="orgb349241">动态存储分配</h2>
+<div class="outline-text-2" id="text-orgb349241">
+</div>
+<div id="outline-container-orgdb28086" class="outline-3">
+<h3 id="orgdb28086">内存分配函数</h3>
+<div class="outline-text-3" id="text-orgdb28086">
+<p>
+在 <code>&lt;stdlib.h&gt;</code> 头文件中的
+</p>
+<ol class="org-ol">
+<li>
+<code>malloc</code> 分配内存，不初始化</li>
+<li>
+<code>calloc</code> 分配内存，并清零</li>
+<li>
+<code>realloc</code> 调制分配内存大小</li>
+</ol>
+<p>
+内存分配函数返回 <code>void *</code> 类型，本质上只是内存地址
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgae39fa0" class="outline-3">
+<h3 id="orgae39fa0">空指针</h3>
+<div class="outline-text-3" id="text-orgae39fa0">
+<p>
+内存分配函数有可能返回空指针 <code>NULL</code> ，使用空指针会导致程序崩溃，所以要判断指针是否为空指针。
+</p>
+
+<p>
+c语言中空指针为假，非空指针都为真。
+</p>
+
+<p>
+常用如下方式进行判断
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="p">...;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orga144854" class="outline-3">
+<h3 id="orga144854">malloc</h3>
+<div class="outline-text-3" id="text-orga144854">
+<p>
+原型 <code>void *malloc(size_t size);</code>
+</p>
+
+<p>
+惯用法
+</p>
+<div class="highlight"><pre><span></span><span class="kt">double</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org8b54770" class="outline-3">
+<h3 id="org8b54770">calloc</h3>
+<div class="outline-text-3" id="text-org8b54770">
+<p>
+原型 <code>void *calloc(size_t nmemb, size_t size);</code>
+分配 nmemb 个元素，每个元素大小为 size.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org34c1e11" class="outline-3">
+<h3 id="org34c1e11">realloc</h3>
+<div class="outline-text-3" id="text-org34c1e11">
+<p>
+原型 <code>void *realloc(void *ptr, size_t size);</code>
+</p>
+<ol class="org-ol">
+<li>扩展时，不会对新加进来的做初始化</li>
+<li>扩展失败时，返回空指针并不影响原来的元素</li>
+<li>传入空指针时，与 <code>malloc</code> 行为一致</li>
+<li>第二个参数是0时，释放内存</li>
+</ol>
+<p>
+一旦 <code>realloc</code> 返回，记得更新之前的所有指针，因为可能会把元素都复制到了别的地址
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org7664587" class="outline-3">
+<h3 id="org7664587">释放内存 free</h3>
+<div class="outline-text-3" id="text-org7664587">
+<p>
+原型 <code>void free(void *ptr);</code>
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgee1c17b" class="outline-2">
+<h2 id="orgee1c17b">声明</h2>
+<div class="outline-text-2" id="text-orgee1c17b">
+</div>
+<div id="outline-container-org60cafa0" class="outline-3">
+<h3 id="org60cafa0">声明说明符</h3>
+<div class="outline-text-3" id="text-org60cafa0">
+<ol class="org-ol">
+<li>存储类型。包括 <code>auto, static, extern, register</code> ，只能有一个，必须放在最前面</li>
+<li>类型限定符。包括 <code>const, volatile, restrict(C99)</code> ，可以有一个或多个</li>
+<li>类型说明符。包括基本类型、结构、枚举和联合</li>
+<li>函数说明符。包括 <code>inline(C99)</code> ，只用于函数声明</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4888746" class="outline-3">
+<h3 id="org4888746">解释复杂的声明符</h3>
+<div class="outline-text-3" id="text-org4888746">
+<ol class="org-ol">
+<li>始终从内往外读声明符</li>
+<li>[]和()优先于 * ,即 *p[] 是数组， *f() 是函数</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgac00477" class="outline-3">
+<h3 id="orgac00477">关键字</h3>
+<div class="outline-text-3" id="text-orgac00477">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"><b>关键字</b></th>
+<th scope="col" class="org-left"><b>存储类别</b></th>
+<th scope="col" class="org-left"><b>存储期</b></th>
+<th scope="col" class="org-left"><b>作用域</b></th>
+<th scope="col" class="org-left"><b>链接</b></th>
+<th scope="col" class="org-left"><b>声明方式</b></th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">可选 (<code>auto</code>)</td>
+<td class="org-left">自动</td>
+<td class="org-left">自动</td>
+<td class="org-left">块</td>
+<td class="org-left">无</td>
+<td class="org-left">块内</td>
+</tr>
+<tr>
+<td class="org-left"><code>register</code></td>
+<td class="org-left">寄存器</td>
+<td class="org-left">自动</td>
+<td class="org-left">块</td>
+<td class="org-left">无</td>
+<td class="org-left">块内</td>
+</tr>
+<tr>
+<td class="org-left">无</td>
+<td class="org-left">静态外部链接</td>
+<td class="org-left">静态</td>
+<td class="org-left">文件</td>
+<td class="org-left">外部</td>
+<td class="org-left">函数外</td>
+</tr>
+<tr>
+<td class="org-left"><code>static</code></td>
+<td class="org-left">静态内部链接</td>
+<td class="org-left">静态</td>
+<td class="org-left">文件</td>
+<td class="org-left">内部</td>
+<td class="org-left">函数外</td>
+</tr>
+<tr>
+<td class="org-left"><code>static</code></td>
+<td class="org-left">静态无链接</td>
+<td class="org-left">静态</td>
+<td class="org-left">块</td>
+<td class="org-left">无</td>
+<td class="org-left">块内</td>
+</tr>
+<tr>
+<td class="org-left"><code>extern</code></td>
+<td class="org-left">外部</td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>_Thread_local</code></td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>const</code></td>
+<td class="org-left">不可变</td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>inline</code></td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>volatile</code></td>
+<td class="org-left">代理，可由其它程序改变</td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>restrict</code></td>
+<td class="org-left">限定唯一的指针</td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+<tr>
+<td class="org-left"><code>_Atomic</code></td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+</tbody>
+</table>
+<ol class="org-ol">
+<li>好的设计不应该使用文件作用域的变量</li>
+<li>
+<code>auto</code> 关键字用于明确显示使用了与外部同名的变量名，与 c++ 中的完全不同，不建议使用</li>
+<li>函数的默认类别是 <code>extern</code> 除非使用了 <code>static</code> 指定为模块私有</li>
+<li>
+<code>static</code> 静态指的是生命周期一直在， <code>const</code> 才是不可变</li>
+<li>
+<code>const</code> 变量只能初始化，不能修改</li>
+<li>
+<code>const float * pf</code> 指针 <code>pf</code> 指向 <code>const float</code> 类型的对象，即对象内容不可变，但指针可以指向其它地址</li>
+<li>
+<code>float const * pf</code> 同上</li>
+<li>
+<code>float * const pf</code> 指针 <code>pf</code> 指向 <code>float</code> 类型的对象，即对象内容可变，但指针不能指向其它地址</li>
+<li>即 <code>const</code> 在 <code>*</code> 前面表示指向的值不能变，在 <code>*</code> 后面表示指针本身不能变</li>
+<li>函数的形参中有 <code>const</code> 表示传递的值不变</li>
+<li>
+<code>restrict</code> 限制指针是指向内存的唯一和初始方式，用于优化</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orga0bc1bc" class="outline-2">
+<h2 id="orga0bc1bc">TODO</h2>
+<div class="outline-text-2" id="text-orga0bc1bc">
+<ol class="org-ol">
+<li>-Ofast -flto -march=native -funroll-loops -fPIC</li>
+</ol>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pandas/" class="u-url">pandas</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/pandas/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-01-30T13:27:04+08:00" itemprop="datePublished" title="2021-01-30 13:27">2021-01-30 13:27</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org61b6faf" class="outline-2">
+<h2 id="org61b6faf">数据表格和矩阵之间的转换</h2>
+<div class="outline-text-2" id="text-org61b6faf">
+</div>
+<div id="outline-container-org2812846" class="outline-3">
+<h3 id="org2812846">从点的坐标表格 <code>(x,y,z)</code> 得到矩阵</h3>
+<div class="outline-text-3" id="text-org2812846">
+<div class="highlight"><pre><span></span>   <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"y"</span><span class="p">:[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="s2">"z"</span><span class="p">:[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">]})</span>
+   <span class="n">data_2x2</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">"z"</span><span class="p">)</span>
+
+   <span class="n">matrix</span> <span class="o">=</span> <span class="n">data_2x2</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org5884971" class="outline-3">
+<h3 id="org5884971">从矩阵表格得到坐标表格</h3>
+<div class="outline-text-3" id="text-org5884971">
+<div class="highlight"><pre><span></span>   <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"y"</span><span class="p">:[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="s2">"z"</span><span class="p">:[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">]})</span>
+   <span class="n">data_2x2</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">"z"</span><span class="p">)</span>
+
+   <span class="n">d</span> <span class="o">=</span> <span class="n">data_2x2</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+   <span class="n">d</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'y'</span><span class="p">,</span><span class="s1">'x'</span><span class="p">,</span><span class="s1">'z'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org33eca5f" class="outline-2">
+<h2 id="org33eca5f">groupby: 分开-计算-合并</h2>
+<div class="outline-text-2" id="text-org33eca5f">
+<p>
+<a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/groupby.html">groupby guide</a>
+通过 <code>groupby</code> 可以做涉及到如下三个过程的一些操作：
+</p>
+<ol class="org-ol">
+<li>根据某些标准将数据 <b>分类</b>
+</li>
+<li>对每类数据分别 <b>应用</b> 某个函数</li>
+<li>将应用的结果 <b>合并</b> 回数据表中</li>
+</ol>
+<p>
+分开数据后通常要应用三种函数
+</p>
+<ol class="org-ol">
+<li>
+<b>累积</b> ：计算每组的和、平均值、总数等</li>
+<li>
+<b>变换</b> ：进行与组内数据相关的计算并返回类似索引的列表，如对组内数据标准化、根据组的数据填上新的数据等</li>
+<li>
+<b>筛选</b> ：去掉某些不符合条件的组等</li>
+</ol>
+</div>
+
+<div id="outline-container-org5c11d2f" class="outline-3">
+<h3 id="org5c11d2f">变换(transform)</h3>
+<div class="outline-text-3" id="text-org5c11d2f">
+<div class="highlight"><pre><span></span>   <span class="n">transformed</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+       <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+   <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/vim/" class="u-url">vimrc: vim</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
