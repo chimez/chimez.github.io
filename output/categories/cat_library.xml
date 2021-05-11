@@ -1,33 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about library)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/cat_library.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sun, 25 Apr 2021 06:00:05 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org562c6a6" class="outline-2"&gt;
-&lt;h2 id="org562c6a6"&gt;PETSc&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org562c6a6"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about library)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/cat_library.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 11 May 2021 16:10:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>LAPACK</title><link>https://chimez.github.io/posts/lapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org343cbe4" class="outline-2"&gt;
+&lt;h2 id="org343cbe4"&gt;LAPACK&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org343cbe4"&gt;
+&lt;p&gt;
+主页在 &lt;a href="https://www.netlib.org/lapack/"&gt;https://www.netlib.org/lapack/&lt;/a&gt;, 文档在 &lt;a href="https://www.netlib.org/lapack/explore-html/"&gt;https://www.netlib.org/lapack/explore-html/&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+安装说明
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;liblapack&lt;/code&gt; 是本体&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;liblapacke&lt;/code&gt; 是 c 的绑定&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6599002" class="outline-3"&gt;
+&lt;h3 id="org6599002"&gt;dsyevd: 实对称矩阵本征值&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6599002"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orga74d5b5" class="outline-4"&gt;
+&lt;h4 id="orga74d5b5"&gt;参数说明&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga74d5b5"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;jobz&lt;/code&gt; 计算任务类型， &lt;code&gt;jobz = "N"&lt;/code&gt; 只计算本征值， &lt;code&gt;jobz = "V"&lt;/code&gt; 计算本征值和本征矢&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UPLO&lt;/code&gt; 矩阵的存储方式, &lt;code&gt;UPLO = "U"&lt;/code&gt; &lt;code&gt;A&lt;/code&gt; 中存了上三角矩阵， &lt;code&gt;UPLO = "L"&lt;/code&gt; 下三角矩阵&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;N&lt;/code&gt; 矩阵维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;A&lt;/code&gt; 输入矩阵 &lt;code&gt;LDA * N&lt;/code&gt; 维，计算后会被破坏，或者保存为本征矢&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LDA&lt;/code&gt; 矩阵维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;W&lt;/code&gt; 本征值向量 &lt;code&gt;N&lt;/code&gt; 维，升序排列&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WORK&lt;/code&gt; 工作向量，~LWORK~ 维, &lt;code&gt;WORK[0]&lt;/code&gt; 是最优的 &lt;code&gt;LWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LWORK&lt;/code&gt; 工作向量维数， &lt;code&gt;LWORK = -1&lt;/code&gt; 计算最优的 &lt;code&gt;LWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IWORK&lt;/code&gt; 工作向量， &lt;code&gt;LIWORK&lt;/code&gt; 维， &lt;code&gt;IWORK[0]&lt;/code&gt; 是最优的 &lt;code&gt;LIWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LIWORK&lt;/code&gt; 工作向量维数， &lt;code&gt;LIWORK = -1&lt;/code&gt; 计算最优的 &lt;code&gt;LIWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;INFO&lt;/code&gt; 错误信息， &lt;code&gt;info = 0&lt;/code&gt; 成功&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>BLAS</category><category>C</category><category>LAPACK</category><guid>https://chimez.github.io/posts/lapack/</guid><pubDate>Mon, 10 May 2021 01:46:43 GMT</pubDate></item><item><title>arpack</title><link>https://chimez.github.io/posts/arpack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org13f1aa7" class="outline-2"&gt;
+&lt;h2 id="org13f1aa7"&gt;ARPACK&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org13f1aa7"&gt;
+&lt;p&gt;
+新版本在 &lt;a href="https://github.com/opencollab/arpack-ng"&gt;arpack-ng&lt;/a&gt; , 文档在 &lt;a href="https://www.caam.rice.edu/software/ARPACK/UG/node135.html"&gt;rice - ARPACK&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org046eb4a" class="outline-3"&gt;
+&lt;h3 id="org046eb4a"&gt;函数说明&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org046eb4a"&gt;
+&lt;p&gt;
+头文件 &lt;code&gt;arpack.h&lt;/code&gt; 中的函数有
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;neupd_c&lt;/code&gt; 计算一般矩阵的本征值, &lt;code&gt;&amp;lt;?&amp;gt; = sdcz&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;naupd_c&lt;/code&gt; 计算一般矩阵的反向通信接口, &lt;code&gt;&amp;lt;?&amp;gt; = sdcz&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;seupd_c&lt;/code&gt; 计算厄米矩阵的本征值, &lt;code&gt;&amp;lt;?&amp;gt; = sd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;saupd_c&lt;/code&gt; 计算厄米矩阵的反向通信接口, &lt;code&gt;&amp;lt;?&amp;gt; = sd&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org52af175" class="outline-3"&gt;
+&lt;h3 id="org52af175"&gt;&lt;code&gt;XYaupd&lt;/code&gt; 参数说明&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org52af175"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;ido&lt;/code&gt;   反向通信标志，第一次运行 &lt;code&gt;ido=0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bmat&lt;/code&gt;  问题类型标志，标准本征值问题 &lt;code&gt;bmat="I"&lt;/code&gt; , 扩展本征值问题 &lt;code&gt;bmat="G"&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;n&lt;/code&gt;  矩阵维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;which&lt;/code&gt; Ritz值的位置 &lt;code&gt;which="LA", "SA", "LM", "SM", "BE"&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nev&lt;/code&gt; 计算本征值的个数 &lt;code&gt;0 &amp;lt; nev &amp;lt; n&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tol&lt;/code&gt; 浮点精度&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;resid&lt;/code&gt; 残差向量&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ncv&lt;/code&gt; Lanczos 向量个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;v&lt;/code&gt; Lanczos 向量， &lt;code&gt;ncv&lt;/code&gt; 列&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ldv&lt;/code&gt; Lanczos 向量的首列长度&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam&lt;/code&gt; &lt;code&gt;int[11]&lt;/code&gt; 的数组，保存了 11 个设置参数
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;iparam[0]=ishift&lt;/code&gt; 选择隐式移动的方法， &lt;code&gt;ishift=0&lt;/code&gt; 由用户指定， &lt;code&gt;ishift=1&lt;/code&gt; 由约化三对角矩阵决定&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam[1]=levec&lt;/code&gt; 没用&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam[2]=mxiter&lt;/code&gt; 最大 Arnoldi 更新迭代次数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam[3]=nb&lt;/code&gt; 块大小，只能取 &lt;code&gt;nb=1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam[4]=nconv&lt;/code&gt; 收敛了的 Ritz 值个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam[5]=iupd&lt;/code&gt; 没用&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam[6]=mode&lt;/code&gt; 指定本征值问题的类型只能取 &lt;code&gt;mode = 1,2,3,4,5&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam[7]=np&lt;/code&gt; &lt;code&gt;ido=3&lt;/code&gt; 时有用&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam[8]=numop&lt;/code&gt; OP*x 计算的次数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam[9]=numob&lt;/code&gt; B*x 计算的次数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam[10]=numreo&lt;/code&gt; 重正交化的次数&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ipntr&lt;/code&gt; &lt;code&gt;int[11]&lt;/code&gt; 的数组，保存指向 &lt;code&gt;workl&lt;/code&gt;, &lt;code&gt;workd&lt;/code&gt; 中起始位置的指针&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;workd&lt;/code&gt; &lt;code&gt;3*N&lt;/code&gt; 长的数组，算法内部使用&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;workl&lt;/code&gt; &lt;code&gt;lworkl&lt;/code&gt; 长的数组，算法内部使用&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lworkl&lt;/code&gt; &lt;code&gt;workl&lt;/code&gt; 的长度，至少 &lt;code&gt;ncv**2 + 8*ncv&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;info&lt;/code&gt; 运行提示和错误信息&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgdd4ac2a" class="outline-3"&gt;
+&lt;h3 id="orgdd4ac2a"&gt;&lt;code&gt;XYeupd&lt;/code&gt; 参数说明&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgdd4ac2a"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;rvec&lt;/code&gt; 指定是否产生本征矢 &lt;code&gt;rvec=true&lt;/code&gt; 产生本征矢， &lt;code&gt;rvec=false&lt;/code&gt; 只产生本征值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;howmny&lt;/code&gt; 指定产生本征矢的个数 &lt;code&gt;howmny="A"&lt;/code&gt; 计算 &lt;code&gt;nev&lt;/code&gt; 个， &lt;code&gt;howmny="P"&lt;/code&gt; 计算 nev Schur 本征矢， &lt;code&gt;howmny="S"&lt;/code&gt; 计算一部分本征值，由 &lt;code&gt;select&lt;/code&gt; 指定&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;select&lt;/code&gt; 指定计算的本征矢&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dr&lt;/code&gt; Ritz 值的实部&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;di&lt;/code&gt; Ritz 值的虚部&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;z&lt;/code&gt; Ritz 向量&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ldz&lt;/code&gt; Ritz 向量的首列维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sigmar&lt;/code&gt; shift 的实部, iparam[6]=3 or 4 时有效&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sigmai&lt;/code&gt; shift 的虚部&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;workev&lt;/code&gt; 3*ncv 的内部数组&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bmat&lt;/code&gt;  以下参数与 &lt;code&gt;XYaupd&lt;/code&gt; 相同&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;n&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;which&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nev&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tol&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;resid&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ncv&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;v&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ldv&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;iparam&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ipntr&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;workd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;workl&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lworkl&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;info&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>eigen</category><guid>https://chimez.github.io/posts/arpack/</guid><pubDate>Fri, 07 May 2021 10:48:36 GMT</pubDate></item><item><title>BLAS</title><link>https://chimez.github.io/posts/blas/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge468d11" class="outline-2"&gt;
+&lt;h2 id="orge468d11"&gt;BLAS&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge468d11"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;MKL 中的 BLAS，参考 &lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/naming-conventions-for-blas-routines.html"&gt;MKL - BLAS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;标准的 BLAS 参考 &lt;a href="https://www.netlib.org/blas/"&gt;netlib - BLAS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfef8337" class="outline-3"&gt;
+&lt;h3 id="orgfef8337"&gt;BLAS 的命名规则&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfef8337"&gt;
+&lt;p&gt;
+BLAS 中的函数名一般规则是 &lt;code&gt;&amp;lt;character&amp;gt;&amp;lt;name&amp;gt;&amp;lt;mode&amp;gt; ()&lt;/code&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;character&amp;gt;&lt;/code&gt; 指明数据类型
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;s&lt;/code&gt; real, single precision&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;c&lt;/code&gt; complex, single precision&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;d&lt;/code&gt; real, double precision&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;z&lt;/code&gt; complex, double precision&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;name&amp;gt;&lt;/code&gt; 指明矩阵类型 BLAS 2 and 3
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;ge&lt;/code&gt; general matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;gb&lt;/code&gt; general band matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sy&lt;/code&gt; symmetric matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sp&lt;/code&gt; symmetric matrix (packed storage)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sb&lt;/code&gt; symmetric band matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;he&lt;/code&gt; hermitian matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;hp&lt;/code&gt; hermitian matrix (packed storage)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;hb&lt;/code&gt; hermitian band matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tr&lt;/code&gt; triangular matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tp&lt;/code&gt; triangular matrix (packed storage)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tb&lt;/code&gt; triangular band matrix&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;mod&amp;gt;&lt;/code&gt; 指明操作的细节
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;c&lt;/code&gt; conjugated vector&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;u&lt;/code&gt; unconjugated vector&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;g&lt;/code&gt; Givens rotation construction&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;m&lt;/code&gt; modified Givens rotation&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mg&lt;/code&gt; modified Givens rotation construction&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mv&lt;/code&gt; matrix-vector product&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sv&lt;/code&gt; solving a system of linear equations with a single unknown vector&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r&lt;/code&gt; rank-1 update of matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r2&lt;/code&gt; rank-2 update of matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mm&lt;/code&gt; matrix-matrix product&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sm&lt;/code&gt; solving a system of linear equations with multiple unkonwn vectors&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;rk&lt;/code&gt; rank-k update of matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r2k&lt;/code&gt; rank-2k update of a matrix&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6b7b696" class="outline-3"&gt;
+&lt;h3 id="org6b7b696"&gt;CBLAS 约定&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6b7b696"&gt;
+&lt;p&gt;
+CBLAS 是 BLAS 的 c 接口， BLAS 是 fortran 标准。
+&lt;/p&gt;
+
+&lt;p&gt;
+CBLAS 函数都遵循以下约定
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;输入参数是 &lt;code&gt;const&lt;/code&gt; 指针&lt;/li&gt;
+&lt;li&gt;非复数标量输入参数传值&lt;/li&gt;
+&lt;li&gt;复标量参数传 &lt;code&gt;void&lt;/code&gt; 指针&lt;/li&gt;
+&lt;li&gt;数组参数传地址&lt;/li&gt;
+&lt;li&gt;BLAS 特征参数由适当的枚举类型代替&lt;/li&gt;
+&lt;li&gt;level 2 和 level 3 需要一个额外的 &lt;code&gt;CBLAS_LAYOUT&lt;/code&gt; 类型的参数来指定矩阵是行优先 &lt;code&gt;CblasRowMajor&lt;/code&gt; 还是列优先 &lt;code&gt;CblasColMajor&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgca95bd0" class="outline-3"&gt;
+&lt;h3 id="orgca95bd0"&gt;枚举类型&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgca95bd0"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_LAYOUT&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasRowMajor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;101&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="cm"&gt;/* row-major arrays */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasColMajor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;102&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;   &lt;span class="cm"&gt;/* column-major arrays */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_TRANSPOSE&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasNoTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;111&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;     &lt;span class="cm"&gt;/* trans='N' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;112&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;       &lt;span class="cm"&gt;/* trans='T' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasConjTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;113&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;  &lt;span class="cm"&gt;/* trans='C' */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_UPLO&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasUpper&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;121&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;        &lt;span class="cm"&gt;/* uplo ='U' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasLower&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;122&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;       &lt;span class="cm"&gt;/* uplo ='L' */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_DIAG&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasNonUnit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;131&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="cm"&gt;/* diag ='N' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasUnit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;132&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;        &lt;span class="cm"&gt;/* diag ='U' */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_SIDE&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasLeft&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;141&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;         &lt;span class="cm"&gt;/* side ='L' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasRight&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;142&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;       &lt;span class="cm"&gt;/* side ='R' */&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9304e2e" class="outline-3"&gt;
+&lt;h3 id="org9304e2e"&gt;矩阵存储方式&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9304e2e"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;完全存储矩阵 \(A_{ij}_{}\) 在二维数组列存储 &lt;code&gt;a[i + j*lda]&lt;/code&gt; 行存储 &lt;code&gt;a[i*lda + j]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;packed storage 可以用更有效的方式存储矩阵&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>BLAS</category><category>C</category><guid>https://chimez.github.io/posts/blas/</guid><pubDate>Fri, 07 May 2021 03:47:35 GMT</pubDate></item><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org8ed1917" class="outline-2"&gt;
+&lt;h2 id="org8ed1917"&gt;PETSc&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8ed1917"&gt;
 &lt;p&gt;
 &lt;a href="https://www.mcs.anl.gov/petsc/index.html"&gt;PETSc&lt;/a&gt; 是用于开发并行计算程序的基础库，完全建立在 MPI 上。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5a15db5" class="outline-3"&gt;
-&lt;h3 id="org5a15db5"&gt;安装与编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5a15db5"&gt;
+&lt;div id="outline-container-org7e7c1b7" class="outline-3"&gt;
+&lt;h3 id="org7e7c1b7"&gt;安装与编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7e7c1b7"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;在 Debian 上有包 &lt;code&gt;petsc-dev&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;下载 &lt;a href="https://www.mcs.anl.gov/petsc/download/"&gt;源码&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>mpi</category><guid>https://chimez.github.io/posts/petsc/</guid><pubDate>Wed, 21 Apr 2021 07:39:14 GMT</pubDate></item><item><title>PyTables</title><link>https://chimez.github.io/posts/pytables/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgc54e73f" class="outline-2"&gt;
-&lt;h2 id="orgc54e73f"&gt;PyTables: 分层数据集&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc54e73f"&gt;
+&lt;/div&gt;</description><category>C</category><category>mpi</category><guid>https://chimez.github.io/posts/petsc/</guid><pubDate>Wed, 21 Apr 2021 07:39:14 GMT</pubDate></item><item><title>PyTables</title><link>https://chimez.github.io/posts/pytables/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge63fc38" class="outline-2"&gt;
+&lt;h2 id="orge63fc38"&gt;PyTables: 分层数据集&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge63fc38"&gt;
 &lt;p&gt;
 &lt;a href="https://www.pytables.org"&gt;PyTables&lt;/a&gt; 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5py 更高层。适合用在存储比 csv 表格更复杂更大的数据，同时又不想自己实现一些基本的数据操作的情况中，并且经过简单的处理就能用 pandas 进行进一步数据分析。
 &lt;/p&gt;
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org2f46282" class="outline-3"&gt;
-&lt;h3 id="org2f46282"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org2f46282"&gt;
+&lt;div id="outline-container-orgca3ec8c" class="outline-3"&gt;
+&lt;h3 id="orgca3ec8c"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgca3ec8c"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 使用 conda
    conda install pytables
    # 或者 pip
@@ -44,17 +290,17 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org67cb12c" class="outline-3"&gt;
-&lt;h3 id="org67cb12c"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org67cb12c"&gt;
+&lt;div id="outline-container-org65428e7" class="outline-3"&gt;
+&lt;h3 id="org65428e7"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org65428e7"&gt;
 &lt;p&gt;
 pytables 的基本逻辑是
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc3ba833" class="outline-4"&gt;
-&lt;h4 id="orgc3ba833"&gt;创建一个 HDF5 文件&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc3ba833"&gt;
+&lt;div id="outline-container-org7f38529" class="outline-4"&gt;
+&lt;h4 id="org7f38529"&gt;创建一个 HDF5 文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org7f38529"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open_file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"filename.h5"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"w"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"file title"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;filters&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Filters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;complevel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
     &lt;span class="c1"&gt;# 别忘了还要关闭它&lt;/span&gt;
@@ -63,17 +309,17 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org005d4b5" class="outline-4"&gt;
-&lt;h4 id="org005d4b5"&gt;在文件中创建任意层的数据集&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org005d4b5"&gt;
+&lt;div id="outline-container-org6ae6a0b" class="outline-4"&gt;
+&lt;h4 id="org6ae6a0b"&gt;在文件中创建任意层的数据集&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6ae6a0b"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;g&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"/parent/group"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"group_name"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"group title"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9e9e3a8" class="outline-4"&gt;
-&lt;h4 id="org9e9e3a8"&gt;在数据集中创建若干个数据表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org9e9e3a8"&gt;
+&lt;div id="outline-container-orgf749030" class="outline-4"&gt;
+&lt;h4 id="orgf749030"&gt;在数据集中创建若干个数据表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf749030"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="c1"&gt;# 需要创建对数据的描述&lt;/span&gt;
     &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;data_description&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;IsDescription&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
 	&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;StringCol&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -101,13 +347,13 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgea59456" class="outline-2"&gt;
-&lt;h2 id="orgea59456"&gt;遇到的问题&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgea59456"&gt;
+&lt;div id="outline-container-org62aa681" class="outline-2"&gt;
+&lt;h2 id="org62aa681"&gt;遇到的问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org62aa681"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga789dfa" class="outline-3"&gt;
-&lt;h3 id="orga789dfa"&gt;在不支持 &lt;code&gt;flock&lt;/code&gt; 的集群上运行&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga789dfa"&gt;
+&lt;div id="outline-container-org7ea187c" class="outline-3"&gt;
+&lt;h3 id="org7ea187c"&gt;在不支持 &lt;code&gt;flock&lt;/code&gt; 的集群上运行&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7ea187c"&gt;
 &lt;p&gt;
 需要设置环境变量
 &lt;/p&gt;
@@ -116,17 +362,17 @@ pytables 的基本逻辑是
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>python</category><guid>https://chimez.github.io/posts/pytables/</guid><pubDate>Mon, 01 Mar 2021 03:23:19 GMT</pubDate></item><item><title>h5py</title><link>https://chimez.github.io/posts/h5py/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga6ad85b" class="outline-2"&gt;
-&lt;h2 id="orga6ad85b"&gt;h5py: 储存数据&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga6ad85b"&gt;
+&lt;/div&gt;</description><category>python</category><guid>https://chimez.github.io/posts/pytables/</guid><pubDate>Mon, 01 Mar 2021 03:23:19 GMT</pubDate></item><item><title>h5py</title><link>https://chimez.github.io/posts/h5py/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org88224ef" class="outline-2"&gt;
+&lt;h2 id="org88224ef"&gt;h5py: 储存数据&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org88224ef"&gt;
 &lt;p&gt;
 &lt;a href="https://www.h5py.org/"&gt;h5py&lt;/a&gt; 是 HDF5 库的 python 封装，基本提供了所有对应的 C API，因此适合用在简单并底层的应用中，特别适合对 HDF5 文件有定制的应用中。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbd84bf7" class="outline-3"&gt;
-&lt;h3 id="orgbd84bf7"&gt;存&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgbd84bf7"&gt;
+&lt;div id="outline-container-org76d8833" class="outline-3"&gt;
+&lt;h3 id="org76d8833"&gt;存&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org76d8833"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;h5py&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'data.h5'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'w'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
        &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_dataset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"mat1"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;mat1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;compression&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"gzip"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
        &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_dataset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"mat2"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;mat2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;compression&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"gzip"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -138,9 +384,9 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org5d867f0" class="outline-3"&gt;
-&lt;h3 id="org5d867f0"&gt;取&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5d867f0"&gt;
+&lt;div id="outline-container-orgf130aaa" class="outline-3"&gt;
+&lt;h3 id="orgf130aaa"&gt;取&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf130aaa"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;h5py&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'data.h5'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'r'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
        &lt;span class="n"&gt;mat1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'mat1'&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
        &lt;span class="n"&gt;mat2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'mat2'&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;

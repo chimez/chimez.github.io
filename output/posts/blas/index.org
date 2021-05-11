@@ -1,0 +1,96 @@
+#+BEGIN_COMMENT
+.. title: BLAS
+.. slug: blas
+.. date: 2021-05-07 11:47:35 UTC+08:00
+.. tags: BLAS, C
+.. category: library
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* BLAS
+  
+  - MKL 中的 BLAS，参考 [[https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/naming-conventions-for-blas-routines.html][MKL - BLAS]]
+  - 标准的 BLAS 参考 [[https://www.netlib.org/blas/][netlib - BLAS]]
+ 
+** BLAS 的命名规则
+
+   BLAS 中的函数名一般规则是 ~<character><name><mode> ()~
+   - ~<character>~ 指明数据类型
+     - ~s~ real, single precision
+     - ~c~ complex, single precision
+     - ~d~ real, double precision
+     - ~z~ complex, double precision
+   - ~<name>~ 指明矩阵类型 BLAS 2 and 3
+     - ~ge~ general matrix
+     - ~gb~ general band matrix
+     - ~sy~ symmetric matrix
+     - ~sp~ symmetric matrix (packed storage)
+     - ~sb~ symmetric band matrix
+     - ~he~ hermitian matrix
+     - ~hp~ hermitian matrix (packed storage)
+     - ~hb~ hermitian band matrix
+     - ~tr~ triangular matrix
+     - ~tp~ triangular matrix (packed storage)
+     - ~tb~ triangular band matrix
+   - ~<mod>~ 指明操作的细节
+     - ~c~ conjugated vector
+     - ~u~ unconjugated vector
+     - ~g~ Givens rotation construction
+     - ~m~ modified Givens rotation
+     - ~mg~ modified Givens rotation construction
+     - ~mv~ matrix-vector product
+     - ~sv~ solving a system of linear equations with a single unknown vector
+     - ~r~ rank-1 update of matrix
+     - ~r2~ rank-2 update of matrix
+     - ~mm~ matrix-matrix product
+     - ~sm~ solving a system of linear equations with multiple unkonwn vectors
+     - ~rk~ rank-k update of matrix
+     - ~r2k~ rank-2k update of a matrix
+
+** CBLAS 约定
+
+   CBLAS 是 BLAS 的 c 接口， BLAS 是 fortran 标准。
+
+   CBLAS 函数都遵循以下约定
+
+   - 输入参数是 ~const~ 指针
+   - 非复数标量输入参数传值
+   - 复标量参数传 ~void~ 指针
+   - 数组参数传地址
+   - BLAS 特征参数由适当的枚举类型代替
+   - level 2 和 level 3 需要一个额外的 ~CBLAS_LAYOUT~ 类型的参数来指定矩阵是行优先 ~CblasRowMajor~ 还是列优先 ~CblasColMajor~
+   
+** 枚举类型
+
+   #+begin_src c
+enum CBLAS_LAYOUT {
+   CblasRowMajor=101,    /* row-major arrays */
+   CblasColMajor=102};   /* column-major arrays */
+
+enum CBLAS_TRANSPOSE {
+   CblasNoTrans=111,     /* trans='N' */
+   CblasTrans=112,       /* trans='T' */
+   CblasConjTrans=113};  /* trans='C' */
+
+enum CBLAS_UPLO {
+   CblasUpper=121,        /* uplo ='U' */
+   CblasLower=122};       /* uplo ='L' */
+
+enum CBLAS_DIAG {
+   CblasNonUnit=131,      /* diag ='N' */
+   CblasUnit=132};        /* diag ='U' */
+
+enum CBLAS_SIDE {
+   CblasLeft=141,         /* side ='L' */
+   CblasRight=142};       /* side ='R' */
+   #+end_src
+
+** 矩阵存储方式
+
+1. 完全存储矩阵 $A_{ij}_{}$ 在二维数组列存储 ~a[i + j*lda]~ 行存储 ~a[i*lda + j]~
+2. packed storage 可以用更有效的方式存储矩阵
+   
+

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about BLAS)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/blas.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 11 May 2021 16:10:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>LAPACK</title><link>https://chimez.github.io/posts/lapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org343cbe4" class="outline-2"&gt;
+&lt;h2 id="org343cbe4"&gt;LAPACK&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org343cbe4"&gt;
+&lt;p&gt;
+主页在 &lt;a href="https://www.netlib.org/lapack/"&gt;https://www.netlib.org/lapack/&lt;/a&gt;, 文档在 &lt;a href="https://www.netlib.org/lapack/explore-html/"&gt;https://www.netlib.org/lapack/explore-html/&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+安装说明
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;liblapack&lt;/code&gt; 是本体&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;liblapacke&lt;/code&gt; 是 c 的绑定&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6599002" class="outline-3"&gt;
+&lt;h3 id="org6599002"&gt;dsyevd: 实对称矩阵本征值&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6599002"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orga74d5b5" class="outline-4"&gt;
+&lt;h4 id="orga74d5b5"&gt;参数说明&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga74d5b5"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;jobz&lt;/code&gt; 计算任务类型， &lt;code&gt;jobz = "N"&lt;/code&gt; 只计算本征值， &lt;code&gt;jobz = "V"&lt;/code&gt; 计算本征值和本征矢&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UPLO&lt;/code&gt; 矩阵的存储方式, &lt;code&gt;UPLO = "U"&lt;/code&gt; &lt;code&gt;A&lt;/code&gt; 中存了上三角矩阵， &lt;code&gt;UPLO = "L"&lt;/code&gt; 下三角矩阵&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;N&lt;/code&gt; 矩阵维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;A&lt;/code&gt; 输入矩阵 &lt;code&gt;LDA * N&lt;/code&gt; 维，计算后会被破坏，或者保存为本征矢&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LDA&lt;/code&gt; 矩阵维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;W&lt;/code&gt; 本征值向量 &lt;code&gt;N&lt;/code&gt; 维，升序排列&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WORK&lt;/code&gt; 工作向量，~LWORK~ 维, &lt;code&gt;WORK[0]&lt;/code&gt; 是最优的 &lt;code&gt;LWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LWORK&lt;/code&gt; 工作向量维数， &lt;code&gt;LWORK = -1&lt;/code&gt; 计算最优的 &lt;code&gt;LWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IWORK&lt;/code&gt; 工作向量， &lt;code&gt;LIWORK&lt;/code&gt; 维， &lt;code&gt;IWORK[0]&lt;/code&gt; 是最优的 &lt;code&gt;LIWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LIWORK&lt;/code&gt; 工作向量维数， &lt;code&gt;LIWORK = -1&lt;/code&gt; 计算最优的 &lt;code&gt;LIWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;INFO&lt;/code&gt; 错误信息， &lt;code&gt;info = 0&lt;/code&gt; 成功&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>BLAS</category><category>C</category><category>LAPACK</category><guid>https://chimez.github.io/posts/lapack/</guid><pubDate>Mon, 10 May 2021 01:46:43 GMT</pubDate></item><item><title>BLAS</title><link>https://chimez.github.io/posts/blas/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge468d11" class="outline-2"&gt;
+&lt;h2 id="orge468d11"&gt;BLAS&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge468d11"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;MKL 中的 BLAS，参考 &lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/naming-conventions-for-blas-routines.html"&gt;MKL - BLAS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;标准的 BLAS 参考 &lt;a href="https://www.netlib.org/blas/"&gt;netlib - BLAS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfef8337" class="outline-3"&gt;
+&lt;h3 id="orgfef8337"&gt;BLAS 的命名规则&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfef8337"&gt;
+&lt;p&gt;
+BLAS 中的函数名一般规则是 &lt;code&gt;&amp;lt;character&amp;gt;&amp;lt;name&amp;gt;&amp;lt;mode&amp;gt; ()&lt;/code&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;character&amp;gt;&lt;/code&gt; 指明数据类型
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;s&lt;/code&gt; real, single precision&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;c&lt;/code&gt; complex, single precision&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;d&lt;/code&gt; real, double precision&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;z&lt;/code&gt; complex, double precision&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;name&amp;gt;&lt;/code&gt; 指明矩阵类型 BLAS 2 and 3
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;ge&lt;/code&gt; general matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;gb&lt;/code&gt; general band matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sy&lt;/code&gt; symmetric matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sp&lt;/code&gt; symmetric matrix (packed storage)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sb&lt;/code&gt; symmetric band matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;he&lt;/code&gt; hermitian matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;hp&lt;/code&gt; hermitian matrix (packed storage)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;hb&lt;/code&gt; hermitian band matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tr&lt;/code&gt; triangular matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tp&lt;/code&gt; triangular matrix (packed storage)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tb&lt;/code&gt; triangular band matrix&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;mod&amp;gt;&lt;/code&gt; 指明操作的细节
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;c&lt;/code&gt; conjugated vector&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;u&lt;/code&gt; unconjugated vector&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;g&lt;/code&gt; Givens rotation construction&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;m&lt;/code&gt; modified Givens rotation&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mg&lt;/code&gt; modified Givens rotation construction&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mv&lt;/code&gt; matrix-vector product&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sv&lt;/code&gt; solving a system of linear equations with a single unknown vector&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r&lt;/code&gt; rank-1 update of matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r2&lt;/code&gt; rank-2 update of matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mm&lt;/code&gt; matrix-matrix product&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sm&lt;/code&gt; solving a system of linear equations with multiple unkonwn vectors&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;rk&lt;/code&gt; rank-k update of matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r2k&lt;/code&gt; rank-2k update of a matrix&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6b7b696" class="outline-3"&gt;
+&lt;h3 id="org6b7b696"&gt;CBLAS 约定&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6b7b696"&gt;
+&lt;p&gt;
+CBLAS 是 BLAS 的 c 接口， BLAS 是 fortran 标准。
+&lt;/p&gt;
+
+&lt;p&gt;
+CBLAS 函数都遵循以下约定
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;输入参数是 &lt;code&gt;const&lt;/code&gt; 指针&lt;/li&gt;
+&lt;li&gt;非复数标量输入参数传值&lt;/li&gt;
+&lt;li&gt;复标量参数传 &lt;code&gt;void&lt;/code&gt; 指针&lt;/li&gt;
+&lt;li&gt;数组参数传地址&lt;/li&gt;
+&lt;li&gt;BLAS 特征参数由适当的枚举类型代替&lt;/li&gt;
+&lt;li&gt;level 2 和 level 3 需要一个额外的 &lt;code&gt;CBLAS_LAYOUT&lt;/code&gt; 类型的参数来指定矩阵是行优先 &lt;code&gt;CblasRowMajor&lt;/code&gt; 还是列优先 &lt;code&gt;CblasColMajor&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgca95bd0" class="outline-3"&gt;
+&lt;h3 id="orgca95bd0"&gt;枚举类型&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgca95bd0"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_LAYOUT&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasRowMajor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;101&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="cm"&gt;/* row-major arrays */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasColMajor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;102&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;   &lt;span class="cm"&gt;/* column-major arrays */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_TRANSPOSE&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasNoTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;111&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;     &lt;span class="cm"&gt;/* trans='N' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;112&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;       &lt;span class="cm"&gt;/* trans='T' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasConjTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;113&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;  &lt;span class="cm"&gt;/* trans='C' */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_UPLO&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasUpper&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;121&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;        &lt;span class="cm"&gt;/* uplo ='U' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasLower&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;122&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;       &lt;span class="cm"&gt;/* uplo ='L' */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_DIAG&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasNonUnit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;131&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="cm"&gt;/* diag ='N' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasUnit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;132&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;        &lt;span class="cm"&gt;/* diag ='U' */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_SIDE&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasLeft&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;141&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;         &lt;span class="cm"&gt;/* side ='L' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasRight&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;142&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;       &lt;span class="cm"&gt;/* side ='R' */&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9304e2e" class="outline-3"&gt;
+&lt;h3 id="org9304e2e"&gt;矩阵存储方式&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9304e2e"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;完全存储矩阵 \(A_{ij}_{}\) 在二维数组列存储 &lt;code&gt;a[i + j*lda]&lt;/code&gt; 行存储 &lt;code&gt;a[i*lda + j]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;packed storage 可以用更有效的方式存储矩阵&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>BLAS</category><category>C</category><guid>https://chimez.github.io/posts/blas/</guid><pubDate>Fri, 07 May 2021 03:47:35 GMT</pubDate></item></channel></rss>

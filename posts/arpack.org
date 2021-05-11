@@ -1,0 +1,78 @@
+#+BEGIN_COMMENT
+.. title: arpack
+.. slug: arpack
+.. date: 2021-05-07 18:48:36 UTC+08:00
+.. tags: eigen
+.. category: library
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+* ARPACK
+  新版本在 [[https://github.com/opencollab/arpack-ng][arpack-ng]] , 文档在 [[https://www.caam.rice.edu/software/ARPACK/UG/node135.html][rice - ARPACK]]
+
+**  函数说明
+   头文件 ~arpack.h~ 中的函数有
+   1. ~<?>neupd_c~ 计算一般矩阵的本征值, ~<?> = sdcz~
+   2. ~<?>naupd_c~ 计算一般矩阵的反向通信接口, ~<?> = sdcz~
+   3. ~<?>seupd_c~ 计算厄米矩阵的本征值, ~<?> = sd~
+   4. ~<?>saupd_c~ 计算厄米矩阵的反向通信接口, ~<?> = sd~
+
+** ~XYaupd~ 参数说明
+   1. ~ido~   反向通信标志，第一次运行 ~ido=0~
+   2. ~bmat~  问题类型标志，标准本征值问题 ~bmat="I"~ , 扩展本征值问题 ~bmat="G"~
+   3. ~n~  矩阵维数
+   4. ~which~ Ritz值的位置 ~which="LA", "SA", "LM", "SM", "BE"~
+   5. ~nev~ 计算本征值的个数 ~0 < nev < n~
+   6. ~tol~ 浮点精度
+   7. ~resid~ 残差向量
+   8. ~ncv~ Lanczos 向量个数
+   9. ~v~ Lanczos 向量， ~ncv~ 列
+   10. ~ldv~ Lanczos 向量的首列长度
+   11. ~iparam~ ~int[11]~ 的数组，保存了 11 个设置参数
+       1. ~iparam[0]=ishift~ 选择隐式移动的方法， ~ishift=0~ 由用户指定， ~ishift=1~ 由约化三对角矩阵决定
+       2. ~iparam[1]=levec~ 没用
+       3. ~iparam[2]=mxiter~ 最大 Arnoldi 更新迭代次数
+       4. ~iparam[3]=nb~ 块大小，只能取 ~nb=1~
+       5. ~iparam[4]=nconv~ 收敛了的 Ritz 值个数
+       6. ~iparam[5]=iupd~ 没用
+       7. ~iparam[6]=mode~ 指定本征值问题的类型只能取 ~mode = 1,2,3,4,5~
+       8. ~iparam[7]=np~ ~ido=3~ 时有用
+       9. ~iparam[8]=numop~ OP*x 计算的次数
+       10. ~iparam[9]=numob~ B*x 计算的次数
+       11. ~iparam[10]=numreo~ 重正交化的次数
+   12. ~ipntr~ ~int[11]~ 的数组，保存指向 ~workl~, ~workd~ 中起始位置的指针
+   13. ~workd~ ~3*N~ 长的数组，算法内部使用
+   14. ~workl~ ~lworkl~ 长的数组，算法内部使用
+   15. ~lworkl~ ~workl~ 的长度，至少 ~ncv**2 + 8*ncv~
+   16. ~info~ 运行提示和错误信息
+
+** ~XYeupd~ 参数说明
+   1. ~rvec~ 指定是否产生本征矢 ~rvec=true~ 产生本征矢， ~rvec=false~ 只产生本征值
+   2. ~howmny~ 指定产生本征矢的个数 ~howmny="A"~ 计算 ~nev~ 个， ~howmny="P"~ 计算 nev Schur 本征矢， ~howmny="S"~ 计算一部分本征值，由 ~select~ 指定
+   3. ~select~ 指定计算的本征矢
+   4. ~dr~ Ritz 值的实部
+   5. ~di~ Ritz 值的虚部
+   6. ~z~ Ritz 向量
+   7. ~ldz~ Ritz 向量的首列维数
+   8. ~sigmar~ shift 的实部, iparam[6]=3 or 4 时有效
+   9. ~sigmai~ shift 的虚部
+   10. ~workev~ 3*ncv 的内部数组
+   11. ~bmat~  以下参数与 ~XYaupd~ 相同
+   12. ~n~ 
+   13. ~which~
+   14. ~nev~
+   15. ~tol~
+   16. ~resid~
+   17. ~ncv~
+   18. ~v~
+   19. ~ldv~
+   20. ~iparam~
+   21. ~ipntr~
+   22. ~workd~
+   23. ~workl~
+   24. ~lworkl~
+   25. ~info~
