@@ -1,33 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about C)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/c.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sun, 25 Apr 2021 06:00:05 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org562c6a6" class="outline-2"&gt;
-&lt;h2 id="org562c6a6"&gt;PETSc&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org562c6a6"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about C)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/c.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 11 May 2021 16:10:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>meson</title><link>https://chimez.github.io/posts/meson/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge433de1" class="outline-2"&gt;
+&lt;h2 id="orge433de1"&gt;meson 构建工具&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge433de1"&gt;
+&lt;p&gt;
+网站 &lt;a href="https://mesonbuild.com"&gt;meson-build&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4ff9799" class="outline-3"&gt;
+&lt;h3 id="org4ff9799"&gt;添加依赖&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4ff9799"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;cc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;meson&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_compiler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'c'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+   &lt;span class="n"&gt;all_deps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+   &lt;span class="n"&gt;thread_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'threads'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="n"&gt;all_deps&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;thread_dep&lt;/span&gt;
+
+   &lt;span class="n"&gt;src_dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'../src'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+   &lt;span class="n"&gt;exe&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;executable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'name'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'src1.c'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'src2.c'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+	   &lt;span class="n"&gt;dependencies&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;all_deps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+	   &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;src_dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgb2447fa" class="outline-3"&gt;
+&lt;h3 id="orgb2447fa"&gt;使用 address sanitizer&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb2447fa"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   CC=clang meson build  -Db_sanitize=address -Db_lundef=false
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0583689" class="outline-3"&gt;
+&lt;h3 id="org0583689"&gt;使用 clang 静态分析&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0583689"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;meson build
+ninja -C build scan-build
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>meson</category><guid>https://chimez.github.io/posts/meson/</guid><pubDate>Mon, 10 May 2021 08:20:05 GMT</pubDate></item><item><title>LAPACK</title><link>https://chimez.github.io/posts/lapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org343cbe4" class="outline-2"&gt;
+&lt;h2 id="org343cbe4"&gt;LAPACK&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org343cbe4"&gt;
+&lt;p&gt;
+主页在 &lt;a href="https://www.netlib.org/lapack/"&gt;https://www.netlib.org/lapack/&lt;/a&gt;, 文档在 &lt;a href="https://www.netlib.org/lapack/explore-html/"&gt;https://www.netlib.org/lapack/explore-html/&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+安装说明
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;liblapack&lt;/code&gt; 是本体&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;liblapacke&lt;/code&gt; 是 c 的绑定&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6599002" class="outline-3"&gt;
+&lt;h3 id="org6599002"&gt;dsyevd: 实对称矩阵本征值&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6599002"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orga74d5b5" class="outline-4"&gt;
+&lt;h4 id="orga74d5b5"&gt;参数说明&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga74d5b5"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;jobz&lt;/code&gt; 计算任务类型， &lt;code&gt;jobz = "N"&lt;/code&gt; 只计算本征值， &lt;code&gt;jobz = "V"&lt;/code&gt; 计算本征值和本征矢&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UPLO&lt;/code&gt; 矩阵的存储方式, &lt;code&gt;UPLO = "U"&lt;/code&gt; &lt;code&gt;A&lt;/code&gt; 中存了上三角矩阵， &lt;code&gt;UPLO = "L"&lt;/code&gt; 下三角矩阵&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;N&lt;/code&gt; 矩阵维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;A&lt;/code&gt; 输入矩阵 &lt;code&gt;LDA * N&lt;/code&gt; 维，计算后会被破坏，或者保存为本征矢&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LDA&lt;/code&gt; 矩阵维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;W&lt;/code&gt; 本征值向量 &lt;code&gt;N&lt;/code&gt; 维，升序排列&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WORK&lt;/code&gt; 工作向量，~LWORK~ 维, &lt;code&gt;WORK[0]&lt;/code&gt; 是最优的 &lt;code&gt;LWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LWORK&lt;/code&gt; 工作向量维数， &lt;code&gt;LWORK = -1&lt;/code&gt; 计算最优的 &lt;code&gt;LWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IWORK&lt;/code&gt; 工作向量， &lt;code&gt;LIWORK&lt;/code&gt; 维， &lt;code&gt;IWORK[0]&lt;/code&gt; 是最优的 &lt;code&gt;LIWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LIWORK&lt;/code&gt; 工作向量维数， &lt;code&gt;LIWORK = -1&lt;/code&gt; 计算最优的 &lt;code&gt;LIWORK&lt;/code&gt; 值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;INFO&lt;/code&gt; 错误信息， &lt;code&gt;info = 0&lt;/code&gt; 成功&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>BLAS</category><category>C</category><category>LAPACK</category><guid>https://chimez.github.io/posts/lapack/</guid><pubDate>Mon, 10 May 2021 01:46:43 GMT</pubDate></item><item><title>BLAS</title><link>https://chimez.github.io/posts/blas/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge468d11" class="outline-2"&gt;
+&lt;h2 id="orge468d11"&gt;BLAS&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge468d11"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;MKL 中的 BLAS，参考 &lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/naming-conventions-for-blas-routines.html"&gt;MKL - BLAS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;标准的 BLAS 参考 &lt;a href="https://www.netlib.org/blas/"&gt;netlib - BLAS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfef8337" class="outline-3"&gt;
+&lt;h3 id="orgfef8337"&gt;BLAS 的命名规则&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfef8337"&gt;
+&lt;p&gt;
+BLAS 中的函数名一般规则是 &lt;code&gt;&amp;lt;character&amp;gt;&amp;lt;name&amp;gt;&amp;lt;mode&amp;gt; ()&lt;/code&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;character&amp;gt;&lt;/code&gt; 指明数据类型
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;s&lt;/code&gt; real, single precision&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;c&lt;/code&gt; complex, single precision&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;d&lt;/code&gt; real, double precision&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;z&lt;/code&gt; complex, double precision&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;name&amp;gt;&lt;/code&gt; 指明矩阵类型 BLAS 2 and 3
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;ge&lt;/code&gt; general matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;gb&lt;/code&gt; general band matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sy&lt;/code&gt; symmetric matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sp&lt;/code&gt; symmetric matrix (packed storage)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sb&lt;/code&gt; symmetric band matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;he&lt;/code&gt; hermitian matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;hp&lt;/code&gt; hermitian matrix (packed storage)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;hb&lt;/code&gt; hermitian band matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tr&lt;/code&gt; triangular matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tp&lt;/code&gt; triangular matrix (packed storage)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tb&lt;/code&gt; triangular band matrix&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;mod&amp;gt;&lt;/code&gt; 指明操作的细节
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;c&lt;/code&gt; conjugated vector&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;u&lt;/code&gt; unconjugated vector&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;g&lt;/code&gt; Givens rotation construction&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;m&lt;/code&gt; modified Givens rotation&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mg&lt;/code&gt; modified Givens rotation construction&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mv&lt;/code&gt; matrix-vector product&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sv&lt;/code&gt; solving a system of linear equations with a single unknown vector&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r&lt;/code&gt; rank-1 update of matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r2&lt;/code&gt; rank-2 update of matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mm&lt;/code&gt; matrix-matrix product&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sm&lt;/code&gt; solving a system of linear equations with multiple unkonwn vectors&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;rk&lt;/code&gt; rank-k update of matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;r2k&lt;/code&gt; rank-2k update of a matrix&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6b7b696" class="outline-3"&gt;
+&lt;h3 id="org6b7b696"&gt;CBLAS 约定&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6b7b696"&gt;
+&lt;p&gt;
+CBLAS 是 BLAS 的 c 接口， BLAS 是 fortran 标准。
+&lt;/p&gt;
+
+&lt;p&gt;
+CBLAS 函数都遵循以下约定
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;输入参数是 &lt;code&gt;const&lt;/code&gt; 指针&lt;/li&gt;
+&lt;li&gt;非复数标量输入参数传值&lt;/li&gt;
+&lt;li&gt;复标量参数传 &lt;code&gt;void&lt;/code&gt; 指针&lt;/li&gt;
+&lt;li&gt;数组参数传地址&lt;/li&gt;
+&lt;li&gt;BLAS 特征参数由适当的枚举类型代替&lt;/li&gt;
+&lt;li&gt;level 2 和 level 3 需要一个额外的 &lt;code&gt;CBLAS_LAYOUT&lt;/code&gt; 类型的参数来指定矩阵是行优先 &lt;code&gt;CblasRowMajor&lt;/code&gt; 还是列优先 &lt;code&gt;CblasColMajor&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgca95bd0" class="outline-3"&gt;
+&lt;h3 id="orgca95bd0"&gt;枚举类型&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgca95bd0"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_LAYOUT&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasRowMajor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;101&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="cm"&gt;/* row-major arrays */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasColMajor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;102&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;   &lt;span class="cm"&gt;/* column-major arrays */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_TRANSPOSE&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasNoTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;111&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;     &lt;span class="cm"&gt;/* trans='N' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;112&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;       &lt;span class="cm"&gt;/* trans='T' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasConjTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;113&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;  &lt;span class="cm"&gt;/* trans='C' */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_UPLO&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasUpper&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;121&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;        &lt;span class="cm"&gt;/* uplo ='U' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasLower&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;122&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;       &lt;span class="cm"&gt;/* uplo ='L' */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_DIAG&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasNonUnit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;131&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="cm"&gt;/* diag ='N' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasUnit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;132&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;        &lt;span class="cm"&gt;/* diag ='U' */&lt;/span&gt;
+
+   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_SIDE&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;CblasLeft&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;141&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;         &lt;span class="cm"&gt;/* side ='L' */&lt;/span&gt;
+      &lt;span class="n"&gt;CblasRight&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;142&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;       &lt;span class="cm"&gt;/* side ='R' */&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9304e2e" class="outline-3"&gt;
+&lt;h3 id="org9304e2e"&gt;矩阵存储方式&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9304e2e"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;完全存储矩阵 \(A_{ij}_{}\) 在二维数组列存储 &lt;code&gt;a[i + j*lda]&lt;/code&gt; 行存储 &lt;code&gt;a[i*lda + j]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;packed storage 可以用更有效的方式存储矩阵&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>BLAS</category><category>C</category><guid>https://chimez.github.io/posts/blas/</guid><pubDate>Fri, 07 May 2021 03:47:35 GMT</pubDate></item><item><title>Extending Python with C</title><link>https://chimez.github.io/posts/extending-python-with-c/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgaf204c4" class="outline-2"&gt;
+&lt;h2 id="orgaf204c4"&gt;用 C 扩展 Python&lt;/h2&gt;
+&lt;/div&gt;</description><category>C</category><category>ffi</category><category>python</category><guid>https://chimez.github.io/posts/extending-python-with-c/</guid><pubDate>Mon, 03 May 2021 11:16:46 GMT</pubDate></item><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org8ed1917" class="outline-2"&gt;
+&lt;h2 id="org8ed1917"&gt;PETSc&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8ed1917"&gt;
 &lt;p&gt;
 &lt;a href="https://www.mcs.anl.gov/petsc/index.html"&gt;PETSc&lt;/a&gt; 是用于开发并行计算程序的基础库，完全建立在 MPI 上。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5a15db5" class="outline-3"&gt;
-&lt;h3 id="org5a15db5"&gt;安装与编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5a15db5"&gt;
+&lt;div id="outline-container-org7e7c1b7" class="outline-3"&gt;
+&lt;h3 id="org7e7c1b7"&gt;安装与编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7e7c1b7"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;在 Debian 上有包 &lt;code&gt;petsc-dev&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;下载 &lt;a href="https://www.mcs.anl.gov/petsc/download/"&gt;源码&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>mpi</category><guid>https://chimez.github.io/posts/petsc/</guid><pubDate>Wed, 21 Apr 2021 07:39:14 GMT</pubDate></item><item><title>C Library</title><link>https://chimez.github.io/posts/c-library/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgb500b73" class="outline-2"&gt;
-&lt;h2 id="orgb500b73"&gt;C 语言标准库&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb500b73"&gt;
+&lt;/div&gt;</description><category>C</category><category>mpi</category><guid>https://chimez.github.io/posts/petsc/</guid><pubDate>Wed, 21 Apr 2021 07:39:14 GMT</pubDate></item><item><title>C Library</title><link>https://chimez.github.io/posts/c-library/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgd3b3a9a" class="outline-2"&gt;
+&lt;h2 id="orgd3b3a9a"&gt;C 语言标准库&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd3b3a9a"&gt;
 &lt;p&gt;
 C89有 15 个头文件， C99 新增了 9 个，一共 24个。
 &lt;/p&gt;
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgd511c0a" class="outline-3"&gt;
-&lt;h3 id="orgd511c0a"&gt;标识符命名限制&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd511c0a"&gt;
+&lt;div id="outline-container-orgf04dc5a" class="outline-3"&gt;
+&lt;h3 id="orgf04dc5a"&gt;标识符命名限制&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf04dc5a"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;由一个下划线和一个大写字母或两个下划线开头的标识符是标准库保留的&lt;/li&gt;
 &lt;li&gt;由一个下划线开头的是文件作用域保留的&lt;/li&gt;
@@ -38,34 +236,34 @@ C89有 15 个头文件， C99 新增了 9 个，一共 24个。
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org8ac1fab" class="outline-2"&gt;
-&lt;h2 id="org8ac1fab"&gt;输入/输出&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8ac1fab"&gt;
+&lt;div id="outline-container-orgb629f4f" class="outline-2"&gt;
+&lt;h2 id="orgb629f4f"&gt;输入/输出&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb629f4f"&gt;
 &lt;p&gt;
 绝大部分内容都在 &lt;code&gt;&amp;lt;stdio.h&amp;gt;&lt;/code&gt; 头中
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org17f3f74" class="outline-3"&gt;
-&lt;h3 id="org17f3f74"&gt;流&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org17f3f74"&gt;
+&lt;div id="outline-container-orgad9ed1d" class="outline-3"&gt;
+&lt;h3 id="orgad9ed1d"&gt;流&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgad9ed1d"&gt;
 &lt;p&gt;
 流(stream) 表示任意输入/输出的源或目的地，一般程序都是从一个流获得输入，再通过另一个流输出。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc2d5ddf" class="outline-4"&gt;
-&lt;h4 id="orgc2d5ddf"&gt;文件指针&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc2d5ddf"&gt;
+&lt;div id="outline-container-orga7a0320" class="outline-4"&gt;
+&lt;h4 id="orga7a0320"&gt;文件指针&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga7a0320"&gt;
 &lt;p&gt;
 C中访问流是通过文件指针实现的，类型为 &lt;code&gt;FILE *&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org57db649" class="outline-4"&gt;
-&lt;h4 id="org57db649"&gt;标准流&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org57db649"&gt;
+&lt;div id="outline-container-orgb446810" class="outline-4"&gt;
+&lt;h4 id="orgb446810"&gt;标准流&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb446810"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;stdin&lt;/code&gt; 标准输入&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;stdout&lt;/code&gt; 标准输出&lt;/li&gt;
@@ -74,9 +272,9 @@ C中访问流是通过文件指针实现的，类型为 &lt;code&gt;FILE *&lt;/c
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1f8773e" class="outline-4"&gt;
-&lt;h4 id="org1f8773e"&gt;文件类型&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1f8773e"&gt;
+&lt;div id="outline-container-org3147d42" class="outline-4"&gt;
+&lt;h4 id="org3147d42"&gt;文件类型&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org3147d42"&gt;
 &lt;p&gt;
 c中支持两种文件类型
 &lt;/p&gt;
@@ -88,13 +286,13 @@ c中支持两种文件类型
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org784268a" class="outline-3"&gt;
-&lt;h3 id="org784268a"&gt;文件操作&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org784268a"&gt;
+&lt;div id="outline-container-org8c5c82c" class="outline-3"&gt;
+&lt;h3 id="org8c5c82c"&gt;文件操作&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org8c5c82c"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org38306b1" class="outline-4"&gt;
-&lt;h4 id="org38306b1"&gt;打开文件&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org38306b1"&gt;
+&lt;div id="outline-container-orga66fdd6" class="outline-4"&gt;
+&lt;h4 id="orga66fdd6"&gt;打开文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga66fdd6"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="kt"&gt;FILE&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nf"&gt;fopen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;ol class="org-ol"&gt;
@@ -124,9 +322,9 @@ c中支持两种文件类型
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6d87d2f" class="outline-4"&gt;
-&lt;h4 id="org6d87d2f"&gt;关闭文件&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org6d87d2f"&gt;
+&lt;div id="outline-container-org779ceed" class="outline-4"&gt;
+&lt;h4 id="org779ceed"&gt;关闭文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org779ceed"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;fclose&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;FILE&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;ol class="org-ol"&gt;
@@ -136,9 +334,9 @@ c中支持两种文件类型
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org6f7d91c" class="outline-4"&gt;
-&lt;h4 id="org6f7d91c"&gt;为流重新指定文件&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org6f7d91c"&gt;
+&lt;div id="outline-container-orgc9b618a" class="outline-4"&gt;
+&lt;h4 id="orgc9b618a"&gt;为流重新指定文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc9b618a"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="kt"&gt;FILE&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nf"&gt;freopen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 		  &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 		  &lt;span class="kt"&gt;FILE&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="kr"&gt;restrict&lt;/span&gt; &lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -146,9 +344,9 @@ c中支持两种文件类型
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org83443bf" class="outline-4"&gt;
-&lt;h4 id="org83443bf"&gt;临时文件&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org83443bf"&gt;
+&lt;div id="outline-container-org2400f18" class="outline-4"&gt;
+&lt;h4 id="org2400f18"&gt;临时文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2400f18"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cm"&gt;/* 创建临时文件 */&lt;/span&gt;
     &lt;span class="kt"&gt;FILE&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nf"&gt;tmpfile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
@@ -158,9 +356,9 @@ c中支持两种文件类型
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org99828e8" class="outline-4"&gt;
-&lt;h4 id="org99828e8"&gt;文件缓冲&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org99828e8"&gt;
+&lt;div id="outline-container-orgfd0cb6a" class="outline-4"&gt;
+&lt;h4 id="orgfd0cb6a"&gt;文件缓冲&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgfd0cb6a"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cm"&gt;/* 清洗缓冲区 */&lt;/span&gt;
     &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;fflush&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;FILE&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
@@ -170,9 +368,9 @@ c中支持两种文件类型
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6e60b09" class="outline-4"&gt;
-&lt;h4 id="org6e60b09"&gt;删除文件&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org6e60b09"&gt;
+&lt;div id="outline-container-orgeb3cfe1" class="outline-4"&gt;
+&lt;h4 id="orgeb3cfe1"&gt;删除文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgeb3cfe1"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cm"&gt;/* 删除文件 */&lt;/span&gt;
     &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;remove&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
@@ -183,9 +381,9 @@ c中支持两种文件类型
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgcb1387b" class="outline-2"&gt;
-&lt;h2 id="orgcb1387b"&gt;数学与数值计算&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcb1387b"&gt;
+&lt;div id="outline-container-org6915cf5" class="outline-2"&gt;
+&lt;h2 id="org6915cf5"&gt;数学与数值计算&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6915cf5"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&amp;lt;float.h&amp;gt; 定义浮点类型的范围和精度，其中没有类型和函数&lt;/li&gt;
 &lt;li&gt;&amp;lt;limits.h&amp;gt; 定义整数类型的取值范围，其中没有类型和函数&lt;/li&gt;
@@ -198,9 +396,9 @@ c中支持两种文件类型
 &lt;/ol&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgade0590" class="outline-3"&gt;
-&lt;h3 id="orgade0590"&gt;错误&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgade0590"&gt;
+&lt;div id="outline-container-org4008fdc" class="outline-3"&gt;
+&lt;h3 id="org4008fdc"&gt;错误&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4008fdc"&gt;
 &lt;p&gt;
 当发生错误时，大多数函数会将一个错误码存储到 &lt;code&gt;errno&lt;/code&gt; 变量中。此外，如果函数返回值大于double类型最大值会返回 &lt;code&gt;HUGE_VAL&lt;/code&gt; 值。
 &lt;/p&gt;
@@ -211,9 +409,9 @@ c中支持两种文件类型
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org58beb17" class="outline-3"&gt;
-&lt;h3 id="org58beb17"&gt;紧缩(constraction)&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org58beb17"&gt;
+&lt;div id="outline-container-orgbdf961a" class="outline-3"&gt;
+&lt;h3 id="orgbdf961a"&gt;紧缩(constraction)&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgbdf961a"&gt;
 &lt;p&gt;
 C99中新增加了融合乘加 (fused multiply-add) 函数，即
 &lt;/p&gt;
@@ -228,9 +426,9 @@ C99中新增加了融合乘加 (fused multiply-add) 函数，即
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org8361683" class="outline-2"&gt;
-&lt;h2 id="org8361683"&gt;字符、字符串与国际化&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8361683"&gt;
+&lt;div id="outline-container-orgd1f7bce" class="outline-2"&gt;
+&lt;h2 id="orgd1f7bce"&gt;字符、字符串与国际化&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd1f7bce"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&amp;lt;ctype.h&amp;gt; 处理字符&lt;/li&gt;
 &lt;li&gt;&amp;lt;string.h&amp;gt; 处理字符串&lt;/li&gt;
@@ -242,9 +440,9 @@ C99中新增加了融合乘加 (fused multiply-add) 函数，即
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgaea5148" class="outline-3"&gt;
-&lt;h3 id="orgaea5148"&gt;&amp;lt;string.h&amp;gt;&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgaea5148"&gt;
+&lt;div id="outline-container-org6ac4be5" class="outline-3"&gt;
+&lt;h3 id="org6ac4be5"&gt;&amp;lt;string.h&amp;gt;&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6ac4be5"&gt;
 &lt;p&gt;
 提供了5种函数
 &lt;/p&gt;
@@ -259,9 +457,9 @@ C99中新增加了融合乘加 (fused multiply-add) 函数，即
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org46d76a2" class="outline-2"&gt;
-&lt;h2 id="org46d76a2"&gt;错误处理&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org46d76a2"&gt;
+&lt;div id="outline-container-orge45df9f" class="outline-2"&gt;
+&lt;h2 id="orge45df9f"&gt;错误处理&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge45df9f"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&amp;lt;assert.h&amp;gt; 诊断&lt;/li&gt;
 &lt;li&gt;&amp;lt;errno.h&amp;gt; 错误&lt;/li&gt;
@@ -270,9 +468,9 @@ C99中新增加了融合乘加 (fused multiply-add) 函数，即
 &lt;/ol&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0b17c35" class="outline-3"&gt;
-&lt;h3 id="org0b17c35"&gt;&amp;lt;assert.h&amp;gt; 诊断&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0b17c35"&gt;
+&lt;div id="outline-container-org0a3d1c2" class="outline-3"&gt;
+&lt;h3 id="org0a3d1c2"&gt;&amp;lt;assert.h&amp;gt; 诊断&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0a3d1c2"&gt;
 &lt;p&gt;
 assert 是一个宏。当参数值为 0 时，assert 会向 stderr 写消息，并调用 abort 函数中止程序。
 &lt;/p&gt;
@@ -282,9 +480,9 @@ assert 是一个宏。当参数值为 0 时，assert 会向 stderr 写消息，�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8d1e96e" class="outline-3"&gt;
-&lt;h3 id="org8d1e96e"&gt;&amp;lt;errno.h&amp;gt; 错误&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org8d1e96e"&gt;
+&lt;div id="outline-container-orgcbeb0b2" class="outline-3"&gt;
+&lt;h3 id="orgcbeb0b2"&gt;&amp;lt;errno.h&amp;gt; 错误&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgcbeb0b2"&gt;
 &lt;p&gt;
 错误代码存储在 errno 变量中，每次使用都要把它置零
 &lt;/p&gt;
@@ -295,13 +493,13 @@ errno 主要作用是说明错误类型，而不是发生错误
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org87963e6" class="outline-3"&gt;
-&lt;h3 id="org87963e6"&gt;&amp;lt;signal.h&amp;gt; 信号处理&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org87963e6"&gt;
+&lt;div id="outline-container-org7659c25" class="outline-3"&gt;
+&lt;h3 id="org7659c25"&gt;&amp;lt;signal.h&amp;gt; 信号处理&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7659c25"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd30a27d" class="outline-4"&gt;
-&lt;h4 id="orgd30a27d"&gt;信号宏&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd30a27d"&gt;
+&lt;div id="outline-container-orgf5e5ac5" class="outline-4"&gt;
+&lt;h4 id="orgf5e5ac5"&gt;信号宏&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf5e5ac5"&gt;
 &lt;p&gt;
 UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;/p&gt;
@@ -316,9 +514,9 @@ UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org755aabe" class="outline-4"&gt;
-&lt;h4 id="org755aabe"&gt;signal 函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org755aabe"&gt;
+&lt;div id="outline-container-org414ddd0" class="outline-4"&gt;
+&lt;h4 id="org414ddd0"&gt;signal 函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org414ddd0"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;signal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;sig&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;func&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)))(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
     &lt;span class="n"&gt;signal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SIG&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;handler&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -329,9 +527,9 @@ UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org54be996" class="outline-4"&gt;
-&lt;h4 id="org54be996"&gt;信号处理函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org54be996"&gt;
+&lt;div id="outline-container-orgd06802b" class="outline-4"&gt;
+&lt;h4 id="orgd06802b"&gt;信号处理函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd06802b"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;SIG&lt;sub&gt;DFL&lt;/sub&gt;: 按默认方式处理，实现定义，大多数时候是终止程序&lt;/li&gt;
 &lt;li&gt;SIG&lt;sub&gt;IGN&lt;/sub&gt;: 忽略信号&lt;/li&gt;
@@ -339,9 +537,9 @@ UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7a92193" class="outline-4"&gt;
-&lt;h4 id="org7a92193"&gt;raise 函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7a92193"&gt;
+&lt;div id="outline-container-orgba7b21f" class="outline-4"&gt;
+&lt;h4 id="orgba7b21f"&gt;raise 函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgba7b21f"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;raise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;sig&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;
@@ -351,9 +549,9 @@ UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd028749" class="outline-3"&gt;
-&lt;h3 id="orgd028749"&gt;&amp;lt;setjmp.h&amp;gt; 非局部跳转&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd028749"&gt;
+&lt;div id="outline-container-org144a670" class="outline-3"&gt;
+&lt;h3 id="org144a670"&gt;&amp;lt;setjmp.h&amp;gt; 非局部跳转&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org144a670"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="cm"&gt;/* 设置跳转位置 */&lt;/span&gt;
    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;setjmp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;jmp_buf&lt;/span&gt; &lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
@@ -368,9 +566,9 @@ UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org4849fc0" class="outline-2"&gt;
-&lt;h2 id="org4849fc0"&gt;可变参数&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4849fc0"&gt;
+&lt;div id="outline-container-orgeeca449" class="outline-2"&gt;
+&lt;h2 id="orgeeca449"&gt;可变参数&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgeeca449"&gt;
 &lt;p&gt;
 &amp;lt;stdarg.h&amp;gt; 头
 &lt;/p&gt;
@@ -393,9 +591,9 @@ UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2670587" class="outline-2"&gt;
-&lt;h2 id="org2670587"&gt;日期和时间&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2670587"&gt;
+&lt;div id="outline-container-org06e6f62" class="outline-2"&gt;
+&lt;h2 id="org06e6f62"&gt;日期和时间&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org06e6f62"&gt;
 &lt;p&gt;
 &amp;lt;time.h&amp;gt; 中提供三种类型
 &lt;/p&gt;
@@ -406,9 +604,9 @@ UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;/ol&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd079585" class="outline-3"&gt;
-&lt;h3 id="orgd079585"&gt;时间处理函数&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd079585"&gt;
+&lt;div id="outline-container-org408bed8" class="outline-3"&gt;
+&lt;h3 id="org408bed8"&gt;时间处理函数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org408bed8"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="kt"&gt;clock_t&lt;/span&gt; &lt;span class="nf"&gt;clock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
    &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="nf"&gt;difftime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;time_t&lt;/span&gt; &lt;span class="n"&gt;time1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;time_t&lt;/span&gt; &lt;span class="n"&gt;time0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -420,9 +618,9 @@ UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org229e1ad" class="outline-3"&gt;
-&lt;h3 id="org229e1ad"&gt;时间转换函数&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org229e1ad"&gt;
+&lt;div id="outline-container-orgefa24c9" class="outline-3"&gt;
+&lt;h3 id="orgefa24c9"&gt;时间转换函数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgefa24c9"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nf"&gt;asctime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nc"&gt;tm&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;timeptr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nf"&gt;ctime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;time_t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;timer&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -438,9 +636,9 @@ UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga585d21" class="outline-2"&gt;
-&lt;h2 id="orga585d21"&gt;实用工具&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga585d21"&gt;
+&lt;div id="outline-container-org76d423d" class="outline-2"&gt;
+&lt;h2 id="org76d423d"&gt;实用工具&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org76d423d"&gt;
 &lt;p&gt;
 包括
 &lt;/p&gt;
@@ -455,13 +653,13 @@ UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;li&gt;多字节/宽字符串转换函数&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><guid>https://chimez.github.io/posts/c-library/</guid><pubDate>Fri, 26 Mar 2021 08:17:14 GMT</pubDate></item><item><title>C 指针与内存管理</title><link>https://chimez.github.io/posts/c-memory-management/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgb349241" class="outline-2"&gt;
-&lt;h2 id="orgb349241"&gt;动态存储分配&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb349241"&gt;
+&lt;/div&gt;</description><category>C</category><guid>https://chimez.github.io/posts/c-library/</guid><pubDate>Fri, 26 Mar 2021 08:17:14 GMT</pubDate></item><item><title>C 指针与内存管理</title><link>https://chimez.github.io/posts/c-memory-management/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org2163744" class="outline-2"&gt;
+&lt;h2 id="org2163744"&gt;动态存储分配&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2163744"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgdb28086" class="outline-3"&gt;
-&lt;h3 id="orgdb28086"&gt;内存分配函数&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgdb28086"&gt;
+&lt;div id="outline-container-org60c9cd6" class="outline-3"&gt;
+&lt;h3 id="org60c9cd6"&gt;内存分配函数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org60c9cd6"&gt;
 &lt;p&gt;
 在 &lt;code&gt;&amp;lt;stdlib.h&amp;gt;&lt;/code&gt; 头文件中的
 &lt;/p&gt;
@@ -477,9 +675,9 @@ UNIX 系统提供了更多信号宏，都是 SIG开头
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgae39fa0" class="outline-3"&gt;
-&lt;h3 id="orgae39fa0"&gt;空指针&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgae39fa0"&gt;
+&lt;div id="outline-container-org4033967" class="outline-3"&gt;
+&lt;h3 id="org4033967"&gt;空指针&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4033967"&gt;
 &lt;p&gt;
 内存分配函数有可能返回空指针 &lt;code&gt;NULL&lt;/code&gt; ，使用空指针会导致程序崩溃，所以要判断指针是否为空指针。
 &lt;/p&gt;
@@ -499,9 +697,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga144854" class="outline-3"&gt;
-&lt;h3 id="orga144854"&gt;malloc&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga144854"&gt;
+&lt;div id="outline-container-orgfc30dbe" class="outline-3"&gt;
+&lt;h3 id="orgfc30dbe"&gt;malloc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfc30dbe"&gt;
 &lt;p&gt;
 原型 &lt;code&gt;void *malloc(size_t size);&lt;/code&gt;
 &lt;/p&gt;
@@ -514,9 +712,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8b54770" class="outline-3"&gt;
-&lt;h3 id="org8b54770"&gt;calloc&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org8b54770"&gt;
+&lt;div id="outline-container-org951c021" class="outline-3"&gt;
+&lt;h3 id="org951c021"&gt;calloc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org951c021"&gt;
 &lt;p&gt;
 原型 &lt;code&gt;void *calloc(size_t nmemb, size_t size);&lt;/code&gt;
 分配 nmemb 个元素，每个元素大小为 size.
@@ -524,9 +722,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org34c1e11" class="outline-3"&gt;
-&lt;h3 id="org34c1e11"&gt;realloc&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org34c1e11"&gt;
+&lt;div id="outline-container-orga2a8388" class="outline-3"&gt;
+&lt;h3 id="orga2a8388"&gt;realloc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga2a8388"&gt;
 &lt;p&gt;
 原型 &lt;code&gt;void *realloc(void *ptr, size_t size);&lt;/code&gt;
 &lt;/p&gt;
@@ -544,9 +742,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org7664587" class="outline-3"&gt;
-&lt;h3 id="org7664587"&gt;释放内存 free&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org7664587"&gt;
+&lt;div id="outline-container-org2841d10" class="outline-3"&gt;
+&lt;h3 id="org2841d10"&gt;释放内存 free&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2841d10"&gt;
 &lt;p&gt;
 原型 &lt;code&gt;void free(void *ptr);&lt;/code&gt;
 &lt;/p&gt;
@@ -555,13 +753,13 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgee1c17b" class="outline-2"&gt;
-&lt;h2 id="orgee1c17b"&gt;声明&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgee1c17b"&gt;
+&lt;div id="outline-container-org0f23eb0" class="outline-2"&gt;
+&lt;h2 id="org0f23eb0"&gt;声明&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0f23eb0"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org60cafa0" class="outline-3"&gt;
-&lt;h3 id="org60cafa0"&gt;声明说明符&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org60cafa0"&gt;
+&lt;div id="outline-container-orgfa38e44" class="outline-3"&gt;
+&lt;h3 id="orgfa38e44"&gt;声明说明符&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfa38e44"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;存储类型。包括 &lt;code&gt;auto, static, extern, register&lt;/code&gt; ，只能有一个，必须放在最前面&lt;/li&gt;
 &lt;li&gt;类型限定符。包括 &lt;code&gt;const, volatile, restrict(C99)&lt;/code&gt; ，可以有一个或多个&lt;/li&gt;
@@ -571,9 +769,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4888746" class="outline-3"&gt;
-&lt;h3 id="org4888746"&gt;解释复杂的声明符&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4888746"&gt;
+&lt;div id="outline-container-orgfca5cd9" class="outline-3"&gt;
+&lt;h3 id="orgfca5cd9"&gt;解释复杂的声明符&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfca5cd9"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;始终从内往外读声明符&lt;/li&gt;
 &lt;li&gt;[]和()优先于 * ,即 *p[] 是数组， *f() 是函数&lt;/li&gt;
@@ -582,9 +780,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgac00477" class="outline-3"&gt;
-&lt;h3 id="orgac00477"&gt;关键字&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgac00477"&gt;
+&lt;div id="outline-container-org4f6d7ec" class="outline-3"&gt;
+&lt;h3 id="org4f6d7ec"&gt;关键字&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4f6d7ec"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -741,9 +939,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orga0bc1bc" class="outline-2"&gt;
-&lt;h2 id="orga0bc1bc"&gt;TODO&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga0bc1bc"&gt;
+&lt;div id="outline-container-org09b3780" class="outline-2"&gt;
+&lt;h2 id="org09b3780"&gt;TODO&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org09b3780"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;-Ofast -flto -march=native -funroll-loops -fPIC&lt;/li&gt;
 &lt;/ol&gt;

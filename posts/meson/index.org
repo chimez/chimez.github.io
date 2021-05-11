@@ -1,0 +1,42 @@
+#+BEGIN_COMMENT
+.. title: meson
+.. slug: meson
+.. date: 2021-05-10 16:20:05 UTC+08:00
+.. tags: C, meson
+.. category: tools
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* meson 构建工具
+网站 [[https://mesonbuild.com][meson-build]]
+
+** 添加依赖
+   
+   #+begin_src python
+cc = meson.get_compiler('c')
+
+all_deps = []
+thread_dep = dependency('threads')
+all_deps += thread_dep
+
+src_dir = include_directories('../src')
+
+exe = executable('name', ['src1.c', 'src2.c'],
+        dependencies: all_deps, 
+        include_directories: src_dir)
+ 
+   #+end_src
+
+** 使用 address sanitizer
+   #+begin_src bash
+CC=clang meson build  -Db_sanitize=address -Db_lundef=false
+   #+end_src 
+   
+** 使用 clang 静态分析
+#+begin_src bash
+meson build
+ninja -C build scan-build
+#+end_src 
