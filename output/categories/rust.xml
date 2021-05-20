@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about rust)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/rust.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Thu, 20 May 2021 07:01:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Rust Optimization</title><link>https://chimez.github.io/posts/rust-optimization/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org5a85a01" class="outline-2"&gt;
+&lt;h2 id="org5a85a01"&gt;Rust 性能优化&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5a85a01"&gt;
+&lt;p&gt;
+这里所称性能优化实际上就是 Rust 的正确打开方式，因为 Rust 的安全特性导致按照 c/c++ 方式直接写程序有可能速度会比较慢。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org19dbdf9" class="outline-3"&gt;
+&lt;h3 id="org19dbdf9"&gt;避免边界检查&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org19dbdf9"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org5d3f916" class="outline-4"&gt;
+&lt;h4 id="org5d3f916"&gt;参考资料&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5d3f916"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;a href="https://users.rust-lang.org/t/how-to-malloc-an-array-in-heap-like-c/27827/40"&gt;这里&lt;/a&gt; 的说明&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge0776a0" class="outline-4"&gt;
+&lt;h4 id="orge0776a0"&gt;使用 slice 为编译器提示长度&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orge0776a0"&gt;
+&lt;p&gt;
+vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方式定义变量
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    fn f_for(a: &amp;amp;Vec&amp;lt;f64&amp;gt;, b: &amp;amp;mut Vec&amp;lt;f64&amp;gt;){
+	// 不可变量直接用长度做 slice
+	let a = &amp;amp;a[..a.len()];
+	// 可变量先定义一个长度再做 slice
+	let len_b = b.len();
+	let b = &amp;amp;mut b[..len_b];
+    }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org14a899f" class="outline-4"&gt;
+&lt;h4 id="org14a899f"&gt;尽可能使用迭代器而不是指标循环&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org14a899f"&gt;
+&lt;p&gt;
+迭代器中的边界检查被优化掉了
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    for (i, ai) in a.iter().enumerate(){
+	do_something();
+    }
+
+    // 而不是
+
+    for i in 0..n{
+	a[i];
+    }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org02a47b0" class="outline-4"&gt;
+&lt;h4 id="org02a47b0"&gt;不得不用指标获得值时用 unsafe 的非检查方式&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org02a47b0"&gt;
+&lt;p&gt;
+当确保指标不会越界时就可以大胆使用 unsafe
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    for i in 0..n{
+	unsafe {
+	    a.get_unchecked(i);
+	}
+    }
+
+    // not 
+    a[i];
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>rust</category><guid>https://chimez.github.io/posts/rust-optimization/</guid><pubDate>Thu, 20 May 2021 06:33:34 GMT</pubDate></item></channel></rss>

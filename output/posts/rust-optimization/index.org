@@ -1,0 +1,68 @@
+#+BEGIN_COMMENT
+.. title: Rust Optimization
+.. slug: rust-optimization
+.. date: 2021-05-20 14:33:34 UTC+08:00
+.. tags: rust
+.. category: Rust
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* Rust 性能优化
+
+  这里所称性能优化实际上就是 Rust 的正确打开方式，因为 Rust 的安全特性导致按照 c/c++ 方式直接写程序有可能速度会比较慢。
+
+** 避免边界检查
+
+*** 参考资料
+    1. [[https://users.rust-lang.org/t/how-to-malloc-an-array-in-heap-like-c/27827/40][这里]] 的说明
+
+*** 使用 slice 为编译器提示长度
+    
+    vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方式定义变量
+
+    #+BEGIN_SRC rust
+
+fn f_for(a: &Vec<f64>, b: &mut Vec<f64>){
+    // 不可变量直接用长度做 slice
+    let a = &a[..a.len()];
+    // 可变量先定义一个长度再做 slice
+    let len_b = b.len();
+    let b = &mut b[..len_b];
+}
+    #+END_SRC
+
+*** 尽可能使用迭代器而不是指标循环
+
+    迭代器中的边界检查被优化掉了
+    
+    #+BEGIN_SRC rust
+for (i, ai) in a.iter().enumerate(){
+    do_something();
+}
+
+// 而不是
+
+for i in 0..n{
+    a[i];
+}
+    #+END_SRC
+
+*** 不得不用指标获得值时用 unsafe 的非检查方式
+
+    当确保指标不会越界时就可以大胆使用 unsafe
+
+    #+BEGIN_SRC rust
+for i in 0..n{
+    unsafe {
+        a.get_unchecked(i);
+    }
+}
+
+// not 
+a[i];
+    #+END_SRC
+
+

@@ -72,7 +72,114 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/c-library/" class="u-url">C Library</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sparse-matrix/" class="u-url">Sparse Matrix</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/sparse-matrix/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-04-19T14:12:16+08:00" itemprop="datePublished" title="2021-04-19 14:12">2021-04-19 14:12</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orgc8956bd" class="outline-2">
+<h2 id="orgc8956bd">稀疏矩阵</h2>
+<div class="outline-text-2" id="text-orgc8956bd">
+</div>
+<div id="outline-container-orge69ead6" class="outline-3">
+<h3 id="orge69ead6">定义</h3>
+<div class="outline-text-3" id="text-orge69ead6">
+<ol class="org-ol">
+<li>稀疏矩阵指的是那些有很多元素为 0 的矩阵</li>
+<li>一般而言 \(m\times n\) 的矩阵， 其非零元素的个数在 \(O(\mathrm{min}(m,n))\) 就可以作为稀疏矩阵来处理，一般来说就是每行或每列的元素个数是常数</li>
+<li>很多非零元是 \(O(\mathrm{log}(n))\) 的矩阵不能作为稀疏矩阵</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org711319c" class="outline-3">
+<h3 id="org711319c">稀疏矩阵的性质</h3>
+<div class="outline-text-3" id="text-org711319c">
+<ol class="org-ol">
+<li>稀疏矩阵 \(A\) 的逆 \(A^{ -1}\) 一般来说是稠密的</li>
+<li>稀疏矩阵 \(A\) 的 LU 分解 \(L\) 和  \(U\) 矩阵可以也是稀疏的</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org75aee5c" class="outline-3">
+<h3 id="org75aee5c">Cayley-Hamilton 定理</h3>
+<div class="outline-text-3" id="text-org75aee5c">
+<p>
+矩阵满足其特征方程。
+</p>
+
+<p>
+例：考虑矩阵 \(A = \begin{pmatrix} 1&amp;2 \\ 3&amp;4 \end{pmatrix}\) ，其特征方程为
+</p>
+
+\begin{equation*}
+\mathrm{det} \left( \lambda I - A \right) =
+\mathrm{det}
+\begin{pmatrix}
+\lambda - 1 &amp; 2 \\
+3 &amp; \lambda - 4
+\end{pmatrix}
+= \lambda^2 - 5 \lambda - 2 = 0
+\end{equation*}
+
+<p>
+那么有
+</p>
+
+<p>
+\[
+   A^{2} - 5 A - 2 = 0
+   \]
+</p>
+</div>
+</div>
+
+<div id="outline-container-org99cb5cf" class="outline-3">
+<h3 id="org99cb5cf">稀疏矩阵的图表示</h3>
+<div class="outline-text-3" id="text-org99cb5cf">
+<p>
+稀疏矩阵可以用图来表示，进而可以用图论的方法分析。
+</p>
+
+<p>
+<b>图的定义</b> 图 \(G\) 定义为一个集合 \(G = (V,E)\),  \(E \subset V \times V\) ，其中 \(V\) 是顶点 (vertex) 的集合, \(E\) 是边 (edge) 的集合。
+</p>
+
+<ol class="org-ol">
+<li>图是无向图，当且仅当矩阵是对称的。</li>
+<li>矩阵的图表示，就是将行和列作为顶点的标号，非零矩阵元表示顶点间的连线。</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgb14ca7f" class="outline-3">
+<h3 id="orgb14ca7f">稀疏矩阵与偏微分方程</h3>
+<div class="outline-text-3" id="text-orgb14ca7f">
+<p>
+典型的偏微分方程数值模拟的过程是：
+</p>
+<ol class="org-ol">
+<li>物理问题</li>
+<li>非线性偏微分方程</li>
+<li>离散化</li>
+<li>线性化近似</li>
+<li>变成稀疏矩阵线性代数问题</li>
+</ol>
+<p>
+可以想象成将自变量作为矩阵指标，离散化的偏微分方程每一步的作用结果就是利用周围的几个点的数值得到下一步当前点的值，这个过程可以写成一个稀疏矩阵。
+</p>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/c-library/" class="u-url">C Library</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez

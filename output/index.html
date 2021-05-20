@@ -14,7 +14,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://chimez.github.io/">
 <link rel="next" href="index-3.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/meson/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/rust-optimization/" type="text/html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
 </head>
 <body>
@@ -72,7 +72,99 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/meson/" class="u-url">meson</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/rust-optimization/" class="u-url">Rust Optimization</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/rust-optimization/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-05-20T14:33:34+08:00" itemprop="datePublished" title="2021-05-20 14:33">2021-05-20 14:33</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org5a85a01" class="outline-2">
+<h2 id="org5a85a01">Rust 性能优化</h2>
+<div class="outline-text-2" id="text-org5a85a01">
+<p>
+这里所称性能优化实际上就是 Rust 的正确打开方式，因为 Rust 的安全特性导致按照 c/c++ 方式直接写程序有可能速度会比较慢。
+</p>
+</div>
+
+<div id="outline-container-org19dbdf9" class="outline-3">
+<h3 id="org19dbdf9">避免边界检查</h3>
+<div class="outline-text-3" id="text-org19dbdf9">
+</div>
+<div id="outline-container-org5d3f916" class="outline-4">
+<h4 id="org5d3f916">参考资料</h4>
+<div class="outline-text-4" id="text-org5d3f916">
+<ol class="org-ol">
+<li>
+<a href="https://users.rust-lang.org/t/how-to-malloc-an-array-in-heap-like-c/27827/40">这里</a> 的说明</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge0776a0" class="outline-4">
+<h4 id="orge0776a0">使用 slice 为编译器提示长度</h4>
+<div class="outline-text-4" id="text-orge0776a0">
+<p>
+vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方式定义变量
+</p>
+
+<div class="highlight"><pre><span></span>    fn f_for(a: &amp;Vec&lt;f64&gt;, b: &amp;mut Vec&lt;f64&gt;){
+	// 不可变量直接用长度做 slice
+	let a = &amp;a[..a.len()];
+	// 可变量先定义一个长度再做 slice
+	let len_b = b.len();
+	let b = &amp;mut b[..len_b];
+    }
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org14a899f" class="outline-4">
+<h4 id="org14a899f">尽可能使用迭代器而不是指标循环</h4>
+<div class="outline-text-4" id="text-org14a899f">
+<p>
+迭代器中的边界检查被优化掉了
+</p>
+
+<div class="highlight"><pre><span></span>    for (i, ai) in a.iter().enumerate(){
+	do_something();
+    }
+
+    // 而不是
+
+    for i in 0..n{
+	a[i];
+    }
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org02a47b0" class="outline-4">
+<h4 id="org02a47b0">不得不用指标获得值时用 unsafe 的非检查方式</h4>
+<div class="outline-text-4" id="text-org02a47b0">
+<p>
+当确保指标不会越界时就可以大胆使用 unsafe
+</p>
+
+<div class="highlight"><pre><span></span>    for i in 0..n{
+	unsafe {
+	    a.get_unchecked(i);
+	}
+    }
+
+    // not 
+    a[i];
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/meson/" class="u-url">meson</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -1209,113 +1301,6 @@ offsets: [-1,  0,  2]
 
 <div id="outline-container-org05849a6" class="outline-3">
 <h3 id="org05849a6">MKL 格式</h3>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sparse-matrix/" class="u-url">Sparse Matrix</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/sparse-matrix/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-04-19T14:12:16+08:00" itemprop="datePublished" title="2021-04-19 14:12">2021-04-19 14:12</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-orgc8956bd" class="outline-2">
-<h2 id="orgc8956bd">稀疏矩阵</h2>
-<div class="outline-text-2" id="text-orgc8956bd">
-</div>
-<div id="outline-container-orge69ead6" class="outline-3">
-<h3 id="orge69ead6">定义</h3>
-<div class="outline-text-3" id="text-orge69ead6">
-<ol class="org-ol">
-<li>稀疏矩阵指的是那些有很多元素为 0 的矩阵</li>
-<li>一般而言 \(m\times n\) 的矩阵， 其非零元素的个数在 \(O(\mathrm{min}(m,n))\) 就可以作为稀疏矩阵来处理，一般来说就是每行或每列的元素个数是常数</li>
-<li>很多非零元是 \(O(\mathrm{log}(n))\) 的矩阵不能作为稀疏矩阵</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-org711319c" class="outline-3">
-<h3 id="org711319c">稀疏矩阵的性质</h3>
-<div class="outline-text-3" id="text-org711319c">
-<ol class="org-ol">
-<li>稀疏矩阵 \(A\) 的逆 \(A^{ -1}\) 一般来说是稠密的</li>
-<li>稀疏矩阵 \(A\) 的 LU 分解 \(L\) 和  \(U\) 矩阵可以也是稀疏的</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-org75aee5c" class="outline-3">
-<h3 id="org75aee5c">Cayley-Hamilton 定理</h3>
-<div class="outline-text-3" id="text-org75aee5c">
-<p>
-矩阵满足其特征方程。
-</p>
-
-<p>
-例：考虑矩阵 \(A = \begin{pmatrix} 1&amp;2 \\ 3&amp;4 \end{pmatrix}\) ，其特征方程为
-</p>
-
-\begin{equation*}
-\mathrm{det} \left( \lambda I - A \right) =
-\mathrm{det}
-\begin{pmatrix}
-\lambda - 1 &amp; 2 \\
-3 &amp; \lambda - 4
-\end{pmatrix}
-= \lambda^2 - 5 \lambda - 2 = 0
-\end{equation*}
-
-<p>
-那么有
-</p>
-
-<p>
-\[
-   A^{2} - 5 A - 2 = 0
-   \]
-</p>
-</div>
-</div>
-
-<div id="outline-container-org99cb5cf" class="outline-3">
-<h3 id="org99cb5cf">稀疏矩阵的图表示</h3>
-<div class="outline-text-3" id="text-org99cb5cf">
-<p>
-稀疏矩阵可以用图来表示，进而可以用图论的方法分析。
-</p>
-
-<p>
-<b>图的定义</b> 图 \(G\) 定义为一个集合 \(G = (V,E)\),  \(E \subset V \times V\) ，其中 \(V\) 是顶点 (vertex) 的集合, \(E\) 是边 (edge) 的集合。
-</p>
-
-<ol class="org-ol">
-<li>图是无向图，当且仅当矩阵是对称的。</li>
-<li>矩阵的图表示，就是将行和列作为顶点的标号，非零矩阵元表示顶点间的连线。</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-orgb14ca7f" class="outline-3">
-<h3 id="orgb14ca7f">稀疏矩阵与偏微分方程</h3>
-<div class="outline-text-3" id="text-orgb14ca7f">
-<p>
-典型的偏微分方程数值模拟的过程是：
-</p>
-<ol class="org-ol">
-<li>物理问题</li>
-<li>非线性偏微分方程</li>
-<li>离散化</li>
-<li>线性化近似</li>
-<li>变成稀疏矩阵线性代数问题</li>
-</ol>
-<p>
-可以想象成将自变量作为矩阵指标，离散化的偏微分方程每一步的作用结果就是利用周围的几个点的数值得到下一步当前点的值，这个过程可以写成一个稀疏矩阵。
-</p>
-</div>
 </div>
 </div>
                 </div>

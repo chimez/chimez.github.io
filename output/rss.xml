@@ -1,5 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 11 May 2021 16:10:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>meson</title><link>https://chimez.github.io/posts/meson/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge433de1" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Thu, 20 May 2021 07:01:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Rust Optimization</title><link>https://chimez.github.io/posts/rust-optimization/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org5a85a01" class="outline-2"&gt;
+&lt;h2 id="org5a85a01"&gt;Rust 性能优化&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5a85a01"&gt;
+&lt;p&gt;
+这里所称性能优化实际上就是 Rust 的正确打开方式，因为 Rust 的安全特性导致按照 c/c++ 方式直接写程序有可能速度会比较慢。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org19dbdf9" class="outline-3"&gt;
+&lt;h3 id="org19dbdf9"&gt;避免边界检查&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org19dbdf9"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org5d3f916" class="outline-4"&gt;
+&lt;h4 id="org5d3f916"&gt;参考资料&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5d3f916"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;a href="https://users.rust-lang.org/t/how-to-malloc-an-array-in-heap-like-c/27827/40"&gt;这里&lt;/a&gt; 的说明&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge0776a0" class="outline-4"&gt;
+&lt;h4 id="orge0776a0"&gt;使用 slice 为编译器提示长度&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orge0776a0"&gt;
+&lt;p&gt;
+vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方式定义变量
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    fn f_for(a: &amp;amp;Vec&amp;lt;f64&amp;gt;, b: &amp;amp;mut Vec&amp;lt;f64&amp;gt;){
+	// 不可变量直接用长度做 slice
+	let a = &amp;amp;a[..a.len()];
+	// 可变量先定义一个长度再做 slice
+	let len_b = b.len();
+	let b = &amp;amp;mut b[..len_b];
+    }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org14a899f" class="outline-4"&gt;
+&lt;h4 id="org14a899f"&gt;尽可能使用迭代器而不是指标循环&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org14a899f"&gt;
+&lt;p&gt;
+迭代器中的边界检查被优化掉了
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    for (i, ai) in a.iter().enumerate(){
+	do_something();
+    }
+
+    // 而不是
+
+    for i in 0..n{
+	a[i];
+    }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org02a47b0" class="outline-4"&gt;
+&lt;h4 id="org02a47b0"&gt;不得不用指标获得值时用 unsafe 的非检查方式&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org02a47b0"&gt;
+&lt;p&gt;
+当确保指标不会越界时就可以大胆使用 unsafe
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    for i in 0..n{
+	unsafe {
+	    a.get_unchecked(i);
+	}
+    }
+
+    // not 
+    a[i];
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>rust</category><guid>https://chimez.github.io/posts/rust-optimization/</guid><pubDate>Thu, 20 May 2021 06:33:34 GMT</pubDate></item><item><title>meson</title><link>https://chimez.github.io/posts/meson/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge433de1" class="outline-2"&gt;
 &lt;h2 id="orge433de1"&gt;meson 构建工具&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-orge433de1"&gt;
 &lt;p&gt;
@@ -901,99 +979,4 @@ offsets: [-1,  0,  2]
 &lt;div id="outline-container-org05849a6" class="outline-3"&gt;
 &lt;h3 id="org05849a6"&gt;MKL 格式&lt;/h3&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>Numerical Algorithm</category><category>Sparse Matrix</category><guid>https://chimez.github.io/posts/data-structures-for-sparse-matrix/</guid><pubDate>Mon, 19 Apr 2021 07:24:09 GMT</pubDate></item><item><title>Sparse Matrix</title><link>https://chimez.github.io/posts/sparse-matrix/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgc8956bd" class="outline-2"&gt;
-&lt;h2 id="orgc8956bd"&gt;稀疏矩阵&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc8956bd"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orge69ead6" class="outline-3"&gt;
-&lt;h3 id="orge69ead6"&gt;定义&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orge69ead6"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;稀疏矩阵指的是那些有很多元素为 0 的矩阵&lt;/li&gt;
-&lt;li&gt;一般而言 \(m\times n\) 的矩阵， 其非零元素的个数在 \(O(\mathrm{min}(m,n))\) 就可以作为稀疏矩阵来处理，一般来说就是每行或每列的元素个数是常数&lt;/li&gt;
-&lt;li&gt;很多非零元是 \(O(\mathrm{log}(n))\) 的矩阵不能作为稀疏矩阵&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org711319c" class="outline-3"&gt;
-&lt;h3 id="org711319c"&gt;稀疏矩阵的性质&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org711319c"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;稀疏矩阵 \(A\) 的逆 \(A^{ -1}\) 一般来说是稠密的&lt;/li&gt;
-&lt;li&gt;稀疏矩阵 \(A\) 的 LU 分解 \(L\) 和  \(U\) 矩阵可以也是稀疏的&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org75aee5c" class="outline-3"&gt;
-&lt;h3 id="org75aee5c"&gt;Cayley-Hamilton 定理&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org75aee5c"&gt;
-&lt;p&gt;
-矩阵满足其特征方程。
-&lt;/p&gt;
-
-&lt;p&gt;
-例：考虑矩阵 \(A = \begin{pmatrix} 1&amp;amp;2 \\ 3&amp;amp;4 \end{pmatrix}\) ，其特征方程为
-&lt;/p&gt;
-
-\begin{equation*}
-\mathrm{det} \left( \lambda I - A \right) =
-\mathrm{det}
-\begin{pmatrix}
-\lambda - 1 &amp;amp; 2 \\
-3 &amp;amp; \lambda - 4
-\end{pmatrix}
-= \lambda^2 - 5 \lambda - 2 = 0
-\end{equation*}
-
-&lt;p&gt;
-那么有
-&lt;/p&gt;
-
-&lt;p&gt;
-\[
-   A^{2} - 5 A - 2 = 0
-   \]
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org99cb5cf" class="outline-3"&gt;
-&lt;h3 id="org99cb5cf"&gt;稀疏矩阵的图表示&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org99cb5cf"&gt;
-&lt;p&gt;
-稀疏矩阵可以用图来表示，进而可以用图论的方法分析。
-&lt;/p&gt;
-
-&lt;p&gt;
-&lt;b&gt;图的定义&lt;/b&gt; 图 \(G\) 定义为一个集合 \(G = (V,E)\),  \(E \subset V \times V\) ，其中 \(V\) 是顶点 (vertex) 的集合, \(E\) 是边 (edge) 的集合。
-&lt;/p&gt;
-
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;图是无向图，当且仅当矩阵是对称的。&lt;/li&gt;
-&lt;li&gt;矩阵的图表示，就是将行和列作为顶点的标号，非零矩阵元表示顶点间的连线。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgb14ca7f" class="outline-3"&gt;
-&lt;h3 id="orgb14ca7f"&gt;稀疏矩阵与偏微分方程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb14ca7f"&gt;
-&lt;p&gt;
-典型的偏微分方程数值模拟的过程是：
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;物理问题&lt;/li&gt;
-&lt;li&gt;非线性偏微分方程&lt;/li&gt;
-&lt;li&gt;离散化&lt;/li&gt;
-&lt;li&gt;线性化近似&lt;/li&gt;
-&lt;li&gt;变成稀疏矩阵线性代数问题&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;
-可以想象成将自变量作为矩阵指标，离散化的偏微分方程每一步的作用结果就是利用周围的几个点的数值得到下一步当前点的值，这个过程可以写成一个稀疏矩阵。
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>Numerical Algorithm</category><category>Sparse Matrix</category><guid>https://chimez.github.io/posts/sparse-matrix/</guid><pubDate>Mon, 19 Apr 2021 06:12:16 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>Numerical Algorithm</category><category>Sparse Matrix</category><guid>https://chimez.github.io/posts/data-structures-for-sparse-matrix/</guid><pubDate>Mon, 19 Apr 2021 07:24:09 GMT</pubDate></item></channel></rss>
