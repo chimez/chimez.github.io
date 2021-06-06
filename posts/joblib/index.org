@@ -1,0 +1,35 @@
+#+BEGIN_COMMENT
+.. title: joblib
+.. slug: joblib
+.. date: 2021-06-06 13:34:10 UTC+08:00
+.. tags: python, parallel
+.. category: library
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* joblib: 简单的并行
+
+  [[https://joblib.readthedocs.io/][joblib]]是一个易用的，无依赖的 python 库，主要用来很方便的做并行。
+
+** 简单的并行
+   
+   对一个 ~for~ 循环并行化，基本上只需要两个函数 ~Parallel~ 和 ~delayed~ ，用 ~delayed~ 包裹要并行的函数，并用列表推导式生成所有参数，再把这些东西扔给 ~Parallel~ 函数，返回的就是并行后的结果了。
+
+   基本上相当于 ~multiprocessing.Pool.map~
+
+   #+begin_src python
+from joblib import Parallel, delayed
+Parallel(n_jobs=2)(delayed(sqrt)(i ** 2) for i in range(10))
+   #+end_src
+
+   ~Parallel~ 函数的参数用来指定并行的后端 ~backend~ 、每批次执行的任务数、并行线程数等等
+
+   
+* Tips
+  
+** 读取时避免锁
+   
+   使用 ~multiprocessing.shared_memory~ 创建共享内存，并把内存地址名作为参数传递
