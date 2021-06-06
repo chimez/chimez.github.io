@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rust Optimization | chimez's blog</title>
+<title>squid http proxy server | chimez's blog</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
@@ -11,44 +11,50 @@
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
-<link rel="canonical" href="https://chimez.github.io/posts/rust-optimization/">
+<link rel="canonical" href="https://chimez.github.io/posts/squid-http-proxy-server/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
-<link rel="prev" href="../meson/" title="meson" type="text/html">
-<link rel="next" href="../anki/" title="Anki" type="text/html">
+<link rel="prev" href="../anki/" title="Anki" type="text/html">
+<link rel="next" href="../paper-format/" title="Paper Format" type="text/html">
 <meta property="og:site_name" content="chimez's blog">
-<meta property="og:title" content="Rust Optimization">
-<meta property="og:url" content="https://chimez.github.io/posts/rust-optimization/">
-<meta property="og:description" content="Rust 性能优化
-
-
-这里所称性能优化实际上就是 Rust 的正确打开方式，因为 Rust 的安全特性导致按照 c/c++ 方式直接写程序有可能速度会比较慢。
+<meta property="og:title" content="squid http proxy server">
+<meta property="og:url" content="https://chimez.github.io/posts/squid-http-proxy-server/">
+<meta property="og:description" content="squid HTTP 代理服务器
 
 
 
+安装
 
-避免边界检查
-
-
-
-参考资料
-
-
-这里 的说明
+   apt install squid
 
 
 
 
 
-使用 slice 为编译器提示长度
+配置
 
 
-vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方式定义变量
+
+端口
 
 
-    fn f_for(a: &amp;Vec&lt;f64">
+/etc/squid/squid.conf
+
+
+    http_port 3128
+
+
+
+
+
+访问权限
+
+    http_access allow all
+    # http_access deny all">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2021-05-20T14:33:34+08:00">
-<meta property="article:tag" content="rust">
+<meta property="article:published_time" content="2021-05-21T14:24:48+08:00">
+<meta property="article:tag" content="proxy">
+<meta property="article:tag" content="squid">
+<meta property="article:tag" content="ssh">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -106,7 +112,7 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
         
         
         
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Rust Optimization</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">squid http proxy server</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
@@ -114,7 +120,7 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
-            <time class="published dt-published" datetime="2021-05-20T14:33:34+08:00" itemprop="datePublished" title="2021-05-20 14:33">2021-05-20 14:33</time></a>
+            <time class="published dt-published" datetime="2021-05-21T14:24:48+08:00" itemprop="datePublished" title="2021-05-21 14:24">2021-05-21 14:24</time></a>
             </p>
             
         <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
@@ -123,81 +129,39 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org5a85a01" class="outline-2">
-<h2 id="org5a85a01">Rust 性能优化</h2>
-<div class="outline-text-2" id="text-org5a85a01">
-<p>
-这里所称性能优化实际上就是 Rust 的正确打开方式，因为 Rust 的安全特性导致按照 c/c++ 方式直接写程序有可能速度会比较慢。
-</p>
+    <div id="outline-container-org0e3d450" class="outline-2">
+<h2 id="org0e3d450">squid HTTP 代理服务器</h2>
+<div class="outline-text-2" id="text-org0e3d450">
 </div>
-
-<div id="outline-container-org19dbdf9" class="outline-3">
-<h3 id="org19dbdf9">避免边界检查</h3>
-<div class="outline-text-3" id="text-org19dbdf9">
-</div>
-<div id="outline-container-org5d3f916" class="outline-4">
-<h4 id="org5d3f916">参考资料</h4>
-<div class="outline-text-4" id="text-org5d3f916">
-<ol class="org-ol">
-<li>
-<a href="https://users.rust-lang.org/t/how-to-malloc-an-array-in-heap-like-c/27827/40">这里</a> 的说明</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-orge0776a0" class="outline-4">
-<h4 id="orge0776a0">使用 slice 为编译器提示长度</h4>
-<div class="outline-text-4" id="text-orge0776a0">
-<p>
-vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方式定义变量
-</p>
-
-<div class="highlight"><pre><span></span>    fn f_for(a: &amp;Vec&lt;f64&gt;, b: &amp;mut Vec&lt;f64&gt;){
-	// 不可变量直接用长度做 slice
-	let a = &amp;a[..a.len()];
-	// 可变量先定义一个长度再做 slice
-	let len_b = b.len();
-	let b = &amp;mut b[..len_b];
-    }
+<div id="outline-container-org5482208" class="outline-3">
+<h3 id="org5482208">安装</h3>
+<div class="outline-text-3" id="text-org5482208">
+<div class="highlight"><pre><span></span>   apt install squid
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org14a899f" class="outline-4">
-<h4 id="org14a899f">尽可能使用迭代器而不是指标循环</h4>
-<div class="outline-text-4" id="text-org14a899f">
+<div id="outline-container-orgd2e94bf" class="outline-3">
+<h3 id="orgd2e94bf">配置</h3>
+<div class="outline-text-3" id="text-orgd2e94bf">
+</div>
+<div id="outline-container-org6fa1a3c" class="outline-4">
+<h4 id="org6fa1a3c">端口</h4>
+<div class="outline-text-4" id="text-org6fa1a3c">
 <p>
-迭代器中的边界检查被优化掉了
+<code>/etc/squid/squid.conf</code>
 </p>
 
-<div class="highlight"><pre><span></span>    for (i, ai) in a.iter().enumerate(){
-	do_something();
-    }
-
-    // 而不是
-
-    for i in 0..n{
-	a[i];
-    }
+<div class="highlight"><pre><span></span>    http_port 3128
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org02a47b0" class="outline-4">
-<h4 id="org02a47b0">不得不用指标获得值时用 unsafe 的非检查方式</h4>
-<div class="outline-text-4" id="text-org02a47b0">
-<p>
-当确保指标不会越界时就可以大胆使用 unsafe
-</p>
-
-<div class="highlight"><pre><span></span>    for i in 0..n{
-	unsafe {
-	    a.get_unchecked(i);
-	}
-    }
-
-    // not 
-    a[i];
+<div id="outline-container-org4bd54fa" class="outline-4">
+<h4 id="org4bd54fa">访问权限</h4>
+<div class="outline-text-4" id="text-org4bd54fa">
+<div class="highlight"><pre><span></span>    http_access allow all
+    # http_access deny all
 </pre></div>
 </div>
 </div>
@@ -205,14 +169,16 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
-<li><a class="tag p-category" href="../../categories/rust/" rel="tag">rust</a></li>
+<li><a class="tag p-category" href="../../categories/proxy/" rel="tag">proxy</a></li>
+            <li><a class="tag p-category" href="../../categories/squid/" rel="tag">squid</a></li>
+            <li><a class="tag p-category" href="../../categories/ssh/" rel="tag">ssh</a></li>
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../meson/" rel="prev" title="meson">Previous post</a>
+                <a href="../anki/" rel="prev" title="Anki">Previous post</a>
             </li>
             <li class="next">
-                <a href="../anki/" rel="next" title="Anki">Next post</a>
+                <a href="../paper-format/" rel="next" title="Paper Format">Next post</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
             Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
