@@ -1,5 +1,508 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sun, 06 Jun 2021 08:13:36 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>joblib</title><link>https://chimez.github.io/posts/joblib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org53933da" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Thu, 01 Jul 2021 14:09:49 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>pthread</title><link>https://chimez.github.io/posts/pthread/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org78e1009" class="outline-2"&gt;
+&lt;h2 id="org78e1009"&gt;pthread: POSIX Threads&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org78e1009"&gt;
+&lt;p&gt;
+pthread 是 POSIX 标准的线程 API, 放在头文件 &lt;code&gt;&amp;lt;pthread.h&amp;gt;&lt;/code&gt; 中，并由 libc 提供实现。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgdaf6f76" class="outline-4"&gt;
+&lt;h4 id="orgdaf6f76"&gt;参考&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgdaf6f76"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;a href="https://hpc-tutorials.llnl.gov/posix/"&gt;llnl 教程&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgdcdac83" class="outline-3"&gt;
+&lt;h3 id="orgdcdac83"&gt;pthread API&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgdcdac83"&gt;
+&lt;p&gt;
+标准 pthread API 包括以下几部分
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;线程管理：创建、检测、合并等&lt;/li&gt;
+&lt;li&gt;互斥锁(mutex)：创建、销毁、加锁、解锁等&lt;/li&gt;
+&lt;li&gt;条件变量：在线程间共享锁、创建、销毁、等待和信号&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+同步：管理读写锁和屏障
+&lt;/p&gt;
+
+&lt;p&gt;
+API 命名结构如下：
+&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;Routine Prefix&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;Functional Group&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;pthread_&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Threads themselves and miscellaneous subroutines&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;pthread_attr_&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Thread attributes objects&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;pthread_mutex_&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Mutexes&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;pthread_mutexattr_&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Mutex attributes objects.&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;pthread_cond_&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Condition variables&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;pthread_condattr_&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Condition attributes objects&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;pthread_key_&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Thread-specific data keys&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;pthread_rwlock_&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Read/write locks&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;pthread_barrier_&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;Synchronization barriers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4c3c753" class="outline-3"&gt;
+&lt;h3 id="org4c3c753"&gt;线程管理&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4c3c753"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgeef1519" class="outline-4"&gt;
+&lt;h4 id="orgeef1519"&gt;创建和终止线程&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgeef1519"&gt;
+&lt;p&gt;
+包括以下函数
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;pthread_create(thread,attr,start_routine,arg)&lt;/code&gt; 创建线程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_exit(status)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_cancel(thread)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_attr_init(attr)&lt;/code&gt; 创建线程属性对象&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_attr_destroy(attr)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+注意：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;每个线程结束时最后都调用 &lt;code&gt;pthread_exit&lt;/code&gt; 返回&lt;/li&gt;
+&lt;li&gt;最好主函数也用 &lt;code&gt;pthread_exit&lt;/code&gt; 返回&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf48aba4" class="outline-4"&gt;
+&lt;h4 id="orgf48aba4"&gt;合并和检测线程&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf48aba4"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;pthread_join (threadid,status)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_detach (threadid)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_attr_setdetachstate (attr,detachstate)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_attr_getdetachstate (attr,detachstate)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+注意：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;如果线程需要被 &lt;code&gt;join&lt;/code&gt; 最好显式设置 &lt;code&gt;joinable&lt;/code&gt; 属性，因为不是所有实现都默认加这个属性&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org3cf123e" class="outline-4"&gt;
+&lt;h4 id="org3cf123e"&gt;栈管理&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org3cf123e"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;pthread_attr_getstacksize (attr, stacksize)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_attr_setstacksize (attr, stacksize)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_attr_getstackaddr (attr, stackaddr)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_attr_setstackaddr (attr, stackaddr)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+注意：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;线程的栈大小是实现相关的，所以为了程序可移植，最好自己设置栈大小&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc96ca10" class="outline-4"&gt;
+&lt;h4 id="orgc96ca10"&gt;其它&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc96ca10"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;pthread_self ()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_equal (thread1,thread2)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_once (once_control, init_routine)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgbbccbab" class="outline-3"&gt;
+&lt;h3 id="orgbbccbab"&gt;互斥锁&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgbbccbab"&gt;
+&lt;p&gt;
+典型的使用锁的过程是
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建并初始化锁变量&lt;/li&gt;
+&lt;li&gt;几个线程尝试加锁&lt;/li&gt;
+&lt;li&gt;只有一个会成功并获得锁&lt;/li&gt;
+&lt;li&gt;获得锁的线程进行一些操作&lt;/li&gt;
+&lt;li&gt;释放锁&lt;/li&gt;
+&lt;li&gt;另一个线程尝试获得锁&lt;/li&gt;
+&lt;li&gt;最终锁被销毁&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org963ebdd" class="outline-4"&gt;
+&lt;h4 id="org963ebdd"&gt;创建和销毁锁&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org963ebdd"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;pthread_mutex_init (mutex,attr)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_mutex_destroy (mutex)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_mutexattr_init (attr)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_mutexattr_destroy (attr)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+注意：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建锁变量可以用 &lt;code&gt;pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;&lt;/code&gt;, 也可以用 &lt;code&gt;pthread_mutex_init()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4beb3bb" class="outline-4"&gt;
+&lt;h4 id="org4beb3bb"&gt;加锁和解锁&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org4beb3bb"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;pthread_mutex_lock (mutex)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_mutex_trylock (mutex)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_mutex_unlock (mutex)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9b0c976" class="outline-3"&gt;
+&lt;h3 id="org9b0c976"&gt;条件变量&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9b0c976"&gt;
+&lt;p&gt;
+条件变量也是用于线程间同步的机制，与加锁的共享内存不同，条件变量用于传递消息。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd6945a8" class="outline-4"&gt;
+&lt;h4 id="orgd6945a8"&gt;创建和销毁条件变量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd6945a8"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;pthread_cond_init (condition,attr)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_cond_destroy (condition)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_condattr_init (attr)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_condattr_destroy (attr)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+注意：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建条件变量可以用 &lt;code&gt;pthread_cond_t myconvar = PTHREAD_COND_INITIALIZER;&lt;/code&gt; 也可以用 &lt;code&gt;pthread_cond_init()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgafecca8" class="outline-4"&gt;
+&lt;h4 id="orgafecca8"&gt;等待和通信&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgafecca8"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;pthread_cond_wait (condition,mutex)&lt;/code&gt; 阻止线程直到某个条件被通信过来，应该在加锁时使用，会在等待时自动释放锁，当获得信号时又会把锁加回来&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_cond_signal (condition)&lt;/code&gt; 用来向其它等待中的线程传递信号，应该在加锁时使用，在操作后传信号，最后解锁&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pthread_cond_broadcast (condition)&lt;/code&gt; 用来向多个线程传递信号&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+注意：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;等待锁时应该使用 &lt;code&gt;while&lt;/code&gt; 循环判断而不是 &lt;code&gt;if&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;/li&gt;&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>multithreading</category><category>parallel</category><category>pthread</category><guid>https://chimez.github.io/posts/pthread/</guid><pubDate>Thu, 01 Jul 2021 13:24:50 GMT</pubDate></item><item><title>ck: Concurrency Kit</title><link>https://chimez.github.io/posts/ck-concurrency-kit/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org504d378" class="outline-2"&gt;
+&lt;h2 id="org504d378"&gt;ck: Concurrency Kit&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org504d378"&gt;
+&lt;p&gt;
+&lt;a href="https://github.com/concurrencykit/ck"&gt;ck&lt;/a&gt; 是一个c语言的高并发数据结构库，内存安全并且无阻塞。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org31a9b28" class="outline-3"&gt;
+&lt;h3 id="org31a9b28"&gt;ck&lt;sub&gt;ht.h&lt;/sub&gt;: HashTable&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org31a9b28"&gt;
+&lt;p&gt;
+哈希表包括在头文件 &lt;code&gt;ck_ht.h&lt;/code&gt; 中，主要的数据类型有
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;ck_ht_t&lt;/code&gt; 哈希表&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ck_ht_entry_t&lt;/code&gt; 哈希表中的键, 是用来读写哈希表的中间变量&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ck_ht_hash_t&lt;/code&gt; 键的哈希值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ck_ht_iterator_t&lt;/code&gt; 用来遍历哈希表的迭代器&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org07a09d0" class="outline-4"&gt;
+&lt;h4 id="org07a09d0"&gt;初始化哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org07a09d0"&gt;
+&lt;p&gt;
+函数 &lt;code&gt;ck_hs_init&lt;/code&gt;
+参数说明：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;ck_hs_t *&lt;/code&gt; 哈希表&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unsigned int&lt;/code&gt; 哈希表的模式&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ck_hs_hash_cb_t *&lt;/code&gt; 哈希算法，传 &lt;code&gt;NULL&lt;/code&gt; 使用默认算法&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;struct ck_malloc *&lt;/code&gt; 内存分配器&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unsigned long&lt;/code&gt; 初始容量，只是建议值，内部实现可大可小&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unsigned long&lt;/code&gt; 哈希算法的随机数种子&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;ck_ht_t&lt;/span&gt; &lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;unsigned&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;mode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;CK_HT_MODE_BYTESTRING&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 设置内存分配器 */&lt;/span&gt;
+    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+    &lt;span class="n"&gt;ht_malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+	&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nf"&gt;malloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt;
+    &lt;span class="n"&gt;ht_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;size_t&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;bool&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nc"&gt;ck_malloc&lt;/span&gt; &lt;span class="n"&gt;my_allocator&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+	&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;malloc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ht_malloc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+	&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;free&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ht_free&lt;/span&gt;
+    &lt;span class="p"&gt;};&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 初始化哈希表 */&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ck_ht_init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ht_hash_wrapper&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;my_allocator&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;6602834&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+	&lt;span class="n"&gt;perror&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"ck_ht_init"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 删除哈希表 */&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_destroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org461396c" class="outline-4"&gt;
+&lt;h4 id="org461396c"&gt;读写哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org461396c"&gt;
+&lt;p&gt;
+基本的逻辑是
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;使用 &lt;code&gt;ck_ht_hash&lt;/code&gt; 计算键的哈希值&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;ck_ht_entry_set&lt;/code&gt; 为写数据准备键值对，或使用 &lt;code&gt;ck_ht_entry_key_set&lt;/code&gt; 为读数据准备键值对&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;ck_ht_put_spmc&lt;/code&gt; 创建新键值对，使用 &lt;code&gt;ck_ht_get_spmc&lt;/code&gt; 读取键值对，使用 &lt;code&gt;ck_ht_set_spmc&lt;/code&gt; 更新值&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;ck_ht_entry_value&lt;/code&gt; 获取读到的值&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;ck_ht_t&lt;/span&gt; &lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_entry_t&lt;/span&gt; &lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_hash_t&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;uint16_t&lt;/span&gt; &lt;span class="n"&gt;key_len&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 创建新值 */&lt;/span&gt;
+    &lt;span class="cm"&gt;/* 注意这里的 key_len 是 bytes 长度，也就是数组长度*sizeof(数组类型) */&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_hash&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key_len&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_entry_set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_put_spmc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 读取 */&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_hash&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key_len&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_entry_key_set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key_len&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_put_spmc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ck_ht_entry_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 更新 */&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_hash&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key_len&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_entry_set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ck_ht_put_spmc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;val_old&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ck_ht_entry_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;entry&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf2e884f" class="outline-4"&gt;
+&lt;h4 id="orgf2e884f"&gt;遍历哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf2e884f"&gt;
+&lt;p&gt;
+基本步骤
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;使用 &lt;code&gt;ck_ht_iterator_init&lt;/code&gt; 初始化迭代器&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;ck_ht_next&lt;/code&gt; 迭代&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+使用 &lt;code&gt;ck_ht_entry_key&lt;/code&gt; 和 &lt;code&gt;ck_ht_entry_value&lt;/code&gt; 读取键值
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;       &lt;span class="n"&gt;ck_ht_t&lt;/span&gt; &lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="n"&gt;ck_ht_iterator_t&lt;/span&gt; &lt;span class="n"&gt;iterator&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;CK_HT_ITERATOR_INITIALIZER&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="n"&gt;ck_ht_entry_t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+       &lt;span class="n"&gt;ck_ht_iterator_init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;iterator&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+       &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ck_ht_next&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ht&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;iterator&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+	   &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;val&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ck_ht_entry_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	   &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ck_ht_entry_key&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+       &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>concurrency</category><category>hashmap</category><guid>https://chimez.github.io/posts/ck-concurrency-kit/</guid><pubDate>Sun, 27 Jun 2021 14:09:24 GMT</pubDate></item><item><title>greatest</title><link>https://chimez.github.io/posts/greatest/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org72c7358" class="outline-2"&gt;
+&lt;h2 id="org72c7358"&gt;greatest: c 的单元测试&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org72c7358"&gt;
+&lt;p&gt;
+&lt;a href="https://github.com/silentbicycle/greatest"&gt;greatest&lt;/a&gt; 是 c 的一个单个头文件库，用于写单元测试
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org97aaa41" class="outline-3"&gt;
+&lt;h3 id="org97aaa41"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org97aaa41"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"greatest.h"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* A test runs various assertions, then calls PASS(), FAIL(), or SKIP(). */&lt;/span&gt;
+&lt;span class="n"&gt;TEST&lt;/span&gt; &lt;span class="nf"&gt;x_should_equal_1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="cm"&gt;/* Compare, with an automatic "1 != x" failure message */&lt;/span&gt;
+    &lt;span class="n"&gt;ASSERT_EQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* Compare, with a custom failure message */&lt;/span&gt;
+    &lt;span class="n"&gt;ASSERT_EQm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Yikes, x doesn't equal 1"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* Compare, and if they differ, print both values,&lt;/span&gt;
+&lt;span class="cm"&gt;     * formatted like `printf("Expected: %d\nGot: %d\n", 1, x);` */&lt;/span&gt;
+    &lt;span class="n"&gt;ASSERT_EQ_FMT&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%d"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;PASS&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* Suites can group multiple tests with common setup. */&lt;/span&gt;
+&lt;span class="n"&gt;SUITE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;the_suite&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;RUN_TEST&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_should_equal_1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* Add definitions that need to be in the test runner's main file. */&lt;/span&gt;
+&lt;span class="n"&gt;GREATEST_MAIN_DEFS&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;GREATEST_MAIN_BEGIN&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;      &lt;span class="cm"&gt;/* command-line options, initialization. */&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* Individual tests can be run directly in main, outside of suites. */&lt;/span&gt;
+    &lt;span class="cm"&gt;/* RUN_TEST(x_should_equal_1); */&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* Tests can also be gathered into test suites. */&lt;/span&gt;
+    &lt;span class="n"&gt;RUN_SUITE&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;the_suite&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;GREATEST_MAIN_END&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;        &lt;span class="cm"&gt;/* display results */&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>unittest</category><guid>https://chimez.github.io/posts/greatest/</guid><pubDate>Sun, 27 Jun 2021 07:47:29 GMT</pubDate></item><item><title>gtags</title><link>https://chimez.github.io/posts/gtags/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org1ceaf2e" class="outline-2"&gt;
+&lt;h2 id="org1ceaf2e"&gt;global(gtags) 代码标签&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1ceaf2e"&gt;
+&lt;p&gt;
+&lt;a href="https://www.gnu.org/software/global/globaldoc_toc.html"&gt;global&lt;/a&gt; 是代码标签工具，用来辅助编辑器做补全。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org124777d" class="outline-3"&gt;
+&lt;h3 id="org124777d"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org124777d"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgbe1ae4b" class="outline-4"&gt;
+&lt;h4 id="orgbe1ae4b"&gt;生成标签&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbe1ae4b"&gt;
+&lt;p&gt;
+在项目的根目录下执行 &lt;code&gt;gtags&lt;/code&gt; 就会生成 &lt;code&gt;GPATH&lt;/code&gt;, &lt;code&gt;GRTAGS&lt;/code&gt;, &lt;code&gt;GTAGS&lt;/code&gt; 三个文件
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org39850b6" class="outline-4"&gt;
+&lt;h4 id="org39850b6"&gt;命令行使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org39850b6"&gt;
+&lt;p&gt;
+命令行下可以用
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    # 查看定义位置
+    $ global func1
+    DIR1/fileB.c            # func1() is defined in fileB.c
+
+    # 使用 less 查看定义
+    less -t func1
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>emacs</category><category>gtags</category><guid>https://chimez.github.io/posts/gtags/</guid><pubDate>Sat, 26 Jun 2021 14:43:48 GMT</pubDate></item><item><title>joblib</title><link>https://chimez.github.io/posts/joblib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org53933da" class="outline-2"&gt;
 &lt;h2 id="org53933da"&gt;joblib: 简单的并行&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-org53933da"&gt;
 &lt;p&gt;
@@ -184,17 +687,17 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>rust</category><guid>https://chimez.github.io/posts/rust-optimization/</guid><pubDate>Thu, 20 May 2021 06:33:34 GMT</pubDate></item><item><title>meson</title><link>https://chimez.github.io/posts/meson/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge433de1" class="outline-2"&gt;
-&lt;h2 id="orge433de1"&gt;meson 构建工具&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge433de1"&gt;
+&lt;/div&gt;</description><category>rust</category><guid>https://chimez.github.io/posts/rust-optimization/</guid><pubDate>Thu, 20 May 2021 06:33:34 GMT</pubDate></item><item><title>meson</title><link>https://chimez.github.io/posts/meson/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org932a17e" class="outline-2"&gt;
+&lt;h2 id="org932a17e"&gt;meson 构建工具&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org932a17e"&gt;
 &lt;p&gt;
 网站 &lt;a href="https://mesonbuild.com"&gt;meson-build&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4ff9799" class="outline-3"&gt;
-&lt;h3 id="org4ff9799"&gt;添加依赖&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4ff9799"&gt;
+&lt;div id="outline-container-orgcca53dd" class="outline-3"&gt;
+&lt;h3 id="orgcca53dd"&gt;配置示例&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgcca53dd"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;cc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;meson&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_compiler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'c'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
    &lt;span class="n"&gt;all_deps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
@@ -210,268 +713,119 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb2447fa" class="outline-3"&gt;
-&lt;h3 id="orgb2447fa"&gt;使用 address sanitizer&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb2447fa"&gt;
+&lt;div id="outline-container-orgf74e4ff" class="outline-3"&gt;
+&lt;h3 id="orgf74e4ff"&gt;使用 address sanitizer&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf74e4ff"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   CC=clang meson build  -Db_sanitize=address -Db_lundef=false
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0583689" class="outline-3"&gt;
-&lt;h3 id="org0583689"&gt;使用 clang 静态分析&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0583689"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;meson build
-ninja -C build scan-build
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>meson</category><guid>https://chimez.github.io/posts/meson/</guid><pubDate>Mon, 10 May 2021 08:20:05 GMT</pubDate></item><item><title>LAPACK</title><link>https://chimez.github.io/posts/lapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org343cbe4" class="outline-2"&gt;
-&lt;h2 id="org343cbe4"&gt;LAPACK&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org343cbe4"&gt;
-&lt;p&gt;
-主页在 &lt;a href="https://www.netlib.org/lapack/"&gt;https://www.netlib.org/lapack/&lt;/a&gt;, 文档在 &lt;a href="https://www.netlib.org/lapack/explore-html/"&gt;https://www.netlib.org/lapack/explore-html/&lt;/a&gt;.
-&lt;/p&gt;
-
-&lt;p&gt;
-安装说明
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;liblapack&lt;/code&gt; 是本体&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;liblapacke&lt;/code&gt; 是 c 的绑定&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org6599002" class="outline-3"&gt;
-&lt;h3 id="org6599002"&gt;dsyevd: 实对称矩阵本征值&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6599002"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orga74d5b5" class="outline-4"&gt;
-&lt;h4 id="orga74d5b5"&gt;参数说明&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orga74d5b5"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;jobz&lt;/code&gt; 计算任务类型， &lt;code&gt;jobz = "N"&lt;/code&gt; 只计算本征值， &lt;code&gt;jobz = "V"&lt;/code&gt; 计算本征值和本征矢&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;UPLO&lt;/code&gt; 矩阵的存储方式, &lt;code&gt;UPLO = "U"&lt;/code&gt; &lt;code&gt;A&lt;/code&gt; 中存了上三角矩阵， &lt;code&gt;UPLO = "L"&lt;/code&gt; 下三角矩阵&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;N&lt;/code&gt; 矩阵维数&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;A&lt;/code&gt; 输入矩阵 &lt;code&gt;LDA * N&lt;/code&gt; 维，计算后会被破坏，或者保存为本征矢&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;LDA&lt;/code&gt; 矩阵维数&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;W&lt;/code&gt; 本征值向量 &lt;code&gt;N&lt;/code&gt; 维，升序排列&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;WORK&lt;/code&gt; 工作向量，~LWORK~ 维, &lt;code&gt;WORK[0]&lt;/code&gt; 是最优的 &lt;code&gt;LWORK&lt;/code&gt; 值&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;LWORK&lt;/code&gt; 工作向量维数， &lt;code&gt;LWORK = -1&lt;/code&gt; 计算最优的 &lt;code&gt;LWORK&lt;/code&gt; 值&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;IWORK&lt;/code&gt; 工作向量， &lt;code&gt;LIWORK&lt;/code&gt; 维， &lt;code&gt;IWORK[0]&lt;/code&gt; 是最优的 &lt;code&gt;LIWORK&lt;/code&gt; 值&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;LIWORK&lt;/code&gt; 工作向量维数， &lt;code&gt;LIWORK = -1&lt;/code&gt; 计算最优的 &lt;code&gt;LIWORK&lt;/code&gt; 值&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;INFO&lt;/code&gt; 错误信息， &lt;code&gt;info = 0&lt;/code&gt; 成功&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>BLAS</category><category>C</category><category>LAPACK</category><guid>https://chimez.github.io/posts/lapack/</guid><pubDate>Mon, 10 May 2021 01:46:43 GMT</pubDate></item><item><title>arpack</title><link>https://chimez.github.io/posts/arpack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org13f1aa7" class="outline-2"&gt;
-&lt;h2 id="org13f1aa7"&gt;ARPACK&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org13f1aa7"&gt;
-&lt;p&gt;
-新版本在 &lt;a href="https://github.com/opencollab/arpack-ng"&gt;arpack-ng&lt;/a&gt; , 文档在 &lt;a href="https://www.caam.rice.edu/software/ARPACK/UG/node135.html"&gt;rice - ARPACK&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org046eb4a" class="outline-3"&gt;
-&lt;h3 id="org046eb4a"&gt;函数说明&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org046eb4a"&gt;
-&lt;p&gt;
-头文件 &lt;code&gt;arpack.h&lt;/code&gt; 中的函数有
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;neupd_c&lt;/code&gt; 计算一般矩阵的本征值, &lt;code&gt;&amp;lt;?&amp;gt; = sdcz&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;naupd_c&lt;/code&gt; 计算一般矩阵的反向通信接口, &lt;code&gt;&amp;lt;?&amp;gt; = sdcz&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;seupd_c&lt;/code&gt; 计算厄米矩阵的本征值, &lt;code&gt;&amp;lt;?&amp;gt; = sd&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;saupd_c&lt;/code&gt; 计算厄米矩阵的反向通信接口, &lt;code&gt;&amp;lt;?&amp;gt; = sd&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org52af175" class="outline-3"&gt;
-&lt;h3 id="org52af175"&gt;&lt;code&gt;XYaupd&lt;/code&gt; 参数说明&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org52af175"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;ido&lt;/code&gt;   反向通信标志，第一次运行 &lt;code&gt;ido=0&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bmat&lt;/code&gt;  问题类型标志，标准本征值问题 &lt;code&gt;bmat="I"&lt;/code&gt; , 扩展本征值问题 &lt;code&gt;bmat="G"&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;n&lt;/code&gt;  矩阵维数&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;which&lt;/code&gt; Ritz值的位置 &lt;code&gt;which="LA", "SA", "LM", "SM", "BE"&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;nev&lt;/code&gt; 计算本征值的个数 &lt;code&gt;0 &amp;lt; nev &amp;lt; n&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;tol&lt;/code&gt; 浮点精度&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;resid&lt;/code&gt; 残差向量&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ncv&lt;/code&gt; Lanczos 向量个数&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;v&lt;/code&gt; Lanczos 向量， &lt;code&gt;ncv&lt;/code&gt; 列&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ldv&lt;/code&gt; Lanczos 向量的首列长度&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam&lt;/code&gt; &lt;code&gt;int[11]&lt;/code&gt; 的数组，保存了 11 个设置参数
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;iparam[0]=ishift&lt;/code&gt; 选择隐式移动的方法， &lt;code&gt;ishift=0&lt;/code&gt; 由用户指定， &lt;code&gt;ishift=1&lt;/code&gt; 由约化三对角矩阵决定&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam[1]=levec&lt;/code&gt; 没用&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam[2]=mxiter&lt;/code&gt; 最大 Arnoldi 更新迭代次数&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam[3]=nb&lt;/code&gt; 块大小，只能取 &lt;code&gt;nb=1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam[4]=nconv&lt;/code&gt; 收敛了的 Ritz 值个数&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam[5]=iupd&lt;/code&gt; 没用&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam[6]=mode&lt;/code&gt; 指定本征值问题的类型只能取 &lt;code&gt;mode = 1,2,3,4,5&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam[7]=np&lt;/code&gt; &lt;code&gt;ido=3&lt;/code&gt; 时有用&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam[8]=numop&lt;/code&gt; OP*x 计算的次数&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam[9]=numob&lt;/code&gt; B*x 计算的次数&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam[10]=numreo&lt;/code&gt; 重正交化的次数&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ipntr&lt;/code&gt; &lt;code&gt;int[11]&lt;/code&gt; 的数组，保存指向 &lt;code&gt;workl&lt;/code&gt;, &lt;code&gt;workd&lt;/code&gt; 中起始位置的指针&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;workd&lt;/code&gt; &lt;code&gt;3*N&lt;/code&gt; 长的数组，算法内部使用&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;workl&lt;/code&gt; &lt;code&gt;lworkl&lt;/code&gt; 长的数组，算法内部使用&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;lworkl&lt;/code&gt; &lt;code&gt;workl&lt;/code&gt; 的长度，至少 &lt;code&gt;ncv**2 + 8*ncv&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;info&lt;/code&gt; 运行提示和错误信息&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgdd4ac2a" class="outline-3"&gt;
-&lt;h3 id="orgdd4ac2a"&gt;&lt;code&gt;XYeupd&lt;/code&gt; 参数说明&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgdd4ac2a"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;rvec&lt;/code&gt; 指定是否产生本征矢 &lt;code&gt;rvec=true&lt;/code&gt; 产生本征矢， &lt;code&gt;rvec=false&lt;/code&gt; 只产生本征值&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;howmny&lt;/code&gt; 指定产生本征矢的个数 &lt;code&gt;howmny="A"&lt;/code&gt; 计算 &lt;code&gt;nev&lt;/code&gt; 个， &lt;code&gt;howmny="P"&lt;/code&gt; 计算 nev Schur 本征矢， &lt;code&gt;howmny="S"&lt;/code&gt; 计算一部分本征值，由 &lt;code&gt;select&lt;/code&gt; 指定&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;select&lt;/code&gt; 指定计算的本征矢&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;dr&lt;/code&gt; Ritz 值的实部&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;di&lt;/code&gt; Ritz 值的虚部&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;z&lt;/code&gt; Ritz 向量&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ldz&lt;/code&gt; Ritz 向量的首列维数&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sigmar&lt;/code&gt; shift 的实部, iparam[6]=3 or 4 时有效&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sigmai&lt;/code&gt; shift 的虚部&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;workev&lt;/code&gt; 3*ncv 的内部数组&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bmat&lt;/code&gt;  以下参数与 &lt;code&gt;XYaupd&lt;/code&gt; 相同&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;n&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;which&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;nev&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;tol&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;resid&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ncv&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;v&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ldv&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;iparam&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ipntr&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;workd&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;workl&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;lworkl&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;info&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>eigen</category><guid>https://chimez.github.io/posts/arpack/</guid><pubDate>Fri, 07 May 2021 10:48:36 GMT</pubDate></item><item><title>BLAS</title><link>https://chimez.github.io/posts/blas/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge468d11" class="outline-2"&gt;
-&lt;h2 id="orge468d11"&gt;BLAS&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge468d11"&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;MKL 中的 BLAS，参考 &lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/naming-conventions-for-blas-routines.html"&gt;MKL - BLAS&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;标准的 BLAS 参考 &lt;a href="https://www.netlib.org/blas/"&gt;netlib - BLAS&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgfef8337" class="outline-3"&gt;
-&lt;h3 id="orgfef8337"&gt;BLAS 的命名规则&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgfef8337"&gt;
-&lt;p&gt;
-BLAS 中的函数名一般规则是 &lt;code&gt;&amp;lt;character&amp;gt;&amp;lt;name&amp;gt;&amp;lt;mode&amp;gt; ()&lt;/code&gt;
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;character&amp;gt;&lt;/code&gt; 指明数据类型
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;code&gt;s&lt;/code&gt; real, single precision&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;c&lt;/code&gt; complex, single precision&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;d&lt;/code&gt; real, double precision&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;z&lt;/code&gt; complex, double precision&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;name&amp;gt;&lt;/code&gt; 指明矩阵类型 BLAS 2 and 3
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;code&gt;ge&lt;/code&gt; general matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;gb&lt;/code&gt; general band matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sy&lt;/code&gt; symmetric matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sp&lt;/code&gt; symmetric matrix (packed storage)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sb&lt;/code&gt; symmetric band matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;he&lt;/code&gt; hermitian matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;hp&lt;/code&gt; hermitian matrix (packed storage)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;hb&lt;/code&gt; hermitian band matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;tr&lt;/code&gt; triangular matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;tp&lt;/code&gt; triangular matrix (packed storage)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;tb&lt;/code&gt; triangular band matrix&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;mod&amp;gt;&lt;/code&gt; 指明操作的细节
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;code&gt;c&lt;/code&gt; conjugated vector&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;u&lt;/code&gt; unconjugated vector&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;g&lt;/code&gt; Givens rotation construction&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;m&lt;/code&gt; modified Givens rotation&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;mg&lt;/code&gt; modified Givens rotation construction&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;mv&lt;/code&gt; matrix-vector product&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sv&lt;/code&gt; solving a system of linear equations with a single unknown vector&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;r&lt;/code&gt; rank-1 update of matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;r2&lt;/code&gt; rank-2 update of matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;mm&lt;/code&gt; matrix-matrix product&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sm&lt;/code&gt; solving a system of linear equations with multiple unkonwn vectors&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;rk&lt;/code&gt; rank-k update of matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;r2k&lt;/code&gt; rank-2k update of a matrix&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org6b7b696" class="outline-3"&gt;
-&lt;h3 id="org6b7b696"&gt;CBLAS 约定&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6b7b696"&gt;
-&lt;p&gt;
-CBLAS 是 BLAS 的 c 接口， BLAS 是 fortran 标准。
-&lt;/p&gt;
-
-&lt;p&gt;
-CBLAS 函数都遵循以下约定
-&lt;/p&gt;
-
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;输入参数是 &lt;code&gt;const&lt;/code&gt; 指针&lt;/li&gt;
-&lt;li&gt;非复数标量输入参数传值&lt;/li&gt;
-&lt;li&gt;复标量参数传 &lt;code&gt;void&lt;/code&gt; 指针&lt;/li&gt;
-&lt;li&gt;数组参数传地址&lt;/li&gt;
-&lt;li&gt;BLAS 特征参数由适当的枚举类型代替&lt;/li&gt;
-&lt;li&gt;level 2 和 level 3 需要一个额外的 &lt;code&gt;CBLAS_LAYOUT&lt;/code&gt; 类型的参数来指定矩阵是行优先 &lt;code&gt;CblasRowMajor&lt;/code&gt; 还是列优先 &lt;code&gt;CblasColMajor&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgca95bd0" class="outline-3"&gt;
-&lt;h3 id="orgca95bd0"&gt;枚举类型&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgca95bd0"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_LAYOUT&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="n"&gt;CblasRowMajor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;101&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="cm"&gt;/* row-major arrays */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasColMajor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;102&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;   &lt;span class="cm"&gt;/* column-major arrays */&lt;/span&gt;
-
-   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_TRANSPOSE&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="n"&gt;CblasNoTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;111&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;     &lt;span class="cm"&gt;/* trans='N' */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;112&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;       &lt;span class="cm"&gt;/* trans='T' */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasConjTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;113&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;  &lt;span class="cm"&gt;/* trans='C' */&lt;/span&gt;
-
-   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_UPLO&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="n"&gt;CblasUpper&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;121&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;        &lt;span class="cm"&gt;/* uplo ='U' */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasLower&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;122&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;       &lt;span class="cm"&gt;/* uplo ='L' */&lt;/span&gt;
-
-   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_DIAG&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="n"&gt;CblasNonUnit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;131&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="cm"&gt;/* diag ='N' */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasUnit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;132&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;        &lt;span class="cm"&gt;/* diag ='U' */&lt;/span&gt;
-
-   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_SIDE&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="n"&gt;CblasLeft&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;141&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;         &lt;span class="cm"&gt;/* side ='L' */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasRight&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;142&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;       &lt;span class="cm"&gt;/* side ='R' */&lt;/span&gt;
+&lt;div id="outline-container-org1fcfc3b" class="outline-3"&gt;
+&lt;h3 id="org1fcfc3b"&gt;使用 clang 静态分析&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1fcfc3b"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   meson build
+   ninja -C build scan-build
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9304e2e" class="outline-3"&gt;
-&lt;h3 id="org9304e2e"&gt;矩阵存储方式&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9304e2e"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;完全存储矩阵 \(A_{ij}_{}\) 在二维数组列存储 &lt;code&gt;a[i + j*lda]&lt;/code&gt; 行存储 &lt;code&gt;a[i*lda + j]&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;packed storage 可以用更有效的方式存储矩阵&lt;/li&gt;
-&lt;/ol&gt;
+&lt;div id="outline-container-orga30dc5c" class="outline-3"&gt;
+&lt;h3 id="orga30dc5c"&gt;自定义外部依赖&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga30dc5c"&gt;
+&lt;p&gt;
+参考 &lt;a href="https://mesonbuild.com/Dependencies.html#declaring-your-own"&gt;Manual/Dependencies&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+一个外部依赖只需要知道头文件和链接库(静态/动态)
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;my_inc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="n"&gt;my_lib&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;static_library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="n"&gt;my_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;declare_dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;link_with&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;my_lib&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+			       &lt;span class="n"&gt;include_directories&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;my_inc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org51d3f83" class="outline-4"&gt;
+&lt;h4 id="org51d3f83"&gt;将依赖做子目录&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org51d3f83"&gt;
+&lt;p&gt;
+首先在子目录中放入依赖的源码，并且在其中定义子项目的 &lt;code&gt;meson.build&lt;/code&gt; 文件
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;foo_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;declare_dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+之后就可以在主项目中依赖它
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;foo_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'foo'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fallback&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'foo'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'foo_dep'&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>BLAS</category><category>C</category><guid>https://chimez.github.io/posts/blas/</guid><pubDate>Fri, 07 May 2021 03:47:35 GMT</pubDate></item><item><title>Extending Python with C</title><link>https://chimez.github.io/posts/extending-python-with-c/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgaf204c4" class="outline-2"&gt;
-&lt;h2 id="orgaf204c4"&gt;用 C 扩展 Python&lt;/h2&gt;
-&lt;/div&gt;</description><category>C</category><category>ffi</category><category>python</category><guid>https://chimez.github.io/posts/extending-python-with-c/</guid><pubDate>Mon, 03 May 2021 11:16:46 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc198754" class="outline-3"&gt;
+&lt;h3 id="orgc198754"&gt;子项目&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc198754"&gt;
+&lt;p&gt;
+&lt;a href="https://mesonbuild.com/Subprojects.html"&gt;https://mesonbuild.com/Subprojects.html&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgab269fa" class="outline-4"&gt;
+&lt;h4 id="orgab269fa"&gt;从子项目获取依赖&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgab269fa"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;libsimple_proj&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;subproject&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'libsimple'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;libsimple_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;libsimple_proj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_variable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'libsimple_dep'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org26acebd" class="outline-3"&gt;
+&lt;h3 id="org26acebd"&gt;使用 wrap 管理依赖&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org26acebd"&gt;
+&lt;p&gt;
+在 &lt;code&gt;subprojects&lt;/code&gt; 文件夹中创建 &lt;code&gt;libfoobar.wrap&lt;/code&gt; 文件, 其中指定源码位置 &lt;code&gt;[wrap-file]&lt;/code&gt; 和提供的依赖 &lt;code&gt;[provide]&lt;/code&gt; ，格式参考 &lt;a href="https://mesonbuild.com/Wrap-dependency-system-manual.html"&gt;这里&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+对于非 meson-build 项目，还需要一个 &lt;code&gt;meson.build&lt;/code&gt; 文件来添加支持，这个额外的文件称作 &lt;code&gt;patch&lt;/code&gt;, 这个额外配置文件可以从网络中下载获取(通过 &lt;code&gt;patch_url&lt;/code&gt;, 参考&lt;a href="https://mesonbuild.com/Wrap-dependency-system-manual.html#accepted-configuration-properties-for-wraps"&gt;这里&lt;/a&gt;)
+&lt;/p&gt;
+
+&lt;p&gt;
+示例 &lt;code&gt;subprojects/cache2.wrap&lt;/code&gt; ：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;wrap&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+   &lt;span class="n"&gt;directory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Catch2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.13&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;
+   &lt;span class="n"&gt;source_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;catchorg&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Catch2&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;archive&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;v2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;13.3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zip&lt;/span&gt;
+   &lt;span class="n"&gt;source_filename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Catch2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.13&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;3.&lt;/span&gt;&lt;span class="n"&gt;zip&lt;/span&gt;
+   &lt;span class="n"&gt;source_hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1804&lt;/span&gt;&lt;span class="n"&gt;feb72bc15c0856b4a43aa586c661af9c3685a75973b6a8fc0b950c7cfd13&lt;/span&gt;
+   &lt;span class="n"&gt;patch_directory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;catch2&lt;/span&gt;
+
+   &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;provide&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+   &lt;span class="n"&gt;catch2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;catch2_dep&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;
+自己编写的配置文件应该放在 &lt;code&gt;subprojects/packagefiles/libfoobar/meson.build&lt;/code&gt; 中，并设置 &lt;code&gt;patch_directory&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+示例 &lt;code&gt;subprojects/packagefiles/cache2/meson.build&lt;/code&gt; ：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;project&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'catch2'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="s1"&gt;'cpp'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'2.13.3'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       &lt;span class="n"&gt;license&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'Boost'&lt;/span&gt;
+   &lt;span class="p"&gt;)&lt;/span&gt;
+
+   &lt;span class="n"&gt;catch2_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;declare_dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+       &lt;span class="n"&gt;include_directories&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'single_include'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+   &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>meson</category><guid>https://chimez.github.io/posts/meson/</guid><pubDate>Mon, 10 May 2021 08:20:05 GMT</pubDate></item></channel></rss>
