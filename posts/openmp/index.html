@@ -21,21 +21,20 @@
 <meta property="og:description" content="OpenMP 共享内存并行
 
 
+OpenMP 是单机多线程共享内存并行工具。
 
-常用函数总结
 
 
-parallel
-for
-parallel for
-sections
-parallel sections
-critical
-single
-omp_get_num_procs
-omp_get_num_threads
-omp_get_thread_num
-omp_set_num_threads">
+OpenMP 使用 fork-join 模型进行并行，即主线程通过 fork 创建多个并行线程，之后再将子线程 join 回主线程。
+
+
+
+OpenMP API 由三部分组成
+
+
+编译器指令 #pragma omp ...
+运行时库函数 #include &lt;omp.h&gt;
+环境变量 OMP_NUM_THREADS 等">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2021-02-20T15:37:55+08:00">
 </head>
@@ -112,26 +111,485 @@ omp_set_num_threads">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org4f60730" class="outline-2">
-<h2 id="org4f60730">OpenMP 共享内存并行</h2>
-<div class="outline-text-2" id="text-org4f60730">
+    <div id="outline-container-org1f36c50" class="outline-2">
+<h2 id="org1f36c50">OpenMP 共享内存并行</h2>
+<div class="outline-text-2" id="text-org1f36c50">
+<p>
+OpenMP 是单机多线程共享内存并行工具。
+</p>
+
+<p>
+OpenMP 使用 fork-join 模型进行并行，即主线程通过 <code>fork</code> 创建多个并行线程，之后再将子线程 <code>join</code> 回主线程。
+</p>
+
+<p>
+OpenMP API 由三部分组成
+</p>
+<ol class="org-ol">
+<li>编译器指令 <code>#pragma omp ...</code>
+</li>
+<li>运行时库函数 <code>#include &lt;omp.h&gt;</code>
+</li>
+<li>环境变量 <code>OMP_NUM_THREADS</code> 等</li>
+</ol>
 </div>
-<div id="outline-container-org6b4d3fa" class="outline-3">
-<h3 id="org6b4d3fa">常用函数总结</h3>
-<div class="outline-text-3" id="text-org6b4d3fa">
-<ul class="org-ul">
-<li><code>parallel</code></li>
-<li><code>for</code></li>
-<li><code>parallel for</code></li>
-<li><code>sections</code></li>
-<li><code>parallel sections</code></li>
-<li><code>critical</code></li>
-<li><code>single</code></li>
-<li><code>omp_get_num_procs</code></li>
-<li><code>omp_get_num_threads</code></li>
-<li><code>omp_get_thread_num</code></li>
-<li><code>omp_set_num_threads</code></li>
-</ul>
+
+<div id="outline-container-org205449f" class="outline-4">
+<h4 id="org205449f">参考资料</h4>
+<div class="outline-text-4" id="text-org205449f">
+<ol class="org-ol">
+<li>
+<a href="https://hpc.llnl.gov/tuts/openMP/">llnl/openmp</a> 的教程</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4055062" class="outline-3">
+<h3 id="org4055062">编译器指令</h3>
+<div class="outline-text-3" id="text-org4055062">
+<p>
+编译器指令的格式为
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"><code>#pragma omp</code></th>
+<th scope="col" class="org-left">指令名</th>
+<th scope="col" class="org-left"><code>[clause, ...]</code></th>
+<th scope="col" class="org-left">换行</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">所有OpenMP指令的开头</td>
+<td class="org-left">一系列可用的指令</td>
+<td class="org-left">可选的，从句顺序任意</td>
+<td class="org-left">换行不需要分号,可用用反斜线折行</td>
+</tr>
+<tr>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+<td class="org-left"> </td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span>   <span class="cp">#pragma omp parallel default(shared) private(beta, pi)</span>
+</pre></div>
+</div>
+
+<div id="outline-container-orged85030" class="outline-4">
+<h4 id="orged85030">parallel 指令</h4>
+<div class="outline-text-4" id="text-orged85030">
+<p>
+创建一系列线程运行接下来的结构块，并在结构块结束时合并所有线程
+</p>
+
+<p>
+可用的从句
+</p>
+<ol class="org-ol">
+<li><code>if (scalar_expression)</code></li>
+<li>
+<code>private (list)</code> 指定变量是私有的</li>
+<li><code>shared (list)</code></li>
+<li><code>default (share | none)</code></li>
+<li><code>firstprivate (list)</code></li>
+<li><code>copyin (list)</code></li>
+<li><code>num_threads (integer-expression)</code></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org695f73e" class="outline-4">
+<h4 id="org695f73e">for 指令</h4>
+<div class="outline-text-4" id="text-org695f73e">
+<p>
+指定接下来的循环迭代并行运行。
+</p>
+<ol class="org-ol">
+<li>
+<code>schedule (type [,chunk])</code> 描述循环如何分配给线程</li>
+<li>
+<code>ordered</code> 指定线程必须按照循环的顺序合并</li>
+<li><code>private (list)</code></li>
+<li><code>firstprivate (list)</code></li>
+<li><code>lastprivate (list)</code></li>
+<li><code>shared (list)</code></li>
+<li><code>reduction (operator: list)</code></li>
+<li><code>collapse (n)</code></li>
+<li>
+<code>nowait</code> 循环结束后不等待未结束的线程</li>
+</ol>
+<div class="highlight"><pre><span></span>    <span class="cp">#pragma omp parallel shared(a,b,c,chunk) private(i)</span>
+      <span class="p">{</span>
+
+      <span class="cp">#pragma omp for schedule(dynamic,chunk) nowait</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+      <span class="p">}</span>  <span class="cm">/* end of parallel section */</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org5cd2c4d" class="outline-4">
+<h4 id="org5cd2c4d">sections, section 指令</h4>
+<div class="outline-text-4" id="text-org5cd2c4d">
+<p>
+外层用 <code>sections</code> 指令，内部用 <code>section</code> 指令
+</p>
+
+<div class="highlight"><pre><span></span>    <span class="cp">#pragma omp parallel shared(a,b,c,d) private(i)</span>
+      <span class="p">{</span>
+
+      <span class="cp">#pragma omp sections nowait</span>
+	<span class="p">{</span>
+
+	<span class="cp">#pragma omp section</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	  <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+	<span class="cp">#pragma omp section</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	  <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+	<span class="p">}</span>  <span class="cm">/* end of sections */</span>
+
+      <span class="p">}</span>  <span class="cm">/* end of parallel section */</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org93f9cd1" class="outline-4">
+<h4 id="org93f9cd1">single 指令</h4>
+<div class="outline-text-4" id="text-org93f9cd1">
+<p>
+指定块内部同时只有一个线程运行，用来处理以下线程不安全的操作
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga35212f" class="outline-4">
+<h4 id="orga35212f">task 指令</h4>
+</div>
+
+<div id="outline-container-org1bce25d" class="outline-4">
+<h4 id="org1bce25d">master 指令</h4>
+<div class="outline-text-4" id="text-org1bce25d">
+<p>
+指定只有主线程执行块内的程序。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6bc6213" class="outline-4">
+<h4 id="org6bc6213">critical 指令</h4>
+<div class="outline-text-4" id="text-org6bc6213">
+<p>
+指定同时只有一个线程能运行内部的代码。
+</p>
+
+<div class="highlight"><pre><span></span>    <span class="cp">#pragma omp parallel shared(x) </span>
+      <span class="p">{</span>
+
+      <span class="cp">#pragma omp critical </span>
+      <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+      <span class="p">}</span>  <span class="cm">/* end of parallel section */</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org271523b" class="outline-4">
+<h4 id="org271523b">barrier 指令</h4>
+<div class="outline-text-4" id="text-org271523b">
+<p>
+要求所有线程立即同步
+</p>
+</div>
+</div>
+
+<div id="outline-container-org20e13ff" class="outline-4">
+<h4 id="org20e13ff">taskwait 指令</h4>
+</div>
+
+<div id="outline-container-org0eb21b0" class="outline-4">
+<h4 id="org0eb21b0">atomic 指令</h4>
+<div class="outline-text-4" id="text-org0eb21b0">
+<p>
+执行原子操作，相当于小的 critical 指令
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9112fe0" class="outline-4">
+<h4 id="org9112fe0">flush 指令</h4>
+<div class="outline-text-4" id="text-org9112fe0">
+<p>
+要求所有缓冲的修改写回内存中
+</p>
+
+<p>
+下面一些指令隐含了 <code>flush</code> 指令
+</p>
+<ol class="org-ol">
+<li><code>barrier</code></li>
+<li>
+<code>parallel</code> 的进和出</li>
+<li>
+<code>critical</code> 的进和出</li>
+<li>
+<code>ordered</code> 的进和出</li>
+<li>
+<code>for</code> 的出</li>
+<li>
+<code>sections</code> 的出</li>
+<li>
+<code>single</code> 的出</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgc32360f" class="outline-4">
+<h4 id="orgc32360f">ordered 指令</h4>
+<div class="outline-text-4" id="text-orgc32360f">
+<p>
+要求代码块内部的指令顺序执行，只能用在 <code>for</code> 指令内部
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgadc2632" class="outline-4">
+<h4 id="orgadc2632">threadprivate 指令</h4>
+<div class="outline-text-4" id="text-orgadc2632">
+<p>
+指定一些变量是线程私有的，每个线程初次使用这些变量时都是未初始化的
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf867f61" class="outline-4">
+<h4 id="orgf867f61">reduction 从句</h4>
+<div class="outline-text-4" id="text-orgf867f61">
+<p>
+要求循环分成相等的部分，并在全部运行最后再执行指定的指令
+</p>
+
+<p>
+支持的格式
+</p>
+<div class="highlight"><pre><span></span>    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="n">op</span> <span class="n">expr</span> 
+    <span class="n">x</span> <span class="o">=</span> <span class="n">expr</span> <span class="n">op</span> <span class="n">x</span> 
+    <span class="n">x</span> <span class="n">binop</span> <span class="o">=</span> <span class="n">expr</span>
+    <span class="n">x</span><span class="o">++</span> 
+    <span class="o">++</span><span class="n">x</span>
+    <span class="n">x</span><span class="o">--</span>
+    <span class="o">--</span><span class="n">x</span>
+
+    <span class="nl">op</span><span class="p">:</span> <span class="o">+</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="o">-</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">&amp;</span><span class="p">,</span> <span class="o">^</span><span class="p">,</span> <span class="o">&amp;&amp;</span><span class="p">,</span> <span class="o">||</span>
+    <span class="nl">binop</span><span class="p">:</span> <span class="o">+</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="o">-</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">&amp;</span><span class="p">,</span> <span class="o">^</span><span class="p">,</span> <span class="o">|</span>
+</pre></div>
+
+<p>
+例子
+</p>
+<div class="highlight"><pre><span></span>    <span class="cp">#pragma omp parallel for      \  </span>
+      <span class="k">default</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span> <span class="n">private</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>  <span class="err">\</span>  
+      <span class="n">schedule</span><span class="p">(</span><span class="k">static</span><span class="p">,</span><span class="n">chunk</span><span class="p">)</span>      <span class="err">\</span>  
+      <span class="n">reduction</span><span class="p">(</span><span class="o">+:</span><span class="n">result</span><span class="p">)</span>  
+
+      <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3009a85" class="outline-3">
+<h3 id="org3009a85">运行时库函数</h3>
+<div class="outline-text-3" id="text-org3009a85">
+</div>
+<div id="outline-container-orgfedaa73" class="outline-4">
+<h4 id="orgfedaa73">线程环境相关</h4>
+<div class="outline-text-4" id="text-orgfedaa73">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">函数</th>
+<th scope="col" class="org-left">作用</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><code>omp_set_num_threads()</code></td>
+<td class="org-left">设置使用的线程数</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_get_num_threads()</code></td>
+<td class="org-left">获取使用的线程数</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_get_max_threads()</code></td>
+<td class="org-left">获取可用最大的线程数</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_get_thread_num()</code></td>
+<td class="org-left">获取线程编号</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_get_thread_limit()</code></td>
+<td class="org-left">获取最大可用线程</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_get_num_procs()</code></td>
+<td class="org-left">获取处理器数目</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org1adf2c8" class="outline-4">
+<h4 id="org1adf2c8">锁</h4>
+<div class="outline-text-4" id="text-org1adf2c8">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">函数</th>
+<th scope="col" class="org-left">作用</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><code>omp_init_lock()</code></td>
+<td class="org-left">初始化锁</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_destroy_lock()</code></td>
+<td class="org-left">删除锁</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_set_lock()</code></td>
+<td class="org-left">加锁</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_unset_lock()</code></td>
+<td class="org-left">解锁</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_test_lock()</code></td>
+<td class="org-left">测试加锁</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_init_nest_lock()</code></td>
+<td class="org-left">初始化嵌套锁</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_destroy_nest_lock()</code></td>
+<td class="org-left">删除嵌套锁</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_set_nest_lock()</code></td>
+<td class="org-left">加嵌套锁</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_unset_nest_lock()</code></td>
+<td class="org-left">解嵌套锁</td>
+</tr>
+<tr>
+<td class="org-left"><code>omp_test_nest_lock()</code></td>
+<td class="org-left">测试加嵌套锁</td>
+</tr>
+</tbody>
+</table>
+<p>
+说明：
+</p>
+<ol class="org-ol">
+<li>OpenMP 的锁是互斥锁，即 mutex</li>
+<li>
+<p>
+与 <code>critical</code> 指令的区别是， <code>critical</code> 指令保证同时只有一个线程运行内部的指令，而不是加锁
+</p>
+
+<p>
+例子:
+</p>
+<div class="highlight"><pre><span></span>    <span class="cp">#include</span> <span class="cpf">&lt;omp.h&gt;</span><span class="cp"></span>
+
+    <span class="n">omp_lock_t</span> <span class="n">lock</span><span class="p">;</span>
+    <span class="n">omp_init_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="cp">#pragma omp parallel</span>
+    <span class="p">{</span>
+	<span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span>
+	    <span class="n">omp_set_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+	    <span class="n">x</span><span class="o">++</span><span class="p">;</span>
+	    <span class="n">omp_unset_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+	    <span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">omp_destroy_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+</pre></div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgad4c7eb" class="outline-3">
+<h3 id="orgad4c7eb">环境变量</h3>
+<div class="outline-text-3" id="text-orgad4c7eb">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">变量</th>
+<th scope="col" class="org-left">作用</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><code>OMP_SCHEDULE</code></td>
+<td class="org-left">
+<code>for</code> 指令的默认从句</td>
+</tr>
+<tr>
+<td class="org-left"><code>OMP_NUM_THREADS</code></td>
+<td class="org-left">使用的最大线程数</td>
+</tr>
+<tr>
+<td class="org-left"><code>OMP_NESTED</code></td>
+<td class="org-left">是否使用嵌套并行</td>
+</tr>
+<tr>
+<td class="org-left"><code>OMP_STACKSIZE</code></td>
+<td class="org-left">设置子线程的栈大小</td>
+</tr>
+<tr>
+<td class="org-left"><code>OMP_WAIT_POLICY</code></td>
+<td class="org-left">设置等待线程的行为</td>
+</tr>
+<tr>
+<td class="org-left"><code>OMP_MAX_ACTIVE_LEVELS</code></td>
+<td class="org-left">设置嵌套并行的层级</td>
+</tr>
+<tr>
+<td class="org-left"><code>OMP_THREAD_LIMIT</code></td>
+<td class="org-left">设置整个程序的最大线程数</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>

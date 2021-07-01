@@ -11,9 +11,9 @@
 #+END_COMMENT
 
 * meson 构建工具
-网站 [[https://mesonbuild.com][meson-build]]
+  网站 [[https://mesonbuild.com][meson-build]]
 
-** 添加依赖
+** 配置示例
    
    #+begin_src python
 cc = meson.get_compiler('c')
@@ -36,7 +36,76 @@ CC=clang meson build  -Db_sanitize=address -Db_lundef=false
    #+end_src 
    
 ** 使用 clang 静态分析
-#+begin_src bash
+   #+begin_src bash
 meson build
 ninja -C build scan-build
-#+end_src 
+   #+end_src 
+
+** 自定义外部依赖
+   参考 [[https://mesonbuild.com/Dependencies.html#declaring-your-own][Manual/Dependencies]]
+
+   一个外部依赖只需要知道头文件和链接库(静态/动态)
+   #+begin_src python
+my_inc = include_directories(...)
+my_lib = static_library(...)
+my_dep = declare_dependency(link_with : my_lib,
+                            include_directories : my_inc)
+   #+end_src
+
+*** 将依赖做子目录
+
+    首先在子目录中放入依赖的源码，并且在其中定义子项目的 ~meson.build~ 文件
+    #+begin_src python
+foo_dep = declare_dependency(...)
+    #+end_src 
+
+    之后就可以在主项目中依赖它
+    #+begin_src python
+foo_dep = dependency('foo', fallback : ['foo', 'foo_dep'])
+
+    #+end_src
+
+** 子项目
+   [[https://mesonbuild.com/Subprojects.html]]
+
+*** 从子项目获取依赖
+#+begin_src python
+
+libsimple_proj = subproject('libsimple')
+libsimple_dep = libsimple_proj.get_variable('libsimple_dep')
+#+end_src
+
+** 使用 wrap 管理依赖
+   
+   在 ~subprojects~ 文件夹中创建 ~libfoobar.wrap~ 文件, 其中指定源码位置 ~[wrap-file]~ 和提供的依赖 ~[provide]~ ，格式参考 [[https://mesonbuild.com/Wrap-dependency-system-manual.html][这里]]
+
+   对于非 meson-build 项目，还需要一个 ~meson.build~ 文件来添加支持，这个额外的文件称作 ~patch~, 这个额外配置文件可以从网络中下载获取(通过 ~patch_url~, 参考[[https://mesonbuild.com/Wrap-dependency-system-manual.html#accepted-configuration-properties-for-wraps][这里]])
+
+   示例 ~subprojects/cache2.wrap~ ：
+   #+begin_src python
+[wrap-file]
+directory = Catch2-2.13.3
+source_url = https://github.com/catchorg/Catch2/archive/v2.13.3.zip
+source_filename = Catch2-2.13.3.zip
+source_hash = 1804feb72bc15c0856b4a43aa586c661af9c3685a75973b6a8fc0b950c7cfd13
+patch_directory = catch2
+
+[provide]
+catch2 = catch2_dep
+   #+end_src
+
+
+   自己编写的配置文件应该放在 ~subprojects/packagefiles/libfoobar/meson.build~ 中，并设置 ~patch_directory~
+
+   示例 ~subprojects/packagefiles/cache2/meson.build~ ：
+   #+begin_src python
+project('catch2',
+    'cpp',
+    version : '2.13.3',
+    license : 'Boost'
+)
+
+catch2_dep = declare_dependency(
+    include_directories : include_directories('single_include')
+)
+   #+end_src

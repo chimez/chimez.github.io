@@ -11,20 +11,223 @@
 #+END_COMMENT
 
 * OpenMP 共享内存并行
+  OpenMP 是单机多线程共享内存并行工具。
+  
+  OpenMP 使用 fork-join 模型进行并行，即主线程通过 ~fork~ 创建多个并行线程，之后再将子线程 ~join~ 回主线程。
+  
+  OpenMP API 由三部分组成
+  1. 编译器指令 ~#pragma omp ...~
+  2. 运行时库函数 ~#include <omp.h>~
+  3. 环境变量 ~OMP_NUM_THREADS~ 等
 
-** 常用函数总结
+*** 参考资料
+    1. [[https://hpc.llnl.gov/tuts/openMP/][llnl/openmp]] 的教程
 
-- ~parallel~
-- ~for~
-- ~parallel for~
-- ~sections~
-- ~parallel sections~
-- ~critical~
-- ~single~
-- ~omp_get_num_procs~
-- ~omp_get_num_threads~
-- ~omp_get_thread_num~
-- ~omp_set_num_threads~
+** 编译器指令
+   编译器指令的格式为
+   | ~#pragma omp~        | 指令名           | ~[clause, ...]~      | 换行                            |
+   |----------------------+------------------+----------------------+---------------------------------|
+   | 所有OpenMP指令的开头 | 一系列可用的指令 | 可选的，从句顺序任意 | 换行不需要分号,可用用反斜线折行 |
+   |                      |                  |                      |                                 |
 
+   #+begin_src c
+#pragma omp parallel default(shared) private(beta, pi)
+   #+end_src
 
+*** parallel 指令
+    创建一系列线程运行接下来的结构块，并在结构块结束时合并所有线程
+
+    可用的从句
+    1. ~if (scalar_expression)~
+    2. ~private (list)~ 指定变量是私有的
+    3. ~shared (list)~
+    4. ~default (share | none)~
+    5. ~firstprivate (list)~
+    6. ~copyin (list)~
+    7. ~num_threads (integer-expression)~
+
+*** for 指令
+    指定接下来的循环迭代并行运行。
+    1. ~schedule (type [,chunk])~ 描述循环如何分配给线程
+    2. ~ordered~ 指定线程必须按照循环的顺序合并
+    3. ~private (list)~
+    4. ~firstprivate (list)~
+    5. ~lastprivate (list)~
+    6. ~shared (list)~
+    7. ~reduction (operator: list)~
+    8. ~collapse (n)~
+    9. ~nowait~ 循环结束后不等待未结束的线程
+
+    #+begin_src c
+#pragma omp parallel shared(a,b,c,chunk) private(i)
+  {
+
+  #pragma omp for schedule(dynamic,chunk) nowait
+  for (i=0; i < N; i++)
+    c[i] = a[i] + b[i];
+
+  }  /* end of parallel section */
+
+    #+end_src
+
+*** sections, section 指令
+    外层用 ~sections~ 指令，内部用 ~section~ 指令
+
+    #+begin_src c
+#pragma omp parallel shared(a,b,c,d) private(i)
+  {
+
+  #pragma omp sections nowait
+    {
+
+    #pragma omp section
+    for (i=0; i < N; i++)
+      c[i] = a[i] + b[i];
+
+    #pragma omp section
+    for (i=0; i < N; i++)
+      d[i] = a[i] * b[i];
+
+    }  /* end of sections */
+
+  }  /* end of parallel section */
+
+    #+end_src
+
+*** single 指令
+    指定块内部同时只有一个线程运行，用来处理以下线程不安全的操作
+
+*** task 指令
+
+*** master 指令
+    指定只有主线程执行块内的程序。
+
+*** critical 指令
+    指定同时只有一个线程能运行内部的代码。
+
+    #+begin_src c
+#pragma omp parallel shared(x) 
+  {
+
+  #pragma omp critical 
+  x = x + 1;
+
+  }  /* end of parallel section */
+
+    #+end_src
+
+*** barrier 指令
+    要求所有线程立即同步
+
+*** taskwait 指令
+
+*** atomic 指令
+    执行原子操作，相当于小的 critical 指令
+
+*** flush 指令
+    要求所有缓冲的修改写回内存中
+
+    下面一些指令隐含了 ~flush~ 指令
+    1. ~barrier~
+    2. ~parallel~ 的进和出
+    3. ~critical~ 的进和出
+    4. ~ordered~ 的进和出
+    5. ~for~ 的出
+    6. ~sections~ 的出
+    7. ~single~ 的出
+
+*** ordered 指令
+    要求代码块内部的指令顺序执行，只能用在 ~for~ 指令内部
+
+*** threadprivate 指令
+    指定一些变量是线程私有的，每个线程初次使用这些变量时都是未初始化的
+
+*** reduction 从句
+    要求循环分成相等的部分，并在全部运行最后再执行指定的指令
+
+    支持的格式
+    #+begin_src c
+x = x op expr 
+x = expr op x 
+x binop = expr
+x++ 
+++x
+x--
+--x
+
+op: +, *, -, /, &, ^, &&, ||
+binop: +, *, -, /, &, ^, |
+    #+end_src
+
+    例子
+    #+begin_src c
+
+#pragma omp parallel for      \  
+  default(shared) private(i)  \  
+  schedule(static,chunk)      \  
+  reduction(+:result)  
+
+  for (i=0; i < n; i++)
+    result = result + (a[i] * b[i]);
+    #+end_src
+
+** 运行时库函数
+
+*** 线程环境相关
+    | 函数                     | 作用                 |
+    |--------------------------+----------------------|
+    | ~omp_set_num_threads()~  | 设置使用的线程数     |
+    | ~omp_get_num_threads()~  | 获取使用的线程数     |
+    | ~omp_get_max_threads()~  | 获取可用最大的线程数 |
+    | ~omp_get_thread_num()~   | 获取线程编号         |
+    | ~omp_get_thread_limit()~ | 获取最大可用线程     |
+    | ~omp_get_num_procs()~    | 获取处理器数目       |
+
+*** 锁
+    | 函数                      | 作用         |
+    |---------------------------+--------------|
+    | ~omp_init_lock()~         | 初始化锁     |
+    | ~omp_destroy_lock()~      | 删除锁       |
+    | ~omp_set_lock()~          | 加锁         |
+    | ~omp_unset_lock()~        | 解锁         |
+    | ~omp_test_lock()~         | 测试加锁     |
+    | ~omp_init_nest_lock()~    | 初始化嵌套锁 |
+    | ~omp_destroy_nest_lock()~ | 删除嵌套锁   |
+    | ~omp_set_nest_lock()~     | 加嵌套锁     |
+    | ~omp_unset_nest_lock()~   | 解嵌套锁     |
+    | ~omp_test_nest_lock()~    | 测试加嵌套锁 |
+
+说明：
+1. OpenMP 的锁是互斥锁，即 mutex
+2. 与 ~critical~ 指令的区别是， ~critical~ 指令保证同时只有一个线程运行内部的指令，而不是加锁
+    
+    例子:
+    #+begin_src c
+#include <omp.h>
+
+omp_lock_t lock;
+omp_init_lock(&lock);
+int i = 0;
+#pragma omp parallel
+{
+    while(true){
+        omp_set_lock(&lock);
+        x++;
+        omp_unset_lock(&lock);
+        break;
+    }
+}
+omp_destroy_lock(&lock);
+    #+end_src
+
+** 环境变量
+   | 变量                    | 作用                     |
+   |-------------------------+--------------------------|
+   | ~OMP_SCHEDULE~          | ~for~ 指令的默认从句     |
+   | ~OMP_NUM_THREADS~       | 使用的最大线程数         |
+   | ~OMP_NESTED~            | 是否使用嵌套并行         |
+   | ~OMP_STACKSIZE~         | 设置子线程的栈大小       |
+   | ~OMP_WAIT_POLICY~       | 设置等待线程的行为       |
+   | ~OMP_MAX_ACTIVE_LEVELS~ | 设置嵌套并行的层级       |
+   | ~OMP_THREAD_LIMIT~      | 设置整个程序的最大线程数 |
 

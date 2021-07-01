@@ -1,0 +1,124 @@
+#+BEGIN_COMMENT
+.. title: ck: Concurrency Kit
+.. slug: ck-concurrency-kit
+.. date: 2021-06-27 22:09:24 UTC+08:00
+.. tags: C, concurrency, hashmap
+.. category: library
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* ck: Concurrency Kit
+  [[https://github.com/concurrencykit/ck][ck]] 是一个c语言的高并发数据结构库，内存安全并且无阻塞。
+
+** ck_ht.h: HashTable
+   哈希表包括在头文件 ~ck_ht.h~ 中，主要的数据类型有
+   1. ~ck_ht_t~ 哈希表
+   2. ~ck_ht_entry_t~ 哈希表中的键, 是用来读写哈希表的中间变量
+   3. ~ck_ht_hash_t~ 键的哈希值
+   4. ~ck_ht_iterator_t~ 用来遍历哈希表的迭代器
+
+*** 初始化哈希表
+    函数 ~ck_hs_init~
+    参数说明：
+    1. ~ck_hs_t *~ 哈希表
+    2. ~unsigned int~ 哈希表的模式
+    3. ~ck_hs_hash_cb_t *~ 哈希算法，传 ~NULL~ 使用默认算法
+    4. ~struct ck_malloc *~ 内存分配器
+    5. ~unsigned long~ 初始容量，只是建议值，内部实现可大可小
+    6. ~unsigned long~ 哈希算法的随机数种子
+
+    #+begin_src c
+ck_ht_t ht;
+unsigned int mode = CK_HT_MODE_BYTESTRING;
+
+/* 设置内存分配器 */
+static void *
+ht_malloc(size_t r)
+{
+    return malloc(r);
+}
+
+static void
+ht_free(void *p, size_t b, bool r)
+{
+
+    (void)b;
+    (void)r;
+    free(p);
+    return;
+}
+static struct ck_malloc my_allocator = {
+    .malloc = ht_malloc,
+    .free = ht_free
+};
+
+/* 初始化哈希表 */
+if (ck_ht_init(&ht, mode, ht_hash_wrapper, &my_allocator, 2, 6602834) == false) {
+    perror("ck_ht_init");
+    exit(EXIT_FAILURE);
+}
+
+/* 删除哈希表 */
+ck_ht_destroy(&ht);
+
+    #+end_src
+
+*** 读写哈希表
+    基本的逻辑是
+    1. 使用 ~ck_ht_hash~ 计算键的哈希值
+    2. 使用 ~ck_ht_entry_set~ 为写数据准备键值对，或使用 ~ck_ht_entry_key_set~ 为读数据准备键值对
+    3. 使用 ~ck_ht_put_spmc~ 创建新键值对，使用 ~ck_ht_get_spmc~ 读取键值对，使用 ~ck_ht_set_spmc~ 更新值
+    4. 使用 ~ck_ht_entry_value~ 获取读到的值
+
+    #+begin_src c
+ck_ht_t ht;
+ck_ht_entry_t entry;
+ck_ht_hash_t h;
+
+void *key;
+uint16_t key_len;
+void *val;
+
+/* 创建新值 */
+/* 注意这里的 key_len 是 bytes 长度，也就是数组长度*sizeof(数组类型) */
+ck_ht_hash(&h, &ht, &key, key_len);
+ck_ht_entry_set(&entry, h, &key, key_len, &val);
+ck_ht_put_spmc(&ht, h, &entry);
+
+/* 读取 */
+ck_ht_hash(&h, &ht, &key, key_len);
+ck_ht_entry_key_set(&entry, h, &key, key_len);
+ck_ht_put_spmc(&ht, h, &entry);
+void *v = ck_ht_entry_value(&entry);
+
+/* 更新 */
+ck_ht_hash(&h, &ht, &key, key_len);
+ck_ht_entry_set(&entry, h, &key, key_len, &val);
+ck_ht_put_spmc(&ht, h, &entry);
+void *val_old = ck_ht_entry_value(&entry);
+
+    #+end_src
+
+*** 遍历哈希表
+    基本步骤
+    1. 使用 ~ck_ht_iterator_init~ 初始化迭代器
+    2. 使用 ~ck_ht_next~ 迭代
+    3. 使用 ~ck_ht_entry_key~ 和 ~ck_ht_entry_value~ 读取键值
+
+       #+begin_src c
+
+    ck_ht_t ht;
+    ck_ht_iterator_t iterator = CK_HT_ITERATOR_INITIALIZER;
+    ck_ht_entry_t *cursor;
+
+    ck_ht_iterator_init(&iterator);
+    while (ck_ht_next(&ht, &iterator, &cursor) == true) {
+        void *val = ck_ht_entry_value(cursor);
+        void *key = ck_ht_entry_key(cursor);
+    }
+
+       #+end_src
+

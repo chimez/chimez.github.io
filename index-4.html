@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Blog of chimez">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chimez's blog (old posts, page 4) | chimez's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
+<link rel="canonical" href="https://chimez.github.io/index-4.html">
+<link rel="prev" href="." type="text/html">
+<link rel="next" href="index-3.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href=".">
+
+            <span id="blog-title">chimez's blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav"></ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+    
+        
+
+    
+        
+    <div class="postindex">
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/lapack/" class="u-url">LAPACK</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/lapack/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-05-10T09:46:43+08:00" itemprop="datePublished" title="2021-05-10 09:46">2021-05-10 09:46</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org343cbe4" class="outline-2">
+<h2 id="org343cbe4">LAPACK</h2>
+<div class="outline-text-2" id="text-org343cbe4">
+<p>
+主页在 <a href="https://www.netlib.org/lapack/">https://www.netlib.org/lapack/</a>, 文档在 <a href="https://www.netlib.org/lapack/explore-html/">https://www.netlib.org/lapack/explore-html/</a>.
+</p>
+
+<p>
+安装说明
+</p>
+<ol class="org-ol">
+<li>
+<code>liblapack</code> 是本体</li>
+<li>
+<code>liblapacke</code> 是 c 的绑定</li>
+</ol>
+</div>
+
+<div id="outline-container-org6599002" class="outline-3">
+<h3 id="org6599002">dsyevd: 实对称矩阵本征值</h3>
+<div class="outline-text-3" id="text-org6599002">
+</div>
+<div id="outline-container-orga74d5b5" class="outline-4">
+<h4 id="orga74d5b5">参数说明</h4>
+<div class="outline-text-4" id="text-orga74d5b5">
+<ol class="org-ol">
+<li>
+<code>jobz</code> 计算任务类型， <code>jobz = "N"</code> 只计算本征值， <code>jobz = "V"</code> 计算本征值和本征矢</li>
+<li>
+<code>UPLO</code> 矩阵的存储方式, <code>UPLO = "U"</code> <code>A</code> 中存了上三角矩阵， <code>UPLO = "L"</code> 下三角矩阵</li>
+<li>
+<code>N</code> 矩阵维数</li>
+<li>
+<code>A</code> 输入矩阵 <code>LDA * N</code> 维，计算后会被破坏，或者保存为本征矢</li>
+<li>
+<code>LDA</code> 矩阵维数</li>
+<li>
+<code>W</code> 本征值向量 <code>N</code> 维，升序排列</li>
+<li>
+<code>WORK</code> 工作向量，~LWORK~ 维, <code>WORK[0]</code> 是最优的 <code>LWORK</code> 值</li>
+<li>
+<code>LWORK</code> 工作向量维数， <code>LWORK = -1</code> 计算最优的 <code>LWORK</code> 值</li>
+<li>
+<code>IWORK</code> 工作向量， <code>LIWORK</code> 维， <code>IWORK[0]</code> 是最优的 <code>LIWORK</code> 值</li>
+<li>
+<code>LIWORK</code> 工作向量维数， <code>LIWORK = -1</code> 计算最优的 <code>LIWORK</code> 值</li>
+<li>
+<code>INFO</code> 错误信息， <code>info = 0</code> 成功</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/arpack/" class="u-url">arpack</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/arpack/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-05-07T18:48:36+08:00" itemprop="datePublished" title="2021-05-07 18:48">2021-05-07 18:48</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org13f1aa7" class="outline-2">
+<h2 id="org13f1aa7">ARPACK</h2>
+<div class="outline-text-2" id="text-org13f1aa7">
+<p>
+新版本在 <a href="https://github.com/opencollab/arpack-ng">arpack-ng</a> , 文档在 <a href="https://www.caam.rice.edu/software/ARPACK/UG/node135.html">rice - ARPACK</a>
+</p>
+</div>
+
+<div id="outline-container-org046eb4a" class="outline-3">
+<h3 id="org046eb4a">函数说明</h3>
+<div class="outline-text-3" id="text-org046eb4a">
+<p>
+头文件 <code>arpack.h</code> 中的函数有
+</p>
+<ol class="org-ol">
+<li>
+<code>&lt;?&gt;neupd_c</code> 计算一般矩阵的本征值, <code>&lt;?&gt; = sdcz</code>
+</li>
+<li>
+<code>&lt;?&gt;naupd_c</code> 计算一般矩阵的反向通信接口, <code>&lt;?&gt; = sdcz</code>
+</li>
+<li>
+<code>&lt;?&gt;seupd_c</code> 计算厄米矩阵的本征值, <code>&lt;?&gt; = sd</code>
+</li>
+<li>
+<code>&lt;?&gt;saupd_c</code> 计算厄米矩阵的反向通信接口, <code>&lt;?&gt; = sd</code>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org52af175" class="outline-3">
+<h3 id="org52af175">
+<code>XYaupd</code> 参数说明</h3>
+<div class="outline-text-3" id="text-org52af175">
+<ol class="org-ol">
+<li>
+<code>ido</code>   反向通信标志，第一次运行 <code>ido=0</code>
+</li>
+<li>
+<code>bmat</code>  问题类型标志，标准本征值问题 <code>bmat="I"</code> , 扩展本征值问题 <code>bmat="G"</code>
+</li>
+<li>
+<code>n</code>  矩阵维数</li>
+<li>
+<code>which</code> Ritz值的位置 <code>which="LA", "SA", "LM", "SM", "BE"</code>
+</li>
+<li>
+<code>nev</code> 计算本征值的个数 <code>0 &lt; nev &lt; n</code>
+</li>
+<li>
+<code>tol</code> 浮点精度</li>
+<li>
+<code>resid</code> 残差向量</li>
+<li>
+<code>ncv</code> Lanczos 向量个数</li>
+<li>
+<code>v</code> Lanczos 向量， <code>ncv</code> 列</li>
+<li>
+<code>ldv</code> Lanczos 向量的首列长度</li>
+<li>
+<code>iparam</code> <code>int[11]</code> 的数组，保存了 11 个设置参数
+<ol class="org-ol">
+<li>
+<code>iparam[0]=ishift</code> 选择隐式移动的方法， <code>ishift=0</code> 由用户指定， <code>ishift=1</code> 由约化三对角矩阵决定</li>
+<li>
+<code>iparam[1]=levec</code> 没用</li>
+<li>
+<code>iparam[2]=mxiter</code> 最大 Arnoldi 更新迭代次数</li>
+<li>
+<code>iparam[3]=nb</code> 块大小，只能取 <code>nb=1</code>
+</li>
+<li>
+<code>iparam[4]=nconv</code> 收敛了的 Ritz 值个数</li>
+<li>
+<code>iparam[5]=iupd</code> 没用</li>
+<li>
+<code>iparam[6]=mode</code> 指定本征值问题的类型只能取 <code>mode = 1,2,3,4,5</code>
+</li>
+<li>
+<code>iparam[7]=np</code> <code>ido=3</code> 时有用</li>
+<li>
+<code>iparam[8]=numop</code> OP*x 计算的次数</li>
+<li>
+<code>iparam[9]=numob</code> B*x 计算的次数</li>
+<li>
+<code>iparam[10]=numreo</code> 重正交化的次数</li>
+</ol>
+</li>
+<li>
+<code>ipntr</code> <code>int[11]</code> 的数组，保存指向 <code>workl</code>, <code>workd</code> 中起始位置的指针</li>
+<li>
+<code>workd</code> <code>3*N</code> 长的数组，算法内部使用</li>
+<li>
+<code>workl</code> <code>lworkl</code> 长的数组，算法内部使用</li>
+<li>
+<code>lworkl</code> <code>workl</code> 的长度，至少 <code>ncv**2 + 8*ncv</code>
+</li>
+<li>
+<code>info</code> 运行提示和错误信息</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgdd4ac2a" class="outline-3">
+<h3 id="orgdd4ac2a">
+<code>XYeupd</code> 参数说明</h3>
+<div class="outline-text-3" id="text-orgdd4ac2a">
+<ol class="org-ol">
+<li>
+<code>rvec</code> 指定是否产生本征矢 <code>rvec=true</code> 产生本征矢， <code>rvec=false</code> 只产生本征值</li>
+<li>
+<code>howmny</code> 指定产生本征矢的个数 <code>howmny="A"</code> 计算 <code>nev</code> 个， <code>howmny="P"</code> 计算 nev Schur 本征矢， <code>howmny="S"</code> 计算一部分本征值，由 <code>select</code> 指定</li>
+<li>
+<code>select</code> 指定计算的本征矢</li>
+<li>
+<code>dr</code> Ritz 值的实部</li>
+<li>
+<code>di</code> Ritz 值的虚部</li>
+<li>
+<code>z</code> Ritz 向量</li>
+<li>
+<code>ldz</code> Ritz 向量的首列维数</li>
+<li>
+<code>sigmar</code> shift 的实部, iparam[6]=3 or 4 时有效</li>
+<li>
+<code>sigmai</code> shift 的虚部</li>
+<li>
+<code>workev</code> 3*ncv 的内部数组</li>
+<li>
+<code>bmat</code>  以下参数与 <code>XYaupd</code> 相同</li>
+<li><code>n</code></li>
+<li><code>which</code></li>
+<li><code>nev</code></li>
+<li><code>tol</code></li>
+<li><code>resid</code></li>
+<li><code>ncv</code></li>
+<li><code>v</code></li>
+<li><code>ldv</code></li>
+<li><code>iparam</code></li>
+<li><code>ipntr</code></li>
+<li><code>workd</code></li>
+<li><code>workl</code></li>
+<li><code>lworkl</code></li>
+<li><code>info</code></li>
+</ol>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/blas/" class="u-url">BLAS</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/blas/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-05-07T11:47:35+08:00" itemprop="datePublished" title="2021-05-07 11:47">2021-05-07 11:47</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orge468d11" class="outline-2">
+<h2 id="orge468d11">BLAS</h2>
+<div class="outline-text-2" id="text-orge468d11">
+<ul class="org-ul">
+<li>MKL 中的 BLAS，参考 <a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/naming-conventions-for-blas-routines.html">MKL - BLAS</a>
+</li>
+<li>标准的 BLAS 参考 <a href="https://www.netlib.org/blas/">netlib - BLAS</a>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-orgfef8337" class="outline-3">
+<h3 id="orgfef8337">BLAS 的命名规则</h3>
+<div class="outline-text-3" id="text-orgfef8337">
+<p>
+BLAS 中的函数名一般规则是 <code>&lt;character&gt;&lt;name&gt;&lt;mode&gt; ()</code>
+</p>
+<ul class="org-ul">
+<li>
+<code>&lt;character&gt;</code> 指明数据类型
+<ul class="org-ul">
+<li>
+<code>s</code> real, single precision</li>
+<li>
+<code>c</code> complex, single precision</li>
+<li>
+<code>d</code> real, double precision</li>
+<li>
+<code>z</code> complex, double precision</li>
+</ul>
+</li>
+<li>
+<code>&lt;name&gt;</code> 指明矩阵类型 BLAS 2 and 3
+<ul class="org-ul">
+<li>
+<code>ge</code> general matrix</li>
+<li>
+<code>gb</code> general band matrix</li>
+<li>
+<code>sy</code> symmetric matrix</li>
+<li>
+<code>sp</code> symmetric matrix (packed storage)</li>
+<li>
+<code>sb</code> symmetric band matrix</li>
+<li>
+<code>he</code> hermitian matrix</li>
+<li>
+<code>hp</code> hermitian matrix (packed storage)</li>
+<li>
+<code>hb</code> hermitian band matrix</li>
+<li>
+<code>tr</code> triangular matrix</li>
+<li>
+<code>tp</code> triangular matrix (packed storage)</li>
+<li>
+<code>tb</code> triangular band matrix</li>
+</ul>
+</li>
+<li>
+<code>&lt;mod&gt;</code> 指明操作的细节
+<ul class="org-ul">
+<li>
+<code>c</code> conjugated vector</li>
+<li>
+<code>u</code> unconjugated vector</li>
+<li>
+<code>g</code> Givens rotation construction</li>
+<li>
+<code>m</code> modified Givens rotation</li>
+<li>
+<code>mg</code> modified Givens rotation construction</li>
+<li>
+<code>mv</code> matrix-vector product</li>
+<li>
+<code>sv</code> solving a system of linear equations with a single unknown vector</li>
+<li>
+<code>r</code> rank-1 update of matrix</li>
+<li>
+<code>r2</code> rank-2 update of matrix</li>
+<li>
+<code>mm</code> matrix-matrix product</li>
+<li>
+<code>sm</code> solving a system of linear equations with multiple unkonwn vectors</li>
+<li>
+<code>rk</code> rank-k update of matrix</li>
+<li>
+<code>r2k</code> rank-2k update of a matrix</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6b7b696" class="outline-3">
+<h3 id="org6b7b696">CBLAS 约定</h3>
+<div class="outline-text-3" id="text-org6b7b696">
+<p>
+CBLAS 是 BLAS 的 c 接口， BLAS 是 fortran 标准。
+</p>
+
+<p>
+CBLAS 函数都遵循以下约定
+</p>
+
+<ul class="org-ul">
+<li>输入参数是 <code>const</code> 指针</li>
+<li>非复数标量输入参数传值</li>
+<li>复标量参数传 <code>void</code> 指针</li>
+<li>数组参数传地址</li>
+<li>BLAS 特征参数由适当的枚举类型代替</li>
+<li>level 2 和 level 3 需要一个额外的 <code>CBLAS_LAYOUT</code> 类型的参数来指定矩阵是行优先 <code>CblasRowMajor</code> 还是列优先 <code>CblasColMajor</code>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgca95bd0" class="outline-3">
+<h3 id="orgca95bd0">枚举类型</h3>
+<div class="outline-text-3" id="text-orgca95bd0">
+<div class="highlight"><pre><span></span>   <span class="k">enum</span> <span class="n">CBLAS_LAYOUT</span> <span class="p">{</span>
+      <span class="n">CblasRowMajor</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span>    <span class="cm">/* row-major arrays */</span>
+      <span class="n">CblasColMajor</span><span class="o">=</span><span class="mi">102</span><span class="p">};</span>   <span class="cm">/* column-major arrays */</span>
+
+   <span class="k">enum</span> <span class="n">CBLAS_TRANSPOSE</span> <span class="p">{</span>
+      <span class="n">CblasNoTrans</span><span class="o">=</span><span class="mi">111</span><span class="p">,</span>     <span class="cm">/* trans='N' */</span>
+      <span class="n">CblasTrans</span><span class="o">=</span><span class="mi">112</span><span class="p">,</span>       <span class="cm">/* trans='T' */</span>
+      <span class="n">CblasConjTrans</span><span class="o">=</span><span class="mi">113</span><span class="p">};</span>  <span class="cm">/* trans='C' */</span>
+
+   <span class="k">enum</span> <span class="n">CBLAS_UPLO</span> <span class="p">{</span>
+      <span class="n">CblasUpper</span><span class="o">=</span><span class="mi">121</span><span class="p">,</span>        <span class="cm">/* uplo ='U' */</span>
+      <span class="n">CblasLower</span><span class="o">=</span><span class="mi">122</span><span class="p">};</span>       <span class="cm">/* uplo ='L' */</span>
+
+   <span class="k">enum</span> <span class="n">CBLAS_DIAG</span> <span class="p">{</span>
+      <span class="n">CblasNonUnit</span><span class="o">=</span><span class="mi">131</span><span class="p">,</span>      <span class="cm">/* diag ='N' */</span>
+      <span class="n">CblasUnit</span><span class="o">=</span><span class="mi">132</span><span class="p">};</span>        <span class="cm">/* diag ='U' */</span>
+
+   <span class="k">enum</span> <span class="n">CBLAS_SIDE</span> <span class="p">{</span>
+      <span class="n">CblasLeft</span><span class="o">=</span><span class="mi">141</span><span class="p">,</span>         <span class="cm">/* side ='L' */</span>
+      <span class="n">CblasRight</span><span class="o">=</span><span class="mi">142</span><span class="p">};</span>       <span class="cm">/* side ='R' */</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org9304e2e" class="outline-3">
+<h3 id="org9304e2e">矩阵存储方式</h3>
+<div class="outline-text-3" id="text-org9304e2e">
+<ol class="org-ol">
+<li>完全存储矩阵 \(A_{ij}_{}\) 在二维数组列存储 <code>a[i + j*lda]</code> 行存储 <code>a[i*lda + j]</code>
+</li>
+<li>packed storage 可以用更有效的方式存储矩阵</li>
+</ol>
+</div>
+</div>
+</div>
+                </div>
+            </article>
+</div>
+    
+        <ul class="pager postindexpager clearfix">
+<li class="previous"><a href="." rel="prev">Newer posts</a></li>
+            <li class="next"><a href="index-3.html" rel="next">Older posts</a></li>
+        </ul>
+<!--End of body content--><footer id="footer">
+            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>

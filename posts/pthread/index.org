@@ -1,0 +1,128 @@
+#+BEGIN_COMMENT
+.. title: pthread
+.. slug: pthread
+.. date: 2021-07-01 21:24:50 UTC+08:00
+.. tags: C, multithreading, pthread, parallel
+.. category: library
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* pthread: POSIX Threads
+  pthread 是 POSIX 标准的线程 API, 放在头文件 ~<pthread.h>~ 中，并由 libc 提供实现。
+
+*** 参考
+    1. [[https://hpc-tutorials.llnl.gov/posix/][llnl 教程]]
+
+** pthread API
+   标准 pthread API 包括以下几部分
+   1. 线程管理：创建、检测、合并等
+   2. 互斥锁(mutex)：创建、销毁、加锁、解锁等
+   3. 条件变量：在线程间共享锁、创建、销毁、等待和信号
+   4. 同步：管理读写锁和屏障
+
+      API 命名结构如下：
+
+   | Routine Prefix       | Functional Group                                 |
+   |----------------------+--------------------------------------------------|
+   | ~pthread_~           | Threads themselves and miscellaneous subroutines |
+   | ~pthread_attr_~      | Thread attributes objects                        |
+   | ~pthread_mutex_~     | Mutexes                                          |
+   | ~pthread_mutexattr_~ | Mutex attributes objects.                        |
+   | ~pthread_cond_~      | Condition variables                              |
+   | ~pthread_condattr_~  | Condition attributes objects                     |
+   | ~pthread_key_~       | Thread-specific data keys                        |
+   | ~pthread_rwlock_~    | Read/write locks                                 |
+   | ~pthread_barrier_~   | Synchronization barriers                         |
+
+** 线程管理
+
+*** 创建和终止线程
+
+    包括以下函数
+    1. ~pthread_create(thread,attr,start_routine,arg)~ 创建线程
+    2. ~pthread_exit(status)~ 
+    3. ~pthread_cancel(thread)~ 
+    4. ~pthread_attr_init(attr)~ 创建线程属性对象
+    5. ~pthread_attr_destroy(attr)~
+
+    注意：
+    1. 每个线程结束时最后都调用 ~pthread_exit~ 返回
+    2. 最好主函数也用 ~pthread_exit~ 返回
+
+*** 合并和检测线程
+
+    1. ~pthread_join (threadid,status)~ 
+    2. ~pthread_detach (threadid)~ 
+    3. ~pthread_attr_setdetachstate (attr,detachstate)~ 
+    4. ~pthread_attr_getdetachstate (attr,detachstate)~
+
+    注意：
+    1. 如果线程需要被 ~join~ 最好显式设置 ~joinable~ 属性，因为不是所有实现都默认加这个属性
+
+*** 栈管理
+
+    1. ~pthread_attr_getstacksize (attr, stacksize)~ 
+    2. ~pthread_attr_setstacksize (attr, stacksize)~ 
+    3. ~pthread_attr_getstackaddr (attr, stackaddr)~ 
+    4. ~pthread_attr_setstackaddr (attr, stackaddr)~
+
+    注意：
+    1. 线程的栈大小是实现相关的，所以为了程序可移植，最好自己设置栈大小
+
+*** 其它
+
+    1. ~pthread_self ()~ 
+    2. ~pthread_equal (thread1,thread2)~ 
+    3. ~pthread_once (once_control, init_routine)~
+
+** 互斥锁
+   典型的使用锁的过程是
+   1. 创建并初始化锁变量
+   2. 几个线程尝试加锁
+   3. 只有一个会成功并获得锁
+   4. 获得锁的线程进行一些操作
+   5. 释放锁
+   6. 另一个线程尝试获得锁
+   7. 最终锁被销毁
+
+*** 创建和销毁锁
+
+    1. ~pthread_mutex_init (mutex,attr)~ 
+    2. ~pthread_mutex_destroy (mutex)~ 
+    3. ~pthread_mutexattr_init (attr)~ 
+    4. ~pthread_mutexattr_destroy (attr)~
+
+    注意：
+    1. 创建锁变量可以用 ~pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;~, 也可以用 ~pthread_mutex_init()~
+
+*** 加锁和解锁
+
+    1. ~pthread_mutex_lock (mutex)~ 
+    2. ~pthread_mutex_trylock (mutex)~ 
+    3. ~pthread_mutex_unlock (mutex)~
+
+** 条件变量
+   条件变量也是用于线程间同步的机制，与加锁的共享内存不同，条件变量用于传递消息。
+
+*** 创建和销毁条件变量
+
+    1. ~pthread_cond_init (condition,attr)~ 
+    2. ~pthread_cond_destroy (condition)~ 
+    3. ~pthread_condattr_init (attr)~ 
+    4. ~pthread_condattr_destroy (attr)~
+
+    注意：
+    1. 创建条件变量可以用 ~pthread_cond_t myconvar = PTHREAD_COND_INITIALIZER;~ 也可以用 ~pthread_cond_init()~
+
+*** 等待和通信
+
+    1. ~pthread_cond_wait (condition,mutex)~ 阻止线程直到某个条件被通信过来，应该在加锁时使用，会在等待时自动释放锁，当获得信号时又会把锁加回来
+    2. ~pthread_cond_signal (condition)~ 用来向其它等待中的线程传递信号，应该在加锁时使用，在操作后传信号，最后解锁
+    3. ~pthread_cond_broadcast (condition)~ 用来向多个线程传递信号
+
+    注意：
+    1. 等待锁时应该使用 ~while~ 循环判断而不是 ~if~
+    2. 
