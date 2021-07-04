@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about HPC)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/hpc.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sun, 04 Jul 2021 04:43:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org0c787d5" class="outline-2"&gt;
+&lt;h2 id="org0c787d5"&gt;PETSc&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0c787d5"&gt;
+&lt;p&gt;
+&lt;a href="https://www.mcs.anl.gov/petsc/index.html"&gt;PETSc&lt;/a&gt; 是用于开发并行计算程序的基础库，完全建立在 MPI 上。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4eb3186" class="outline-3"&gt;
+&lt;h3 id="org4eb3186"&gt;安装与编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4eb3186"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;下载 &lt;a href="https://www.mcs.anl.gov/petsc/download/"&gt;源码&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf1d7fa6" class="outline-3"&gt;
+&lt;h3 id="orgf1d7fa6"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf1d7fa6"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org89d7579" class="outline-4"&gt;
+&lt;h4 id="org89d7579"&gt;PETSc 模块&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org89d7579"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;index set (IS)：向量的指标&lt;/li&gt;
+&lt;li&gt;vectors (Vec)&lt;/li&gt;
+&lt;li&gt;matrices (Mat): 稀疏矩阵&lt;/li&gt;
+&lt;li&gt;Krylov subspace methods (KSP): 线性方程组求解&lt;/li&gt;
+&lt;li&gt;preconditioners (PC): 预条件器和直接求解器&lt;/li&gt;
+&lt;li&gt;nonlinear solvers(SNES)&lt;/li&gt;
+&lt;li&gt;timesteppers for solving time-dependent PDES(TS): 时间演化求解器&lt;/li&gt;
+&lt;li&gt;managing data structures(DM): 管理数据结构&lt;/li&gt;
+&lt;li&gt;scalable optimization algorithms(Tao)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6fd6c2e" class="outline-4"&gt;
+&lt;h4 id="org6fd6c2e"&gt;环境变量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6fd6c2e"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;所有 PETSc 程序都依赖环境变量 &lt;code&gt;$PETSC_DIR&lt;/code&gt; 找到 PETSc 的目录&lt;/li&gt;
+&lt;li&gt;还需要环境变量 &lt;code&gt;$PETSC_ARCH&lt;/code&gt; 找到安装路径&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0eaa212" class="outline-4"&gt;
+&lt;h4 id="org0eaa212"&gt;命令行&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0eaa212"&gt;
+&lt;p&gt;
+PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或者 PETSc 提供的脚本 &lt;code&gt;$PETSC_DIR/lib/petsc/bin/petscmpiexec&lt;/code&gt; 
+&lt;/p&gt;
+
+&lt;p&gt;
+常用的命令行选项
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;-help&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-version&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-log_view&lt;/code&gt; 显示性能摘要&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-fp_trap&lt;/code&gt; 浮点异常时退出&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-malloc_dump&lt;/code&gt; 内存追踪&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-malloc_debug&lt;/code&gt; 内存debug&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-start_in_debugger [noxterm, gdb, lldb]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-on_error_attach_debugger&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-info&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org54036a4" class="outline-4"&gt;
+&lt;h4 id="org54036a4"&gt;主函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org54036a4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;PETSc 主函数需要调用 &lt;code&gt;PetscInitialize()&lt;/code&gt; 作为开始，来初始化 PETSc 和 MPI&lt;/li&gt;
+&lt;li&gt;程序退出时调用 &lt;code&gt;PetscFinalize()&lt;/code&gt;, 来结束 PETSc 和 MPI&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+示例如下：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"petsc.h"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 自定义帮助信息 */&lt;/span&gt;
+    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"Solves a tridiagonal linear system with KSP.&lt;/span&gt;&lt;span class="se"&gt;\n\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="kt"&gt;int&lt;/span&gt;
+    &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 初始化 */&lt;/span&gt;
+	&lt;span class="n"&gt;PetscErrorCode&lt;/span&gt; &lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;PetscMPIInt&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscInitialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MPI_Comm_size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CHKERRMPI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="n"&gt;SETERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PETSC_ERR_WRONG_MPI_SIZE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"This is a uniprocessor example only!"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 主程序 &lt;/span&gt;
+&lt;span class="cm"&gt;	 * ......&lt;/span&gt;
+&lt;span class="cm"&gt;	 */&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 退出 */&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscFinalize&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+	&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org47b91a7" class="outline-4"&gt;
+&lt;h4 id="org47b91a7"&gt;错误处理&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org47b91a7"&gt;
+&lt;p&gt;
+所有 PETSc 函数都返回整数值 &lt;code&gt;ierr&lt;/code&gt; 作为消息，使用 &lt;code&gt;CHECKRRQ(ierr)&lt;/code&gt; 宏来处理错误。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org75c8bc4" class="outline-3"&gt;
+&lt;h3 id="org75c8bc4"&gt;向量和并行数据&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org75c8bc4"&gt;
+&lt;p&gt;
+向量是 PETSc 最基本的结构，用于保存计算结果等
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfbc8697" class="outline-4"&gt;
+&lt;h4 id="orgfbc8697"&gt;创建和组装向量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgfbc8697"&gt;
+&lt;p&gt;
+PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;VecCreateSeq(PETSC_COMM_SELF,PetscInt m,Vec *x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建顺序向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecCreateMPI(MPI_Comm comm,PetscInt m,PetscInt M,Vec *x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建并行向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecCreate(MPI_Comm comm,Vec *x);&lt;/code&gt; 
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建向量, 自动选择顺序或并行&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm comm&lt;/code&gt; 是 MPI 通信器&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecCreateSeqWithArray(PETSC_COMM_SELF,PetscInt bs,PetscInt n,PetscScalar *array,Vec *V);&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecCreateMPIWithArray(MPI_Comm comm,PetscInt bs,PetscInt n,PetscInt N,PetscScalar *array,Vec *vv);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;根据输入的数据创建向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecSetSizes(Vec x, PetscInt m, PetscInt M);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置向量的大小&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;m&lt;/code&gt; 是可选的局域大小，可以设为 &lt;code&gt;PETSC_DECIDE&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;M&lt;/code&gt; 是总大小&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecSetType()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecSetFromOptions()&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置向量的类型&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecSet(Vec x,PetscScalar value);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;将向量所有值都设成 &lt;code&gt;value&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecSetValues(Vec x,PetscInt n,PetscInt *indices,PetscScalar *values,INSERT_VALUES);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置向量的部分值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PetscInt n&lt;/code&gt; 要设置的值的个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PetscInt *indices&lt;/code&gt; 设置的值的指标&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PetscScalar *values&lt;/code&gt; 设置的值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;InsertMode iota&lt;/code&gt; 设置值的方式：
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;INSERT_VALUES&lt;/code&gt; 代替旧值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ADD_VALUES&lt;/code&gt; 将旧值加上新值&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecAssemblyBegin(Vec x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;开始组装向量, 在 &lt;code&gt;VecSetValues()&lt;/code&gt; 之后调用&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecAssemblyEnd(Vec x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;结束组装向量，在 &lt;code&gt;VecAssemblyBegin()&lt;/code&gt; 之后调用&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecView(Vec x,PetscViewer v);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;打印输出向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecDuplicate(Vec old, Vec *new);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建一个新的向量，其类型与旧的相同&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecDuplicateVecs(Vec old,PetscInt n,Vec **new);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建多个向量，与原向量类型相同&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecDestroy(Vec *x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;销毁向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecDestroyVecs(PetscInt n,Vec **vecs);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;销毁多个向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;Vec&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecCreate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscObjectSetName&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;PetscObject&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"test"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecSetSizes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PETSC_DECIDE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;H_len&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecSetFromOptions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;Vec&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecDuplicate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;ix&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="k"&gt;complex&lt;/span&gt; &lt;span class="n"&gt;vx&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecSetValues&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;vx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;INSERT_VALUES&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecAssemblyBegin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecAssemblyEnd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nc"&gt;timespec&lt;/span&gt; &lt;span class="n"&gt;t0_mvm&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;timespec_get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;t0_mvm&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TIME_UTC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatMult&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc11ca22" class="outline-4"&gt;
+&lt;h4 id="orgc11ca22"&gt;基本向量操作&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc11ca22"&gt;
+&lt;p&gt;
+加减乘除之类的操作，参考&lt;a href="https://petsc.org/release/documentation/manual/vec/#id3"&gt;函数表&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;VecGetOwnershipRange(Vec vec,PetscInt *low,PetscInt *high);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获取当前局域操作的范围&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;low&lt;/code&gt; 是第一个元素&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;high&lt;/code&gt; 是最后一个再 +1&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecGetArray(Vec v,PetscScalar **array);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获取当前局域的数组的所有权&lt;/li&gt;
+&lt;li&gt;这个函数直接获得了裸数据的指针&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecRestoreArray(Vec v, PetscScalar **array);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;恢复当前局域的数组的所有权&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecGetArrayRead(Vec v, const PetscScalar **array);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;只读地获取当前局域的数组&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecRestoreArrayRead(Vec v, const PetscScalar **array);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;恢复获取的只读数组的所有权&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecGetLocalSize(Vec v,PetscInt *size);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获取当前局域的大小&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecGetSize(Vec v,PetscInt *size);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获取向量的总大小&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org271e5e9" class="outline-4"&gt;
+&lt;h4 id="org271e5e9"&gt;索引和排序&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org271e5e9"&gt;
+&lt;p&gt;
+PETSc 提供了一组工具用于处理向量指标的顺序，称作 Application Orderings(AO)
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org488a9a6" class="outline-3"&gt;
+&lt;h3 id="org488a9a6"&gt;矩阵&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org488a9a6"&gt;
+&lt;p&gt;
+PETSc 支持多种矩阵类型，包括稠密矩阵、稀疏矩阵等
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9b63392" class="outline-4"&gt;
+&lt;h4 id="org9b63392"&gt;创建和组装矩阵&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9b63392"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MatCreate(MPI_Comm comm,Mat *A);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建矩阵&lt;/li&gt;
+&lt;li&gt;默认的矩阵类似是 稀疏 AIJ&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;MatSetSizes(Mat A,PETSC_DECIDE,PETSC_DECIDE,PetscInt M,PetscInt N);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置矩阵大小&lt;/li&gt;
+&lt;li&gt;第二、三个参数是局域的行列大小&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MatSetType(A,MatType matype);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置矩阵类型&lt;/li&gt;
+&lt;li&gt;矩阵类型 &lt;code&gt;MatType&lt;/code&gt; 有很多&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;MatSetValues(Mat A,PetscInt m,PetscInt *im,PetscInt n,PetscInt *in,PetscScalar *values,INSERT_VALUES);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置矩阵的值&lt;/li&gt;
+&lt;li&gt;规则类似 &lt;code&gt;Vec&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MatSetOption(Mat A,MAT_ROW_ORIENTED,PETSC_FALSE);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置加入值的方式，行先或列先等&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;开始组装矩阵，在所有的 &lt;code&gt;MatSetValues()&lt;/code&gt; 调用完成后使用&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;完成组装矩阵，在 &lt;code&gt;MatAssemblyBegin()&lt;/code&gt; 之后调用&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;MatGetOwnershipRange(Mat A,PetscInt *first_row,PetscInt *last_row);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获取矩阵的一部分&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatCreate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatSetSizes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PETSC_DECIDE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PETSC_DECIDE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatSetFromOptions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatSetUp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;PetscScalar&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="n"&gt;PetscInt&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="n"&gt;PetscInt&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatSetValues&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;INSERT_VALUES&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatAssemblyBegin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MAT_FINAL_ASSEMBLY&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatAssemblyEnd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MAT_FINAL_ASSEMBLY&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;MatView&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;PETSC_VIEWER_STDOUT_WORLD&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org55be7ae" class="outline-4"&gt;
+&lt;h4 id="org55be7ae"&gt;矩阵类型&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org55be7ae"&gt;
+&lt;p&gt;
+PETSc默认的矩阵类型是 AIJ(也就是 CSR)
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;稀疏矩阵&lt;/li&gt;
+&lt;li&gt;Limited-Memory Variable Metric (LMVM) Matrices&lt;/li&gt;
+&lt;li&gt;稠密矩阵&lt;/li&gt;
+&lt;li&gt;块矩阵&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org473a607" class="outline-4"&gt;
+&lt;h4 id="org473a607"&gt;基本矩阵操作&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org473a607"&gt;
+&lt;p&gt;
+参考&lt;a href="https://petsc.org/release/documentation/manual/mat/#fig-matrixops"&gt;函数表&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6a83f07" class="outline-4"&gt;
+&lt;h4 id="org6a83f07"&gt;无矩阵的矩阵&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6a83f07"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MatCreateShell(MPI_Comm comm,PetscInt m,PetscInt n,PetscInt M,PetscInt N,void *ctx,Mat *mat);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建矩阵的结构，无需添加矩阵元&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;M, N&lt;/code&gt; 是矩阵总维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;m, n&lt;/code&gt; 是局域维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ctx&lt;/code&gt; 是用户定义的矩阵操作&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MatShellSetOperation(Mat mat,MatOperation MATOP_MULT, (void(*)(void)) PetscErrorCode (*UserMult)(Mat,Vec,Vec));&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;注册用户定义的矩阵运算&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MATOP_MULT&lt;/code&gt; 指的是矩阵乘向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cm"&gt;/* 定义每个矩阵都需要用到的一些数据 */&lt;/span&gt;
+    &lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nc"&gt;A_data&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt; &lt;span class="n"&gt;A_data_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 自定义的矩阵乘向量运算函数, y = A x */&lt;/span&gt;
+    &lt;span class="n"&gt;PetscErrorCode&lt;/span&gt;
+    &lt;span class="nf"&gt;A_MatVec&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Vec&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Vec&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 获取数据 */&lt;/span&gt;
+	&lt;span class="n"&gt;A_data_t&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;A_data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;PetscErrorCode&lt;/span&gt; &lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;MatShellGetContext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A_data&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+
+	&lt;span class="cm"&gt;/* 获得本地的 x 向量数据 */&lt;/span&gt;
+	&lt;span class="n"&gt;PetscInt&lt;/span&gt; &lt;span class="n"&gt;x_start&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x_end&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecGetOwnershipRange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x_start&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x_end&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;PetscScalar&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;x_arr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecGetArrayRead&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x_arr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* y 向量要先置零 */&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecSet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 设置计算后 y 的值 */&lt;/span&gt;
+	&lt;span class="p"&gt;{&lt;/span&gt;
+	    &lt;span class="n"&gt;PetscScalar&lt;/span&gt; &lt;span class="n"&gt;new_value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecSetValues&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;new_value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ADD_VALUES&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	    &lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="p"&gt;}&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecAssemblyBegin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecAssemblyEnd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 结束计算要返还 x 的所有权 */&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecRestoreArrayRead&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x_arr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+
+    &lt;span class="cm"&gt;/* 创建无矩阵的矩阵 A，必须设置每个局域块 A 的大小 */&lt;/span&gt;
+    &lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;A_data_t&lt;/span&gt; &lt;span class="n"&gt;A_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatCreateShell&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 为 A 绑定矩阵乘向量运算 */&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatShellSetOperation&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Afree&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MATOP_MULT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="n"&gt;A_MatVec&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd455f49" class="outline-3"&gt;
+&lt;h3 id="orgd455f49"&gt;线性求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd455f49"&gt;
+&lt;p&gt;
+使用线性求解器 &lt;code&gt;KSP&lt;/code&gt; 解线性方程 \(Ax=b\)
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;KSPCreate(MPI_Comm comm,KSP *ksp);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;初始化 KSP&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;KSPSetOperators(KSP ksp,Mat Amat,Mat Pmat);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置矩阵&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;KSPSetFromOptions(KSP ksp);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置求解器选项&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;KSPSolve(KSP ksp,Vec b,Vec x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;运行求解器&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;KSPDestroy(KSP ksp);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;运算结束销毁求解器&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org9dadbeb" class="outline-2"&gt;
+&lt;h2 id="org9dadbeb"&gt;其它问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9dadbeb"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org491e88e" class="outline-3"&gt;
+&lt;h3 id="org491e88e"&gt;复数支持&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org491e88e"&gt;
+&lt;p&gt;
+只能通过编译选项 &lt;code&gt;--with-scalar-type=complex&lt;/code&gt; 将 &lt;code&gt;PetscScalar&lt;/code&gt; 设成复数
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga5a99e8" class="outline-3"&gt;
+&lt;h3 id="orga5a99e8"&gt;编译选项&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga5a99e8"&gt;
+&lt;p&gt;
+&lt;a href="https://www.mcs.anl.gov/petsc/documentation/installation.html"&gt;参考&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+debug 模式：
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure PETSC_ARCH=arch-complex-debug --with-scalar-type=complex
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+release 模式:
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure PETSC_ARCH=arch-complex-release --with-cc=gcc --with-cxx=g++ --with-fc=gfortran --with-debugging=0 COPTFLAGS='-O3 -march=native -mtune=native' CXXOPTFLAGS='-O3 -march=native -mtune=native' FOPTFLAGS='-O3 -march=native -mtune=native' --with-scalar-type=complex --download-mpich
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>HPC</category><category>mpi</category><category>petsc</category><guid>https://chimez.github.io/posts/petsc/</guid><pubDate>Wed, 21 Apr 2021 07:39:14 GMT</pubDate></item></channel></rss>

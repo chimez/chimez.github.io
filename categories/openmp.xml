@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about openmp)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/openmp.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sun, 04 Jul 2021 04:43:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>OpenMP</title><link>https://chimez.github.io/posts/openmp/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org0e086c5" class="outline-2"&gt;
+&lt;h2 id="org0e086c5"&gt;OpenMP 共享内存并行&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0e086c5"&gt;
+&lt;p&gt;
+OpenMP 是单机多线程共享内存并行工具。
+&lt;/p&gt;
+
+&lt;p&gt;
+OpenMP 使用 fork-join 模型进行并行，即主线程通过 &lt;code&gt;fork&lt;/code&gt; 创建多个并行线程，之后再将子线程 &lt;code&gt;join&lt;/code&gt; 回主线程。
+&lt;/p&gt;
+
+&lt;p&gt;
+OpenMP API 由三部分组成
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;编译器指令 &lt;code&gt;#pragma omp ...&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;运行时库函数 &lt;code&gt;#include &amp;lt;omp.h&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;环境变量 &lt;code&gt;OMP_NUM_THREADS&lt;/code&gt; 等&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4134dfd" class="outline-4"&gt;
+&lt;h4 id="org4134dfd"&gt;参考资料&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org4134dfd"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;a href="https://hpc.llnl.gov/tuts/openMP/"&gt;llnl/openmp&lt;/a&gt; 的教程&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5e8e363" class="outline-3"&gt;
+&lt;h3 id="org5e8e363"&gt;编译器指令&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5e8e363"&gt;
+&lt;p&gt;
+编译器指令的格式为
+&lt;/p&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;code&gt;#pragma omp&lt;/code&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;指令名&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;code&gt;[clause, ...]&lt;/code&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;换行&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;所有OpenMP指令的开头&lt;/td&gt;
+&lt;td class="org-left"&gt;一系列可用的指令&lt;/td&gt;
+&lt;td class="org-left"&gt;可选的，从句顺序任意&lt;/td&gt;
+&lt;td class="org-left"&gt;换行不需要分号,可用用反斜线折行&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="cp"&gt;#pragma omp parallel default(shared) private(beta, pi)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgdda784c" class="outline-4"&gt;
+&lt;h4 id="orgdda784c"&gt;parallel 指令&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgdda784c"&gt;
+&lt;p&gt;
+创建一系列线程运行接下来的结构块，并在结构块结束时合并所有线程
+&lt;/p&gt;
+
+&lt;p&gt;
+可用的从句
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;if (scalar_expression)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;private (list)&lt;/code&gt; 指定变量是私有的&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;shared (list)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;default (share | none)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;firstprivate (list)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;copyin (list)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;num_threads (integer-expression)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgadd446e" class="outline-4"&gt;
+&lt;h4 id="orgadd446e"&gt;for 指令&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgadd446e"&gt;
+&lt;p&gt;
+指定接下来的循环迭代并行运行。
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;schedule (type [,chunk])&lt;/code&gt; 描述循环如何分配给线程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ordered&lt;/code&gt; 指定线程必须按照循环的顺序合并&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;private (list)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;firstprivate (list)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lastprivate (list)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;shared (list)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;reduction (operator: list)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;collapse (n)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nowait&lt;/code&gt; 循环结束后不等待未结束的线程&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#pragma omp parallel shared(a,b,c,chunk) private(i)&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+
+      &lt;span class="cp"&gt;#pragma omp for schedule(dynamic,chunk) nowait&lt;/span&gt;
+      &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+      &lt;span class="p"&gt;}&lt;/span&gt;  &lt;span class="cm"&gt;/* end of parallel section */&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org647cb15" class="outline-4"&gt;
+&lt;h4 id="org647cb15"&gt;sections, section 指令&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org647cb15"&gt;
+&lt;p&gt;
+外层用 &lt;code&gt;sections&lt;/code&gt; 指令，内部用 &lt;code&gt;section&lt;/code&gt; 指令
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#pragma omp parallel shared(a,b,c,d) private(i)&lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+
+      &lt;span class="cp"&gt;#pragma omp sections nowait&lt;/span&gt;
+	&lt;span class="p"&gt;{&lt;/span&gt;
+
+	&lt;span class="cp"&gt;#pragma omp section&lt;/span&gt;
+	&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+	&lt;span class="cp"&gt;#pragma omp section&lt;/span&gt;
+	&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	  &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+	&lt;span class="p"&gt;}&lt;/span&gt;  &lt;span class="cm"&gt;/* end of sections */&lt;/span&gt;
+
+      &lt;span class="p"&gt;}&lt;/span&gt;  &lt;span class="cm"&gt;/* end of parallel section */&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga7cb1ef" class="outline-4"&gt;
+&lt;h4 id="orga7cb1ef"&gt;single 指令&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga7cb1ef"&gt;
+&lt;p&gt;
+指定块内部同时只有一个线程运行，用来处理以下线程不安全的操作
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org14881dd" class="outline-4"&gt;
+&lt;h4 id="org14881dd"&gt;task 指令&lt;/h4&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1a8998b" class="outline-4"&gt;
+&lt;h4 id="org1a8998b"&gt;master 指令&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org1a8998b"&gt;
+&lt;p&gt;
+指定只有主线程执行块内的程序。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org73ad9f8" class="outline-4"&gt;
+&lt;h4 id="org73ad9f8"&gt;critical 指令&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org73ad9f8"&gt;
+&lt;p&gt;
+指定同时只有一个线程能运行内部的代码。
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#pragma omp parallel shared(x) &lt;/span&gt;
+      &lt;span class="p"&gt;{&lt;/span&gt;
+
+      &lt;span class="cp"&gt;#pragma omp critical &lt;/span&gt;
+      &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+      &lt;span class="p"&gt;}&lt;/span&gt;  &lt;span class="cm"&gt;/* end of parallel section */&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga85fab8" class="outline-4"&gt;
+&lt;h4 id="orga85fab8"&gt;barrier 指令&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga85fab8"&gt;
+&lt;p&gt;
+要求所有线程立即同步
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga17701f" class="outline-4"&gt;
+&lt;h4 id="orga17701f"&gt;taskwait 指令&lt;/h4&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgec7ebf4" class="outline-4"&gt;
+&lt;h4 id="orgec7ebf4"&gt;atomic 指令&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgec7ebf4"&gt;
+&lt;p&gt;
+执行原子操作，相当于小的 critical 指令
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4be2b3a" class="outline-4"&gt;
+&lt;h4 id="org4be2b3a"&gt;flush 指令&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org4be2b3a"&gt;
+&lt;p&gt;
+要求所有缓冲的修改写回内存中
+&lt;/p&gt;
+
+&lt;p&gt;
+下面一些指令隐含了 &lt;code&gt;flush&lt;/code&gt; 指令
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;barrier&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;parallel&lt;/code&gt; 的进和出&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;critical&lt;/code&gt; 的进和出&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ordered&lt;/code&gt; 的进和出&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;for&lt;/code&gt; 的出&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sections&lt;/code&gt; 的出&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;single&lt;/code&gt; 的出&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd6b1438" class="outline-4"&gt;
+&lt;h4 id="orgd6b1438"&gt;ordered 指令&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd6b1438"&gt;
+&lt;p&gt;
+要求代码块内部的指令顺序执行，只能用在 &lt;code&gt;for&lt;/code&gt; 指令内部
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org99e74aa" class="outline-4"&gt;
+&lt;h4 id="org99e74aa"&gt;threadprivate 指令&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org99e74aa"&gt;
+&lt;p&gt;
+指定一些变量是线程私有的，每个线程初次使用这些变量时都是未初始化的
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc0d20ec" class="outline-4"&gt;
+&lt;h4 id="orgc0d20ec"&gt;reduction 从句&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc0d20ec"&gt;
+&lt;p&gt;
+要求循环分成相等的部分，并在全部运行最后再执行指定的指令
+&lt;/p&gt;
+
+&lt;p&gt;
+支持的格式
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;op&lt;/span&gt; &lt;span class="n"&gt;expr&lt;/span&gt; 
+    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;expr&lt;/span&gt; &lt;span class="n"&gt;op&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; 
+    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;binop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;expr&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt; 
+    &lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;
+    &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;
+
+    &lt;span class="nl"&gt;op&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt;
+    &lt;span class="nl"&gt;binop&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+例子
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#pragma omp parallel for      \  &lt;/span&gt;
+      &lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;shared&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;private&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="err"&gt;\&lt;/span&gt;  
+      &lt;span class="n"&gt;schedule&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;static&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;chunk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;      &lt;span class="err"&gt;\&lt;/span&gt;  
+      &lt;span class="n"&gt;reduction&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;+:&lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+
+      &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	&lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org919000d" class="outline-3"&gt;
+&lt;h3 id="org919000d"&gt;运行时库函数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org919000d"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgb3e461f" class="outline-4"&gt;
+&lt;h4 id="orgb3e461f"&gt;线程环境相关&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb3e461f"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;函数&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;作用&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_set_num_threads()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;设置使用的线程数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_get_num_threads()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;获取使用的线程数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_get_max_threads()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;获取可用最大的线程数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_get_thread_num()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;获取线程编号&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_get_thread_limit()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;获取最大可用线程&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_get_num_procs()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;获取处理器数目&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org67de9eb" class="outline-4"&gt;
+&lt;h4 id="org67de9eb"&gt;锁&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org67de9eb"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;函数&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;作用&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_init_lock()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;初始化锁&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_destroy_lock()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;删除锁&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_set_lock()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;加锁&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_unset_lock()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;解锁&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_test_lock()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;测试加锁&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_init_nest_lock()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;初始化嵌套锁&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_destroy_nest_lock()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;删除嵌套锁&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_set_nest_lock()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;加嵌套锁&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_unset_nest_lock()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;解嵌套锁&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;omp_test_nest_lock()&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;测试加嵌套锁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;
+说明：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;OpenMP 的锁是互斥锁，即 mutex&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+与 &lt;code&gt;critical&lt;/code&gt; 指令的区别是， &lt;code&gt;critical&lt;/code&gt; 指令保证同时只有一个线程运行内部的指令，而不是加锁
+&lt;/p&gt;
+
+&lt;p&gt;
+例子:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;omp.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+    &lt;span class="n"&gt;omp_lock_t&lt;/span&gt; &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;omp_init_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="cp"&gt;#pragma omp parallel&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+	&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	    &lt;span class="n"&gt;omp_set_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	    &lt;span class="n"&gt;omp_unset_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	    &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;omp_destroy_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6dace58" class="outline-3"&gt;
+&lt;h3 id="org6dace58"&gt;环境变量&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6dace58"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;变量&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;作用&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;OMP_SCHEDULE&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;for&lt;/code&gt; 指令的默认从句&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;OMP_NUM_THREADS&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;使用的最大线程数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;OMP_NESTED&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;是否使用嵌套并行&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;OMP_STACKSIZE&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;设置子线程的栈大小&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;OMP_WAIT_POLICY&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;设置等待线程的行为&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;OMP_MAX_ACTIVE_LEVELS&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;设置嵌套并行的层级&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;OMP_THREAD_LIMIT&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;设置整个程序的最大线程数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>openmp</category><category>parallel</category><guid>https://chimez.github.io/posts/openmp/</guid><pubDate>Sat, 20 Feb 2021 07:37:55 GMT</pubDate></item></channel></rss>

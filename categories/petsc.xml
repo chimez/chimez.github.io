@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about parallel)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/parallel.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sun, 04 Jul 2021 04:43:30 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga815a4b" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about petsc)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/petsc.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sun, 04 Jul 2021 04:43:30 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga815a4b" class="outline-2"&gt;
 &lt;h2 id="orga815a4b"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-orga815a4b"&gt;
 &lt;p&gt;
@@ -663,830 +663,570 @@ SLEPc 支持的算法有
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>mpi</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>pthread</title><link>https://chimez.github.io/posts/pthread/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org78e1009" class="outline-2"&gt;
-&lt;h2 id="org78e1009"&gt;pthread: POSIX Threads&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org78e1009"&gt;
+&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>mpi</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org0c787d5" class="outline-2"&gt;
+&lt;h2 id="org0c787d5"&gt;PETSc&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0c787d5"&gt;
 &lt;p&gt;
-pthread 是 POSIX 标准的线程 API, 放在头文件 &lt;code&gt;&amp;lt;pthread.h&amp;gt;&lt;/code&gt; 中，并由 libc 提供实现。
+&lt;a href="https://www.mcs.anl.gov/petsc/index.html"&gt;PETSc&lt;/a&gt; 是用于开发并行计算程序的基础库，完全建立在 MPI 上。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdaf6f76" class="outline-4"&gt;
-&lt;h4 id="orgdaf6f76"&gt;参考&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgdaf6f76"&gt;
+&lt;div id="outline-container-org4eb3186" class="outline-3"&gt;
+&lt;h3 id="org4eb3186"&gt;安装与编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4eb3186"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;下载 &lt;a href="https://www.mcs.anl.gov/petsc/download/"&gt;源码&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf1d7fa6" class="outline-3"&gt;
+&lt;h3 id="orgf1d7fa6"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf1d7fa6"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org89d7579" class="outline-4"&gt;
+&lt;h4 id="org89d7579"&gt;PETSc 模块&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org89d7579"&gt;
 &lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;a href="https://hpc-tutorials.llnl.gov/posix/"&gt;llnl 教程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;index set (IS)：向量的指标&lt;/li&gt;
+&lt;li&gt;vectors (Vec)&lt;/li&gt;
+&lt;li&gt;matrices (Mat): 稀疏矩阵&lt;/li&gt;
+&lt;li&gt;Krylov subspace methods (KSP): 线性方程组求解&lt;/li&gt;
+&lt;li&gt;preconditioners (PC): 预条件器和直接求解器&lt;/li&gt;
+&lt;li&gt;nonlinear solvers(SNES)&lt;/li&gt;
+&lt;li&gt;timesteppers for solving time-dependent PDES(TS): 时间演化求解器&lt;/li&gt;
+&lt;li&gt;managing data structures(DM): 管理数据结构&lt;/li&gt;
+&lt;li&gt;scalable optimization algorithms(Tao)&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdcdac83" class="outline-3"&gt;
-&lt;h3 id="orgdcdac83"&gt;pthread API&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgdcdac83"&gt;
-&lt;p&gt;
-标准 pthread API 包括以下几部分
-&lt;/p&gt;
+&lt;div id="outline-container-org6fd6c2e" class="outline-4"&gt;
+&lt;h4 id="org6fd6c2e"&gt;环境变量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6fd6c2e"&gt;
 &lt;ol class="org-ol"&gt;
-&lt;li&gt;线程管理：创建、检测、合并等&lt;/li&gt;
-&lt;li&gt;互斥锁(mutex)：创建、销毁、加锁、解锁等&lt;/li&gt;
-&lt;li&gt;条件变量：在线程间共享锁、创建、销毁、等待和信号&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;
-同步：管理读写锁和屏障
-&lt;/p&gt;
-
-&lt;p&gt;
-API 命名结构如下：
-&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
-
-
-&lt;colgroup&gt;
-&lt;col class="org-left"&gt;
-
-&lt;col class="org-left"&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope="col" class="org-left"&gt;Routine Prefix&lt;/th&gt;
-&lt;th scope="col" class="org-left"&gt;Functional Group&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;pthread_&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;Threads themselves and miscellaneous subroutines&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;pthread_attr_&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;Thread attributes objects&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;pthread_mutex_&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;Mutexes&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;pthread_mutexattr_&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;Mutex attributes objects.&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;pthread_cond_&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;Condition variables&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;pthread_condattr_&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;Condition attributes objects&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;pthread_key_&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;Thread-specific data keys&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;pthread_rwlock_&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;Read/write locks&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;pthread_barrier_&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;Synchronization barriers&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org4c3c753" class="outline-3"&gt;
-&lt;h3 id="org4c3c753"&gt;线程管理&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4c3c753"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgeef1519" class="outline-4"&gt;
-&lt;h4 id="orgeef1519"&gt;创建和终止线程&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgeef1519"&gt;
-&lt;p&gt;
-包括以下函数
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;pthread_create(thread,attr,start_routine,arg)&lt;/code&gt; 创建线程&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_exit(status)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_cancel(thread)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_attr_init(attr)&lt;/code&gt; 创建线程属性对象&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_attr_destroy(attr)&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;
-注意：
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;每个线程结束时最后都调用 &lt;code&gt;pthread_exit&lt;/code&gt; 返回&lt;/li&gt;
-&lt;li&gt;最好主函数也用 &lt;code&gt;pthread_exit&lt;/code&gt; 返回&lt;/li&gt;
+&lt;li&gt;所有 PETSc 程序都依赖环境变量 &lt;code&gt;$PETSC_DIR&lt;/code&gt; 找到 PETSc 的目录&lt;/li&gt;
+&lt;li&gt;还需要环境变量 &lt;code&gt;$PETSC_ARCH&lt;/code&gt; 找到安装路径&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf48aba4" class="outline-4"&gt;
-&lt;h4 id="orgf48aba4"&gt;合并和检测线程&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf48aba4"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;pthread_join (threadid,status)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_detach (threadid)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_attr_setdetachstate (attr,detachstate)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_attr_getdetachstate (attr,detachstate)&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
+&lt;div id="outline-container-org0eaa212" class="outline-4"&gt;
+&lt;h4 id="org0eaa212"&gt;命令行&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0eaa212"&gt;
 &lt;p&gt;
-注意：
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;如果线程需要被 &lt;code&gt;join&lt;/code&gt; 最好显式设置 &lt;code&gt;joinable&lt;/code&gt; 属性，因为不是所有实现都默认加这个属性&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org3cf123e" class="outline-4"&gt;
-&lt;h4 id="org3cf123e"&gt;栈管理&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3cf123e"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;pthread_attr_getstacksize (attr, stacksize)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_attr_setstacksize (attr, stacksize)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_attr_getstackaddr (attr, stackaddr)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_attr_setstackaddr (attr, stackaddr)&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;
-注意：
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;线程的栈大小是实现相关的，所以为了程序可移植，最好自己设置栈大小&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgc96ca10" class="outline-4"&gt;
-&lt;h4 id="orgc96ca10"&gt;其它&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc96ca10"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;pthread_self ()&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_equal (thread1,thread2)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_once (once_control, init_routine)&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgbbccbab" class="outline-3"&gt;
-&lt;h3 id="orgbbccbab"&gt;互斥锁&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgbbccbab"&gt;
-&lt;p&gt;
-典型的使用锁的过程是
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;创建并初始化锁变量&lt;/li&gt;
-&lt;li&gt;几个线程尝试加锁&lt;/li&gt;
-&lt;li&gt;只有一个会成功并获得锁&lt;/li&gt;
-&lt;li&gt;获得锁的线程进行一些操作&lt;/li&gt;
-&lt;li&gt;释放锁&lt;/li&gt;
-&lt;li&gt;另一个线程尝试获得锁&lt;/li&gt;
-&lt;li&gt;最终锁被销毁&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org963ebdd" class="outline-4"&gt;
-&lt;h4 id="org963ebdd"&gt;创建和销毁锁&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org963ebdd"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;pthread_mutex_init (mutex,attr)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_mutex_destroy (mutex)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_mutexattr_init (attr)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_mutexattr_destroy (attr)&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;
-注意：
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;创建锁变量可以用 &lt;code&gt;pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;&lt;/code&gt;, 也可以用 &lt;code&gt;pthread_mutex_init()&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org4beb3bb" class="outline-4"&gt;
-&lt;h4 id="org4beb3bb"&gt;加锁和解锁&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org4beb3bb"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;pthread_mutex_lock (mutex)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_mutex_trylock (mutex)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_mutex_unlock (mutex)&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org9b0c976" class="outline-3"&gt;
-&lt;h3 id="org9b0c976"&gt;条件变量&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9b0c976"&gt;
-&lt;p&gt;
-条件变量也是用于线程间同步的机制，与加锁的共享内存不同，条件变量用于传递消息。
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgd6945a8" class="outline-4"&gt;
-&lt;h4 id="orgd6945a8"&gt;创建和销毁条件变量&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd6945a8"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;pthread_cond_init (condition,attr)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_cond_destroy (condition)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_condattr_init (attr)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_condattr_destroy (attr)&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;
-注意：
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;创建条件变量可以用 &lt;code&gt;pthread_cond_t myconvar = PTHREAD_COND_INITIALIZER;&lt;/code&gt; 也可以用 &lt;code&gt;pthread_cond_init()&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgafecca8" class="outline-4"&gt;
-&lt;h4 id="orgafecca8"&gt;等待和通信&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgafecca8"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;pthread_cond_wait (condition,mutex)&lt;/code&gt; 阻止线程直到某个条件被通信过来，应该在加锁时使用，会在等待时自动释放锁，当获得信号时又会把锁加回来&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_cond_signal (condition)&lt;/code&gt; 用来向其它等待中的线程传递信号，应该在加锁时使用，在操作后传信号，最后解锁&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pthread_cond_broadcast (condition)&lt;/code&gt; 用来向多个线程传递信号&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;
-注意：
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;等待锁时应该使用 &lt;code&gt;while&lt;/code&gt; 循环判断而不是 &lt;code&gt;if&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;/li&gt;&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>multithreading</category><category>parallel</category><category>pthread</category><guid>https://chimez.github.io/posts/pthread/</guid><pubDate>Thu, 01 Jul 2021 13:24:50 GMT</pubDate></item><item><title>joblib</title><link>https://chimez.github.io/posts/joblib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org53933da" class="outline-2"&gt;
-&lt;h2 id="org53933da"&gt;joblib: 简单的并行&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org53933da"&gt;
-&lt;p&gt;
-&lt;a href="https://joblib.readthedocs.io/"&gt;joblib&lt;/a&gt;是一个易用的，无依赖的 python 库，主要用来很方便的做并行。
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org5bfe6be" class="outline-3"&gt;
-&lt;h3 id="org5bfe6be"&gt;简单的并行&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5bfe6be"&gt;
-&lt;p&gt;
-对一个 &lt;code&gt;for&lt;/code&gt; 循环并行化，基本上只需要两个函数 &lt;code&gt;Parallel&lt;/code&gt; 和 &lt;code&gt;delayed&lt;/code&gt; ，用 &lt;code&gt;delayed&lt;/code&gt; 包裹要并行的函数，并用列表推导式生成所有参数，再把这些东西扔给 &lt;code&gt;Parallel&lt;/code&gt; 函数，返回的就是并行后的结果了。
+PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或者 PETSc 提供的脚本 &lt;code&gt;$PETSC_DIR/lib/petsc/bin/petscmpiexec&lt;/code&gt; 
 &lt;/p&gt;
 
 &lt;p&gt;
-基本上相当于 &lt;code&gt;multiprocessing.Pool.map&lt;/code&gt;
+常用的命令行选项
 &lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;-help&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-version&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-log_view&lt;/code&gt; 显示性能摘要&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-fp_trap&lt;/code&gt; 浮点异常时退出&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-malloc_dump&lt;/code&gt; 内存追踪&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-malloc_debug&lt;/code&gt; 内存debug&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-start_in_debugger [noxterm, gdb, lldb]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-on_error_attach_debugger&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-info&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;joblib&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Parallel&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;delayed&lt;/span&gt;
-   &lt;span class="n"&gt;Parallel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n_jobs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="n"&gt;delayed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div id="outline-container-org54036a4" class="outline-4"&gt;
+&lt;h4 id="org54036a4"&gt;主函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org54036a4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;PETSc 主函数需要调用 &lt;code&gt;PetscInitialize()&lt;/code&gt; 作为开始，来初始化 PETSc 和 MPI&lt;/li&gt;
+&lt;li&gt;程序退出时调用 &lt;code&gt;PetscFinalize()&lt;/code&gt;, 来结束 PETSc 和 MPI&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;
-&lt;code&gt;Parallel&lt;/code&gt; 函数的参数用来指定并行的后端 &lt;code&gt;backend&lt;/code&gt; 、每批次执行的任务数、并行线程数等等
+示例如下：
 &lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"petsc.h"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
 
+    &lt;span class="cm"&gt;/* 自定义帮助信息 */&lt;/span&gt;
+    &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"Solves a tridiagonal linear system with KSP.&lt;/span&gt;&lt;span class="se"&gt;\n\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-&lt;div id="outline-container-org8d5c47a" class="outline-2"&gt;
-&lt;h2 id="org8d5c47a"&gt;Tips&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8d5c47a"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-org8294d20" class="outline-3"&gt;
-&lt;h3 id="org8294d20"&gt;读取时避免锁&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org8294d20"&gt;
-&lt;p&gt;
-使用 &lt;code&gt;multiprocessing.shared_memory&lt;/code&gt; 创建共享内存，并把内存地址名作为参数传递
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>parallel</category><category>python</category><guid>https://chimez.github.io/posts/joblib/</guid><pubDate>Sun, 06 Jun 2021 05:34:10 GMT</pubDate></item><item><title>OpenMP</title><link>https://chimez.github.io/posts/openmp/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org0e086c5" class="outline-2"&gt;
-&lt;h2 id="org0e086c5"&gt;OpenMP 共享内存并行&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0e086c5"&gt;
-&lt;p&gt;
-OpenMP 是单机多线程共享内存并行工具。
-&lt;/p&gt;
-
-&lt;p&gt;
-OpenMP 使用 fork-join 模型进行并行，即主线程通过 &lt;code&gt;fork&lt;/code&gt; 创建多个并行线程，之后再将子线程 &lt;code&gt;join&lt;/code&gt; 回主线程。
-&lt;/p&gt;
-
-&lt;p&gt;
-OpenMP API 由三部分组成
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;编译器指令 &lt;code&gt;#pragma omp ...&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;运行时库函数 &lt;code&gt;#include &amp;lt;omp.h&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;环境变量 &lt;code&gt;OMP_NUM_THREADS&lt;/code&gt; 等&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org4134dfd" class="outline-4"&gt;
-&lt;h4 id="org4134dfd"&gt;参考资料&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org4134dfd"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;a href="https://hpc.llnl.gov/tuts/openMP/"&gt;llnl/openmp&lt;/a&gt; 的教程&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org5e8e363" class="outline-3"&gt;
-&lt;h3 id="org5e8e363"&gt;编译器指令&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5e8e363"&gt;
-&lt;p&gt;
-编译器指令的格式为
-&lt;/p&gt;
-&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
-
-
-&lt;colgroup&gt;
-&lt;col class="org-left"&gt;
-
-&lt;col class="org-left"&gt;
-
-&lt;col class="org-left"&gt;
-
-&lt;col class="org-left"&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope="col" class="org-left"&gt;&lt;code&gt;#pragma omp&lt;/code&gt;&lt;/th&gt;
-&lt;th scope="col" class="org-left"&gt;指令名&lt;/th&gt;
-&lt;th scope="col" class="org-left"&gt;&lt;code&gt;[clause, ...]&lt;/code&gt;&lt;/th&gt;
-&lt;th scope="col" class="org-left"&gt;换行&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class="org-left"&gt;所有OpenMP指令的开头&lt;/td&gt;
-&lt;td class="org-left"&gt;一系列可用的指令&lt;/td&gt;
-&lt;td class="org-left"&gt;可选的，从句顺序任意&lt;/td&gt;
-&lt;td class="org-left"&gt;换行不需要分号,可用用反斜线折行&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt; &lt;/td&gt;
-&lt;td class="org-left"&gt; &lt;/td&gt;
-&lt;td class="org-left"&gt; &lt;/td&gt;
-&lt;td class="org-left"&gt; &lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="cp"&gt;#pragma omp parallel default(shared) private(beta, pi)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgdda784c" class="outline-4"&gt;
-&lt;h4 id="orgdda784c"&gt;parallel 指令&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgdda784c"&gt;
-&lt;p&gt;
-创建一系列线程运行接下来的结构块，并在结构块结束时合并所有线程
-&lt;/p&gt;
-
-&lt;p&gt;
-可用的从句
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;if (scalar_expression)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;private (list)&lt;/code&gt; 指定变量是私有的&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;shared (list)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;default (share | none)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;firstprivate (list)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;copyin (list)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;num_threads (integer-expression)&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgadd446e" class="outline-4"&gt;
-&lt;h4 id="orgadd446e"&gt;for 指令&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgadd446e"&gt;
-&lt;p&gt;
-指定接下来的循环迭代并行运行。
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;schedule (type [,chunk])&lt;/code&gt; 描述循环如何分配给线程&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ordered&lt;/code&gt; 指定线程必须按照循环的顺序合并&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;private (list)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;firstprivate (list)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;lastprivate (list)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;shared (list)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;reduction (operator: list)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;collapse (n)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;nowait&lt;/code&gt; 循环结束后不等待未结束的线程&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#pragma omp parallel shared(a,b,c,chunk) private(i)&lt;/span&gt;
-      &lt;span class="p"&gt;{&lt;/span&gt;
-
-      &lt;span class="cp"&gt;#pragma omp for schedule(dynamic,chunk) nowait&lt;/span&gt;
-      &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-	&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
-
-      &lt;span class="p"&gt;}&lt;/span&gt;  &lt;span class="cm"&gt;/* end of parallel section */&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org647cb15" class="outline-4"&gt;
-&lt;h4 id="org647cb15"&gt;sections, section 指令&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org647cb15"&gt;
-&lt;p&gt;
-外层用 &lt;code&gt;sections&lt;/code&gt; 指令，内部用 &lt;code&gt;section&lt;/code&gt; 指令
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#pragma omp parallel shared(a,b,c,d) private(i)&lt;/span&gt;
-      &lt;span class="p"&gt;{&lt;/span&gt;
-
-      &lt;span class="cp"&gt;#pragma omp sections nowait&lt;/span&gt;
-	&lt;span class="p"&gt;{&lt;/span&gt;
-
-	&lt;span class="cp"&gt;#pragma omp section&lt;/span&gt;
-	&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-	  &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
-
-	&lt;span class="cp"&gt;#pragma omp section&lt;/span&gt;
-	&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-	  &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
-
-	&lt;span class="p"&gt;}&lt;/span&gt;  &lt;span class="cm"&gt;/* end of sections */&lt;/span&gt;
-
-      &lt;span class="p"&gt;}&lt;/span&gt;  &lt;span class="cm"&gt;/* end of parallel section */&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orga7cb1ef" class="outline-4"&gt;
-&lt;h4 id="orga7cb1ef"&gt;single 指令&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orga7cb1ef"&gt;
-&lt;p&gt;
-指定块内部同时只有一个线程运行，用来处理以下线程不安全的操作
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org14881dd" class="outline-4"&gt;
-&lt;h4 id="org14881dd"&gt;task 指令&lt;/h4&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org1a8998b" class="outline-4"&gt;
-&lt;h4 id="org1a8998b"&gt;master 指令&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1a8998b"&gt;
-&lt;p&gt;
-指定只有主线程执行块内的程序。
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org73ad9f8" class="outline-4"&gt;
-&lt;h4 id="org73ad9f8"&gt;critical 指令&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org73ad9f8"&gt;
-&lt;p&gt;
-指定同时只有一个线程能运行内部的代码。
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#pragma omp parallel shared(x) &lt;/span&gt;
-      &lt;span class="p"&gt;{&lt;/span&gt;
-
-      &lt;span class="cp"&gt;#pragma omp critical &lt;/span&gt;
-      &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-
-      &lt;span class="p"&gt;}&lt;/span&gt;  &lt;span class="cm"&gt;/* end of parallel section */&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orga85fab8" class="outline-4"&gt;
-&lt;h4 id="orga85fab8"&gt;barrier 指令&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orga85fab8"&gt;
-&lt;p&gt;
-要求所有线程立即同步
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orga17701f" class="outline-4"&gt;
-&lt;h4 id="orga17701f"&gt;taskwait 指令&lt;/h4&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgec7ebf4" class="outline-4"&gt;
-&lt;h4 id="orgec7ebf4"&gt;atomic 指令&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgec7ebf4"&gt;
-&lt;p&gt;
-执行原子操作，相当于小的 critical 指令
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org4be2b3a" class="outline-4"&gt;
-&lt;h4 id="org4be2b3a"&gt;flush 指令&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org4be2b3a"&gt;
-&lt;p&gt;
-要求所有缓冲的修改写回内存中
-&lt;/p&gt;
-
-&lt;p&gt;
-下面一些指令隐含了 &lt;code&gt;flush&lt;/code&gt; 指令
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;code&gt;barrier&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;parallel&lt;/code&gt; 的进和出&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;critical&lt;/code&gt; 的进和出&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ordered&lt;/code&gt; 的进和出&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;for&lt;/code&gt; 的出&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sections&lt;/code&gt; 的出&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;single&lt;/code&gt; 的出&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgd6b1438" class="outline-4"&gt;
-&lt;h4 id="orgd6b1438"&gt;ordered 指令&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd6b1438"&gt;
-&lt;p&gt;
-要求代码块内部的指令顺序执行，只能用在 &lt;code&gt;for&lt;/code&gt; 指令内部
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org99e74aa" class="outline-4"&gt;
-&lt;h4 id="org99e74aa"&gt;threadprivate 指令&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org99e74aa"&gt;
-&lt;p&gt;
-指定一些变量是线程私有的，每个线程初次使用这些变量时都是未初始化的
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgc0d20ec" class="outline-4"&gt;
-&lt;h4 id="orgc0d20ec"&gt;reduction 从句&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc0d20ec"&gt;
-&lt;p&gt;
-要求循环分成相等的部分，并在全部运行最后再执行指定的指令
-&lt;/p&gt;
-
-&lt;p&gt;
-支持的格式
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;op&lt;/span&gt; &lt;span class="n"&gt;expr&lt;/span&gt; 
-    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;expr&lt;/span&gt; &lt;span class="n"&gt;op&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; 
-    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="n"&gt;binop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;expr&lt;/span&gt;
-    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt; 
-    &lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;
-    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;
-    &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;
-
-    &lt;span class="nl"&gt;op&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt;
-    &lt;span class="nl"&gt;binop&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-例子
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#pragma omp parallel for      \  &lt;/span&gt;
-      &lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;shared&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;private&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="err"&gt;\&lt;/span&gt;  
-      &lt;span class="n"&gt;schedule&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;static&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;chunk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;      &lt;span class="err"&gt;\&lt;/span&gt;  
-      &lt;span class="n"&gt;reduction&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;+:&lt;/span&gt;&lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
-
-      &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-	&lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org919000d" class="outline-3"&gt;
-&lt;h3 id="org919000d"&gt;运行时库函数&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org919000d"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgb3e461f" class="outline-4"&gt;
-&lt;h4 id="orgb3e461f"&gt;线程环境相关&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgb3e461f"&gt;
-&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
-
-
-&lt;colgroup&gt;
-&lt;col class="org-left"&gt;
-
-&lt;col class="org-left"&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope="col" class="org-left"&gt;函数&lt;/th&gt;
-&lt;th scope="col" class="org-left"&gt;作用&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_set_num_threads()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;设置使用的线程数&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_get_num_threads()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;获取使用的线程数&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_get_max_threads()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;获取可用最大的线程数&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_get_thread_num()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;获取线程编号&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_get_thread_limit()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;获取最大可用线程&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_get_num_procs()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;获取处理器数目&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org67de9eb" class="outline-4"&gt;
-&lt;h4 id="org67de9eb"&gt;锁&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org67de9eb"&gt;
-&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
-
-
-&lt;colgroup&gt;
-&lt;col class="org-left"&gt;
-
-&lt;col class="org-left"&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope="col" class="org-left"&gt;函数&lt;/th&gt;
-&lt;th scope="col" class="org-left"&gt;作用&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_init_lock()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;初始化锁&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_destroy_lock()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;删除锁&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_set_lock()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;加锁&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_unset_lock()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;解锁&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_test_lock()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;测试加锁&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_init_nest_lock()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;初始化嵌套锁&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_destroy_nest_lock()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;删除嵌套锁&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_set_nest_lock()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;加嵌套锁&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_unset_nest_lock()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;解嵌套锁&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;omp_test_nest_lock()&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;测试加嵌套锁&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;
-说明：
-&lt;/p&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;OpenMP 的锁是互斥锁，即 mutex&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;
-与 &lt;code&gt;critical&lt;/code&gt; 指令的区别是， &lt;code&gt;critical&lt;/code&gt; 指令保证同时只有一个线程运行内部的指令，而不是加锁
-&lt;/p&gt;
-
-&lt;p&gt;
-例子:
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;omp.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
-
-    &lt;span class="n"&gt;omp_lock_t&lt;/span&gt; &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="n"&gt;omp_init_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="cp"&gt;#pragma omp parallel&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;
+    &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="p"&gt;{&lt;/span&gt;
-	&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
-	    &lt;span class="n"&gt;omp_set_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-	    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-	    &lt;span class="n"&gt;omp_unset_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-	    &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-	&lt;span class="p"&gt;}&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 初始化 */&lt;/span&gt;
+	&lt;span class="n"&gt;PetscErrorCode&lt;/span&gt; &lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;PetscMPIInt&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscInitialize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;help&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MPI_Comm_size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CHKERRMPI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+	    &lt;span class="n"&gt;SETERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PETSC_ERR_WRONG_MPI_SIZE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"This is a uniprocessor example only!"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 主程序 &lt;/span&gt;
+&lt;span class="cm"&gt;	 * ......&lt;/span&gt;
+&lt;span class="cm"&gt;	 */&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 退出 */&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscFinalize&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+	&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="p"&gt;}&lt;/span&gt;
-    &lt;span class="n"&gt;omp_destroy_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org47b91a7" class="outline-4"&gt;
+&lt;h4 id="org47b91a7"&gt;错误处理&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org47b91a7"&gt;
+&lt;p&gt;
+所有 PETSc 函数都返回整数值 &lt;code&gt;ierr&lt;/code&gt; 作为消息，使用 &lt;code&gt;CHECKRRQ(ierr)&lt;/code&gt; 宏来处理错误。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org75c8bc4" class="outline-3"&gt;
+&lt;h3 id="org75c8bc4"&gt;向量和并行数据&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org75c8bc4"&gt;
+&lt;p&gt;
+向量是 PETSc 最基本的结构，用于保存计算结果等
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfbc8697" class="outline-4"&gt;
+&lt;h4 id="orgfbc8697"&gt;创建和组装向量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgfbc8697"&gt;
+&lt;p&gt;
+PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;VecCreateSeq(PETSC_COMM_SELF,PetscInt m,Vec *x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建顺序向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecCreateMPI(MPI_Comm comm,PetscInt m,PetscInt M,Vec *x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建并行向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecCreate(MPI_Comm comm,Vec *x);&lt;/code&gt; 
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建向量, 自动选择顺序或并行&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm comm&lt;/code&gt; 是 MPI 通信器&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecCreateSeqWithArray(PETSC_COMM_SELF,PetscInt bs,PetscInt n,PetscScalar *array,Vec *V);&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecCreateMPIWithArray(MPI_Comm comm,PetscInt bs,PetscInt n,PetscInt N,PetscScalar *array,Vec *vv);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;根据输入的数据创建向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecSetSizes(Vec x, PetscInt m, PetscInt M);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置向量的大小&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;m&lt;/code&gt; 是可选的局域大小，可以设为 &lt;code&gt;PETSC_DECIDE&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;M&lt;/code&gt; 是总大小&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecSetType()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecSetFromOptions()&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置向量的类型&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecSet(Vec x,PetscScalar value);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;将向量所有值都设成 &lt;code&gt;value&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecSetValues(Vec x,PetscInt n,PetscInt *indices,PetscScalar *values,INSERT_VALUES);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置向量的部分值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PetscInt n&lt;/code&gt; 要设置的值的个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PetscInt *indices&lt;/code&gt; 设置的值的指标&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PetscScalar *values&lt;/code&gt; 设置的值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;InsertMode iota&lt;/code&gt; 设置值的方式：
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;INSERT_VALUES&lt;/code&gt; 代替旧值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ADD_VALUES&lt;/code&gt; 将旧值加上新值&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecAssemblyBegin(Vec x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;开始组装向量, 在 &lt;code&gt;VecSetValues()&lt;/code&gt; 之后调用&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecAssemblyEnd(Vec x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;结束组装向量，在 &lt;code&gt;VecAssemblyBegin()&lt;/code&gt; 之后调用&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecView(Vec x,PetscViewer v);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;打印输出向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecDuplicate(Vec old, Vec *new);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建一个新的向量，其类型与旧的相同&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecDuplicateVecs(Vec old,PetscInt n,Vec **new);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建多个向量，与原向量类型相同&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;VecDestroy(Vec *x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;销毁向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecDestroyVecs(PetscInt n,Vec **vecs);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;销毁多个向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;Vec&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecCreate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscObjectSetName&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;PetscObject&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"test"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecSetSizes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PETSC_DECIDE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;H_len&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecSetFromOptions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;Vec&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecDuplicate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;ix&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="k"&gt;complex&lt;/span&gt; &lt;span class="n"&gt;vx&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecSetValues&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;vx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;INSERT_VALUES&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecAssemblyBegin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecAssemblyEnd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nc"&gt;timespec&lt;/span&gt; &lt;span class="n"&gt;t0_mvm&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;timespec_get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;t0_mvm&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TIME_UTC&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatMult&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc11ca22" class="outline-4"&gt;
+&lt;h4 id="orgc11ca22"&gt;基本向量操作&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc11ca22"&gt;
+&lt;p&gt;
+加减乘除之类的操作，参考&lt;a href="https://petsc.org/release/documentation/manual/vec/#id3"&gt;函数表&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;VecGetOwnershipRange(Vec vec,PetscInt *low,PetscInt *high);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获取当前局域操作的范围&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;low&lt;/code&gt; 是第一个元素&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;high&lt;/code&gt; 是最后一个再 +1&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecGetArray(Vec v,PetscScalar **array);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获取当前局域的数组的所有权&lt;/li&gt;
+&lt;li&gt;这个函数直接获得了裸数据的指针&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecRestoreArray(Vec v, PetscScalar **array);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;恢复当前局域的数组的所有权&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecGetArrayRead(Vec v, const PetscScalar **array);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;只读地获取当前局域的数组&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecRestoreArrayRead(Vec v, const PetscScalar **array);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;恢复获取的只读数组的所有权&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecGetLocalSize(Vec v,PetscInt *size);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获取当前局域的大小&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VecGetSize(Vec v,PetscInt *size);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获取向量的总大小&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org271e5e9" class="outline-4"&gt;
+&lt;h4 id="org271e5e9"&gt;索引和排序&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org271e5e9"&gt;
+&lt;p&gt;
+PETSc 提供了一组工具用于处理向量指标的顺序，称作 Application Orderings(AO)
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org488a9a6" class="outline-3"&gt;
+&lt;h3 id="org488a9a6"&gt;矩阵&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org488a9a6"&gt;
+&lt;p&gt;
+PETSc 支持多种矩阵类型，包括稠密矩阵、稀疏矩阵等
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9b63392" class="outline-4"&gt;
+&lt;h4 id="org9b63392"&gt;创建和组装矩阵&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9b63392"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MatCreate(MPI_Comm comm,Mat *A);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建矩阵&lt;/li&gt;
+&lt;li&gt;默认的矩阵类似是 稀疏 AIJ&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;MatSetSizes(Mat A,PETSC_DECIDE,PETSC_DECIDE,PetscInt M,PetscInt N);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置矩阵大小&lt;/li&gt;
+&lt;li&gt;第二、三个参数是局域的行列大小&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MatSetType(A,MatType matype);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置矩阵类型&lt;/li&gt;
+&lt;li&gt;矩阵类型 &lt;code&gt;MatType&lt;/code&gt; 有很多&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;MatSetValues(Mat A,PetscInt m,PetscInt *im,PetscInt n,PetscInt *in,PetscScalar *values,INSERT_VALUES);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置矩阵的值&lt;/li&gt;
+&lt;li&gt;规则类似 &lt;code&gt;Vec&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MatSetOption(Mat A,MAT_ROW_ORIENTED,PETSC_FALSE);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置加入值的方式，行先或列先等&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;开始组装矩阵，在所有的 &lt;code&gt;MatSetValues()&lt;/code&gt; 调用完成后使用&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;完成组装矩阵，在 &lt;code&gt;MatAssemblyBegin()&lt;/code&gt; 之后调用&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;MatGetOwnershipRange(Mat A,PetscInt *first_row,PetscInt *last_row);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获取矩阵的一部分&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatCreate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatSetSizes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PETSC_DECIDE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PETSC_DECIDE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatSetFromOptions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatSetUp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;PetscScalar&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="n"&gt;PetscInt&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="n"&gt;PetscInt&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatSetValues&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;INSERT_VALUES&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatAssemblyBegin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MAT_FINAL_ASSEMBLY&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatAssemblyEnd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MAT_FINAL_ASSEMBLY&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;MatView&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;PETSC_VIEWER_STDOUT_WORLD&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org55be7ae" class="outline-4"&gt;
+&lt;h4 id="org55be7ae"&gt;矩阵类型&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org55be7ae"&gt;
+&lt;p&gt;
+PETSc默认的矩阵类型是 AIJ(也就是 CSR)
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;稀疏矩阵&lt;/li&gt;
+&lt;li&gt;Limited-Memory Variable Metric (LMVM) Matrices&lt;/li&gt;
+&lt;li&gt;稠密矩阵&lt;/li&gt;
+&lt;li&gt;块矩阵&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org473a607" class="outline-4"&gt;
+&lt;h4 id="org473a607"&gt;基本矩阵操作&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org473a607"&gt;
+&lt;p&gt;
+参考&lt;a href="https://petsc.org/release/documentation/manual/mat/#fig-matrixops"&gt;函数表&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6a83f07" class="outline-4"&gt;
+&lt;h4 id="org6a83f07"&gt;无矩阵的矩阵&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6a83f07"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MatCreateShell(MPI_Comm comm,PetscInt m,PetscInt n,PetscInt M,PetscInt N,void *ctx,Mat *mat);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建矩阵的结构，无需添加矩阵元&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;M, N&lt;/code&gt; 是矩阵总维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;m, n&lt;/code&gt; 是局域维数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ctx&lt;/code&gt; 是用户定义的矩阵操作&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MatShellSetOperation(Mat mat,MatOperation MATOP_MULT, (void(*)(void)) PetscErrorCode (*UserMult)(Mat,Vec,Vec));&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;注册用户定义的矩阵运算&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MATOP_MULT&lt;/code&gt; 指的是矩阵乘向量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cm"&gt;/* 定义每个矩阵都需要用到的一些数据 */&lt;/span&gt;
+    &lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nc"&gt;A_data&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt; &lt;span class="n"&gt;A_data_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 自定义的矩阵乘向量运算函数, y = A x */&lt;/span&gt;
+    &lt;span class="n"&gt;PetscErrorCode&lt;/span&gt;
+    &lt;span class="nf"&gt;A_MatVec&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Vec&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Vec&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 获取数据 */&lt;/span&gt;
+	&lt;span class="n"&gt;A_data_t&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;A_data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;PetscErrorCode&lt;/span&gt; &lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;MatShellGetContext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A_data&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+
+	&lt;span class="cm"&gt;/* 获得本地的 x 向量数据 */&lt;/span&gt;
+	&lt;span class="n"&gt;PetscInt&lt;/span&gt; &lt;span class="n"&gt;x_start&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x_end&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecGetOwnershipRange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x_start&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x_end&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;PetscScalar&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;x_arr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecGetArrayRead&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x_arr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* y 向量要先置零 */&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecSet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 设置计算后 y 的值 */&lt;/span&gt;
+	&lt;span class="p"&gt;{&lt;/span&gt;
+	    &lt;span class="n"&gt;PetscScalar&lt;/span&gt; &lt;span class="n"&gt;new_value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecSetValues&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;new_value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ADD_VALUES&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	    &lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="p"&gt;}&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecAssemblyBegin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecAssemblyEnd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* 结束计算要返还 x 的所有权 */&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecRestoreArrayRead&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x_arr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+
+    &lt;span class="cm"&gt;/* 创建无矩阵的矩阵 A，必须设置每个局域块 A 的大小 */&lt;/span&gt;
+    &lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;A_data_t&lt;/span&gt; &lt;span class="n"&gt;A_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatCreateShell&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 为 A 绑定矩阵乘向量运算 */&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatShellSetOperation&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Afree&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MATOP_MULT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="n"&gt;A_MatVec&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd455f49" class="outline-3"&gt;
+&lt;h3 id="orgd455f49"&gt;线性求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd455f49"&gt;
+&lt;p&gt;
+使用线性求解器 &lt;code&gt;KSP&lt;/code&gt; 解线性方程 \(Ax=b\)
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;KSPCreate(MPI_Comm comm,KSP *ksp);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;初始化 KSP&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;KSPSetOperators(KSP ksp,Mat Amat,Mat Pmat);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置矩阵&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;KSPSetFromOptions(KSP ksp);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置求解器选项&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;KSPSolve(KSP ksp,Vec b,Vec x);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;运行求解器&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;KSPDestroy(KSP ksp);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;运算结束销毁求解器&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6dace58" class="outline-3"&gt;
-&lt;h3 id="org6dace58"&gt;环境变量&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6dace58"&gt;
-&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
-
-&lt;colgroup&gt;
-&lt;col class="org-left"&gt;
-
-&lt;col class="org-left"&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope="col" class="org-left"&gt;变量&lt;/th&gt;
-&lt;th scope="col" class="org-left"&gt;作用&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;OMP_SCHEDULE&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;for&lt;/code&gt; 指令的默认从句&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;OMP_NUM_THREADS&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;使用的最大线程数&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;OMP_NESTED&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;是否使用嵌套并行&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;OMP_STACKSIZE&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;设置子线程的栈大小&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;OMP_WAIT_POLICY&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;设置等待线程的行为&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;OMP_MAX_ACTIVE_LEVELS&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;设置嵌套并行的层级&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class="org-left"&gt;&lt;code&gt;OMP_THREAD_LIMIT&lt;/code&gt;&lt;/td&gt;
-&lt;td class="org-left"&gt;设置整个程序的最大线程数&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+&lt;div id="outline-container-org9dadbeb" class="outline-2"&gt;
+&lt;h2 id="org9dadbeb"&gt;其它问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9dadbeb"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org491e88e" class="outline-3"&gt;
+&lt;h3 id="org491e88e"&gt;复数支持&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org491e88e"&gt;
+&lt;p&gt;
+只能通过编译选项 &lt;code&gt;--with-scalar-type=complex&lt;/code&gt; 将 &lt;code&gt;PetscScalar&lt;/code&gt; 设成复数
+&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>openmp</category><category>parallel</category><guid>https://chimez.github.io/posts/openmp/</guid><pubDate>Sat, 20 Feb 2021 07:37:55 GMT</pubDate></item></channel></rss>
+
+&lt;div id="outline-container-orga5a99e8" class="outline-3"&gt;
+&lt;h3 id="orga5a99e8"&gt;编译选项&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga5a99e8"&gt;
+&lt;p&gt;
+&lt;a href="https://www.mcs.anl.gov/petsc/documentation/installation.html"&gt;参考&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+debug 模式：
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure PETSC_ARCH=arch-complex-debug --with-scalar-type=complex
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+release 模式:
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure PETSC_ARCH=arch-complex-release --with-cc=gcc --with-cxx=g++ --with-fc=gfortran --with-debugging=0 COPTFLAGS='-O3 -march=native -mtune=native' CXXOPTFLAGS='-O3 -march=native -mtune=native' FOPTFLAGS='-O3 -march=native -mtune=native' --with-scalar-type=complex --download-mpich
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>HPC</category><category>mpi</category><category>petsc</category><guid>https://chimez.github.io/posts/petsc/</guid><pubDate>Wed, 21 Apr 2021 07:39:14 GMT</pubDate></item></channel></rss>

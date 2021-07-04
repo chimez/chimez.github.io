@@ -14,7 +14,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://chimez.github.io/">
 <link rel="next" href="index-4.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/pthread/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/slepc/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -71,7 +71,706 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pthread/" class="u-url">pthread</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/slepc/" class="u-url">SLEPc</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/slepc/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-07-03T13:08:47+08:00" itemprop="datePublished" title="2021-07-03 13:08">2021-07-03 13:08</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orga815a4b" class="outline-2">
+<h2 id="orga815a4b">SLEPc: PETSc 的本征值求解器扩展</h2>
+<div class="outline-text-2" id="text-orga815a4b">
+<p>
+<a href="https://slepc.upv.es/">SLEPc</a> 是用来求 PETSc 矩阵的扩展库。
+</p>
+</div>
+
+<div id="outline-container-org91dcfbc" class="outline-3">
+<h3 id="org91dcfbc">基本结构</h3>
+<div class="outline-text-3" id="text-org91dcfbc">
+<p>
+SLEPc 有以下基本部分构成
+</p>
+<ol class="org-ol">
+<li>EPS (Eigenvalue Problem Solver)</li>
+<li>SVD (Singular Value Decomposition)</li>
+<li>PEP (Polynomial Eigenvalue Problem)</li>
+<li>NEP (Nonlinear Eigenvalue Problem)</li>
+<li>MFN (Matrix Function)</li>
+</ol>
+<p>
+还有一些辅助模块
+</p>
+<ol class="org-ol">
+<li>ST (Spectral Transformation)</li>
+<li>BV (Basis Vectors)</li>
+<li>DS (Dense System)</li>
+<li>RG (Region)</li>
+<li>FN (Mathematical Function)</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgca8fb29" class="outline-3">
+<h3 id="orgca8fb29">安装</h3>
+<div class="outline-text-3" id="text-orgca8fb29">
+<p>
+下载时注意，SLEPc 的版本必须和 PETSc 版本一样
+</p>
+
+<p>
+编译选项
+</p>
+
+<div class="highlight"><pre><span></span>   ./configure --download-arpack --download-blopex --download-hpddm --download-primme
+</pre></div>
+
+<p>
+最后别忘了把环境变量 <code>SLEPC_DIR</code> 加上
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge520544" class="outline-3">
+<h3 id="orge520544">基本使用</h3>
+<div class="outline-text-3" id="text-orge520544">
+<p>
+程序开始和结束时分别调用 <code>SlepcInitialize()</code> 和 <code>SlepcFinalize()</code>, 实际上就是 <code>PetscInitialize()</code> 和 <code>PetscFinalize()</code>
+</p>
+
+<p>
+矩阵的使用跟 <code>PETSc</code> 完全一致
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0341242" class="outline-3">
+<h3 id="org0341242">EPS: 矩阵本征值求解器</h3>
+<div class="outline-text-3" id="text-org0341242">
+</div>
+<div id="outline-container-orgfe5f94b" class="outline-4">
+<h4 id="orgfe5f94b">基本使用</h4>
+<div class="outline-text-4" id="text-orgfe5f94b">
+<ol class="org-ol">
+<li>
+<code>EPSCreate(MPI_Comm comm,EPS *eps);</code> 
+<ol class="org-ol">
+<li>创建求解器</li>
+</ol>
+</li>
+<li>
+<code>EPSSetOperators(EPS eps,Mat A,Mat B);</code>
+<ol class="org-ol">
+<li>设置要解的算符</li>
+</ol>
+</li>
+<li>
+<code>EPSSetFromOptions(EPS eps);</code>
+<ol class="org-ol">
+<li>添加运行时设置</li>
+</ol>
+</li>
+<li>
+<code>EPSSolve(EPS eps);</code>
+<ol class="org-ol">
+<li>运行求解器</li>
+</ol>
+</li>
+<li>
+<code>EPSDestroy(EPS *eps);</code>
+<ol class="org-ol">
+<li>销毁求解器</li>
+</ol>
+</li>
+<li>
+<code>EPSSetUp(EPS eps);</code>
+<ol class="org-ol">
+<li>某些更具体的设置, 如果有需要的话，要在运行求解器之前设置</li>
+</ol>
+</li>
+<li>
+<code>EPSGetST(EPS eps,ST *st);</code>
+<ol class="org-ol">
+<li>获得谱变换器(ST), EPS 会默认自动创建一个 ST 对象，如果需要设置谱变换，就要这样获得它</li>
+</ol>
+</li>
+<li>
+<code>EPSView(EPS eps,PetscViewer viewer);</code>
+<ol class="org-ol">
+<li>打印求解器配置</li>
+</ol>
+</li>
+</ol>
+<div class="highlight"><pre><span></span>    <span class="cp">#include</span> <span class="cpf">&lt;slepceps.h&gt;</span><span class="cp"></span>
+
+
+    <span class="n">Mat</span> <span class="n">A</span><span class="p">;</span> <span class="cm">/* problem matrix */</span>
+    <span class="cm">/* do something to fill A */</span>
+
+    <span class="n">PetscErrorCode</span> <span class="n">ierr</span><span class="p">;</span>
+    <span class="cm">/* Create eigensolver context */</span>
+    <span class="n">EPS</span> <span class="n">eps</span><span class="p">;</span> <span class="cm">/* eigenproblem solver context */</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSCreate</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">eps</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+    <span class="cm">/* Set operators. In this case, it is a standard eigenvalue problem */</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSSetOperators</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSSetProblemType</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">EPS_HEP</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+    <span class="cm">/* show EPS setup */</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSView</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">PETSC_VIEWER_STDOUT_WORLD</span><span class="p">)</span> <span class="p">;</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+    <span class="cm">/* Set solver parameters at runtime */</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSSetFromOptions</span><span class="p">(</span><span class="n">eps</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+    <span class="cm">/* Solve the eigensystem */</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSSolve</span><span class="p">(</span><span class="n">eps</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+    <span class="cm">/* Optional: Get some information from the solver and display it */</span>
+    <span class="n">PetscInt</span> <span class="n">its</span><span class="p">;</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetIterationNumber</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">its</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" Number of iterations of the method: %D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">its</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+    <span class="n">EPSType</span> <span class="n">type</span><span class="p">;</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetType</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">type</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" Solution method: %s</span><span class="se">\n\n</span><span class="s">"</span><span class="p">,</span> <span class="n">type</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+    <span class="n">PetscInt</span> <span class="n">nev</span><span class="p">;</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetDimensions</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nev</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" Number of requested eigenvalues: %D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">nev</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+    <span class="n">PetscReal</span> <span class="n">tol</span><span class="p">;</span>
+    <span class="n">PetscInt</span> <span class="n">maxit</span><span class="p">;</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetTolerances</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tol</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">maxit</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" Stopping condition: tol=%.4g, maxit=%D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">tol</span><span class="p">,</span> <span class="n">maxit</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+    <span class="cm">/* Display solution and clean up */</span>
+    <span class="cm">/* Get number of converged approximate eigenpairs */</span>
+    <span class="n">PetscInt</span> <span class="n">nconv</span><span class="p">;</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetConverged</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nconv</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" Number of converged eigenpairs: %D</span><span class="se">\n\n</span><span class="s">"</span><span class="p">,</span> <span class="n">nconv</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">nconv</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* Display eigenvalues and relative errors */</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span>
+			<span class="s">"           k          ||Ax-kx||/||kx||</span><span class="se">\n</span><span class="s">"</span>
+			<span class="s">"   ----------------- ------------------</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nconv</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+	<span class="cm">/* Get converged eigenpairs: i-th eigenvalue is stored in kr (real part) and ki (imaginary part) */</span>
+	<span class="n">PetscScalar</span> <span class="n">kr</span><span class="p">,</span> <span class="n">ki</span><span class="p">;</span>
+	<span class="n">Vec</span> <span class="n">xr</span><span class="p">,</span> <span class="n">xi</span><span class="p">;</span>
+	<span class="n">ierr</span> <span class="o">=</span> <span class="n">MatCreateVecs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">xr</span><span class="p">);</span>
+	<span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+	<span class="n">ierr</span> <span class="o">=</span> <span class="n">MatCreateVecs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">xi</span><span class="p">);</span>
+	<span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+	<span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetEigenpair</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ki</span><span class="p">,</span> <span class="n">xr</span><span class="p">,</span> <span class="n">xi</span><span class="p">);</span>
+	<span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+	<span class="cm">/* Compute the relative error associated to each eigenpair */</span>
+	<span class="n">PetscReal</span> <span class="n">error</span><span class="p">;</span>
+	<span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSComputeError</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">EPS_ERROR_RELATIVE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">);</span>
+	<span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+
+	<span class="n">PetscReal</span> <span class="n">re</span> <span class="o">=</span> <span class="n">PetscRealPart</span><span class="p">(</span><span class="n">kr</span><span class="p">);</span>
+	<span class="n">PetscReal</span> <span class="n">im</span> <span class="o">=</span> <span class="n">PetscImaginaryPart</span><span class="p">(</span><span class="n">kr</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">im</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="p">{</span>
+	    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" %9f%+9fi %12g</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">re</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">im</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">error</span><span class="p">);</span>
+	    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">"   %12f       %12g</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">re</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">error</span><span class="p">);</span>
+	    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+	<span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+    <span class="p">}</span>
+
+
+    <span class="cm">/* Free work space */</span>
+
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">eps</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">MatDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">VecDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">xr</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+    <span class="n">ierr</span> <span class="o">=</span> <span class="n">VecDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">xi</span><span class="p">);</span>
+    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org75526a9" class="outline-4">
+<h4 id="org75526a9">求解器配置</h4>
+<div class="outline-text-4" id="text-org75526a9">
+</div>
+<ul class="org-ul">
+<li>
+<a id="orgd080ad1"></a>问题类型<br><div class="outline-text-5" id="text-orgd080ad1">
+<p>
+问题类型使用 <code>EPSSetProblemType(EPS eps,EPSProblemType type);</code> 进行设置
+</p>
+
+<p>
+可选的有
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">问题类型</th>
+<th scope="col" class="org-left">EPSProblemTyle</th>
+<th scope="col" class="org-left">命令行选项</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">Hermitian</td>
+<td class="org-left">EPS<sub>HEP</sub>
+</td>
+<td class="org-left">-eps<sub>hermitian</sub>
+</td>
+</tr>
+<tr>
+<td class="org-left">Non-Hermitian</td>
+<td class="org-left">EPS<sub>NHEP</sub>
+</td>
+<td class="org-left">-eps<sub>non</sub><sub>hermitian</sub>
+</td>
+</tr>
+<tr>
+<td class="org-left">Generalized Hermitian</td>
+<td class="org-left">EPS<sub>GHEP</sub>
+</td>
+<td class="org-left">-eps<sub>gen</sub><sub>hermitian</sub>
+</td>
+</tr>
+<tr>
+<td class="org-left">Generalized Hermitian indefinite</td>
+<td class="org-left">EPS<sub>GHIEP</sub>
+</td>
+<td class="org-left">-eps<sub>gen</sub><sub>indefinite</sub>
+</td>
+</tr>
+<tr>
+<td class="org-left">Generalized Non-Hermitian</td>
+<td class="org-left">EPS<sub>GNHEP</sub>
+</td>
+<td class="org-left">-eps<sub>gen</sub><sub>non</sub><sub>hermitian</sub>
+</td>
+</tr>
+<tr>
+<td class="org-left">GNHEP with positive (semi-)definite</td>
+<td class="org-left">BEPS<sub>PGNHEP</sub>
+</td>
+<td class="org-left">-eps<sub>pos</sub><sub>gen</sub><sub>non</sub><sub>hermitian</sub>
+</td>
+</tr>
+</tbody>
+</table>
+<p>
+还可以用一系列函数来判断设置的问题类型
+</p>
+
+<ol class="org-ol">
+<li>EPSIsGeneralized(EPS eps,PetscBool *gen);</li>
+<li>EPSIsHermitian(EPS eps,PetscBool *her);</li>
+<li>EPSIsPositive(EPS eps,PetscBool *pos);</li>
+</ol>
+</div>
+</li>
+
+<li>
+<a id="org13d0e0e"></a>求解本征值个数<br><div class="outline-text-5" id="text-org13d0e0e">
+<p>
+使用 <code>EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);</code> 设置要求的本征值个数
+</p>
+<ol class="org-ol">
+<li>
+<code>PetscInt nev</code> 本征值个数</li>
+<li>
+<code>PetscInt ncv</code> 最大工作空间的维数，指的是用多少个中间向量, <code>ncv</code> 至少和 <code>nev</code> 一样多，最好是它的两倍以上</li>
+<li>
+<code>PetscInt mpd</code> 最大投影空间维数，用来计算很多本征值个数的时候，设置它可以减少工作空间的需求</li>
+</ol>
+</div>
+</li>
+
+<li>
+<a id="org5ffc797"></a>求解本征值位置<br><div class="outline-text-5" id="text-org5ffc797">
+<ol class="org-ol">
+<li>
+<code>EPSSetWhichEigenpairs(EPS eps,EPSWhich which);</code> 设置要求本征值的位置</li>
+<li>
+<code>EPSSetTarget(EPS eps,PetscScalar target);</code> 设置计算距离某个值最近的本征值</li>
+<li>
+<code>EPSSetInterval(EPS eps,PetscScalar a,PetscScalar b);</code> 计算 \(\lambda \in [a, b]\) 的所有本征值</li>
+<li>
+<code>EPSSetTwoSided(EPS eps,PetscBool twosided);</code> 计算非厄米问题的左本征矢</li>
+</ol>
+<p>
+可选的本征值位置有
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">EPSWhich</th>
+<th scope="col" class="org-left">命令行</th>
+<th scope="col" class="org-left">说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">EPS<sub>LARGEST</sub><sub>MAGNITUDE</sub>
+</td>
+<td class="org-left">-eps<sub>largest</sub><sub>magnitude</sub>
+</td>
+<td class="org-left">最大 \(\vert \lambda\vert\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>SMALLEST</sub><sub>MAGNITUDE</sub>
+</td>
+<td class="org-left">-eps<sub>smallest</sub><sub>magnitude</sub>
+</td>
+<td class="org-left">最小 \(\vert\lambda\vert\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>LARGEST</sub><sub>REAL</sub>
+</td>
+<td class="org-left">-eps<sub>largest</sub><sub>real</sub>
+</td>
+<td class="org-left">最大 \(\mathrm{Re}(\lambda)\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>SMALLEST</sub><sub>REAL</sub>
+</td>
+<td class="org-left">-eps<sub>smallest</sub><sub>real</sub>
+</td>
+<td class="org-left">最小 \(\mathrm{Re}(\lambda)\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>LARGEST</sub><sub>IMAGINARY</sub>
+</td>
+<td class="org-left">-eps<sub>largest</sub><sub>imaginary</sub>
+</td>
+<td class="org-left">最大 \(\mathrm{Im}(\lambda)\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>SMALLEST</sub><sub>IMAGINARY</sub>
+</td>
+<td class="org-left">-eps<sub>smallest</sub><sub>imaginary</sub>
+</td>
+<td class="org-left">最小 \(\mathrm{Im}(\lambda)\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>TARGET</sub><sub>MAGNITUDE</sub>
+</td>
+<td class="org-left">-eps<sub>target</sub><sub>magnitude</sub>
+</td>
+<td class="org-left">最小 \(\vert\lambda - \tau\vert\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>TARGET</sub><sub>REAL</sub>
+</td>
+<td class="org-left">-eps<sub>target</sub><sub>real</sub>
+</td>
+<td class="org-left">最小 \(\vert\mathrm{Re}(\lambda-\tau)\vert\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>TARGET</sub><sub>IMAGINARY</sub>
+</td>
+<td class="org-left">-eps<sub>target</sub><sub>imaginary</sub>
+</td>
+<td class="org-left">最小 \(\vert\mathrm{Im}(\lambda-\tau)\vert\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>ALL</sub>
+</td>
+<td class="org-left">-eps<sub>all</sub>
+</td>
+<td class="org-left">所有 \(\lambda \in [a,b]\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>WHICH</sub><sub>USER</sub>
+</td>
+<td class="org-left"> </td>
+<td class="org-left">用户定义</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+
+<li>
+<a id="org8fc18cf"></a>选择算法<br><div class="outline-text-5" id="text-org8fc18cf">
+<p>
+通过 <code>EPSSetType(EPS eps,EPSType method);</code> 设置求解器使用的算法
+</p>
+
+
+<p>
+SLEPc 支持的算法有
+</p>
+<ul class="org-ul">
+<li>基本算法
+<ul class="org-ul">
+<li>Power Itration, Rayleigh Quotient iteration(RQI)</li>
+<li>Subspace Iteration with Rayleigh-Ritz projection and locking</li>
+<li>Arnoldi method with explicit restart and deflation</li>
+<li>Lanczos with explicit restart</li>
+</ul>
+</li>
+<li>Krylov-Schur, thick-restart Lanczos method (默认)</li>
+<li>Generalized Davidson</li>
+<li>Jacobi-Davidson</li>
+<li>RQCG</li>
+<li>LOBPCG</li>
+<li>CISS</li>
+<li>Lyapunov inverse iteration</li>
+</ul>
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>
+<p>
+由于实现支持有限，只有 <code>arnoldi</code>, <code>krylov-schur</code>, <code>gd</code>, <code>jd</code>, <code>arpack</code> 支持所有类型的问题求解
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">方法</th>
+<th scope="col" class="org-left">EPSType</th>
+<th scope="col" class="org-left">选项名</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">Power / Inverse / RQI</td>
+<td class="org-left">EPSPOWER</td>
+<td class="org-left">power</td>
+</tr>
+<tr>
+<td class="org-left">Subspace Iteration</td>
+<td class="org-left">EPSSUBSPACE</td>
+<td class="org-left">subspace</td>
+</tr>
+<tr>
+<td class="org-left">Arnoldi</td>
+<td class="org-left">EPSARNOLDI</td>
+<td class="org-left">arnoldi</td>
+</tr>
+<tr>
+<td class="org-left">Lanczos</td>
+<td class="org-left">EPSLANCZOS</td>
+<td class="org-left">lanczos</td>
+</tr>
+<tr>
+<td class="org-left">Krylov-Schur</td>
+<td class="org-left">EPSKRYLOVSCHUR</td>
+<td class="org-left">krylovschur</td>
+</tr>
+<tr>
+<td class="org-left">Generalized Davidson</td>
+<td class="org-left">EPSGD</td>
+<td class="org-left">gd</td>
+</tr>
+<tr>
+<td class="org-left">Jacobi-Davidson</td>
+<td class="org-left">EPSJD</td>
+<td class="org-left">jd</td>
+</tr>
+<tr>
+<td class="org-left">Rayleigh quotient CG</td>
+<td class="org-left">EPSRQCG</td>
+<td class="org-left">rqcg</td>
+</tr>
+<tr>
+<td class="org-left">LOBPCG</td>
+<td class="org-left">EPSLOBPCG</td>
+<td class="org-left">lobpcg</td>
+</tr>
+<tr>
+<td class="org-left">Contour integral SS</td>
+<td class="org-left">EPSCISS</td>
+<td class="org-left">ciss</td>
+</tr>
+<tr>
+<td class="org-left">Lyapunov Inverse Iteration</td>
+<td class="org-left">EPSLYAPII</td>
+<td class="org-left">lyapii</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">LAPACK solver</td>
+<td class="org-left">EPSLAPACK</td>
+<td class="org-left">lapack</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to arpack</td>
+<td class="org-left">EPSARPACK</td>
+<td class="org-left">arpack</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to primme</td>
+<td class="org-left">EPSPRIMME</td>
+<td class="org-left">primme</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to evsl</td>
+<td class="org-left">EPSEVSL</td>
+<td class="org-left">evsl</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to trlan</td>
+<td class="org-left">EPSTRLAN</td>
+<td class="org-left">trlan</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to blopex</td>
+<td class="org-left">EPSBLOPEX</td>
+<td class="org-left">blopex</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to scalapack</td>
+<td class="org-left">EPSSCALAPACK</td>
+<td class="org-left">scalapack</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to elpa</td>
+<td class="org-left">EPSELPA</td>
+<td class="org-left">elpa</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to elemental</td>
+<td class="org-left">EPSELEMENTAL</td>
+<td class="org-left">elemental</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to feast</td>
+<td class="org-left">EPSFEAST</td>
+<td class="org-left">feast</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</div>
+</li>
+
+<li>
+<a id="orgcf0bd30"></a>获得结果<br><div class="outline-text-5" id="text-orgcf0bd30">
+<ol class="org-ol">
+<li>
+<code>EPSGetConverged(EPS eps,PetscInt *nconv);</code> 获得收敛的解个数</li>
+<li>
+<code>EPSGetEigenpair(EPS eps,PetscInt j,PetscScalar *kr,PetscScalar *ki,Vec xr,Vec xi);</code> 获得本征值和本征矢</li>
+<li>
+<code>EPSGetLeftEigenvector(EPS eps,PetscInt j,Vec yr,Vec yi);</code> 获得左本征矢，如果设置求解器计算左本征矢的话</li>
+<li>
+<code>EPSComputeError(EPS eps,PetscInt j,EPSErrorType type,PetscReal *error);</code> 获得结果的误差
+<ol class="org-ol">
+<li>可选的误差类型有 \(||r||\) <code>EPS_ERROR_ABSOLUTE</code>, \(||r||/|\lambda|\) <code>EPS_ERROR_RELATIVE</code>, \(||r||/(||A||+|\lambda| ||B||)\) <code>EPS_ERROR_BACKWARD</code>
+</li>
+</ol>
+</li>
+<li>
+<code>EPSGetIterationNumber(EPS eps,PetscInt *its);</code> 获得迭代次数</li>
+<li>
+<code>EPSSetTolerances(EPS eps,PetscReal tol,PetscInt max_it);</code> 设置误差和最大迭代次数
+<ol class="org-ol">
+<li>默认误差 \(10^{-8}\)</li>
+</ol>
+</li>
+<li>
+<code>EPSSetTrueResidual(EPS eps,PetscBool trueres);</code> 设置使用真实残差计算收敛条件，而不是默认的简化形式</li>
+<li>
+<code>EPSSetConvergenceTest(EPS eps,EPSConv conv);</code> 设置收敛条件
+<ol class="org-ol">
+<li>可选的误差类型有 \(||r||\) <code>EPS_CONV_ABS</code>, \(||r||/|\lambda|\) <code>EPS_CONV_REL</code>, \(||r||/(||A||+|\lambda| ||B||)\) <code>EPS_CONV_NORM</code>
+</li>
+</ol>
+</li>
+<li>
+<code>EPSGetErrorEstimate(EPS eps,PetscInt j,PetscReal *errest);</code> 获得误差估计</li>
+</ol>
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>如果编译时使用实数模式，那么 <code>kr, ki</code> 等分别是实部和虚部</li>
+<li>如果编译时使用复数模式，那么 <code>kr, xr</code> 中就保存复数结果， <code>ki,xi</code> 不使用（设为全零）</li>
+<li>如果设置命令行选项 <code>-eps_monitor</code> 那么会在每次迭代过程中打印计算过程</li>
+<li>其它命令行选项甚至可以画图 （ <code>-eps_monitor draw:draw_lg -draw_pause .2</code> ）</li>
+</ol>
+</div>
+</li>
+
+<li>
+<a id="org3e4f3ab"></a>其它设置<br><ul class="org-ul">
+<li>
+<a id="org15ffade"></a>初始猜解<br><div class="outline-text-6" id="text-org15ffade">
+<p>
+<code>EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);</code>
+</p>
+</div>
+</li>
+
+<li>
+<a id="orge7ecad2"></a>处理简并<br>
+</li>
+
+<li>
+<a id="org2f274fe"></a>选择正交化方法<br>
+</li>
+
+<li>
+<a id="org24b54ab"></a>选择滤波算法<br>
+</li>
+
+<li>
+<a id="org143fdff"></a>计算大量本征值的方法<br>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pthread/" class="u-url">pthread</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -878,160 +1577,6 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
     a[i];
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/meson/" class="u-url">meson</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/meson/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-05-10T16:20:05+08:00" itemprop="datePublished" title="2021-05-10 16:20">2021-05-10 16:20</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-org932a17e" class="outline-2">
-<h2 id="org932a17e">meson 构建工具</h2>
-<div class="outline-text-2" id="text-org932a17e">
-<p>
-网站 <a href="https://mesonbuild.com">meson-build</a>
-</p>
-</div>
-
-<div id="outline-container-orgcca53dd" class="outline-3">
-<h3 id="orgcca53dd">配置示例</h3>
-<div class="outline-text-3" id="text-orgcca53dd">
-<div class="highlight"><pre><span></span>   <span class="n">cc</span> <span class="o">=</span> <span class="n">meson</span><span class="o">.</span><span class="n">get_compiler</span><span class="p">(</span><span class="s1">'c'</span><span class="p">)</span>
-
-   <span class="n">all_deps</span> <span class="o">=</span> <span class="p">[]</span>
-   <span class="n">thread_dep</span> <span class="o">=</span> <span class="n">dependency</span><span class="p">(</span><span class="s1">'threads'</span><span class="p">)</span>
-   <span class="n">all_deps</span> <span class="o">+=</span> <span class="n">thread_dep</span>
-
-   <span class="n">src_dir</span> <span class="o">=</span> <span class="n">include_directories</span><span class="p">(</span><span class="s1">'../src'</span><span class="p">)</span>
-
-   <span class="n">exe</span> <span class="o">=</span> <span class="n">executable</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'src1.c'</span><span class="p">,</span> <span class="s1">'src2.c'</span><span class="p">],</span>
-	   <span class="n">dependencies</span><span class="p">:</span> <span class="n">all_deps</span><span class="p">,</span> 
-	   <span class="n">include_directories</span><span class="p">:</span> <span class="n">src_dir</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orgf74e4ff" class="outline-3">
-<h3 id="orgf74e4ff">使用 address sanitizer</h3>
-<div class="outline-text-3" id="text-orgf74e4ff">
-<div class="highlight"><pre><span></span>   CC=clang meson build  -Db_sanitize=address -Db_lundef=false
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org1fcfc3b" class="outline-3">
-<h3 id="org1fcfc3b">使用 clang 静态分析</h3>
-<div class="outline-text-3" id="text-org1fcfc3b">
-<div class="highlight"><pre><span></span>   meson build
-   ninja -C build scan-build
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orga30dc5c" class="outline-3">
-<h3 id="orga30dc5c">自定义外部依赖</h3>
-<div class="outline-text-3" id="text-orga30dc5c">
-<p>
-参考 <a href="https://mesonbuild.com/Dependencies.html#declaring-your-own">Manual/Dependencies</a>
-</p>
-
-<p>
-一个外部依赖只需要知道头文件和链接库(静态/动态)
-</p>
-<div class="highlight"><pre><span></span>   <span class="n">my_inc</span> <span class="o">=</span> <span class="n">include_directories</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-   <span class="n">my_lib</span> <span class="o">=</span> <span class="n">static_library</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-   <span class="n">my_dep</span> <span class="o">=</span> <span class="n">declare_dependency</span><span class="p">(</span><span class="n">link_with</span> <span class="p">:</span> <span class="n">my_lib</span><span class="p">,</span>
-			       <span class="n">include_directories</span> <span class="p">:</span> <span class="n">my_inc</span><span class="p">)</span>
-</pre></div>
-</div>
-
-<div id="outline-container-org51d3f83" class="outline-4">
-<h4 id="org51d3f83">将依赖做子目录</h4>
-<div class="outline-text-4" id="text-org51d3f83">
-<p>
-首先在子目录中放入依赖的源码，并且在其中定义子项目的 <code>meson.build</code> 文件
-</p>
-<div class="highlight"><pre><span></span>    <span class="n">foo_dep</span> <span class="o">=</span> <span class="n">declare_dependency</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-</pre></div>
-
-<p>
-之后就可以在主项目中依赖它
-</p>
-<div class="highlight"><pre><span></span>    <span class="n">foo_dep</span> <span class="o">=</span> <span class="n">dependency</span><span class="p">(</span><span class="s1">'foo'</span><span class="p">,</span> <span class="n">fallback</span> <span class="p">:</span> <span class="p">[</span><span class="s1">'foo'</span><span class="p">,</span> <span class="s1">'foo_dep'</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgc198754" class="outline-3">
-<h3 id="orgc198754">子项目</h3>
-<div class="outline-text-3" id="text-orgc198754">
-<p>
-<a href="https://mesonbuild.com/Subprojects.html">https://mesonbuild.com/Subprojects.html</a>
-</p>
-</div>
-
-<div id="outline-container-orgab269fa" class="outline-4">
-<h4 id="orgab269fa">从子项目获取依赖</h4>
-<div class="outline-text-4" id="text-orgab269fa">
-<div class="highlight"><pre><span></span><span class="n">libsimple_proj</span> <span class="o">=</span> <span class="n">subproject</span><span class="p">(</span><span class="s1">'libsimple'</span><span class="p">)</span>
-<span class="n">libsimple_dep</span> <span class="o">=</span> <span class="n">libsimple_proj</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">'libsimple_dep'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org26acebd" class="outline-3">
-<h3 id="org26acebd">使用 wrap 管理依赖</h3>
-<div class="outline-text-3" id="text-org26acebd">
-<p>
-在 <code>subprojects</code> 文件夹中创建 <code>libfoobar.wrap</code> 文件, 其中指定源码位置 <code>[wrap-file]</code> 和提供的依赖 <code>[provide]</code> ，格式参考 <a href="https://mesonbuild.com/Wrap-dependency-system-manual.html">这里</a>
-</p>
-
-<p>
-对于非 meson-build 项目，还需要一个 <code>meson.build</code> 文件来添加支持，这个额外的文件称作 <code>patch</code>, 这个额外配置文件可以从网络中下载获取(通过 <code>patch_url</code>, 参考<a href="https://mesonbuild.com/Wrap-dependency-system-manual.html#accepted-configuration-properties-for-wraps">这里</a>)
-</p>
-
-<p>
-示例 <code>subprojects/cache2.wrap</code> ：
-</p>
-<div class="highlight"><pre><span></span>   <span class="p">[</span><span class="n">wrap</span><span class="o">-</span><span class="n">file</span><span class="p">]</span>
-   <span class="n">directory</span> <span class="o">=</span> <span class="n">Catch2</span><span class="o">-</span><span class="mf">2.13</span><span class="o">.</span><span class="mi">3</span>
-   <span class="n">source_url</span> <span class="o">=</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">catchorg</span><span class="o">/</span><span class="n">Catch2</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">v2</span><span class="o">.</span><span class="mf">13.3</span><span class="o">.</span><span class="n">zip</span>
-   <span class="n">source_filename</span> <span class="o">=</span> <span class="n">Catch2</span><span class="o">-</span><span class="mf">2.13</span><span class="o">.</span><span class="mf">3.</span><span class="n">zip</span>
-   <span class="n">source_hash</span> <span class="o">=</span> <span class="mi">1804</span><span class="n">feb72bc15c0856b4a43aa586c661af9c3685a75973b6a8fc0b950c7cfd13</span>
-   <span class="n">patch_directory</span> <span class="o">=</span> <span class="n">catch2</span>
-
-   <span class="p">[</span><span class="n">provide</span><span class="p">]</span>
-   <span class="n">catch2</span> <span class="o">=</span> <span class="n">catch2_dep</span>
-</pre></div>
-
-
-<p>
-自己编写的配置文件应该放在 <code>subprojects/packagefiles/libfoobar/meson.build</code> 中，并设置 <code>patch_directory</code>
-</p>
-
-<p>
-示例 <code>subprojects/packagefiles/cache2/meson.build</code> ：
-</p>
-<div class="highlight"><pre><span></span>   <span class="n">project</span><span class="p">(</span><span class="s1">'catch2'</span><span class="p">,</span>
-       <span class="s1">'cpp'</span><span class="p">,</span>
-       <span class="n">version</span> <span class="p">:</span> <span class="s1">'2.13.3'</span><span class="p">,</span>
-       <span class="n">license</span> <span class="p">:</span> <span class="s1">'Boost'</span>
-   <span class="p">)</span>
-
-   <span class="n">catch2_dep</span> <span class="o">=</span> <span class="n">declare_dependency</span><span class="p">(</span>
-       <span class="n">include_directories</span> <span class="p">:</span> <span class="n">include_directories</span><span class="p">(</span><span class="s1">'single_include'</span><span class="p">)</span>
-   <span class="p">)</span>
-</pre></div>
 </div>
 </div>
 </div>
