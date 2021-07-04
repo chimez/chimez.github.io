@@ -1,5 +1,669 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Thu, 01 Jul 2021 14:09:49 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>pthread</title><link>https://chimez.github.io/posts/pthread/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org78e1009" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sun, 04 Jul 2021 04:43:30 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga815a4b" class="outline-2"&gt;
+&lt;h2 id="orga815a4b"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga815a4b"&gt;
+&lt;p&gt;
+&lt;a href="https://slepc.upv.es/"&gt;SLEPc&lt;/a&gt; 是用来求 PETSc 矩阵的扩展库。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org91dcfbc" class="outline-3"&gt;
+&lt;h3 id="org91dcfbc"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org91dcfbc"&gt;
+&lt;p&gt;
+SLEPc 有以下基本部分构成
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;EPS (Eigenvalue Problem Solver)&lt;/li&gt;
+&lt;li&gt;SVD (Singular Value Decomposition)&lt;/li&gt;
+&lt;li&gt;PEP (Polynomial Eigenvalue Problem)&lt;/li&gt;
+&lt;li&gt;NEP (Nonlinear Eigenvalue Problem)&lt;/li&gt;
+&lt;li&gt;MFN (Matrix Function)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+还有一些辅助模块
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;ST (Spectral Transformation)&lt;/li&gt;
+&lt;li&gt;BV (Basis Vectors)&lt;/li&gt;
+&lt;li&gt;DS (Dense System)&lt;/li&gt;
+&lt;li&gt;RG (Region)&lt;/li&gt;
+&lt;li&gt;FN (Mathematical Function)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgca8fb29" class="outline-3"&gt;
+&lt;h3 id="orgca8fb29"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgca8fb29"&gt;
+&lt;p&gt;
+下载时注意，SLEPc 的版本必须和 PETSc 版本一样
+&lt;/p&gt;
+
+&lt;p&gt;
+编译选项
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure --download-arpack --download-blopex --download-hpddm --download-primme
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+最后别忘了把环境变量 &lt;code&gt;SLEPC_DIR&lt;/code&gt; 加上
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge520544" class="outline-3"&gt;
+&lt;h3 id="orge520544"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge520544"&gt;
+&lt;p&gt;
+程序开始和结束时分别调用 &lt;code&gt;SlepcInitialize()&lt;/code&gt; 和 &lt;code&gt;SlepcFinalize()&lt;/code&gt;, 实际上就是 &lt;code&gt;PetscInitialize()&lt;/code&gt; 和 &lt;code&gt;PetscFinalize()&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+矩阵的使用跟 &lt;code&gt;PETSc&lt;/code&gt; 完全一致
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0341242" class="outline-3"&gt;
+&lt;h3 id="org0341242"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0341242"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgfe5f94b" class="outline-4"&gt;
+&lt;h4 id="orgfe5f94b"&gt;基本使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgfe5f94b"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;EPSCreate(MPI_Comm comm,EPS *eps);&lt;/code&gt; 
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建求解器&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSSetOperators(EPS eps,Mat A,Mat B);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;设置要解的算符&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSSetFromOptions(EPS eps);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;添加运行时设置&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSSolve(EPS eps);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;运行求解器&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSDestroy(EPS *eps);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;销毁求解器&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSSetUp(EPS eps);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;某些更具体的设置, 如果有需要的话，要在运行求解器之前设置&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSGetST(EPS eps,ST *st);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获得谱变换器(ST), EPS 会默认自动创建一个 ST 对象，如果需要设置谱变换，就要这样获得它&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSView(EPS eps,PetscViewer viewer);&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;打印求解器配置&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;slepceps.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+
+    &lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="cm"&gt;/* problem matrix */&lt;/span&gt;
+    &lt;span class="cm"&gt;/* do something to fill A */&lt;/span&gt;
+
+    &lt;span class="n"&gt;PetscErrorCode&lt;/span&gt; &lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="cm"&gt;/* Create eigensolver context */&lt;/span&gt;
+    &lt;span class="n"&gt;EPS&lt;/span&gt; &lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="cm"&gt;/* eigenproblem solver context */&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSCreate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* Set operators. In this case, it is a standard eigenvalue problem */&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSSetOperators&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSSetProblemType&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;EPS_HEP&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* show EPS setup */&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSView&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PETSC_VIEWER_STDOUT_WORLD&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* Set solver parameters at runtime */&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSSetFromOptions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* Solve the eigensystem */&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSSolve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* Optional: Get some information from the solver and display it */&lt;/span&gt;
+    &lt;span class="n"&gt;PetscInt&lt;/span&gt; &lt;span class="n"&gt;its&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSGetIterationNumber&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;its&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscPrintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;" Number of iterations of the method: %D&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;its&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;EPSType&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSGetType&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscPrintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;" Solution method: %s&lt;/span&gt;&lt;span class="se"&gt;\n\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;PetscInt&lt;/span&gt; &lt;span class="n"&gt;nev&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSGetDimensions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;nev&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscPrintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;" Number of requested eigenvalues: %D&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nev&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;PetscReal&lt;/span&gt; &lt;span class="n"&gt;tol&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;PetscInt&lt;/span&gt; &lt;span class="n"&gt;maxit&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSGetTolerances&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;tol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;maxit&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscPrintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;" Stopping condition: tol=%.4g, maxit=%D&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;tol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maxit&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* Display solution and clean up */&lt;/span&gt;
+    &lt;span class="cm"&gt;/* Get number of converged approximate eigenpairs */&lt;/span&gt;
+    &lt;span class="n"&gt;PetscInt&lt;/span&gt; &lt;span class="n"&gt;nconv&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSGetConverged&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;nconv&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscPrintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;" Number of converged eigenpairs: %D&lt;/span&gt;&lt;span class="se"&gt;\n\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nconv&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nconv&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="cm"&gt;/* Display eigenvalues and relative errors */&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscPrintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+			&lt;span class="s"&gt;"           k          ||Ax-kx||/||kx||&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;
+			&lt;span class="s"&gt;"   ----------------- ------------------&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;nconv&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+	&lt;span class="cm"&gt;/* Get converged eigenpairs: i-th eigenvalue is stored in kr (real part) and ki (imaginary part) */&lt;/span&gt;
+	&lt;span class="n"&gt;PetscScalar&lt;/span&gt; &lt;span class="n"&gt;kr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ki&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;Vec&lt;/span&gt; &lt;span class="n"&gt;xr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xi&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatCreateVecs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;xr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatCreateVecs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;xi&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSGetEigenpair&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;kr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ki&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xi&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	&lt;span class="cm"&gt;/* Compute the relative error associated to each eigenpair */&lt;/span&gt;
+	&lt;span class="n"&gt;PetscReal&lt;/span&gt; &lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSComputeError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;EPS_ERROR_RELATIVE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	&lt;span class="n"&gt;PetscReal&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscRealPart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;PetscReal&lt;/span&gt; &lt;span class="n"&gt;im&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscImaginaryPart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;im&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+	    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscPrintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;" %9f%+9fi %12g&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;im&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+	    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscPrintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"   %12f       %12g&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetscPrintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+
+    &lt;span class="cm"&gt;/* Free work space */&lt;/span&gt;
+
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;xr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VecDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;xi&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;CHKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org75526a9" class="outline-4"&gt;
+&lt;h4 id="org75526a9"&gt;求解器配置&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org75526a9"&gt;
+&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="orgd080ad1"&gt;&lt;/a&gt;问题类型&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgd080ad1"&gt;
+&lt;p&gt;
+问题类型使用 &lt;code&gt;EPSSetProblemType(EPS eps,EPSProblemType type);&lt;/code&gt; 进行设置
+&lt;/p&gt;
+
+&lt;p&gt;
+可选的有
+&lt;/p&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;问题类型&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;EPSProblemTyle&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;命令行选项&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Hermitian&lt;/td&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;HEP&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;hermitian&lt;/sub&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Non-Hermitian&lt;/td&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;NHEP&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;non&lt;/sub&gt;&lt;sub&gt;hermitian&lt;/sub&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Generalized Hermitian&lt;/td&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;GHEP&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;gen&lt;/sub&gt;&lt;sub&gt;hermitian&lt;/sub&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Generalized Hermitian indefinite&lt;/td&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;GHIEP&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;gen&lt;/sub&gt;&lt;sub&gt;indefinite&lt;/sub&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Generalized Non-Hermitian&lt;/td&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;GNHEP&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;gen&lt;/sub&gt;&lt;sub&gt;non&lt;/sub&gt;&lt;sub&gt;hermitian&lt;/sub&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;GNHEP with positive (semi-)definite&lt;/td&gt;
+&lt;td class="org-left"&gt;BEPS&lt;sub&gt;PGNHEP&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;pos&lt;/sub&gt;&lt;sub&gt;gen&lt;/sub&gt;&lt;sub&gt;non&lt;/sub&gt;&lt;sub&gt;hermitian&lt;/sub&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;
+还可以用一系列函数来判断设置的问题类型
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;EPSIsGeneralized(EPS eps,PetscBool *gen);&lt;/li&gt;
+&lt;li&gt;EPSIsHermitian(EPS eps,PetscBool *her);&lt;/li&gt;
+&lt;li&gt;EPSIsPositive(EPS eps,PetscBool *pos);&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org13d0e0e"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org13d0e0e"&gt;
+&lt;p&gt;
+使用 &lt;code&gt;EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);&lt;/code&gt; 设置要求的本征值个数
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;PetscInt nev&lt;/code&gt; 本征值个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PetscInt ncv&lt;/code&gt; 最大工作空间的维数，指的是用多少个中间向量, &lt;code&gt;ncv&lt;/code&gt; 至少和 &lt;code&gt;nev&lt;/code&gt; 一样多，最好是它的两倍以上&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PetscInt mpd&lt;/code&gt; 最大投影空间维数，用来计算很多本征值个数的时候，设置它可以减少工作空间的需求&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org5ffc797"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org5ffc797"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;EPSSetWhichEigenpairs(EPS eps,EPSWhich which);&lt;/code&gt; 设置要求本征值的位置&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSSetTarget(EPS eps,PetscScalar target);&lt;/code&gt; 设置计算距离某个值最近的本征值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSSetInterval(EPS eps,PetscScalar a,PetscScalar b);&lt;/code&gt; 计算 \(\lambda \in [a, b]\) 的所有本征值&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSSetTwoSided(EPS eps,PetscBool twosided);&lt;/code&gt; 计算非厄米问题的左本征矢&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+可选的本征值位置有
+&lt;/p&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;EPSWhich&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;命令行&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;LARGEST&lt;/sub&gt;&lt;sub&gt;MAGNITUDE&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;largest&lt;/sub&gt;&lt;sub&gt;magnitude&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最大 \(\vert \lambda\vert\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;SMALLEST&lt;/sub&gt;&lt;sub&gt;MAGNITUDE&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;smallest&lt;/sub&gt;&lt;sub&gt;magnitude&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最小 \(\vert\lambda\vert\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;LARGEST&lt;/sub&gt;&lt;sub&gt;REAL&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;largest&lt;/sub&gt;&lt;sub&gt;real&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最大 \(\mathrm{Re}(\lambda)\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;SMALLEST&lt;/sub&gt;&lt;sub&gt;REAL&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;smallest&lt;/sub&gt;&lt;sub&gt;real&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最小 \(\mathrm{Re}(\lambda)\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;LARGEST&lt;/sub&gt;&lt;sub&gt;IMAGINARY&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;largest&lt;/sub&gt;&lt;sub&gt;imaginary&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最大 \(\mathrm{Im}(\lambda)\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;SMALLEST&lt;/sub&gt;&lt;sub&gt;IMAGINARY&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;smallest&lt;/sub&gt;&lt;sub&gt;imaginary&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最小 \(\mathrm{Im}(\lambda)\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;TARGET&lt;/sub&gt;&lt;sub&gt;MAGNITUDE&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;target&lt;/sub&gt;&lt;sub&gt;magnitude&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最小 \(\vert\lambda - \tau\vert\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;TARGET&lt;/sub&gt;&lt;sub&gt;REAL&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;target&lt;/sub&gt;&lt;sub&gt;real&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最小 \(\vert\mathrm{Re}(\lambda-\tau)\vert\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;TARGET&lt;/sub&gt;&lt;sub&gt;IMAGINARY&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;target&lt;/sub&gt;&lt;sub&gt;imaginary&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最小 \(\vert\mathrm{Im}(\lambda-\tau)\vert\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;ALL&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;-eps&lt;sub&gt;all&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;所有 \(\lambda \in [a,b]\)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;EPS&lt;sub&gt;WHICH&lt;/sub&gt;&lt;sub&gt;USER&lt;/sub&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt; &lt;/td&gt;
+&lt;td class="org-left"&gt;用户定义&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org8fc18cf"&gt;&lt;/a&gt;选择算法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org8fc18cf"&gt;
+&lt;p&gt;
+通过 &lt;code&gt;EPSSetType(EPS eps,EPSType method);&lt;/code&gt; 设置求解器使用的算法
+&lt;/p&gt;
+
+
+&lt;p&gt;
+SLEPc 支持的算法有
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;基本算法
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Power Itration, Rayleigh Quotient iteration(RQI)&lt;/li&gt;
+&lt;li&gt;Subspace Iteration with Rayleigh-Ritz projection and locking&lt;/li&gt;
+&lt;li&gt;Arnoldi method with explicit restart and deflation&lt;/li&gt;
+&lt;li&gt;Lanczos with explicit restart&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Krylov-Schur, thick-restart Lanczos method (默认)&lt;/li&gt;
+&lt;li&gt;Generalized Davidson&lt;/li&gt;
+&lt;li&gt;Jacobi-Davidson&lt;/li&gt;
+&lt;li&gt;RQCG&lt;/li&gt;
+&lt;li&gt;LOBPCG&lt;/li&gt;
+&lt;li&gt;CISS&lt;/li&gt;
+&lt;li&gt;Lyapunov inverse iteration&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+注意：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;p&gt;
+由于实现支持有限，只有 &lt;code&gt;arnoldi&lt;/code&gt;, &lt;code&gt;krylov-schur&lt;/code&gt;, &lt;code&gt;gd&lt;/code&gt;, &lt;code&gt;jd&lt;/code&gt;, &lt;code&gt;arpack&lt;/code&gt; 支持所有类型的问题求解
+&lt;/p&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;方法&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;EPSType&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;选项名&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Power / Inverse / RQI&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSPOWER&lt;/td&gt;
+&lt;td class="org-left"&gt;power&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Subspace Iteration&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSSUBSPACE&lt;/td&gt;
+&lt;td class="org-left"&gt;subspace&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Arnoldi&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSARNOLDI&lt;/td&gt;
+&lt;td class="org-left"&gt;arnoldi&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Lanczos&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSLANCZOS&lt;/td&gt;
+&lt;td class="org-left"&gt;lanczos&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Krylov-Schur&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSKRYLOVSCHUR&lt;/td&gt;
+&lt;td class="org-left"&gt;krylovschur&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Generalized Davidson&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSGD&lt;/td&gt;
+&lt;td class="org-left"&gt;gd&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Jacobi-Davidson&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSJD&lt;/td&gt;
+&lt;td class="org-left"&gt;jd&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Rayleigh quotient CG&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSRQCG&lt;/td&gt;
+&lt;td class="org-left"&gt;rqcg&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;LOBPCG&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSLOBPCG&lt;/td&gt;
+&lt;td class="org-left"&gt;lobpcg&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Contour integral SS&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSCISS&lt;/td&gt;
+&lt;td class="org-left"&gt;ciss&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Lyapunov Inverse Iteration&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSLYAPII&lt;/td&gt;
+&lt;td class="org-left"&gt;lyapii&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;LAPACK solver&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSLAPACK&lt;/td&gt;
+&lt;td class="org-left"&gt;lapack&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Wrapper to arpack&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSARPACK&lt;/td&gt;
+&lt;td class="org-left"&gt;arpack&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Wrapper to primme&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSPRIMME&lt;/td&gt;
+&lt;td class="org-left"&gt;primme&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Wrapper to evsl&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSEVSL&lt;/td&gt;
+&lt;td class="org-left"&gt;evsl&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Wrapper to trlan&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSTRLAN&lt;/td&gt;
+&lt;td class="org-left"&gt;trlan&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Wrapper to blopex&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSBLOPEX&lt;/td&gt;
+&lt;td class="org-left"&gt;blopex&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Wrapper to scalapack&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSSCALAPACK&lt;/td&gt;
+&lt;td class="org-left"&gt;scalapack&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Wrapper to elpa&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSELPA&lt;/td&gt;
+&lt;td class="org-left"&gt;elpa&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Wrapper to elemental&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSELEMENTAL&lt;/td&gt;
+&lt;td class="org-left"&gt;elemental&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Wrapper to feast&lt;/td&gt;
+&lt;td class="org-left"&gt;EPSFEAST&lt;/td&gt;
+&lt;td class="org-left"&gt;feast&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="orgcf0bd30"&gt;&lt;/a&gt;获得结果&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgcf0bd30"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;EPSGetConverged(EPS eps,PetscInt *nconv);&lt;/code&gt; 获得收敛的解个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSGetEigenpair(EPS eps,PetscInt j,PetscScalar *kr,PetscScalar *ki,Vec xr,Vec xi);&lt;/code&gt; 获得本征值和本征矢&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSGetLeftEigenvector(EPS eps,PetscInt j,Vec yr,Vec yi);&lt;/code&gt; 获得左本征矢，如果设置求解器计算左本征矢的话&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSComputeError(EPS eps,PetscInt j,EPSErrorType type,PetscReal *error);&lt;/code&gt; 获得结果的误差
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;可选的误差类型有 \(||r||\) &lt;code&gt;EPS_ERROR_ABSOLUTE&lt;/code&gt;, \(||r||/|\lambda|\) &lt;code&gt;EPS_ERROR_RELATIVE&lt;/code&gt;, \(||r||/(||A||+|\lambda| ||B||)\) &lt;code&gt;EPS_ERROR_BACKWARD&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSGetIterationNumber(EPS eps,PetscInt *its);&lt;/code&gt; 获得迭代次数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSSetTolerances(EPS eps,PetscReal tol,PetscInt max_it);&lt;/code&gt; 设置误差和最大迭代次数
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;默认误差 \(10^{-8}\)&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSSetTrueResidual(EPS eps,PetscBool trueres);&lt;/code&gt; 设置使用真实残差计算收敛条件，而不是默认的简化形式&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSSetConvergenceTest(EPS eps,EPSConv conv);&lt;/code&gt; 设置收敛条件
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;可选的误差类型有 \(||r||\) &lt;code&gt;EPS_CONV_ABS&lt;/code&gt;, \(||r||/|\lambda|\) &lt;code&gt;EPS_CONV_REL&lt;/code&gt;, \(||r||/(||A||+|\lambda| ||B||)\) &lt;code&gt;EPS_CONV_NORM&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EPSGetErrorEstimate(EPS eps,PetscInt j,PetscReal *errest);&lt;/code&gt; 获得误差估计&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+注意：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;如果编译时使用实数模式，那么 &lt;code&gt;kr, ki&lt;/code&gt; 等分别是实部和虚部&lt;/li&gt;
+&lt;li&gt;如果编译时使用复数模式，那么 &lt;code&gt;kr, xr&lt;/code&gt; 中就保存复数结果， &lt;code&gt;ki,xi&lt;/code&gt; 不使用（设为全零）&lt;/li&gt;
+&lt;li&gt;如果设置命令行选项 &lt;code&gt;-eps_monitor&lt;/code&gt; 那么会在每次迭代过程中打印计算过程&lt;/li&gt;
+&lt;li&gt;其它命令行选项甚至可以画图 （ &lt;code&gt;-eps_monitor draw:draw_lg -draw_pause .2&lt;/code&gt; ）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org3e4f3ab"&gt;&lt;/a&gt;其它设置&lt;br&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="org15ffade"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org15ffade"&gt;
+&lt;p&gt;
+&lt;code&gt;EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="orge7ecad2"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org2f274fe"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org24b54ab"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org143fdff"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>mpi</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>pthread</title><link>https://chimez.github.io/posts/pthread/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org78e1009" class="outline-2"&gt;
 &lt;h2 id="org78e1009"&gt;pthread: POSIX Threads&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-org78e1009"&gt;
 &lt;p&gt;
@@ -687,145 +1351,4 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>rust</category><guid>https://chimez.github.io/posts/rust-optimization/</guid><pubDate>Thu, 20 May 2021 06:33:34 GMT</pubDate></item><item><title>meson</title><link>https://chimez.github.io/posts/meson/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org932a17e" class="outline-2"&gt;
-&lt;h2 id="org932a17e"&gt;meson 构建工具&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org932a17e"&gt;
-&lt;p&gt;
-网站 &lt;a href="https://mesonbuild.com"&gt;meson-build&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgcca53dd" class="outline-3"&gt;
-&lt;h3 id="orgcca53dd"&gt;配置示例&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgcca53dd"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;cc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;meson&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_compiler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'c'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-   &lt;span class="n"&gt;all_deps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
-   &lt;span class="n"&gt;thread_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'threads'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-   &lt;span class="n"&gt;all_deps&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;thread_dep&lt;/span&gt;
-
-   &lt;span class="n"&gt;src_dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'../src'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-   &lt;span class="n"&gt;exe&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;executable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'name'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'src1.c'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'src2.c'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
-	   &lt;span class="n"&gt;dependencies&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;all_deps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
-	   &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;src_dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgf74e4ff" class="outline-3"&gt;
-&lt;h3 id="orgf74e4ff"&gt;使用 address sanitizer&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf74e4ff"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   CC=clang meson build  -Db_sanitize=address -Db_lundef=false
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org1fcfc3b" class="outline-3"&gt;
-&lt;h3 id="org1fcfc3b"&gt;使用 clang 静态分析&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org1fcfc3b"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   meson build
-   ninja -C build scan-build
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orga30dc5c" class="outline-3"&gt;
-&lt;h3 id="orga30dc5c"&gt;自定义外部依赖&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga30dc5c"&gt;
-&lt;p&gt;
-参考 &lt;a href="https://mesonbuild.com/Dependencies.html#declaring-your-own"&gt;Manual/Dependencies&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-一个外部依赖只需要知道头文件和链接库(静态/动态)
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;my_inc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-   &lt;span class="n"&gt;my_lib&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;static_library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-   &lt;span class="n"&gt;my_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;declare_dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;link_with&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;my_lib&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-			       &lt;span class="n"&gt;include_directories&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;my_inc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org51d3f83" class="outline-4"&gt;
-&lt;h4 id="org51d3f83"&gt;将依赖做子目录&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org51d3f83"&gt;
-&lt;p&gt;
-首先在子目录中放入依赖的源码，并且在其中定义子项目的 &lt;code&gt;meson.build&lt;/code&gt; 文件
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;foo_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;declare_dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-之后就可以在主项目中依赖它
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;foo_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'foo'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fallback&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'foo'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'foo_dep'&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgc198754" class="outline-3"&gt;
-&lt;h3 id="orgc198754"&gt;子项目&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgc198754"&gt;
-&lt;p&gt;
-&lt;a href="https://mesonbuild.com/Subprojects.html"&gt;https://mesonbuild.com/Subprojects.html&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgab269fa" class="outline-4"&gt;
-&lt;h4 id="orgab269fa"&gt;从子项目获取依赖&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgab269fa"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;libsimple_proj&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;subproject&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'libsimple'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;libsimple_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;libsimple_proj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_variable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'libsimple_dep'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org26acebd" class="outline-3"&gt;
-&lt;h3 id="org26acebd"&gt;使用 wrap 管理依赖&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org26acebd"&gt;
-&lt;p&gt;
-在 &lt;code&gt;subprojects&lt;/code&gt; 文件夹中创建 &lt;code&gt;libfoobar.wrap&lt;/code&gt; 文件, 其中指定源码位置 &lt;code&gt;[wrap-file]&lt;/code&gt; 和提供的依赖 &lt;code&gt;[provide]&lt;/code&gt; ，格式参考 &lt;a href="https://mesonbuild.com/Wrap-dependency-system-manual.html"&gt;这里&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-对于非 meson-build 项目，还需要一个 &lt;code&gt;meson.build&lt;/code&gt; 文件来添加支持，这个额外的文件称作 &lt;code&gt;patch&lt;/code&gt;, 这个额外配置文件可以从网络中下载获取(通过 &lt;code&gt;patch_url&lt;/code&gt;, 参考&lt;a href="https://mesonbuild.com/Wrap-dependency-system-manual.html#accepted-configuration-properties-for-wraps"&gt;这里&lt;/a&gt;)
-&lt;/p&gt;
-
-&lt;p&gt;
-示例 &lt;code&gt;subprojects/cache2.wrap&lt;/code&gt; ：
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;wrap&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-   &lt;span class="n"&gt;directory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Catch2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.13&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;
-   &lt;span class="n"&gt;source_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;catchorg&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Catch2&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;archive&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;v2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;13.3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zip&lt;/span&gt;
-   &lt;span class="n"&gt;source_filename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Catch2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.13&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;3.&lt;/span&gt;&lt;span class="n"&gt;zip&lt;/span&gt;
-   &lt;span class="n"&gt;source_hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1804&lt;/span&gt;&lt;span class="n"&gt;feb72bc15c0856b4a43aa586c661af9c3685a75973b6a8fc0b950c7cfd13&lt;/span&gt;
-   &lt;span class="n"&gt;patch_directory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;catch2&lt;/span&gt;
-
-   &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;provide&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-   &lt;span class="n"&gt;catch2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;catch2_dep&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;
-自己编写的配置文件应该放在 &lt;code&gt;subprojects/packagefiles/libfoobar/meson.build&lt;/code&gt; 中，并设置 &lt;code&gt;patch_directory&lt;/code&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-示例 &lt;code&gt;subprojects/packagefiles/cache2/meson.build&lt;/code&gt; ：
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;project&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'catch2'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="s1"&gt;'cpp'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'2.13.3'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="n"&gt;license&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'Boost'&lt;/span&gt;
-   &lt;span class="p"&gt;)&lt;/span&gt;
-
-   &lt;span class="n"&gt;catch2_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;declare_dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-       &lt;span class="n"&gt;include_directories&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'single_include'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-   &lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>meson</category><guid>https://chimez.github.io/posts/meson/</guid><pubDate>Mon, 10 May 2021 08:20:05 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>rust</category><guid>https://chimez.github.io/posts/rust-optimization/</guid><pubDate>Thu, 20 May 2021 06:33:34 GMT</pubDate></item></channel></rss>

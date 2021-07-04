@@ -2,7 +2,7 @@
 .. title: PETSc
 .. slug: petsc
 .. date: 2021-04-21 15:39:14 UTC+08:00
-.. tags: C, mpi
+.. tags: C, mpi, HPC, petsc
 .. category: library 
 .. link: 
 .. description: 
@@ -16,5 +16,370 @@
   [[https://www.mcs.anl.gov/petsc/index.html][PETSc]] 是用于开发并行计算程序的基础库，完全建立在 MPI 上。
 
 ** 安装与编译
-   - 在 Debian 上有包 ~petsc-dev~
    - 下载 [[https://www.mcs.anl.gov/petsc/download/][源码]]
+
+** 基本结构
+   
+*** PETSc 模块
+
+    1. index set (IS)：向量的指标
+    2. vectors (Vec)
+    3. matrices (Mat): 稀疏矩阵
+    4. Krylov subspace methods (KSP): 线性方程组求解
+    5. preconditioners (PC): 预条件器和直接求解器
+    6. nonlinear solvers(SNES)
+    7. timesteppers for solving time-dependent PDES(TS): 时间演化求解器
+    8. managing data structures(DM): 管理数据结构
+    9. scalable optimization algorithms(Tao)
+
+*** 环境变量
+    1. 所有 PETSc 程序都依赖环境变量 ~$PETSC_DIR~ 找到 PETSc 的目录
+    2. 还需要环境变量 ~$PETSC_ARCH~ 找到安装路径
+
+*** 命令行
+    PETSc 程序需要用 MPI 执行，通过 ~mpiexec~ 或者 PETSc 提供的脚本 ~$PETSC_DIR/lib/petsc/bin/petscmpiexec~ 
+
+    常用的命令行选项
+    - ~-help~
+    - ~-version~
+    - ~-log_view~ 显示性能摘要
+    - ~-fp_trap~ 浮点异常时退出
+    - ~-malloc_dump~ 内存追踪
+    - ~-malloc_debug~ 内存debug
+    - ~-start_in_debugger [noxterm, gdb, lldb]~
+    - ~-on_error_attach_debugger~
+    - ~-info~
+
+*** 主函数
+    - PETSc 主函数需要调用 ~PetscInitialize()~ 作为开始，来初始化 PETSc 和 MPI
+    - 程序退出时调用 ~PetscFinalize()~, 来结束 PETSc 和 MPI
+
+    示例如下：
+    #+begin_src c
+#include "petsc.h"
+
+/* 自定义帮助信息 */
+static char help[] = "Solves a tridiagonal linear system with KSP.\n\n";
+
+int
+main(int argc, char** args)
+{
+
+    /* 初始化 */
+    PetscErrorCode ierr;
+    PetscMPIInt size;
+    ierr = PetscInitialize(&argc, &args, (char*)0, help);
+    if (ierr)
+        return ierr;
+    ierr = MPI_Comm_size(PETSC_COMM_WORLD, &size);
+    CHKERRMPI(ierr);
+    if (size != 1)
+        SETERRQ(PETSC_COMM_WORLD, PETSC_ERR_WRONG_MPI_SIZE, "This is a uniprocessor example only!");
+
+    /* 主程序 
+     ,* ......
+     ,*/
+
+    /* 退出 */
+    ierr = PetscFinalize();
+    return ierr;
+}
+
+    #+end_src
+
+*** 错误处理
+    所有 PETSc 函数都返回整数值 ~ierr~ 作为消息，使用 ~CHECKRRQ(ierr)~ 宏来处理错误。
+
+** 向量和并行数据
+
+   向量是 PETSc 最基本的结构，用于保存计算结果等
+
+*** 创建和组装向量
+    PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
+
+    1. ~VecCreateSeq(PETSC_COMM_SELF,PetscInt m,Vec *x);~
+       1. 创建顺序向量
+
+    2. ~VecCreateMPI(MPI_Comm comm,PetscInt m,PetscInt M,Vec *x);~
+       1. 创建并行向量
+
+    3. ~VecCreate(MPI_Comm comm,Vec *x);~ 
+       1. 创建向量, 自动选择顺序或并行
+       2. ~MPI_Comm comm~ 是 MPI 通信器
+
+    4. ~VecCreateSeqWithArray(PETSC_COMM_SELF,PetscInt bs,PetscInt n,PetscScalar *array,Vec *V);~
+    5. ~VecCreateMPIWithArray(MPI_Comm comm,PetscInt bs,PetscInt n,PetscInt N,PetscScalar *array,Vec *vv);~
+       1. 根据输入的数据创建向量
+
+    6. ~VecSetSizes(Vec x, PetscInt m, PetscInt M);~
+       1. 设置向量的大小
+       2. ~m~ 是可选的局域大小，可以设为 ~PETSC_DECIDE~
+       3. ~M~ 是总大小
+
+    7. ~VecSetType()~
+    8. ~VecSetFromOptions()~
+       1. 设置向量的类型
+
+    9. ~VecSet(Vec x,PetscScalar value);~
+       1. 将向量所有值都设成 ~value~
+    10. ~VecSetValues(Vec x,PetscInt n,PetscInt *indices,PetscScalar *values,INSERT_VALUES);~
+        1. 设置向量的部分值
+        2. ~PetscInt n~ 要设置的值的个数
+        3. ~PetscInt *indices~ 设置的值的指标
+        4. ~PetscScalar *values~ 设置的值
+        5. ~InsertMode iota~ 设置值的方式：
+           1. ~INSERT_VALUES~ 代替旧值
+           2. ~ADD_VALUES~ 将旧值加上新值
+
+    11. ~VecAssemblyBegin(Vec x);~
+        1. 开始组装向量, 在 ~VecSetValues()~ 之后调用
+    12. ~VecAssemblyEnd(Vec x);~
+        1. 结束组装向量，在 ~VecAssemblyBegin()~ 之后调用
+
+    13. ~VecView(Vec x,PetscViewer v);~
+        1. 打印输出向量
+
+    14. ~VecDuplicate(Vec old, Vec *new);~
+        1. 创建一个新的向量，其类型与旧的相同
+    15. ~VecDuplicateVecs(Vec old,PetscInt n,Vec **new);~
+        1. 创建多个向量，与原向量类型相同
+
+    16. ~VecDestroy(Vec *x);~
+        1. 销毁向量
+    17. ~VecDestroyVecs(PetscInt n,Vec **vecs);~
+        1. 销毁多个向量
+
+    #+begin_src c
+Vec x;
+ierr = VecCreate(PETSC_COMM_WORLD, &x);
+CHKERRQ(ierr);
+ierr = PetscObjectSetName((PetscObject)x, "test");
+CHKERRQ(ierr);
+ierr = VecSetSizes(x, PETSC_DECIDE, H_len);
+CHKERRQ(ierr);
+ierr = VecSetFromOptions(x);
+CHKERRQ(ierr);
+Vec y;
+ierr = VecDuplicate(x, &y);
+
+int ix[1] = { 0 };
+double complex vx[1] = { 1 };
+ierr = VecSetValues(x, 1, ix, vx, INSERT_VALUES);
+CHKERRQ(ierr);
+ierr = VecAssemblyBegin(x);
+CHKERRQ(ierr);
+ierr = VecAssemblyEnd(x);
+CHKERRQ(ierr);
+
+struct timespec t0_mvm;
+timespec_get(&t0_mvm, TIME_UTC);
+
+ierr = MatMult(H, x, y);
+CHKERRQ(ierr);
+
+ierr = VecDestroy(&x);
+CHKERRQ(ierr);
+ierr = VecDestroy(&y);
+CHKERRQ(ierr);
+
+    #+end_src
+
+*** 基本向量操作
+    加减乘除之类的操作，参考[[https://petsc.org/release/documentation/manual/vec/#id3][函数表]]
+
+    1. ~VecGetOwnershipRange(Vec vec,PetscInt *low,PetscInt *high);~
+       1. 获取当前局域操作的范围
+       2. ~low~ 是第一个元素
+       3. ~high~ 是最后一个再 +1
+    2. ~VecGetArray(Vec v,PetscScalar **array);~
+       1. 获取当前局域的数组的所有权
+       2. 这个函数直接获得了裸数据的指针      
+    3. ~VecRestoreArray(Vec v, PetscScalar **array);~
+       1. 恢复当前局域的数组的所有权
+    4. ~VecGetArrayRead(Vec v, const PetscScalar **array);~
+       1. 只读地获取当前局域的数组
+    5. ~VecRestoreArrayRead(Vec v, const PetscScalar **array);~
+       1. 恢复获取的只读数组的所有权
+    6. ~VecGetLocalSize(Vec v,PetscInt *size);~
+       1. 获取当前局域的大小
+    7. ~VecGetSize(Vec v,PetscInt *size);~
+       1. 获取向量的总大小
+
+*** 索引和排序
+    PETSc 提供了一组工具用于处理向量指标的顺序，称作 Application Orderings(AO)
+
+** 矩阵
+   PETSc 支持多种矩阵类型，包括稠密矩阵、稀疏矩阵等
+
+*** 创建和组装矩阵
+
+    
+    1. ~MatCreate(MPI_Comm comm,Mat *A);~
+       1. 创建矩阵
+       2. 默认的矩阵类似是 稀疏 AIJ 
+
+    2. ~MatSetSizes(Mat A,PETSC_DECIDE,PETSC_DECIDE,PetscInt M,PetscInt N);~
+       1. 设置矩阵大小
+       2. 第二、三个参数是局域的行列大小
+    3. ~MatSetType(A,MatType matype);~
+       1. 设置矩阵类型
+       2. 矩阵类型 ~MatType~ 有很多
+
+    4. ~MatSetValues(Mat A,PetscInt m,PetscInt *im,PetscInt n,PetscInt *in,PetscScalar *values,INSERT_VALUES);~
+       1. 设置矩阵的值
+       2. 规则类似 ~Vec~
+    5. ~MatSetOption(Mat A,MAT_ROW_ORIENTED,PETSC_FALSE);~
+       1. 设置加入值的方式，行先或列先等
+
+    6. ~MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY);~
+       1. 开始组装矩阵，在所有的 ~MatSetValues()~ 调用完成后使用
+    7. ~MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY);~
+       1. 完成组装矩阵，在 ~MatAssemblyBegin()~ 之后调用
+
+    8. ~MatGetOwnershipRange(Mat A,PetscInt *first_row,PetscInt *last_row);~
+       1. 获取矩阵的一部分
+
+    #+begin_src c
+Mat A;
+ierr = MatCreate(PETSC_COMM_WORLD, &A);
+CHKERRQ(ierr);
+ierr = MatSetSizes(A, PETSC_DECIDE, PETSC_DECIDE, A_len, A_len);
+CHKERRQ(ierr);
+ierr = MatSetFromOptions(A);
+CHKERRQ(ierr);
+ierr = MatSetUp(A);
+CHKERRQ(ierr);
+
+PetscScalar value[3] = {1,2,3};
+PetscInt col[3] = {0,1,2};
+PetscInt row[1] = {1};
+ierr = MatSetValues(A, 1, row, 2, col, value, INSERT_VALUES);
+CHKERRQ(ierr);
+ierr = MatAssemblyBegin(A, MAT_FINAL_ASSEMBLY);
+CHKERRQ(ierr);
+ierr = MatAssemblyEnd(A, MAT_FINAL_ASSEMBLY);
+CHKERRQ(ierr);
+
+MatView(A,PETSC_VIEWER_STDOUT_WORLD);
+
+
+ierr = MatDestroy(&A);
+CHKERRQ(ierr);
+    #+end_src
+
+*** 矩阵类型
+
+    PETSc默认的矩阵类型是 AIJ(也就是 CSR)
+    1. 稀疏矩阵
+    2. Limited-Memory Variable Metric (LMVM) Matrices
+    3. 稠密矩阵
+    4. 块矩阵
+
+*** 基本矩阵操作
+    参考[[https://petsc.org/release/documentation/manual/mat/#fig-matrixops][函数表]]
+
+*** 无矩阵的矩阵
+
+    1. ~MatCreateShell(MPI_Comm comm,PetscInt m,PetscInt n,PetscInt M,PetscInt N,void *ctx,Mat *mat);~
+       1. 创建矩阵的结构，无需添加矩阵元
+       2. ~M, N~ 是矩阵总维数
+       3. ~m, n~ 是局域维数
+       4. ~ctx~ 是用户定义的矩阵操作
+    2. ~MatShellSetOperation(Mat mat,MatOperation MATOP_MULT, (void(*)(void)) PetscErrorCode (*UserMult)(Mat,Vec,Vec));~
+       1. 注册用户定义的矩阵运算
+       2. ~MATOP_MULT~ 指的是矩阵乘向量
+
+    #+begin_src c
+/* 定义每个矩阵都需要用到的一些数据 */
+typedef struct A_data {} A_data_t;
+
+/* 自定义的矩阵乘向量运算函数, y = A x */
+PetscErrorCode
+A_MatVec(Mat A, Vec x, Vec y)
+{
+
+    /* 获取数据 */
+    A_data_t* A_data;
+    PetscErrorCode ierr;
+    MatShellGetContext(A, &A_data);
+
+
+    /* 获得本地的 x 向量数据 */
+    PetscInt x_start, x_end;
+    ierr = VecGetOwnershipRange(x, &x_start, &x_end);
+    CAKERRQ(ierr);
+    const PetscScalar* x_arr;
+    ierr = VecGetArrayRead(x, &x_arr);
+    CAKERRQ(ierr);
+
+    /* y 向量要先置零 */
+    ierr = VecSet(y, 0);
+    CAKERRQ(ierr);
+
+    /* 设置计算后 y 的值 */
+    {
+        PetscScalar new_value;
+        ierr = VecSetValues(y, 1, &new_value, ADD_VALUES);
+        CAKERRQ(ierr);
+    }
+    ierr = VecAssemblyBegin(y);
+    CAKERRQ(ierr);
+    ierr = VecAssemblyEnd(y);
+    CAKERRQ(ierr);
+
+    /* 结束计算要返还 x 的所有权 */
+    ierr = VecRestoreArrayRead(x, &x_arr);
+    CAKERRQ(ierr);
+    return 0;
+}
+
+
+/* 创建无矩阵的矩阵 A，必须设置每个局域块 A 的大小 */
+Mat A;
+A_data_t A_data = {};
+ierr = MatCreateShell(PETSC_COMM_WORLD, A_local_len, A_local_len, A_len, A_len, &A_data, &A);
+CAKERRQ(ierr);
+
+/* 为 A 绑定矩阵乘向量运算 */
+ierr = MatShellSetOperation(Afree, MATOP_MULT, (void (*)(void))A_MatVec);
+CAKERRQ(ierr);
+
+
+    #+end_src          
+
+** 线性求解器
+   使用线性求解器 ~KSP~ 解线性方程 $Ax=b$
+
+   1. ~KSPCreate(MPI_Comm comm,KSP *ksp);~
+      1. 初始化 KSP
+   2. ~KSPSetOperators(KSP ksp,Mat Amat,Mat Pmat);~
+      1. 设置矩阵
+   3. ~KSPSetFromOptions(KSP ksp);~
+      1. 设置求解器选项
+   4. ~KSPSolve(KSP ksp,Vec b,Vec x);~
+      1. 运行求解器
+   5. ~KSPDestroy(KSP ksp);~
+      1. 运算结束销毁求解器
+         
+
+* 其它问题
+
+** 复数支持
+
+   只能通过编译选项 ~--with-scalar-type=complex~ 将 ~PetscScalar~ 设成复数
+
+** 编译选项
+   [[https://www.mcs.anl.gov/petsc/documentation/installation.html][参考]]
+   
+   debug 模式：
+
+   #+begin_src bash
+./configure PETSC_ARCH=arch-complex-debug --with-scalar-type=complex
+   #+end_src 
+
+   release 模式:
+
+   #+begin_src bash
+./configure PETSC_ARCH=arch-complex-release --with-cc=gcc --with-cxx=g++ --with-fc=gfortran --with-debugging=0 COPTFLAGS='-O3 -march=native -mtune=native' CXXOPTFLAGS='-O3 -march=native -mtune=native' FOPTFLAGS='-O3 -march=native -mtune=native' --with-scalar-type=complex --download-mpich
+   #+end_src
+
