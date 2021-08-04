@@ -1,15 +1,938 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about mpi)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/mpi.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sun, 04 Jul 2021 04:43:30 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga815a4b" class="outline-2"&gt;
-&lt;h2 id="orga815a4b"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga815a4b"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about mpi)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/mpi.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 04 Aug 2021 07:10:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>MPI</title><link>https://chimez.github.io/posts/mpi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org51a6c6b" class="outline-2"&gt;
+&lt;h2 id="org51a6c6b"&gt;MPI: Message Passing Interface&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org51a6c6b"&gt;
+&lt;p&gt;
+MPI 是消息传递接口标准，主要的实现有 Intel MPI, OpenMPI 和 MPICH 等. MPI 标准目前有三版 MPI-1,MPI-2, MPI-3, 标准支持的语言是 c 和 fortran, c++ 支持在 MPI-3 中移除了。
+&lt;/p&gt;
+
+&lt;p&gt;
+MPI 的优势：
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;标准：所有超级计算机都支持&lt;/li&gt;
+&lt;li&gt;可移植：无需修改程序就能在所有支持 MPI 的平台上运行&lt;/li&gt;
+&lt;li&gt;高性能：所有实现都会根据机器做优化&lt;/li&gt;
+&lt;li&gt;功能齐全：MPI-3 中有超过 430 个函数，尽管大多数程序可能就用几十个函数&lt;/li&gt;
+&lt;li&gt;可用：相当多的实现都可用，包括供应商提供的和开放获取的&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org14af2f3" class="outline-3"&gt;
+&lt;h3 id="org14af2f3"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org14af2f3"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org10d9051" class="outline-4"&gt;
+&lt;h4 id="org10d9051"&gt;程序结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org10d9051"&gt;
+&lt;p&gt;
+所有 MPI 程序都分以下几步
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;引用头文件 &lt;code&gt;"mpi.h"&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;执行顺序代码&lt;/li&gt;
+&lt;li&gt;初始化 MPI 环境&lt;/li&gt;
+&lt;li&gt;执行并行任务&lt;/li&gt;
+&lt;li&gt;终止 MPI 环境&lt;/li&gt;
+&lt;li&gt;执行顺序代码&lt;/li&gt;
+&lt;li&gt;程序结束&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org02a8ae3" class="outline-4"&gt;
+&lt;h4 id="org02a8ae3"&gt;接口约定&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org02a8ae3"&gt;
+&lt;p&gt;
+所有 MPI 的函数都以 &lt;code&gt;MPI_&lt;/code&gt; 开头，并且下划线后的第一个字母大写，函数返回消息码 &lt;code&gt;rc&lt;/code&gt; , 如果成功就是 &lt;code&gt;MPI_SUCCESS&lt;/code&gt;, 即 &lt;code&gt;0&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0b0eafd" class="outline-4"&gt;
+&lt;h4 id="org0b0eafd"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0b0eafd"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;b&gt;communicator&lt;/b&gt;: 通信器，定义哪些进程之间需要通信
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_COMM_WORLD&lt;/code&gt; 通信器表示所有进程都相互通信&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;group&lt;/b&gt;: 进程的分组&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;rank&lt;/b&gt;: 秩，指的是一个通信器中每个进程都有自己单独的编号，有时候也叫做 &lt;b&gt;任务 ID&lt;/b&gt; ，秩是从 0 开始连续的整数&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;错误处理&lt;/b&gt;: 尽管大多数函数都返回一个错误码，但是 MPI 标准指出，当错误发生时程序应立刻终止，所以并不需要自己捕获和处理所有错误码&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge4984f9" class="outline-4"&gt;
+&lt;h4 id="orge4984f9"&gt;MPI 版本&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orge4984f9"&gt;
+&lt;p&gt;
+&lt;b&gt;MPI-1&lt;/b&gt; (1994) ：最早的版本，构建起了 MPI 的基本框架，包括
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;基本的环境管理&lt;/li&gt;
+&lt;li&gt;点到点通信&lt;/li&gt;
+&lt;li&gt;集体通信&lt;/li&gt;
+&lt;li&gt;组和通信器&lt;/li&gt;
+&lt;li&gt;虚拟拓扑&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+&lt;b&gt;MPI-2&lt;/b&gt; (1998) ： 为 MPI-1 添加大量新函数
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;动态进程：可以在任务启动后创建新的进程&lt;/li&gt;
+&lt;li&gt;单边通信：提供单向通信功能，包括共享内存和远程累加操作&lt;/li&gt;
+&lt;li&gt;扩展集体通信：允许通信器间的集体通信&lt;/li&gt;
+&lt;li&gt;扩展接口：允许在 MPI 之上构造开发曾，包括 debugger 和 profiler 等&lt;/li&gt;
+&lt;li&gt;额外语言绑定：支持 fortran 90&lt;/li&gt;
+&lt;li&gt;并行 I/O&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+&lt;b&gt;MPI-3&lt;/b&gt; (2012) ：对 MPI-1 和 MPI-2 更多的扩展
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;非阻塞集体操作&lt;/li&gt;
+&lt;li&gt;新的单边通信操作&lt;/li&gt;
+&lt;li&gt;近邻集体：扩展更多虚拟拓扑结构&lt;/li&gt;
+&lt;li&gt;支持 fortran 2008&lt;/li&gt;
+&lt;li&gt;MPIT Tool Interface 允许 MPI 实现开放一些内部变量给用户，用于性能提升&lt;/li&gt;
+&lt;li&gt;Matched Probe: 改进多线程中的 probe 功能&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+&lt;b&gt;MPI-4&lt;/b&gt; (2021) : TODO
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;增加大 count 参数支持&lt;/li&gt;
+&lt;li&gt;持久集体&lt;/li&gt;
+&lt;li&gt;部分通信&lt;/li&gt;
+&lt;li&gt;新的初始化方式&lt;/li&gt;
+&lt;li&gt;改进信息和错误处理&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9e42098" class="outline-3"&gt;
+&lt;h3 id="org9e42098"&gt;环境管理函数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9e42098"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_Init (&amp;amp;argc,&amp;amp;argv)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;初始化 MPI 环境，应在所有 MPI 函数之前调用，并且只能调用一次，这个函数具体做的事情是实现依赖的&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm_size (comm,&amp;amp;size)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获得通信器 &lt;code&gt;comm&lt;/code&gt; 中 MPI 进程的总数&lt;/li&gt;
+&lt;li&gt;如果通信器是 &lt;code&gt;MPI_COMM_WORLD&lt;/code&gt; 那么就会得到程序的总进程数&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm_rank (comm,&amp;amp;rank)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获得调用这个函数的进程在通信器 &lt;code&gt;comm&lt;/code&gt; 中的秩，&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Abort (comm,errorcode)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;终止通信器 &lt;code&gt;comm&lt;/code&gt; 中的所有进程&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Get_processor_name (&amp;amp;name,&amp;amp;resultlength)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获得进程的名字和名字的长度&lt;/li&gt;
+&lt;li&gt;名字的缓冲区大小至少是 &lt;code&gt;MPI_MAX_PROCESSOR_NAME&lt;/code&gt; 个 &lt;code&gt;sizeof(char)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;具体返回的名字是什么是实现依赖的&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Get_version (&amp;amp;version,&amp;amp;subversion)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获得 MPI 标准的版本号和子版本号&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Initialized (&amp;amp;flag)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;测试是否已经调用过 &lt;code&gt;MPI_Init()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Wtime ()&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;返回该进程所处的时间，以秒为单位&lt;/li&gt;
+&lt;li&gt;不同进程的时间可能不一样，但大多数实现会同步这个时间&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Wtick ()&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;返回 &lt;code&gt;MPI_Wtime()&lt;/code&gt; 的精度&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Finalize ()&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;终止 MPI 环境，每个 MPI 程序只能调用一次&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"mpi.h"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+   &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt;
+   &lt;span class="p"&gt;{&lt;/span&gt;
+       &lt;span class="n"&gt;MPI_Init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+       &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;num_tasks&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="n"&gt;MPI_Comm_size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;num_tasks&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+       &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;rank&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="n"&gt;MPI_Comm_rank&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;rank&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+       &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;hostname&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;MPI_MAX_PROCESSOR_NAME&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+       &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;name_len&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="n"&gt;MPI_Get_processor_name&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hostname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;name_len&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+       &lt;span class="n"&gt;MPI_Finalize&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd9a41d6" class="outline-3"&gt;
+&lt;h3 id="orgd9a41d6"&gt;点到点通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd9a41d6"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orge6d5075" class="outline-4"&gt;
+&lt;h4 id="orge6d5075"&gt;一般参数说明&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orge6d5075"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;类型&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;举例的函数&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Blocking sends&lt;/td&gt;
+&lt;td class="org-left"&gt;MPI&lt;sub&gt;Send&lt;/sub&gt;(buffer,count,type,dest,tag,comm)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Non-blocking sends&lt;/td&gt;
+&lt;td class="org-left"&gt;MPI&lt;sub&gt;Isend&lt;/sub&gt;(buffer,count,type,dest,tag,comm,request)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Blocking receive&lt;/td&gt;
+&lt;td class="org-left"&gt;MPI&lt;sub&gt;Recv&lt;/sub&gt;(buffer,count,type,source,tag,comm,status)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;Non-blocking receive&lt;/td&gt;
+&lt;td class="org-left"&gt;MPI&lt;sub&gt;Irecv&lt;/sub&gt;(buffer,count,type,source,tag,comm,request)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;
+参数说明：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;b&gt;buffer&lt;/b&gt;: 要被收发的内容，内存地址，也就是指针&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;count&lt;/b&gt;: 要收发的数据大小&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;type&lt;/b&gt;: 数据类型，全大写的一个量 &lt;code&gt;MPI_CHAR&lt;/code&gt; 等，也可以自定义&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;destination&lt;/b&gt;: 发送的目标进程的 rank&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;source&lt;/b&gt;: 接受的源进程的 rank，
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;如果是 &lt;code&gt;MPI_ANY_SOURCE&lt;/code&gt; 那么就从所有进程接收&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;tag&lt;/b&gt;: 一个任意的非负整数参数，用来标记不同的信息，接收和发送两方的 &lt;code&gt;tag&lt;/code&gt; 要相同，
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_ANY_TAG&lt;/code&gt; 会接收所有 tag&lt;/li&gt;
+&lt;li&gt;MPI 标准指出 tag 应该在 0-32767, 不过大多数实现都支持更大的数&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;comm&lt;/b&gt;: 通信器&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;status&lt;/b&gt;: 是收到的消息的属性，类型是 &lt;code&gt;MPI_Status&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_Get_count()&lt;/code&gt; 可以获取收到的消息的大小&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;request&lt;/b&gt;: 非阻塞收发的回调，类型是 &lt;code&gt;MPI_Request&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc03bf4a" class="outline-4"&gt;
+&lt;h4 id="orgc03bf4a"&gt;常用阻塞点到点通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc03bf4a"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_Send()&lt;/code&gt; 基本的发送消息, 只有当发送信道再次可用时才返回&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Recv()&lt;/code&gt; 基本的接收消息，阻塞直到接收信道再次可用&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Ssend()&lt;/code&gt; 同步阻塞发送，阻塞直到发送信道可用并且接收方开始接收这个消息&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Sendrecv()&lt;/code&gt; 发送消息并发送回执，阻塞直到发送信道可用，并且接收方已经收到消息&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Wait()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Waitany()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Waitall()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Waitsome()&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;阻塞直到某个非阻塞的收发完成&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Probe()&lt;/code&gt; 进行阻塞测试&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Get_count()&lt;/code&gt; 返回收到的消息的源、标签和大小
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;输出类型是 &lt;code&gt;MPI_SOURCE&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org014f3db" class="outline-4"&gt;
+&lt;h4 id="org014f3db"&gt;常用非阻塞点到点通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org014f3db"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_Isend()&lt;/code&gt; 非阻塞发送，所指定的发送 buffer 应该在 &lt;code&gt;MPI_Probe()&lt;/code&gt; 确定已经发送完成之前不修改&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Irecv()&lt;/code&gt; 非阻塞接收，同样不应该在确定接收完成前修改 buffer&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Issend()&lt;/code&gt; 非阻塞同步发送，类似 &lt;code&gt;MPI_Isend()&lt;/code&gt; 只是 &lt;code&gt;MPI_Probe()&lt;/code&gt; 会确定接收方已经收到消息&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Test()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Testany()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Testall()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Testsome()&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;检查非阻塞收发操作的状态，输出值 &lt;code&gt;flag&lt;/code&gt; 为 &lt;code&gt;0&lt;/code&gt; 表示没完成， &lt;code&gt;1&lt;/code&gt; 表示已完成&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Iprobe()&lt;/code&gt; 进行非阻塞测试, 如果消息已经到了 &lt;code&gt;flag&lt;/code&gt; 为 &lt;code&gt;1&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga7e6fd8" class="outline-3"&gt;
+&lt;h3 id="orga7e6fd8"&gt;集体通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga7e6fd8"&gt;
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="https://chimez.github.io/img/MPI:_Message_Passing_Interface/2021-07-04_18-47-40_collective_comm.gif" alt="nil"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+集体通信操作的类型有
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;同步&lt;/b&gt; 阻塞直到所有进程都到达同步点&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;数据移动&lt;/b&gt; broadcast, scatter, gather, all to all&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;集体计算(归约)&lt;/b&gt; min, max, add, multiply 等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgad2b194" class="outline-4"&gt;
+&lt;h4 id="orgad2b194"&gt;常用集体通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgad2b194"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_Barrier (comm)&lt;/code&gt; 同步所有进程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Bcast (&amp;amp;buffer,count,datatype,root,comm)&lt;/code&gt; 将数据从 &lt;code&gt;root&lt;/code&gt; 进程广播到所有进程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Scatter (&amp;amp;sendbuf,sendcnt,sendtype,&amp;amp;recvbuf,recvcnt,recvtype,root,comm)&lt;/code&gt; 将数据分散到所有进程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Gather (&amp;amp;sendbuf,sendcnt,sendtype,&amp;amp;recvbuf,recvcount,recvtype,root,comm)&lt;/code&gt; 从所有进程获取数据到 &lt;code&gt;root&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Allgather (&amp;amp;sendbuf,sendcount,sendtype,&amp;amp;recvbuf,recvcount,recvtype,comm)&lt;/code&gt; 所有进程都获得总的数据&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Reduce (&amp;amp;sendbuf,&amp;amp;recvbuf,count,datatype,op,root,comm)&lt;/code&gt; 执行一个归约操作 &lt;code&gt;op&lt;/code&gt; 到进程 &lt;code&gt;root&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Allreduce (&amp;amp;sendbuf,&amp;amp;recvbuf,count,datatype,op,comm)&lt;/code&gt; 执行归约操作到所有进程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Reduce_scatter (&amp;amp;sendbuf,&amp;amp;recvbuf,recvcount,datatype,op,comm)&lt;/code&gt; 先 reduce 再 scatter&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Alltoall (&amp;amp;sendbuf,sendcount,sendtype,&amp;amp;recvbuf,recvcnt,recvtype,comm)&lt;/code&gt; 每个进程都执行 scatter&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Scan (&amp;amp;sendbuf,&amp;amp;recvbuf,count,datatype,op,comm)&lt;/code&gt; 扫描操作&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org2ada677" class="outline-3"&gt;
+&lt;h3 id="org2ada677"&gt;自定义数据类型&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2ada677"&gt;
+&lt;p&gt;
+用户定义的数据类型，称作 &lt;b&gt;derived data types&lt;/b&gt;
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_Type_contiguous (count,oldtype,&amp;amp;newtype)&lt;/code&gt; 创建一个新的数据类型，是 &lt;code&gt;count&lt;/code&gt; 个旧类型数据的组合&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Type_vector (count,blocklength,stride,oldtype,&amp;amp;newtype)&lt;/code&gt; 与 &lt;code&gt;MPI_Type_contiguous&lt;/code&gt; 相同，只不过每个数据间可以有间隔&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Type_indexed (count,blocklens[],offsets[],old_type,&amp;amp;newtype)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Type_create_struct&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Type_get_extent&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Type_commit (&amp;amp;datatype)&lt;/code&gt; 向系统提交类型&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Type_free (&amp;amp;datatype)&lt;/code&gt; 释放指定类型的对象&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6f6c6e8" class="outline-4"&gt;
+&lt;h4 id="org6f6c6e8"&gt;自定义结构体&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6f6c6e8"&gt;
+&lt;p&gt;
+&lt;code&gt;MPI_Type_create_struct(count, array_of_blocklengths, array_of_displacements, array_of_types, newtype)&lt;/code&gt;
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;count&lt;/code&gt; 结构体中的元素数，也是下面三个数组的长度&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;array_of_blocklengths&lt;/code&gt; 每个块中的元素个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;array_of_displacements&lt;/code&gt; 每个块的偏移量&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;array_of_types&lt;/code&gt; 每个块的类型&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;newtype&lt;/code&gt; 输出&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nc"&gt;object&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+	&lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+	&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;};&lt;/span&gt;
+
+    &lt;span class="n"&gt;MPI_Datatype&lt;/span&gt; &lt;span class="n"&gt;newtype&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;object_len&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;blocklengths&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Datatype&lt;/span&gt; &lt;span class="n"&gt;types&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Aint&lt;/span&gt; &lt;span class="n"&gt;displacements&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+    &lt;span class="n"&gt;MPI_Aint&lt;/span&gt; &lt;span class="n"&gt;current_displacement&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="n"&gt;blocklength&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;types&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MPI_CHAR&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;displacements&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;offsetof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nc"&gt;object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;blocklength&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;types&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MPI_DOUBLE&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;displacements&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;offsetof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nc"&gt;object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;blocklength&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;types&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MPI_INT&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;displacements&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;offsetof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nc"&gt;object&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;MPI_Type_create_struct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;blocklengths&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;displacements&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;types&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;newtype&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Type_commit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;newtype&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="nc"&gt;object&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;proc_id&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	&lt;span class="n"&gt;MPI_Send&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;newtype&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;comm&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;proc_id&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	&lt;span class="n"&gt;MPI_Recv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;newtype&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;comm&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_STATUS_IGNORE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="n"&gt;MPI_Type_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;newtype&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0f4c8f7" class="outline-3"&gt;
+&lt;h3 id="org0f4c8f7"&gt;组和通信器管理&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0f4c8f7"&gt;
+&lt;p&gt;
+&lt;b&gt;group&lt;/b&gt; 组是一些进程的有序集合，每个进程编号从 0 到 N-1, &lt;b&gt;communicator&lt;/b&gt; 通信器是一组需要相互通信的进程，每个组都有一个通信器。从编程的角度看，组是用来指定哪些进程相互通信，进而创建通信器的。
+&lt;/p&gt;
+
+&lt;p&gt;
+典型的过程：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;使用 &lt;code&gt;MPI_Comm_group()&lt;/code&gt; 从 &lt;code&gt;MPI_COMM_WORLD&lt;/code&gt; 中取出全局组的句柄&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;MPI_Group_incl()&lt;/code&gt; 从全局组的子集中创建新的组&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;MPI_Comm_create()&lt;/code&gt; 为新的组创建通信器&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;MPI_Comm_rank()&lt;/code&gt; 确定新的通信器中的 rank&lt;/li&gt;
+&lt;li&gt;进行通信&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;MPI_Comm_free()&lt;/code&gt; 和 &lt;code&gt;MPI_Group_free()&lt;/code&gt; 释放不用的组和通信器对象&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgb22155b" class="outline-4"&gt;
+&lt;h4 id="orgb22155b"&gt;基本通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb22155b"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;MPI_COMM_WORLD&lt;/code&gt; 全部的进程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_COMM_SELF&lt;/code&gt; 只包含当前进程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_COMM_NULL&lt;/code&gt; 无效通信器，用于一些函数的错误码&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+通信器的类型是 &lt;code&gt;MPI_Comm&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgff42e2a" class="outline-4"&gt;
+&lt;h4 id="orgff42e2a"&gt;复制通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgff42e2a"&gt;
+&lt;p&gt;
+复制一个一样的通信器，主要用于库函数编写时防止修改全局参数    
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm_dup()&lt;/code&gt; 复制一个通信器&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm_idup()&lt;/code&gt; 复制通信器，非阻塞&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm_dup_with_info()&lt;/code&gt; 复制通信器并传递 info&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm_idup_with_info()&lt;/code&gt; 复制通信器并传递 info, 非阻塞&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org22dbdf7" class="outline-4"&gt;
+&lt;h4 id="org22dbdf7"&gt;划分通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org22dbdf7"&gt;
+&lt;p&gt;
+使用 &lt;code&gt;MPI_Comm_split(comm, color, key, newcomm)&lt;/code&gt;  将 &lt;code&gt;comm&lt;/code&gt; 中有相同 &lt;code&gt;color&lt;/code&gt; 的进程组成一个新的通信器 &lt;code&gt;newcomm&lt;/code&gt;, 新通信器中的 rank 由 &lt;code&gt;key&lt;/code&gt; 指定
+&lt;/p&gt;
+
+&lt;p&gt;
+注意
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;代码会在所有进程中执行，所以只要进程中生成自己的 &lt;code&gt;color&lt;/code&gt; 和 &lt;code&gt;key&lt;/code&gt; ,返回的通信器就包括这些进程&lt;/li&gt;
+&lt;li&gt;一般新通信器中的 &lt;code&gt;rank&lt;/code&gt; 跟全局的保存一致就行了， &lt;code&gt;MPI_Comm_rank(MPI_COMM_WORLD, &amp;amp;my_key)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm_spawn()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm_free()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc61d0cc" class="outline-4"&gt;
+&lt;h4 id="orgc61d0cc"&gt;从组创建通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc61d0cc"&gt;
+&lt;p&gt;
+组的类型是 &lt;code&gt;MPI_Group&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm_group()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Group_incl(group, n, ranks, newgroup)&lt;/code&gt; 将组中 &lt;code&gt;ranks&lt;/code&gt; 的进程添加到新组&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Group_excl(group, n, ranks, newgroup)&lt;/code&gt; 除了 &lt;code&gt;ranks&lt;/code&gt; 以外的进程添加到新组&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Group_difference()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Group_union()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Group_intersection()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Group_difference()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Group_size()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Group_rank()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm_create_group()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Comm_create(comm, group, newcomm)&lt;/code&gt; 从组创建通信器&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd938879" class="outline-4"&gt;
+&lt;h4 id="orgd938879"&gt;通信器间的通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd938879"&gt;
+&lt;p&gt;
+&lt;code&gt;MPI_Intercomm_create(local_comm, local_leader, peer_comm, remote_leader, tag, newintercomm)&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org33bdb13" class="outline-3"&gt;
+&lt;h3 id="org33bdb13"&gt;虚拟拓扑&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org33bdb13"&gt;
+&lt;p&gt;
+MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互连接构成一个几何形状，这个网络拓扑是虚拟的，与物理实际的连接无关。
+&lt;/p&gt;
+
+&lt;p&gt;
+当特殊的通信模式与一个拓扑结果相匹配时 MPI 虚拟拓扑就很有用了。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org83d9678" class="outline-3"&gt;
+&lt;h3 id="org83d9678"&gt;单边通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org83d9678"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orga477000" class="outline-4"&gt;
+&lt;h4 id="orga477000"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga477000"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Remote Memory Access(RMA), Remote Direct Momory Access (RDMA), 远程内存访问
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;指的是两个进程 origin 和 target, origin 发起动作 put/get, 访问 target 的内存&lt;/li&gt;
+&lt;li&gt;之所以叫单边通信，是因为 target 进程完全不知道发生了什么&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;window
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;单边通信只能访问 target 进程所指定的一块内存，称为 window&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;distributed shared memory, virtual shared memory
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;是除了 window 之外的另一种实现远程内存访问的方法&lt;/li&gt;
+&lt;li&gt;只有所谓的 Partitioned Global Address Space(PGAS)语言支持，例如 Unified Parallel C (UPC)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;active RMA 和 passive RMA
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;active RMA 也叫做 active target synchronization, target 进程设置一个时间周期(epoch)，在这其中 window 可以被访问，类似于同步数据转移&lt;/li&gt;
+&lt;li&gt;passive RMA 也叫做 passive target synchronization, target 进程不对 window 的访问做限制，这种方式很高效，但是非常难 debug 并且很容易死锁&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga6d5402" class="outline-4"&gt;
+&lt;h4 id="orga6d5402"&gt;窗口&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga6d5402"&gt;
+&lt;p&gt;
+用于单边通信的内存区域就是窗口，变量类型为 &lt;code&gt;MPI_Win&lt;/code&gt;, 进程可以向其中存取任何东西
+&lt;/p&gt;
+
+&lt;p&gt;
+说明
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;窗口是定义在通信器上的，创建窗口操作是集体通信，即窗口的不同部分被不同的进程所拥有&lt;/li&gt;
+&lt;li&gt;每个进程的窗口大小独立设置，可以设为 0&lt;/li&gt;
+&lt;li&gt;窗口的内存分配和释放要显式进行&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+常用函数
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_Win_allocate()&lt;/code&gt; 分配窗口的内存&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Win_free()&lt;/code&gt; 释放内存&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Win_create()&lt;/code&gt; 基于指定的 buffer 创建窗口&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Win_allocate_shared()&lt;/code&gt; 在共享内存的通信器上创建窗口&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Win_create_dynamic()&lt;/code&gt; 创建窗口，但不分配内存&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;MPI_Info&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win&lt;/span&gt; &lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_allocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;disp_unit&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;comm&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;memory&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 进行操作 */&lt;/span&gt;
+
+    &lt;span class="n"&gt;MPI_Win_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge4ae4ca" class="outline-4"&gt;
+&lt;h4 id="orge4ae4ca"&gt;动态分配内存&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orge4ae4ca"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_Win_create_dynamic(MPI_Info info, MPI_Comm comm, MPI_Win *win)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建窗口，可以向其中动态的加入内存&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPI_Win_free(MPI_Win *win)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;释放窗口的内存&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPI_Alloc_mem(MPI_Aint size, MPI_Info info, void *baseptr)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;分配内存&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size&lt;/code&gt; 是内存大小&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;baseptr&lt;/code&gt; 是输出的指针&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;info&lt;/code&gt; 可以是 &lt;code&gt;MPI_INFO_NULL&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPI_Free_mem(void *base)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;释放分配的内存&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Win_attach(MPI_Win win, void *base, MPI_Aint size)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;向窗口中添加内存&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;win&lt;/code&gt; 必须是 &lt;code&gt;MPI_Win_create_dynamic()&lt;/code&gt; 创建的窗口&lt;/li&gt;
+&lt;li&gt;窗口中的内存就是这里指针的内存，没有复制&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Win_detach(MPI_Win win, void *base)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;从窗口中去掉添加的内存&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPI_Win_lock(int lock_type, int rank, int assert, MPI_Win win)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;对窗口整体加锁&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lock_type&lt;/code&gt; 是 &lt;code&gt;MPI_LOCK_EXCLUSIVE&lt;/code&gt; 或 &lt;code&gt;MPI_LOCK_SHARED&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;rank&lt;/code&gt; 是获得锁的进程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;assert&lt;/code&gt; 是用于做优化的参数，不需要就设 &lt;code&gt;assert=0&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPI_Win_unlock(int rank, MPI_Win win)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;解锁&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPI_Get_address(const void *location, MPI_Aint *address)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获得调用内存中位置的地址&lt;/li&gt;
+&lt;li&gt;应该用这个函数获得的 &lt;code&gt;MPI_Alloc_mem()&lt;/code&gt; 分配的地址作为值广播给其它需要用到这个值的进程&lt;/li&gt;
+&lt;li&gt;对于在窗口中的指针，这里获得的地址就是偏移量&lt;/li&gt;
+&lt;li&gt;可以把偏移量看做是窗口中的指针&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Put(const void *origin_addr, int origin_count, MPI_Datatype origin_datatype, int target_rank, MPI_Aint target_disp, int target_count, MPI_Datatype target_datatype, MPI_Win win)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;从 &lt;code&gt;origin_addr&lt;/code&gt; 复制内存到 &lt;code&gt;target_rank&lt;/code&gt; 进程的从 &lt;code&gt;win&lt;/code&gt; 窗口的偏移 &lt;code&gt;target_disp&lt;/code&gt; 开始的地址&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_Get(void *origin_addr, int origin_count, MPI_Datatype origin_datatype, int target_rank, MPI_Aint target_disp, int target_count, MPI_Datatype target_datatype, MPI_Win win)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;从 &lt;code&gt;target_rank&lt;/code&gt; 进程的 &lt;code&gt;win&lt;/code&gt; 窗口偏移 &lt;code&gt;target_disp&lt;/code&gt; 复制内存到 &lt;code&gt;origin_addr&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPI_Compare_and_swap(const void *origin_addr, const void *compare_addr, void *result_addr, MPI_Datatype datatype, int target_rank, MPI_Aint target_disp, MPI_Win win)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;比较并交换，原子操作&lt;/li&gt;
+&lt;li&gt;比较当前内存中的旧值 &lt;code&gt;*result_addr&lt;/code&gt; 和之前读取到的旧值 &lt;code&gt;*compare_addr&lt;/code&gt; ，如果一样，则说明中间内存未被修改过，那么就用新值 &lt;code&gt;*origin_addr&lt;/code&gt; 替换旧值 &lt;code&gt;*result_addr&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;被修改的值属于 &lt;code&gt;target_rank&lt;/code&gt; 进程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;target_disp&lt;/code&gt; 是从窗口的起点到 &lt;code&gt;target_rank&lt;/code&gt; 进程中被替换的内存 &lt;code&gt;result_addr&lt;/code&gt; 的起点之间的偏移量&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPI_Win_fence(int assert, MPI_Win win)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;同步窗口在所有进程中&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+参考：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;这里实现了一个链表 &lt;a href="https://svn.mcs.anl.gov/repos/mpi/mpich2/trunk/test/mpi/rma/linked_list.c"&gt;https://svn.mcs.anl.gov/repos/mpi/mpich2/trunk/test/mpi/rma/linked_list.c&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;指针的内存要在进程中自己释放，窗口中实际没有保存数据&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+例子
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="cm"&gt;/* 创建窗口 */&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_create_dynamic&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_INFO_NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 分配内存，并把它附加到窗口中，同时获得窗口中对应的偏移量，也就是窗口中的指针 */&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;i_ptr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Alloc_mem&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;MPI_INFO_NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;i_ptr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_attach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i_ptr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Aint&lt;/span&gt; &lt;span class="n"&gt;i_disp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Get_address&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i_ptr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;i_disp&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;i_ptr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"%d, i_ptr=%p, %d, i_disp=%ld&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i_ptr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;i_ptr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i_disp&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"i ptr dead&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 读数据 */&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_LOCK_EXCLUSIVE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_INT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i_disp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_INT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"%d: get= %d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_unlock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 写数据 */&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_LOCK_EXCLUSIVE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;put&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Put&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;put&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_INT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i_disp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_INT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_unlock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 同步 */&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_fence&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="n"&gt;MPI_Win_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_LOCK_EXCLUSIVE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_INT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i_disp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_INT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"%d: get again= %d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_unlock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 释放内存时，要用本地指针释放 */&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Free_mem&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i_ptr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org9baa91a" class="outline-4"&gt;
+&lt;h4 id="org9baa91a"&gt;共享内存&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9baa91a"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;int MPI_Comm_split_type(MPI_Comm comm, int split_type, int key, MPI_Info info, MPI_Comm *newcomm)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获得同一节点上的进程的通信器&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;split_type = MPI_COMM_TYPE_SHARED&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;comm = MPI_COMM_WORLD&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;key = proc_rank_world&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPI_Win_allocate_shared (MPI_Aint size, int disp_unit, MPI_Info info, MPI_Comm comm, void *baseptr, MPI_Win *win)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;创建共享内存数据&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size&lt;/code&gt; 是数据的比特大小，即 个数 * sizeof(type)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;disp_unit&lt;/code&gt; 是单个数据的比特大小，即 sizeof(type)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;baseptr&lt;/code&gt; 是本地数据的指针&lt;/li&gt;
+&lt;li&gt;这个内存会在 &lt;code&gt;MPI_Win_free()&lt;/code&gt; 时释放掉&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int MPI_Win_shared_query (MPI_Win win, int rank, MPI_Aint *size, int *disp_unit, void *baseptr)&lt;/code&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;获得属于 &lt;code&gt;rank&lt;/code&gt; 进程的内存在当前进程中的地址&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size&lt;/code&gt; win 大小&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;disp_unit&lt;/code&gt; 单位数据大小&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;baseptr&lt;/code&gt; 当前进程中用来访问这个内存的指针&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Comm_rank&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 获得同一节点上的通信器，以及对应的 rank */&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Comm&lt;/span&gt; &lt;span class="n"&gt;comm_node&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;proc_rank_node&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Comm_split_type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_COMM_TYPE_SHARED&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_INFO_NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;comm_node&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Comm_rank&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;comm_node&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;proc_rank_node&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 获得不同节点上编号为 0 的进程之间的通信器 */&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Comm&lt;/span&gt; &lt;span class="n"&gt;comm_0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;proc_rank_0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Comm_split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank_node&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;comm_0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Comm_rank&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;comm_0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank_0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 分配内存, 只有编号为 0 的进程才分配，其它进程的大小是 0 */&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win&lt;/span&gt; &lt;span class="n"&gt;data_win&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;win_size&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;proc_rank&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	&lt;span class="n"&gt;win_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+	&lt;span class="n"&gt;win_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_allocate_shared&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;win_size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;MPI_INFO_NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;comm_node&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;data_win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 在全局编号 0 的进程上创建数据 */&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;proc_rank&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="n"&gt;MPI_Barrier&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;comm_node&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_fence&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data_win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 分享数据给所有节点上编号 0 的进程 */&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Bcast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_INT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;comm_0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 其它进程获得节点编号 0 进程上的指针 */&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Aint&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;disp_uint&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_shared_query&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data_win&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;disp_unit&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;data_0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 释放内存 */&lt;/span&gt;
+    &lt;span class="n"&gt;MPI_Win_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;data_win&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc620d6f" class="outline-3"&gt;
+&lt;h3 id="orgc620d6f"&gt;混合多线程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc620d6f"&gt;
+&lt;p&gt;
+混合多线程的策略：
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;纯 MPI&lt;/li&gt;
+&lt;li&gt;每个节点一个 MPI 进程，全部的线程&lt;/li&gt;
+&lt;li&gt;每个 socket 一个 MPI 进程，和剩下的线程，比如20核的节点，每个节点两个进程，每个进程10线程&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+大量实践认为混合多线程并不会比纯 MPI 速度快。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org0574652" class="outline-4"&gt;
+&lt;h4 id="org0574652"&gt;线程初始化&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0574652"&gt;
+&lt;p&gt;
+使用 &lt;code&gt;MPI_Init_thread()&lt;/code&gt; 初始化带有线程的 MPI，可用的选项有（注意并不是所有MPI实现都提供下面全部的模式）
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;MPI_THREAD_SINGLE&lt;/code&gt; 每个进程一个线程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_THREAD_FUNNELED&lt;/code&gt; 每个进程有多个线程，但只有主线程可以调用 MPI 函数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_THREAD_SERIALIZED&lt;/code&gt; 使用多个线程，每个线程都可以调用 MPI，但是只有一个线程可以调用同步通信&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;MPI_THREAD_MULTIPLE&lt;/code&gt; 使用多个线程，没有任何限制&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+使用 &lt;code&gt;MPI_Query_thread()&lt;/code&gt; 来确定初始化之后提供的是哪种模式
+&lt;/p&gt;
+
+&lt;p&gt;
+使用 &lt;code&gt;MPI_Is_thread_main()&lt;/code&gt; 来确定线程是否是主线程
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org22c67e8" class="outline-2"&gt;
+&lt;h2 id="org22c67e8"&gt;设计模式&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org22c67e8"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orga73ab31" class="outline-3"&gt;
+&lt;h3 id="orga73ab31"&gt;为每个节点创建一个通信器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga73ab31"&gt;
+&lt;p&gt;
+用于创建节点内部的共享内存窗口
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="cm"&gt;/* 获得同一节点上的通信器，以及对应的 rank */&lt;/span&gt;
+   &lt;span class="n"&gt;MPI_Comm&lt;/span&gt; &lt;span class="n"&gt;comm_node&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;proc_rank_node&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="n"&gt;MPI_Comm_split_type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_COMM_TYPE_SHARED&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_INFO_NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;comm_node&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="n"&gt;MPI_Comm_rank&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;comm_node&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;proc_rank_node&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+   &lt;span class="cm"&gt;/* 获得不同节点上编号为 0 的进程之间的通信器 */&lt;/span&gt;
+   &lt;span class="n"&gt;MPI_Comm&lt;/span&gt; &lt;span class="n"&gt;comm_0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;proc_rank_0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="n"&gt;MPI_Comm_split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank_node&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;comm_0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="n"&gt;MPI_Comm_rank&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;comm_0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;proc_rank_0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+   &lt;span class="n"&gt;MPI_Comm_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;comm_node&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="n"&gt;MPI_Comm_free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;comm_0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgef5afc5" class="outline-3"&gt;
+&lt;h3 id="orgef5afc5"&gt;非自旋等待&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgef5afc5"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;阻塞通信是自旋锁，会一直燃烧 CPU， 为了给某个进程上的多线程任务让出 CPU，需要让其它进程非自旋等待&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;MPI_Iprobe()&lt;/code&gt; 非阻塞地探测信号，并在探测周期中 &lt;code&gt;sleep()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="n"&gt;MPI_Comm_rank&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;proc_rank&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+   &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;finish&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="n"&gt;MPI_Request&lt;/span&gt; &lt;span class="n"&gt;finish_request&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+   &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;proc_rank&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+       &lt;span class="cm"&gt;/* do sth pthread or openmp */&lt;/span&gt;
+
+       &lt;span class="n"&gt;finish&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;proc_total&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="n"&gt;MPI_Comm_size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;proc_total&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+       &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;proc_total&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	   &lt;span class="n"&gt;MPI_Isend&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;finish&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_INT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;finish_request&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	   &lt;span class="n"&gt;MPI_Wait&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;finish_request&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_STATUS_IGNORE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+       &lt;span class="p"&gt;}&lt;/span&gt;
+
+   &lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+       &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;flag&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+       &lt;span class="n"&gt;MPI_Status&lt;/span&gt; &lt;span class="n"&gt;finish_status&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+       &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;flag&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	   &lt;span class="n"&gt;MPI_Iprobe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_ANY_TAG&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;flag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;finish_status&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	   &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;flag&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	       &lt;span class="n"&gt;MPI_Irecv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;finish&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_INT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;finish_request&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	       &lt;span class="n"&gt;MPI_Wait&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;finish_request&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MPI_STATUS_IGNORE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	       &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	   &lt;span class="p"&gt;}&lt;/span&gt;
+	   &lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+       &lt;span class="p"&gt;}&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>mpi</category><category>parallel</category><guid>https://chimez.github.io/posts/mpi/</guid><pubDate>Sun, 04 Jul 2021 09:00:31 GMT</pubDate></item><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org360b337" class="outline-2"&gt;
+&lt;h2 id="org360b337"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org360b337"&gt;
 &lt;p&gt;
 &lt;a href="https://slepc.upv.es/"&gt;SLEPc&lt;/a&gt; 是用来求 PETSc 矩阵的扩展库。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org91dcfbc" class="outline-3"&gt;
-&lt;h3 id="org91dcfbc"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org91dcfbc"&gt;
+&lt;div id="outline-container-orgd60ff4e" class="outline-3"&gt;
+&lt;h3 id="orgd60ff4e"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd60ff4e"&gt;
 &lt;p&gt;
 SLEPc 有以下基本部分构成
 &lt;/p&gt;
@@ -34,9 +957,9 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgca8fb29" class="outline-3"&gt;
-&lt;h3 id="orgca8fb29"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgca8fb29"&gt;
+&lt;div id="outline-container-org045b7c0" class="outline-3"&gt;
+&lt;h3 id="org045b7c0"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org045b7c0"&gt;
 &lt;p&gt;
 下载时注意，SLEPc 的版本必须和 PETSc 版本一样
 &lt;/p&gt;
@@ -45,7 +968,7 @@ SLEPc 有以下基本部分构成
 编译选项
 &lt;/p&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure --download-arpack --download-blopex --download-hpddm --download-primme
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure --download-arpack --download-blopex --download-hpddm --download-primme  --with-slepc4py=1
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
@@ -54,9 +977,9 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge520544" class="outline-3"&gt;
-&lt;h3 id="orge520544"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orge520544"&gt;
+&lt;div id="outline-container-org9dd7632" class="outline-3"&gt;
+&lt;h3 id="org9dd7632"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9dd7632"&gt;
 &lt;p&gt;
 程序开始和结束时分别调用 &lt;code&gt;SlepcInitialize()&lt;/code&gt; 和 &lt;code&gt;SlepcFinalize()&lt;/code&gt;, 实际上就是 &lt;code&gt;PetscInitialize()&lt;/code&gt; 和 &lt;code&gt;PetscFinalize()&lt;/code&gt;
 &lt;/p&gt;
@@ -67,13 +990,13 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0341242" class="outline-3"&gt;
-&lt;h3 id="org0341242"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0341242"&gt;
+&lt;div id="outline-container-orgd725e50" class="outline-3"&gt;
+&lt;h3 id="orgd725e50"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd725e50"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfe5f94b" class="outline-4"&gt;
-&lt;h4 id="orgfe5f94b"&gt;基本使用&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgfe5f94b"&gt;
+&lt;div id="outline-container-orgb4d6d2f" class="outline-4"&gt;
+&lt;h4 id="orgb4d6d2f"&gt;基本使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb4d6d2f"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSCreate(MPI_Comm comm,EPS *eps);&lt;/code&gt; 
 &lt;ol class="org-ol"&gt;
@@ -226,13 +1149,13 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org75526a9" class="outline-4"&gt;
-&lt;h4 id="org75526a9"&gt;求解器配置&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org75526a9"&gt;
+&lt;div id="outline-container-org5007b3c" class="outline-4"&gt;
+&lt;h4 id="org5007b3c"&gt;求解器配置&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5007b3c"&gt;
 &lt;/div&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orgd080ad1"&gt;&lt;/a&gt;问题类型&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgd080ad1"&gt;
+&lt;li&gt;&lt;a id="orgc7cb957"&gt;&lt;/a&gt;问题类型&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgc7cb957"&gt;
 &lt;p&gt;
 问题类型使用 &lt;code&gt;EPSSetProblemType(EPS eps,EPSProblemType type);&lt;/code&gt; 进行设置
 &lt;/p&gt;
@@ -308,8 +1231,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org13d0e0e"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org13d0e0e"&gt;
+&lt;li&gt;&lt;a id="org59690c8"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org59690c8"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);&lt;/code&gt; 设置要求的本征值个数
 &lt;/p&gt;
@@ -321,8 +1244,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org5ffc797"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org5ffc797"&gt;
+&lt;li&gt;&lt;a id="org888ed48"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org888ed48"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSSetWhichEigenpairs(EPS eps,EPSWhich which);&lt;/code&gt; 设置要求本征值的位置&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSSetTarget(EPS eps,PetscScalar target);&lt;/code&gt; 设置计算距离某个值最近的本征值&lt;/li&gt;
@@ -421,8 +1344,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org8fc18cf"&gt;&lt;/a&gt;选择算法&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org8fc18cf"&gt;
+&lt;li&gt;&lt;a id="org03fe696"&gt;&lt;/a&gt;选择算法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org03fe696"&gt;
 &lt;p&gt;
 通过 &lt;code&gt;EPSSetType(EPS eps,EPSType method);&lt;/code&gt; 设置求解器使用的算法
 &lt;/p&gt;
@@ -606,8 +1529,8 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgcf0bd30"&gt;&lt;/a&gt;获得结果&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgcf0bd30"&gt;
+&lt;li&gt;&lt;a id="org35082c2"&gt;&lt;/a&gt;获得结果&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org35082c2"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSGetConverged(EPS eps,PetscInt *nconv);&lt;/code&gt; 获得收敛的解个数&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSGetEigenpair(EPS eps,PetscInt j,PetscScalar *kr,PetscScalar *ki,Vec xr,Vec xi);&lt;/code&gt; 获得本征值和本征矢&lt;/li&gt;
@@ -641,52 +1564,52 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org3e4f3ab"&gt;&lt;/a&gt;其它设置&lt;br&gt;
+&lt;li&gt;&lt;a id="org0531058"&gt;&lt;/a&gt;其它设置&lt;br&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org15ffade"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org15ffade"&gt;
+&lt;li&gt;&lt;a id="org9452508"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org9452508"&gt;
 &lt;p&gt;
 &lt;code&gt;EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orge7ecad2"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org23b2315"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org2f274fe"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="orgfc9d128"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org24b54ab"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org49c99d9"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org143fdff"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org05aa953"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>mpi</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org0c787d5" class="outline-2"&gt;
-&lt;h2 id="org0c787d5"&gt;PETSc&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0c787d5"&gt;
+&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>mpi</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgfdfee07" class="outline-2"&gt;
+&lt;h2 id="orgfdfee07"&gt;PETSc&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfdfee07"&gt;
 &lt;p&gt;
 &lt;a href="https://www.mcs.anl.gov/petsc/index.html"&gt;PETSc&lt;/a&gt; 是用于开发并行计算程序的基础库，完全建立在 MPI 上。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4eb3186" class="outline-3"&gt;
-&lt;h3 id="org4eb3186"&gt;安装与编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4eb3186"&gt;
+&lt;div id="outline-container-org1c4792d" class="outline-3"&gt;
+&lt;h3 id="org1c4792d"&gt;安装与编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1c4792d"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;下载 &lt;a href="https://www.mcs.anl.gov/petsc/download/"&gt;源码&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf1d7fa6" class="outline-3"&gt;
-&lt;h3 id="orgf1d7fa6"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf1d7fa6"&gt;
+&lt;div id="outline-container-org0b2a3c5" class="outline-3"&gt;
+&lt;h3 id="org0b2a3c5"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0b2a3c5"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org89d7579" class="outline-4"&gt;
-&lt;h4 id="org89d7579"&gt;PETSc 模块&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org89d7579"&gt;
+&lt;div id="outline-container-orga3025af" class="outline-4"&gt;
+&lt;h4 id="orga3025af"&gt;PETSc 模块&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga3025af"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;index set (IS)：向量的指标&lt;/li&gt;
 &lt;li&gt;vectors (Vec)&lt;/li&gt;
@@ -701,9 +1624,9 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6fd6c2e" class="outline-4"&gt;
-&lt;h4 id="org6fd6c2e"&gt;环境变量&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org6fd6c2e"&gt;
+&lt;div id="outline-container-orgd64270e" class="outline-4"&gt;
+&lt;h4 id="orgd64270e"&gt;环境变量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd64270e"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;所有 PETSc 程序都依赖环境变量 &lt;code&gt;$PETSC_DIR&lt;/code&gt; 找到 PETSc 的目录&lt;/li&gt;
 &lt;li&gt;还需要环境变量 &lt;code&gt;$PETSC_ARCH&lt;/code&gt; 找到安装路径&lt;/li&gt;
@@ -711,9 +1634,9 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0eaa212" class="outline-4"&gt;
-&lt;h4 id="org0eaa212"&gt;命令行&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0eaa212"&gt;
+&lt;div id="outline-container-org0b727d7" class="outline-4"&gt;
+&lt;h4 id="org0b727d7"&gt;命令行&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0b727d7"&gt;
 &lt;p&gt;
 PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或者 PETSc 提供的脚本 &lt;code&gt;$PETSC_DIR/lib/petsc/bin/petscmpiexec&lt;/code&gt; 
 &lt;/p&gt;
@@ -735,9 +1658,9 @@ PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org54036a4" class="outline-4"&gt;
-&lt;h4 id="org54036a4"&gt;主函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org54036a4"&gt;
+&lt;div id="outline-container-orgaa3dbbd" class="outline-4"&gt;
+&lt;h4 id="orgaa3dbbd"&gt;主函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgaa3dbbd"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;PETSc 主函数需要调用 &lt;code&gt;PetscInitialize()&lt;/code&gt; 作为开始，来初始化 PETSc 和 MPI&lt;/li&gt;
 &lt;li&gt;程序退出时调用 &lt;code&gt;PetscFinalize()&lt;/code&gt;, 来结束 PETSc 和 MPI&lt;/li&gt;
@@ -778,9 +1701,9 @@ PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org47b91a7" class="outline-4"&gt;
-&lt;h4 id="org47b91a7"&gt;错误处理&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org47b91a7"&gt;
+&lt;div id="outline-container-org45ccaec" class="outline-4"&gt;
+&lt;h4 id="org45ccaec"&gt;错误处理&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org45ccaec"&gt;
 &lt;p&gt;
 所有 PETSc 函数都返回整数值 &lt;code&gt;ierr&lt;/code&gt; 作为消息，使用 &lt;code&gt;CHECKRRQ(ierr)&lt;/code&gt; 宏来处理错误。
 &lt;/p&gt;
@@ -788,17 +1711,17 @@ PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org75c8bc4" class="outline-3"&gt;
-&lt;h3 id="org75c8bc4"&gt;向量和并行数据&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org75c8bc4"&gt;
+&lt;div id="outline-container-org5a92cef" class="outline-3"&gt;
+&lt;h3 id="org5a92cef"&gt;向量和并行数据&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5a92cef"&gt;
 &lt;p&gt;
 向量是 PETSc 最基本的结构，用于保存计算结果等
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfbc8697" class="outline-4"&gt;
-&lt;h4 id="orgfbc8697"&gt;创建和组装向量&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgfbc8697"&gt;
+&lt;div id="outline-container-org004982c" class="outline-4"&gt;
+&lt;h4 id="org004982c"&gt;创建和组装向量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org004982c"&gt;
 &lt;p&gt;
 PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 &lt;/p&gt;
@@ -924,9 +1847,9 @@ PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc11ca22" class="outline-4"&gt;
-&lt;h4 id="orgc11ca22"&gt;基本向量操作&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc11ca22"&gt;
+&lt;div id="outline-container-org02f0567" class="outline-4"&gt;
+&lt;h4 id="org02f0567"&gt;基本向量操作&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org02f0567"&gt;
 &lt;p&gt;
 加减乘除之类的操作，参考&lt;a href="https://petsc.org/release/documentation/manual/vec/#id3"&gt;函数表&lt;/a&gt;
 &lt;/p&gt;
@@ -967,9 +1890,9 @@ PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org271e5e9" class="outline-4"&gt;
-&lt;h4 id="org271e5e9"&gt;索引和排序&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org271e5e9"&gt;
+&lt;div id="outline-container-org1f30e91" class="outline-4"&gt;
+&lt;h4 id="org1f30e91"&gt;索引和排序&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org1f30e91"&gt;
 &lt;p&gt;
 PETSc 提供了一组工具用于处理向量指标的顺序，称作 Application Orderings(AO)
 &lt;/p&gt;
@@ -977,17 +1900,17 @@ PETSc 提供了一组工具用于处理向量指标的顺序，称作 Applicatio
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org488a9a6" class="outline-3"&gt;
-&lt;h3 id="org488a9a6"&gt;矩阵&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org488a9a6"&gt;
+&lt;div id="outline-container-orgbd0d741" class="outline-3"&gt;
+&lt;h3 id="orgbd0d741"&gt;矩阵&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgbd0d741"&gt;
 &lt;p&gt;
 PETSc 支持多种矩阵类型，包括稠密矩阵、稀疏矩阵等
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9b63392" class="outline-4"&gt;
-&lt;h4 id="org9b63392"&gt;创建和组装矩阵&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org9b63392"&gt;
+&lt;div id="outline-container-org9673dd2" class="outline-4"&gt;
+&lt;h4 id="org9673dd2"&gt;创建和组装矩阵&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9673dd2"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MatCreate(MPI_Comm comm,Mat *A);&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -1060,9 +1983,9 @@ PETSc 支持多种矩阵类型，包括稠密矩阵、稀疏矩阵等
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org55be7ae" class="outline-4"&gt;
-&lt;h4 id="org55be7ae"&gt;矩阵类型&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org55be7ae"&gt;
+&lt;div id="outline-container-org2b9c40b" class="outline-4"&gt;
+&lt;h4 id="org2b9c40b"&gt;矩阵类型&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2b9c40b"&gt;
 &lt;p&gt;
 PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/p&gt;
@@ -1075,18 +1998,18 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org473a607" class="outline-4"&gt;
-&lt;h4 id="org473a607"&gt;基本矩阵操作&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org473a607"&gt;
+&lt;div id="outline-container-orgce698ec" class="outline-4"&gt;
+&lt;h4 id="orgce698ec"&gt;基本矩阵操作&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgce698ec"&gt;
 &lt;p&gt;
 参考&lt;a href="https://petsc.org/release/documentation/manual/mat/#fig-matrixops"&gt;函数表&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6a83f07" class="outline-4"&gt;
-&lt;h4 id="org6a83f07"&gt;无矩阵的矩阵&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org6a83f07"&gt;
+&lt;div id="outline-container-orga2bf7e1" class="outline-4"&gt;
+&lt;h4 id="orga2bf7e1"&gt;无矩阵的矩阵&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga2bf7e1"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MatCreateShell(MPI_Comm comm,PetscInt m,PetscInt n,PetscInt M,PetscInt N,void *ctx,Mat *mat);&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -1146,10 +2069,19 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
     &lt;span class="p"&gt;}&lt;/span&gt;
 
 
+    &lt;span class="cm"&gt;/* 创建一个临时向量，来获取 PETSc 自动分配的局域大小, 这里是方矩阵，长方形矩阵要分别获取两边的尺寸 */&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;A_local_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+	&lt;span class="n"&gt;Vec&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;VecCreateMPI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;PETSC_DECIDE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;VecGetLocalSize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A_local_size&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;VecDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
     &lt;span class="cm"&gt;/* 创建无矩阵的矩阵 A，必须设置每个局域块 A 的大小 */&lt;/span&gt;
     &lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="n"&gt;A_data_t&lt;/span&gt; &lt;span class="n"&gt;A_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
-    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatCreateShell&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatCreateShell&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
     &lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
     &lt;span class="cm"&gt;/* 为 A 绑定矩阵乘向量运算 */&lt;/span&gt;
@@ -1160,9 +2092,9 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd455f49" class="outline-3"&gt;
-&lt;h3 id="orgd455f49"&gt;线性求解器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd455f49"&gt;
+&lt;div id="outline-container-org63c3c09" class="outline-3"&gt;
+&lt;h3 id="org63c3c09"&gt;线性求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org63c3c09"&gt;
 &lt;p&gt;
 使用线性求解器 &lt;code&gt;KSP&lt;/code&gt; 解线性方程 \(Ax=b\)
 &lt;/p&gt;
@@ -1194,22 +2126,22 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org9dadbeb" class="outline-2"&gt;
-&lt;h2 id="org9dadbeb"&gt;其它问题&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9dadbeb"&gt;
+&lt;div id="outline-container-orgcc453f5" class="outline-2"&gt;
+&lt;h2 id="orgcc453f5"&gt;其它问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcc453f5"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org491e88e" class="outline-3"&gt;
-&lt;h3 id="org491e88e"&gt;复数支持&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org491e88e"&gt;
+&lt;div id="outline-container-org99aabad" class="outline-3"&gt;
+&lt;h3 id="org99aabad"&gt;复数支持&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org99aabad"&gt;
 &lt;p&gt;
 只能通过编译选项 &lt;code&gt;--with-scalar-type=complex&lt;/code&gt; 将 &lt;code&gt;PetscScalar&lt;/code&gt; 设成复数
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga5a99e8" class="outline-3"&gt;
-&lt;h3 id="orga5a99e8"&gt;编译选项&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga5a99e8"&gt;
+&lt;div id="outline-container-org13ed1d3" class="outline-3"&gt;
+&lt;h3 id="org13ed1d3"&gt;编译选项&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org13ed1d3"&gt;
 &lt;p&gt;
 &lt;a href="https://www.mcs.anl.gov/petsc/documentation/installation.html"&gt;参考&lt;/a&gt;
 &lt;/p&gt;
@@ -1226,6 +2158,38 @@ release 模式:
 &lt;/p&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure PETSC_ARCH=arch-complex-release --with-cc=gcc --with-cxx=g++ --with-fc=gfortran --with-debugging=0 COPTFLAGS='-O3 -march=native -mtune=native' CXXOPTFLAGS='-O3 -march=native -mtune=native' FOPTFLAGS='-O3 -march=native -mtune=native' --with-scalar-type=complex --download-mpich
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+64 位支持：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   --with-64-bit-indices
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+python 支持：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   –with-petsc4py=1
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org715d04c" class="outline-3"&gt;
+&lt;h3 id="org715d04c"&gt;混合线程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org715d04c"&gt;
+&lt;p&gt;
+PETSc 是纯 MPI 框架，不提供混合线程的函数，同时所有函数也不保证线程安全。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgce64971" class="outline-3"&gt;
+&lt;h3 id="orgce64971"&gt;在指定 MPI 通信器上使用 PETSc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgce64971"&gt;
+&lt;p&gt;
+在调用 &lt;code&gt;PetscInitialize()&lt;/code&gt; 之前设置
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// 或其它 comm&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about petsc)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/petsc.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Sun, 04 Jul 2021 04:43:30 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga815a4b" class="outline-2"&gt;
-&lt;h2 id="orga815a4b"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga815a4b"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about petsc)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/petsc.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 04 Aug 2021 07:10:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org360b337" class="outline-2"&gt;
+&lt;h2 id="org360b337"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org360b337"&gt;
 &lt;p&gt;
 &lt;a href="https://slepc.upv.es/"&gt;SLEPc&lt;/a&gt; 是用来求 PETSc 矩阵的扩展库。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org91dcfbc" class="outline-3"&gt;
-&lt;h3 id="org91dcfbc"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org91dcfbc"&gt;
+&lt;div id="outline-container-orgd60ff4e" class="outline-3"&gt;
+&lt;h3 id="orgd60ff4e"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd60ff4e"&gt;
 &lt;p&gt;
 SLEPc 有以下基本部分构成
 &lt;/p&gt;
@@ -34,9 +34,9 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgca8fb29" class="outline-3"&gt;
-&lt;h3 id="orgca8fb29"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgca8fb29"&gt;
+&lt;div id="outline-container-org045b7c0" class="outline-3"&gt;
+&lt;h3 id="org045b7c0"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org045b7c0"&gt;
 &lt;p&gt;
 下载时注意，SLEPc 的版本必须和 PETSc 版本一样
 &lt;/p&gt;
@@ -45,7 +45,7 @@ SLEPc 有以下基本部分构成
 编译选项
 &lt;/p&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure --download-arpack --download-blopex --download-hpddm --download-primme
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure --download-arpack --download-blopex --download-hpddm --download-primme  --with-slepc4py=1
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
@@ -54,9 +54,9 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge520544" class="outline-3"&gt;
-&lt;h3 id="orge520544"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orge520544"&gt;
+&lt;div id="outline-container-org9dd7632" class="outline-3"&gt;
+&lt;h3 id="org9dd7632"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9dd7632"&gt;
 &lt;p&gt;
 程序开始和结束时分别调用 &lt;code&gt;SlepcInitialize()&lt;/code&gt; 和 &lt;code&gt;SlepcFinalize()&lt;/code&gt;, 实际上就是 &lt;code&gt;PetscInitialize()&lt;/code&gt; 和 &lt;code&gt;PetscFinalize()&lt;/code&gt;
 &lt;/p&gt;
@@ -67,13 +67,13 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0341242" class="outline-3"&gt;
-&lt;h3 id="org0341242"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0341242"&gt;
+&lt;div id="outline-container-orgd725e50" class="outline-3"&gt;
+&lt;h3 id="orgd725e50"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd725e50"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfe5f94b" class="outline-4"&gt;
-&lt;h4 id="orgfe5f94b"&gt;基本使用&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgfe5f94b"&gt;
+&lt;div id="outline-container-orgb4d6d2f" class="outline-4"&gt;
+&lt;h4 id="orgb4d6d2f"&gt;基本使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb4d6d2f"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSCreate(MPI_Comm comm,EPS *eps);&lt;/code&gt; 
 &lt;ol class="org-ol"&gt;
@@ -226,13 +226,13 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org75526a9" class="outline-4"&gt;
-&lt;h4 id="org75526a9"&gt;求解器配置&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org75526a9"&gt;
+&lt;div id="outline-container-org5007b3c" class="outline-4"&gt;
+&lt;h4 id="org5007b3c"&gt;求解器配置&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5007b3c"&gt;
 &lt;/div&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orgd080ad1"&gt;&lt;/a&gt;问题类型&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgd080ad1"&gt;
+&lt;li&gt;&lt;a id="orgc7cb957"&gt;&lt;/a&gt;问题类型&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgc7cb957"&gt;
 &lt;p&gt;
 问题类型使用 &lt;code&gt;EPSSetProblemType(EPS eps,EPSProblemType type);&lt;/code&gt; 进行设置
 &lt;/p&gt;
@@ -308,8 +308,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org13d0e0e"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org13d0e0e"&gt;
+&lt;li&gt;&lt;a id="org59690c8"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org59690c8"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);&lt;/code&gt; 设置要求的本征值个数
 &lt;/p&gt;
@@ -321,8 +321,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org5ffc797"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org5ffc797"&gt;
+&lt;li&gt;&lt;a id="org888ed48"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org888ed48"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSSetWhichEigenpairs(EPS eps,EPSWhich which);&lt;/code&gt; 设置要求本征值的位置&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSSetTarget(EPS eps,PetscScalar target);&lt;/code&gt; 设置计算距离某个值最近的本征值&lt;/li&gt;
@@ -421,8 +421,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org8fc18cf"&gt;&lt;/a&gt;选择算法&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org8fc18cf"&gt;
+&lt;li&gt;&lt;a id="org03fe696"&gt;&lt;/a&gt;选择算法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org03fe696"&gt;
 &lt;p&gt;
 通过 &lt;code&gt;EPSSetType(EPS eps,EPSType method);&lt;/code&gt; 设置求解器使用的算法
 &lt;/p&gt;
@@ -606,8 +606,8 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgcf0bd30"&gt;&lt;/a&gt;获得结果&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgcf0bd30"&gt;
+&lt;li&gt;&lt;a id="org35082c2"&gt;&lt;/a&gt;获得结果&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org35082c2"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSGetConverged(EPS eps,PetscInt *nconv);&lt;/code&gt; 获得收敛的解个数&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSGetEigenpair(EPS eps,PetscInt j,PetscScalar *kr,PetscScalar *ki,Vec xr,Vec xi);&lt;/code&gt; 获得本征值和本征矢&lt;/li&gt;
@@ -641,52 +641,52 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org3e4f3ab"&gt;&lt;/a&gt;其它设置&lt;br&gt;
+&lt;li&gt;&lt;a id="org0531058"&gt;&lt;/a&gt;其它设置&lt;br&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org15ffade"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org15ffade"&gt;
+&lt;li&gt;&lt;a id="org9452508"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org9452508"&gt;
 &lt;p&gt;
 &lt;code&gt;EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orge7ecad2"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org23b2315"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org2f274fe"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="orgfc9d128"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org24b54ab"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org49c99d9"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org143fdff"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org05aa953"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>mpi</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org0c787d5" class="outline-2"&gt;
-&lt;h2 id="org0c787d5"&gt;PETSc&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0c787d5"&gt;
+&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>mpi</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgfdfee07" class="outline-2"&gt;
+&lt;h2 id="orgfdfee07"&gt;PETSc&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfdfee07"&gt;
 &lt;p&gt;
 &lt;a href="https://www.mcs.anl.gov/petsc/index.html"&gt;PETSc&lt;/a&gt; 是用于开发并行计算程序的基础库，完全建立在 MPI 上。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4eb3186" class="outline-3"&gt;
-&lt;h3 id="org4eb3186"&gt;安装与编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4eb3186"&gt;
+&lt;div id="outline-container-org1c4792d" class="outline-3"&gt;
+&lt;h3 id="org1c4792d"&gt;安装与编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1c4792d"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;下载 &lt;a href="https://www.mcs.anl.gov/petsc/download/"&gt;源码&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf1d7fa6" class="outline-3"&gt;
-&lt;h3 id="orgf1d7fa6"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf1d7fa6"&gt;
+&lt;div id="outline-container-org0b2a3c5" class="outline-3"&gt;
+&lt;h3 id="org0b2a3c5"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0b2a3c5"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org89d7579" class="outline-4"&gt;
-&lt;h4 id="org89d7579"&gt;PETSc 模块&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org89d7579"&gt;
+&lt;div id="outline-container-orga3025af" class="outline-4"&gt;
+&lt;h4 id="orga3025af"&gt;PETSc 模块&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga3025af"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;index set (IS)：向量的指标&lt;/li&gt;
 &lt;li&gt;vectors (Vec)&lt;/li&gt;
@@ -701,9 +701,9 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6fd6c2e" class="outline-4"&gt;
-&lt;h4 id="org6fd6c2e"&gt;环境变量&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org6fd6c2e"&gt;
+&lt;div id="outline-container-orgd64270e" class="outline-4"&gt;
+&lt;h4 id="orgd64270e"&gt;环境变量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd64270e"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;所有 PETSc 程序都依赖环境变量 &lt;code&gt;$PETSC_DIR&lt;/code&gt; 找到 PETSc 的目录&lt;/li&gt;
 &lt;li&gt;还需要环境变量 &lt;code&gt;$PETSC_ARCH&lt;/code&gt; 找到安装路径&lt;/li&gt;
@@ -711,9 +711,9 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0eaa212" class="outline-4"&gt;
-&lt;h4 id="org0eaa212"&gt;命令行&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0eaa212"&gt;
+&lt;div id="outline-container-org0b727d7" class="outline-4"&gt;
+&lt;h4 id="org0b727d7"&gt;命令行&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0b727d7"&gt;
 &lt;p&gt;
 PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或者 PETSc 提供的脚本 &lt;code&gt;$PETSC_DIR/lib/petsc/bin/petscmpiexec&lt;/code&gt; 
 &lt;/p&gt;
@@ -735,9 +735,9 @@ PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org54036a4" class="outline-4"&gt;
-&lt;h4 id="org54036a4"&gt;主函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org54036a4"&gt;
+&lt;div id="outline-container-orgaa3dbbd" class="outline-4"&gt;
+&lt;h4 id="orgaa3dbbd"&gt;主函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgaa3dbbd"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;PETSc 主函数需要调用 &lt;code&gt;PetscInitialize()&lt;/code&gt; 作为开始，来初始化 PETSc 和 MPI&lt;/li&gt;
 &lt;li&gt;程序退出时调用 &lt;code&gt;PetscFinalize()&lt;/code&gt;, 来结束 PETSc 和 MPI&lt;/li&gt;
@@ -778,9 +778,9 @@ PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org47b91a7" class="outline-4"&gt;
-&lt;h4 id="org47b91a7"&gt;错误处理&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org47b91a7"&gt;
+&lt;div id="outline-container-org45ccaec" class="outline-4"&gt;
+&lt;h4 id="org45ccaec"&gt;错误处理&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org45ccaec"&gt;
 &lt;p&gt;
 所有 PETSc 函数都返回整数值 &lt;code&gt;ierr&lt;/code&gt; 作为消息，使用 &lt;code&gt;CHECKRRQ(ierr)&lt;/code&gt; 宏来处理错误。
 &lt;/p&gt;
@@ -788,17 +788,17 @@ PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org75c8bc4" class="outline-3"&gt;
-&lt;h3 id="org75c8bc4"&gt;向量和并行数据&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org75c8bc4"&gt;
+&lt;div id="outline-container-org5a92cef" class="outline-3"&gt;
+&lt;h3 id="org5a92cef"&gt;向量和并行数据&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5a92cef"&gt;
 &lt;p&gt;
 向量是 PETSc 最基本的结构，用于保存计算结果等
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfbc8697" class="outline-4"&gt;
-&lt;h4 id="orgfbc8697"&gt;创建和组装向量&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgfbc8697"&gt;
+&lt;div id="outline-container-org004982c" class="outline-4"&gt;
+&lt;h4 id="org004982c"&gt;创建和组装向量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org004982c"&gt;
 &lt;p&gt;
 PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 &lt;/p&gt;
@@ -924,9 +924,9 @@ PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc11ca22" class="outline-4"&gt;
-&lt;h4 id="orgc11ca22"&gt;基本向量操作&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc11ca22"&gt;
+&lt;div id="outline-container-org02f0567" class="outline-4"&gt;
+&lt;h4 id="org02f0567"&gt;基本向量操作&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org02f0567"&gt;
 &lt;p&gt;
 加减乘除之类的操作，参考&lt;a href="https://petsc.org/release/documentation/manual/vec/#id3"&gt;函数表&lt;/a&gt;
 &lt;/p&gt;
@@ -967,9 +967,9 @@ PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org271e5e9" class="outline-4"&gt;
-&lt;h4 id="org271e5e9"&gt;索引和排序&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org271e5e9"&gt;
+&lt;div id="outline-container-org1f30e91" class="outline-4"&gt;
+&lt;h4 id="org1f30e91"&gt;索引和排序&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org1f30e91"&gt;
 &lt;p&gt;
 PETSc 提供了一组工具用于处理向量指标的顺序，称作 Application Orderings(AO)
 &lt;/p&gt;
@@ -977,17 +977,17 @@ PETSc 提供了一组工具用于处理向量指标的顺序，称作 Applicatio
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org488a9a6" class="outline-3"&gt;
-&lt;h3 id="org488a9a6"&gt;矩阵&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org488a9a6"&gt;
+&lt;div id="outline-container-orgbd0d741" class="outline-3"&gt;
+&lt;h3 id="orgbd0d741"&gt;矩阵&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgbd0d741"&gt;
 &lt;p&gt;
 PETSc 支持多种矩阵类型，包括稠密矩阵、稀疏矩阵等
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9b63392" class="outline-4"&gt;
-&lt;h4 id="org9b63392"&gt;创建和组装矩阵&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org9b63392"&gt;
+&lt;div id="outline-container-org9673dd2" class="outline-4"&gt;
+&lt;h4 id="org9673dd2"&gt;创建和组装矩阵&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9673dd2"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MatCreate(MPI_Comm comm,Mat *A);&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -1060,9 +1060,9 @@ PETSc 支持多种矩阵类型，包括稠密矩阵、稀疏矩阵等
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org55be7ae" class="outline-4"&gt;
-&lt;h4 id="org55be7ae"&gt;矩阵类型&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org55be7ae"&gt;
+&lt;div id="outline-container-org2b9c40b" class="outline-4"&gt;
+&lt;h4 id="org2b9c40b"&gt;矩阵类型&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2b9c40b"&gt;
 &lt;p&gt;
 PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/p&gt;
@@ -1075,18 +1075,18 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org473a607" class="outline-4"&gt;
-&lt;h4 id="org473a607"&gt;基本矩阵操作&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org473a607"&gt;
+&lt;div id="outline-container-orgce698ec" class="outline-4"&gt;
+&lt;h4 id="orgce698ec"&gt;基本矩阵操作&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgce698ec"&gt;
 &lt;p&gt;
 参考&lt;a href="https://petsc.org/release/documentation/manual/mat/#fig-matrixops"&gt;函数表&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6a83f07" class="outline-4"&gt;
-&lt;h4 id="org6a83f07"&gt;无矩阵的矩阵&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org6a83f07"&gt;
+&lt;div id="outline-container-orga2bf7e1" class="outline-4"&gt;
+&lt;h4 id="orga2bf7e1"&gt;无矩阵的矩阵&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga2bf7e1"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MatCreateShell(MPI_Comm comm,PetscInt m,PetscInt n,PetscInt M,PetscInt N,void *ctx,Mat *mat);&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -1146,10 +1146,19 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
     &lt;span class="p"&gt;}&lt;/span&gt;
 
 
+    &lt;span class="cm"&gt;/* 创建一个临时向量，来获取 PETSc 自动分配的局域大小, 这里是方矩阵，长方形矩阵要分别获取两边的尺寸 */&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;A_local_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt;
+	&lt;span class="n"&gt;Vec&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	&lt;span class="n"&gt;VecCreateMPI&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;PETSC_DECIDE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;VecGetLocalSize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A_local_size&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	&lt;span class="n"&gt;VecDestroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
     &lt;span class="cm"&gt;/* 创建无矩阵的矩阵 A，必须设置每个局域块 A 的大小 */&lt;/span&gt;
     &lt;span class="n"&gt;Mat&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="n"&gt;A_data_t&lt;/span&gt; &lt;span class="n"&gt;A_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
-    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatCreateShell&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;ierr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MatCreateShell&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_local_size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;A_len&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A_data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
     &lt;span class="n"&gt;CAKERRQ&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ierr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
     &lt;span class="cm"&gt;/* 为 A 绑定矩阵乘向量运算 */&lt;/span&gt;
@@ -1160,9 +1169,9 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd455f49" class="outline-3"&gt;
-&lt;h3 id="orgd455f49"&gt;线性求解器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd455f49"&gt;
+&lt;div id="outline-container-org63c3c09" class="outline-3"&gt;
+&lt;h3 id="org63c3c09"&gt;线性求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org63c3c09"&gt;
 &lt;p&gt;
 使用线性求解器 &lt;code&gt;KSP&lt;/code&gt; 解线性方程 \(Ax=b\)
 &lt;/p&gt;
@@ -1194,22 +1203,22 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org9dadbeb" class="outline-2"&gt;
-&lt;h2 id="org9dadbeb"&gt;其它问题&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9dadbeb"&gt;
+&lt;div id="outline-container-orgcc453f5" class="outline-2"&gt;
+&lt;h2 id="orgcc453f5"&gt;其它问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcc453f5"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org491e88e" class="outline-3"&gt;
-&lt;h3 id="org491e88e"&gt;复数支持&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org491e88e"&gt;
+&lt;div id="outline-container-org99aabad" class="outline-3"&gt;
+&lt;h3 id="org99aabad"&gt;复数支持&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org99aabad"&gt;
 &lt;p&gt;
 只能通过编译选项 &lt;code&gt;--with-scalar-type=complex&lt;/code&gt; 将 &lt;code&gt;PetscScalar&lt;/code&gt; 设成复数
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga5a99e8" class="outline-3"&gt;
-&lt;h3 id="orga5a99e8"&gt;编译选项&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga5a99e8"&gt;
+&lt;div id="outline-container-org13ed1d3" class="outline-3"&gt;
+&lt;h3 id="org13ed1d3"&gt;编译选项&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org13ed1d3"&gt;
 &lt;p&gt;
 &lt;a href="https://www.mcs.anl.gov/petsc/documentation/installation.html"&gt;参考&lt;/a&gt;
 &lt;/p&gt;
@@ -1226,6 +1235,38 @@ release 模式:
 &lt;/p&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   ./configure PETSC_ARCH=arch-complex-release --with-cc=gcc --with-cxx=g++ --with-fc=gfortran --with-debugging=0 COPTFLAGS='-O3 -march=native -mtune=native' CXXOPTFLAGS='-O3 -march=native -mtune=native' FOPTFLAGS='-O3 -march=native -mtune=native' --with-scalar-type=complex --download-mpich
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+64 位支持：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   --with-64-bit-indices
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+python 支持：
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   –with-petsc4py=1
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org715d04c" class="outline-3"&gt;
+&lt;h3 id="org715d04c"&gt;混合线程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org715d04c"&gt;
+&lt;p&gt;
+PETSc 是纯 MPI 框架，不提供混合线程的函数，同时所有函数也不保证线程安全。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgce64971" class="outline-3"&gt;
+&lt;h3 id="orgce64971"&gt;在指定 MPI 通信器上使用 PETSc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgce64971"&gt;
+&lt;p&gt;
+在调用 &lt;code&gt;PetscInitialize()&lt;/code&gt; 之前设置
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;PETSC_COMM_WORLD&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MPI_COMM_WORLD&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// 或其它 comm&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;

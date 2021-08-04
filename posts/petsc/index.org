@@ -334,10 +334,19 @@ A_MatVec(Mat A, Vec x, Vec y)
 }
 
 
+/* 创建一个临时向量，来获取 PETSc 自动分配的局域大小, 这里是方矩阵，长方形矩阵要分别获取两边的尺寸 */
+int A_local_size = 0;
+{
+    Vec x;
+    VecCreateMPI(PETSC_COMM_WORLD,PETSC_DECIDE,A_len,&x);
+    VecGetLocalSize(x,&A_local_size);
+    VecDestroy(&x);
+}
+
 /* 创建无矩阵的矩阵 A，必须设置每个局域块 A 的大小 */
 Mat A;
 A_data_t A_data = {};
-ierr = MatCreateShell(PETSC_COMM_WORLD, A_local_len, A_local_len, A_len, A_len, &A_data, &A);
+ierr = MatCreateShell(PETSC_COMM_WORLD, A_local_size, A_local_size, A_len, A_len, &A_data, &A);
 CAKERRQ(ierr);
 
 /* 为 A 绑定矩阵乘向量运算 */
@@ -382,4 +391,23 @@ CAKERRQ(ierr);
    #+begin_src bash
 ./configure PETSC_ARCH=arch-complex-release --with-cc=gcc --with-cxx=g++ --with-fc=gfortran --with-debugging=0 COPTFLAGS='-O3 -march=native -mtune=native' CXXOPTFLAGS='-O3 -march=native -mtune=native' FOPTFLAGS='-O3 -march=native -mtune=native' --with-scalar-type=complex --download-mpich
    #+end_src
+   
+   64 位支持：
+   #+begin_src bash
+--with-64-bit-indices
+   #+end_src 
 
+   python 支持：
+   #+begin_src bash
+–with-petsc4py=1
+   #+end_src 
+
+** 混合线程
+
+   PETSc 是纯 MPI 框架，不提供混合线程的函数，同时所有函数也不保证线程安全。
+
+** 在指定 MPI 通信器上使用 PETSc
+   在调用 ~PetscInitialize()~ 之前设置
+   #+begin_src c
+PETSC_COMM_WORLD = MPI_COMM_WORLD; // 或其它 comm
+   #+end_src
