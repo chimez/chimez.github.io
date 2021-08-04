@@ -14,7 +14,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://chimez.github.io/">
 <link rel="next" href="index-4.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/slepc/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/mpi/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -71,7 +71,1080 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/slepc/" class="u-url">SLEPc</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/mpi/" class="u-url">MPI</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/mpi/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-07-04T17:00:31+08:00" itemprop="datePublished" title="2021-07-04 17:00">2021-07-04 17:00</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org51a6c6b" class="outline-2">
+<h2 id="org51a6c6b">MPI: Message Passing Interface</h2>
+<div class="outline-text-2" id="text-org51a6c6b">
+<p>
+MPI 是消息传递接口标准，主要的实现有 Intel MPI, OpenMPI 和 MPICH 等. MPI 标准目前有三版 MPI-1,MPI-2, MPI-3, 标准支持的语言是 c 和 fortran, c++ 支持在 MPI-3 中移除了。
+</p>
+
+<p>
+MPI 的优势：
+</p>
+<ul class="org-ul">
+<li>标准：所有超级计算机都支持</li>
+<li>可移植：无需修改程序就能在所有支持 MPI 的平台上运行</li>
+<li>高性能：所有实现都会根据机器做优化</li>
+<li>功能齐全：MPI-3 中有超过 430 个函数，尽管大多数程序可能就用几十个函数</li>
+<li>可用：相当多的实现都可用，包括供应商提供的和开放获取的</li>
+</ul>
+</div>
+
+<div id="outline-container-org14af2f3" class="outline-3">
+<h3 id="org14af2f3">基本结构</h3>
+<div class="outline-text-3" id="text-org14af2f3">
+</div>
+<div id="outline-container-org10d9051" class="outline-4">
+<h4 id="org10d9051">程序结构</h4>
+<div class="outline-text-4" id="text-org10d9051">
+<p>
+所有 MPI 程序都分以下几步
+</p>
+<ol class="org-ol">
+<li>引用头文件 <code>"mpi.h"</code>
+</li>
+<li>执行顺序代码</li>
+<li>初始化 MPI 环境</li>
+<li>执行并行任务</li>
+<li>终止 MPI 环境</li>
+<li>执行顺序代码</li>
+<li>程序结束</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org02a8ae3" class="outline-4">
+<h4 id="org02a8ae3">接口约定</h4>
+<div class="outline-text-4" id="text-org02a8ae3">
+<p>
+所有 MPI 的函数都以 <code>MPI_</code> 开头，并且下划线后的第一个字母大写，函数返回消息码 <code>rc</code> , 如果成功就是 <code>MPI_SUCCESS</code>, 即 <code>0</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0b0eafd" class="outline-4">
+<h4 id="org0b0eafd">基本概念</h4>
+<div class="outline-text-4" id="text-org0b0eafd">
+<ol class="org-ol">
+<li>
+<b>communicator</b>: 通信器，定义哪些进程之间需要通信
+<ol class="org-ol">
+<li>
+<code>MPI_COMM_WORLD</code> 通信器表示所有进程都相互通信</li>
+</ol>
+</li>
+<li>
+<b>group</b>: 进程的分组</li>
+<li>
+<b>rank</b>: 秩，指的是一个通信器中每个进程都有自己单独的编号，有时候也叫做 <b>任务 ID</b> ，秩是从 0 开始连续的整数</li>
+<li>
+<b>错误处理</b>: 尽管大多数函数都返回一个错误码，但是 MPI 标准指出，当错误发生时程序应立刻终止，所以并不需要自己捕获和处理所有错误码</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge4984f9" class="outline-4">
+<h4 id="orge4984f9">MPI 版本</h4>
+<div class="outline-text-4" id="text-orge4984f9">
+<p>
+<b>MPI-1</b> (1994) ：最早的版本，构建起了 MPI 的基本框架，包括
+</p>
+<ol class="org-ol">
+<li>基本的环境管理</li>
+<li>点到点通信</li>
+<li>集体通信</li>
+<li>组和通信器</li>
+<li>虚拟拓扑</li>
+</ol>
+<p>
+<b>MPI-2</b> (1998) ： 为 MPI-1 添加大量新函数
+</p>
+<ol class="org-ol">
+<li>动态进程：可以在任务启动后创建新的进程</li>
+<li>单边通信：提供单向通信功能，包括共享内存和远程累加操作</li>
+<li>扩展集体通信：允许通信器间的集体通信</li>
+<li>扩展接口：允许在 MPI 之上构造开发曾，包括 debugger 和 profiler 等</li>
+<li>额外语言绑定：支持 fortran 90</li>
+<li>并行 I/O</li>
+</ol>
+<p>
+<b>MPI-3</b> (2012) ：对 MPI-1 和 MPI-2 更多的扩展
+</p>
+<ol class="org-ol">
+<li>非阻塞集体操作</li>
+<li>新的单边通信操作</li>
+<li>近邻集体：扩展更多虚拟拓扑结构</li>
+<li>支持 fortran 2008</li>
+<li>MPIT Tool Interface 允许 MPI 实现开放一些内部变量给用户，用于性能提升</li>
+<li>Matched Probe: 改进多线程中的 probe 功能</li>
+</ol>
+<p>
+<b>MPI-4</b> (2021) : TODO
+</p>
+<ol class="org-ol">
+<li>增加大 count 参数支持</li>
+<li>持久集体</li>
+<li>部分通信</li>
+<li>新的初始化方式</li>
+<li>改进信息和错误处理</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9e42098" class="outline-3">
+<h3 id="org9e42098">环境管理函数</h3>
+<div class="outline-text-3" id="text-org9e42098">
+<ol class="org-ol">
+<li>
+<code>MPI_Init (&amp;argc,&amp;argv)</code>
+<ol class="org-ol">
+<li>初始化 MPI 环境，应在所有 MPI 函数之前调用，并且只能调用一次，这个函数具体做的事情是实现依赖的</li>
+</ol>
+</li>
+<li>
+<code>MPI_Comm_size (comm,&amp;size)</code>
+<ol class="org-ol">
+<li>获得通信器 <code>comm</code> 中 MPI 进程的总数</li>
+<li>如果通信器是 <code>MPI_COMM_WORLD</code> 那么就会得到程序的总进程数</li>
+</ol>
+</li>
+<li>
+<code>MPI_Comm_rank (comm,&amp;rank)</code>
+<ol class="org-ol">
+<li>获得调用这个函数的进程在通信器 <code>comm</code> 中的秩，</li>
+</ol>
+</li>
+<li>
+<code>MPI_Abort (comm,errorcode)</code>
+<ol class="org-ol">
+<li>终止通信器 <code>comm</code> 中的所有进程</li>
+</ol>
+</li>
+<li>
+<code>MPI_Get_processor_name (&amp;name,&amp;resultlength)</code>
+<ol class="org-ol">
+<li>获得进程的名字和名字的长度</li>
+<li>名字的缓冲区大小至少是 <code>MPI_MAX_PROCESSOR_NAME</code> 个 <code>sizeof(char)</code>
+</li>
+<li>具体返回的名字是什么是实现依赖的</li>
+</ol>
+</li>
+<li>
+<code>MPI_Get_version (&amp;version,&amp;subversion)</code>
+<ol class="org-ol">
+<li>获得 MPI 标准的版本号和子版本号</li>
+</ol>
+</li>
+<li>
+<code>MPI_Initialized (&amp;flag)</code>
+<ol class="org-ol">
+<li>测试是否已经调用过 <code>MPI_Init()</code>
+</li>
+</ol>
+</li>
+<li>
+<code>MPI_Wtime ()</code>
+<ol class="org-ol">
+<li>返回该进程所处的时间，以秒为单位</li>
+<li>不同进程的时间可能不一样，但大多数实现会同步这个时间</li>
+</ol>
+</li>
+<li>
+<code>MPI_Wtick ()</code>
+<ol class="org-ol">
+<li>返回 <code>MPI_Wtime()</code> 的精度</li>
+</ol>
+</li>
+<li>
+<code>MPI_Finalize ()</code>
+<ol class="org-ol">
+<li>终止 MPI 环境，每个 MPI 程序只能调用一次</li>
+</ol>
+</li>
+</ol>
+<div class="highlight"><pre><span></span>   <span class="cp">#include</span> <span class="cpf">"mpi.h"</span><span class="cp"></span>
+
+   <span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+   <span class="p">{</span>
+       <span class="n">MPI_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span>
+
+       <span class="kt">int</span> <span class="n">num_tasks</span><span class="p">;</span>
+       <span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num_tasks</span><span class="p">);</span>
+
+       <span class="kt">int</span> <span class="n">rank</span><span class="p">;</span>
+       <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">rank</span><span class="p">);</span>
+
+       <span class="kt">char</span> <span class="n">hostname</span><span class="p">[</span><span class="n">MPI_MAX_PROCESSOR_NAME</span><span class="p">];</span>
+       <span class="kt">int</span> <span class="n">name_len</span><span class="p">;</span>
+       <span class="n">MPI_Get_processor_name</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">name_len</span><span class="p">);</span>
+
+       <span class="n">MPI_Finalize</span><span class="p">();</span>
+   <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgd9a41d6" class="outline-3">
+<h3 id="orgd9a41d6">点到点通信</h3>
+<div class="outline-text-3" id="text-orgd9a41d6">
+</div>
+<div id="outline-container-orge6d5075" class="outline-4">
+<h4 id="orge6d5075">一般参数说明</h4>
+<div class="outline-text-4" id="text-orge6d5075">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">类型</th>
+<th scope="col" class="org-left">举例的函数</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">Blocking sends</td>
+<td class="org-left">MPI<sub>Send</sub>(buffer,count,type,dest,tag,comm)</td>
+</tr>
+<tr>
+<td class="org-left">Non-blocking sends</td>
+<td class="org-left">MPI<sub>Isend</sub>(buffer,count,type,dest,tag,comm,request)</td>
+</tr>
+<tr>
+<td class="org-left">Blocking receive</td>
+<td class="org-left">MPI<sub>Recv</sub>(buffer,count,type,source,tag,comm,status)</td>
+</tr>
+<tr>
+<td class="org-left">Non-blocking receive</td>
+<td class="org-left">MPI<sub>Irecv</sub>(buffer,count,type,source,tag,comm,request)</td>
+</tr>
+</tbody>
+</table>
+<p>
+参数说明：
+</p>
+<ol class="org-ol">
+<li>
+<b>buffer</b>: 要被收发的内容，内存地址，也就是指针</li>
+<li>
+<b>count</b>: 要收发的数据大小</li>
+<li>
+<b>type</b>: 数据类型，全大写的一个量 <code>MPI_CHAR</code> 等，也可以自定义</li>
+<li>
+<b>destination</b>: 发送的目标进程的 rank</li>
+<li>
+<b>source</b>: 接受的源进程的 rank，
+<ol class="org-ol">
+<li>如果是 <code>MPI_ANY_SOURCE</code> 那么就从所有进程接收</li>
+</ol>
+</li>
+<li>
+<b>tag</b>: 一个任意的非负整数参数，用来标记不同的信息，接收和发送两方的 <code>tag</code> 要相同，
+<ol class="org-ol">
+<li>
+<code>MPI_ANY_TAG</code> 会接收所有 tag</li>
+<li>MPI 标准指出 tag 应该在 0-32767, 不过大多数实现都支持更大的数</li>
+</ol>
+</li>
+<li>
+<b>comm</b>: 通信器</li>
+<li>
+<b>status</b>: 是收到的消息的属性，类型是 <code>MPI_Status</code>
+<ol class="org-ol">
+<li>
+<code>MPI_Get_count()</code> 可以获取收到的消息的大小</li>
+</ol>
+</li>
+<li>
+<b>request</b>: 非阻塞收发的回调，类型是 <code>MPI_Request</code>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgc03bf4a" class="outline-4">
+<h4 id="orgc03bf4a">常用阻塞点到点通信函数</h4>
+<div class="outline-text-4" id="text-orgc03bf4a">
+<ol class="org-ol">
+<li>
+<code>MPI_Send()</code> 基本的发送消息, 只有当发送信道再次可用时才返回</li>
+<li>
+<code>MPI_Recv()</code> 基本的接收消息，阻塞直到接收信道再次可用</li>
+<li>
+<code>MPI_Ssend()</code> 同步阻塞发送，阻塞直到发送信道可用并且接收方开始接收这个消息</li>
+<li>
+<code>MPI_Sendrecv()</code> 发送消息并发送回执，阻塞直到发送信道可用，并且接收方已经收到消息</li>
+<li><code>MPI_Wait()</code></li>
+<li><code>MPI_Waitany()</code></li>
+<li><code>MPI_Waitall()</code></li>
+<li>
+<code>MPI_Waitsome()</code>
+<ol class="org-ol">
+<li>阻塞直到某个非阻塞的收发完成</li>
+</ol>
+</li>
+<li>
+<code>MPI_Probe()</code> 进行阻塞测试</li>
+<li>
+<code>MPI_Get_count()</code> 返回收到的消息的源、标签和大小
+<ol class="org-ol">
+<li>输出类型是 <code>MPI_SOURCE</code>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org014f3db" class="outline-4">
+<h4 id="org014f3db">常用非阻塞点到点通信函数</h4>
+<div class="outline-text-4" id="text-org014f3db">
+<ol class="org-ol">
+<li>
+<code>MPI_Isend()</code> 非阻塞发送，所指定的发送 buffer 应该在 <code>MPI_Probe()</code> 确定已经发送完成之前不修改</li>
+<li>
+<code>MPI_Irecv()</code> 非阻塞接收，同样不应该在确定接收完成前修改 buffer</li>
+<li>
+<code>MPI_Issend()</code> 非阻塞同步发送，类似 <code>MPI_Isend()</code> 只是 <code>MPI_Probe()</code> 会确定接收方已经收到消息</li>
+<li><code>MPI_Test()</code></li>
+<li><code>MPI_Testany()</code></li>
+<li><code>MPI_Testall()</code></li>
+<li>
+<code>MPI_Testsome()</code>
+<ol class="org-ol">
+<li>检查非阻塞收发操作的状态，输出值 <code>flag</code> 为 <code>0</code> 表示没完成， <code>1</code> 表示已完成</li>
+</ol>
+</li>
+<li>
+<code>MPI_Iprobe()</code> 进行非阻塞测试, 如果消息已经到了 <code>flag</code> 为 <code>1</code>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga7e6fd8" class="outline-3">
+<h3 id="orga7e6fd8">集体通信</h3>
+<div class="outline-text-3" id="text-orga7e6fd8">
+
+<div class="figure">
+<p><img src="img/MPI:_Message_Passing_Interface/2021-07-04_18-47-40_collective_comm.gif" alt="nil"></p>
+</div>
+
+<p>
+集体通信操作的类型有
+</p>
+<ul class="org-ul">
+<li>
+<b>同步</b> 阻塞直到所有进程都到达同步点</li>
+<li>
+<b>数据移动</b> broadcast, scatter, gather, all to all</li>
+<li>
+<b>集体计算(归约)</b> min, max, add, multiply 等</li>
+</ul>
+</div>
+
+<div id="outline-container-orgad2b194" class="outline-4">
+<h4 id="orgad2b194">常用集体通信函数</h4>
+<div class="outline-text-4" id="text-orgad2b194">
+<ol class="org-ol">
+<li>
+<code>MPI_Barrier (comm)</code> 同步所有进程</li>
+<li>
+<code>MPI_Bcast (&amp;buffer,count,datatype,root,comm)</code> 将数据从 <code>root</code> 进程广播到所有进程</li>
+<li>
+<code>MPI_Scatter (&amp;sendbuf,sendcnt,sendtype,&amp;recvbuf,recvcnt,recvtype,root,comm)</code> 将数据分散到所有进程</li>
+<li>
+<code>MPI_Gather (&amp;sendbuf,sendcnt,sendtype,&amp;recvbuf,recvcount,recvtype,root,comm)</code> 从所有进程获取数据到 <code>root</code>
+</li>
+<li>
+<code>MPI_Allgather (&amp;sendbuf,sendcount,sendtype,&amp;recvbuf,recvcount,recvtype,comm)</code> 所有进程都获得总的数据</li>
+<li>
+<code>MPI_Reduce (&amp;sendbuf,&amp;recvbuf,count,datatype,op,root,comm)</code> 执行一个归约操作 <code>op</code> 到进程 <code>root</code>
+</li>
+<li>
+<code>MPI_Allreduce (&amp;sendbuf,&amp;recvbuf,count,datatype,op,comm)</code> 执行归约操作到所有进程</li>
+<li>
+<code>MPI_Reduce_scatter (&amp;sendbuf,&amp;recvbuf,recvcount,datatype,op,comm)</code> 先 reduce 再 scatter</li>
+<li>
+<code>MPI_Alltoall (&amp;sendbuf,sendcount,sendtype,&amp;recvbuf,recvcnt,recvtype,comm)</code> 每个进程都执行 scatter</li>
+<li>
+<code>MPI_Scan (&amp;sendbuf,&amp;recvbuf,count,datatype,op,comm)</code> 扫描操作</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2ada677" class="outline-3">
+<h3 id="org2ada677">自定义数据类型</h3>
+<div class="outline-text-3" id="text-org2ada677">
+<p>
+用户定义的数据类型，称作 <b>derived data types</b>
+</p>
+
+<ol class="org-ol">
+<li>
+<code>MPI_Type_contiguous (count,oldtype,&amp;newtype)</code> 创建一个新的数据类型，是 <code>count</code> 个旧类型数据的组合</li>
+<li>
+<code>MPI_Type_vector (count,blocklength,stride,oldtype,&amp;newtype)</code> 与 <code>MPI_Type_contiguous</code> 相同，只不过每个数据间可以有间隔</li>
+<li><code>MPI_Type_indexed (count,blocklens[],offsets[],old_type,&amp;newtype)</code></li>
+<li><code>MPI_Type_create_struct</code></li>
+<li><code>MPI_Type_get_extent</code></li>
+<li>
+<code>MPI_Type_commit (&amp;datatype)</code> 向系统提交类型</li>
+<li>
+<code>MPI_Type_free (&amp;datatype)</code> 释放指定类型的对象</li>
+</ol>
+</div>
+
+<div id="outline-container-org6f6c6e8" class="outline-4">
+<h4 id="org6f6c6e8">自定义结构体</h4>
+<div class="outline-text-4" id="text-org6f6c6e8">
+<p>
+<code>MPI_Type_create_struct(count, array_of_blocklengths, array_of_displacements, array_of_types, newtype)</code>
+</p>
+<ol class="org-ol">
+<li>
+<code>count</code> 结构体中的元素数，也是下面三个数组的长度</li>
+<li>
+<code>array_of_blocklengths</code> 每个块中的元素个数</li>
+<li>
+<code>array_of_displacements</code> 每个块的偏移量</li>
+<li>
+<code>array_of_types</code> 每个块的类型</li>
+<li>
+<code>newtype</code> 输出</li>
+</ol>
+<div class="highlight"><pre><span></span>    <span class="k">struct</span> <span class="nc">object</span> <span class="p">{</span>
+	<span class="kt">char</span> <span class="n">c</span><span class="p">;</span>
+	<span class="kt">double</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="n">MPI_Datatype</span> <span class="n">newtype</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">object_len</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">blocklengths</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+    <span class="n">MPI_Datatype</span> <span class="n">types</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+    <span class="n">MPI_Aint</span> <span class="n">displacements</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+
+    <span class="n">MPI_Aint</span> <span class="n">current_displacement</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="n">blocklength</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">MPI_CHAR</span><span class="p">;</span>
+    <span class="n">displacements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">offsetof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">object</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+
+    <span class="n">blocklength</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">types</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">MPI_DOUBLE</span><span class="p">;</span>
+    <span class="n">displacements</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">offsetof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">object</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+
+    <span class="n">blocklength</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">types</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">MPI_INT</span><span class="p">;</span>
+    <span class="n">displacements</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">offsetof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">object</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+
+    <span class="n">MPI_Type_create_struct</span><span class="p">(</span><span class="n">object_len</span><span class="p">,</span> <span class="n">blocklengths</span><span class="p">,</span> <span class="n">displacements</span><span class="p">,</span> <span class="n">types</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">newtype</span><span class="p">);</span>
+    <span class="n">MPI_Type_commit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">newtype</span><span class="p">);</span>
+
+    <span class="k">struct</span> <span class="nc">object</span> <span class="n">o</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">proc_id</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+	<span class="n">MPI_Send</span><span class="p">(</span><span class="o">&amp;</span><span class="n">o</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">newtype</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">comm</span><span class="p">);</span>
+    <span class="p">}</span><span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">proc_id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">){</span>
+	<span class="n">MPI_Recv</span><span class="p">(</span><span class="o">&amp;</span><span class="n">o</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">newtype</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">MPI_Type_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">newtype</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0f4c8f7" class="outline-3">
+<h3 id="org0f4c8f7">组和通信器管理</h3>
+<div class="outline-text-3" id="text-org0f4c8f7">
+<p>
+<b>group</b> 组是一些进程的有序集合，每个进程编号从 0 到 N-1, <b>communicator</b> 通信器是一组需要相互通信的进程，每个组都有一个通信器。从编程的角度看，组是用来指定哪些进程相互通信，进而创建通信器的。
+</p>
+
+<p>
+典型的过程：
+</p>
+<ol class="org-ol">
+<li>使用 <code>MPI_Comm_group()</code> 从 <code>MPI_COMM_WORLD</code> 中取出全局组的句柄</li>
+<li>使用 <code>MPI_Group_incl()</code> 从全局组的子集中创建新的组</li>
+<li>使用 <code>MPI_Comm_create()</code> 为新的组创建通信器</li>
+<li>使用 <code>MPI_Comm_rank()</code> 确定新的通信器中的 rank</li>
+<li>进行通信</li>
+<li>使用 <code>MPI_Comm_free()</code> 和 <code>MPI_Group_free()</code> 释放不用的组和通信器对象</li>
+</ol>
+</div>
+
+<div id="outline-container-orgb22155b" class="outline-4">
+<h4 id="orgb22155b">基本通信器</h4>
+<div class="outline-text-4" id="text-orgb22155b">
+<ul class="org-ul">
+<li>
+<code>MPI_COMM_WORLD</code> 全部的进程</li>
+<li>
+<code>MPI_COMM_SELF</code> 只包含当前进程</li>
+<li>
+<code>MPI_COMM_NULL</code> 无效通信器，用于一些函数的错误码</li>
+</ul>
+<p>
+通信器的类型是 <code>MPI_Comm</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgff42e2a" class="outline-4">
+<h4 id="orgff42e2a">复制通信器</h4>
+<div class="outline-text-4" id="text-orgff42e2a">
+<p>
+复制一个一样的通信器，主要用于库函数编写时防止修改全局参数    
+</p>
+
+<ol class="org-ol">
+<li>
+<code>MPI_Comm_dup()</code> 复制一个通信器</li>
+<li>
+<code>MPI_Comm_idup()</code> 复制通信器，非阻塞</li>
+<li>
+<code>MPI_Comm_dup_with_info()</code> 复制通信器并传递 info</li>
+<li>
+<code>MPI_Comm_idup_with_info()</code> 复制通信器并传递 info, 非阻塞</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org22dbdf7" class="outline-4">
+<h4 id="org22dbdf7">划分通信器</h4>
+<div class="outline-text-4" id="text-org22dbdf7">
+<p>
+使用 <code>MPI_Comm_split(comm, color, key, newcomm)</code>  将 <code>comm</code> 中有相同 <code>color</code> 的进程组成一个新的通信器 <code>newcomm</code>, 新通信器中的 rank 由 <code>key</code> 指定
+</p>
+
+<p>
+注意
+</p>
+<ol class="org-ol">
+<li>代码会在所有进程中执行，所以只要进程中生成自己的 <code>color</code> 和 <code>key</code> ,返回的通信器就包括这些进程</li>
+<li>一般新通信器中的 <code>rank</code> 跟全局的保存一致就行了， <code>MPI_Comm_rank(MPI_COMM_WORLD, &amp;my_key)</code>
+</li>
+<li><code>MPI_Comm_spawn()</code></li>
+<li><code>MPI_Comm_free()</code></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgc61d0cc" class="outline-4">
+<h4 id="orgc61d0cc">从组创建通信器</h4>
+<div class="outline-text-4" id="text-orgc61d0cc">
+<p>
+组的类型是 <code>MPI_Group</code>
+</p>
+
+<ol class="org-ol">
+<li><code>MPI_Comm_group()</code></li>
+<li>
+<code>MPI_Group_incl(group, n, ranks, newgroup)</code> 将组中 <code>ranks</code> 的进程添加到新组</li>
+<li>
+<code>MPI_Group_excl(group, n, ranks, newgroup)</code> 除了 <code>ranks</code> 以外的进程添加到新组</li>
+<li><code>MPI_Group_difference()</code></li>
+<li><code>MPI_Group_union()</code></li>
+<li><code>MPI_Group_intersection()</code></li>
+<li><code>MPI_Group_difference()</code></li>
+<li><code>MPI_Group_size()</code></li>
+<li><code>MPI_Group_rank()</code></li>
+<li><code>MPI_Comm_create_group()</code></li>
+<li>
+<code>MPI_Comm_create(comm, group, newcomm)</code> 从组创建通信器</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgd938879" class="outline-4">
+<h4 id="orgd938879">通信器间的通信器</h4>
+<div class="outline-text-4" id="text-orgd938879">
+<p>
+<code>MPI_Intercomm_create(local_comm, local_leader, peer_comm, remote_leader, tag, newintercomm)</code>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org33bdb13" class="outline-3">
+<h3 id="org33bdb13">虚拟拓扑</h3>
+<div class="outline-text-3" id="text-org33bdb13">
+<p>
+MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成一个几何形状，这个网络拓扑是虚拟的，与物理实际的连接无关。
+</p>
+
+<p>
+当特殊的通信模式与一个拓扑结果相匹配时 MPI 虚拟拓扑就很有用了。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org83d9678" class="outline-3">
+<h3 id="org83d9678">单边通信</h3>
+<div class="outline-text-3" id="text-org83d9678">
+</div>
+<div id="outline-container-orga477000" class="outline-4">
+<h4 id="orga477000">基本概念</h4>
+<div class="outline-text-4" id="text-orga477000">
+<ul class="org-ul">
+<li>Remote Memory Access(RMA), Remote Direct Momory Access (RDMA), 远程内存访问
+<ul class="org-ul">
+<li>指的是两个进程 origin 和 target, origin 发起动作 put/get, 访问 target 的内存</li>
+<li>之所以叫单边通信，是因为 target 进程完全不知道发生了什么</li>
+</ul>
+</li>
+<li>window
+<ul class="org-ul">
+<li>单边通信只能访问 target 进程所指定的一块内存，称为 window</li>
+</ul>
+</li>
+<li>distributed shared memory, virtual shared memory
+<ul class="org-ul">
+<li>是除了 window 之外的另一种实现远程内存访问的方法</li>
+<li>只有所谓的 Partitioned Global Address Space(PGAS)语言支持，例如 Unified Parallel C (UPC)</li>
+</ul>
+</li>
+<li>active RMA 和 passive RMA
+<ul class="org-ul">
+<li>active RMA 也叫做 active target synchronization, target 进程设置一个时间周期(epoch)，在这其中 window 可以被访问，类似于同步数据转移</li>
+<li>passive RMA 也叫做 passive target synchronization, target 进程不对 window 的访问做限制，这种方式很高效，但是非常难 debug 并且很容易死锁</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga6d5402" class="outline-4">
+<h4 id="orga6d5402">窗口</h4>
+<div class="outline-text-4" id="text-orga6d5402">
+<p>
+用于单边通信的内存区域就是窗口，变量类型为 <code>MPI_Win</code>, 进程可以向其中存取任何东西
+</p>
+
+<p>
+说明
+</p>
+<ol class="org-ol">
+<li>窗口是定义在通信器上的，创建窗口操作是集体通信，即窗口的不同部分被不同的进程所拥有</li>
+<li>每个进程的窗口大小独立设置，可以设为 0</li>
+<li>窗口的内存分配和释放要显式进行</li>
+</ol>
+<p>
+常用函数
+</p>
+<ol class="org-ol">
+<li>
+<code>MPI_Win_allocate()</code> 分配窗口的内存</li>
+<li>
+<code>MPI_Win_free()</code> 释放内存</li>
+<li>
+<code>MPI_Win_create()</code> 基于指定的 buffer 创建窗口</li>
+<li>
+<code>MPI_Win_allocate_shared()</code> 在共享内存的通信器上创建窗口</li>
+<li>
+<code>MPI_Win_create_dynamic()</code> 创建窗口，但不分配内存</li>
+</ol>
+<div class="highlight"><pre><span></span>    <span class="n">MPI_Info</span> <span class="n">info</span><span class="p">;</span>
+    <span class="n">MPI_Win</span> <span class="n">window</span><span class="p">;</span>
+    <span class="n">MPI_Win_allocate</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">disp_unit</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">memory</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">window</span><span class="p">);</span>
+
+    <span class="cm">/* 进行操作 */</span>
+
+    <span class="n">MPI_Win_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">window</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orge4ae4ca" class="outline-4">
+<h4 id="orge4ae4ca">动态分配内存</h4>
+<div class="outline-text-4" id="text-orge4ae4ca">
+<ol class="org-ol">
+<li>
+<code>MPI_Win_create_dynamic(MPI_Info info, MPI_Comm comm, MPI_Win *win)</code>
+<ol class="org-ol">
+<li>创建窗口，可以向其中动态的加入内存</li>
+</ol>
+</li>
+<li>
+<code>int MPI_Win_free(MPI_Win *win)</code>
+<ol class="org-ol">
+<li>释放窗口的内存</li>
+</ol>
+</li>
+<li>
+<code>int MPI_Alloc_mem(MPI_Aint size, MPI_Info info, void *baseptr)</code>
+<ol class="org-ol">
+<li>分配内存</li>
+<li>
+<code>size</code> 是内存大小</li>
+<li>
+<code>baseptr</code> 是输出的指针</li>
+<li>
+<code>info</code> 可以是 <code>MPI_INFO_NULL</code>
+</li>
+</ol>
+</li>
+<li>
+<code>int MPI_Free_mem(void *base)</code>
+<ol class="org-ol">
+<li>释放分配的内存</li>
+</ol>
+</li>
+<li>
+<code>MPI_Win_attach(MPI_Win win, void *base, MPI_Aint size)</code>
+<ol class="org-ol">
+<li>向窗口中添加内存</li>
+<li>
+<code>win</code> 必须是 <code>MPI_Win_create_dynamic()</code> 创建的窗口</li>
+<li>窗口中的内存就是这里指针的内存，没有复制</li>
+</ol>
+</li>
+<li>
+<code>MPI_Win_detach(MPI_Win win, void *base)</code>
+<ol class="org-ol">
+<li>从窗口中去掉添加的内存</li>
+</ol>
+</li>
+<li>
+<code>int MPI_Win_lock(int lock_type, int rank, int assert, MPI_Win win)</code>
+<ol class="org-ol">
+<li>对窗口整体加锁</li>
+<li>
+<code>lock_type</code> 是 <code>MPI_LOCK_EXCLUSIVE</code> 或 <code>MPI_LOCK_SHARED</code>
+</li>
+<li>
+<code>rank</code> 是获得锁的进程</li>
+<li>
+<code>assert</code> 是用于做优化的参数，不需要就设 <code>assert=0</code>
+</li>
+</ol>
+</li>
+<li>
+<code>int MPI_Win_unlock(int rank, MPI_Win win)</code>
+<ol class="org-ol">
+<li>解锁</li>
+</ol>
+</li>
+<li>
+<code>int MPI_Get_address(const void *location, MPI_Aint *address)</code>
+<ol class="org-ol">
+<li>获得调用内存中位置的地址</li>
+<li>应该用这个函数获得的 <code>MPI_Alloc_mem()</code> 分配的地址作为值广播给其它需要用到这个值的进程</li>
+<li>对于在窗口中的指针，这里获得的地址就是偏移量</li>
+<li>可以把偏移量看做是窗口中的指针</li>
+</ol>
+</li>
+<li>
+<code>MPI_Put(const void *origin_addr, int origin_count, MPI_Datatype origin_datatype, int target_rank, MPI_Aint target_disp, int target_count, MPI_Datatype target_datatype, MPI_Win win)</code>
+<ol class="org-ol">
+<li>从 <code>origin_addr</code> 复制内存到 <code>target_rank</code> 进程的从 <code>win</code> 窗口的偏移 <code>target_disp</code> 开始的地址</li>
+</ol>
+</li>
+<li>
+<code>MPI_Get(void *origin_addr, int origin_count, MPI_Datatype origin_datatype, int target_rank, MPI_Aint target_disp, int target_count, MPI_Datatype target_datatype, MPI_Win win)</code>
+<ol class="org-ol">
+<li>从 <code>target_rank</code> 进程的 <code>win</code> 窗口偏移 <code>target_disp</code> 复制内存到 <code>origin_addr</code>
+</li>
+</ol>
+</li>
+<li>
+<code>int MPI_Compare_and_swap(const void *origin_addr, const void *compare_addr, void *result_addr, MPI_Datatype datatype, int target_rank, MPI_Aint target_disp, MPI_Win win)</code>
+<ol class="org-ol">
+<li>比较并交换，原子操作</li>
+<li>比较当前内存中的旧值 <code>*result_addr</code> 和之前读取到的旧值 <code>*compare_addr</code> ，如果一样，则说明中间内存未被修改过，那么就用新值 <code>*origin_addr</code> 替换旧值 <code>*result_addr</code>
+</li>
+<li>被修改的值属于 <code>target_rank</code> 进程</li>
+<li>
+<code>target_disp</code> 是从窗口的起点到 <code>target_rank</code> 进程中被替换的内存 <code>result_addr</code> 的起点之间的偏移量</li>
+</ol>
+</li>
+<li>
+<code>int MPI_Win_fence(int assert, MPI_Win win)</code>
+<ol class="org-ol">
+<li>同步窗口在所有进程中</li>
+</ol>
+</li>
+</ol>
+<p>
+参考：
+</p>
+<ol class="org-ol">
+<li>这里实现了一个链表 <a href="https://svn.mcs.anl.gov/repos/mpi/mpich2/trunk/test/mpi/rma/linked_list.c">https://svn.mcs.anl.gov/repos/mpi/mpich2/trunk/test/mpi/rma/linked_list.c</a>
+</li>
+<li>指针的内存要在进程中自己释放，窗口中实际没有保存数据</li>
+</ol>
+<p>
+例子
+</p>
+
+<div class="highlight"><pre><span></span>    <span class="cm">/* 创建窗口 */</span>
+    <span class="n">MPI_Win</span> <span class="n">win</span><span class="p">;</span>
+    <span class="n">MPI_Win_create_dynamic</span><span class="p">(</span><span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">win</span><span class="p">);</span>
+
+    <span class="cm">/* 分配内存，并把它附加到窗口中，同时获得窗口中对应的偏移量，也就是窗口中的指针 */</span>
+    <span class="kt">int</span><span class="o">*</span> <span class="n">i_ptr</span><span class="p">;</span>
+    <span class="n">MPI_Alloc_mem</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">i_ptr</span><span class="p">);</span>
+    <span class="n">MPI_Win_attach</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">i_ptr</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+    <span class="n">MPI_Aint</span> <span class="n">i_disp</span><span class="p">;</span>
+    <span class="n">MPI_Get_address</span><span class="p">(</span><span class="n">i_ptr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">i_disp</span><span class="p">);</span>
+
+    <span class="o">*</span><span class="n">i_ptr</span> <span class="o">=</span> <span class="n">proc_rank</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%d, i_ptr=%p, %d, i_disp=%ld</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">proc_rank</span><span class="p">,</span> <span class="n">i_ptr</span><span class="p">,</span> <span class="o">*</span><span class="n">i_ptr</span><span class="p">,</span> <span class="n">i_disp</span><span class="p">);</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"i ptr dead</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+    <span class="cm">/* 读数据 */</span>
+    <span class="n">MPI_Win_lock</span><span class="p">(</span><span class="n">MPI_LOCK_EXCLUSIVE</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">get</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">MPI_Get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">get</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_INT</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="n">i_disp</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_INT</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%d: get= %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="n">get</span><span class="p">);</span>
+    <span class="n">MPI_Win_unlock</span><span class="p">(</span><span class="n">proc_rank</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
+
+    <span class="cm">/* 写数据 */</span>
+    <span class="n">MPI_Win_lock</span><span class="p">(</span><span class="n">MPI_LOCK_EXCLUSIVE</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">put</span> <span class="o">=</span> <span class="n">proc_rank</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span>
+    <span class="n">MPI_Put</span><span class="p">(</span><span class="o">&amp;</span><span class="n">put</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_INT</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="n">i_disp</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_INT</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
+    <span class="n">MPI_Win_unlock</span><span class="p">(</span><span class="n">proc_rank</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
+
+    <span class="cm">/* 同步 */</span>
+    <span class="n">MPI_Win_fence</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
+
+    <span class="n">MPI_Win_lock</span><span class="p">(</span><span class="n">MPI_LOCK_EXCLUSIVE</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
+    <span class="n">get</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">MPI_Get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">get</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_INT</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="n">i_disp</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_INT</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%d: get again= %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="n">get</span><span class="p">);</span>
+    <span class="n">MPI_Win_unlock</span><span class="p">(</span><span class="n">proc_rank</span><span class="p">,</span> <span class="n">win</span><span class="p">);</span>
+
+    <span class="cm">/* 释放内存时，要用本地指针释放 */</span>
+    <span class="n">MPI_Free_mem</span><span class="p">(</span><span class="n">i_ptr</span><span class="p">);</span>
+    <span class="n">MPI_Win_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">win</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org9baa91a" class="outline-4">
+<h4 id="org9baa91a">共享内存</h4>
+<div class="outline-text-4" id="text-org9baa91a">
+<ol class="org-ol">
+<li>
+<code>int MPI_Comm_split_type(MPI_Comm comm, int split_type, int key, MPI_Info info, MPI_Comm *newcomm)</code>
+<ol class="org-ol">
+<li>获得同一节点上的进程的通信器</li>
+<li><code>split_type = MPI_COMM_TYPE_SHARED</code></li>
+<li><code>comm = MPI_COMM_WORLD</code></li>
+<li><code>key = proc_rank_world</code></li>
+</ol>
+</li>
+<li>
+<code>int MPI_Win_allocate_shared (MPI_Aint size, int disp_unit, MPI_Info info, MPI_Comm comm, void *baseptr, MPI_Win *win)</code>
+<ol class="org-ol">
+<li>创建共享内存数据</li>
+<li>
+<code>size</code> 是数据的比特大小，即 个数 * sizeof(type)</li>
+<li>
+<code>disp_unit</code> 是单个数据的比特大小，即 sizeof(type)</li>
+<li>
+<code>baseptr</code> 是本地数据的指针</li>
+<li>这个内存会在 <code>MPI_Win_free()</code> 时释放掉</li>
+</ol>
+</li>
+<li>
+<code>int MPI_Win_shared_query (MPI_Win win, int rank, MPI_Aint *size, int *disp_unit, void *baseptr)</code>
+<ol class="org-ol">
+<li>获得属于 <code>rank</code> 进程的内存在当前进程中的地址</li>
+<li>
+<code>size</code> win 大小</li>
+<li>
+<code>disp_unit</code> 单位数据大小</li>
+<li>
+<code>baseptr</code> 当前进程中用来访问这个内存的指针</li>
+</ol>
+</li>
+</ol>
+<div class="highlight"><pre><span></span>    <span class="kt">int</span> <span class="n">proc_rank</span><span class="p">;</span>
+    <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">proc_rank</span><span class="p">);</span>
+
+    <span class="cm">/* 获得同一节点上的通信器，以及对应的 rank */</span>
+    <span class="n">MPI_Comm</span> <span class="n">comm_node</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">proc_rank_node</span><span class="p">;</span>
+    <span class="n">MPI_Comm_split_type</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="n">MPI_COMM_TYPE_SHARED</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">comm_node</span><span class="p">);</span>
+    <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">comm_node</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">proc_rank_node</span><span class="p">);</span>
+
+    <span class="cm">/* 获得不同节点上编号为 0 的进程之间的通信器 */</span>
+    <span class="n">MPI_Comm</span> <span class="n">comm_0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">proc_rank_0</span><span class="p">;</span>
+    <span class="n">MPI_Comm_split</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="n">proc_rank_node</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">comm_0</span><span class="p">);</span>
+    <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">comm_0</span><span class="p">,</span> <span class="n">proc_rank_0</span><span class="p">);</span>
+
+    <span class="cm">/* 分配内存, 只有编号为 0 的进程才分配，其它进程的大小是 0 */</span>
+    <span class="kt">int</span><span class="o">*</span> <span class="n">data</span><span class="p">;</span>
+    <span class="n">MPI_Win</span> <span class="n">data_win</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">win_size</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">proc_rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+	<span class="n">win_size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
+	<span class="n">win_size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">MPI_Win_allocate_shared</span><span class="p">(</span><span class="n">win_size</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm_node</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">data</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">data_win</span><span class="p">);</span>
+
+    <span class="cm">/* 在全局编号 0 的进程上创建数据 */</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">proc_rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+	<span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">MPI_Barrier</span><span class="p">(</span><span class="n">comm_node</span><span class="p">);</span>
+    <span class="n">MPI_Win_fence</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">data_win</span><span class="p">);</span>
+
+    <span class="cm">/* 分享数据给所有节点上编号 0 的进程 */</span>
+    <span class="n">MPI_Bcast</span><span class="p">(</span><span class="o">&amp;</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_INT</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">comm_0</span><span class="p">);</span>
+
+    <span class="cm">/* 其它进程获得节点编号 0 进程上的指针 */</span>
+    <span class="n">MPI_Aint</span> <span class="n">size</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">disp_uint</span><span class="p">;</span>
+    <span class="n">MPI_Win_shared_query</span><span class="p">(</span><span class="n">data_win</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">disp_unit</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">data_0</span><span class="p">);</span>
+
+    <span class="cm">/* 释放内存 */</span>
+    <span class="n">MPI_Win_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_win</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc620d6f" class="outline-3">
+<h3 id="orgc620d6f">混合多线程</h3>
+<div class="outline-text-3" id="text-orgc620d6f">
+<p>
+混合多线程的策略：
+</p>
+<ol class="org-ol">
+<li>纯 MPI</li>
+<li>每个节点一个 MPI 进程，全部的线程</li>
+<li>每个 socket 一个 MPI 进程，和剩下的线程，比如20核的节点，每个节点两个进程，每个进程10线程</li>
+</ol>
+<p>
+大量实践认为混合多线程并不会比纯 MPI 速度快。
+</p>
+</div>
+
+<div id="outline-container-org0574652" class="outline-4">
+<h4 id="org0574652">线程初始化</h4>
+<div class="outline-text-4" id="text-org0574652">
+<p>
+使用 <code>MPI_Init_thread()</code> 初始化带有线程的 MPI，可用的选项有（注意并不是所有MPI实现都提供下面全部的模式）
+</p>
+<ol class="org-ol">
+<li>
+<code>MPI_THREAD_SINGLE</code> 每个进程一个线程</li>
+<li>
+<code>MPI_THREAD_FUNNELED</code> 每个进程有多个线程，但只有主线程可以调用 MPI 函数</li>
+<li>
+<code>MPI_THREAD_SERIALIZED</code> 使用多个线程，每个线程都可以调用 MPI，但是只有一个线程可以调用同步通信</li>
+<li>
+<code>MPI_THREAD_MULTIPLE</code> 使用多个线程，没有任何限制</li>
+</ol>
+<p>
+使用 <code>MPI_Query_thread()</code> 来确定初始化之后提供的是哪种模式
+</p>
+
+<p>
+使用 <code>MPI_Is_thread_main()</code> 来确定线程是否是主线程
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org22c67e8" class="outline-2">
+<h2 id="org22c67e8">设计模式</h2>
+<div class="outline-text-2" id="text-org22c67e8">
+</div>
+<div id="outline-container-orga73ab31" class="outline-3">
+<h3 id="orga73ab31">为每个节点创建一个通信器</h3>
+<div class="outline-text-3" id="text-orga73ab31">
+<p>
+用于创建节点内部的共享内存窗口
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="cm">/* 获得同一节点上的通信器，以及对应的 rank */</span>
+   <span class="n">MPI_Comm</span> <span class="n">comm_node</span><span class="p">;</span>
+   <span class="kt">int</span> <span class="n">proc_rank_node</span><span class="p">;</span>
+   <span class="n">MPI_Comm_split_type</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="n">MPI_COMM_TYPE_SHARED</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">comm_node</span><span class="p">);</span>
+   <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">comm_node</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">proc_rank_node</span><span class="p">);</span>
+
+   <span class="cm">/* 获得不同节点上编号为 0 的进程之间的通信器 */</span>
+   <span class="n">MPI_Comm</span> <span class="n">comm_0</span><span class="p">;</span>
+   <span class="kt">int</span> <span class="n">proc_rank_0</span><span class="p">;</span>
+   <span class="n">MPI_Comm_split</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="n">proc_rank_node</span><span class="p">,</span> <span class="n">proc_rank</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">comm_0</span><span class="p">);</span>
+   <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">comm_0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">proc_rank_0</span><span class="p">);</span>
+
+   <span class="n">MPI_Comm_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">comm_node</span><span class="p">);</span>
+   <span class="n">MPI_Comm_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">comm_0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgef5afc5" class="outline-3">
+<h3 id="orgef5afc5">非自旋等待</h3>
+<div class="outline-text-3" id="text-orgef5afc5">
+<ol class="org-ol">
+<li>阻塞通信是自旋锁，会一直燃烧 CPU， 为了给某个进程上的多线程任务让出 CPU，需要让其它进程非自旋等待</li>
+<li>使用 <code>MPI_Iprobe()</code> 非阻塞地探测信号，并在探测周期中 <code>sleep()</code>
+</li>
+</ol>
+<div class="highlight"><pre><span></span>   <span class="kt">int</span> <span class="n">proc_rank</span><span class="p">;</span>
+   <span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">proc_rank</span><span class="p">);</span>
+
+   <span class="kt">int</span> <span class="n">finish</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+   <span class="n">MPI_Request</span> <span class="n">finish_request</span><span class="p">;</span>
+
+   <span class="k">if</span> <span class="p">(</span><span class="n">proc_rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+
+       <span class="cm">/* do sth pthread or openmp */</span>
+
+       <span class="n">finish</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+       <span class="kt">int</span> <span class="n">proc_total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+       <span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">proc_total</span><span class="p">);</span>
+       <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">proc_total</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>
+	   <span class="n">MPI_Isend</span><span class="p">(</span><span class="o">&amp;</span><span class="n">finish</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_INT</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">finish_request</span><span class="p">);</span>
+	   <span class="n">MPI_Wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">finish_request</span><span class="p">,</span> <span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span>
+       <span class="p">}</span>
+
+   <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+       <span class="kt">int</span> <span class="n">flag</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+       <span class="n">MPI_Status</span> <span class="n">finish_status</span><span class="p">;</span>
+
+       <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">flag</span><span class="p">){</span>
+	   <span class="n">MPI_Iprobe</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">MPI_ANY_TAG</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">flag</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">finish_status</span><span class="p">);</span>
+	   <span class="k">if</span> <span class="p">(</span><span class="n">flag</span><span class="p">){</span>
+	       <span class="n">MPI_Irecv</span><span class="p">(</span><span class="o">&amp;</span><span class="n">finish</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_INT</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">finish_request</span><span class="p">);</span>
+	       <span class="n">MPI_Wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">finish_request</span><span class="p">,</span> <span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span>
+	       <span class="k">break</span><span class="p">;</span>
+	   <span class="p">}</span>
+	   <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+       <span class="p">}</span>
+   <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/slepc/" class="u-url">SLEPc</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -82,17 +1155,17 @@
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orga815a4b" class="outline-2">
-<h2 id="orga815a4b">SLEPc: PETSc 的本征值求解器扩展</h2>
-<div class="outline-text-2" id="text-orga815a4b">
+                    <div id="outline-container-org360b337" class="outline-2">
+<h2 id="org360b337">SLEPc: PETSc 的本征值求解器扩展</h2>
+<div class="outline-text-2" id="text-org360b337">
 <p>
 <a href="https://slepc.upv.es/">SLEPc</a> 是用来求 PETSc 矩阵的扩展库。
 </p>
 </div>
 
-<div id="outline-container-org91dcfbc" class="outline-3">
-<h3 id="org91dcfbc">基本结构</h3>
-<div class="outline-text-3" id="text-org91dcfbc">
+<div id="outline-container-orgd60ff4e" class="outline-3">
+<h3 id="orgd60ff4e">基本结构</h3>
+<div class="outline-text-3" id="text-orgd60ff4e">
 <p>
 SLEPc 有以下基本部分构成
 </p>
@@ -116,9 +1189,9 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-orgca8fb29" class="outline-3">
-<h3 id="orgca8fb29">安装</h3>
-<div class="outline-text-3" id="text-orgca8fb29">
+<div id="outline-container-org045b7c0" class="outline-3">
+<h3 id="org045b7c0">安装</h3>
+<div class="outline-text-3" id="text-org045b7c0">
 <p>
 下载时注意，SLEPc 的版本必须和 PETSc 版本一样
 </p>
@@ -127,7 +1200,7 @@ SLEPc 有以下基本部分构成
 编译选项
 </p>
 
-<div class="highlight"><pre><span></span>   ./configure --download-arpack --download-blopex --download-hpddm --download-primme
+<div class="highlight"><pre><span></span>   ./configure --download-arpack --download-blopex --download-hpddm --download-primme  --with-slepc4py=1
 </pre></div>
 
 <p>
@@ -136,9 +1209,9 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-orge520544" class="outline-3">
-<h3 id="orge520544">基本使用</h3>
-<div class="outline-text-3" id="text-orge520544">
+<div id="outline-container-org9dd7632" class="outline-3">
+<h3 id="org9dd7632">基本使用</h3>
+<div class="outline-text-3" id="text-org9dd7632">
 <p>
 程序开始和结束时分别调用 <code>SlepcInitialize()</code> 和 <code>SlepcFinalize()</code>, 实际上就是 <code>PetscInitialize()</code> 和 <code>PetscFinalize()</code>
 </p>
@@ -149,13 +1222,13 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-org0341242" class="outline-3">
-<h3 id="org0341242">EPS: 矩阵本征值求解器</h3>
-<div class="outline-text-3" id="text-org0341242">
+<div id="outline-container-orgd725e50" class="outline-3">
+<h3 id="orgd725e50">EPS: 矩阵本征值求解器</h3>
+<div class="outline-text-3" id="text-orgd725e50">
 </div>
-<div id="outline-container-orgfe5f94b" class="outline-4">
-<h4 id="orgfe5f94b">基本使用</h4>
-<div class="outline-text-4" id="text-orgfe5f94b">
+<div id="outline-container-orgb4d6d2f" class="outline-4">
+<h4 id="orgb4d6d2f">基本使用</h4>
+<div class="outline-text-4" id="text-orgb4d6d2f">
 <ol class="org-ol">
 <li>
 <code>EPSCreate(MPI_Comm comm,EPS *eps);</code> 
@@ -322,13 +1395,13 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-org75526a9" class="outline-4">
-<h4 id="org75526a9">求解器配置</h4>
-<div class="outline-text-4" id="text-org75526a9">
+<div id="outline-container-org5007b3c" class="outline-4">
+<h4 id="org5007b3c">求解器配置</h4>
+<div class="outline-text-4" id="text-org5007b3c">
 </div>
 <ul class="org-ul">
 <li>
-<a id="orgd080ad1"></a>问题类型<br><div class="outline-text-5" id="text-orgd080ad1">
+<a id="orgc7cb957"></a>问题类型<br><div class="outline-text-5" id="text-orgc7cb957">
 <p>
 问题类型使用 <code>EPSSetProblemType(EPS eps,EPSProblemType type);</code> 进行设置
 </p>
@@ -405,7 +1478,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="org13d0e0e"></a>求解本征值个数<br><div class="outline-text-5" id="text-org13d0e0e">
+<a id="org59690c8"></a>求解本征值个数<br><div class="outline-text-5" id="text-org59690c8">
 <p>
 使用 <code>EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);</code> 设置要求的本征值个数
 </p>
@@ -421,7 +1494,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="org5ffc797"></a>求解本征值位置<br><div class="outline-text-5" id="text-org5ffc797">
+<a id="org888ed48"></a>求解本征值位置<br><div class="outline-text-5" id="text-org888ed48">
 <ol class="org-ol">
 <li>
 <code>EPSSetWhichEigenpairs(EPS eps,EPSWhich which);</code> 设置要求本征值的位置</li>
@@ -529,7 +1602,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="org8fc18cf"></a>选择算法<br><div class="outline-text-5" id="text-org8fc18cf">
+<a id="org03fe696"></a>选择算法<br><div class="outline-text-5" id="text-org03fe696">
 <p>
 通过 <code>EPSSetType(EPS eps,EPSType method);</code> 设置求解器使用的算法
 </p>
@@ -691,7 +1764,7 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="orgcf0bd30"></a>获得结果<br><div class="outline-text-5" id="text-orgcf0bd30">
+<a id="org35082c2"></a>获得结果<br><div class="outline-text-5" id="text-org35082c2">
 <ol class="org-ol">
 <li>
 <code>EPSGetConverged(EPS eps,PetscInt *nconv);</code> 获得收敛的解个数</li>
@@ -739,9 +1812,9 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="org3e4f3ab"></a>其它设置<br><ul class="org-ul">
+<a id="org0531058"></a>其它设置<br><ul class="org-ul">
 <li>
-<a id="org15ffade"></a>初始猜解<br><div class="outline-text-6" id="text-org15ffade">
+<a id="org9452508"></a>初始猜解<br><div class="outline-text-6" id="text-org9452508">
 <p>
 <code>EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);</code>
 </p>
@@ -749,19 +1822,19 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="orge7ecad2"></a>处理简并<br>
+<a id="org23b2315"></a>处理简并<br>
 </li>
 
 <li>
-<a id="org2f274fe"></a>选择正交化方法<br>
+<a id="orgfc9d128"></a>选择正交化方法<br>
 </li>
 
 <li>
-<a id="org24b54ab"></a>选择滤波算法<br>
+<a id="org49c99d9"></a>选择滤波算法<br>
 </li>
 
 <li>
-<a id="org143fdff"></a>计算大量本征值的方法<br>
+<a id="org05aa953"></a>计算大量本征值的方法<br>
 </li>
 </ul>
 </li>
@@ -1485,98 +2558,6 @@ API 命名结构如下：
 <li>
 <a href="https://ankiweb.net/shared/info/1087328706">Markdown and KaTeX Support</a> 支持 markdown 的卡片类型</li>
 </ol>
-</div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/rust-optimization/" class="u-url">Rust Optimization</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/rust-optimization/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-05-20T14:33:34+08:00" itemprop="datePublished" title="2021-05-20 14:33">2021-05-20 14:33</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-org5a85a01" class="outline-2">
-<h2 id="org5a85a01">Rust 性能优化</h2>
-<div class="outline-text-2" id="text-org5a85a01">
-<p>
-这里所称性能优化实际上就是 Rust 的正确打开方式，因为 Rust 的安全特性导致按照 c/c++ 方式直接写程序有可能速度会比较慢。
-</p>
-</div>
-
-<div id="outline-container-org19dbdf9" class="outline-3">
-<h3 id="org19dbdf9">避免边界检查</h3>
-<div class="outline-text-3" id="text-org19dbdf9">
-</div>
-<div id="outline-container-org5d3f916" class="outline-4">
-<h4 id="org5d3f916">参考资料</h4>
-<div class="outline-text-4" id="text-org5d3f916">
-<ol class="org-ol">
-<li>
-<a href="https://users.rust-lang.org/t/how-to-malloc-an-array-in-heap-like-c/27827/40">这里</a> 的说明</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-orge0776a0" class="outline-4">
-<h4 id="orge0776a0">使用 slice 为编译器提示长度</h4>
-<div class="outline-text-4" id="text-orge0776a0">
-<p>
-vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方式定义变量
-</p>
-
-<div class="highlight"><pre><span></span>    fn f_for(a: &amp;Vec&lt;f64&gt;, b: &amp;mut Vec&lt;f64&gt;){
-	// 不可变量直接用长度做 slice
-	let a = &amp;a[..a.len()];
-	// 可变量先定义一个长度再做 slice
-	let len_b = b.len();
-	let b = &amp;mut b[..len_b];
-    }
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org14a899f" class="outline-4">
-<h4 id="org14a899f">尽可能使用迭代器而不是指标循环</h4>
-<div class="outline-text-4" id="text-org14a899f">
-<p>
-迭代器中的边界检查被优化掉了
-</p>
-
-<div class="highlight"><pre><span></span>    for (i, ai) in a.iter().enumerate(){
-	do_something();
-    }
-
-    // 而不是
-
-    for i in 0..n{
-	a[i];
-    }
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org02a47b0" class="outline-4">
-<h4 id="org02a47b0">不得不用指标获得值时用 unsafe 的非检查方式</h4>
-<div class="outline-text-4" id="text-org02a47b0">
-<p>
-当确保指标不会越界时就可以大胆使用 unsafe
-</p>
-
-<div class="highlight"><pre><span></span>    for i in 0..n{
-	unsafe {
-	    a.get_unchecked(i);
-	}
-    }
-
-    // not 
-    a[i];
-</pre></div>
-</div>
 </div>
 </div>
 </div>

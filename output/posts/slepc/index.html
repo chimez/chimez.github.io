@@ -14,6 +14,7 @@
 <link rel="canonical" href="https://chimez.github.io/posts/slepc/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
 <link rel="prev" href="../pthread/" title="pthread" type="text/html">
+<link rel="next" href="../mpi/" title="MPI" type="text/html">
 <meta property="og:site_name" content="chimez's blog">
 <meta property="og:title" content="SLEPc">
 <meta property="og:url" content="https://chimez.github.io/posts/slepc/">
@@ -116,17 +117,17 @@ NEP (Nonlinear Eig">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orga815a4b" class="outline-2">
-<h2 id="orga815a4b">SLEPc: PETSc 的本征值求解器扩展</h2>
-<div class="outline-text-2" id="text-orga815a4b">
+    <div id="outline-container-org360b337" class="outline-2">
+<h2 id="org360b337">SLEPc: PETSc 的本征值求解器扩展</h2>
+<div class="outline-text-2" id="text-org360b337">
 <p>
 <a href="https://slepc.upv.es/">SLEPc</a> 是用来求 PETSc 矩阵的扩展库。
 </p>
 </div>
 
-<div id="outline-container-org91dcfbc" class="outline-3">
-<h3 id="org91dcfbc">基本结构</h3>
-<div class="outline-text-3" id="text-org91dcfbc">
+<div id="outline-container-orgd60ff4e" class="outline-3">
+<h3 id="orgd60ff4e">基本结构</h3>
+<div class="outline-text-3" id="text-orgd60ff4e">
 <p>
 SLEPc 有以下基本部分构成
 </p>
@@ -150,9 +151,9 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-orgca8fb29" class="outline-3">
-<h3 id="orgca8fb29">安装</h3>
-<div class="outline-text-3" id="text-orgca8fb29">
+<div id="outline-container-org045b7c0" class="outline-3">
+<h3 id="org045b7c0">安装</h3>
+<div class="outline-text-3" id="text-org045b7c0">
 <p>
 下载时注意，SLEPc 的版本必须和 PETSc 版本一样
 </p>
@@ -161,7 +162,7 @@ SLEPc 有以下基本部分构成
 编译选项
 </p>
 
-<div class="highlight"><pre><span></span>   ./configure --download-arpack --download-blopex --download-hpddm --download-primme
+<div class="highlight"><pre><span></span>   ./configure --download-arpack --download-blopex --download-hpddm --download-primme  --with-slepc4py=1
 </pre></div>
 
 <p>
@@ -170,9 +171,9 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-orge520544" class="outline-3">
-<h3 id="orge520544">基本使用</h3>
-<div class="outline-text-3" id="text-orge520544">
+<div id="outline-container-org9dd7632" class="outline-3">
+<h3 id="org9dd7632">基本使用</h3>
+<div class="outline-text-3" id="text-org9dd7632">
 <p>
 程序开始和结束时分别调用 <code>SlepcInitialize()</code> 和 <code>SlepcFinalize()</code>, 实际上就是 <code>PetscInitialize()</code> 和 <code>PetscFinalize()</code>
 </p>
@@ -183,13 +184,13 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-org0341242" class="outline-3">
-<h3 id="org0341242">EPS: 矩阵本征值求解器</h3>
-<div class="outline-text-3" id="text-org0341242">
+<div id="outline-container-orgd725e50" class="outline-3">
+<h3 id="orgd725e50">EPS: 矩阵本征值求解器</h3>
+<div class="outline-text-3" id="text-orgd725e50">
 </div>
-<div id="outline-container-orgfe5f94b" class="outline-4">
-<h4 id="orgfe5f94b">基本使用</h4>
-<div class="outline-text-4" id="text-orgfe5f94b">
+<div id="outline-container-orgb4d6d2f" class="outline-4">
+<h4 id="orgb4d6d2f">基本使用</h4>
+<div class="outline-text-4" id="text-orgb4d6d2f">
 <ol class="org-ol">
 <li>
 <code>EPSCreate(MPI_Comm comm,EPS *eps);</code> 
@@ -356,13 +357,13 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-org75526a9" class="outline-4">
-<h4 id="org75526a9">求解器配置</h4>
-<div class="outline-text-4" id="text-org75526a9">
+<div id="outline-container-org5007b3c" class="outline-4">
+<h4 id="org5007b3c">求解器配置</h4>
+<div class="outline-text-4" id="text-org5007b3c">
 </div>
 <ul class="org-ul">
 <li>
-<a id="orgd080ad1"></a>问题类型<br><div class="outline-text-5" id="text-orgd080ad1">
+<a id="orgc7cb957"></a>问题类型<br><div class="outline-text-5" id="text-orgc7cb957">
 <p>
 问题类型使用 <code>EPSSetProblemType(EPS eps,EPSProblemType type);</code> 进行设置
 </p>
@@ -439,7 +440,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="org13d0e0e"></a>求解本征值个数<br><div class="outline-text-5" id="text-org13d0e0e">
+<a id="org59690c8"></a>求解本征值个数<br><div class="outline-text-5" id="text-org59690c8">
 <p>
 使用 <code>EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);</code> 设置要求的本征值个数
 </p>
@@ -455,7 +456,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="org5ffc797"></a>求解本征值位置<br><div class="outline-text-5" id="text-org5ffc797">
+<a id="org888ed48"></a>求解本征值位置<br><div class="outline-text-5" id="text-org888ed48">
 <ol class="org-ol">
 <li>
 <code>EPSSetWhichEigenpairs(EPS eps,EPSWhich which);</code> 设置要求本征值的位置</li>
@@ -563,7 +564,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="org8fc18cf"></a>选择算法<br><div class="outline-text-5" id="text-org8fc18cf">
+<a id="org03fe696"></a>选择算法<br><div class="outline-text-5" id="text-org03fe696">
 <p>
 通过 <code>EPSSetType(EPS eps,EPSType method);</code> 设置求解器使用的算法
 </p>
@@ -725,7 +726,7 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="orgcf0bd30"></a>获得结果<br><div class="outline-text-5" id="text-orgcf0bd30">
+<a id="org35082c2"></a>获得结果<br><div class="outline-text-5" id="text-org35082c2">
 <ol class="org-ol">
 <li>
 <code>EPSGetConverged(EPS eps,PetscInt *nconv);</code> 获得收敛的解个数</li>
@@ -773,9 +774,9 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="org3e4f3ab"></a>其它设置<br><ul class="org-ul">
+<a id="org0531058"></a>其它设置<br><ul class="org-ul">
 <li>
-<a id="org15ffade"></a>初始猜解<br><div class="outline-text-6" id="text-org15ffade">
+<a id="org9452508"></a>初始猜解<br><div class="outline-text-6" id="text-org9452508">
 <p>
 <code>EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);</code>
 </p>
@@ -783,19 +784,19 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="orge7ecad2"></a>处理简并<br>
+<a id="org23b2315"></a>处理简并<br>
 </li>
 
 <li>
-<a id="org2f274fe"></a>选择正交化方法<br>
+<a id="orgfc9d128"></a>选择正交化方法<br>
 </li>
 
 <li>
-<a id="org24b54ab"></a>选择滤波算法<br>
+<a id="org49c99d9"></a>选择滤波算法<br>
 </li>
 
 <li>
-<a id="org143fdff"></a>计算大量本征值的方法<br>
+<a id="org05aa953"></a>计算大量本征值的方法<br>
 </li>
 </ul>
 </li>
@@ -814,6 +815,9 @@ SLEPc 支持的算法有
 <ul class="pager hidden-print">
 <li class="previous">
                 <a href="../pthread/" rel="prev" title="pthread">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../mpi/" rel="next" title="MPI">Next post</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
             Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
