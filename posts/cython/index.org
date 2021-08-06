@@ -1,0 +1,207 @@
+#+BEGIN_COMMENT
+.. title: cython
+.. slug: cython
+.. date: 2021-08-05 20:47:25 UTC+08:00
+.. tags: cython, python
+.. category: library
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* Cython
+  
+** 基本概念
+   
+*** 文件
+    1. ~.pyx~ 是 ~cython~ 语法的源文件
+    2. ~.pyd~ (windows) 是 windows 平台上编译后的文件，对应 linux 平台的 ~*.so~
+    3. ~.pyd~ (源文件) 是外部声明，即对 ~.h~ 头文件的重新封装
+
+*** 库
+    1. ~Cython.Build~ python 端调用，用于编译
+    2. ~cython.parallel~ cython 端调用，并行 ~prange~
+
+    所有 c 库在 [[https://github.com/cython/cython/tree/master/Cython/Includes][Cython/Includes]] 中
+    1. ~libc~ cython 端调用， c 标准库
+    2. ~libcpp~ cython 端调用， c++ stl 库
+    3. ~numpy~ cython 端调用，numpy 支持
+    4. ~posix~ cython 端调用，posix 库
+    5. ~openmp~ cython 端调用，并行
+    6. ~cpython~ cython 端调用， python 的 c 接口
+    7. ~cython~ cython 端调用，控制特殊行为
+
+*** 语法
+    #+begin_src cython
+from libc.math cimport log2 # 引入 c 函数
+cdef int x # 声明变量类型
+cdef int [:,:] x # 声明变量是 numpy 的 2d 向量
+ctypedef struct queue: # 声明类型
+    pass
+    
+ctypedef fused my_type: # 泛型
+    int
+    double
+    long long
+    
+# 类的定义，注意使用 __cinit__
+cdef class A:
+    cdef int a
+    def __cinit__(self):
+        self.a = 1
+        
+<void*>value # 类型转换成指针
+
+# 定义 c 函数，异常时返回 -1
+cdef int func(int x) execpt? -1:
+    pass
+
+    #+end_src
+    
+*** 文件注解
+    1. ~# distutils: language=c++~ 使用 ~c++~ 编译
+    2. ~# distutils: sources = c-algorithms/src/queue.c~ 指定静态链接的源文件
+    3. ~# distutils: include_dirs = c-algorithms/src/~ 指定头文件目录
+    4. ~# distutils: extra_compile_args=-fopenmp~ 指定编译器参数
+    5. ~# distutils: extra_link_args=-fopenmp~ 指定链接参数
+    6. ~# cython: infer_types=True~ 自动推断类型，只作用于一级缩进的变量
+    7. ~# cython: profile=True~ 开启 profile
+    8. ~# cython: linetrace=True~ 开启 profile 行追踪
+
+*** 函数注解
+    1. ~@cython.boundscheck(False)~ 关闭数组边界检查
+    2. ~@cython.wraparound(False)~ 关闭负指标
+
+** 编译
+   
+*** 基本结构
+
+    ~setup.py~
+    #+begin_src python
+from setuptools import setup
+from Cython.Build import cythonize
+
+setup(
+    ext_modules = cythonize("helloworld.pyx")
+)
+    #+end_src
+   
+    ~helloworld.pyx~
+    #+begin_src python
+print("Hello World")
+    #+end_src
+
+    执行命令
+    #+begin_src bash
+python setup.py build_ext --inplace
+    #+end_src 
+
+    这编译得到的 ~helloworld.so~ 或 ~helloworld.pyd~
+    
+*** 动态链接
+    [[https://cython.readthedocs.io/en/latest/src/tutorial/external.html#dynamic-linking][参考]]
+
+    需要指明 ~libraries~ 参数
+    #+begin_src python
+from setuptools import Extension, setup
+from Cython.Build import cythonize
+
+ext_modules = [
+    Extension("demo",
+              sources=["demo.pyx"],
+              libraries=["m"]  # Unix-like specific
+              )
+]
+
+setup(name="Demos",
+      ext_modules=cythonize(ext_modules))
+
+
+    #+end_src
+
+*** 静态链接
+    使用注解 
+    #+begin_src cython
+# distutils: sources = c-algorithms/src/queue.c
+# distutils: include_dirs = c-algorithms/src/
+
+pass
+    #+end_src
+
+** 使用 c 库
+
+*** 外部声明
+    使用头文件, 外部声明可以放在 ~.pyd~ 文件中
+    #+begin_src cython
+cdef extern from "math.h":
+    double sin(double x)
+    #+end_src
+
+*** 异常处理
+    1. ~except? -1~ 语法表示当发生任何错误时，返回 ~-1~
+    2. ~execpt *~ 表示返回时调用 ~PyErr_Occurred()~ ，当函数返回 ~void~ 并且需要传递错误时使用这个
+
+    #+begin_src cython
+cdef int pop(self) except? -1:
+    if cqueue.queue_is_empty(self._c_queue):
+        raise IndexError("Queue is empty")
+    return <Py_ssize_t>cqueue.queue_pop_head(self._c_queue)
+
+cdef int spam() except *:
+    ...
+
+    #+end_src
+
+** 使用 numpy
+   numpy 的 ~ndarray~ 在 cython 中用做 typed memoryview
+
+*** 基本例子
+
+    #+begin_src cython
+import numpy as np
+
+DTYPE = np.intc
+
+
+cdef int clip(int a, int min_value, int max_value):
+    return min(max(a, min_value), max_value)
+
+
+def compute(int[:, :] array_1, int[:, :] array_2, int a, int b, int c):
+
+    cdef Py_ssize_t x_max = array_1.shape[0]
+    cdef Py_ssize_t y_max = array_1.shape[1]
+    assert tuple(array_1.shape) == tuple(array_2.shape)
+
+    result = np.zeros((x_max, y_max), dtype=DTYPE)
+    cdef int[:, :] result_view = result
+
+    cdef int tmp
+    cdef Py_ssize_t x, y
+
+    for x in range(x_max):
+        for y in range(y_max):
+
+            tmp = clip(array_1[x, y], 2, 10)
+            tmp = tmp * a + array_2[x, y] * b
+            result_view[x, y] = tmp + c
+
+    return result
+
+    #+end_src
+
+** 并行
+   1. 使用 ~prange~
+   2. 使用 ~nogil~
+
+      #+begin_src cython
+   from cython.parallel import prange
+   cdef int func(int x) nogil:
+       cdef int i
+       cdef int y
+       for i in prange(x, nogil=True):
+           y += i 
+       return y
+      #+end_src
+

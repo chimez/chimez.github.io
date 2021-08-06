@@ -1,5 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about C)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/c.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 04 Aug 2021 07:10:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>MPI</title><link>https://chimez.github.io/posts/mpi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org51a6c6b" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about C)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/c.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Fri, 06 Aug 2021 16:36:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>xxhash</title><link>https://chimez.github.io/posts/xxhash/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge991632" class="outline-2"&gt;
+&lt;h2 id="orge991632"&gt;xxHash: 快速的哈希函数&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge991632"&gt;
+&lt;p&gt;
+&lt;a href="https://github.com/Cyan4973/xxHash"&gt;Cyan4973/xxHash&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfd27b83" class="outline-3"&gt;
+&lt;h3 id="orgfd27b83"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfd27b83"&gt;
+&lt;p&gt;
+meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+编译时使用 &lt;code&gt;XXH_INLINE_ALL&lt;/code&gt; 选项提高性能，对于 meson 来说需要写 &lt;code&gt;xxhash_dep = dependency('libxxhash', default_options: ['inline-all=true'])&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6ced72e" class="outline-3"&gt;
+&lt;h3 id="org6ced72e"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6ced72e"&gt;
+&lt;p&gt;
+最快的哈希函数是 &lt;code&gt;XXH3_64bits&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"xxhash.h"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+   &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kr"&gt;inline&lt;/span&gt;
+   &lt;span class="n"&gt;XXH64_hash_t&lt;/span&gt;
+   &lt;span class="n"&gt;hash_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nf"&gt;XXH3_64bits&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;	
+   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>hash</category><guid>https://chimez.github.io/posts/xxhash/</guid><pubDate>Fri, 06 Aug 2021 16:30:25 GMT</pubDate></item><item><title>klib</title><link>https://chimez.github.io/posts/klib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org0cbc05d" class="outline-2"&gt;
+&lt;h2 id="org0cbc05d"&gt;klib: 轻量级 c 头文件库&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0cbc05d"&gt;
+&lt;p&gt;
+&lt;a href="https://github.com/attractivechaos/klib"&gt;attractivechaos/klib&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge3c40f6" class="outline-3"&gt;
+&lt;h3 id="orge3c40f6"&gt;khash.h&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge3c40f6"&gt;
+&lt;p&gt;
+快速轻量的哈希表库
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"khash.h"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+   &lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;kh_myname_value_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+   &lt;span class="n"&gt;kh_int_t&lt;/span&gt; 
+   &lt;span class="nf"&gt;kh_myname_hash_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;HASH&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+
+   &lt;span class="kt"&gt;int&lt;/span&gt; 
+   &lt;span class="nf"&gt;kh_myname_hash_equal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt; &lt;span class="n"&gt;key_1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt; &lt;span class="n"&gt;key_2&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;key_1&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;key_2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+
+   &lt;span class="n"&gt;KHASH_INIT&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;kh_myname_value_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;kh_myname_hash_func&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;kh_myname_hash_equal&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+   &lt;span class="kt"&gt;int&lt;/span&gt; 
+   &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+
+       &lt;span class="n"&gt;khiter_t&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;	
+       &lt;span class="n"&gt;khash_t&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;kh_init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+       &lt;span class="c1"&gt;// 存入数据&lt;/span&gt;
+       &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	   &lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;calloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;			
+	   &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+	   &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;ret&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	   &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;kh_put&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ret&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;			
+	   &lt;span class="n"&gt;kh_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;			
+       &lt;span class="p"&gt;}&lt;/span&gt;
+
+       &lt;span class="c1"&gt;// 读取，修改，删除&lt;/span&gt;
+       &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	   &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	   &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;kh_get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;			
+
+	   &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;kh_exist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;kh_end&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	       &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"not exits!&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	   &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;			
+	       &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"wrong value!&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	   &lt;span class="n"&gt;kh_del&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;			
+	   &lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_key&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;			
+       &lt;span class="p"&gt;}&lt;/span&gt;
+
+       &lt;span class="n"&gt;kh_destroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;	
+
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>khash</category><category>klib</category><guid>https://chimez.github.io/posts/klib/</guid><pubDate>Fri, 06 Aug 2021 16:19:52 GMT</pubDate></item><item><title>MPI</title><link>https://chimez.github.io/posts/mpi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org51a6c6b" class="outline-2"&gt;
 &lt;h2 id="org51a6c6b"&gt;MPI: Message Passing Interface&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-org51a6c6b"&gt;
 &lt;p&gt;
@@ -2269,121 +2375,4 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>BLAS</category><category>C</category><category>LAPACK</category><guid>https://chimez.github.io/posts/lapack/</guid><pubDate>Mon, 10 May 2021 01:46:43 GMT</pubDate></item><item><title>BLAS</title><link>https://chimez.github.io/posts/blas/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge468d11" class="outline-2"&gt;
-&lt;h2 id="orge468d11"&gt;BLAS&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge468d11"&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;MKL 中的 BLAS，参考 &lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/naming-conventions-for-blas-routines.html"&gt;MKL - BLAS&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;标准的 BLAS 参考 &lt;a href="https://www.netlib.org/blas/"&gt;netlib - BLAS&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgfef8337" class="outline-3"&gt;
-&lt;h3 id="orgfef8337"&gt;BLAS 的命名规则&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgfef8337"&gt;
-&lt;p&gt;
-BLAS 中的函数名一般规则是 &lt;code&gt;&amp;lt;character&amp;gt;&amp;lt;name&amp;gt;&amp;lt;mode&amp;gt; ()&lt;/code&gt;
-&lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;character&amp;gt;&lt;/code&gt; 指明数据类型
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;code&gt;s&lt;/code&gt; real, single precision&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;c&lt;/code&gt; complex, single precision&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;d&lt;/code&gt; real, double precision&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;z&lt;/code&gt; complex, double precision&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;name&amp;gt;&lt;/code&gt; 指明矩阵类型 BLAS 2 and 3
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;code&gt;ge&lt;/code&gt; general matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;gb&lt;/code&gt; general band matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sy&lt;/code&gt; symmetric matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sp&lt;/code&gt; symmetric matrix (packed storage)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sb&lt;/code&gt; symmetric band matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;he&lt;/code&gt; hermitian matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;hp&lt;/code&gt; hermitian matrix (packed storage)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;hb&lt;/code&gt; hermitian band matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;tr&lt;/code&gt; triangular matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;tp&lt;/code&gt; triangular matrix (packed storage)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;tb&lt;/code&gt; triangular band matrix&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;mod&amp;gt;&lt;/code&gt; 指明操作的细节
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;code&gt;c&lt;/code&gt; conjugated vector&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;u&lt;/code&gt; unconjugated vector&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;g&lt;/code&gt; Givens rotation construction&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;m&lt;/code&gt; modified Givens rotation&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;mg&lt;/code&gt; modified Givens rotation construction&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;mv&lt;/code&gt; matrix-vector product&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sv&lt;/code&gt; solving a system of linear equations with a single unknown vector&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;r&lt;/code&gt; rank-1 update of matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;r2&lt;/code&gt; rank-2 update of matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;mm&lt;/code&gt; matrix-matrix product&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sm&lt;/code&gt; solving a system of linear equations with multiple unkonwn vectors&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;rk&lt;/code&gt; rank-k update of matrix&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;r2k&lt;/code&gt; rank-2k update of a matrix&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org6b7b696" class="outline-3"&gt;
-&lt;h3 id="org6b7b696"&gt;CBLAS 约定&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6b7b696"&gt;
-&lt;p&gt;
-CBLAS 是 BLAS 的 c 接口， BLAS 是 fortran 标准。
-&lt;/p&gt;
-
-&lt;p&gt;
-CBLAS 函数都遵循以下约定
-&lt;/p&gt;
-
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;输入参数是 &lt;code&gt;const&lt;/code&gt; 指针&lt;/li&gt;
-&lt;li&gt;非复数标量输入参数传值&lt;/li&gt;
-&lt;li&gt;复标量参数传 &lt;code&gt;void&lt;/code&gt; 指针&lt;/li&gt;
-&lt;li&gt;数组参数传地址&lt;/li&gt;
-&lt;li&gt;BLAS 特征参数由适当的枚举类型代替&lt;/li&gt;
-&lt;li&gt;level 2 和 level 3 需要一个额外的 &lt;code&gt;CBLAS_LAYOUT&lt;/code&gt; 类型的参数来指定矩阵是行优先 &lt;code&gt;CblasRowMajor&lt;/code&gt; 还是列优先 &lt;code&gt;CblasColMajor&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgca95bd0" class="outline-3"&gt;
-&lt;h3 id="orgca95bd0"&gt;枚举类型&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgca95bd0"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_LAYOUT&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="n"&gt;CblasRowMajor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;101&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;    &lt;span class="cm"&gt;/* row-major arrays */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasColMajor&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;102&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;   &lt;span class="cm"&gt;/* column-major arrays */&lt;/span&gt;
-
-   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_TRANSPOSE&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="n"&gt;CblasNoTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;111&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;     &lt;span class="cm"&gt;/* trans='N' */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;112&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;       &lt;span class="cm"&gt;/* trans='T' */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasConjTrans&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;113&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;  &lt;span class="cm"&gt;/* trans='C' */&lt;/span&gt;
-
-   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_UPLO&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="n"&gt;CblasUpper&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;121&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;        &lt;span class="cm"&gt;/* uplo ='U' */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasLower&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;122&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;       &lt;span class="cm"&gt;/* uplo ='L' */&lt;/span&gt;
-
-   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_DIAG&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="n"&gt;CblasNonUnit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;131&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;      &lt;span class="cm"&gt;/* diag ='N' */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasUnit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;132&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;        &lt;span class="cm"&gt;/* diag ='U' */&lt;/span&gt;
-
-   &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;CBLAS_SIDE&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-      &lt;span class="n"&gt;CblasLeft&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;141&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;         &lt;span class="cm"&gt;/* side ='L' */&lt;/span&gt;
-      &lt;span class="n"&gt;CblasRight&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;142&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;       &lt;span class="cm"&gt;/* side ='R' */&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org9304e2e" class="outline-3"&gt;
-&lt;h3 id="org9304e2e"&gt;矩阵存储方式&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9304e2e"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;完全存储矩阵 \(A_{ij}_{}\) 在二维数组列存储 &lt;code&gt;a[i + j*lda]&lt;/code&gt; 行存储 &lt;code&gt;a[i*lda + j]&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;packed storage 可以用更有效的方式存储矩阵&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>BLAS</category><category>C</category><guid>https://chimez.github.io/posts/blas/</guid><pubDate>Fri, 07 May 2021 03:47:35 GMT</pubDate></item><item><title>Extending Python with C</title><link>https://chimez.github.io/posts/extending-python-with-c/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgaf204c4" class="outline-2"&gt;
-&lt;h2 id="orgaf204c4"&gt;用 C 扩展 Python&lt;/h2&gt;
-&lt;/div&gt;</description><category>C</category><category>ffi</category><category>python</category><guid>https://chimez.github.io/posts/extending-python-with-c/</guid><pubDate>Mon, 03 May 2021 11:16:46 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>BLAS</category><category>C</category><category>LAPACK</category><guid>https://chimez.github.io/posts/lapack/</guid><pubDate>Mon, 10 May 2021 01:46:43 GMT</pubDate></item></channel></rss>
