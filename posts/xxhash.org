@@ -1,0 +1,32 @@
+#+BEGIN_COMMENT
+.. title: xxhash
+.. slug: xxhash
+.. date: 2021-08-07 00:30:25 UTC+08:00
+.. tags: C, hash
+.. category: library
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* xxHash: 快速的哈希函数
+  [[https://github.com/Cyan4973/xxHash][Cyan4973/xxHash]]
+
+** 安装
+   meson 的 wrapDB 中有，所以只需要 ~meson wrap install xxhash~
+
+   编译时使用 ~XXH_INLINE_ALL~ 选项提高性能，对于 meson 来说需要写 ~xxhash_dep = dependency('libxxhash', default_options: ['inline-all=true'])~
+
+** 基本使用
+
+   最快的哈希函数是 ~XXH3_64bits~
+   #+begin_src c
+#include "xxhash.h"
+
+static inline
+XXH64_hash_t
+hash_func(int* key) {
+    return XXH3_64bits(key, 2*sizeof(int));	
+}
+   #+end_src

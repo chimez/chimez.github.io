@@ -1,0 +1,72 @@
+#+BEGIN_COMMENT
+.. title: klib
+.. slug: klib
+.. date: 2021-08-07 00:19:52 UTC+08:00
+.. tags: C, klib, khash
+.. category: library
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* klib: 轻量级 c 头文件库
+  [[https://github.com/attractivechaos/klib][attractivechaos/klib]]
+  
+** khash.h
+   快速轻量的哈希表库
+   
+   #+begin_src c
+#include "khash.h"
+
+typedef int kh_myname_key_t;
+typedef int kh_myname_value_t;
+
+kh_int_t 
+kh_myname_hash_func(kh_myname_key_t key){
+    return HASH(key);
+}
+
+int 
+kh_myname_hash_equal(kh_myname_key_t key_1, kh_myname_key_t key_2){
+    return key_1 == key_2;
+}
+
+KHASH_INIT(myname, kh_myname_key_t, kh_myname_value_t, 1, kh_myname_hash_func, kh_myname_hash_equal)
+
+int 
+main(){
+
+    khiter_t k;	
+    khash_t(myname) *h = kh_init(myname);
+
+    // 存入数据
+    for (int i=0; i<10; ++i){
+        kh_myname_key_t* key = calloc(1, sizeof(kh_myname_key_t));			
+        *key = i;
+        
+        int ret;
+        k = kh_put(myname, h, key, &ret);			
+        kh_value(h, k) = i + 3;			
+    }
+    
+    // 读取，修改，删除
+    for (int i=0; i<10; ++i){
+        int key = i;
+        k = kh_get(myname, h, key);			
+
+        if (!kh_exist(h,k) || k== kh_end(h))
+            printf("not exits!\n");
+        if (kh_value(h, k) != i+j)			
+            printf("wrong value!\n");
+
+        kh_del(myname, h, k);			
+        free(kh_key(h, k));			
+    }
+    
+    kh_destroy(myname, h);	
+
+    return 0;
+}
+
+   #+end_src

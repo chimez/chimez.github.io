@@ -14,7 +14,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://chimez.github.io/">
 <link rel="next" href="index-4.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/mpi/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/xxhash/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -71,7 +71,456 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/mpi/" class="u-url">MPI</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/xxhash/" class="u-url">xxhash</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/xxhash/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-08-07T00:30:25+08:00" itemprop="datePublished" title="2021-08-07 00:30">2021-08-07 00:30</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orge991632" class="outline-2">
+<h2 id="orge991632">xxHash: 快速的哈希函数</h2>
+<div class="outline-text-2" id="text-orge991632">
+<p>
+<a href="https://github.com/Cyan4973/xxHash">Cyan4973/xxHash</a>
+</p>
+</div>
+
+<div id="outline-container-orgfd27b83" class="outline-3">
+<h3 id="orgfd27b83">安装</h3>
+<div class="outline-text-3" id="text-orgfd27b83">
+<p>
+meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
+</p>
+
+<p>
+编译时使用 <code>XXH_INLINE_ALL</code> 选项提高性能，对于 meson 来说需要写 <code>xxhash_dep = dependency('libxxhash', default_options: ['inline-all=true'])</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6ced72e" class="outline-3">
+<h3 id="org6ced72e">基本使用</h3>
+<div class="outline-text-3" id="text-org6ced72e">
+<p>
+最快的哈希函数是 <code>XXH3_64bits</code>
+</p>
+<div class="highlight"><pre><span></span>   <span class="cp">#include</span> <span class="cpf">"xxhash.h"</span><span class="cp"></span>
+
+   <span class="k">static</span> <span class="kr">inline</span>
+   <span class="n">XXH64_hash_t</span>
+   <span class="n">hash_func</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="nf">XXH3_64bits</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>	
+   <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/klib/" class="u-url">klib</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/klib/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-08-07T00:19:52+08:00" itemprop="datePublished" title="2021-08-07 00:19">2021-08-07 00:19</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org0cbc05d" class="outline-2">
+<h2 id="org0cbc05d">klib: 轻量级 c 头文件库</h2>
+<div class="outline-text-2" id="text-org0cbc05d">
+<p>
+<a href="https://github.com/attractivechaos/klib">attractivechaos/klib</a>
+</p>
+</div>
+
+<div id="outline-container-orge3c40f6" class="outline-3">
+<h3 id="orge3c40f6">khash.h</h3>
+<div class="outline-text-3" id="text-orge3c40f6">
+<p>
+快速轻量的哈希表库
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="cp">#include</span> <span class="cpf">"khash.h"</span><span class="cp"></span>
+
+   <span class="k">typedef</span> <span class="kt">int</span> <span class="n">kh_myname_key_t</span><span class="p">;</span>
+   <span class="k">typedef</span> <span class="kt">int</span> <span class="n">kh_myname_value_t</span><span class="p">;</span>
+
+   <span class="n">kh_int_t</span> 
+   <span class="nf">kh_myname_hash_func</span><span class="p">(</span><span class="n">kh_myname_key_t</span> <span class="n">key</span><span class="p">){</span>
+       <span class="k">return</span> <span class="n">HASH</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+   <span class="p">}</span>
+
+   <span class="kt">int</span> 
+   <span class="nf">kh_myname_hash_equal</span><span class="p">(</span><span class="n">kh_myname_key_t</span> <span class="n">key_1</span><span class="p">,</span> <span class="n">kh_myname_key_t</span> <span class="n">key_2</span><span class="p">){</span>
+       <span class="k">return</span> <span class="n">key_1</span> <span class="o">==</span> <span class="n">key_2</span><span class="p">;</span>
+   <span class="p">}</span>
+
+   <span class="n">KHASH_INIT</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span> <span class="n">kh_myname_key_t</span><span class="p">,</span> <span class="n">kh_myname_value_t</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">kh_myname_hash_func</span><span class="p">,</span> <span class="n">kh_myname_hash_equal</span><span class="p">)</span>
+
+   <span class="kt">int</span> 
+   <span class="n">main</span><span class="p">(){</span>
+
+       <span class="n">khiter_t</span> <span class="n">k</span><span class="p">;</span>	
+       <span class="n">khash_t</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span> <span class="o">*</span><span class="n">h</span> <span class="o">=</span> <span class="n">kh_init</span><span class="p">(</span><span class="n">myname</span><span class="p">);</span>
+
+       <span class="c1">// 存入数据</span>
+       <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>
+	   <span class="n">kh_myname_key_t</span><span class="o">*</span> <span class="n">key</span> <span class="o">=</span> <span class="n">calloc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">kh_myname_key_t</span><span class="p">));</span>			
+	   <span class="o">*</span><span class="n">key</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+
+	   <span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+	   <span class="n">k</span> <span class="o">=</span> <span class="n">kh_put</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span>			
+	   <span class="n">kh_value</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>			
+       <span class="p">}</span>
+
+       <span class="c1">// 读取，修改，删除</span>
+       <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>
+	   <span class="kt">int</span> <span class="n">key</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+	   <span class="n">k</span> <span class="o">=</span> <span class="n">kh_get</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>			
+
+	   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">kh_exist</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="o">||</span> <span class="n">k</span><span class="o">==</span> <span class="n">kh_end</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+	       <span class="n">printf</span><span class="p">(</span><span class="s">"not exits!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	   <span class="k">if</span> <span class="p">(</span><span class="n">kh_value</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">!=</span> <span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span>			
+	       <span class="n">printf</span><span class="p">(</span><span class="s">"wrong value!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	   <span class="n">kh_del</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>			
+	   <span class="n">free</span><span class="p">(</span><span class="n">kh_key</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">k</span><span class="p">));</span>			
+       <span class="p">}</span>
+
+       <span class="n">kh_destroy</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span> <span class="n">h</span><span class="p">);</span>	
+
+       <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+   <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/cython/" class="u-url">cython</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/cython/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-08-05T20:47:25+08:00" itemprop="datePublished" title="2021-08-05 20:47">2021-08-05 20:47</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orgc0403b5" class="outline-2">
+<h2 id="orgc0403b5">Cython</h2>
+<div class="outline-text-2" id="text-orgc0403b5">
+</div>
+<div id="outline-container-orgacd7a20" class="outline-3">
+<h3 id="orgacd7a20">基本概念</h3>
+<div class="outline-text-3" id="text-orgacd7a20">
+</div>
+<div id="outline-container-org5c85d88" class="outline-4">
+<h4 id="org5c85d88">文件</h4>
+<div class="outline-text-4" id="text-org5c85d88">
+<ol class="org-ol">
+<li>
+<code>.pyx</code> 是 <code>cython</code> 语法的源文件</li>
+<li>
+<code>.pyd</code> (windows) 是 windows 平台上编译后的文件，对应 linux 平台的 <code>*.so</code>
+</li>
+<li>
+<code>.pyd</code> (源文件) 是外部声明，即对 <code>.h</code> 头文件的重新封装</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgba1426d" class="outline-4">
+<h4 id="orgba1426d">库</h4>
+<div class="outline-text-4" id="text-orgba1426d">
+<ol class="org-ol">
+<li>
+<code>Cython.Build</code> python 端调用，用于编译</li>
+<li>
+<code>cython.parallel</code> cython 端调用，并行 <code>prange</code>
+</li>
+</ol>
+<p>
+所有 c 库在 <a href="https://github.com/cython/cython/tree/master/Cython/Includes">Cython/Includes</a> 中
+</p>
+<ol class="org-ol">
+<li>
+<code>libc</code> cython 端调用， c 标准库</li>
+<li>
+<code>libcpp</code> cython 端调用， c++ stl 库</li>
+<li>
+<code>numpy</code> cython 端调用，numpy 支持</li>
+<li>
+<code>posix</code> cython 端调用，posix 库</li>
+<li>
+<code>openmp</code> cython 端调用，并行</li>
+<li>
+<code>cpython</code> cython 端调用， python 的 c 接口</li>
+<li>
+<code>cython</code> cython 端调用，控制特殊行为</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgc494f55" class="outline-4">
+<h4 id="orgc494f55">语法</h4>
+<div class="outline-text-4" id="text-orgc494f55">
+<div class="highlight"><pre><span></span>    from libc.math cimport log2 # 引入 c 函数
+    cdef int x # 声明变量类型
+    cdef int [:,:] x # 声明变量是 numpy 的 2d 向量
+    ctypedef struct queue: # 声明类型
+	pass
+
+    ctypedef fused my_type: # 泛型
+	int
+	double
+	long long
+
+    # 类的定义，注意使用 __cinit__
+    cdef class A:
+	cdef int a
+	def __cinit__(self):
+	    self.a = 1
+
+    &lt;void*&gt;value # 类型转换成指针
+
+    # 定义 c 函数，异常时返回 -1
+    cdef int func(int x) execpt? -1:
+	pass
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orga831683" class="outline-4">
+<h4 id="orga831683">文件注解</h4>
+<div class="outline-text-4" id="text-orga831683">
+<ol class="org-ol">
+<li>
+<code># distutils: language=c++</code> 使用 <code>c++</code> 编译</li>
+<li>
+<code># distutils: sources = c-algorithms/src/queue.c</code> 指定静态链接的源文件</li>
+<li>
+<code># distutils: include_dirs = c-algorithms/src/</code> 指定头文件目录</li>
+<li>
+<code># distutils: extra_compile_args=-fopenmp</code> 指定编译器参数</li>
+<li>
+<code># distutils: extra_link_args=-fopenmp</code> 指定链接参数</li>
+<li>
+<code># cython: infer_types=True</code> 自动推断类型，只作用于一级缩进的变量</li>
+<li>
+<code># cython: profile=True</code> 开启 profile</li>
+<li>
+<code># cython: linetrace=True</code> 开启 profile 行追踪</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org2b6c83b" class="outline-4">
+<h4 id="org2b6c83b">函数注解</h4>
+<div class="outline-text-4" id="text-org2b6c83b">
+<ol class="org-ol">
+<li>
+<code>@cython.boundscheck(False)</code> 关闭数组边界检查</li>
+<li>
+<code>@cython.wraparound(False)</code> 关闭负指标</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1a5bfd2" class="outline-3">
+<h3 id="org1a5bfd2">编译</h3>
+<div class="outline-text-3" id="text-org1a5bfd2">
+</div>
+<div id="outline-container-org68dffdf" class="outline-4">
+<h4 id="org68dffdf">基本结构</h4>
+<div class="outline-text-4" id="text-org68dffdf">
+<p>
+<code>setup.py</code>
+</p>
+<div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+    <span class="kn">from</span> <span class="nn">Cython.Build</span> <span class="kn">import</span> <span class="n">cythonize</span>
+
+    <span class="n">setup</span><span class="p">(</span>
+	<span class="n">ext_modules</span> <span class="o">=</span> <span class="n">cythonize</span><span class="p">(</span><span class="s2">"helloworld.pyx"</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+
+<p>
+<code>helloworld.pyx</code>
+</p>
+<div class="highlight"><pre><span></span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Hello World"</span><span class="p">)</span>
+</pre></div>
+
+<p>
+执行命令
+</p>
+<div class="highlight"><pre><span></span>    python setup.py build_ext --inplace
+</pre></div>
+
+<p>
+这编译得到的 <code>helloworld.so</code> 或 <code>helloworld.pyd</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org946002f" class="outline-4">
+<h4 id="org946002f">动态链接</h4>
+<div class="outline-text-4" id="text-org946002f">
+<p>
+<a href="https://cython.readthedocs.io/en/latest/src/tutorial/external.html#dynamic-linking">参考</a>
+</p>
+
+<p>
+需要指明 <code>libraries</code> 参数
+</p>
+<div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">Extension</span><span class="p">,</span> <span class="n">setup</span>
+    <span class="kn">from</span> <span class="nn">Cython.Build</span> <span class="kn">import</span> <span class="n">cythonize</span>
+
+    <span class="n">ext_modules</span> <span class="o">=</span> <span class="p">[</span>
+	<span class="n">Extension</span><span class="p">(</span><span class="s2">"demo"</span><span class="p">,</span>
+		  <span class="n">sources</span><span class="o">=</span><span class="p">[</span><span class="s2">"demo.pyx"</span><span class="p">],</span>
+		  <span class="n">libraries</span><span class="o">=</span><span class="p">[</span><span class="s2">"m"</span><span class="p">]</span>  <span class="c1"># Unix-like specific</span>
+		  <span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">setup</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Demos"</span><span class="p">,</span>
+	  <span class="n">ext_modules</span><span class="o">=</span><span class="n">cythonize</span><span class="p">(</span><span class="n">ext_modules</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org6f66bc9" class="outline-4">
+<h4 id="org6f66bc9">静态链接</h4>
+<div class="outline-text-4" id="text-org6f66bc9">
+<p>
+使用注解 
+</p>
+<div class="highlight"><pre><span></span>    # distutils: sources = c-algorithms/src/queue.c
+    # distutils: include_dirs = c-algorithms/src/
+
+    pass
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4634e9b" class="outline-3">
+<h3 id="org4634e9b">使用 c 库</h3>
+<div class="outline-text-3" id="text-org4634e9b">
+</div>
+<div id="outline-container-org41fd3ff" class="outline-4">
+<h4 id="org41fd3ff">外部声明</h4>
+<div class="outline-text-4" id="text-org41fd3ff">
+<p>
+使用头文件, 外部声明可以放在 <code>.pyd</code> 文件中
+</p>
+<div class="highlight"><pre><span></span>    cdef extern from "math.h":
+	double sin(double x)
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgcff95c2" class="outline-4">
+<h4 id="orgcff95c2">异常处理</h4>
+<div class="outline-text-4" id="text-orgcff95c2">
+<ol class="org-ol">
+<li>
+<code>except? -1</code> 语法表示当发生任何错误时，返回 <code>-1</code>
+</li>
+<li>
+<code>execpt *</code> 表示返回时调用 <code>PyErr_Occurred()</code> ，当函数返回 <code>void</code> 并且需要传递错误时使用这个</li>
+</ol>
+<div class="highlight"><pre><span></span>    cdef int pop(self) except? -1:
+	if cqueue.queue_is_empty(self._c_queue):
+	    raise IndexError("Queue is empty")
+	return &lt;Py_ssize_t&gt;cqueue.queue_pop_head(self._c_queue)
+
+    cdef int spam() except *:
+	...
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org659996e" class="outline-3">
+<h3 id="org659996e">使用 numpy</h3>
+<div class="outline-text-3" id="text-org659996e">
+<p>
+numpy 的 <code>ndarray</code> 在 cython 中用做 typed memoryview
+</p>
+</div>
+
+<div id="outline-container-orgf9b5372" class="outline-4">
+<h4 id="orgf9b5372">基本例子</h4>
+<div class="outline-text-4" id="text-orgf9b5372">
+<div class="highlight"><pre><span></span>    import numpy as np
+
+    DTYPE = np.intc
+
+
+    cdef int clip(int a, int min_value, int max_value):
+	return min(max(a, min_value), max_value)
+
+
+    def compute(int[:, :] array_1, int[:, :] array_2, int a, int b, int c):
+
+	cdef Py_ssize_t x_max = array_1.shape[0]
+	cdef Py_ssize_t y_max = array_1.shape[1]
+	assert tuple(array_1.shape) == tuple(array_2.shape)
+
+	result = np.zeros((x_max, y_max), dtype=DTYPE)
+	cdef int[:, :] result_view = result
+
+	cdef int tmp
+	cdef Py_ssize_t x, y
+
+	for x in range(x_max):
+	    for y in range(y_max):
+
+		tmp = clip(array_1[x, y], 2, 10)
+		tmp = tmp * a + array_2[x, y] * b
+		result_view[x, y] = tmp + c
+
+	return result
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc2a71a3" class="outline-3">
+<h3 id="orgc2a71a3">并行</h3>
+<div class="outline-text-3" id="text-orgc2a71a3">
+<ol class="org-ol">
+<li>使用 <code>prange</code>
+</li>
+<li>
+<p>
+使用 <code>nogil</code>
+</p>
+
+<div class="highlight"><pre><span></span>      from cython.parallel import prange
+      cdef int func(int x) nogil:
+	  cdef int i
+	  cdef int y
+	  for i in prange(x, nogil=True):
+	      y += i 
+	  return y
+</pre></div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/mpi/" class="u-url">MPI</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -2451,113 +2900,6 @@ API 命名结构如下：
 <p>
 使用 <code>multiprocessing.shared_memory</code> 创建共享内存，并把内存地址名作为参数传递
 </p>
-</div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/paper-format/" class="u-url">Paper Format</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/paper-format/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-05-31T22:40:57+08:00" itemprop="datePublished" title="2021-05-31 22:40">2021-05-31 22:40</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-orge867e61" class="outline-2">
-<h2 id="orge867e61">论文排版问题</h2>
-<div class="outline-text-2" id="text-orge867e61">
-</div>
-<div id="outline-container-org927317c" class="outline-3">
-<h3 id="org927317c">图片</h3>
-<div class="outline-text-3" id="text-org927317c">
-<ol class="org-ol">
-<li>A4 双栏格式的宽度是 3.45 英寸</li>
-</ol>
-</div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/squid-http-proxy-server/" class="u-url">squid http proxy server</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/squid-http-proxy-server/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-05-21T14:24:48+08:00" itemprop="datePublished" title="2021-05-21 14:24">2021-05-21 14:24</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-org0e3d450" class="outline-2">
-<h2 id="org0e3d450">squid HTTP 代理服务器</h2>
-<div class="outline-text-2" id="text-org0e3d450">
-</div>
-<div id="outline-container-org5482208" class="outline-3">
-<h3 id="org5482208">安装</h3>
-<div class="outline-text-3" id="text-org5482208">
-<div class="highlight"><pre><span></span>   apt install squid
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orgd2e94bf" class="outline-3">
-<h3 id="orgd2e94bf">配置</h3>
-<div class="outline-text-3" id="text-orgd2e94bf">
-</div>
-<div id="outline-container-org6fa1a3c" class="outline-4">
-<h4 id="org6fa1a3c">端口</h4>
-<div class="outline-text-4" id="text-org6fa1a3c">
-<p>
-<code>/etc/squid/squid.conf</code>
-</p>
-
-<div class="highlight"><pre><span></span>    http_port 3128
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org4bd54fa" class="outline-4">
-<h4 id="org4bd54fa">访问权限</h4>
-<div class="outline-text-4" id="text-org4bd54fa">
-<div class="highlight"><pre><span></span>    http_access allow all
-    # http_access deny all
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/anki/" class="u-url">Anki</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/anki/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-05-20T15:05:06+08:00" itemprop="datePublished" title="2021-05-20 15:05">2021-05-20 15:05</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-orgfb255c2" class="outline-2">
-<h2 id="orgfb255c2">Anki</h2>
-<div class="outline-text-2" id="text-orgfb255c2">
-</div>
-<div id="outline-container-org98cbd9a" class="outline-3">
-<h3 id="org98cbd9a">插件</h3>
-<div class="outline-text-3" id="text-org98cbd9a">
-<ol class="org-ol">
-<li>
-<a href="https://ankiweb.net/shared/info/2055492159">AnkiConnect</a> 基础设施</li>
-<li>
-<a href="https://ankiweb.net/shared/info/817108664">Anki Simulator</a> 估计未来工作量</li>
-<li>
-<a href="https://ankiweb.net/shared/info/1436550454">AwesomeTTS</a> 文本转语音</li>
-<li>
-<a href="https://ankiweb.net/shared/info/1087328706">Markdown and KaTeX Support</a> 支持 markdown 的卡片类型</li>
-</ol>
 </div>
 </div>
 </div>

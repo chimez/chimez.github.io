@@ -370,6 +370,70 @@ CAKERRQ(ierr);
    5. ~KSPDestroy(KSP ksp);~
       1. 运算结束销毁求解器
          
+         
+* petsc4py
+  
+** 基本使用
+  
+   #+begin_src python
+# 初始化
+import sys
+import petsc4py
+petsc4py.init(sys.argv)
+from petsc4py import PETSc
+
+
+# 矩阵
+A = PETSc.Mat().create(comm=comm)
+A.setSizes((m*n,m*n))
+A.setSizes(((m,M),(n,N))) # m,n: local, M,N: global
+A.setFromOptions()
+
+A.setValues(3, 4, 5.0, addv=True)
+A.assemblyBegin(A.AssemblyType.FINAL)
+A.assemblyEnd(A.AssemblyType.FINAL)
+
+# 向量
+u = PETSc.Vec().create(comm=comm)
+u.setSizes(m*n)
+u.setSizes((n,N), bsize=1) # n: local, N: global
+u.setFromOptions()
+
+# 矩阵乘向量
+b = u.duplicate()
+u.set(1.0)
+b = A(u)
+
+
+   #+end_src
+
+** 无矩阵的矩阵
+   #+begin_src python
+class H():
+    def __init__(self):
+        pass
+
+    def mult(self, mat, X, Y):
+        Y = sth(X)
+
+shell = H()
+A = PETSc.Mat().createPython(
+    [x_len, y_len], comm=comm)
+A.setPythonContext(shell)
+A.setUp()
+   #+end_src
+   
+** 遍历向量
+   #+begin_src python
+x = PETSc.Vec().create(comm=comm)
+x.setSizes(n)
+x.setFromOptions()
+
+rstart,rend = x.getOwnershipRange()
+nlocal = x.getLocalSize()
+
+x_arr: np.ndarray = x.getArray(readonly=True)
+   #+end_src
 
 * 其它问题
 

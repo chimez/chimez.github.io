@@ -1,5 +1,387 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 04 Aug 2021 07:10:01 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>MPI</title><link>https://chimez.github.io/posts/mpi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org51a6c6b" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Fri, 06 Aug 2021 16:36:06 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>xxhash</title><link>https://chimez.github.io/posts/xxhash/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge991632" class="outline-2"&gt;
+&lt;h2 id="orge991632"&gt;xxHash: 快速的哈希函数&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge991632"&gt;
+&lt;p&gt;
+&lt;a href="https://github.com/Cyan4973/xxHash"&gt;Cyan4973/xxHash&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfd27b83" class="outline-3"&gt;
+&lt;h3 id="orgfd27b83"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfd27b83"&gt;
+&lt;p&gt;
+meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+编译时使用 &lt;code&gt;XXH_INLINE_ALL&lt;/code&gt; 选项提高性能，对于 meson 来说需要写 &lt;code&gt;xxhash_dep = dependency('libxxhash', default_options: ['inline-all=true'])&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6ced72e" class="outline-3"&gt;
+&lt;h3 id="org6ced72e"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6ced72e"&gt;
+&lt;p&gt;
+最快的哈希函数是 &lt;code&gt;XXH3_64bits&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"xxhash.h"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+   &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kr"&gt;inline&lt;/span&gt;
+   &lt;span class="n"&gt;XXH64_hash_t&lt;/span&gt;
+   &lt;span class="n"&gt;hash_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nf"&gt;XXH3_64bits&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;	
+   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>hash</category><guid>https://chimez.github.io/posts/xxhash/</guid><pubDate>Fri, 06 Aug 2021 16:30:25 GMT</pubDate></item><item><title>klib</title><link>https://chimez.github.io/posts/klib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org0cbc05d" class="outline-2"&gt;
+&lt;h2 id="org0cbc05d"&gt;klib: 轻量级 c 头文件库&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0cbc05d"&gt;
+&lt;p&gt;
+&lt;a href="https://github.com/attractivechaos/klib"&gt;attractivechaos/klib&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge3c40f6" class="outline-3"&gt;
+&lt;h3 id="orge3c40f6"&gt;khash.h&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge3c40f6"&gt;
+&lt;p&gt;
+快速轻量的哈希表库
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;"khash.h"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+
+   &lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="k"&gt;typedef&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;kh_myname_value_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+   &lt;span class="n"&gt;kh_int_t&lt;/span&gt; 
+   &lt;span class="nf"&gt;kh_myname_hash_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;HASH&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+
+   &lt;span class="kt"&gt;int&lt;/span&gt; 
+   &lt;span class="nf"&gt;kh_myname_hash_equal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt; &lt;span class="n"&gt;key_1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt; &lt;span class="n"&gt;key_2&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;key_1&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;key_2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+
+   &lt;span class="n"&gt;KHASH_INIT&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;kh_myname_value_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;kh_myname_hash_func&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;kh_myname_hash_equal&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+   &lt;span class="kt"&gt;int&lt;/span&gt; 
+   &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+
+       &lt;span class="n"&gt;khiter_t&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;	
+       &lt;span class="n"&gt;khash_t&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;kh_init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+       &lt;span class="c1"&gt;// 存入数据&lt;/span&gt;
+       &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	   &lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;calloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;			
+	   &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+	   &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;ret&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	   &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;kh_put&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ret&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;			
+	   &lt;span class="n"&gt;kh_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;			
+       &lt;span class="p"&gt;}&lt;/span&gt;
+
+       &lt;span class="c1"&gt;// 读取，修改，删除&lt;/span&gt;
+       &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+	   &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+	   &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;kh_get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;			
+
+	   &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;kh_exist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;kh_end&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+	       &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"not exits!&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+	   &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;			
+	       &lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"wrong value!&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+	   &lt;span class="n"&gt;kh_del&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;			
+	   &lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_key&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;			
+       &lt;span class="p"&gt;}&lt;/span&gt;
+
+       &lt;span class="n"&gt;kh_destroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;	
+
+       &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+   &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>khash</category><category>klib</category><guid>https://chimez.github.io/posts/klib/</guid><pubDate>Fri, 06 Aug 2021 16:19:52 GMT</pubDate></item><item><title>cython</title><link>https://chimez.github.io/posts/cython/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgc0403b5" class="outline-2"&gt;
+&lt;h2 id="orgc0403b5"&gt;Cython&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc0403b5"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgacd7a20" class="outline-3"&gt;
+&lt;h3 id="orgacd7a20"&gt;基本概念&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgacd7a20"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org5c85d88" class="outline-4"&gt;
+&lt;h4 id="org5c85d88"&gt;文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5c85d88"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;.pyx&lt;/code&gt; 是 &lt;code&gt;cython&lt;/code&gt; 语法的源文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.pyd&lt;/code&gt; (windows) 是 windows 平台上编译后的文件，对应 linux 平台的 &lt;code&gt;*.so&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;.pyd&lt;/code&gt; (源文件) 是外部声明，即对 &lt;code&gt;.h&lt;/code&gt; 头文件的重新封装&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgba1426d" class="outline-4"&gt;
+&lt;h4 id="orgba1426d"&gt;库&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgba1426d"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;Cython.Build&lt;/code&gt; python 端调用，用于编译&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cython.parallel&lt;/code&gt; cython 端调用，并行 &lt;code&gt;prange&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+所有 c 库在 &lt;a href="https://github.com/cython/cython/tree/master/Cython/Includes"&gt;Cython/Includes&lt;/a&gt; 中
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;libc&lt;/code&gt; cython 端调用， c 标准库&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;libcpp&lt;/code&gt; cython 端调用， c++ stl 库&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;numpy&lt;/code&gt; cython 端调用，numpy 支持&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;posix&lt;/code&gt; cython 端调用，posix 库&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;openmp&lt;/code&gt; cython 端调用，并行&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cpython&lt;/code&gt; cython 端调用， python 的 c 接口&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cython&lt;/code&gt; cython 端调用，控制特殊行为&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc494f55" class="outline-4"&gt;
+&lt;h4 id="orgc494f55"&gt;语法&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc494f55"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    from libc.math cimport log2 # 引入 c 函数
+    cdef int x # 声明变量类型
+    cdef int [:,:] x # 声明变量是 numpy 的 2d 向量
+    ctypedef struct queue: # 声明类型
+	pass
+
+    ctypedef fused my_type: # 泛型
+	int
+	double
+	long long
+
+    # 类的定义，注意使用 __cinit__
+    cdef class A:
+	cdef int a
+	def __cinit__(self):
+	    self.a = 1
+
+    &amp;lt;void*&amp;gt;value # 类型转换成指针
+
+    # 定义 c 函数，异常时返回 -1
+    cdef int func(int x) execpt? -1:
+	pass
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orga831683" class="outline-4"&gt;
+&lt;h4 id="orga831683"&gt;文件注解&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga831683"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;# distutils: language=c++&lt;/code&gt; 使用 &lt;code&gt;c++&lt;/code&gt; 编译&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;# distutils: sources = c-algorithms/src/queue.c&lt;/code&gt; 指定静态链接的源文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;# distutils: include_dirs = c-algorithms/src/&lt;/code&gt; 指定头文件目录&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;# distutils: extra_compile_args=-fopenmp&lt;/code&gt; 指定编译器参数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;# distutils: extra_link_args=-fopenmp&lt;/code&gt; 指定链接参数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;# cython: infer_types=True&lt;/code&gt; 自动推断类型，只作用于一级缩进的变量&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;# cython: profile=True&lt;/code&gt; 开启 profile&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;# cython: linetrace=True&lt;/code&gt; 开启 profile 行追踪&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org2b6c83b" class="outline-4"&gt;
+&lt;h4 id="org2b6c83b"&gt;函数注解&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2b6c83b"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;@cython.boundscheck(False)&lt;/code&gt; 关闭数组边界检查&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;@cython.wraparound(False)&lt;/code&gt; 关闭负指标&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1a5bfd2" class="outline-3"&gt;
+&lt;h3 id="org1a5bfd2"&gt;编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1a5bfd2"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org68dffdf" class="outline-4"&gt;
+&lt;h4 id="org68dffdf"&gt;基本结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org68dffdf"&gt;
+&lt;p&gt;
+&lt;code&gt;setup.py&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;setuptools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;Cython.Build&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;cythonize&lt;/span&gt;
+
+    &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+	&lt;span class="n"&gt;ext_modules&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cythonize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"helloworld.pyx"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;code&gt;helloworld.pyx&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"Hello World"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+执行命令
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    python setup.py build_ext --inplace
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+这编译得到的 &lt;code&gt;helloworld.so&lt;/code&gt; 或 &lt;code&gt;helloworld.pyd&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org946002f" class="outline-4"&gt;
+&lt;h4 id="org946002f"&gt;动态链接&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org946002f"&gt;
+&lt;p&gt;
+&lt;a href="https://cython.readthedocs.io/en/latest/src/tutorial/external.html#dynamic-linking"&gt;参考&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+需要指明 &lt;code&gt;libraries&lt;/code&gt; 参数
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;setuptools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Extension&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
+    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;Cython.Build&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;cythonize&lt;/span&gt;
+
+    &lt;span class="n"&gt;ext_modules&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+	&lt;span class="n"&gt;Extension&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"demo"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+		  &lt;span class="n"&gt;sources&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"demo.pyx"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+		  &lt;span class="n"&gt;libraries&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"m"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c1"&gt;# Unix-like specific&lt;/span&gt;
+		  &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+
+    &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Demos"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+	  &lt;span class="n"&gt;ext_modules&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;cythonize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ext_modules&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6f66bc9" class="outline-4"&gt;
+&lt;h4 id="org6f66bc9"&gt;静态链接&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6f66bc9"&gt;
+&lt;p&gt;
+使用注解 
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    # distutils: sources = c-algorithms/src/queue.c
+    # distutils: include_dirs = c-algorithms/src/
+
+    pass
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4634e9b" class="outline-3"&gt;
+&lt;h3 id="org4634e9b"&gt;使用 c 库&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4634e9b"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org41fd3ff" class="outline-4"&gt;
+&lt;h4 id="org41fd3ff"&gt;外部声明&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org41fd3ff"&gt;
+&lt;p&gt;
+使用头文件, 外部声明可以放在 &lt;code&gt;.pyd&lt;/code&gt; 文件中
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    cdef extern from "math.h":
+	double sin(double x)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgcff95c2" class="outline-4"&gt;
+&lt;h4 id="orgcff95c2"&gt;异常处理&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgcff95c2"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;except? -1&lt;/code&gt; 语法表示当发生任何错误时，返回 &lt;code&gt;-1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;execpt *&lt;/code&gt; 表示返回时调用 &lt;code&gt;PyErr_Occurred()&lt;/code&gt; ，当函数返回 &lt;code&gt;void&lt;/code&gt; 并且需要传递错误时使用这个&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    cdef int pop(self) except? -1:
+	if cqueue.queue_is_empty(self._c_queue):
+	    raise IndexError("Queue is empty")
+	return &amp;lt;Py_ssize_t&amp;gt;cqueue.queue_pop_head(self._c_queue)
+
+    cdef int spam() except *:
+	...
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org659996e" class="outline-3"&gt;
+&lt;h3 id="org659996e"&gt;使用 numpy&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org659996e"&gt;
+&lt;p&gt;
+numpy 的 &lt;code&gt;ndarray&lt;/code&gt; 在 cython 中用做 typed memoryview
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf9b5372" class="outline-4"&gt;
+&lt;h4 id="orgf9b5372"&gt;基本例子&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf9b5372"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    import numpy as np
+
+    DTYPE = np.intc
+
+
+    cdef int clip(int a, int min_value, int max_value):
+	return min(max(a, min_value), max_value)
+
+
+    def compute(int[:, :] array_1, int[:, :] array_2, int a, int b, int c):
+
+	cdef Py_ssize_t x_max = array_1.shape[0]
+	cdef Py_ssize_t y_max = array_1.shape[1]
+	assert tuple(array_1.shape) == tuple(array_2.shape)
+
+	result = np.zeros((x_max, y_max), dtype=DTYPE)
+	cdef int[:, :] result_view = result
+
+	cdef int tmp
+	cdef Py_ssize_t x, y
+
+	for x in range(x_max):
+	    for y in range(y_max):
+
+		tmp = clip(array_1[x, y], 2, 10)
+		tmp = tmp * a + array_2[x, y] * b
+		result_view[x, y] = tmp + c
+
+	return result
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc2a71a3" class="outline-3"&gt;
+&lt;h3 id="orgc2a71a3"&gt;并行&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc2a71a3"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;使用 &lt;code&gt;prange&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;
+使用 &lt;code&gt;nogil&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;      from cython.parallel import prange
+      cdef int func(int x) nogil:
+	  cdef int i
+	  cdef int y
+	  for i in prange(x, nogil=True):
+	      y += i 
+	  return y
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>cython</category><category>python</category><guid>https://chimez.github.io/posts/cython/</guid><pubDate>Thu, 05 Aug 2021 12:47:25 GMT</pubDate></item><item><title>MPI</title><link>https://chimez.github.io/posts/mpi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org51a6c6b" class="outline-2"&gt;
 &lt;h2 id="org51a6c6b"&gt;MPI: Message Passing Interface&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-org51a6c6b"&gt;
 &lt;p&gt;
@@ -2132,68 +2514,4 @@ API 命名结构如下：
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>parallel</category><category>python</category><guid>https://chimez.github.io/posts/joblib/</guid><pubDate>Sun, 06 Jun 2021 05:34:10 GMT</pubDate></item><item><title>Paper Format</title><link>https://chimez.github.io/posts/paper-format/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge867e61" class="outline-2"&gt;
-&lt;h2 id="orge867e61"&gt;论文排版问题&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge867e61"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-org927317c" class="outline-3"&gt;
-&lt;h3 id="org927317c"&gt;图片&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org927317c"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;A4 双栏格式的宽度是 3.45 英寸&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>paper</category><category>writing</category><guid>https://chimez.github.io/posts/paper-format/</guid><pubDate>Mon, 31 May 2021 14:40:57 GMT</pubDate></item><item><title>squid http proxy server</title><link>https://chimez.github.io/posts/squid-http-proxy-server/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org0e3d450" class="outline-2"&gt;
-&lt;h2 id="org0e3d450"&gt;squid HTTP 代理服务器&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0e3d450"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-org5482208" class="outline-3"&gt;
-&lt;h3 id="org5482208"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5482208"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   apt install squid
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgd2e94bf" class="outline-3"&gt;
-&lt;h3 id="orgd2e94bf"&gt;配置&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd2e94bf"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-org6fa1a3c" class="outline-4"&gt;
-&lt;h4 id="org6fa1a3c"&gt;端口&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org6fa1a3c"&gt;
-&lt;p&gt;
-&lt;code&gt;/etc/squid/squid.conf&lt;/code&gt;
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    http_port 3128
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org4bd54fa" class="outline-4"&gt;
-&lt;h4 id="org4bd54fa"&gt;访问权限&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org4bd54fa"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    http_access allow all
-    # http_access deny all
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>proxy</category><category>squid</category><category>ssh</category><guid>https://chimez.github.io/posts/squid-http-proxy-server/</guid><pubDate>Fri, 21 May 2021 06:24:48 GMT</pubDate></item><item><title>Anki</title><link>https://chimez.github.io/posts/anki/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgfb255c2" class="outline-2"&gt;
-&lt;h2 id="orgfb255c2"&gt;Anki&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfb255c2"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-org98cbd9a" class="outline-3"&gt;
-&lt;h3 id="org98cbd9a"&gt;插件&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org98cbd9a"&gt;
-&lt;ol class="org-ol"&gt;
-&lt;li&gt;&lt;a href="https://ankiweb.net/shared/info/2055492159"&gt;AnkiConnect&lt;/a&gt; 基础设施&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ankiweb.net/shared/info/817108664"&gt;Anki Simulator&lt;/a&gt; 估计未来工作量&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ankiweb.net/shared/info/1436550454"&gt;AwesomeTTS&lt;/a&gt; 文本转语音&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ankiweb.net/shared/info/1087328706"&gt;Markdown and KaTeX Support&lt;/a&gt; 支持 markdown 的卡片类型&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>anki</category><guid>https://chimez.github.io/posts/anki/</guid><pubDate>Thu, 20 May 2021 07:05:06 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>parallel</category><category>python</category><guid>https://chimez.github.io/posts/joblib/</guid><pubDate>Sun, 06 Jun 2021 05:34:10 GMT</pubDate></item></channel></rss>
