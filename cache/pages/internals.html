@@ -26,7 +26,7 @@ class. They take options and arguments and do whatever you want, so go wild.</p>
 because it's the one that you use to build sites. So it deserves its own section.</p>
 </dd>
 </dl>
-<div class="section" id="the-build-command">
+<section id="the-build-command">
 <h1>The Build Command</h1>
 <p>Nikola's goal is similar, deep at heart, to a Makefile. Take sources, compile them
 into something, in this case a website. Instead of a Makefile, Nikola uses
@@ -47,11 +47,11 @@ option changes, redo it, etc.</p>
 <dd><p>Each task is identified by either a name or a basename:name pair.</p>
 </dd>
 </dl>
-<div class="sidebar">
+<aside class="sidebar">
 <p class="sidebar-title">More about tasks</p>
 <p>If you ever want to do your own tasks, you really should read the doit
 <a class="reference external" href="http://pydoit.org/tasks.html">documentation on tasks</a></p>
-</div>
+</aside>
 <p>So, what Nikola does, when you use the build command, is to read the
 configuration <code class="docutils literal">conf.py</code> from the current folder, instantiate
 the <code class="docutils literal">Nikola</code> class, and have it generate a whole list of tasks for doit
@@ -62,14 +62,14 @@ from all the plugins inheriting <code class="docutils literal">BaseTask</code>, 
 to doit.</p>
 <p>So, if you want things to happen on <code class="docutils literal">build</code> you want to create a Task plugin, or extend
 one of the existing ones.</p>
-<div class="sidebar">
+<aside class="sidebar">
 <p class="sidebar-title">Tests</p>
 <p>While Nikola is not a hardcore TDD project, we like tests. So, please add them if you can.
 You can write unit tests or integration tests. (Doctests are not supported
 anymore due to fragility.)</p>
-</div>
-</div>
-<div class="section" id="posts-and-pages">
+</aside>
+</section>
+<section id="posts-and-pages">
 <h1>Posts and Pages</h1>
 <p>Nikola has a concept of posts and pages. Both are more or less the same thing, except
 posts are added into RSS feeds and pages are not. All of them are in a list called
@@ -78,11 +78,11 @@ posts are added into RSS feeds and pages are not. All of them are in a list call
 the RSS creation plugin) on task execution time, your plugin should call <code class="docutils literal">self.site.scan_posts()</code>
 in <code class="docutils literal">gen_tasks</code> to ensure the timeline is created and available in
 <code class="docutils literal">self.site.timeline</code>. You should not modify the timeline, because it will cause consistency issues.</p>
-<div class="sidebar">
+<aside class="sidebar">
 <p class="sidebar-title">scan_posts</p>
 <p>The <code class="docutils literal">Nikola.scan_posts</code> function can be used in plugins to force the
 timeline creation, for example, while creating the tasks.</p>
-</div>
+</aside>
 <p>Your plugin can use the timeline to generate &quot;stuff&quot; (technical term). For example,
 Nikola comes with plugins that use the timeline to create a website (surprised?).</p>
 <p>The workflow included with nikola is as follows (incomplete!):</p>
@@ -115,8 +115,8 @@ you have to create a <code class="docutils literal">TemplateSystem</code> plugin
 </dd>
 </dl>
 <p>And of course, you can also replace or extend each of the existing plugins.</p>
-<div class="section" id="nikola-architecture">
+<section id="nikola-architecture">
 <h2>Nikola Architecture</h2>
 <a class="reference external image-reference" href="https://getnikola.com/images/architecture.png"><img alt="https://getnikola.com/images/architecture.thumbnail.png" src="https://getnikola.com/images/architecture.thumbnail.png" /></a>
-</div>
-</div>
+</section>
+</section>

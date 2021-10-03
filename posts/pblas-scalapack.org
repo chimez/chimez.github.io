@@ -1,0 +1,150 @@
+#+BEGIN_COMMENT
+.. title: PBLAS & ScaLAPACK & BLACS
+.. slug: pblas-scalapack
+.. date: 2021-08-24 12:31:22 UTC+08:00
+.. tags: BLAS, C, LAPACK, PBLAS, ScaLAPACK, MPI, BLACS
+.. category: library
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* PBLAS & ScaLAPACK & BLACS
+  [[https://www.netlib.org/scalapack/][ScaLAPACK]] 是基于 MPI 的并行版本 LAPACK, [[https://www.netlib.org/scalapack/pblas_qref.html][PBLAS]] 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
+
+** 编译
+
+   1. 从 github 下载 https://github.com/Reference-ScaLAPACK/scalapack/
+   2. 修改 ~SLmake.inc~ 文件中的 ~FC~, ~CC~, ~BLASLIB~, ~LAPACKLIB~ 
+
+   示例
+   #+BEGIN_EXAMPLE
+FC            = /home/beacon/app/openmpi/bin/mpif90
+CC            = /home/beacon/app/openmpi/bin/mpicc 
+NOOPT         = -O0 -std=legacy
+FCFLAGS       = -O3 -std=legacy
+CCFLAGS       = -O3
+
+
+BLASLIB       = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -lblas
+LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
+
+   #+END_EXAMPLE
+
+*** GCC 10 不兼容
+    由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 ~-fallow-argument-mismatch~ 或 ~-std=legacy~ 来编译。
+
+    参考 [[https://gcc.gnu.org/gcc-10/porting_to.html][Porting to GCC 10]]
+    
+** BLACS
+
+   [[https://www.netlib.org/blacs/index.html][BLACS]] 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
+
+   除了 MPI 外, BLACS 还支持多种通信方案。当然现在 MPI 基本成为主流， 这部分作用已经意义不大了。
+
+   [[https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html][oneAPI/MKL/BLACS]]
+*** 基本概念
+
+**** 进程网格和范围操作
+
+     一个分布式机器上有 $P$ 个进程，编号从 $0$ 到 $P-1$, 我们人为地将它们排列成 $R$ 行 $C$ 列的网格，用行列指标 $(i,j)$ 来表示其中一个进程。
+
+     这样划分的好处在于线性代数操作时，二维数组被分散到 *进程网格* (process grid)中，数据的行列与进程的行列有直接的对应，很适合编程。
+
+     当进行的通信涉及两个以上的进程时，就将这种操作称作 *范围操作* (scoped operations)。
+     基本的范围操作有
+     - 行通信
+     - 列通信
+     - 全部通信
+
+**** 上下文
+
+     *上下文* (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
+
+     上下文的主要作用是可以将同一组进程标记成不同的进程网格，来方便进行通信操作。
+
+     BLACS 中有关上下文的函数有
+     - ~BLACS_GRIDINIT~, ~BLACS_GRIDMAP~
+     - ~BLACS_GRIDEXIT~, ~BLACS_EXIT~
+
+**** 基于数组的通信
+
+     BLACS 中有两个基本的数据模型
+
+***** 矩形矩阵
+      一维向量是特殊的矩形矩阵。
+
+      矩形矩阵是一个二维数组， ~M~ 行 ~N~ 列，主维数是 ~LDA~, 主维数就是相邻的两列数在内存中的间隔.
+
+***** 梯形矩阵
+
+      三角矩阵和对角矩阵是特殊的梯形矩阵。
+      
+      梯形矩阵的最大底边是 ~M,N~ 中最大的数，另一个是梯形的高，梯形的短底边是长底边和高的差。
+      
+      - ~UPLO~: 梯形矩阵， ~'U','L'~ 上下梯形
+      - ~DIAG~: 单位对角矩阵
+        
+**** 无编号通信
+
+     BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 ~SHIFT_RANGE~ 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
+
+     BLACS 的通信保证
+     1. 接收端知道消息的来源
+     2. 接收的顺序与发送的顺序一致
+
+*** 结构
+    BLACS 由 4 个部分构成
+    - 点到点通信
+    - 广播
+    - 组合
+    - 支持模块
+
+    [[https://www.netlib.org/blacs/BLACS/QRef.html][函数参考]]
+
+**** 命名规则
+     
+     - 点到点通信与广播： ~vXXYY2D~
+       - ~v~ 表示数据类型
+       - ~XX~ 表示矩阵的形状
+       - ~YY~ 表示通信的类型
+     - 组合: ~vGZZZ2D~
+       - ~v~ 表示数据类型
+       - ~ZZZ~ 表示操作类型
+     - 支持模块: ~BLACS_<name>~
+
+     | ~v~ | 意义       |
+     |-----+------------|
+     | ~I~ | 整数       |
+     | ~S~ | 单精度     |
+     | ~D~ | 双精度     |
+     | ~C~ | 单精度复数 |
+     | ~Z~ | 双精度复数 |
+
+
+     | ~XX~ | 意义     |
+     |------+----------|
+     | ~GE~ | 矩形矩阵 |
+     | ~TR~ | 梯形矩阵 |
+
+
+     | ~YY~ | 意义       |
+     |------+------------|
+     | ~SD~ | 点到点发送 |
+     | ~RV~ | 点到点接收 |
+     | ~BS~ | 广播发送   |
+     | ~BR~ | 广播接收   |
+
+
+     | ~ZZZ~ | 意义       |
+     |-------+------------|
+     | ~AMX~ | 最大绝对值 |
+     | ~AMN~ | 最小绝对值 |
+     | ~SUM~ | 求和       |
+** PBLAS
+[[https://www.netlib.org/scalapack/pblas_qref.html][PBLAS]] 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 ~.h~ 头文件，得自己写。
+
+[[https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/pblas-routines.html][oneAPI/MKL/PBLAS]]
+** ScaLAPACK
+*** 基本方法

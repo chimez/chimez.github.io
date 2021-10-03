@@ -87,3 +87,22 @@ Host namezsh
    #+END_SRC
 
 
+
+   
+* Windows 相关问题
+  
+** 创建快捷方式
+   实现以下功能
+   
+   - 隐藏终端窗口
+   - 启用 conda 环境
+   - 设置默认工作路径
+
+   #+begin_src powershell
+$WshShell = New-Object -comObject WScript.Shell
+$Shortcut = $WshShell.CreateShortcut("$([environment]::GetFolderPath("Desktop"))\emacs.lnk")
+$Shortcut.TargetPath = "PowerShell.exe"
+$Shortcut.Arguments = " -Windowstyle Hidden -Command ""& 'C:\miniconda3\shell\condabin\conda-hook.ps1' ; conda activate 'C:\miniconda3'; conda activate py39; C:\msys64\mingw64\bin\runemacs.exe"""
+$Shortcut.WorkingDirectory = "C:\"
+$Shortcut.Save()
+   #+end_src 

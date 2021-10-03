@@ -1,0 +1,191 @@
+#+BEGIN_COMMENT
+.. title: Rust macro
+.. slug: rust-macro
+.. date: 2021-08-20 13:32:43 UTC+08:00
+.. tags: rust, macro
+.. category: Rust
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+* Rust 宏
+  
+  Rust 的宏分为两类，一种是声明宏 ~macro_rules!~ ,另一种是过程宏 ~#[...]~ .
+
+  
+** 声明宏 ~macro_rules!~
+   
+   声明宏是 Rust 中最常用的宏，通过对源码的模式匹配来实现功能。
+
+*** 语法
+    
+    参考： [[https://doc.rust-lang.org/reference/macros-by-example.html][reference/macro]]
+
+    - ~#[macro_export]~ 导出宏
+    - ~$x:expr~ 表明模式匹配一个 ~expr~ 类型的源码块，并用 ~$x~ 表示它
+    - ~$( ... ),*$~ 表明匹配括号中的内容 0 次或多次，每个重复的内容直接由 ~,~ 分隔
+
+*** 例子： ~vec!~
+    
+    #+BEGIN_SRC rust
+#[macro_export]
+macro_rules! vec {
+    ( $( $x:expr ),* ) => {
+        {
+            let mut temp_vec = Vec::new();
+            $(
+                temp_vec.push($x);
+            )*
+                temp_vec
+        }
+    };
+}
+    #+END_SRC
+
+    
+** 过程宏
+   
+   过程宏是一个函数，不过它的输入输出类型是词法对象 ~TokenStream~ ，由编译器在编译前调用。
+  
+*** crate 
+    由于技术限制，目前过程宏必须分离在一个单独的 crate 中, 这个 crate 是 ~proc-macro~ 类型的
+
+ 
+    ~Cargo.toml~
+    #+begin_src toml
+[lib]
+proc-macro = true
+    #+end_src
+ 
+*** ~derive~ 宏
+    
+    ~derive~ 宏用来为结构体等创建默认的 trait 实现。
+
+    下面的例子创建一个 ~HelloMacro~ trait 的默认实现宏。
+
+**** 使用
+     下面的例子展示了为 ~struct Pancakes~ 创建 trait ~HelloMacro~ 的默认实现的方法，这个 trait 中只有一个函数 ~hello_macro()~
+     
+     ~src/main.rs~
+     #+BEGIN_SRC rust
+use hello_macro::HelloMacro;
+use hello_macro_derive::HelloMacro;
+
+#[derive(HelloMacro)]
+struct Pancakes;
+
+fn main() {
+    Pancakes::hello_macro();
+}
+
+     #+END_SRC
+
+**** trait 定义
+     
+     ~hello_macro/src/lib.rs~
+     #+BEGIN_SRC rust
+pub trait HelloMacro {
+    fn hello_macro();
+}
+     #+END_SRC
+
+**** 宏定义
+     
+     ~hello_macro_derive/Cargo.toml~
+     #+begin_src toml
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = "1.0"
+quote = "1.0"
+
+     #+end_src
+
+     ~hello_macro_derive/src/lib.rs~
+     #+BEGIN_SRC rust
+extern crate proc_macro;
+
+use proc_macro::TokenStream;
+use quote::quote;
+use syn;
+
+#[proc_macro_derive(HelloMacro)]
+pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
+    // Construct a representation of Rust code as a syntax tree
+    // that we can manipulate
+    let ast = syn::parse(input).unwrap();
+
+    // Build the trait implementation
+    impl_hello_macro(&ast)
+}
+
+fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
+    let name = &ast.ident;
+    let gen = quote! {
+        impl HelloMacro for #name {
+            fn hello_macro() {
+                println!("Hello, Macro! My name is {}!", stringify!(#name));
+            }
+        }
+    };
+    gen.into()
+}
+
+     #+END_SRC
+
+*** ~Attribute-like~ 宏
+    属性宏可以创建新的属性, 与 ~derive~ 宏的区别在于参数多了一个属性 ~attr~, 也就是括号里面的部分，另一个参数 ~item~ 就是与 ~derive~ 宏一样的内容了。
+
+**** 用法
+
+     #+BEGIN_SRC rust
+#[route(GET, "/")]
+fn index() { ... }
+
+     #+END_SRC
+
+**** 宏定义
+     
+     #+BEGIN_SRC rust
+#[proc_macro_attribute]
+pub fn route(attr: TokenStream, item: TokenStream) -> TokenStream { ... }
+     #+END_SRC
+
+*** ~Function-like~ 宏
+    函数宏可以定义像函数一样调用的宏。可以用来定义 DSL
+
+**** 用法
+
+     #+BEGIN_SRC rust
+let sql = sql!(SELECT * FROM posts WHERE id=1);
+     #+END_SRC
+
+**** 宏定义
+
+     #+BEGIN_SRC rust
+#[proc_macro]
+pub fn sql(input: TokenStream) -> TokenStream { ... }
+     #+END_SRC
+
+*** syn: rust parser
+    [[https://crates.io/crates/syn][syn]] 是 rust 代码的 parser，可以将源码字符串 ~TokenStream~ 转换成语法树 ~syn::DeriveInput~ 。
+    
+**** ~syn::DeriveInput~
+     
+     对于输入 ~TokenStream~ 使用 ~parse_macro_input!~ 将它解析为语法树 ~DeriveInput~ ，之后就可以通过对语法树的操作生成新的语法树
+
+**** ~syn::spanned::Spanned~
+     
+     对重复结构的操作，使用 ~span()~ 配合 ~quote::qoute_spanned!~ 实现
+
+*** quote: rust 代码模板
+    [[https://crates.io/crates/quote][quote]] 的 ~quote!~ 宏可以将 rust 语法数据结构变成 ~TokenStream~
+    
+    ~qoute_spanned!~ 宏可以将重复结构中的一个元素单独操作。
+
+    qoute 的宏类似于 ~macro_rules!~ 只是把 ~$~ 换成  ~#~
+

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about web)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/cat_web.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Fri, 01 Oct 2021 12:05:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>apache</title><link>https://chimez.github.io/posts/apache/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga095cd3" class="outline-2"&gt;
+&lt;h2 id="orga095cd3"&gt;Apache HTTP 服务器&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga095cd3"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org6736beb" class="outline-3"&gt;
+&lt;h3 id="org6736beb"&gt;配置文件&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6736beb"&gt;
+&lt;p&gt;
+参考： &lt;a href="https://httpd.apache.org/docs/current/configuring.html"&gt;apache-httpd/configuring&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+配置文件叫做 &lt;code&gt;httpd.conf&lt;/code&gt; 在 debian 是 &lt;code&gt;/etc/apache2/apache.conf&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc944caf" class="outline-4"&gt;
+&lt;h4 id="orgc944caf"&gt;语法&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc944caf"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;每行一个指令，反斜线可以折行&lt;/li&gt;
+&lt;li&gt;指令大小写不敏感，但参数大小写敏感&lt;/li&gt;
+&lt;li&gt;指令的参数用空格分隔&lt;/li&gt;
+&lt;li&gt;指令之前的空格都忽略，所以可以任意缩进&lt;/li&gt;
+&lt;li&gt;变量用 &lt;code&gt;Define&lt;/code&gt; 指令定义，用 &lt;code&gt;${VAR}&lt;/code&gt; 格式使用&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;apachectl configtest&lt;/code&gt; 检查配置文件的语法错误&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org50fa4d9" class="outline-2"&gt;
+&lt;h2 id="org50fa4d9"&gt;配置&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org50fa4d9"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgfcd1800" class="outline-3"&gt;
+&lt;h3 id="orgfcd1800"&gt;反向代理 jupyterlab&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfcd1800"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;需要的模块： &lt;code&gt;a2enmod ssl rewrite proxy proxy_http proxy_wstunnel&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;jupyterlab 需要配置
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;c.ServerApp.allow_origin = '*'&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;c.ServerApp.base_url = '/jupyterlab'&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;c.ServerApp.port = 11413&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;Location "/jupyterlab/"&amp;gt;
+    RewriteEngine On
+    RewriteRule /jupyterlab/(.*) ws://127.0.0.1:11413/jupyterlab/$1 [P]
+    RewriteRule /jupyterlab/(.*) http://127.0.0.1:11413/jupyterlab/$1 [P]
+
+    ProxyPreserveHost on
+    ProxyPass         http://127.0.0.1:11413/jupyterlab/
+    ProxyPassReverse  http://127.0.0.1:11413/jupyterlab/
+&amp;lt;/Location&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>apache</category><category>php</category><category>web</category><guid>https://chimez.github.io/posts/apache/</guid><pubDate>Sat, 18 Sep 2021 02:45:41 GMT</pubDate></item></channel></rss>

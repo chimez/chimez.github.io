@@ -123,21 +123,21 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org1c9e43d" class="outline-2">
-<h2 id="org1c9e43d">Python 性能</h2>
-<div class="outline-text-2" id="text-org1c9e43d">
+    <div id="outline-container-orge4dab2c" class="outline-2">
+<h2 id="orge4dab2c">Python 性能</h2>
+<div class="outline-text-2" id="text-orge4dab2c">
 </div>
-<div id="outline-container-org4b98e49" class="outline-3">
-<h3 id="org4b98e49">计算机结构</h3>
-<div class="outline-text-3" id="text-org4b98e49">
+<div id="outline-container-org071e64f" class="outline-3">
+<h3 id="org071e64f">计算机结构</h3>
+<div class="outline-text-3" id="text-org071e64f">
 <p>
 简单来说，计算机由计算单元、储存单元和二者之间的通信构成。
 </p>
 </div>
 
-<div id="outline-container-org92e1333" class="outline-4">
-<h4 id="org92e1333">计算单元</h4>
-<div class="outline-text-4" id="text-org92e1333">
+<div id="outline-container-org0e3cfa3" class="outline-4">
+<h4 id="org0e3cfa3">计算单元</h4>
+<div class="outline-text-4" id="text-org0e3cfa3">
 <p>
 计算单元一般是 CPU 和 GPU 等。
 </p>
@@ -159,18 +159,18 @@
 </div>
 </div>
 
-<div id="outline-container-orgb1b9354" class="outline-4">
-<h4 id="orgb1b9354">Amdahl'a law</h4>
-<div class="outline-text-4" id="text-orgb1b9354">
+<div id="outline-container-org052f6fd" class="outline-4">
+<h4 id="org052f6fd">Amdahl'a law</h4>
+<div class="outline-text-4" id="text-org052f6fd">
 <p>
 经验定律：并行程序的加速上限取决于不能并行化的最小单元。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org4c84302" class="outline-4">
-<h4 id="org4c84302">存储单元</h4>
-<div class="outline-text-4" id="text-org4c84302">
+<div id="outline-container-org5c5badd" class="outline-4">
+<h4 id="org5c5badd">存储单元</h4>
+<div class="outline-text-4" id="text-org5c5badd">
 <p>
 存储单元包括：机械硬盘、固态硬盘、RAM、L1/L2 等。主要的区别就是速度。一般来说速度越快容量越小。
 </p>
@@ -181,15 +181,70 @@
 </div>
 </div>
 
-<div id="outline-container-org0cf7774" class="outline-4">
-<h4 id="org0cf7774">总线</h4>
-<div class="outline-text-4" id="text-org0cf7774">
+<div id="outline-container-org412c3b6" class="outline-4">
+<h4 id="org412c3b6">总线</h4>
+<div class="outline-text-4" id="text-org412c3b6">
 <p>
 计算单元和存储单元通过总线连接。
 总线最重要的参数是总线宽度和总线频率。
 </p>
 </div>
 </div>
+</div>
+</div>
+
+<div id="outline-container-org8a6984d" class="outline-2">
+<h2 id="org8a6984d">从源码安装 python</h2>
+<div class="outline-text-2" id="text-org8a6984d">
+<ul class="org-ul">
+<li>openssl 通过 <code>--with-openssl</code> 指定</li>
+<li>sqlite 通过修改 <code>setup.py</code> 中的 <code>sqlite_inc_paths</code>
+</li>
+<li>
+<p>
+libffi 通过 <code>CPPFLAGS</code>, <code>LDFLAGS</code> 指定
+</p>
+
+<p>
+参考编译选项
+</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span>  ./configure --prefix=$HOME/app/python --enable-optimizations --with-openssl=$HOME/app/openssl --enable-shared PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH LIBFFI_INCLUDEDIR=/vol7/home/zhongpg/app/libffi/include --with-system-ffi=/vol7/home/zhongpg/app/libffi/lib64 CPPFLAGS="-I /vol7/home/zhongpg/app/libffi/include" LDFLAGS="-L/vol7/home/zhongpg/app/libffi/lib64"
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org41eba97" class="outline-2">
+<h2 id="org41eba97">从源码安装 numpy, scipy</h2>
+<div class="outline-text-2" id="text-org41eba97">
+<ul class="org-ul">
+<li>numpy 依赖
+<ul class="org-ul">
+<li>cython: <code>pip install cython</code>
+</li>
+</ul>
+</li>
+
+<li>scipy 依赖
+<ul class="org-ul">
+<li>pybind11: <code>pip install "pybind11[global]"</code>
+</li>
+<li>pythran: <code>pip install pythran</code>
+</li>
+<li>执行 <code>git submodule update --init</code> 来自动下载一些包</li>
+</ul>
+</li>
+</ul>
+<p>
+设置 <code>site.cfg</code>
+</p>
+
+<p>
+执行安装
+</p>
+<div class="highlight"><pre><span></span>  python3 setup.py build -j 10 install
+</pre></div>
 </div>
 </div>
     </div>

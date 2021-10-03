@@ -34,8 +34,8 @@
 
 &lt;?&gt;neupd_c 计算一般矩阵的本征值, &lt;?&gt; = sdcz
 &lt;?&gt;naupd_c 计算一般矩阵的反向通信接口, &lt;?&gt; = sdcz
-&lt;?&gt;seupd_c 计算厄米矩阵的本征值, &lt;?&gt; = sd
-&lt;?&gt;saupd_c 计算厄米矩阵的反向通">
+&lt;?&gt;seupd_c 计算对称矩阵的本征值, &lt;?&gt; = sd
+&lt;?&gt;saupd_c 计算对称矩阵的反向通">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2021-05-07T18:48:36+08:00">
 <meta property="article:tag" content="eigen">
@@ -113,17 +113,17 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org13f1aa7" class="outline-2">
-<h2 id="org13f1aa7">ARPACK</h2>
-<div class="outline-text-2" id="text-org13f1aa7">
+    <div id="outline-container-orge9ebf30" class="outline-2">
+<h2 id="orge9ebf30">ARPACK</h2>
+<div class="outline-text-2" id="text-orge9ebf30">
 <p>
 新版本在 <a href="https://github.com/opencollab/arpack-ng">arpack-ng</a> , 文档在 <a href="https://www.caam.rice.edu/software/ARPACK/UG/node135.html">rice - ARPACK</a>
 </p>
 </div>
 
-<div id="outline-container-org046eb4a" class="outline-3">
-<h3 id="org046eb4a">函数说明</h3>
-<div class="outline-text-3" id="text-org046eb4a">
+<div id="outline-container-org4e6c8fd" class="outline-3">
+<h3 id="org4e6c8fd">函数说明</h3>
+<div class="outline-text-3" id="text-org4e6c8fd">
 <p>
 头文件 <code>arpack.h</code> 中的函数有
 </p>
@@ -135,19 +135,22 @@
 <code>&lt;?&gt;naupd_c</code> 计算一般矩阵的反向通信接口, <code>&lt;?&gt; = sdcz</code>
 </li>
 <li>
-<code>&lt;?&gt;seupd_c</code> 计算厄米矩阵的本征值, <code>&lt;?&gt; = sd</code>
+<code>&lt;?&gt;seupd_c</code> 计算对称矩阵的本征值, <code>&lt;?&gt; = sd</code>
 </li>
 <li>
-<code>&lt;?&gt;saupd_c</code> 计算厄米矩阵的反向通信接口, <code>&lt;?&gt; = sd</code>
+<code>&lt;?&gt;saupd_c</code> 计算对称矩阵的反向通信接口, <code>&lt;?&gt; = sd</code>
 </li>
 </ol>
+<p>
+arpack 中没有计算复厄米矩阵的函数，复矩阵一律用一般矩阵的计算函数
+</p>
 </div>
 </div>
 
-<div id="outline-container-org52af175" class="outline-3">
-<h3 id="org52af175">
+<div id="outline-container-org60116b4" class="outline-3">
+<h3 id="org60116b4">
 <code>XYaupd</code> 参数说明</h3>
-<div class="outline-text-3" id="text-org52af175">
+<div class="outline-text-3" id="text-org60116b4">
 <ol class="org-ol">
 <li>
 <code>ido</code>   反向通信标志，第一次运行 <code>ido=0</code>
@@ -217,10 +220,10 @@
 </div>
 </div>
 
-<div id="outline-container-orgdd4ac2a" class="outline-3">
-<h3 id="orgdd4ac2a">
+<div id="outline-container-orgd26be46" class="outline-3">
+<h3 id="orgd26be46">
 <code>XYeupd</code> 参数说明</h3>
-<div class="outline-text-3" id="text-orgdd4ac2a">
+<div class="outline-text-3" id="text-orgd26be46">
 <ol class="org-ol">
 <li>
 <code>rvec</code> 指定是否产生本征矢 <code>rvec=true</code> 产生本征矢， <code>rvec=false</code> 只产生本征值</li>
@@ -259,6 +262,87 @@
 <li><code>lworkl</code></li>
 <li><code>info</code></li>
 </ol>
+</div>
+</div>
+
+<div id="outline-container-org4386466" class="outline-3">
+<h3 id="org4386466">编译</h3>
+<div class="outline-text-3" id="text-org4386466">
+</div>
+<div id="outline-container-orge1f6569" class="outline-4">
+<h4 id="orge1f6569">基本的编译过程</h4>
+<div class="outline-text-4" id="text-orge1f6569">
+<div class="highlight"><pre><span></span>    sh bootstrap
+    ./configure
+    make
+    make check
+    make install
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orged55edf" class="outline-4">
+<h4 id="orged55edf">ILP64: int64 支持</h4>
+<div class="outline-text-4" id="text-orged55edf">
+<ul class="org-ul">
+<li>
+<code>LP64</code> 在 MKL 中表示 <code>int</code> 做指标</li>
+<li>
+<code>ILP64</code> 表示 <code>long long int</code> 做指标</li>
+</ul>
+<p>
+arpack 沿用了 MKL 的叫法。
+</p>
+
+<p>
+配置：
+</p>
+
+<ul class="org-ul">
+<li>编译时定义 <code>INTERFACE64</code>
+</li>
+<li>使用 <code>arpackdef.h</code> 头文件</li>
+<li>使用 <code>a_int</code> 类型 (architecture int)</li>
+</ul>
+<div class="highlight"><pre><span></span>    INTERFACE64=1 ./configure --enable-mpi --enable-icb --with-blas=openblas64
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org7714d34" class="outline-4">
+<h4 id="org7714d34">icb: 生成 c 头文件</h4>
+<div class="outline-text-4" id="text-org7714d34">
+<p>
+arpack-ng 使用 fortran 的 iso<sub>c</sub><sub>binding</sub>(icb) 生成 c 头文件
+</p>
+
+<div class="highlight"><pre><span></span>    ./configure --enable-icb
+    cmake -D ICB=ON
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org86d050e" class="outline-4">
+<h4 id="org86d050e">parpack: MPI 支持</h4>
+<div class="outline-text-4" id="text-org86d050e">
+<div class="highlight"><pre><span></span>    ./configure --enable-mpi
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org16c34d3" class="outline-4">
+<h4 id="org16c34d3">使用 cmake</h4>
+<div class="outline-text-4" id="text-org16c34d3">
+<ul class="org-ul">
+<li>
+<code>BLA_VENDOR=Intel10_64ilp</code> 使用 ilp64 的 MKL</li>
+<li>
+<code>CMAKE_POSITION_INDEPENDENT_CODE=ON</code> 使用 <code>-fPIC</code>
+</li>
+</ul>
+<div class="highlight"><pre><span></span>    CC=gcc FC=gfortran cmake -D MPI=ON -D ICB=ON  -DCMAKE_INSTALL_PREFIX=$HOME/app/arpack -DBLA_VENDOR=Intel10_64ilp -DBUILD_SHARED_LIBS=OFF -DINTERFACE64=1  -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
+</pre></div>
+</div>
 </div>
 </div>
 </div>

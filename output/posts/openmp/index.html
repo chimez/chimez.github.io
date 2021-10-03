@@ -114,9 +114,9 @@ OpenMP API 由三部分组成
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org0e086c5" class="outline-2">
-<h2 id="org0e086c5">OpenMP 共享内存并行</h2>
-<div class="outline-text-2" id="text-org0e086c5">
+    <div id="outline-container-org778fff7" class="outline-2">
+<h2 id="org778fff7">OpenMP 共享内存并行</h2>
+<div class="outline-text-2" id="text-org778fff7">
 <p>
 OpenMP 是单机多线程共享内存并行工具。
 </p>
@@ -137,9 +137,9 @@ OpenMP API 由三部分组成
 </ol>
 </div>
 
-<div id="outline-container-org4134dfd" class="outline-4">
-<h4 id="org4134dfd">参考资料</h4>
-<div class="outline-text-4" id="text-org4134dfd">
+<div id="outline-container-orge6cd660" class="outline-4">
+<h4 id="orge6cd660">参考资料</h4>
+<div class="outline-text-4" id="text-orge6cd660">
 <ol class="org-ol">
 <li>
 <a href="https://hpc.llnl.gov/tuts/openMP/">llnl/openmp</a> 的教程</li>
@@ -147,9 +147,9 @@ OpenMP API 由三部分组成
 </div>
 </div>
 
-<div id="outline-container-org5e8e363" class="outline-3">
-<h3 id="org5e8e363">编译器指令</h3>
-<div class="outline-text-3" id="text-org5e8e363">
+<div id="outline-container-org7543121" class="outline-3">
+<h3 id="org7543121">编译器指令</h3>
+<div class="outline-text-3" id="text-org7543121">
 <p>
 编译器指令的格式为
 </p>
@@ -181,13 +181,13 @@ OpenMP API 由三部分组成
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span>   <span class="cp">#pragma omp parallel default(shared) private(beta, pi)</span>
+<div class="highlight"><pre><span></span><span class="w">   </span><span class="cp">#pragma omp parallel default(shared) private(beta, pi)</span>
 </pre></div>
 </div>
 
-<div id="outline-container-orgdda784c" class="outline-4">
-<h4 id="orgdda784c">parallel 指令</h4>
-<div class="outline-text-4" id="text-orgdda784c">
+<div id="outline-container-org2b5c105" class="outline-4">
+<h4 id="org2b5c105">parallel 指令</h4>
+<div class="outline-text-4" id="text-org2b5c105">
 <p>
 创建一系列线程运行接下来的结构块，并在结构块结束时合并所有线程
 </p>
@@ -208,9 +208,9 @@ OpenMP API 由三部分组成
 </div>
 </div>
 
-<div id="outline-container-orgadd446e" class="outline-4">
-<h4 id="orgadd446e">for 指令</h4>
-<div class="outline-text-4" id="text-orgadd446e">
+<div id="outline-container-org2258317" class="outline-4">
+<h4 id="org2258317">for 指令</h4>
+<div class="outline-text-4" id="text-org2258317">
 <p>
 指定接下来的循环迭代并行运行。
 </p>
@@ -228,111 +228,111 @@ OpenMP API 由三部分组成
 <li>
 <code>nowait</code> 循环结束后不等待未结束的线程</li>
 </ol>
-<div class="highlight"><pre><span></span>    <span class="cp">#pragma omp parallel shared(a,b,c,chunk) private(i)</span>
-      <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="cp">#pragma omp parallel shared(a,b,c,chunk) private(i)</span>
+<span class="w">      </span><span class="p">{</span><span class="w"></span>
 
-      <span class="cp">#pragma omp for schedule(dynamic,chunk) nowait</span>
-      <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-	<span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">      </span><span class="cp">#pragma omp for schedule(dynamic,chunk) nowait</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
 
-      <span class="p">}</span>  <span class="cm">/* end of parallel section */</span>
+<span class="w">      </span><span class="p">}</span><span class="w">  </span><span class="cm">/* end of parallel section */</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org647cb15" class="outline-4">
-<h4 id="org647cb15">sections, section 指令</h4>
-<div class="outline-text-4" id="text-org647cb15">
+<div id="outline-container-org316f458" class="outline-4">
+<h4 id="org316f458">sections, section 指令</h4>
+<div class="outline-text-4" id="text-org316f458">
 <p>
 外层用 <code>sections</code> 指令，内部用 <code>section</code> 指令
 </p>
 
-<div class="highlight"><pre><span></span>    <span class="cp">#pragma omp parallel shared(a,b,c,d) private(i)</span>
-      <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="cp">#pragma omp parallel shared(a,b,c,d) private(i)</span>
+<span class="w">      </span><span class="p">{</span><span class="w"></span>
 
-      <span class="cp">#pragma omp sections nowait</span>
-	<span class="p">{</span>
+<span class="w">      </span><span class="cp">#pragma omp sections nowait</span>
+<span class="w">	</span><span class="p">{</span><span class="w"></span>
 
-	<span class="cp">#pragma omp section</span>
-	<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-	  <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">	</span><span class="cp">#pragma omp section</span>
+<span class="w">	</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">	  </span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
 
-	<span class="cp">#pragma omp section</span>
-	<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-	  <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">	</span><span class="cp">#pragma omp section</span>
+<span class="w">	</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">	  </span><span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
 
-	<span class="p">}</span>  <span class="cm">/* end of sections */</span>
+<span class="w">	</span><span class="p">}</span><span class="w">  </span><span class="cm">/* end of sections */</span><span class="w"></span>
 
-      <span class="p">}</span>  <span class="cm">/* end of parallel section */</span>
+<span class="w">      </span><span class="p">}</span><span class="w">  </span><span class="cm">/* end of parallel section */</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orga7cb1ef" class="outline-4">
-<h4 id="orga7cb1ef">single 指令</h4>
-<div class="outline-text-4" id="text-orga7cb1ef">
+<div id="outline-container-org7f31ccf" class="outline-4">
+<h4 id="org7f31ccf">single 指令</h4>
+<div class="outline-text-4" id="text-org7f31ccf">
 <p>
 指定块内部同时只有一个线程运行，用来处理以下线程不安全的操作
 </p>
 </div>
 </div>
 
-<div id="outline-container-org14881dd" class="outline-4">
-<h4 id="org14881dd">task 指令</h4>
+<div id="outline-container-orgc57f3fe" class="outline-4">
+<h4 id="orgc57f3fe">task 指令</h4>
 </div>
 
-<div id="outline-container-org1a8998b" class="outline-4">
-<h4 id="org1a8998b">master 指令</h4>
-<div class="outline-text-4" id="text-org1a8998b">
+<div id="outline-container-org1f93fa2" class="outline-4">
+<h4 id="org1f93fa2">master 指令</h4>
+<div class="outline-text-4" id="text-org1f93fa2">
 <p>
 指定只有主线程执行块内的程序。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org73ad9f8" class="outline-4">
-<h4 id="org73ad9f8">critical 指令</h4>
-<div class="outline-text-4" id="text-org73ad9f8">
+<div id="outline-container-org9520e40" class="outline-4">
+<h4 id="org9520e40">critical 指令</h4>
+<div class="outline-text-4" id="text-org9520e40">
 <p>
 指定同时只有一个线程能运行内部的代码。
 </p>
 
-<div class="highlight"><pre><span></span>    <span class="cp">#pragma omp parallel shared(x) </span>
-      <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="cp">#pragma omp parallel shared(x) </span>
+<span class="w">      </span><span class="p">{</span><span class="w"></span>
 
-      <span class="cp">#pragma omp critical </span>
-      <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="w">      </span><span class="cp">#pragma omp critical </span>
+<span class="w">      </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
 
-      <span class="p">}</span>  <span class="cm">/* end of parallel section */</span>
+<span class="w">      </span><span class="p">}</span><span class="w">  </span><span class="cm">/* end of parallel section */</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orga85fab8" class="outline-4">
-<h4 id="orga85fab8">barrier 指令</h4>
-<div class="outline-text-4" id="text-orga85fab8">
+<div id="outline-container-org8425f34" class="outline-4">
+<h4 id="org8425f34">barrier 指令</h4>
+<div class="outline-text-4" id="text-org8425f34">
 <p>
 要求所有线程立即同步
 </p>
 </div>
 </div>
 
-<div id="outline-container-orga17701f" class="outline-4">
-<h4 id="orga17701f">taskwait 指令</h4>
+<div id="outline-container-org95a99ba" class="outline-4">
+<h4 id="org95a99ba">taskwait 指令</h4>
 </div>
 
-<div id="outline-container-orgec7ebf4" class="outline-4">
-<h4 id="orgec7ebf4">atomic 指令</h4>
-<div class="outline-text-4" id="text-orgec7ebf4">
+<div id="outline-container-orgc134f30" class="outline-4">
+<h4 id="orgc134f30">atomic 指令</h4>
+<div class="outline-text-4" id="text-orgc134f30">
 <p>
 执行原子操作，相当于小的 critical 指令
 </p>
 </div>
 </div>
 
-<div id="outline-container-org4be2b3a" class="outline-4">
-<h4 id="org4be2b3a">flush 指令</h4>
-<div class="outline-text-4" id="text-org4be2b3a">
+<div id="outline-container-org146cf62" class="outline-4">
+<h4 id="org146cf62">flush 指令</h4>
+<div class="outline-text-4" id="text-org146cf62">
 <p>
 要求所有缓冲的修改写回内存中
 </p>
@@ -358,27 +358,27 @@ OpenMP API 由三部分组成
 </div>
 </div>
 
-<div id="outline-container-orgd6b1438" class="outline-4">
-<h4 id="orgd6b1438">ordered 指令</h4>
-<div class="outline-text-4" id="text-orgd6b1438">
+<div id="outline-container-orge8265db" class="outline-4">
+<h4 id="orge8265db">ordered 指令</h4>
+<div class="outline-text-4" id="text-orge8265db">
 <p>
 要求代码块内部的指令顺序执行，只能用在 <code>for</code> 指令内部
 </p>
 </div>
 </div>
 
-<div id="outline-container-org99e74aa" class="outline-4">
-<h4 id="org99e74aa">threadprivate 指令</h4>
-<div class="outline-text-4" id="text-org99e74aa">
+<div id="outline-container-orgdaae66b" class="outline-4">
+<h4 id="orgdaae66b">threadprivate 指令</h4>
+<div class="outline-text-4" id="text-orgdaae66b">
 <p>
 指定一些变量是线程私有的，每个线程初次使用这些变量时都是未初始化的
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgc0d20ec" class="outline-4">
-<h4 id="orgc0d20ec">reduction 从句</h4>
-<div class="outline-text-4" id="text-orgc0d20ec">
+<div id="outline-container-org79e4fc6" class="outline-4">
+<h4 id="org79e4fc6">reduction 从句</h4>
+<div class="outline-text-4" id="text-org79e4fc6">
 <p>
 要求循环分成相等的部分，并在全部运行最后再执行指定的指令
 </p>
@@ -386,40 +386,40 @@ OpenMP API 由三部分组成
 <p>
 支持的格式
 </p>
-<div class="highlight"><pre><span></span>    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="n">op</span> <span class="n">expr</span> 
-    <span class="n">x</span> <span class="o">=</span> <span class="n">expr</span> <span class="n">op</span> <span class="n">x</span> 
-    <span class="n">x</span> <span class="n">binop</span> <span class="o">=</span> <span class="n">expr</span>
-    <span class="n">x</span><span class="o">++</span> 
-    <span class="o">++</span><span class="n">x</span>
-    <span class="n">x</span><span class="o">--</span>
-    <span class="o">--</span><span class="n">x</span>
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">op</span><span class="w"> </span><span class="n">expr</span><span class="w"> </span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expr</span><span class="w"> </span><span class="n">op</span><span class="w"> </span><span class="n">x</span><span class="w"> </span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="n">binop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expr</span><span class="w"></span>
+<span class="w">    </span><span class="n">x</span><span class="o">++</span><span class="w"> </span>
+<span class="w">    </span><span class="o">++</span><span class="n">x</span><span class="w"></span>
+<span class="w">    </span><span class="n">x</span><span class="o">--</span><span class="w"></span>
+<span class="w">    </span><span class="o">--</span><span class="n">x</span><span class="w"></span>
 
-    <span class="nl">op</span><span class="p">:</span> <span class="o">+</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="o">-</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">&amp;</span><span class="p">,</span> <span class="o">^</span><span class="p">,</span> <span class="o">&amp;&amp;</span><span class="p">,</span> <span class="o">||</span>
-    <span class="nl">binop</span><span class="p">:</span> <span class="o">+</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="o">-</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">&amp;</span><span class="p">,</span> <span class="o">^</span><span class="p">,</span> <span class="o">|</span>
+<span class="w">    </span><span class="nl">op</span><span class="p">:</span><span class="w"> </span><span class="o">+</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="p">,</span><span class="w"> </span><span class="o">/</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="p">,</span><span class="w"> </span><span class="o">||</span><span class="w"></span>
+<span class="w">    </span><span class="nl">binop</span><span class="p">:</span><span class="w"> </span><span class="o">+</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="p">,</span><span class="w"> </span><span class="o">/</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p">,</span><span class="w"> </span><span class="o">^</span><span class="p">,</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
 </pre></div>
 
 <p>
 例子
 </p>
-<div class="highlight"><pre><span></span>    <span class="cp">#pragma omp parallel for      \  </span>
-      <span class="k">default</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span> <span class="n">private</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>  <span class="err">\</span>  
-      <span class="n">schedule</span><span class="p">(</span><span class="k">static</span><span class="p">,</span><span class="n">chunk</span><span class="p">)</span>      <span class="err">\</span>  
-      <span class="n">reduction</span><span class="p">(</span><span class="o">+:</span><span class="n">result</span><span class="p">)</span>  
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="cp">#pragma omp parallel for      \  </span>
+<span class="w">      </span><span class="k">default</span><span class="p">(</span><span class="n">shared</span><span class="p">)</span><span class="w"> </span><span class="n">private</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w">  </span><span class="err">\</span><span class="w">  </span>
+<span class="w">      </span><span class="n">schedule</span><span class="p">(</span><span class="k">static</span><span class="p">,</span><span class="n">chunk</span><span class="p">)</span><span class="w">      </span><span class="err">\</span><span class="w">  </span>
+<span class="w">      </span><span class="n">reduction</span><span class="p">(</span><span class="o">+:</span><span class="n">result</span><span class="p">)</span><span class="w">  </span>
 
-      <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-	<span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org919000d" class="outline-3">
-<h3 id="org919000d">运行时库函数</h3>
-<div class="outline-text-3" id="text-org919000d">
+<div id="outline-container-org33efedf" class="outline-3">
+<h3 id="org33efedf">运行时库函数</h3>
+<div class="outline-text-3" id="text-org33efedf">
 </div>
-<div id="outline-container-orgb3e461f" class="outline-4">
-<h4 id="orgb3e461f">线程环境相关</h4>
-<div class="outline-text-4" id="text-orgb3e461f">
+<div id="outline-container-orgbdbf9a6" class="outline-4">
+<h4 id="orgbdbf9a6">线程环境相关</h4>
+<div class="outline-text-4" id="text-orgbdbf9a6">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -459,9 +459,9 @@ OpenMP API 由三部分组成
 </div>
 </div>
 
-<div id="outline-container-org67de9eb" class="outline-4">
-<h4 id="org67de9eb">锁</h4>
-<div class="outline-text-4" id="text-org67de9eb">
+<div id="outline-container-org8decfcb" class="outline-4">
+<h4 id="org8decfcb">锁</h4>
+<div class="outline-text-4" id="text-org8decfcb">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -527,21 +527,21 @@ OpenMP API 由三部分组成
 <p>
 例子:
 </p>
-<div class="highlight"><pre><span></span>    <span class="cp">#include</span> <span class="cpf">&lt;omp.h&gt;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;omp.h&gt;</span><span class="cp"></span>
 
-    <span class="n">omp_lock_t</span> <span class="n">lock</span><span class="p">;</span>
-    <span class="n">omp_init_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
-    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="cp">#pragma omp parallel</span>
-    <span class="p">{</span>
-	<span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span>
-	    <span class="n">omp_set_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
-	    <span class="n">x</span><span class="o">++</span><span class="p">;</span>
-	    <span class="n">omp_unset_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
-	    <span class="k">break</span><span class="p">;</span>
-	<span class="p">}</span>
-    <span class="p">}</span>
-    <span class="n">omp_destroy_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+<span class="w">    </span><span class="n">omp_lock_t</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">omp_init_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="cp">#pragma omp parallel</span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span><span class="w"></span>
+<span class="w">	    </span><span class="n">omp_set_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span><span class="w"></span>
+<span class="w">	    </span><span class="n">x</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">	    </span><span class="n">omp_unset_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span><span class="w"></span>
+<span class="w">	    </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">omp_destroy_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </li>
 </ol>
@@ -549,9 +549,9 @@ OpenMP API 由三部分组成
 </div>
 </div>
 
-<div id="outline-container-org6dace58" class="outline-3">
-<h3 id="org6dace58">环境变量</h3>
-<div class="outline-text-3" id="text-org6dace58">
+<div id="outline-container-orgab1a282" class="outline-3">
+<h3 id="orgab1a282">环境变量</h3>
+<div class="outline-text-3" id="text-orgab1a282">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">

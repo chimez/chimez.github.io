@@ -1,0 +1,128 @@
+#+BEGIN_COMMENT
+.. title: Sphinx: Documentation Generator
+.. slug: sphinx-documentation-generator
+.. date: 2021-08-16 10:00:41 UTC+08:00
+.. tags: Documents, python
+.. category: tools
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* Sphinx: 文档生成
+  [[https://www.sphinx-doc.org/en/master/usage/quickstart.html][sphinx/getting started]]
+
+** 创建与配置项目
+   
+*** ~sphinx-quickstart~
+    使用这个命令，快速创建项目。跟随指导做一些选项。
+    
+*** 生成文档
+    使用命令 ~sphinx-build -b html sourcedir builddir~ 或者 ~make html~
+    
+*** 基本配置
+    基本配置在 ~conf.py~ 文件中。这个文件就是一个python 脚本，可以执行各种python函数和导入其它库等。
+
+    配置参考[[https://www.sphinx-doc.org/en/master/usage/configuration.html][configuration]]
+
+** 写文档
+
+*** 文档结构
+
+    1. ~index.rst~ 文件是文档的欢迎页面，其中包括
+       1. 目录树 ~toctree~
+
+*** reStructuredText directives
+    rst 指令的格式中包括
+    1. 参数：在指令名后面的冒号之后，每个指令可以有若干个参数
+    2. 选项：在参数之后，选项的形式是 ~名-值~ 的列表，一行一个
+    3. 内容：在参数之后空一行
+
+**** ~toctree~ 目录
+     参考：[[https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#toctree-directive][directives/toctree-directive]]
+
+     #+begin_src rst
+.. toctree::
+   :maxdepth: 2
+
+   intro
+   strings
+   datatypes
+   numeric
+   (many more documents listed here)
+     #+end_src
+
+***** 内容
+      内容中每一行就是要链接到的文件名, 可以用 ~Net Title <filename>~ 重新指定显示的标题
+
+***** 选项
+      
+      | 选项                          | 作用                       |
+      |-------------------------------+----------------------------|
+      | ~:numbered:~                  | 给目录编号                 |
+      | ~:caption: Table of Contents~ | 目录的标题                 |
+      | ~:name: mastertoc~            | 设置 ~ref~ 用的名字        |
+      | ~:titlesonly:~                | 只显示文件标题             |
+      | ~:glob:~                      | 可以使用 ~*~ 匹配很多文件  |
+      | ~:hidden:~                    | 链接，但不显示             |
+      | ~:includehidden:~             | 只链接一级标题，隐藏其它的 |
+      | ~:maxdepth: 2~                | 目录层级深度               |
+      
+*** Domains
+    为了对应 python/c++ 中的名字空间，防止函数名冲突，要把函数的文档写在 domain 里。
+    
+    参考 [[https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html][domains]]
+
+**** 基本语法
+     可以一次生成两个函数
+     #+begin_src rst
+.. py:function:: spam(eggs)
+                 ham(eggs)
+
+   Spam or ham the foo.
+     #+end_src
+
+     如果一个函数很长，可以折行并加上 ~:noindex:~
+     #+begin_src rst
+.. py:function:: filterwarnings(action, message='', category=Warning, \
+                                module='', lineno=0, append=False)
+   :noindex:
+     #+end_src
+
+     默认的 domain 是 python，可以用 ~.. default-domain:: name~ 修改
+
+**** 交叉引用
+     基本语法是 ~:role:`title <target>`~ 这会引用 ~target~ 但显示的是 ~title~
+     1. 前面加 ~!~ 不生成引用
+     2. 前面加 波浪线 ~\~~ 只会显示最后一个元素的引用 ~:py:meth:`\~Queue.Queue.get`~ 只显示 ~get~
+**** C++
+     参考 [[https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cpp-domain][domains/cpp-domain]]     
+
+
+** Autodoc: 注释文档
+   通过 autodoc 可以从源码的注释生成文档。需要在 ~conf.py~ 的 ~extensions~ 中加入 ~'sphinx.ext.autodoc'~ . 之后就可以利用 ~autofunction~ ~automodule~ 等指令，将注释作为文档导入。
+
+   
+** breathe
+
+   [[https://breathe.readthedocs.io/en/latest/index.html][breathe]] 是通过 doxygen 生成 c/c++ 的文档的工具
+
+*** 基本使用
+
+    设置 ~conf.py~
+    #+begin_src python
+breathe_projects_source = {
+    "my_proj": ("../src", ["oneheader.h"]),
+}
+breathe_default_project = "my_proj"
+
+    #+end_src
+
+    就可以在 ~index.rst~ 中使用
+
+    #+begin_src rst
+
+.. autodoxygenfile:: oneheader.h
+    #+end_src
+

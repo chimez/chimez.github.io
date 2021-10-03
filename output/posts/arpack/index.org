@@ -13,13 +13,15 @@
 
 * ARPACK
   新版本在 [[https://github.com/opencollab/arpack-ng][arpack-ng]] , 文档在 [[https://www.caam.rice.edu/software/ARPACK/UG/node135.html][rice - ARPACK]]
-
-**  函数说明
+  
+** 函数说明
    头文件 ~arpack.h~ 中的函数有
    1. ~<?>neupd_c~ 计算一般矩阵的本征值, ~<?> = sdcz~
    2. ~<?>naupd_c~ 计算一般矩阵的反向通信接口, ~<?> = sdcz~
-   3. ~<?>seupd_c~ 计算厄米矩阵的本征值, ~<?> = sd~
-   4. ~<?>saupd_c~ 计算厄米矩阵的反向通信接口, ~<?> = sd~
+   3. ~<?>seupd_c~ 计算对称矩阵的本征值, ~<?> = sd~
+   4. ~<?>saupd_c~ 计算对称矩阵的反向通信接口, ~<?> = sd~
+      
+   arpack 中没有计算复厄米矩阵的函数，复矩阵一律用一般矩阵的计算函数
 
 ** ~XYaupd~ 参数说明
    1. ~ido~   反向通信标志，第一次运行 ~ido=0~
@@ -76,3 +78,55 @@
    23. ~workl~
    24. ~lworkl~
    25. ~info~
+
+** 编译
+   
+*** 基本的编译过程
+   
+    #+begin_src bash
+sh bootstrap
+./configure
+make
+make check
+make install
+    #+end_src 
+   
+*** ILP64: int64 支持
+
+    - ~LP64~ 在 MKL 中表示 ~int~ 做指标
+    - ~ILP64~ 表示 ~long long int~ 做指标
+
+    arpack 沿用了 MKL 的叫法。
+
+    配置：
+
+    - 编译时定义 ~INTERFACE64~
+    - 使用 ~arpackdef.h~ 头文件
+    - 使用 ~a_int~ 类型 (architecture int)
+
+    #+begin_src bash
+INTERFACE64=1 ./configure --enable-mpi --enable-icb --with-blas=openblas64
+    #+end_src 
+      
+*** icb: 生成 c 头文件
+    arpack-ng 使用 fortran 的 iso_c_binding(icb) 生成 c 头文件
+
+    #+begin_src bash
+./configure --enable-icb
+cmake -D ICB=ON
+    #+end_src 
+
+*** parpack: MPI 支持
+
+    #+begin_src bash
+./configure --enable-mpi
+    #+end_src 
+
+*** 使用 cmake
+    
+    - ~BLA_VENDOR=Intel10_64ilp~ 使用 ilp64 的 MKL
+    - ~CMAKE_POSITION_INDEPENDENT_CODE=ON~ 使用 ~-fPIC~
+
+    #+begin_src bash
+CC=gcc FC=gfortran cmake -D MPI=ON -D ICB=ON  -DCMAKE_INSTALL_PREFIX=$HOME/app/arpack -DBLA_VENDOR=Intel10_64ilp -DBUILD_SHARED_LIBS=OFF -DINTERFACE64=1  -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
+    #+end_src 

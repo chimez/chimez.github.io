@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about Documents)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/documents.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Fri, 01 Oct 2021 12:05:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Sphinx: Documentation Generator</title><link>https://chimez.github.io/posts/sphinx-documentation-generator/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org841d366" class="outline-2"&gt;
+&lt;h2 id="org841d366"&gt;Sphinx: 文档生成&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org841d366"&gt;
+&lt;p&gt;
+&lt;a href="https://www.sphinx-doc.org/en/master/usage/quickstart.html"&gt;sphinx/getting started&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5d416a8" class="outline-3"&gt;
+&lt;h3 id="org5d416a8"&gt;创建与配置项目&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5d416a8"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orga7905f1" class="outline-4"&gt;
+&lt;h4 id="orga7905f1"&gt;&lt;code&gt;sphinx-quickstart&lt;/code&gt;&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga7905f1"&gt;
+&lt;p&gt;
+使用这个命令，快速创建项目。跟随指导做一些选项。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5a88cf1" class="outline-4"&gt;
+&lt;h4 id="org5a88cf1"&gt;生成文档&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5a88cf1"&gt;
+&lt;p&gt;
+使用命令 &lt;code&gt;sphinx-build -b html sourcedir builddir&lt;/code&gt; 或者 &lt;code&gt;make html&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org5302760" class="outline-4"&gt;
+&lt;h4 id="org5302760"&gt;基本配置&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5302760"&gt;
+&lt;p&gt;
+基本配置在 &lt;code&gt;conf.py&lt;/code&gt; 文件中。这个文件就是一个python 脚本，可以执行各种python函数和导入其它库等。
+&lt;/p&gt;
+
+&lt;p&gt;
+配置参考&lt;a href="https://www.sphinx-doc.org/en/master/usage/configuration.html"&gt;configuration&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org62c45f2" class="outline-3"&gt;
+&lt;h3 id="org62c45f2"&gt;写文档&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org62c45f2"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org2ad9a82" class="outline-4"&gt;
+&lt;h4 id="org2ad9a82"&gt;文档结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2ad9a82"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;&lt;code&gt;index.rst&lt;/code&gt; 文件是文档的欢迎页面，其中包括
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;目录树 &lt;code&gt;toctree&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org42dea4d" class="outline-4"&gt;
+&lt;h4 id="org42dea4d"&gt;reStructuredText directives&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org42dea4d"&gt;
+&lt;p&gt;
+rst 指令的格式中包括
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;参数：在指令名后面的冒号之后，每个指令可以有若干个参数&lt;/li&gt;
+&lt;li&gt;选项：在参数之后，选项的形式是 &lt;code&gt;名-值&lt;/code&gt; 的列表，一行一个&lt;/li&gt;
+&lt;li&gt;内容：在参数之后空一行&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="org141832e"&gt;&lt;/a&gt;&lt;code&gt;toctree&lt;/code&gt; 目录&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org141832e"&gt;
+&lt;p&gt;
+参考：&lt;a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#toctree-directive"&gt;directives/toctree-directive&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     .. toctree::
+	:maxdepth: 2
+
+	intro
+	strings
+	datatypes
+	numeric
+	(many more documents listed here)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="org1cedf5c"&gt;&lt;/a&gt;内容&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org1cedf5c"&gt;
+&lt;p&gt;
+内容中每一行就是要链接到的文件名, 可以用 &lt;code&gt;Net Title &amp;lt;filename&amp;gt;&lt;/code&gt; 重新指定显示的标题
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="orgb775885"&gt;&lt;/a&gt;选项&lt;br&gt;
+&lt;div class="outline-text-6" id="text-orgb775885"&gt;
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;选项&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;作用&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;:numbered:&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;给目录编号&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;:caption: Table of Contents&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;目录的标题&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;:name: mastertoc&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;设置 &lt;code&gt;ref&lt;/code&gt; 用的名字&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;:titlesonly:&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;只显示文件标题&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;:glob:&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;可以使用 &lt;code&gt;*&lt;/code&gt; 匹配很多文件&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;:hidden:&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;链接，但不显示&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;:includehidden:&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;只链接一级标题，隐藏其它的&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;:maxdepth: 2&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;目录层级深度&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgcce0e8e" class="outline-4"&gt;
+&lt;h4 id="orgcce0e8e"&gt;Domains&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgcce0e8e"&gt;
+&lt;p&gt;
+为了对应 python/c++ 中的名字空间，防止函数名冲突，要把函数的文档写在 domain 里。
+&lt;/p&gt;
+
+&lt;p&gt;
+参考 &lt;a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html"&gt;domains&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="org180b7d8"&gt;&lt;/a&gt;基本语法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org180b7d8"&gt;
+&lt;p&gt;
+可以一次生成两个函数
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     .. py:function:: spam(eggs)
+		      ham(eggs)
+
+	Spam or ham the foo.
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+如果一个函数很长，可以折行并加上 &lt;code&gt;:noindex:&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     .. py:function:: filterwarnings(action, message='', category=Warning, \
+				     module='', lineno=0, append=False)
+	:noindex:
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+默认的 domain 是 python，可以用 &lt;code&gt;.. default-domain:: name&lt;/code&gt; 修改
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org01e90d5"&gt;&lt;/a&gt;交叉引用&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org01e90d5"&gt;
+&lt;p&gt;
+基本语法是 &lt;code&gt;:role:`title &amp;lt;target&amp;gt;`&lt;/code&gt; 这会引用 &lt;code&gt;target&lt;/code&gt; 但显示的是 &lt;code&gt;title&lt;/code&gt;
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;前面加 &lt;code&gt;!&lt;/code&gt; 不生成引用&lt;/li&gt;
+&lt;li&gt;前面加 波浪线 &lt;code&gt;\~&lt;/code&gt; 只会显示最后一个元素的引用 &lt;code&gt;:py:meth:`\~Queue.Queue.get`&lt;/code&gt; 只显示 &lt;code&gt;get&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a id="orga473773"&gt;&lt;/a&gt;C++&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orga473773"&gt;
+&lt;p&gt;
+参考 &lt;a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cpp-domain"&gt;domains/cpp-domain&lt;/a&gt;     
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org65ab85a" class="outline-3"&gt;
+&lt;h3 id="org65ab85a"&gt;Autodoc: 注释文档&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org65ab85a"&gt;
+&lt;p&gt;
+通过 autodoc 可以从源码的注释生成文档。需要在 &lt;code&gt;conf.py&lt;/code&gt; 的 &lt;code&gt;extensions&lt;/code&gt; 中加入 &lt;code&gt;'sphinx.ext.autodoc'&lt;/code&gt; . 之后就可以利用 &lt;code&gt;autofunction&lt;/code&gt; &lt;code&gt;automodule&lt;/code&gt; 等指令，将注释作为文档导入。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orge3818bc" class="outline-3"&gt;
+&lt;h3 id="orge3818bc"&gt;breathe&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge3818bc"&gt;
+&lt;p&gt;
+&lt;a href="https://breathe.readthedocs.io/en/latest/index.html"&gt;breathe&lt;/a&gt; 是通过 doxygen 生成 c/c++ 的文档的工具
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org7471afa" class="outline-4"&gt;
+&lt;h4 id="org7471afa"&gt;基本使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org7471afa"&gt;
+&lt;p&gt;
+设置 &lt;code&gt;conf.py&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;breathe_projects_source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+	&lt;span class="s2"&gt;"my_proj"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"../src"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"oneheader.h"&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;breathe_default_project&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"my_proj"&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+就可以在 &lt;code&gt;index.rst&lt;/code&gt; 中使用
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    .. autodoxygenfile:: oneheader.h
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>Documents</category><category>python</category><guid>https://chimez.github.io/posts/sphinx-documentation-generator/</guid><pubDate>Mon, 16 Aug 2021 02:00:41 GMT</pubDate></item></channel></rss>

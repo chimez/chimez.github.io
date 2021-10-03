@@ -2,7 +2,7 @@
 .. title: MPI
 .. slug: mpi
 .. date: 2021-07-04 17:00:31 UTC+08:00
-.. tags: mpi, C, parallel
+.. tags: MPI, C, parallel
 .. category: library
 .. link: 
 .. description: 
@@ -604,5 +604,28 @@ if (proc_rank == 0) {
     }
 }
 
+   #+end_src
+
+** 模拟单线程
+   随便写一个变量，按照顺序一个接一个的发送下去
+
+   #+begin_src python
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+proc_rank = comm.Get_rank()
+proc_num = comm.Get_size()
+
+myturn = 0
+
+if proc_rank == 0:
+    myturn = 1
+else:
+    myturn = comm.recv(source=proc_rank-1, tag=proc_rank-1)
+
+print(f"{proc_rank=}, {myturn=}")
+
+if proc_rank < proc_num - 1:
+    comm.send(myturn, dest=proc_rank+1, tag=proc_rank)
    #+end_src
 
