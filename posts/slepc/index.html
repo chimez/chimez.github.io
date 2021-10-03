@@ -40,7 +40,7 @@ NEP (Nonlinear Eig">
 <meta property="article:published_time" content="2021-07-03T13:08:47+08:00">
 <meta property="article:tag" content="C">
 <meta property="article:tag" content="eigenvalue">
-<meta property="article:tag" content="mpi">
+<meta property="article:tag" content="MPI">
 <meta property="article:tag" content="parallel">
 <meta property="article:tag" content="petsc">
 </head>
@@ -117,17 +117,17 @@ NEP (Nonlinear Eig">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org360b337" class="outline-2">
-<h2 id="org360b337">SLEPc: PETSc 的本征值求解器扩展</h2>
-<div class="outline-text-2" id="text-org360b337">
+    <div id="outline-container-orgd0c31b3" class="outline-2">
+<h2 id="orgd0c31b3">SLEPc: PETSc 的本征值求解器扩展</h2>
+<div class="outline-text-2" id="text-orgd0c31b3">
 <p>
 <a href="https://slepc.upv.es/">SLEPc</a> 是用来求 PETSc 矩阵的扩展库。
 </p>
 </div>
 
-<div id="outline-container-orgd60ff4e" class="outline-3">
-<h3 id="orgd60ff4e">基本结构</h3>
-<div class="outline-text-3" id="text-orgd60ff4e">
+<div id="outline-container-orge46353f" class="outline-3">
+<h3 id="orge46353f">基本结构</h3>
+<div class="outline-text-3" id="text-orge46353f">
 <p>
 SLEPc 有以下基本部分构成
 </p>
@@ -151,9 +151,9 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-org045b7c0" class="outline-3">
-<h3 id="org045b7c0">安装</h3>
-<div class="outline-text-3" id="text-org045b7c0">
+<div id="outline-container-org2603693" class="outline-3">
+<h3 id="org2603693">安装</h3>
+<div class="outline-text-3" id="text-org2603693">
 <p>
 下载时注意，SLEPc 的版本必须和 PETSc 版本一样
 </p>
@@ -171,9 +171,9 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-org9dd7632" class="outline-3">
-<h3 id="org9dd7632">基本使用</h3>
-<div class="outline-text-3" id="text-org9dd7632">
+<div id="outline-container-org3b23ca2" class="outline-3">
+<h3 id="org3b23ca2">基本使用</h3>
+<div class="outline-text-3" id="text-org3b23ca2">
 <p>
 程序开始和结束时分别调用 <code>SlepcInitialize()</code> 和 <code>SlepcFinalize()</code>, 实际上就是 <code>PetscInitialize()</code> 和 <code>PetscFinalize()</code>
 </p>
@@ -184,13 +184,13 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-orgd725e50" class="outline-3">
-<h3 id="orgd725e50">EPS: 矩阵本征值求解器</h3>
-<div class="outline-text-3" id="text-orgd725e50">
+<div id="outline-container-orgd2fc057" class="outline-3">
+<h3 id="orgd2fc057">EPS: 矩阵本征值求解器</h3>
+<div class="outline-text-3" id="text-orgd2fc057">
 </div>
-<div id="outline-container-orgb4d6d2f" class="outline-4">
-<h4 id="orgb4d6d2f">基本使用</h4>
-<div class="outline-text-4" id="text-orgb4d6d2f">
+<div id="outline-container-orgd499dc8" class="outline-4">
+<h4 id="orgd499dc8">基本使用</h4>
+<div class="outline-text-4" id="text-orgd499dc8">
 <ol class="org-ol">
 <li>
 <code>EPSCreate(MPI_Comm comm,EPS *eps);</code> 
@@ -241,129 +241,129 @@ SLEPc 有以下基本部分构成
 </ol>
 </li>
 </ol>
-<div class="highlight"><pre><span></span>    <span class="cp">#include</span> <span class="cpf">&lt;slepceps.h&gt;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;slepceps.h&gt;</span><span class="cp"></span>
 
 
-    <span class="n">Mat</span> <span class="n">A</span><span class="p">;</span> <span class="cm">/* problem matrix */</span>
-    <span class="cm">/* do something to fill A */</span>
+<span class="w">    </span><span class="n">Mat</span><span class="w"> </span><span class="n">A</span><span class="p">;</span><span class="w"> </span><span class="cm">/* problem matrix */</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* do something to fill A */</span><span class="w"></span>
 
-    <span class="n">PetscErrorCode</span> <span class="n">ierr</span><span class="p">;</span>
-    <span class="cm">/* Create eigensolver context */</span>
-    <span class="n">EPS</span> <span class="n">eps</span><span class="p">;</span> <span class="cm">/* eigenproblem solver context */</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSCreate</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">eps</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="n">PetscErrorCode</span><span class="w"> </span><span class="n">ierr</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Create eigensolver context */</span><span class="w"></span>
+<span class="w">    </span><span class="n">EPS</span><span class="w"> </span><span class="n">eps</span><span class="p">;</span><span class="w"> </span><span class="cm">/* eigenproblem solver context */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSCreate</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">eps</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* Set operators. In this case, it is a standard eigenvalue problem */</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSSetOperators</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSSetProblemType</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">EPS_HEP</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* Set operators. In this case, it is a standard eigenvalue problem */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSSetOperators</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSSetProblemType</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">EPS_HEP</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* show EPS setup */</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSView</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">PETSC_VIEWER_STDOUT_WORLD</span><span class="p">)</span> <span class="p">;</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* show EPS setup */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSView</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">PETSC_VIEWER_STDOUT_WORLD</span><span class="p">)</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* Set solver parameters at runtime */</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSSetFromOptions</span><span class="p">(</span><span class="n">eps</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* Set solver parameters at runtime */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSSetFromOptions</span><span class="p">(</span><span class="n">eps</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* Solve the eigensystem */</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSSolve</span><span class="p">(</span><span class="n">eps</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* Solve the eigensystem */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSSolve</span><span class="p">(</span><span class="n">eps</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* Optional: Get some information from the solver and display it */</span>
-    <span class="n">PetscInt</span> <span class="n">its</span><span class="p">;</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetIterationNumber</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">its</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" Number of iterations of the method: %D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">its</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* Optional: Get some information from the solver and display it */</span><span class="w"></span>
+<span class="w">    </span><span class="n">PetscInt</span><span class="w"> </span><span class="n">its</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetIterationNumber</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">its</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" Number of iterations of the method: %D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">its</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="n">EPSType</span> <span class="n">type</span><span class="p">;</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetType</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">type</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" Solution method: %s</span><span class="se">\n\n</span><span class="s">"</span><span class="p">,</span> <span class="n">type</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="n">EPSType</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetType</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">type</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" Solution method: %s</span><span class="se">\n\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="n">PetscInt</span> <span class="n">nev</span><span class="p">;</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetDimensions</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nev</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" Number of requested eigenvalues: %D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">nev</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="n">PetscInt</span><span class="w"> </span><span class="n">nev</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetDimensions</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">nev</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" Number of requested eigenvalues: %D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">nev</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="n">PetscReal</span> <span class="n">tol</span><span class="p">;</span>
-    <span class="n">PetscInt</span> <span class="n">maxit</span><span class="p">;</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetTolerances</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tol</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">maxit</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" Stopping condition: tol=%.4g, maxit=%D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">tol</span><span class="p">,</span> <span class="n">maxit</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="n">PetscReal</span><span class="w"> </span><span class="n">tol</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">PetscInt</span><span class="w"> </span><span class="n">maxit</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetTolerances</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">maxit</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" Stopping condition: tol=%.4g, maxit=%D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">maxit</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* Display solution and clean up */</span>
-    <span class="cm">/* Get number of converged approximate eigenpairs */</span>
-    <span class="n">PetscInt</span> <span class="n">nconv</span><span class="p">;</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetConverged</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nconv</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" Number of converged eigenpairs: %D</span><span class="se">\n\n</span><span class="s">"</span><span class="p">,</span> <span class="n">nconv</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* Display solution and clean up */</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Get number of converged approximate eigenpairs */</span><span class="w"></span>
+<span class="w">    </span><span class="n">PetscInt</span><span class="w"> </span><span class="n">nconv</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetConverged</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">nconv</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" Number of converged eigenpairs: %D</span><span class="se">\n\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">nconv</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">nconv</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="cm">/* Display eigenvalues and relative errors */</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span>
-			<span class="s">"           k          ||Ax-kx||/||kx||</span><span class="se">\n</span><span class="s">"</span>
-			<span class="s">"   ----------------- ------------------</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nconv</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Display eigenvalues and relative errors */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"></span>
+<span class="w">			</span><span class="s">"           k          ||Ax-kx||/||kx||</span><span class="se">\n</span><span class="s">"</span><span class="w"></span>
+<span class="w">			</span><span class="s">"   ----------------- ------------------</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nconv</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-	<span class="cm">/* Get converged eigenpairs: i-th eigenvalue is stored in kr (real part) and ki (imaginary part) */</span>
-	<span class="n">PetscScalar</span> <span class="n">kr</span><span class="p">,</span> <span class="n">ki</span><span class="p">;</span>
-	<span class="n">Vec</span> <span class="n">xr</span><span class="p">,</span> <span class="n">xi</span><span class="p">;</span>
-	<span class="n">ierr</span> <span class="o">=</span> <span class="n">MatCreateVecs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">xr</span><span class="p">);</span>
-	<span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-	<span class="n">ierr</span> <span class="o">=</span> <span class="n">MatCreateVecs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">xi</span><span class="p">);</span>
-	<span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-	<span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSGetEigenpair</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">kr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ki</span><span class="p">,</span> <span class="n">xr</span><span class="p">,</span> <span class="n">xi</span><span class="p">);</span>
-	<span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nconv</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="cm">/* Get converged eigenpairs: i-th eigenvalue is stored in kr (real part) and ki (imaginary part) */</span><span class="w"></span>
+<span class="w">	</span><span class="n">PetscScalar</span><span class="w"> </span><span class="n">kr</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="n">Vec</span><span class="w"> </span><span class="n">xr</span><span class="p">,</span><span class="w"> </span><span class="n">xi</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MatCreateVecs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">xr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MatCreateVecs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">xi</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetEigenpair</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">kr</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">xr</span><span class="p">,</span><span class="w"> </span><span class="n">xi</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-	<span class="cm">/* Compute the relative error associated to each eigenpair */</span>
-	<span class="n">PetscReal</span> <span class="n">error</span><span class="p">;</span>
-	<span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSComputeError</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">EPS_ERROR_RELATIVE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">);</span>
-	<span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">	</span><span class="cm">/* Compute the relative error associated to each eigenpair */</span><span class="w"></span>
+<span class="w">	</span><span class="n">PetscReal</span><span class="w"> </span><span class="n">error</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSComputeError</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">EPS_ERROR_RELATIVE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 
-	<span class="n">PetscReal</span> <span class="n">re</span> <span class="o">=</span> <span class="n">PetscRealPart</span><span class="p">(</span><span class="n">kr</span><span class="p">);</span>
-	<span class="n">PetscReal</span> <span class="n">im</span> <span class="o">=</span> <span class="n">PetscImaginaryPart</span><span class="p">(</span><span class="n">kr</span><span class="p">);</span>
-	<span class="k">if</span> <span class="p">(</span><span class="n">im</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="p">{</span>
-	    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">" %9f%+9fi %12g</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">re</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">im</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">error</span><span class="p">);</span>
-	    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-	    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">"   %12f       %12g</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">re</span><span class="p">,</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">error</span><span class="p">);</span>
-	    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-	<span class="p">}</span>
-    <span class="p">}</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-    <span class="p">}</span>
+<span class="w">	</span><span class="n">PetscReal</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscRealPart</span><span class="p">(</span><span class="n">kr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">PetscReal</span><span class="w"> </span><span class="n">im</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscImaginaryPart</span><span class="p">(</span><span class="n">kr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">im</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" %9f%+9fi %12g</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">im</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">	    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">"   %12f       %12g</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">	    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
 
-    <span class="cm">/* Free work space */</span>
+<span class="w">    </span><span class="cm">/* Free work space */</span><span class="w"></span>
 
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">EPSDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">eps</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">MatDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">VecDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">xr</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
-    <span class="n">ierr</span> <span class="o">=</span> <span class="n">VecDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">xi</span><span class="p">);</span>
-    <span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">eps</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MatDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">VecDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">xr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">VecDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">xi</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org5007b3c" class="outline-4">
-<h4 id="org5007b3c">求解器配置</h4>
-<div class="outline-text-4" id="text-org5007b3c">
+<div id="outline-container-org72f3e39" class="outline-4">
+<h4 id="org72f3e39">求解器配置</h4>
+<div class="outline-text-4" id="text-org72f3e39">
 </div>
 <ul class="org-ul">
 <li>
-<a id="orgc7cb957"></a>问题类型<br><div class="outline-text-5" id="text-orgc7cb957">
+<a id="orga23caaf"></a>问题类型<br><div class="outline-text-5" id="text-orga23caaf">
 <p>
 问题类型使用 <code>EPSSetProblemType(EPS eps,EPSProblemType type);</code> 进行设置
 </p>
@@ -440,7 +440,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="org59690c8"></a>求解本征值个数<br><div class="outline-text-5" id="text-org59690c8">
+<a id="orgb80ca6b"></a>求解本征值个数<br><div class="outline-text-5" id="text-orgb80ca6b">
 <p>
 使用 <code>EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);</code> 设置要求的本征值个数
 </p>
@@ -456,7 +456,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="org888ed48"></a>求解本征值位置<br><div class="outline-text-5" id="text-org888ed48">
+<a id="org357a7cb"></a>求解本征值位置<br><div class="outline-text-5" id="text-org357a7cb">
 <ol class="org-ol">
 <li>
 <code>EPSSetWhichEigenpairs(EPS eps,EPSWhich which);</code> 设置要求本征值的位置</li>
@@ -564,7 +564,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="org03fe696"></a>选择算法<br><div class="outline-text-5" id="text-org03fe696">
+<a id="orgcfc6778"></a>选择算法<br><div class="outline-text-5" id="text-orgcfc6778">
 <p>
 通过 <code>EPSSetType(EPS eps,EPSType method);</code> 设置求解器使用的算法
 </p>
@@ -726,7 +726,7 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="org35082c2"></a>获得结果<br><div class="outline-text-5" id="text-org35082c2">
+<a id="org13db2c1"></a>获得结果<br><div class="outline-text-5" id="text-org13db2c1">
 <ol class="org-ol">
 <li>
 <code>EPSGetConverged(EPS eps,PetscInt *nconv);</code> 获得收敛的解个数</li>
@@ -774,9 +774,9 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="org0531058"></a>其它设置<br><ul class="org-ul">
+<a id="org98db672"></a>其它设置<br><ul class="org-ul">
 <li>
-<a id="org9452508"></a>初始猜解<br><div class="outline-text-6" id="text-org9452508">
+<a id="org966240b"></a>初始猜解<br><div class="outline-text-6" id="text-org966240b">
 <p>
 <code>EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);</code>
 </p>
@@ -784,19 +784,19 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="org23b2315"></a>处理简并<br>
+<a id="orgb9ace0b"></a>处理简并<br>
 </li>
 
 <li>
-<a id="orgfc9d128"></a>选择正交化方法<br>
+<a id="orgd254761"></a>选择正交化方法<br>
 </li>
 
 <li>
-<a id="org49c99d9"></a>选择滤波算法<br>
+<a id="org41a0e78"></a>选择滤波算法<br>
 </li>
 
 <li>
-<a id="org05aa953"></a>计算大量本征值的方法<br>
+<a id="orgb11b4d2"></a>计算大量本征值的方法<br>
 </li>
 </ul>
 </li>
@@ -808,7 +808,7 @@ SLEPc 支持的算法有
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
 <li><a class="tag p-category" href="../../categories/c/" rel="tag">C</a></li>
             <li><a class="tag p-category" href="../../categories/eigenvalue/" rel="tag">eigenvalue</a></li>
-            <li><a class="tag p-category" href="../../categories/mpi/" rel="tag">mpi</a></li>
+            <li><a class="tag p-category" href="../../categories/mpi/" rel="tag">MPI</a></li>
             <li><a class="tag p-category" href="../../categories/parallel/" rel="tag">parallel</a></li>
             <li><a class="tag p-category" href="../../categories/petsc/" rel="tag">petsc</a></li>
         </ul>

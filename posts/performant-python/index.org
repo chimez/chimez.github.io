@@ -37,3 +37,32 @@
 *** 总线
     计算单元和存储单元通过总线连接。
     总线最重要的参数是总线宽度和总线频率。
+
+* 从源码安装 python    
+  
+  - openssl 通过 ~--with-openssl~ 指定
+  - sqlite 通过修改 ~setup.py~ 中的 ~sqlite_inc_paths~
+  - libffi 通过 ~CPPFLAGS~, ~LDFLAGS~ 指定
+
+    参考编译选项
+  #+begin_src bash
+./configure --prefix=$HOME/app/python --enable-optimizations --with-openssl=$HOME/app/openssl --enable-shared PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH LIBFFI_INCLUDEDIR=/vol7/home/zhongpg/app/libffi/include --with-system-ffi=/vol7/home/zhongpg/app/libffi/lib64 CPPFLAGS="-I /vol7/home/zhongpg/app/libffi/include" LDFLAGS="-L/vol7/home/zhongpg/app/libffi/lib64"
+
+  #+end_src 
+
+* 从源码安装 numpy, scipy
+  
+  - numpy 依赖
+    - cython: ~pip install cython~
+
+  - scipy 依赖
+    - pybind11: ~pip install "pybind11[global]"~
+    - pythran: ~pip install pythran~
+    - 执行 ~git submodule update --init~ 来自动下载一些包
+
+  设置 ~site.cfg~
+
+  执行安装
+  #+begin_src bash
+python3 setup.py build -j 10 install
+  #+end_src 

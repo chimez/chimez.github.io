@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Blog of chimez">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chimez's blog (old posts, page 5) | chimez's blog</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
+<link rel="canonical" href="https://chimez.github.io/index-5.html">
+<link rel="prev" href="." type="text/html">
+<link rel="next" href="index-4.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href=".">
+
+            <span id="blog-title">chimez's blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav"></ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+    
+        
+
+    
+        
+    <div class="postindex">
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/slepc/" class="u-url">SLEPc</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/slepc/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-07-03T13:08:47+08:00" itemprop="datePublished" title="2021-07-03 13:08">2021-07-03 13:08</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orgd0c31b3" class="outline-2">
+<h2 id="orgd0c31b3">SLEPc: PETSc 的本征值求解器扩展</h2>
+<div class="outline-text-2" id="text-orgd0c31b3">
+<p>
+<a href="https://slepc.upv.es/">SLEPc</a> 是用来求 PETSc 矩阵的扩展库。
+</p>
+</div>
+
+<div id="outline-container-orge46353f" class="outline-3">
+<h3 id="orge46353f">基本结构</h3>
+<div class="outline-text-3" id="text-orge46353f">
+<p>
+SLEPc 有以下基本部分构成
+</p>
+<ol class="org-ol">
+<li>EPS (Eigenvalue Problem Solver)</li>
+<li>SVD (Singular Value Decomposition)</li>
+<li>PEP (Polynomial Eigenvalue Problem)</li>
+<li>NEP (Nonlinear Eigenvalue Problem)</li>
+<li>MFN (Matrix Function)</li>
+</ol>
+<p>
+还有一些辅助模块
+</p>
+<ol class="org-ol">
+<li>ST (Spectral Transformation)</li>
+<li>BV (Basis Vectors)</li>
+<li>DS (Dense System)</li>
+<li>RG (Region)</li>
+<li>FN (Mathematical Function)</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org2603693" class="outline-3">
+<h3 id="org2603693">安装</h3>
+<div class="outline-text-3" id="text-org2603693">
+<p>
+下载时注意，SLEPc 的版本必须和 PETSc 版本一样
+</p>
+
+<p>
+编译选项
+</p>
+
+<div class="highlight"><pre><span></span>   ./configure --download-arpack --download-blopex --download-hpddm --download-primme  --with-slepc4py=1
+</pre></div>
+
+<p>
+最后别忘了把环境变量 <code>SLEPC_DIR</code> 加上
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3b23ca2" class="outline-3">
+<h3 id="org3b23ca2">基本使用</h3>
+<div class="outline-text-3" id="text-org3b23ca2">
+<p>
+程序开始和结束时分别调用 <code>SlepcInitialize()</code> 和 <code>SlepcFinalize()</code>, 实际上就是 <code>PetscInitialize()</code> 和 <code>PetscFinalize()</code>
+</p>
+
+<p>
+矩阵的使用跟 <code>PETSc</code> 完全一致
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd2fc057" class="outline-3">
+<h3 id="orgd2fc057">EPS: 矩阵本征值求解器</h3>
+<div class="outline-text-3" id="text-orgd2fc057">
+</div>
+<div id="outline-container-orgd499dc8" class="outline-4">
+<h4 id="orgd499dc8">基本使用</h4>
+<div class="outline-text-4" id="text-orgd499dc8">
+<ol class="org-ol">
+<li>
+<code>EPSCreate(MPI_Comm comm,EPS *eps);</code> 
+<ol class="org-ol">
+<li>创建求解器</li>
+</ol>
+</li>
+<li>
+<code>EPSSetOperators(EPS eps,Mat A,Mat B);</code>
+<ol class="org-ol">
+<li>设置要解的算符</li>
+</ol>
+</li>
+<li>
+<code>EPSSetFromOptions(EPS eps);</code>
+<ol class="org-ol">
+<li>添加运行时设置</li>
+</ol>
+</li>
+<li>
+<code>EPSSolve(EPS eps);</code>
+<ol class="org-ol">
+<li>运行求解器</li>
+</ol>
+</li>
+<li>
+<code>EPSDestroy(EPS *eps);</code>
+<ol class="org-ol">
+<li>销毁求解器</li>
+</ol>
+</li>
+<li>
+<code>EPSSetUp(EPS eps);</code>
+<ol class="org-ol">
+<li>某些更具体的设置, 如果有需要的话，要在运行求解器之前设置</li>
+</ol>
+</li>
+<li>
+<code>EPSGetST(EPS eps,ST *st);</code>
+<ol class="org-ol">
+<li>获得谱变换器(ST), EPS 会默认自动创建一个 ST 对象，如果需要设置谱变换，就要这样获得它</li>
+</ol>
+</li>
+<li>
+<code>EPSView(EPS eps,PetscViewer viewer);</code>
+<ol class="org-ol">
+<li>打印求解器配置</li>
+</ol>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;slepceps.h&gt;</span><span class="cp"></span>
+
+
+<span class="w">    </span><span class="n">Mat</span><span class="w"> </span><span class="n">A</span><span class="p">;</span><span class="w"> </span><span class="cm">/* problem matrix */</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* do something to fill A */</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">PetscErrorCode</span><span class="w"> </span><span class="n">ierr</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Create eigensolver context */</span><span class="w"></span>
+<span class="w">    </span><span class="n">EPS</span><span class="w"> </span><span class="n">eps</span><span class="p">;</span><span class="w"> </span><span class="cm">/* eigenproblem solver context */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSCreate</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">eps</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Set operators. In this case, it is a standard eigenvalue problem */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSSetOperators</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSSetProblemType</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">EPS_HEP</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* show EPS setup */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSView</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">PETSC_VIEWER_STDOUT_WORLD</span><span class="p">)</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Set solver parameters at runtime */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSSetFromOptions</span><span class="p">(</span><span class="n">eps</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Solve the eigensystem */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSSolve</span><span class="p">(</span><span class="n">eps</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Optional: Get some information from the solver and display it */</span><span class="w"></span>
+<span class="w">    </span><span class="n">PetscInt</span><span class="w"> </span><span class="n">its</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetIterationNumber</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">its</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" Number of iterations of the method: %D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">its</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">EPSType</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetType</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">type</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" Solution method: %s</span><span class="se">\n\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">PetscInt</span><span class="w"> </span><span class="n">nev</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetDimensions</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">nev</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" Number of requested eigenvalues: %D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">nev</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">PetscReal</span><span class="w"> </span><span class="n">tol</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">PetscInt</span><span class="w"> </span><span class="n">maxit</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetTolerances</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">maxit</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" Stopping condition: tol=%.4g, maxit=%D</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">maxit</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Display solution and clean up */</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Get number of converged approximate eigenpairs */</span><span class="w"></span>
+<span class="w">    </span><span class="n">PetscInt</span><span class="w"> </span><span class="n">nconv</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetConverged</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">nconv</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" Number of converged eigenpairs: %D</span><span class="se">\n\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">nconv</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nconv</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Display eigenvalues and relative errors */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"></span>
+<span class="w">			</span><span class="s">"           k          ||Ax-kx||/||kx||</span><span class="se">\n</span><span class="s">"</span><span class="w"></span>
+<span class="w">			</span><span class="s">"   ----------------- ------------------</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nconv</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="cm">/* Get converged eigenpairs: i-th eigenvalue is stored in kr (real part) and ki (imaginary part) */</span><span class="w"></span>
+<span class="w">	</span><span class="n">PetscScalar</span><span class="w"> </span><span class="n">kr</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="n">Vec</span><span class="w"> </span><span class="n">xr</span><span class="p">,</span><span class="w"> </span><span class="n">xi</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MatCreateVecs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">xr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MatCreateVecs</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">xi</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSGetEigenpair</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">kr</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">xr</span><span class="p">,</span><span class="w"> </span><span class="n">xi</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">	</span><span class="cm">/* Compute the relative error associated to each eigenpair */</span><span class="w"></span>
+<span class="w">	</span><span class="n">PetscReal</span><span class="w"> </span><span class="n">error</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSComputeError</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">EPS_ERROR_RELATIVE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">	</span><span class="n">PetscReal</span><span class="w"> </span><span class="n">re</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscRealPart</span><span class="p">(</span><span class="n">kr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">PetscReal</span><span class="w"> </span><span class="n">im</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscImaginaryPart</span><span class="p">(</span><span class="n">kr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">im</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">" %9f%+9fi %12g</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">im</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">	    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">"   %12f       %12g</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">re</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">	    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PetscPrintf</span><span class="p">(</span><span class="n">PETSC_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+
+<span class="w">    </span><span class="cm">/* Free work space */</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EPSDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">eps</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MatDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">VecDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">xr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">VecDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">xi</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">CHKERRQ</span><span class="p">(</span><span class="n">ierr</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org72f3e39" class="outline-4">
+<h4 id="org72f3e39">求解器配置</h4>
+<div class="outline-text-4" id="text-org72f3e39">
+</div>
+<ul class="org-ul">
+<li>
+<a id="orga23caaf"></a>问题类型<br><div class="outline-text-5" id="text-orga23caaf">
+<p>
+问题类型使用 <code>EPSSetProblemType(EPS eps,EPSProblemType type);</code> 进行设置
+</p>
+
+<p>
+可选的有
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">问题类型</th>
+<th scope="col" class="org-left">EPSProblemTyle</th>
+<th scope="col" class="org-left">命令行选项</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">Hermitian</td>
+<td class="org-left">EPS<sub>HEP</sub>
+</td>
+<td class="org-left">-eps<sub>hermitian</sub>
+</td>
+</tr>
+<tr>
+<td class="org-left">Non-Hermitian</td>
+<td class="org-left">EPS<sub>NHEP</sub>
+</td>
+<td class="org-left">-eps<sub>non</sub><sub>hermitian</sub>
+</td>
+</tr>
+<tr>
+<td class="org-left">Generalized Hermitian</td>
+<td class="org-left">EPS<sub>GHEP</sub>
+</td>
+<td class="org-left">-eps<sub>gen</sub><sub>hermitian</sub>
+</td>
+</tr>
+<tr>
+<td class="org-left">Generalized Hermitian indefinite</td>
+<td class="org-left">EPS<sub>GHIEP</sub>
+</td>
+<td class="org-left">-eps<sub>gen</sub><sub>indefinite</sub>
+</td>
+</tr>
+<tr>
+<td class="org-left">Generalized Non-Hermitian</td>
+<td class="org-left">EPS<sub>GNHEP</sub>
+</td>
+<td class="org-left">-eps<sub>gen</sub><sub>non</sub><sub>hermitian</sub>
+</td>
+</tr>
+<tr>
+<td class="org-left">GNHEP with positive (semi-)definite</td>
+<td class="org-left">BEPS<sub>PGNHEP</sub>
+</td>
+<td class="org-left">-eps<sub>pos</sub><sub>gen</sub><sub>non</sub><sub>hermitian</sub>
+</td>
+</tr>
+</tbody>
+</table>
+<p>
+还可以用一系列函数来判断设置的问题类型
+</p>
+
+<ol class="org-ol">
+<li>EPSIsGeneralized(EPS eps,PetscBool *gen);</li>
+<li>EPSIsHermitian(EPS eps,PetscBool *her);</li>
+<li>EPSIsPositive(EPS eps,PetscBool *pos);</li>
+</ol>
+</div>
+</li>
+
+<li>
+<a id="orgb80ca6b"></a>求解本征值个数<br><div class="outline-text-5" id="text-orgb80ca6b">
+<p>
+使用 <code>EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);</code> 设置要求的本征值个数
+</p>
+<ol class="org-ol">
+<li>
+<code>PetscInt nev</code> 本征值个数</li>
+<li>
+<code>PetscInt ncv</code> 最大工作空间的维数，指的是用多少个中间向量, <code>ncv</code> 至少和 <code>nev</code> 一样多，最好是它的两倍以上</li>
+<li>
+<code>PetscInt mpd</code> 最大投影空间维数，用来计算很多本征值个数的时候，设置它可以减少工作空间的需求</li>
+</ol>
+</div>
+</li>
+
+<li>
+<a id="org357a7cb"></a>求解本征值位置<br><div class="outline-text-5" id="text-org357a7cb">
+<ol class="org-ol">
+<li>
+<code>EPSSetWhichEigenpairs(EPS eps,EPSWhich which);</code> 设置要求本征值的位置</li>
+<li>
+<code>EPSSetTarget(EPS eps,PetscScalar target);</code> 设置计算距离某个值最近的本征值</li>
+<li>
+<code>EPSSetInterval(EPS eps,PetscScalar a,PetscScalar b);</code> 计算 \(\lambda \in [a, b]\) 的所有本征值</li>
+<li>
+<code>EPSSetTwoSided(EPS eps,PetscBool twosided);</code> 计算非厄米问题的左本征矢</li>
+</ol>
+<p>
+可选的本征值位置有
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">EPSWhich</th>
+<th scope="col" class="org-left">命令行</th>
+<th scope="col" class="org-left">说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">EPS<sub>LARGEST</sub><sub>MAGNITUDE</sub>
+</td>
+<td class="org-left">-eps<sub>largest</sub><sub>magnitude</sub>
+</td>
+<td class="org-left">最大 \(\vert \lambda\vert\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>SMALLEST</sub><sub>MAGNITUDE</sub>
+</td>
+<td class="org-left">-eps<sub>smallest</sub><sub>magnitude</sub>
+</td>
+<td class="org-left">最小 \(\vert\lambda\vert\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>LARGEST</sub><sub>REAL</sub>
+</td>
+<td class="org-left">-eps<sub>largest</sub><sub>real</sub>
+</td>
+<td class="org-left">最大 \(\mathrm{Re}(\lambda)\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>SMALLEST</sub><sub>REAL</sub>
+</td>
+<td class="org-left">-eps<sub>smallest</sub><sub>real</sub>
+</td>
+<td class="org-left">最小 \(\mathrm{Re}(\lambda)\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>LARGEST</sub><sub>IMAGINARY</sub>
+</td>
+<td class="org-left">-eps<sub>largest</sub><sub>imaginary</sub>
+</td>
+<td class="org-left">最大 \(\mathrm{Im}(\lambda)\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>SMALLEST</sub><sub>IMAGINARY</sub>
+</td>
+<td class="org-left">-eps<sub>smallest</sub><sub>imaginary</sub>
+</td>
+<td class="org-left">最小 \(\mathrm{Im}(\lambda)\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>TARGET</sub><sub>MAGNITUDE</sub>
+</td>
+<td class="org-left">-eps<sub>target</sub><sub>magnitude</sub>
+</td>
+<td class="org-left">最小 \(\vert\lambda - \tau\vert\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>TARGET</sub><sub>REAL</sub>
+</td>
+<td class="org-left">-eps<sub>target</sub><sub>real</sub>
+</td>
+<td class="org-left">最小 \(\vert\mathrm{Re}(\lambda-\tau)\vert\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>TARGET</sub><sub>IMAGINARY</sub>
+</td>
+<td class="org-left">-eps<sub>target</sub><sub>imaginary</sub>
+</td>
+<td class="org-left">最小 \(\vert\mathrm{Im}(\lambda-\tau)\vert\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>ALL</sub>
+</td>
+<td class="org-left">-eps<sub>all</sub>
+</td>
+<td class="org-left">所有 \(\lambda \in [a,b]\)</td>
+</tr>
+<tr>
+<td class="org-left">EPS<sub>WHICH</sub><sub>USER</sub>
+</td>
+<td class="org-left"> </td>
+<td class="org-left">用户定义</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+
+<li>
+<a id="orgcfc6778"></a>选择算法<br><div class="outline-text-5" id="text-orgcfc6778">
+<p>
+通过 <code>EPSSetType(EPS eps,EPSType method);</code> 设置求解器使用的算法
+</p>
+
+
+<p>
+SLEPc 支持的算法有
+</p>
+<ul class="org-ul">
+<li>基本算法
+<ul class="org-ul">
+<li>Power Itration, Rayleigh Quotient iteration(RQI)</li>
+<li>Subspace Iteration with Rayleigh-Ritz projection and locking</li>
+<li>Arnoldi method with explicit restart and deflation</li>
+<li>Lanczos with explicit restart</li>
+</ul>
+</li>
+<li>Krylov-Schur, thick-restart Lanczos method (默认)</li>
+<li>Generalized Davidson</li>
+<li>Jacobi-Davidson</li>
+<li>RQCG</li>
+<li>LOBPCG</li>
+<li>CISS</li>
+<li>Lyapunov inverse iteration</li>
+</ul>
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>
+<p>
+由于实现支持有限，只有 <code>arnoldi</code>, <code>krylov-schur</code>, <code>gd</code>, <code>jd</code>, <code>arpack</code> 支持所有类型的问题求解
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">方法</th>
+<th scope="col" class="org-left">EPSType</th>
+<th scope="col" class="org-left">选项名</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left">Power / Inverse / RQI</td>
+<td class="org-left">EPSPOWER</td>
+<td class="org-left">power</td>
+</tr>
+<tr>
+<td class="org-left">Subspace Iteration</td>
+<td class="org-left">EPSSUBSPACE</td>
+<td class="org-left">subspace</td>
+</tr>
+<tr>
+<td class="org-left">Arnoldi</td>
+<td class="org-left">EPSARNOLDI</td>
+<td class="org-left">arnoldi</td>
+</tr>
+<tr>
+<td class="org-left">Lanczos</td>
+<td class="org-left">EPSLANCZOS</td>
+<td class="org-left">lanczos</td>
+</tr>
+<tr>
+<td class="org-left">Krylov-Schur</td>
+<td class="org-left">EPSKRYLOVSCHUR</td>
+<td class="org-left">krylovschur</td>
+</tr>
+<tr>
+<td class="org-left">Generalized Davidson</td>
+<td class="org-left">EPSGD</td>
+<td class="org-left">gd</td>
+</tr>
+<tr>
+<td class="org-left">Jacobi-Davidson</td>
+<td class="org-left">EPSJD</td>
+<td class="org-left">jd</td>
+</tr>
+<tr>
+<td class="org-left">Rayleigh quotient CG</td>
+<td class="org-left">EPSRQCG</td>
+<td class="org-left">rqcg</td>
+</tr>
+<tr>
+<td class="org-left">LOBPCG</td>
+<td class="org-left">EPSLOBPCG</td>
+<td class="org-left">lobpcg</td>
+</tr>
+<tr>
+<td class="org-left">Contour integral SS</td>
+<td class="org-left">EPSCISS</td>
+<td class="org-left">ciss</td>
+</tr>
+<tr>
+<td class="org-left">Lyapunov Inverse Iteration</td>
+<td class="org-left">EPSLYAPII</td>
+<td class="org-left">lyapii</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">LAPACK solver</td>
+<td class="org-left">EPSLAPACK</td>
+<td class="org-left">lapack</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to arpack</td>
+<td class="org-left">EPSARPACK</td>
+<td class="org-left">arpack</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to primme</td>
+<td class="org-left">EPSPRIMME</td>
+<td class="org-left">primme</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to evsl</td>
+<td class="org-left">EPSEVSL</td>
+<td class="org-left">evsl</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to trlan</td>
+<td class="org-left">EPSTRLAN</td>
+<td class="org-left">trlan</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to blopex</td>
+<td class="org-left">EPSBLOPEX</td>
+<td class="org-left">blopex</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to scalapack</td>
+<td class="org-left">EPSSCALAPACK</td>
+<td class="org-left">scalapack</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to elpa</td>
+<td class="org-left">EPSELPA</td>
+<td class="org-left">elpa</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to elemental</td>
+<td class="org-left">EPSELEMENTAL</td>
+<td class="org-left">elemental</td>
+</tr>
+<tr>
+<td class="org-left">Wrapper to feast</td>
+<td class="org-left">EPSFEAST</td>
+<td class="org-left">feast</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</div>
+</li>
+
+<li>
+<a id="org13db2c1"></a>获得结果<br><div class="outline-text-5" id="text-org13db2c1">
+<ol class="org-ol">
+<li>
+<code>EPSGetConverged(EPS eps,PetscInt *nconv);</code> 获得收敛的解个数</li>
+<li>
+<code>EPSGetEigenpair(EPS eps,PetscInt j,PetscScalar *kr,PetscScalar *ki,Vec xr,Vec xi);</code> 获得本征值和本征矢</li>
+<li>
+<code>EPSGetLeftEigenvector(EPS eps,PetscInt j,Vec yr,Vec yi);</code> 获得左本征矢，如果设置求解器计算左本征矢的话</li>
+<li>
+<code>EPSComputeError(EPS eps,PetscInt j,EPSErrorType type,PetscReal *error);</code> 获得结果的误差
+<ol class="org-ol">
+<li>可选的误差类型有 \(||r||\) <code>EPS_ERROR_ABSOLUTE</code>, \(||r||/|\lambda|\) <code>EPS_ERROR_RELATIVE</code>, \(||r||/(||A||+|\lambda| ||B||)\) <code>EPS_ERROR_BACKWARD</code>
+</li>
+</ol>
+</li>
+<li>
+<code>EPSGetIterationNumber(EPS eps,PetscInt *its);</code> 获得迭代次数</li>
+<li>
+<code>EPSSetTolerances(EPS eps,PetscReal tol,PetscInt max_it);</code> 设置误差和最大迭代次数
+<ol class="org-ol">
+<li>默认误差 \(10^{-8}\)</li>
+</ol>
+</li>
+<li>
+<code>EPSSetTrueResidual(EPS eps,PetscBool trueres);</code> 设置使用真实残差计算收敛条件，而不是默认的简化形式</li>
+<li>
+<code>EPSSetConvergenceTest(EPS eps,EPSConv conv);</code> 设置收敛条件
+<ol class="org-ol">
+<li>可选的误差类型有 \(||r||\) <code>EPS_CONV_ABS</code>, \(||r||/|\lambda|\) <code>EPS_CONV_REL</code>, \(||r||/(||A||+|\lambda| ||B||)\) <code>EPS_CONV_NORM</code>
+</li>
+</ol>
+</li>
+<li>
+<code>EPSGetErrorEstimate(EPS eps,PetscInt j,PetscReal *errest);</code> 获得误差估计</li>
+</ol>
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>如果编译时使用实数模式，那么 <code>kr, ki</code> 等分别是实部和虚部</li>
+<li>如果编译时使用复数模式，那么 <code>kr, xr</code> 中就保存复数结果， <code>ki,xi</code> 不使用（设为全零）</li>
+<li>如果设置命令行选项 <code>-eps_monitor</code> 那么会在每次迭代过程中打印计算过程</li>
+<li>其它命令行选项甚至可以画图 （ <code>-eps_monitor draw:draw_lg -draw_pause .2</code> ）</li>
+</ol>
+</div>
+</li>
+
+<li>
+<a id="org98db672"></a>其它设置<br><ul class="org-ul">
+<li>
+<a id="org966240b"></a>初始猜解<br><div class="outline-text-6" id="text-org966240b">
+<p>
+<code>EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);</code>
+</p>
+</div>
+</li>
+
+<li>
+<a id="orgb9ace0b"></a>处理简并<br>
+</li>
+
+<li>
+<a id="orgd254761"></a>选择正交化方法<br>
+</li>
+
+<li>
+<a id="org41a0e78"></a>选择滤波算法<br>
+</li>
+
+<li>
+<a id="orgb11b4d2"></a>计算大量本征值的方法<br>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pthread/" class="u-url">pthread</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/pthread/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-07-01T21:24:50+08:00" itemprop="datePublished" title="2021-07-01 21:24">2021-07-01 21:24</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org36f58ee" class="outline-2">
+<h2 id="org36f58ee">pthread: POSIX Threads</h2>
+<div class="outline-text-2" id="text-org36f58ee">
+<p>
+pthread 是 POSIX 标准的线程 API, 放在头文件 <code>&lt;pthread.h&gt;</code> 中，并由 libc 提供实现。
+</p>
+</div>
+
+<div id="outline-container-orgd30f97a" class="outline-4">
+<h4 id="orgd30f97a">参考</h4>
+<div class="outline-text-4" id="text-orgd30f97a">
+<ol class="org-ol">
+<li><a href="https://hpc-tutorials.llnl.gov/posix/">llnl 教程</a></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgaf21bbb" class="outline-3">
+<h3 id="orgaf21bbb">pthread API</h3>
+<div class="outline-text-3" id="text-orgaf21bbb">
+<p>
+标准 pthread API 包括以下几部分
+</p>
+<ol class="org-ol">
+<li>线程管理：创建、检测、合并等</li>
+<li>互斥锁(mutex)：创建、销毁、加锁、解锁等</li>
+<li>条件变量：在线程间共享锁、创建、销毁、等待和信号</li>
+<li>
+<p>
+同步：管理读写锁和屏障
+</p>
+
+<p>
+API 命名结构如下：
+</p>
+</li>
+</ol>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left">Routine Prefix</th>
+<th scope="col" class="org-left">Functional Group</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><code>pthread_</code></td>
+<td class="org-left">Threads themselves and miscellaneous subroutines</td>
+</tr>
+<tr>
+<td class="org-left"><code>pthread_attr_</code></td>
+<td class="org-left">Thread attributes objects</td>
+</tr>
+<tr>
+<td class="org-left"><code>pthread_mutex_</code></td>
+<td class="org-left">Mutexes</td>
+</tr>
+<tr>
+<td class="org-left"><code>pthread_mutexattr_</code></td>
+<td class="org-left">Mutex attributes objects.</td>
+</tr>
+<tr>
+<td class="org-left"><code>pthread_cond_</code></td>
+<td class="org-left">Condition variables</td>
+</tr>
+<tr>
+<td class="org-left"><code>pthread_condattr_</code></td>
+<td class="org-left">Condition attributes objects</td>
+</tr>
+<tr>
+<td class="org-left"><code>pthread_key_</code></td>
+<td class="org-left">Thread-specific data keys</td>
+</tr>
+<tr>
+<td class="org-left"><code>pthread_rwlock_</code></td>
+<td class="org-left">Read/write locks</td>
+</tr>
+<tr>
+<td class="org-left"><code>pthread_barrier_</code></td>
+<td class="org-left">Synchronization barriers</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org5b4528d" class="outline-3">
+<h3 id="org5b4528d">线程管理</h3>
+<div class="outline-text-3" id="text-org5b4528d">
+</div>
+<div id="outline-container-org9f3d964" class="outline-4">
+<h4 id="org9f3d964">创建和终止线程</h4>
+<div class="outline-text-4" id="text-org9f3d964">
+<p>
+包括以下函数
+</p>
+<ol class="org-ol">
+<li>
+<code>pthread_create(thread,attr,start_routine,arg)</code> 创建线程</li>
+<li><code>pthread_exit(status)</code></li>
+<li><code>pthread_cancel(thread)</code></li>
+<li>
+<code>pthread_attr_init(attr)</code> 创建线程属性对象</li>
+<li><code>pthread_attr_destroy(attr)</code></li>
+</ol>
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>每个线程结束时最后都调用 <code>pthread_exit</code> 返回</li>
+<li>最好主函数也用 <code>pthread_exit</code> 返回</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgb9b3d95" class="outline-4">
+<h4 id="orgb9b3d95">合并和检测线程</h4>
+<div class="outline-text-4" id="text-orgb9b3d95">
+<ol class="org-ol">
+<li><code>pthread_join (threadid,status)</code></li>
+<li><code>pthread_detach (threadid)</code></li>
+<li><code>pthread_attr_setdetachstate (attr,detachstate)</code></li>
+<li><code>pthread_attr_getdetachstate (attr,detachstate)</code></li>
+</ol>
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>如果线程需要被 <code>join</code> 最好显式设置 <code>joinable</code> 属性，因为不是所有实现都默认加这个属性</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4533b24" class="outline-4">
+<h4 id="org4533b24">栈管理</h4>
+<div class="outline-text-4" id="text-org4533b24">
+<ol class="org-ol">
+<li><code>pthread_attr_getstacksize (attr, stacksize)</code></li>
+<li><code>pthread_attr_setstacksize (attr, stacksize)</code></li>
+<li><code>pthread_attr_getstackaddr (attr, stackaddr)</code></li>
+<li><code>pthread_attr_setstackaddr (attr, stackaddr)</code></li>
+</ol>
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>线程的栈大小是实现相关的，所以为了程序可移植，最好自己设置栈大小</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4c59507" class="outline-4">
+<h4 id="org4c59507">其它</h4>
+<div class="outline-text-4" id="text-org4c59507">
+<ol class="org-ol">
+<li><code>pthread_self ()</code></li>
+<li><code>pthread_equal (thread1,thread2)</code></li>
+<li><code>pthread_once (once_control, init_routine)</code></li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge8b932b" class="outline-3">
+<h3 id="orge8b932b">互斥锁</h3>
+<div class="outline-text-3" id="text-orge8b932b">
+<p>
+典型的使用锁的过程是
+</p>
+<ol class="org-ol">
+<li>创建并初始化锁变量</li>
+<li>几个线程尝试加锁</li>
+<li>只有一个会成功并获得锁</li>
+<li>获得锁的线程进行一些操作</li>
+<li>释放锁</li>
+<li>另一个线程尝试获得锁</li>
+<li>最终锁被销毁</li>
+</ol>
+</div>
+
+<div id="outline-container-org4495a9e" class="outline-4">
+<h4 id="org4495a9e">创建和销毁锁</h4>
+<div class="outline-text-4" id="text-org4495a9e">
+<ol class="org-ol">
+<li><code>pthread_mutex_init (mutex,attr)</code></li>
+<li><code>pthread_mutex_destroy (mutex)</code></li>
+<li><code>pthread_mutexattr_init (attr)</code></li>
+<li><code>pthread_mutexattr_destroy (attr)</code></li>
+</ol>
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>创建锁变量可以用 <code>pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;</code>, 也可以用 <code>pthread_mutex_init()</code>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge24256f" class="outline-4">
+<h4 id="orge24256f">加锁和解锁</h4>
+<div class="outline-text-4" id="text-orge24256f">
+<ol class="org-ol">
+<li><code>pthread_mutex_lock (mutex)</code></li>
+<li><code>pthread_mutex_trylock (mutex)</code></li>
+<li><code>pthread_mutex_unlock (mutex)</code></li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4c23431" class="outline-3">
+<h3 id="org4c23431">条件变量</h3>
+<div class="outline-text-3" id="text-org4c23431">
+<p>
+条件变量也是用于线程间同步的机制，与加锁的共享内存不同，条件变量用于传递消息。
+</p>
+</div>
+
+<div id="outline-container-org3545414" class="outline-4">
+<h4 id="org3545414">创建和销毁条件变量</h4>
+<div class="outline-text-4" id="text-org3545414">
+<ol class="org-ol">
+<li><code>pthread_cond_init (condition,attr)</code></li>
+<li><code>pthread_cond_destroy (condition)</code></li>
+<li><code>pthread_condattr_init (attr)</code></li>
+<li><code>pthread_condattr_destroy (attr)</code></li>
+</ol>
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>创建条件变量可以用 <code>pthread_cond_t myconvar = PTHREAD_COND_INITIALIZER;</code> 也可以用 <code>pthread_cond_init()</code>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org236934d" class="outline-4">
+<h4 id="org236934d">等待和通信</h4>
+<div class="outline-text-4" id="text-org236934d">
+<ol class="org-ol">
+<li>
+<code>pthread_cond_wait (condition,mutex)</code> 阻止线程直到某个条件被通信过来，应该在加锁时使用，会在等待时自动释放锁，当获得信号时又会把锁加回来</li>
+<li>
+<code>pthread_cond_signal (condition)</code> 用来向其它等待中的线程传递信号，应该在加锁时使用，在操作后传信号，最后解锁</li>
+<li>
+<code>pthread_cond_broadcast (condition)</code> 用来向多个线程传递信号</li>
+</ol>
+<p>
+注意：
+</p>
+<ol class="org-ol">
+<li>等待锁时应该使用 <code>while</code> 循环判断而不是 <code>if</code>
+</li>
+<li>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/ck-concurrency-kit/" class="u-url">ck: Concurrency Kit</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/ck-concurrency-kit/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-06-27T22:09:24+08:00" itemprop="datePublished" title="2021-06-27 22:09">2021-06-27 22:09</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orgb18caba" class="outline-2">
+<h2 id="orgb18caba">ck: Concurrency Kit</h2>
+<div class="outline-text-2" id="text-orgb18caba">
+<p>
+<a href="https://github.com/concurrencykit/ck">ck</a> 是一个c语言的高并发数据结构库，内存安全并且无阻塞。
+</p>
+</div>
+
+<div id="outline-container-org216e947" class="outline-3">
+<h3 id="org216e947">ck<sub>ht.h</sub>: HashTable</h3>
+<div class="outline-text-3" id="text-org216e947">
+<p>
+哈希表包括在头文件 <code>ck_ht.h</code> 中，主要的数据类型有
+</p>
+<ol class="org-ol">
+<li>
+<code>ck_ht_t</code> 哈希表</li>
+<li>
+<code>ck_ht_entry_t</code> 哈希表中的键, 是用来读写哈希表的中间变量</li>
+<li>
+<code>ck_ht_hash_t</code> 键的哈希值</li>
+<li>
+<code>ck_ht_iterator_t</code> 用来遍历哈希表的迭代器</li>
+</ol>
+</div>
+
+<div id="outline-container-org2744c8e" class="outline-4">
+<h4 id="org2744c8e">初始化哈希表</h4>
+<div class="outline-text-4" id="text-org2744c8e">
+<p>
+函数 <code>ck_hs_init</code>
+参数说明：
+</p>
+<ol class="org-ol">
+<li>
+<code>ck_hs_t *</code> 哈希表</li>
+<li>
+<code>unsigned int</code> 哈希表的模式</li>
+<li>
+<code>ck_hs_hash_cb_t *</code> 哈希算法，传 <code>NULL</code> 使用默认算法</li>
+<li>
+<code>struct ck_malloc *</code> 内存分配器</li>
+<li>
+<code>unsigned long</code> 初始容量，只是建议值，内部实现可大可小</li>
+<li>
+<code>unsigned long</code> 哈希算法的随机数种子</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="n">ck_ht_t</span><span class="w"> </span><span class="n">ht</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CK_HT_MODE_BYTESTRING</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* 设置内存分配器 */</span><span class="w"></span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
+<span class="w">    </span><span class="nf">ht_malloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">r</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
+<span class="w">    </span><span class="nf">ht_free</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">	</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">b</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">r</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="n">free</span><span class="p">(</span><span class="n">p</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">struct</span> <span class="nc">ck_malloc</span><span class="w"> </span><span class="n">my_allocator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="p">.</span><span class="n">malloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ht_malloc</span><span class="p">,</span><span class="w"></span>
+<span class="w">	</span><span class="p">.</span><span class="n">free</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ht_free</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* 初始化哈希表 */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ck_ht_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="p">,</span><span class="w"> </span><span class="n">ht_hash_wrapper</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">my_allocator</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">6602834</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="n">perror</span><span class="p">(</span><span class="s">"ck_ht_init"</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* 删除哈希表 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_destroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org7ad041c" class="outline-4">
+<h4 id="org7ad041c">读写哈希表</h4>
+<div class="outline-text-4" id="text-org7ad041c">
+<p>
+基本的逻辑是
+</p>
+<ol class="org-ol">
+<li>使用 <code>ck_ht_hash</code> 计算键的哈希值</li>
+<li>使用 <code>ck_ht_entry_set</code> 为写数据准备键值对，或使用 <code>ck_ht_entry_key_set</code> 为读数据准备键值对</li>
+<li>使用 <code>ck_ht_put_spmc</code> 创建新键值对，使用 <code>ck_ht_get_spmc</code> 读取键值对，使用 <code>ck_ht_set_spmc</code> 更新值</li>
+<li>使用 <code>ck_ht_entry_value</code> 获取读到的值</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="n">ck_ht_t</span><span class="w"> </span><span class="n">ht</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_entry_t</span><span class="w"> </span><span class="n">entry</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_hash_t</span><span class="w"> </span><span class="n">h</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">key</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">key_len</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">val</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* 创建新值 */</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 注意这里的 key_len 是 bytes 长度，也就是数组长度*sizeof(数组类型) */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_hash</span><span class="p">(</span><span class="o">&amp;</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_entry_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_put_spmc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* 读取 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_hash</span><span class="p">(</span><span class="o">&amp;</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_entry_key_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_put_spmc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_value</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* 更新 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_hash</span><span class="p">(</span><span class="o">&amp;</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_entry_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">ck_ht_put_spmc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">val_old</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_value</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org01e571a" class="outline-4">
+<h4 id="org01e571a">遍历哈希表</h4>
+<div class="outline-text-4" id="text-org01e571a">
+<p>
+基本步骤
+</p>
+<ol class="org-ol">
+<li>使用 <code>ck_ht_iterator_init</code> 初始化迭代器</li>
+<li>使用 <code>ck_ht_next</code> 迭代</li>
+<li>
+<p>
+使用 <code>ck_ht_entry_key</code> 和 <code>ck_ht_entry_value</code> 读取键值
+</p>
+
+<div class="highlight"><pre><span></span><span class="w">       </span><span class="n">ck_ht_t</span><span class="w"> </span><span class="n">ht</span><span class="p">;</span><span class="w"></span>
+<span class="w">       </span><span class="n">ck_ht_iterator_t</span><span class="w"> </span><span class="n">iterator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CK_HT_ITERATOR_INITIALIZER</span><span class="p">;</span><span class="w"></span>
+<span class="w">       </span><span class="n">ck_ht_entry_t</span><span class="w"> </span><span class="o">*</span><span class="n">cursor</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">       </span><span class="n">ck_ht_iterator_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">iterator</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">ck_ht_next</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">iterator</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cursor</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	   </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_value</span><span class="p">(</span><span class="n">cursor</span><span class="p">);</span><span class="w"></span>
+<span class="w">	   </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_key</span><span class="p">(</span><span class="n">cursor</span><span class="p">);</span><span class="w"></span>
+<span class="w">       </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/greatest/" class="u-url">greatest</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/greatest/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-06-27T15:47:29+08:00" itemprop="datePublished" title="2021-06-27 15:47">2021-06-27 15:47</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orgbfacba1" class="outline-2">
+<h2 id="orgbfacba1">greatest: c 的单元测试</h2>
+<div class="outline-text-2" id="text-orgbfacba1">
+<p>
+<a href="https://github.com/silentbicycle/greatest">greatest</a> 是 c 的一个单个头文件库，用于写单元测试
+</p>
+</div>
+
+<div id="outline-container-org9ba8794" class="outline-3">
+<h3 id="org9ba8794">基本使用</h3>
+<div class="outline-text-3" id="text-org9ba8794">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"greatest.h"</span><span class="cp"></span>
+
+<span class="cm">/* A test runs various assertions, then calls PASS(), FAIL(), or SKIP(). */</span><span class="w"></span>
+<span class="n">TEST</span><span class="w"> </span><span class="nf">x_should_equal_1</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Compare, with an automatic "1 != x" failure message */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ASSERT_EQ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Compare, with a custom failure message */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ASSERT_EQm</span><span class="p">(</span><span class="s">"Yikes, x doesn't equal 1"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Compare, and if they differ, print both values,</span>
+<span class="cm">     * formatted like `printf("Expected: %d\nGot: %d\n", 1, x);` */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ASSERT_EQ_FMT</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="s">"%d"</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">PASS</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/* Suites can group multiple tests with common setup. */</span><span class="w"></span>
+<span class="n">SUITE</span><span class="p">(</span><span class="n">the_suite</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">RUN_TEST</span><span class="p">(</span><span class="n">x_should_equal_1</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/* Add definitions that need to be in the test runner's main file. */</span><span class="w"></span>
+<span class="n">GREATEST_MAIN_DEFS</span><span class="p">();</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">GREATEST_MAIN_BEGIN</span><span class="p">();</span><span class="w">      </span><span class="cm">/* command-line options, initialization. */</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Individual tests can be run directly in main, outside of suites. */</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* RUN_TEST(x_should_equal_1); */</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Tests can also be gathered into test suites. */</span><span class="w"></span>
+<span class="w">    </span><span class="n">RUN_SUITE</span><span class="p">(</span><span class="n">the_suite</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">GREATEST_MAIN_END</span><span class="p">();</span><span class="w">        </span><span class="cm">/* display results */</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article>
+</div>
+    
+        <ul class="pager postindexpager clearfix">
+<li class="previous"><a href="." rel="prev">Newer posts</a></li>
+            <li class="next"><a href="index-4.html" rel="next">Older posts</a></li>
+        </ul>
+<!--End of body content--><footer id="footer">
+            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>

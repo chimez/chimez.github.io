@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PBLAS &amp; ScaLAPACK &amp; BLACS | chimez's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://chimez.github.io/posts/pblas-scalapack/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
+<link rel="prev" href="../rust-macro/" title="Rust macro" type="text/html">
+<link rel="next" href="../apache/" title="apache" type="text/html">
+<meta property="og:site_name" content="chimez's blog">
+<meta property="og:title" content="PBLAS &amp; ScaLAPACK &amp; BLACS">
+<meta property="og:url" content="https://chimez.github.io/posts/pblas-scalapack/">
+<meta property="og:description" content="PBLAS &amp; ScaLAPACK &amp; BLACS
+
+
+ScaLAPACK 是基于 MPI 的并行版本 LAPACK, PBLAS 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
+
+
+
+
+编译
+
+
+从 github 下载 https://github.com/Reference-ScaLAPACK/scala">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-08-24T12:31:22+08:00">
+<meta property="article:tag" content="BLACS">
+<meta property="article:tag" content="BLAS">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="LAPACK">
+<meta property="article:tag" content="MPI">
+<meta property="article:tag" content="PBLAS">
+<meta property="article:tag" content="ScaLAPACK">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">chimez's blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">PBLAS &amp; ScaLAPACK &amp; BLACS</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    chimez
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2021-08-24T12:31:22+08:00" itemprop="datePublished" title="2021-08-24 12:31">2021-08-24 12:31</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-orgdf76c0d" class="outline-2">
+<h2 id="orgdf76c0d">PBLAS &amp; ScaLAPACK &amp; BLACS</h2>
+<div class="outline-text-2" id="text-orgdf76c0d">
+<p>
+<a href="https://www.netlib.org/scalapack/">ScaLAPACK</a> 是基于 MPI 的并行版本 LAPACK, <a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
+</p>
+</div>
+
+<div id="outline-container-org60d2c88" class="outline-3">
+<h3 id="org60d2c88">编译</h3>
+<div class="outline-text-3" id="text-org60d2c88">
+<ol class="org-ol">
+<li>从 github 下载 <a href="https://github.com/Reference-ScaLAPACK/scalapack/">https://github.com/Reference-ScaLAPACK/scalapack/</a>
+</li>
+<li>修改 <code>SLmake.inc</code> 文件中的 <code>FC</code>, <code>CC</code>, <code>BLASLIB</code>, <code>LAPACKLIB</code>
+</li>
+</ol>
+<p>
+示例
+</p>
+<pre class="example" id="org893a168">
+FC            = /home/beacon/app/openmpi/bin/mpif90
+CC            = /home/beacon/app/openmpi/bin/mpicc 
+NOOPT         = -O0 -std=legacy
+FCFLAGS       = -O3 -std=legacy
+CCFLAGS       = -O3
+
+
+BLASLIB       = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -lblas
+LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
+
+</pre>
+</div>
+
+<div id="outline-container-org99b568c" class="outline-4">
+<h4 id="org99b568c">GCC 10 不兼容</h4>
+<div class="outline-text-4" id="text-org99b568c">
+<p>
+由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 <code>-fallow-argument-mismatch</code> 或 <code>-std=legacy</code> 来编译。
+</p>
+
+<p>
+参考 <a href="https://gcc.gnu.org/gcc-10/porting_to.html">Porting to GCC 10</a>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org759af95" class="outline-3">
+<h3 id="org759af95">BLACS</h3>
+<div class="outline-text-3" id="text-org759af95">
+<p>
+<a href="https://www.netlib.org/blacs/index.html">BLACS</a> 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
+</p>
+
+<p>
+除了 MPI 外, BLACS 还支持多种通信方案。当然现在 MPI 基本成为主流， 这部分作用已经意义不大了。
+</p>
+
+<p>
+<a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html">oneAPI/MKL/BLACS</a>
+</p>
+</div>
+<div id="outline-container-org237a905" class="outline-4">
+<h4 id="org237a905">基本概念</h4>
+<div class="outline-text-4" id="text-org237a905">
+</div>
+<ul class="org-ul">
+<li>
+<a id="org28cdf2b"></a>进程网格和范围操作<br><div class="outline-text-5" id="text-org28cdf2b">
+<p>
+一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
+</p>
+
+<p>
+这样划分的好处在于线性代数操作时，二维数组被分散到 <b>进程网格</b> (process grid)中，数据的行列与进程的行列有直接的对应，很适合编程。
+</p>
+
+<p>
+当进行的通信涉及两个以上的进程时，就将这种操作称作 <b>范围操作</b> (scoped operations)。
+基本的范围操作有
+</p>
+<ul class="org-ul">
+<li>行通信</li>
+<li>列通信</li>
+<li>全部通信</li>
+</ul>
+</div>
+</li>
+
+<li>
+<a id="org51d57ca"></a>上下文<br><div class="outline-text-5" id="text-org51d57ca">
+<p>
+<b>上下文</b> (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
+</p>
+
+<p>
+上下文的主要作用是可以将同一组进程标记成不同的进程网格，来方便进行通信操作。
+</p>
+
+<p>
+BLACS 中有关上下文的函数有
+</p>
+<ul class="org-ul">
+<li>
+<code>BLACS_GRIDINIT</code>, <code>BLACS_GRIDMAP</code>
+</li>
+<li>
+<code>BLACS_GRIDEXIT</code>, <code>BLACS_EXIT</code>
+</li>
+</ul>
+</div>
+</li>
+
+<li>
+<a id="org7ac540c"></a>基于数组的通信<br><div class="outline-text-5" id="text-org7ac540c">
+<p>
+BLACS 中有两个基本的数据模型
+</p>
+</div>
+
+<ul class="org-ul">
+<li>
+<a id="org23084c0"></a>矩形矩阵<br><div class="outline-text-6" id="text-org23084c0">
+<p>
+一维向量是特殊的矩形矩阵。
+</p>
+
+<p>
+矩形矩阵是一个二维数组， <code>M</code> 行 <code>N</code> 列，主维数是 <code>LDA</code>, 主维数就是相邻的两列数在内存中的间隔.
+</p>
+</div>
+</li>
+
+<li>
+<a id="org705ba74"></a>梯形矩阵<br><div class="outline-text-6" id="text-org705ba74">
+<p>
+三角矩阵和对角矩阵是特殊的梯形矩阵。
+</p>
+
+<p>
+梯形矩阵的最大底边是 <code>M,N</code> 中最大的数，另一个是梯形的高，梯形的短底边是长底边和高的差。
+</p>
+
+<ul class="org-ul">
+<li>
+<code>UPLO</code>: 梯形矩阵， <code>'U','L'</code> 上下梯形</li>
+<li>
+<code>DIAG</code>: 单位对角矩阵</li>
+</ul>
+</div>
+</li>
+</ul>
+</li>
+
+<li>
+<a id="org79fd737"></a>无编号通信<br><div class="outline-text-5" id="text-org79fd737">
+<p>
+BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 <code>SHIFT_RANGE</code> 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
+</p>
+
+<p>
+BLACS 的通信保证
+</p>
+<ol class="org-ol">
+<li>接收端知道消息的来源</li>
+<li>接收的顺序与发送的顺序一致</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-orgaf4d2c8" class="outline-4">
+<h4 id="orgaf4d2c8">结构</h4>
+<div class="outline-text-4" id="text-orgaf4d2c8">
+<p>
+BLACS 由 4 个部分构成
+</p>
+<ul class="org-ul">
+<li>点到点通信</li>
+<li>广播</li>
+<li>组合</li>
+<li>支持模块</li>
+</ul>
+<p>
+<a href="https://www.netlib.org/blacs/BLACS/QRef.html">函数参考</a>
+</p>
+</div>
+
+<ul class="org-ul">
+<li>
+<a id="orge6ebf62"></a>命名规则<br><div class="outline-text-5" id="text-orge6ebf62">
+<ul class="org-ul">
+<li>点到点通信与广播： <code>vXXYY2D</code>
+<ul class="org-ul">
+<li>
+<code>v</code> 表示数据类型</li>
+<li>
+<code>XX</code> 表示矩阵的形状</li>
+<li>
+<code>YY</code> 表示通信的类型</li>
+</ul>
+</li>
+<li>组合: <code>vGZZZ2D</code>
+<ul class="org-ul">
+<li>
+<code>v</code> 表示数据类型</li>
+<li>
+<code>ZZZ</code> 表示操作类型</li>
+</ul>
+</li>
+<li>支持模块: <code>BLACS_&lt;name&gt;</code>
+</li>
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"><code>v</code></th>
+<th scope="col" class="org-left">意义</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><code>I</code></td>
+<td class="org-left">整数</td>
+</tr>
+<tr>
+<td class="org-left"><code>S</code></td>
+<td class="org-left">单精度</td>
+</tr>
+<tr>
+<td class="org-left"><code>D</code></td>
+<td class="org-left">双精度</td>
+</tr>
+<tr>
+<td class="org-left"><code>C</code></td>
+<td class="org-left">单精度复数</td>
+</tr>
+<tr>
+<td class="org-left"><code>Z</code></td>
+<td class="org-left">双精度复数</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"><code>XX</code></th>
+<th scope="col" class="org-left">意义</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><code>GE</code></td>
+<td class="org-left">矩形矩阵</td>
+</tr>
+<tr>
+<td class="org-left"><code>TR</code></td>
+<td class="org-left">梯形矩阵</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"><code>YY</code></th>
+<th scope="col" class="org-left">意义</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><code>SD</code></td>
+<td class="org-left">点到点发送</td>
+</tr>
+<tr>
+<td class="org-left"><code>RV</code></td>
+<td class="org-left">点到点接收</td>
+</tr>
+<tr>
+<td class="org-left"><code>BS</code></td>
+<td class="org-left">广播发送</td>
+</tr>
+<tr>
+<td class="org-left"><code>BR</code></td>
+<td class="org-left">广播接收</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="org-left"><code>ZZZ</code></th>
+<th scope="col" class="org-left">意义</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="org-left"><code>AMX</code></td>
+<td class="org-left">最大绝对值</td>
+</tr>
+<tr>
+<td class="org-left"><code>AMN</code></td>
+<td class="org-left">最小绝对值</td>
+</tr>
+<tr>
+<td class="org-left"><code>SUM</code></td>
+<td class="org-left">求和</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4a3c5bc" class="outline-3">
+<h3 id="org4a3c5bc">PBLAS</h3>
+<div class="outline-text-3" id="text-org4a3c5bc">
+<p>
+<a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 <code>.h</code> 头文件，得自己写。
+</p>
+
+<p>
+<a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/pblas-routines.html">oneAPI/MKL/PBLAS</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org37fe793" class="outline-3">
+<h3 id="org37fe793">ScaLAPACK</h3>
+<div class="outline-text-3" id="text-org37fe793">
+</div>
+<div id="outline-container-orgb284b2f" class="outline-4">
+<h4 id="orgb284b2f">基本方法</h4>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/blacs/" rel="tag">BLACS</a></li>
+            <li><a class="tag p-category" href="../../categories/blas/" rel="tag">BLAS</a></li>
+            <li><a class="tag p-category" href="../../categories/c/" rel="tag">C</a></li>
+            <li><a class="tag p-category" href="../../categories/lapack/" rel="tag">LAPACK</a></li>
+            <li><a class="tag p-category" href="../../categories/mpi/" rel="tag">MPI</a></li>
+            <li><a class="tag p-category" href="../../categories/pblas/" rel="tag">PBLAS</a></li>
+            <li><a class="tag p-category" href="../../categories/scalapack/" rel="tag">ScaLAPACK</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../rust-macro/" rel="prev" title="Rust macro">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../apache/" rel="next" title="apache">Next post</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>

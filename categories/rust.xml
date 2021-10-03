@@ -1,28 +1,430 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about rust)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/rust.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Thu, 20 May 2021 07:01:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Rust Optimization</title><link>https://chimez.github.io/posts/rust-optimization/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org5a85a01" class="outline-2"&gt;
-&lt;h2 id="org5a85a01"&gt;Rust 性能优化&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5a85a01"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about rust)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/rust.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Fri, 01 Oct 2021 12:05:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Rust macro</title><link>https://chimez.github.io/posts/rust-macro/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org5111f26" class="outline-2"&gt;
+&lt;h2 id="org5111f26"&gt;Rust 宏&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5111f26"&gt;
+&lt;p&gt;
+Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&gt; ,另一种是过程宏 &lt;code&gt;#[...]&lt;/code&gt; .
+&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgb6bfc2f" class="outline-3"&gt;
+&lt;h3 id="orgb6bfc2f"&gt;声明宏 &lt;code&gt;macro_rules!&lt;/code&gt;&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb6bfc2f"&gt;
+&lt;p&gt;
+声明宏是 Rust 中最常用的宏，通过对源码的模式匹配来实现功能。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd60bd2a" class="outline-4"&gt;
+&lt;h4 id="orgd60bd2a"&gt;语法&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd60bd2a"&gt;
+&lt;p&gt;
+参考： &lt;a href="https://doc.rust-lang.org/reference/macros-by-example.html"&gt;reference/macro&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;#[macro_export]&lt;/code&gt; 导出宏&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$x:expr&lt;/code&gt; 表明模式匹配一个 &lt;code&gt;expr&lt;/code&gt; 类型的源码块，并用 &lt;code&gt;$x&lt;/code&gt; 表示它&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;$( ... ),*$&lt;/code&gt; 表明匹配括号中的内容 0 次或多次，每个重复的内容直接由 &lt;code&gt;,&lt;/code&gt; 分隔&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgf502251" class="outline-4"&gt;
+&lt;h4 id="orgf502251"&gt;例子： &lt;code&gt;vec!&lt;/code&gt;&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf502251"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    #[macro_export]
+    macro_rules! vec {
+	( $( $x:expr ),* ) =&amp;gt; {
+	    {
+		let mut temp_vec = Vec::new();
+		$(
+		    temp_vec.push($x);
+		)*
+		    temp_vec
+	    }
+	};
+    }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org1408a05" class="outline-3"&gt;
+&lt;h3 id="org1408a05"&gt;过程宏&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1408a05"&gt;
+&lt;p&gt;
+过程宏是一个函数，不过它的输入输出类型是词法对象 &lt;code&gt;TokenStream&lt;/code&gt; ，由编译器在编译前调用。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org25266e4" class="outline-4"&gt;
+&lt;h4 id="org25266e4"&gt;crate&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org25266e4"&gt;
+&lt;p&gt;
+由于技术限制，目前过程宏必须分离在一个单独的 crate 中, 这个 crate 是 &lt;code&gt;proc-macro&lt;/code&gt; 类型的
+&lt;/p&gt;
+
+
+&lt;p&gt;
+&lt;code&gt;Cargo.toml&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    [lib]
+    proc-macro = true
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org95e3a2f" class="outline-4"&gt;
+&lt;h4 id="org95e3a2f"&gt;&lt;code&gt;derive&lt;/code&gt; 宏&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org95e3a2f"&gt;
+&lt;p&gt;
+&lt;code&gt;derive&lt;/code&gt; 宏用来为结构体等创建默认的 trait 实现。
+&lt;/p&gt;
+
+&lt;p&gt;
+下面的例子创建一个 &lt;code&gt;HelloMacro&lt;/code&gt; trait 的默认实现宏。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="org3d6e5c9"&gt;&lt;/a&gt;使用&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org3d6e5c9"&gt;
+&lt;p&gt;
+下面的例子展示了为 &lt;code&gt;struct Pancakes&lt;/code&gt; 创建 trait &lt;code&gt;HelloMacro&lt;/code&gt; 的默认实现的方法，这个 trait 中只有一个函数 &lt;code&gt;hello_macro()&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;src/main.rs&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     use hello_macro::HelloMacro;
+     use hello_macro_derive::HelloMacro;
+
+     #[derive(HelloMacro)]
+     struct Pancakes;
+
+     fn main() {
+	 Pancakes::hello_macro();
+     }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org82f5375"&gt;&lt;/a&gt;trait 定义&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org82f5375"&gt;
+&lt;p&gt;
+&lt;code&gt;hello_macro/src/lib.rs&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     pub trait HelloMacro {
+	 fn hello_macro();
+     }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="orgfe3d781"&gt;&lt;/a&gt;宏定义&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgfe3d781"&gt;
+&lt;p&gt;
+&lt;code&gt;hello_macro_derive/Cargo.toml&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     [lib]
+     proc-macro = true
+
+     [dependencies]
+     syn = "1.0"
+     quote = "1.0"
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;code&gt;hello_macro_derive/src/lib.rs&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     extern crate proc_macro;
+
+     use proc_macro::TokenStream;
+     use quote::quote;
+     use syn;
+
+     #[proc_macro_derive(HelloMacro)]
+     pub fn hello_macro_derive(input: TokenStream) -&amp;gt; TokenStream {
+	 // Construct a representation of Rust code as a syntax tree
+	 // that we can manipulate
+	 let ast = syn::parse(input).unwrap();
+
+	 // Build the trait implementation
+	 impl_hello_macro(&amp;amp;ast)
+     }
+
+     fn impl_hello_macro(ast: &amp;amp;syn::DeriveInput) -&amp;gt; TokenStream {
+	 let name = &amp;amp;ast.ident;
+	 let gen = quote! {
+	     impl HelloMacro for #name {
+		 fn hello_macro() {
+		     println!("Hello, Macro! My name is {}!", stringify!(#name));
+		 }
+	     }
+	 };
+	 gen.into()
+     }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org88a67b9" class="outline-4"&gt;
+&lt;h4 id="org88a67b9"&gt;&lt;code&gt;Attribute-like&lt;/code&gt; 宏&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org88a67b9"&gt;
+&lt;p&gt;
+属性宏可以创建新的属性, 与 &lt;code&gt;derive&lt;/code&gt; 宏的区别在于参数多了一个属性 &lt;code&gt;attr&lt;/code&gt;, 也就是括号里面的部分，另一个参数 &lt;code&gt;item&lt;/code&gt; 就是与 &lt;code&gt;derive&lt;/code&gt; 宏一样的内容了。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="orgdeb78d0"&gt;&lt;/a&gt;用法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgdeb78d0"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     #[route(GET, "/")]
+     fn index() { ... }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org0890c8e"&gt;&lt;/a&gt;宏定义&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org0890c8e"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     #[proc_macro_attribute]
+     pub fn route(attr: TokenStream, item: TokenStream) -&amp;gt; TokenStream { ... }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgbdfa294" class="outline-4"&gt;
+&lt;h4 id="orgbdfa294"&gt;&lt;code&gt;Function-like&lt;/code&gt; 宏&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbdfa294"&gt;
+&lt;p&gt;
+函数宏可以定义像函数一样调用的宏。可以用来定义 DSL
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="orga97085e"&gt;&lt;/a&gt;用法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orga97085e"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     let sql = sql!(SELECT * FROM posts WHERE id=1);
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org015724b"&gt;&lt;/a&gt;宏定义&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org015724b"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     #[proc_macro]
+     pub fn sql(input: TokenStream) -&amp;gt; TokenStream { ... }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org27fe838" class="outline-4"&gt;
+&lt;h4 id="org27fe838"&gt;syn: rust parser&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org27fe838"&gt;
+&lt;p&gt;
+&lt;a href="https://crates.io/crates/syn"&gt;syn&lt;/a&gt; 是 rust 代码的 parser，可以将源码字符串 &lt;code&gt;TokenStream&lt;/code&gt; 转换成语法树 &lt;code&gt;syn::DeriveInput&lt;/code&gt; 。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="org757dae8"&gt;&lt;/a&gt;&lt;code&gt;syn::DeriveInput&lt;/code&gt;&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org757dae8"&gt;
+&lt;p&gt;
+对于输入 &lt;code&gt;TokenStream&lt;/code&gt; 使用 &lt;code&gt;parse_macro_input!&lt;/code&gt; 将它解析为语法树 &lt;code&gt;DeriveInput&lt;/code&gt; ，之后就可以通过对语法树的操作生成新的语法树
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org8916604"&gt;&lt;/a&gt;&lt;code&gt;syn::spanned::Spanned&lt;/code&gt;&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org8916604"&gt;
+&lt;p&gt;
+对重复结构的操作，使用 &lt;code&gt;span()&lt;/code&gt; 配合 &lt;code&gt;quote::qoute_spanned!&lt;/code&gt; 实现
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgb1bb3a8" class="outline-4"&gt;
+&lt;h4 id="orgb1bb3a8"&gt;quote: rust 代码模板&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb1bb3a8"&gt;
+&lt;p&gt;
+&lt;a href="https://crates.io/crates/quote"&gt;quote&lt;/a&gt; 的 &lt;code&gt;quote!&lt;/code&gt; 宏可以将 rust 语法数据结构变成 &lt;code&gt;TokenStream&lt;/code&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;qoute_spanned!&lt;/code&gt; 宏可以将重复结构中的一个元素单独操作。
+&lt;/p&gt;
+
+&lt;p&gt;
+qoute 的宏类似于 &lt;code&gt;macro_rules!&lt;/code&gt; 只是把 &lt;code&gt;$&lt;/code&gt; 换成  &lt;code&gt;#&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>macro</category><category>rust</category><guid>https://chimez.github.io/posts/rust-macro/</guid><pubDate>Fri, 20 Aug 2021 05:32:43 GMT</pubDate></item><item><title>rust c ffi</title><link>https://chimez.github.io/posts/rust-c-ffi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgbf6c089" class="outline-2"&gt;
+&lt;h2 id="orgbf6c089"&gt;Rust C FFI&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbf6c089"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org5df6cb7" class="outline-3"&gt;
+&lt;h3 id="org5df6cb7"&gt;rust-bindgen: rust 调用 c&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5df6cb7"&gt;
+&lt;p&gt;
+&lt;a href="https://github.com/rust-lang/rust-bindgen"&gt;rust-bindgen&lt;/a&gt; 是在编译时由头文件生成绑定代码的工具。由它封装的库称为 &lt;code&gt;xxx-sys&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4189f9f" class="outline-4"&gt;
+&lt;h4 id="org4189f9f"&gt;常量宏&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org4189f9f"&gt;
+&lt;p&gt;
+对于形如 &lt;code&gt;#define XX (int)0&lt;/code&gt; 这样的有类型转换的宏是不能自动生成绑定的，可以在 &lt;code&gt;wrapper.h&lt;/code&gt; 中写
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;static&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;_XX&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;XX&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+来创建绑定。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orge389887" class="outline-3"&gt;
+&lt;h3 id="orge389887"&gt;libc: 系统库&lt;/h3&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org69745cd" class="outline-3"&gt;
+&lt;h3 id="org69745cd"&gt;c 类型&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org69745cd"&gt;
+&lt;p&gt;
+一般的类型在 &lt;code&gt;std::os::raw&lt;/code&gt; 中，或者使用在 &lt;code&gt;libc&lt;/code&gt; 中的重新绑定。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org3894e91" class="outline-4"&gt;
+&lt;h4 id="org3894e91"&gt;字符串&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org3894e91"&gt;
+&lt;p&gt;
+c 的字符串实际上是 &lt;code&gt;&amp;amp;[u8]&lt;/code&gt; 数组，可以用 &lt;code&gt;std::ffi::CString&lt;/code&gt; 和 &lt;code&gt;std::ffi::CStr&lt;/code&gt;, 其中 &lt;code&gt;CString&lt;/code&gt; 拥有所有权， &lt;code&gt;CStr&lt;/code&gt; 是借用。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org26fa59e" class="outline-4"&gt;
+&lt;h4 id="org26fa59e"&gt;指针&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org26fa59e"&gt;
+&lt;p&gt;
+c 的常量指针 &lt;code&gt;const int *&lt;/code&gt; 对应 &lt;code&gt;*const i32&lt;/code&gt;, 一般指针 &lt;code&gt;int *&lt;/code&gt; 对应 &lt;code&gt;*mut i32&lt;/code&gt;. 两级指针 &lt;code&gt;int **&lt;/code&gt; 对应 &lt;code&gt;*mut *mut int&lt;/code&gt; 以此类推。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org7cea096" class="outline-4"&gt;
+&lt;h4 id="org7cea096"&gt;结构体&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org7cea096"&gt;
+&lt;p&gt;
+rust 中定义与 c 兼容的结构体的方法为
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    #[repr(C)]
+    #[derive(Debug, Copy, Clone)]
+    pub struct MyStruct {
+	pub a: ::std::os::raw::c_int,
+    }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org64178af" class="outline-4"&gt;
+&lt;h4 id="org64178af"&gt;&lt;code&gt;sizeof&lt;/code&gt;&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org64178af"&gt;
+&lt;p&gt;
+与 c 的 &lt;code&gt;sizeof&lt;/code&gt; 相同的是 &lt;code&gt;std::mem::sizeof&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org30662f9" class="outline-4"&gt;
+&lt;h4 id="org30662f9"&gt;&lt;code&gt;offsetof&lt;/code&gt;&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org30662f9"&gt;
+&lt;p&gt;
+使用 &lt;a href="https://github.com/Gilnaa/memoffset"&gt;memoffset&lt;/a&gt; 的 &lt;code&gt;offset_of!&lt;/code&gt; 宏来获得。
+&lt;/p&gt;
+
+&lt;p&gt;
+如果不希望结构体内存对齐，使用 &lt;code&gt;#[repr(packed)]&lt;/code&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgbfa7b39" class="outline-3"&gt;
+&lt;h3 id="orgbfa7b39"&gt;问题解决&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgbfa7b39"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org5b88e20" class="outline-4"&gt;
+&lt;h4 id="org5b88e20"&gt;传递 &lt;code&gt;argc, argv&lt;/code&gt;&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5b88e20"&gt;
+&lt;p&gt;
+参考 &lt;a href="https://stackoverflow.com/questions/34379641/how-do-i-convert-rust-args-into-the-argc-and-argv-c-equivalents"&gt;stackoverflow&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    extern crate libc;
+
+    use libc::{c_char, c_int, c_void};
+    use std::ffi::CString;
+
+    extern "C" {
+	fn foo(argc: *mut c_int, argv: *mut *mut *mut c_char);
+    }
+
+    fn main() {
+	let mut c_args: Vec&amp;lt;*mut c_char&amp;gt; = std::env::args()
+	    .map(|arg| CString::new(arg).unwrap().into_raw())
+	    .collect();
+	unsafe {
+	    let mut c_argc: c_int = c_args.len() as c_int;
+	    let mut c_argv: *mut *mut c_char = c_args.as_mut_ptr();
+
+	    foo(&amp;amp;mut c_argc as *mut c_int, &amp;amp;mut c_argv);
+	}
+    }
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>rust</category><guid>https://chimez.github.io/posts/rust-c-ffi/</guid><pubDate>Thu, 19 Aug 2021 01:49:34 GMT</pubDate></item><item><title>Rust Optimization</title><link>https://chimez.github.io/posts/rust-optimization/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge3e2048" class="outline-2"&gt;
+&lt;h2 id="orge3e2048"&gt;Rust 性能优化&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge3e2048"&gt;
 &lt;p&gt;
 这里所称性能优化实际上就是 Rust 的正确打开方式，因为 Rust 的安全特性导致按照 c/c++ 方式直接写程序有可能速度会比较慢。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org19dbdf9" class="outline-3"&gt;
-&lt;h3 id="org19dbdf9"&gt;避免边界检查&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org19dbdf9"&gt;
+&lt;div id="outline-container-org9593f04" class="outline-3"&gt;
+&lt;h3 id="org9593f04"&gt;避免边界检查&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9593f04"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5d3f916" class="outline-4"&gt;
-&lt;h4 id="org5d3f916"&gt;参考资料&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5d3f916"&gt;
+&lt;div id="outline-container-orgbac77a8" class="outline-4"&gt;
+&lt;h4 id="orgbac77a8"&gt;参考资料&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbac77a8"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;a href="https://users.rust-lang.org/t/how-to-malloc-an-array-in-heap-like-c/27827/40"&gt;这里&lt;/a&gt; 的说明&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge0776a0" class="outline-4"&gt;
-&lt;h4 id="orge0776a0"&gt;使用 slice 为编译器提示长度&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orge0776a0"&gt;
+&lt;div id="outline-container-org704d55a" class="outline-4"&gt;
+&lt;h4 id="org704d55a"&gt;使用 slice 为编译器提示长度&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org704d55a"&gt;
 &lt;p&gt;
 vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方式定义变量
 &lt;/p&gt;
@@ -38,9 +440,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org14a899f" class="outline-4"&gt;
-&lt;h4 id="org14a899f"&gt;尽可能使用迭代器而不是指标循环&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org14a899f"&gt;
+&lt;div id="outline-container-org3637921" class="outline-4"&gt;
+&lt;h4 id="org3637921"&gt;尽可能使用迭代器而不是指标循环&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org3637921"&gt;
 &lt;p&gt;
 迭代器中的边界检查被优化掉了
 &lt;/p&gt;
@@ -58,9 +460,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org02a47b0" class="outline-4"&gt;
-&lt;h4 id="org02a47b0"&gt;不得不用指标获得值时用 unsafe 的非检查方式&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org02a47b0"&gt;
+&lt;div id="outline-container-org4977aa6" class="outline-4"&gt;
+&lt;h4 id="org4977aa6"&gt;不得不用指标获得值时用 unsafe 的非检查方式&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org4977aa6"&gt;
 &lt;p&gt;
 当确保指标不会越界时就可以大胆使用 unsafe
 &lt;/p&gt;

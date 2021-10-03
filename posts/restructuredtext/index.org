@@ -1,0 +1,112 @@
+#+BEGIN_COMMENT
+.. title: reStructuredText
+.. slug: restructuredtext
+.. date: 2021-08-16 10:46:27 UTC+08:00
+.. tags: python, doc, rst
+.. category: tools
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* reStructuredText 
+  reST, 文件后缀 ~*.rst~ 是类似 markdown 的标记语言，是 python 的 [[./sphinx-documentation-generator.org][Sphinx]] 默认语言。
+
+** 基本语法
+
+*** 段落
+    与 python 类似，reST 中用缩进表示不同的层级。
+
+*** 行内标记
+    #+BEGIN_EXAMPLE
+,*something*               | 斜体
+,**something**             | 粗体
+``code``                  | 行内代码
+`title <http://to.link>`_ | 外部链接
+`my link`_                | 分开的链接
+.. _my link: http::/a.link
+    #+END_EXAMPLE
+
+*** 列表
+    #+begin_src rst
+1. 编号列表
+2. 编号列表
+
+,* 无编号列表
+,* 无编号列表
+
+#. 还是编号列表
+#. 还是编号列表
+
+
+,* 列表可以嵌套
+
+  ,* 但是要空一行
+  ,* 并且缩进
+    #+end_src
+
+*** 引用块
+    #+begin_src rst
+引用块，末尾用双冒号::
+
+  空一行
+
+  并且缩进
+
+空一行就结束
+    #+end_src
+
+*** 表格
+    #+begin_src rst
+完整的表格
+
++------------------------+------------+----------+----------+
+| Header row, column 1   | Header 2   | Header 3 | Header 4 |
+| (header rows optional) |            |          |          |
++========================+============+==========+==========+
+| body row 1, column 1   | column 2   | column 3 | column 4 |
++------------------------+------------+----------+----------+
+| body row 2             | ...        | ...      |          |
++------------------------+------------+----------+----------+
+
+简化的表格
+
+=====  =====  =======
+A      B      A and B
+=====  =====  =======
+False  False  False
+True   False  False
+False  True   False
+True   True   True
+=====  =====  =======
+
+    #+end_src
+
+*** 标题
+    #+BEGIN_EXAMPLE
+# | parts
+,* | chapters
+= | sections
+- | subsections
+^ | subsubsections
+" | paragraphs
+    #+END_EXAMPLE
+
+** 指令
+   reST 支持很多指令，这里是常用的几个
+
+**** ~image~ 图片
+
+**** ~[#footnote]_~ 脚注
+
+**** ~..~ 注释
+
+** 角色
+   reST 使用 ~:rolename:`content`~ 语法来做一些复杂的行内标记
+
+*** ~:ref:~ 交叉引用
+
+*** ~:math:~ 数学公式
+    
+

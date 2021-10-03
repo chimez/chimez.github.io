@@ -1,0 +1,90 @@
+#+BEGIN_COMMENT
+.. title: rust c ffi
+.. slug: rust-c-ffi
+.. date: 2021-08-19 09:49:34 UTC+08:00
+.. tags: rust
+.. category: Rust
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* Rust C FFI
+
+** rust-bindgen: rust 调用 c
+
+   [[https://github.com/rust-lang/rust-bindgen][rust-bindgen]] 是在编译时由头文件生成绑定代码的工具。由它封装的库称为 ~xxx-sys~
+
+*** 常量宏
+    
+    对于形如 ~#define XX (int)0~ 这样的有类型转换的宏是不能自动生成绑定的，可以在 ~wrapper.h~ 中写
+    #+begin_src c
+static const int _XX = XX;
+    #+end_src
+    来创建绑定。
+
+** libc: 系统库
+ 
+
+** c 类型
+
+   一般的类型在 ~std::os::raw~ 中，或者使用在 ~libc~ 中的重新绑定。
+
+*** 字符串
+
+    c 的字符串实际上是 ~&[u8]~ 数组，可以用 ~std::ffi::CString~ 和 ~std::ffi::CStr~, 其中 ~CString~ 拥有所有权， ~CStr~ 是借用。
+
+*** 指针
+
+    c 的常量指针 ~const int *~ 对应 ~*const i32~, 一般指针 ~int *~ 对应 ~*mut i32~. 两级指针 ~int **~ 对应 ~*mut *mut int~ 以此类推。
+
+*** 结构体
+    
+    rust 中定义与 c 兼容的结构体的方法为
+    #+BEGIN_SRC rust
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct MyStruct {
+    pub a: ::std::os::raw::c_int,
+}
+    #+END_SRC
+
+*** ~sizeof~
+    与 c 的 ~sizeof~ 相同的是 ~std::mem::sizeof~
+
+*** ~offsetof~
+    
+    使用 [[https://github.com/Gilnaa/memoffset][memoffset]] 的 ~offset_of!~ 宏来获得。
+    
+    如果不希望结构体内存对齐，使用 ~#[repr(packed)]~
+
+** 问题解决
+
+*** 传递 ~argc, argv~
+
+    参考 [[https://stackoverflow.com/questions/34379641/how-do-i-convert-rust-args-into-the-argc-and-argv-c-equivalents][stackoverflow]]
+
+    #+BEGIN_SRC rust
+extern crate libc;
+
+use libc::{c_char, c_int, c_void};
+use std::ffi::CString;
+
+extern "C" {
+    fn foo(argc: *mut c_int, argv: *mut *mut *mut c_char);
+}
+
+fn main() {
+    let mut c_args: Vec<*mut c_char> = std::env::args()
+        .map(|arg| CString::new(arg).unwrap().into_raw())
+        .collect();
+    unsafe {
+        let mut c_argc: c_int = c_args.len() as c_int;
+        let mut c_argv: *mut *mut c_char = c_args.as_mut_ptr();
+
+        foo(&mut c_argc as *mut c_int, &mut c_argv);
+    }
+}
+    #+END_SRC
+

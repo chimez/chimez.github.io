@@ -115,17 +115,17 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org932a17e" class="outline-2">
-<h2 id="org932a17e">meson 构建工具</h2>
-<div class="outline-text-2" id="text-org932a17e">
+    <div id="outline-container-org16c6232" class="outline-2">
+<h2 id="org16c6232">meson 构建工具</h2>
+<div class="outline-text-2" id="text-org16c6232">
 <p>
 网站 <a href="https://mesonbuild.com">meson-build</a>
 </p>
 </div>
 
-<div id="outline-container-orgcca53dd" class="outline-3">
-<h3 id="orgcca53dd">配置示例</h3>
-<div class="outline-text-3" id="text-orgcca53dd">
+<div id="outline-container-org88365d9" class="outline-3">
+<h3 id="org88365d9">配置示例</h3>
+<div class="outline-text-3" id="text-org88365d9">
 <div class="highlight"><pre><span></span>   <span class="n">cc</span> <span class="o">=</span> <span class="n">meson</span><span class="o">.</span><span class="n">get_compiler</span><span class="p">(</span><span class="s1">'c'</span><span class="p">)</span>
 
    <span class="n">all_deps</span> <span class="o">=</span> <span class="p">[]</span>
@@ -141,26 +141,26 @@
 </div>
 </div>
 
-<div id="outline-container-orgf74e4ff" class="outline-3">
-<h3 id="orgf74e4ff">使用 address sanitizer</h3>
-<div class="outline-text-3" id="text-orgf74e4ff">
+<div id="outline-container-org999e39b" class="outline-3">
+<h3 id="org999e39b">使用 address sanitizer</h3>
+<div class="outline-text-3" id="text-org999e39b">
 <div class="highlight"><pre><span></span>   CC=clang meson build  -Db_sanitize=address -Db_lundef=false
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org1fcfc3b" class="outline-3">
-<h3 id="org1fcfc3b">使用 clang 静态分析</h3>
-<div class="outline-text-3" id="text-org1fcfc3b">
+<div id="outline-container-orgc020fb8" class="outline-3">
+<h3 id="orgc020fb8">使用 clang 静态分析</h3>
+<div class="outline-text-3" id="text-orgc020fb8">
 <div class="highlight"><pre><span></span>   meson build
    ninja -C build scan-build
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orga30dc5c" class="outline-3">
-<h3 id="orga30dc5c">自定义外部依赖</h3>
-<div class="outline-text-3" id="text-orga30dc5c">
+<div id="outline-container-org0411150" class="outline-3">
+<h3 id="org0411150">自定义外部依赖</h3>
+<div class="outline-text-3" id="text-org0411150">
 <p>
 参考 <a href="https://mesonbuild.com/Dependencies.html#declaring-your-own">Manual/Dependencies</a>
 </p>
@@ -175,9 +175,9 @@
 </pre></div>
 </div>
 
-<div id="outline-container-org51d3f83" class="outline-4">
-<h4 id="org51d3f83">将依赖做子目录</h4>
-<div class="outline-text-4" id="text-org51d3f83">
+<div id="outline-container-orgc307a44" class="outline-4">
+<h4 id="orgc307a44">将依赖做子目录</h4>
+<div class="outline-text-4" id="text-orgc307a44">
 <p>
 首先在子目录中放入依赖的源码，并且在其中定义子项目的 <code>meson.build</code> 文件
 </p>
@@ -193,17 +193,17 @@
 </div>
 </div>
 
-<div id="outline-container-orgc198754" class="outline-3">
-<h3 id="orgc198754">子项目</h3>
-<div class="outline-text-3" id="text-orgc198754">
+<div id="outline-container-orge3328c0" class="outline-3">
+<h3 id="orge3328c0">子项目</h3>
+<div class="outline-text-3" id="text-orge3328c0">
 <p>
 <a href="https://mesonbuild.com/Subprojects.html">https://mesonbuild.com/Subprojects.html</a>
 </p>
 </div>
 
-<div id="outline-container-orgab269fa" class="outline-4">
-<h4 id="orgab269fa">从子项目获取依赖</h4>
-<div class="outline-text-4" id="text-orgab269fa">
+<div id="outline-container-orgbe61ef9" class="outline-4">
+<h4 id="orgbe61ef9">从子项目获取依赖</h4>
+<div class="outline-text-4" id="text-orgbe61ef9">
 <div class="highlight"><pre><span></span><span class="n">libsimple_proj</span> <span class="o">=</span> <span class="n">subproject</span><span class="p">(</span><span class="s1">'libsimple'</span><span class="p">)</span>
 <span class="n">libsimple_dep</span> <span class="o">=</span> <span class="n">libsimple_proj</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">'libsimple_dep'</span><span class="p">)</span>
 </pre></div>
@@ -211,9 +211,9 @@
 </div>
 </div>
 
-<div id="outline-container-org26acebd" class="outline-3">
-<h3 id="org26acebd">使用 wrap 管理依赖</h3>
-<div class="outline-text-3" id="text-org26acebd">
+<div id="outline-container-org28e34d2" class="outline-3">
+<h3 id="org28e34d2">使用 wrap 管理依赖</h3>
+<div class="outline-text-3" id="text-org28e34d2">
 <p>
 在 <code>subprojects</code> 文件夹中创建 <code>libfoobar.wrap</code> 文件, 其中指定源码位置 <code>[wrap-file]</code> 和提供的依赖 <code>[provide]</code> ，格式参考 <a href="https://mesonbuild.com/Wrap-dependency-system-manual.html">这里</a>
 </p>
@@ -226,9 +226,9 @@
 示例 <code>subprojects/cache2.wrap</code> ：
 </p>
 <div class="highlight"><pre><span></span>   <span class="p">[</span><span class="n">wrap</span><span class="o">-</span><span class="n">file</span><span class="p">]</span>
-   <span class="n">directory</span> <span class="o">=</span> <span class="n">Catch2</span><span class="o">-</span><span class="mf">2.13</span><span class="o">.</span><span class="mi">3</span>
-   <span class="n">source_url</span> <span class="o">=</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">catchorg</span><span class="o">/</span><span class="n">Catch2</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">v2</span><span class="o">.</span><span class="mf">13.3</span><span class="o">.</span><span class="n">zip</span>
-   <span class="n">source_filename</span> <span class="o">=</span> <span class="n">Catch2</span><span class="o">-</span><span class="mf">2.13</span><span class="o">.</span><span class="mf">3.</span><span class="n">zip</span>
+   <span class="n">directory</span> <span class="o">=</span> <span class="n">Catch2</span><span class="o">-</span><span class="mf">2.13.3</span>
+   <span class="n">source_url</span> <span class="o">=</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">catchorg</span><span class="o">/</span><span class="n">Catch2</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">v2</span><span class="mf">.13.3</span><span class="o">.</span><span class="n">zip</span>
+   <span class="n">source_filename</span> <span class="o">=</span> <span class="n">Catch2</span><span class="o">-</span><span class="mf">2.13.3</span><span class="o">.</span><span class="n">zip</span>
    <span class="n">source_hash</span> <span class="o">=</span> <span class="mi">1804</span><span class="n">feb72bc15c0856b4a43aa586c661af9c3685a75973b6a8fc0b950c7cfd13</span>
    <span class="n">patch_directory</span> <span class="o">=</span> <span class="n">catch2</span>
 

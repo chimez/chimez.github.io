@@ -1,0 +1,53 @@
+#+BEGIN_COMMENT
+.. title: apache
+.. slug: apache
+.. date: 2021-09-18 10:45:41 UTC+08:00
+.. tags: apache, php, web
+.. category: web
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* Apache HTTP 服务器
+
+** 配置文件
+
+参考： [[https://httpd.apache.org/docs/current/configuring.html][apache-httpd/configuring]]
+
+配置文件叫做 ~httpd.conf~ 在 debian 是 ~/etc/apache2/apache.conf~
+
+*** 语法
+
+- 每行一个指令，反斜线可以折行
+- 指令大小写不敏感，但参数大小写敏感
+- 指令的参数用空格分隔
+- 指令之前的空格都忽略，所以可以任意缩进
+- 变量用 ~Define~ 指令定义，用 ~${VAR}~ 格式使用
+- 使用 ~apachectl configtest~ 检查配置文件的语法错误
+
+  
+* 配置
+
+** 反向代理 jupyterlab
+   
+- 需要的模块： ~a2enmod ssl rewrite proxy proxy_http proxy_wstunnel~
+- jupyterlab 需要配置
+  - ~c.ServerApp.allow_origin = '*'~
+  - ~c.ServerApp.base_url = '/jupyterlab'~
+  - ~c.ServerApp.port = 11413~
+
+   
+#+begin_src xml
+<Location "/jupyterlab/">
+    RewriteEngine On
+    RewriteRule /jupyterlab/(.*) ws://127.0.0.1:11413/jupyterlab/$1 [P]
+    RewriteRule /jupyterlab/(.*) http://127.0.0.1:11413/jupyterlab/$1 [P]
+
+    ProxyPreserveHost on
+    ProxyPass         http://127.0.0.1:11413/jupyterlab/
+    ProxyPassReverse  http://127.0.0.1:11413/jupyterlab/
+</Location>
+
+#+end_src

@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about eigen)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/eigen.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 11 May 2021 16:10:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>arpack</title><link>https://chimez.github.io/posts/arpack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org13f1aa7" class="outline-2"&gt;
-&lt;h2 id="org13f1aa7"&gt;ARPACK&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org13f1aa7"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about eigen)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/eigen.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Fri, 01 Oct 2021 12:05:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>arpack</title><link>https://chimez.github.io/posts/arpack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge9ebf30" class="outline-2"&gt;
+&lt;h2 id="orge9ebf30"&gt;ARPACK&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge9ebf30"&gt;
 &lt;p&gt;
 新版本在 &lt;a href="https://github.com/opencollab/arpack-ng"&gt;arpack-ng&lt;/a&gt; , 文档在 &lt;a href="https://www.caam.rice.edu/software/ARPACK/UG/node135.html"&gt;rice - ARPACK&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org046eb4a" class="outline-3"&gt;
-&lt;h3 id="org046eb4a"&gt;函数说明&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org046eb4a"&gt;
+&lt;div id="outline-container-org4e6c8fd" class="outline-3"&gt;
+&lt;h3 id="org4e6c8fd"&gt;函数说明&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4e6c8fd"&gt;
 &lt;p&gt;
 头文件 &lt;code&gt;arpack.h&lt;/code&gt; 中的函数有
 &lt;/p&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;neupd_c&lt;/code&gt; 计算一般矩阵的本征值, &lt;code&gt;&amp;lt;?&amp;gt; = sdcz&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;naupd_c&lt;/code&gt; 计算一般矩阵的反向通信接口, &lt;code&gt;&amp;lt;?&amp;gt; = sdcz&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;seupd_c&lt;/code&gt; 计算厄米矩阵的本征值, &lt;code&gt;&amp;lt;?&amp;gt; = sd&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;saupd_c&lt;/code&gt; 计算厄米矩阵的反向通信接口, &lt;code&gt;&amp;lt;?&amp;gt; = sd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;seupd_c&lt;/code&gt; 计算对称矩阵的本征值, &lt;code&gt;&amp;lt;?&amp;gt; = sd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;?&amp;gt;saupd_c&lt;/code&gt; 计算对称矩阵的反向通信接口, &lt;code&gt;&amp;lt;?&amp;gt; = sd&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;p&gt;
+arpack 中没有计算复厄米矩阵的函数，复矩阵一律用一般矩阵的计算函数
+&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org52af175" class="outline-3"&gt;
-&lt;h3 id="org52af175"&gt;&lt;code&gt;XYaupd&lt;/code&gt; 参数说明&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org52af175"&gt;
+&lt;div id="outline-container-org60116b4" class="outline-3"&gt;
+&lt;h3 id="org60116b4"&gt;&lt;code&gt;XYaupd&lt;/code&gt; 参数说明&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org60116b4"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;ido&lt;/code&gt;   反向通信标志，第一次运行 &lt;code&gt;ido=0&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;bmat&lt;/code&gt;  问题类型标志，标准本征值问题 &lt;code&gt;bmat="I"&lt;/code&gt; , 扩展本征值问题 &lt;code&gt;bmat="G"&lt;/code&gt;&lt;/li&gt;
@@ -59,9 +63,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdd4ac2a" class="outline-3"&gt;
-&lt;h3 id="orgdd4ac2a"&gt;&lt;code&gt;XYeupd&lt;/code&gt; 参数说明&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgdd4ac2a"&gt;
+&lt;div id="outline-container-orgd26be46" class="outline-3"&gt;
+&lt;h3 id="orgd26be46"&gt;&lt;code&gt;XYeupd&lt;/code&gt; 参数说明&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd26be46"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;rvec&lt;/code&gt; 指定是否产生本征矢 &lt;code&gt;rvec=true&lt;/code&gt; 产生本征矢， &lt;code&gt;rvec=false&lt;/code&gt; 只产生本征值&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;howmny&lt;/code&gt; 指定产生本征矢的个数 &lt;code&gt;howmny="A"&lt;/code&gt; 计算 &lt;code&gt;nev&lt;/code&gt; 个， &lt;code&gt;howmny="P"&lt;/code&gt; 计算 nev Schur 本征矢， &lt;code&gt;howmny="S"&lt;/code&gt; 计算一部分本征值，由 &lt;code&gt;select&lt;/code&gt; 指定&lt;/li&gt;
@@ -89,6 +93,84 @@
 &lt;li&gt;&lt;code&gt;lworkl&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;info&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4386466" class="outline-3"&gt;
+&lt;h3 id="org4386466"&gt;编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4386466"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orge1f6569" class="outline-4"&gt;
+&lt;h4 id="orge1f6569"&gt;基本的编译过程&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orge1f6569"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    sh bootstrap
+    ./configure
+    make
+    make check
+    make install
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orged55edf" class="outline-4"&gt;
+&lt;h4 id="orged55edf"&gt;ILP64: int64 支持&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orged55edf"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;LP64&lt;/code&gt; 在 MKL 中表示 &lt;code&gt;int&lt;/code&gt; 做指标&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ILP64&lt;/code&gt; 表示 &lt;code&gt;long long int&lt;/code&gt; 做指标&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+arpack 沿用了 MKL 的叫法。
+&lt;/p&gt;
+
+&lt;p&gt;
+配置：
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;编译时定义 &lt;code&gt;INTERFACE64&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;arpackdef.h&lt;/code&gt; 头文件&lt;/li&gt;
+&lt;li&gt;使用 &lt;code&gt;a_int&lt;/code&gt; 类型 (architecture int)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    INTERFACE64=1 ./configure --enable-mpi --enable-icb --with-blas=openblas64
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org7714d34" class="outline-4"&gt;
+&lt;h4 id="org7714d34"&gt;icb: 生成 c 头文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org7714d34"&gt;
+&lt;p&gt;
+arpack-ng 使用 fortran 的 iso&lt;sub&gt;c&lt;/sub&gt;&lt;sub&gt;binding&lt;/sub&gt;(icb) 生成 c 头文件
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    ./configure --enable-icb
+    cmake -D ICB=ON
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org86d050e" class="outline-4"&gt;
+&lt;h4 id="org86d050e"&gt;parpack: MPI 支持&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org86d050e"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    ./configure --enable-mpi
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org16c34d3" class="outline-4"&gt;
+&lt;h4 id="org16c34d3"&gt;使用 cmake&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org16c34d3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;BLA_VENDOR=Intel10_64ilp&lt;/code&gt; 使用 ilp64 的 MKL&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CMAKE_POSITION_INDEPENDENT_CODE=ON&lt;/code&gt; 使用 &lt;code&gt;-fPIC&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    CC=gcc FC=gfortran cmake -D MPI=ON -D ICB=ON  -DCMAKE_INSTALL_PREFIX=$HOME/app/arpack -DBLA_VENDOR=Intel10_64ilp -DBUILD_SHARED_LIBS=OFF -DINTERFACE64=1  -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description><category>eigen</category><guid>https://chimez.github.io/posts/arpack/</guid><pubDate>Fri, 07 May 2021 10:48:36 GMT</pubDate></item></channel></rss>

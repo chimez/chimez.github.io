@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about PBLAS)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/pblas.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Fri, 01 Oct 2021 12:05:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PBLAS &amp; ScaLAPACK &amp; BLACS</title><link>https://chimez.github.io/posts/pblas-scalapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgdf76c0d" class="outline-2"&gt;
+&lt;h2 id="orgdf76c0d"&gt;PBLAS &amp;amp; ScaLAPACK &amp;amp; BLACS&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdf76c0d"&gt;
+&lt;p&gt;
+&lt;a href="https://www.netlib.org/scalapack/"&gt;ScaLAPACK&lt;/a&gt; 是基于 MPI 的并行版本 LAPACK, &lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org60d2c88" class="outline-3"&gt;
+&lt;h3 id="org60d2c88"&gt;编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org60d2c88"&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;从 github 下载 &lt;a href="https://github.com/Reference-ScaLAPACK/scalapack/"&gt;https://github.com/Reference-ScaLAPACK/scalapack/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;修改 &lt;code&gt;SLmake.inc&lt;/code&gt; 文件中的 &lt;code&gt;FC&lt;/code&gt;, &lt;code&gt;CC&lt;/code&gt;, &lt;code&gt;BLASLIB&lt;/code&gt;, &lt;code&gt;LAPACKLIB&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+示例
+&lt;/p&gt;
+&lt;pre class="example" id="org893a168"&gt;
+FC            = /home/beacon/app/openmpi/bin/mpif90
+CC            = /home/beacon/app/openmpi/bin/mpicc 
+NOOPT         = -O0 -std=legacy
+FCFLAGS       = -O3 -std=legacy
+CCFLAGS       = -O3
+
+
+BLASLIB       = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -lblas
+LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
+
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org99b568c" class="outline-4"&gt;
+&lt;h4 id="org99b568c"&gt;GCC 10 不兼容&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org99b568c"&gt;
+&lt;p&gt;
+由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 &lt;code&gt;-fallow-argument-mismatch&lt;/code&gt; 或 &lt;code&gt;-std=legacy&lt;/code&gt; 来编译。
+&lt;/p&gt;
+
+&lt;p&gt;
+参考 &lt;a href="https://gcc.gnu.org/gcc-10/porting_to.html"&gt;Porting to GCC 10&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org759af95" class="outline-3"&gt;
+&lt;h3 id="org759af95"&gt;BLACS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org759af95"&gt;
+&lt;p&gt;
+&lt;a href="https://www.netlib.org/blacs/index.html"&gt;BLACS&lt;/a&gt; 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
+&lt;/p&gt;
+
+&lt;p&gt;
+除了 MPI 外, BLACS 还支持多种通信方案。当然现在 MPI 基本成为主流， 这部分作用已经意义不大了。
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html"&gt;oneAPI/MKL/BLACS&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org237a905" class="outline-4"&gt;
+&lt;h4 id="org237a905"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org237a905"&gt;
+&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="org28cdf2b"&gt;&lt;/a&gt;进程网格和范围操作&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org28cdf2b"&gt;
+&lt;p&gt;
+一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
+&lt;/p&gt;
+
+&lt;p&gt;
+这样划分的好处在于线性代数操作时，二维数组被分散到 &lt;b&gt;进程网格&lt;/b&gt; (process grid)中，数据的行列与进程的行列有直接的对应，很适合编程。
+&lt;/p&gt;
+
+&lt;p&gt;
+当进行的通信涉及两个以上的进程时，就将这种操作称作 &lt;b&gt;范围操作&lt;/b&gt; (scoped operations)。
+基本的范围操作有
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;行通信&lt;/li&gt;
+&lt;li&gt;列通信&lt;/li&gt;
+&lt;li&gt;全部通信&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org51d57ca"&gt;&lt;/a&gt;上下文&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org51d57ca"&gt;
+&lt;p&gt;
+&lt;b&gt;上下文&lt;/b&gt; (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
+&lt;/p&gt;
+
+&lt;p&gt;
+上下文的主要作用是可以将同一组进程标记成不同的进程网格，来方便进行通信操作。
+&lt;/p&gt;
+
+&lt;p&gt;
+BLACS 中有关上下文的函数有
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;BLACS_GRIDINIT&lt;/code&gt;, &lt;code&gt;BLACS_GRIDMAP&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;BLACS_GRIDEXIT&lt;/code&gt;, &lt;code&gt;BLACS_EXIT&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org7ac540c"&gt;&lt;/a&gt;基于数组的通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org7ac540c"&gt;
+&lt;p&gt;
+BLACS 中有两个基本的数据模型
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="org23084c0"&gt;&lt;/a&gt;矩形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org23084c0"&gt;
+&lt;p&gt;
+一维向量是特殊的矩形矩阵。
+&lt;/p&gt;
+
+&lt;p&gt;
+矩形矩阵是一个二维数组， &lt;code&gt;M&lt;/code&gt; 行 &lt;code&gt;N&lt;/code&gt; 列，主维数是 &lt;code&gt;LDA&lt;/code&gt;, 主维数就是相邻的两列数在内存中的间隔.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org705ba74"&gt;&lt;/a&gt;梯形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org705ba74"&gt;
+&lt;p&gt;
+三角矩阵和对角矩阵是特殊的梯形矩阵。
+&lt;/p&gt;
+
+&lt;p&gt;
+梯形矩阵的最大底边是 &lt;code&gt;M,N&lt;/code&gt; 中最大的数，另一个是梯形的高，梯形的短底边是长底边和高的差。
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;UPLO&lt;/code&gt;: 梯形矩阵， &lt;code&gt;'U','L'&lt;/code&gt; 上下梯形&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DIAG&lt;/code&gt;: 单位对角矩阵&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;a id="org79fd737"&gt;&lt;/a&gt;无编号通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org79fd737"&gt;
+&lt;p&gt;
+BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 &lt;code&gt;SHIFT_RANGE&lt;/code&gt; 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
+&lt;/p&gt;
+
+&lt;p&gt;
+BLACS 的通信保证
+&lt;/p&gt;
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;接收端知道消息的来源&lt;/li&gt;
+&lt;li&gt;接收的顺序与发送的顺序一致&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgaf4d2c8" class="outline-4"&gt;
+&lt;h4 id="orgaf4d2c8"&gt;结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgaf4d2c8"&gt;
+&lt;p&gt;
+BLACS 由 4 个部分构成
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;点到点通信&lt;/li&gt;
+&lt;li&gt;广播&lt;/li&gt;
+&lt;li&gt;组合&lt;/li&gt;
+&lt;li&gt;支持模块&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;a href="https://www.netlib.org/blacs/BLACS/QRef.html"&gt;函数参考&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a id="orge6ebf62"&gt;&lt;/a&gt;命名规则&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orge6ebf62"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;点到点通信与广播： &lt;code&gt;vXXYY2D&lt;/code&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;v&lt;/code&gt; 表示数据类型&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;XX&lt;/code&gt; 表示矩阵的形状&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;YY&lt;/code&gt; 表示通信的类型&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;组合: &lt;code&gt;vGZZZ2D&lt;/code&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;v&lt;/code&gt; 表示数据类型&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ZZZ&lt;/code&gt; 表示操作类型&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;支持模块: &lt;code&gt;BLACS_&amp;lt;name&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;code&gt;v&lt;/code&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;意义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;I&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;整数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;S&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;单精度&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;D&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;双精度&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;C&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;单精度复数&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;Z&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;双精度复数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;code&gt;XX&lt;/code&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;意义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;GE&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;矩形矩阵&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;TR&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;梯形矩阵&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;code&gt;YY&lt;/code&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;意义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;SD&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;点到点发送&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;RV&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;点到点接收&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;BS&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;广播发送&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;BR&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;广播接收&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="org-left"&gt;
+
+&lt;col class="org-left"&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th scope="col" class="org-left"&gt;&lt;code&gt;ZZZ&lt;/code&gt;&lt;/th&gt;
+&lt;th scope="col" class="org-left"&gt;意义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;AMX&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最大绝对值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;AMN&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;最小绝对值&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="org-left"&gt;&lt;code&gt;SUM&lt;/code&gt;&lt;/td&gt;
+&lt;td class="org-left"&gt;求和&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org4a3c5bc" class="outline-3"&gt;
+&lt;h3 id="org4a3c5bc"&gt;PBLAS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4a3c5bc"&gt;
+&lt;p&gt;
+&lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 &lt;code&gt;.h&lt;/code&gt; 头文件，得自己写。
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/pblas-routines.html"&gt;oneAPI/MKL/PBLAS&lt;/a&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-org37fe793" class="outline-3"&gt;
+&lt;h3 id="org37fe793"&gt;ScaLAPACK&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org37fe793"&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-orgb284b2f" class="outline-4"&gt;
+&lt;h4 id="orgb284b2f"&gt;基本方法&lt;/h4&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>BLACS</category><category>BLAS</category><category>C</category><category>LAPACK</category><category>MPI</category><category>PBLAS</category><category>ScaLAPACK</category><guid>https://chimez.github.io/posts/pblas-scalapack/</guid><pubDate>Tue, 24 Aug 2021 04:31:22 GMT</pubDate></item></channel></rss>

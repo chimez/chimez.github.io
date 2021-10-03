@@ -118,13 +118,13 @@ COO: coordinate
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org5a53365" class="outline-2">
-<h2 id="org5a53365">稀疏矩阵的数据结构</h2>
-<div class="outline-text-2" id="text-org5a53365">
+    <div id="outline-container-org3bfd918" class="outline-2">
+<h2 id="org3bfd918">稀疏矩阵的数据结构</h2>
+<div class="outline-text-2" id="text-org3bfd918">
 </div>
-<div id="outline-container-orgde2f7e5" class="outline-3">
-<h3 id="orgde2f7e5">常见结构</h3>
-<div class="outline-text-3" id="text-orgde2f7e5">
+<div id="outline-container-org2405116" class="outline-3">
+<h3 id="org2405116">常见结构</h3>
+<div class="outline-text-3" id="text-org2405116">
 <ul class="org-ul">
 <li>COO: Coordinate or triplet</li>
 <li>CSR: Compressed Sparse Row</li>
@@ -135,16 +135,16 @@ COO: coordinate
 </div>
 </div>
 
-<div id="outline-container-org7ac5eb1" class="outline-3">
-<h3 id="org7ac5eb1">COO: coordinate</h3>
-<div class="outline-text-3" id="text-org7ac5eb1">
+<div id="outline-container-org10f7b6c" class="outline-3">
+<h3 id="org10f7b6c">COO: coordinate</h3>
+<div class="outline-text-3" id="text-org10f7b6c">
 <ol class="org-ol">
 <li>也叫做 triplet 格式</li>
 <li>最简单和基本的格式，通常用做向其它格式转换的入门格式</li>
 <li>顺序是任意的</li>
 <li>保存三列数据：值、行指标、列指标</li>
 </ol>
-<pre class="example">
+<pre class="example" id="orgcd7966d">
 A:
    [[ 1,  0,  0,  2,  0],
     [ 3,  4,  0,  5,  0],
@@ -161,14 +161,14 @@ A[ i[k], j[k] ] = data[k]
 </div>
 </div>
 
-<div id="outline-container-orgedf8ef4" class="outline-3">
-<h3 id="orgedf8ef4">CSR: Compressed Sparse Row</h3>
-<div class="outline-text-3" id="text-orgedf8ef4">
+<div id="outline-container-org33594e8" class="outline-3">
+<h3 id="org33594e8">CSR: Compressed Sparse Row</h3>
+<div class="outline-text-3" id="text-org33594e8">
 <ol class="org-ol">
 <li>按行压缩，即coo格式中的数据值、列指标不变，但行指标改成指向这一行开始的列的指标</li>
 <li>一般来说，Fortran 里使用这种格式</li>
 </ol>
-<pre class="example">
+<pre class="example" id="org18c899c">
 A:
    [[ 1,  0,  0,  2,  0],
     [ 3,  4,  0,  5,  0],
@@ -184,14 +184,14 @@ col(j): [0, 3, 0, 1, 3,  0, 2, 3, 4,  2, 3,  4]
 </div>
 </div>
 
-<div id="outline-container-orgc646017" class="outline-3">
-<h3 id="orgc646017">CSC: Compressed Sparse Column</h3>
-<div class="outline-text-3" id="text-orgc646017">
+<div id="outline-container-orgcd66a16" class="outline-3">
+<h3 id="orgcd66a16">CSC: Compressed Sparse Column</h3>
+<div class="outline-text-3" id="text-orgcd66a16">
 <ol class="org-ol">
 <li>按列压缩，与 CSR 类似，不过行列换一下</li>
 <li>c 中常用这种格式</li>
 </ol>
-<pre class="example">
+<pre class="example" id="orgfb05a7b">
 A:
    [[ 1,  0,  0,  2,  0],
     [ 3,  4,  0,  5,  0],
@@ -207,13 +207,13 @@ col(j): [0, 3, 4, 6, 10, 12]
 </div>
 </div>
 
-<div id="outline-container-orga4bbede" class="outline-3">
-<h3 id="orga4bbede">DIA: The Diagonal format</h3>
-<div class="outline-text-3" id="text-orga4bbede">
+<div id="outline-container-orgadd77f2" class="outline-3">
+<h3 id="orgadd77f2">DIA: The Diagonal format</h3>
+<div class="outline-text-3" id="text-orgadd77f2">
 <ol class="org-ol">
 <li>按对角线压缩，保存偏移值，负的偏移忽略头元素，正的偏移忽略尾元素</li>
 </ol>
-<pre class="example">
+<pre class="example" id="org47d3829">
 A:
    [[ 1.,  0.,  2.,  0.,  0.],
     [ 3.,  4.,  0.,  5.,  0.],
@@ -232,18 +232,18 @@ offsets: [-1,  0,  2]
 </div>
 </div>
 
-<div id="outline-container-org624a323" class="outline-3">
-<h3 id="org624a323">BSR: Block matrices</h3>
-<div class="outline-text-3" id="text-org624a323">
+<div id="outline-container-org7004d68" class="outline-3">
+<h3 id="org7004d68">BSR: Block matrices</h3>
+<div class="outline-text-3" id="text-org7004d68">
 <ol class="org-ol">
 <li>类似 CSR，只不过每个行列指的是一个小的矩阵，这些小矩阵大小都相等</li>
 </ol>
 </div>
 </div>
 
-<div id="outline-container-orgf646a7e" class="outline-3">
-<h3 id="orgf646a7e">scipy 格式</h3>
-<div class="outline-text-3" id="text-orgf646a7e">
+<div id="outline-container-org57f6e61" class="outline-3">
+<h3 id="org57f6e61">scipy 格式</h3>
+<div class="outline-text-3" id="text-org57f6e61">
 <ol class="org-ol">
 <li>很容易使用，参考 <a href="https://docs.scipy.org/doc/scipy/reference/sparse.html">scipy - sparse</a>
 </li>
@@ -251,12 +251,12 @@ offsets: [-1,  0,  2]
 </div>
 </div>
 
-<div id="outline-container-org4749234" class="outline-3">
-<h3 id="org4749234">suitesparse 格式</h3>
+<div id="outline-container-orgb45ef2f" class="outline-3">
+<h3 id="orgb45ef2f">suitesparse 格式</h3>
 </div>
 
-<div id="outline-container-org05849a6" class="outline-3">
-<h3 id="org05849a6">MKL 格式</h3>
+<div id="outline-container-org814ec7b" class="outline-3">
+<h3 id="org814ec7b">MKL 格式</h3>
 </div>
 </div>
     </div>

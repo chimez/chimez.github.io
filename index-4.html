@@ -13,7 +13,7 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://chimez.github.io/index-4.html">
-<link rel="prev" href="." type="text/html">
+<link rel="prev" href="index-5.html" type="text/html">
 <link rel="next" href="index-3.html" type="text/html">
 <!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]-->
 </head>
@@ -72,7 +72,114 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/paper-format/" class="u-url">Paper Format</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/gtags/" class="u-url">gtags</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/gtags/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-06-26T22:43:48+08:00" itemprop="datePublished" title="2021-06-26 22:43">2021-06-26 22:43</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-orgce7d8c3" class="outline-2">
+<h2 id="orgce7d8c3">global(gtags) 代码标签</h2>
+<div class="outline-text-2" id="text-orgce7d8c3">
+<p>
+<a href="https://www.gnu.org/software/global/globaldoc_toc.html">global</a> 是代码标签工具，用来辅助编辑器做补全。
+</p>
+</div>
+
+<div id="outline-container-org4b499fe" class="outline-3">
+<h3 id="org4b499fe">基本使用</h3>
+<div class="outline-text-3" id="text-org4b499fe">
+</div>
+<div id="outline-container-orgd6ec7ac" class="outline-4">
+<h4 id="orgd6ec7ac">生成标签</h4>
+<div class="outline-text-4" id="text-orgd6ec7ac">
+<p>
+在项目的根目录下执行 <code>gtags</code> 就会生成 <code>GPATH</code>, <code>GRTAGS</code>, <code>GTAGS</code> 三个文件
+</p>
+</div>
+</div>
+
+<div id="outline-container-org876274a" class="outline-4">
+<h4 id="org876274a">命令行使用</h4>
+<div class="outline-text-4" id="text-org876274a">
+<p>
+命令行下可以用
+</p>
+
+<div class="highlight"><pre><span></span>    # 查看定义位置
+    $ global func1
+    DIR1/fileB.c            # func1() is defined in fileB.c
+
+    # 使用 less 查看定义
+    less -t func1
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/joblib/" class="u-url">joblib</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/joblib/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-06-06T13:34:10+08:00" itemprop="datePublished" title="2021-06-06 13:34">2021-06-06 13:34</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org7bd0987" class="outline-2">
+<h2 id="org7bd0987">joblib: 简单的并行</h2>
+<div class="outline-text-2" id="text-org7bd0987">
+<p>
+<a href="https://joblib.readthedocs.io/">joblib</a>是一个易用的，无依赖的 python 库，主要用来很方便的做并行。
+</p>
+</div>
+
+<div id="outline-container-orga3c9d68" class="outline-3">
+<h3 id="orga3c9d68">简单的并行</h3>
+<div class="outline-text-3" id="text-orga3c9d68">
+<p>
+对一个 <code>for</code> 循环并行化，基本上只需要两个函数 <code>Parallel</code> 和 <code>delayed</code> ，用 <code>delayed</code> 包裹要并行的函数，并用列表推导式生成所有参数，再把这些东西扔给 <code>Parallel</code> 函数，返回的就是并行后的结果了。
+</p>
+
+<p>
+基本上相当于 <code>multiprocessing.Pool.map</code>
+</p>
+
+<div class="highlight"><pre><span></span>   <span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+   <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">sqrt</span><span class="p">)(</span><span class="n">i</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+
+<p>
+<code>Parallel</code> 函数的参数用来指定并行的后端 <code>backend</code> 、每批次执行的任务数、并行线程数等等
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgb23269e" class="outline-2">
+<h2 id="orgb23269e">Tips</h2>
+<div class="outline-text-2" id="text-orgb23269e">
+</div>
+<div id="outline-container-orgf741bca" class="outline-3">
+<h3 id="orgf741bca">读取时避免锁</h3>
+<div class="outline-text-3" id="text-orgf741bca">
+<p>
+使用 <code>multiprocessing.shared_memory</code> 创建共享内存，并把内存地址名作为参数传递
+</p>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/paper-format/" class="u-url">Paper Format</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -83,13 +190,13 @@
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orge867e61" class="outline-2">
-<h2 id="orge867e61">论文排版问题</h2>
-<div class="outline-text-2" id="text-orge867e61">
+                    <div id="outline-container-org7b985e2" class="outline-2">
+<h2 id="org7b985e2">论文排版问题</h2>
+<div class="outline-text-2" id="text-org7b985e2">
 </div>
-<div id="outline-container-org927317c" class="outline-3">
-<h3 id="org927317c">图片</h3>
-<div class="outline-text-3" id="text-org927317c">
+<div id="outline-container-orgfa84f45" class="outline-3">
+<h3 id="orgfa84f45">图片</h3>
+<div class="outline-text-3" id="text-orgfa84f45">
 <ol class="org-ol">
 <li>A4 双栏格式的宽度是 3.45 英寸</li>
 </ol>
@@ -108,25 +215,25 @@
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org0e3d450" class="outline-2">
-<h2 id="org0e3d450">squid HTTP 代理服务器</h2>
-<div class="outline-text-2" id="text-org0e3d450">
+                    <div id="outline-container-orga8415ce" class="outline-2">
+<h2 id="orga8415ce">squid HTTP 代理服务器</h2>
+<div class="outline-text-2" id="text-orga8415ce">
 </div>
-<div id="outline-container-org5482208" class="outline-3">
-<h3 id="org5482208">安装</h3>
-<div class="outline-text-3" id="text-org5482208">
+<div id="outline-container-orge6b9347" class="outline-3">
+<h3 id="orge6b9347">安装</h3>
+<div class="outline-text-3" id="text-orge6b9347">
 <div class="highlight"><pre><span></span>   apt install squid
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orgd2e94bf" class="outline-3">
-<h3 id="orgd2e94bf">配置</h3>
-<div class="outline-text-3" id="text-orgd2e94bf">
+<div id="outline-container-org535d36d" class="outline-3">
+<h3 id="org535d36d">配置</h3>
+<div class="outline-text-3" id="text-org535d36d">
 </div>
-<div id="outline-container-org6fa1a3c" class="outline-4">
-<h4 id="org6fa1a3c">端口</h4>
-<div class="outline-text-4" id="text-org6fa1a3c">
+<div id="outline-container-orgb5b5480" class="outline-4">
+<h4 id="orgb5b5480">端口</h4>
+<div class="outline-text-4" id="text-orgb5b5480">
 <p>
 <code>/etc/squid/squid.conf</code>
 </p>
@@ -136,9 +243,9 @@
 </div>
 </div>
 
-<div id="outline-container-org4bd54fa" class="outline-4">
-<h4 id="org4bd54fa">访问权限</h4>
-<div class="outline-text-4" id="text-org4bd54fa">
+<div id="outline-container-org3640e24" class="outline-4">
+<h4 id="org3640e24">访问权限</h4>
+<div class="outline-text-4" id="text-org3640e24">
 <div class="highlight"><pre><span></span>    http_access allow all
     # http_access deny all
 </pre></div>
@@ -158,13 +265,13 @@
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgfb255c2" class="outline-2">
-<h2 id="orgfb255c2">Anki</h2>
-<div class="outline-text-2" id="text-orgfb255c2">
+                    <div id="outline-container-orgac6174e" class="outline-2">
+<h2 id="orgac6174e">Anki</h2>
+<div class="outline-text-2" id="text-orgac6174e">
 </div>
-<div id="outline-container-org98cbd9a" class="outline-3">
-<h3 id="org98cbd9a">插件</h3>
-<div class="outline-text-3" id="text-org98cbd9a">
+<div id="outline-container-org4440565" class="outline-3">
+<h3 id="org4440565">插件</h3>
+<div class="outline-text-3" id="text-org4440565">
 <ol class="org-ol">
 <li>
 <a href="https://ankiweb.net/shared/info/2055492159">AnkiConnect</a> 基础设施</li>
@@ -190,21 +297,21 @@
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org5a85a01" class="outline-2">
-<h2 id="org5a85a01">Rust 性能优化</h2>
-<div class="outline-text-2" id="text-org5a85a01">
+                    <div id="outline-container-orge3e2048" class="outline-2">
+<h2 id="orge3e2048">Rust 性能优化</h2>
+<div class="outline-text-2" id="text-orge3e2048">
 <p>
 这里所称性能优化实际上就是 Rust 的正确打开方式，因为 Rust 的安全特性导致按照 c/c++ 方式直接写程序有可能速度会比较慢。
 </p>
 </div>
 
-<div id="outline-container-org19dbdf9" class="outline-3">
-<h3 id="org19dbdf9">避免边界检查</h3>
-<div class="outline-text-3" id="text-org19dbdf9">
+<div id="outline-container-org9593f04" class="outline-3">
+<h3 id="org9593f04">避免边界检查</h3>
+<div class="outline-text-3" id="text-org9593f04">
 </div>
-<div id="outline-container-org5d3f916" class="outline-4">
-<h4 id="org5d3f916">参考资料</h4>
-<div class="outline-text-4" id="text-org5d3f916">
+<div id="outline-container-orgbac77a8" class="outline-4">
+<h4 id="orgbac77a8">参考资料</h4>
+<div class="outline-text-4" id="text-orgbac77a8">
 <ol class="org-ol">
 <li>
 <a href="https://users.rust-lang.org/t/how-to-malloc-an-array-in-heap-like-c/27827/40">这里</a> 的说明</li>
@@ -212,9 +319,9 @@
 </div>
 </div>
 
-<div id="outline-container-orge0776a0" class="outline-4">
-<h4 id="orge0776a0">使用 slice 为编译器提示长度</h4>
-<div class="outline-text-4" id="text-orge0776a0">
+<div id="outline-container-org704d55a" class="outline-4">
+<h4 id="org704d55a">使用 slice 为编译器提示长度</h4>
+<div class="outline-text-4" id="text-org704d55a">
 <p>
 vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方式定义变量
 </p>
@@ -230,9 +337,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 </div>
 
-<div id="outline-container-org14a899f" class="outline-4">
-<h4 id="org14a899f">尽可能使用迭代器而不是指标循环</h4>
-<div class="outline-text-4" id="text-org14a899f">
+<div id="outline-container-org3637921" class="outline-4">
+<h4 id="org3637921">尽可能使用迭代器而不是指标循环</h4>
+<div class="outline-text-4" id="text-org3637921">
 <p>
 迭代器中的边界检查被优化掉了
 </p>
@@ -250,9 +357,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 </div>
 
-<div id="outline-container-org02a47b0" class="outline-4">
-<h4 id="org02a47b0">不得不用指标获得值时用 unsafe 的非检查方式</h4>
-<div class="outline-text-4" id="text-org02a47b0">
+<div id="outline-container-org4977aa6" class="outline-4">
+<h4 id="org4977aa6">不得不用指标获得值时用 unsafe 的非检查方式</h4>
+<div class="outline-text-4" id="text-org4977aa6">
 <p>
 当确保指标不会越界时就可以大胆使用 unsafe
 </p>
@@ -282,17 +389,17 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org932a17e" class="outline-2">
-<h2 id="org932a17e">meson 构建工具</h2>
-<div class="outline-text-2" id="text-org932a17e">
+                    <div id="outline-container-org16c6232" class="outline-2">
+<h2 id="org16c6232">meson 构建工具</h2>
+<div class="outline-text-2" id="text-org16c6232">
 <p>
 网站 <a href="https://mesonbuild.com">meson-build</a>
 </p>
 </div>
 
-<div id="outline-container-orgcca53dd" class="outline-3">
-<h3 id="orgcca53dd">配置示例</h3>
-<div class="outline-text-3" id="text-orgcca53dd">
+<div id="outline-container-org88365d9" class="outline-3">
+<h3 id="org88365d9">配置示例</h3>
+<div class="outline-text-3" id="text-org88365d9">
 <div class="highlight"><pre><span></span>   <span class="n">cc</span> <span class="o">=</span> <span class="n">meson</span><span class="o">.</span><span class="n">get_compiler</span><span class="p">(</span><span class="s1">'c'</span><span class="p">)</span>
 
    <span class="n">all_deps</span> <span class="o">=</span> <span class="p">[]</span>
@@ -308,26 +415,26 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 </div>
 
-<div id="outline-container-orgf74e4ff" class="outline-3">
-<h3 id="orgf74e4ff">使用 address sanitizer</h3>
-<div class="outline-text-3" id="text-orgf74e4ff">
+<div id="outline-container-org999e39b" class="outline-3">
+<h3 id="org999e39b">使用 address sanitizer</h3>
+<div class="outline-text-3" id="text-org999e39b">
 <div class="highlight"><pre><span></span>   CC=clang meson build  -Db_sanitize=address -Db_lundef=false
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org1fcfc3b" class="outline-3">
-<h3 id="org1fcfc3b">使用 clang 静态分析</h3>
-<div class="outline-text-3" id="text-org1fcfc3b">
+<div id="outline-container-orgc020fb8" class="outline-3">
+<h3 id="orgc020fb8">使用 clang 静态分析</h3>
+<div class="outline-text-3" id="text-orgc020fb8">
 <div class="highlight"><pre><span></span>   meson build
    ninja -C build scan-build
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orga30dc5c" class="outline-3">
-<h3 id="orga30dc5c">自定义外部依赖</h3>
-<div class="outline-text-3" id="text-orga30dc5c">
+<div id="outline-container-org0411150" class="outline-3">
+<h3 id="org0411150">自定义外部依赖</h3>
+<div class="outline-text-3" id="text-org0411150">
 <p>
 参考 <a href="https://mesonbuild.com/Dependencies.html#declaring-your-own">Manual/Dependencies</a>
 </p>
@@ -342,9 +449,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </pre></div>
 </div>
 
-<div id="outline-container-org51d3f83" class="outline-4">
-<h4 id="org51d3f83">将依赖做子目录</h4>
-<div class="outline-text-4" id="text-org51d3f83">
+<div id="outline-container-orgc307a44" class="outline-4">
+<h4 id="orgc307a44">将依赖做子目录</h4>
+<div class="outline-text-4" id="text-orgc307a44">
 <p>
 首先在子目录中放入依赖的源码，并且在其中定义子项目的 <code>meson.build</code> 文件
 </p>
@@ -360,17 +467,17 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 </div>
 
-<div id="outline-container-orgc198754" class="outline-3">
-<h3 id="orgc198754">子项目</h3>
-<div class="outline-text-3" id="text-orgc198754">
+<div id="outline-container-orge3328c0" class="outline-3">
+<h3 id="orge3328c0">子项目</h3>
+<div class="outline-text-3" id="text-orge3328c0">
 <p>
 <a href="https://mesonbuild.com/Subprojects.html">https://mesonbuild.com/Subprojects.html</a>
 </p>
 </div>
 
-<div id="outline-container-orgab269fa" class="outline-4">
-<h4 id="orgab269fa">从子项目获取依赖</h4>
-<div class="outline-text-4" id="text-orgab269fa">
+<div id="outline-container-orgbe61ef9" class="outline-4">
+<h4 id="orgbe61ef9">从子项目获取依赖</h4>
+<div class="outline-text-4" id="text-orgbe61ef9">
 <div class="highlight"><pre><span></span><span class="n">libsimple_proj</span> <span class="o">=</span> <span class="n">subproject</span><span class="p">(</span><span class="s1">'libsimple'</span><span class="p">)</span>
 <span class="n">libsimple_dep</span> <span class="o">=</span> <span class="n">libsimple_proj</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">'libsimple_dep'</span><span class="p">)</span>
 </pre></div>
@@ -378,9 +485,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 </div>
 
-<div id="outline-container-org26acebd" class="outline-3">
-<h3 id="org26acebd">使用 wrap 管理依赖</h3>
-<div class="outline-text-3" id="text-org26acebd">
+<div id="outline-container-org28e34d2" class="outline-3">
+<h3 id="org28e34d2">使用 wrap 管理依赖</h3>
+<div class="outline-text-3" id="text-org28e34d2">
 <p>
 在 <code>subprojects</code> 文件夹中创建 <code>libfoobar.wrap</code> 文件, 其中指定源码位置 <code>[wrap-file]</code> 和提供的依赖 <code>[provide]</code> ，格式参考 <a href="https://mesonbuild.com/Wrap-dependency-system-manual.html">这里</a>
 </p>
@@ -393,9 +500,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 示例 <code>subprojects/cache2.wrap</code> ：
 </p>
 <div class="highlight"><pre><span></span>   <span class="p">[</span><span class="n">wrap</span><span class="o">-</span><span class="n">file</span><span class="p">]</span>
-   <span class="n">directory</span> <span class="o">=</span> <span class="n">Catch2</span><span class="o">-</span><span class="mf">2.13</span><span class="o">.</span><span class="mi">3</span>
-   <span class="n">source_url</span> <span class="o">=</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">catchorg</span><span class="o">/</span><span class="n">Catch2</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">v2</span><span class="o">.</span><span class="mf">13.3</span><span class="o">.</span><span class="n">zip</span>
-   <span class="n">source_filename</span> <span class="o">=</span> <span class="n">Catch2</span><span class="o">-</span><span class="mf">2.13</span><span class="o">.</span><span class="mf">3.</span><span class="n">zip</span>
+   <span class="n">directory</span> <span class="o">=</span> <span class="n">Catch2</span><span class="o">-</span><span class="mf">2.13.3</span>
+   <span class="n">source_url</span> <span class="o">=</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">catchorg</span><span class="o">/</span><span class="n">Catch2</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">v2</span><span class="mf">.13.3</span><span class="o">.</span><span class="n">zip</span>
+   <span class="n">source_filename</span> <span class="o">=</span> <span class="n">Catch2</span><span class="o">-</span><span class="mf">2.13.3</span><span class="o">.</span><span class="n">zip</span>
    <span class="n">source_hash</span> <span class="o">=</span> <span class="mi">1804</span><span class="n">feb72bc15c0856b4a43aa586c661af9c3685a75973b6a8fc0b950c7cfd13</span>
    <span class="n">patch_directory</span> <span class="o">=</span> <span class="n">catch2</span>
 
@@ -436,9 +543,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org343cbe4" class="outline-2">
-<h2 id="org343cbe4">LAPACK</h2>
-<div class="outline-text-2" id="text-org343cbe4">
+                    <div id="outline-container-org09f6b86" class="outline-2">
+<h2 id="org09f6b86">LAPACK</h2>
+<div class="outline-text-2" id="text-org09f6b86">
 <p>
 主页在 <a href="https://www.netlib.org/lapack/">https://www.netlib.org/lapack/</a>, 文档在 <a href="https://www.netlib.org/lapack/explore-html/">https://www.netlib.org/lapack/explore-html/</a>.
 </p>
@@ -454,13 +561,13 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </ol>
 </div>
 
-<div id="outline-container-org6599002" class="outline-3">
-<h3 id="org6599002">dsyevd: 实对称矩阵本征值</h3>
-<div class="outline-text-3" id="text-org6599002">
+<div id="outline-container-org601465e" class="outline-3">
+<h3 id="org601465e">dsyevd: 实对称矩阵本征值</h3>
+<div class="outline-text-3" id="text-org601465e">
 </div>
-<div id="outline-container-orga74d5b5" class="outline-4">
-<h4 id="orga74d5b5">参数说明</h4>
-<div class="outline-text-4" id="text-orga74d5b5">
+<div id="outline-container-orgcf8ac6a" class="outline-4">
+<h4 id="orgcf8ac6a">参数说明</h4>
+<div class="outline-text-4" id="text-orgcf8ac6a">
 <ol class="org-ol">
 <li>
 <code>jobz</code> 计算任务类型， <code>jobz = "N"</code> 只计算本征值， <code>jobz = "V"</code> 计算本征值和本征矢</li>
@@ -501,17 +608,17 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org13f1aa7" class="outline-2">
-<h2 id="org13f1aa7">ARPACK</h2>
-<div class="outline-text-2" id="text-org13f1aa7">
+                    <div id="outline-container-orge9ebf30" class="outline-2">
+<h2 id="orge9ebf30">ARPACK</h2>
+<div class="outline-text-2" id="text-orge9ebf30">
 <p>
 新版本在 <a href="https://github.com/opencollab/arpack-ng">arpack-ng</a> , 文档在 <a href="https://www.caam.rice.edu/software/ARPACK/UG/node135.html">rice - ARPACK</a>
 </p>
 </div>
 
-<div id="outline-container-org046eb4a" class="outline-3">
-<h3 id="org046eb4a">函数说明</h3>
-<div class="outline-text-3" id="text-org046eb4a">
+<div id="outline-container-org4e6c8fd" class="outline-3">
+<h3 id="org4e6c8fd">函数说明</h3>
+<div class="outline-text-3" id="text-org4e6c8fd">
 <p>
 头文件 <code>arpack.h</code> 中的函数有
 </p>
@@ -523,19 +630,22 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 <code>&lt;?&gt;naupd_c</code> 计算一般矩阵的反向通信接口, <code>&lt;?&gt; = sdcz</code>
 </li>
 <li>
-<code>&lt;?&gt;seupd_c</code> 计算厄米矩阵的本征值, <code>&lt;?&gt; = sd</code>
+<code>&lt;?&gt;seupd_c</code> 计算对称矩阵的本征值, <code>&lt;?&gt; = sd</code>
 </li>
 <li>
-<code>&lt;?&gt;saupd_c</code> 计算厄米矩阵的反向通信接口, <code>&lt;?&gt; = sd</code>
+<code>&lt;?&gt;saupd_c</code> 计算对称矩阵的反向通信接口, <code>&lt;?&gt; = sd</code>
 </li>
 </ol>
+<p>
+arpack 中没有计算复厄米矩阵的函数，复矩阵一律用一般矩阵的计算函数
+</p>
 </div>
 </div>
 
-<div id="outline-container-org52af175" class="outline-3">
-<h3 id="org52af175">
+<div id="outline-container-org60116b4" class="outline-3">
+<h3 id="org60116b4">
 <code>XYaupd</code> 参数说明</h3>
-<div class="outline-text-3" id="text-org52af175">
+<div class="outline-text-3" id="text-org60116b4">
 <ol class="org-ol">
 <li>
 <code>ido</code>   反向通信标志，第一次运行 <code>ido=0</code>
@@ -605,10 +715,10 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 </div>
 
-<div id="outline-container-orgdd4ac2a" class="outline-3">
-<h3 id="orgdd4ac2a">
+<div id="outline-container-orgd26be46" class="outline-3">
+<h3 id="orgd26be46">
 <code>XYeupd</code> 参数说明</h3>
-<div class="outline-text-3" id="text-orgdd4ac2a">
+<div class="outline-text-3" id="text-orgd26be46">
 <ol class="org-ol">
 <li>
 <code>rvec</code> 指定是否产生本征矢 <code>rvec=true</code> 产生本征矢， <code>rvec=false</code> 只产生本征值</li>
@@ -649,6 +759,87 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </ol>
 </div>
 </div>
+
+<div id="outline-container-org4386466" class="outline-3">
+<h3 id="org4386466">编译</h3>
+<div class="outline-text-3" id="text-org4386466">
+</div>
+<div id="outline-container-orge1f6569" class="outline-4">
+<h4 id="orge1f6569">基本的编译过程</h4>
+<div class="outline-text-4" id="text-orge1f6569">
+<div class="highlight"><pre><span></span>    sh bootstrap
+    ./configure
+    make
+    make check
+    make install
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orged55edf" class="outline-4">
+<h4 id="orged55edf">ILP64: int64 支持</h4>
+<div class="outline-text-4" id="text-orged55edf">
+<ul class="org-ul">
+<li>
+<code>LP64</code> 在 MKL 中表示 <code>int</code> 做指标</li>
+<li>
+<code>ILP64</code> 表示 <code>long long int</code> 做指标</li>
+</ul>
+<p>
+arpack 沿用了 MKL 的叫法。
+</p>
+
+<p>
+配置：
+</p>
+
+<ul class="org-ul">
+<li>编译时定义 <code>INTERFACE64</code>
+</li>
+<li>使用 <code>arpackdef.h</code> 头文件</li>
+<li>使用 <code>a_int</code> 类型 (architecture int)</li>
+</ul>
+<div class="highlight"><pre><span></span>    INTERFACE64=1 ./configure --enable-mpi --enable-icb --with-blas=openblas64
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org7714d34" class="outline-4">
+<h4 id="org7714d34">icb: 生成 c 头文件</h4>
+<div class="outline-text-4" id="text-org7714d34">
+<p>
+arpack-ng 使用 fortran 的 iso<sub>c</sub><sub>binding</sub>(icb) 生成 c 头文件
+</p>
+
+<div class="highlight"><pre><span></span>    ./configure --enable-icb
+    cmake -D ICB=ON
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org86d050e" class="outline-4">
+<h4 id="org86d050e">parpack: MPI 支持</h4>
+<div class="outline-text-4" id="text-org86d050e">
+<div class="highlight"><pre><span></span>    ./configure --enable-mpi
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-org16c34d3" class="outline-4">
+<h4 id="org16c34d3">使用 cmake</h4>
+<div class="outline-text-4" id="text-org16c34d3">
+<ul class="org-ul">
+<li>
+<code>BLA_VENDOR=Intel10_64ilp</code> 使用 ilp64 的 MKL</li>
+<li>
+<code>CMAKE_POSITION_INDEPENDENT_CODE=ON</code> 使用 <code>-fPIC</code>
+</li>
+</ul>
+<div class="highlight"><pre><span></span>    CC=gcc FC=gfortran cmake -D MPI=ON -D ICB=ON  -DCMAKE_INSTALL_PREFIX=$HOME/app/arpack -DBLA_VENDOR=Intel10_64ilp -DBUILD_SHARED_LIBS=OFF -DINTERFACE64=1  -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..
+</pre></div>
+</div>
+</div>
+</div>
 </div>
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/blas/" class="u-url">BLAS</a></h1>
@@ -662,9 +853,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orge468d11" class="outline-2">
-<h2 id="orge468d11">BLAS</h2>
-<div class="outline-text-2" id="text-orge468d11">
+                    <div id="outline-container-orgc2cdc19" class="outline-2">
+<h2 id="orgc2cdc19">BLAS</h2>
+<div class="outline-text-2" id="text-orgc2cdc19">
 <ul class="org-ul">
 <li>MKL 中的 BLAS，参考 <a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/naming-conventions-for-blas-routines.html">MKL - BLAS</a>
 </li>
@@ -673,9 +864,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </ul>
 </div>
 
-<div id="outline-container-orgfef8337" class="outline-3">
-<h3 id="orgfef8337">BLAS 的命名规则</h3>
-<div class="outline-text-3" id="text-orgfef8337">
+<div id="outline-container-org58705e2" class="outline-3">
+<h3 id="org58705e2">BLAS 的命名规则</h3>
+<div class="outline-text-3" id="text-org58705e2">
 <p>
 BLAS 中的函数名一般规则是 <code>&lt;character&gt;&lt;name&gt;&lt;mode&gt; ()</code>
 </p>
@@ -755,9 +946,9 @@ BLAS 中的函数名一般规则是 <code>&lt;character&gt;&lt;name&gt;&lt;mode&
 </div>
 </div>
 
-<div id="outline-container-org6b7b696" class="outline-3">
-<h3 id="org6b7b696">CBLAS 约定</h3>
-<div class="outline-text-3" id="text-org6b7b696">
+<div id="outline-container-orgee72e2f" class="outline-3">
+<h3 id="orgee72e2f">CBLAS 约定</h3>
+<div class="outline-text-3" id="text-orgee72e2f">
 <p>
 CBLAS 是 BLAS 的 c 接口， BLAS 是 fortran 标准。
 </p>
@@ -778,36 +969,36 @@ CBLAS 函数都遵循以下约定
 </div>
 </div>
 
-<div id="outline-container-orgca95bd0" class="outline-3">
-<h3 id="orgca95bd0">枚举类型</h3>
-<div class="outline-text-3" id="text-orgca95bd0">
-<div class="highlight"><pre><span></span>   <span class="k">enum</span> <span class="n">CBLAS_LAYOUT</span> <span class="p">{</span>
-      <span class="n">CblasRowMajor</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span>    <span class="cm">/* row-major arrays */</span>
-      <span class="n">CblasColMajor</span><span class="o">=</span><span class="mi">102</span><span class="p">};</span>   <span class="cm">/* column-major arrays */</span>
+<div id="outline-container-org8ff01a6" class="outline-3">
+<h3 id="org8ff01a6">枚举类型</h3>
+<div class="outline-text-3" id="text-org8ff01a6">
+<div class="highlight"><pre><span></span><span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_LAYOUT</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">CblasRowMajor</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span><span class="w">    </span><span class="cm">/* row-major arrays */</span><span class="w"></span>
+<span class="w">      </span><span class="n">CblasColMajor</span><span class="o">=</span><span class="mi">102</span><span class="p">};</span><span class="w">   </span><span class="cm">/* column-major arrays */</span><span class="w"></span>
 
-   <span class="k">enum</span> <span class="n">CBLAS_TRANSPOSE</span> <span class="p">{</span>
-      <span class="n">CblasNoTrans</span><span class="o">=</span><span class="mi">111</span><span class="p">,</span>     <span class="cm">/* trans='N' */</span>
-      <span class="n">CblasTrans</span><span class="o">=</span><span class="mi">112</span><span class="p">,</span>       <span class="cm">/* trans='T' */</span>
-      <span class="n">CblasConjTrans</span><span class="o">=</span><span class="mi">113</span><span class="p">};</span>  <span class="cm">/* trans='C' */</span>
+<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_TRANSPOSE</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">CblasNoTrans</span><span class="o">=</span><span class="mi">111</span><span class="p">,</span><span class="w">     </span><span class="cm">/* trans='N' */</span><span class="w"></span>
+<span class="w">      </span><span class="n">CblasTrans</span><span class="o">=</span><span class="mi">112</span><span class="p">,</span><span class="w">       </span><span class="cm">/* trans='T' */</span><span class="w"></span>
+<span class="w">      </span><span class="n">CblasConjTrans</span><span class="o">=</span><span class="mi">113</span><span class="p">};</span><span class="w">  </span><span class="cm">/* trans='C' */</span><span class="w"></span>
 
-   <span class="k">enum</span> <span class="n">CBLAS_UPLO</span> <span class="p">{</span>
-      <span class="n">CblasUpper</span><span class="o">=</span><span class="mi">121</span><span class="p">,</span>        <span class="cm">/* uplo ='U' */</span>
-      <span class="n">CblasLower</span><span class="o">=</span><span class="mi">122</span><span class="p">};</span>       <span class="cm">/* uplo ='L' */</span>
+<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_UPLO</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">CblasUpper</span><span class="o">=</span><span class="mi">121</span><span class="p">,</span><span class="w">        </span><span class="cm">/* uplo ='U' */</span><span class="w"></span>
+<span class="w">      </span><span class="n">CblasLower</span><span class="o">=</span><span class="mi">122</span><span class="p">};</span><span class="w">       </span><span class="cm">/* uplo ='L' */</span><span class="w"></span>
 
-   <span class="k">enum</span> <span class="n">CBLAS_DIAG</span> <span class="p">{</span>
-      <span class="n">CblasNonUnit</span><span class="o">=</span><span class="mi">131</span><span class="p">,</span>      <span class="cm">/* diag ='N' */</span>
-      <span class="n">CblasUnit</span><span class="o">=</span><span class="mi">132</span><span class="p">};</span>        <span class="cm">/* diag ='U' */</span>
+<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_DIAG</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">CblasNonUnit</span><span class="o">=</span><span class="mi">131</span><span class="p">,</span><span class="w">      </span><span class="cm">/* diag ='N' */</span><span class="w"></span>
+<span class="w">      </span><span class="n">CblasUnit</span><span class="o">=</span><span class="mi">132</span><span class="p">};</span><span class="w">        </span><span class="cm">/* diag ='U' */</span><span class="w"></span>
 
-   <span class="k">enum</span> <span class="n">CBLAS_SIDE</span> <span class="p">{</span>
-      <span class="n">CblasLeft</span><span class="o">=</span><span class="mi">141</span><span class="p">,</span>         <span class="cm">/* side ='L' */</span>
-      <span class="n">CblasRight</span><span class="o">=</span><span class="mi">142</span><span class="p">};</span>       <span class="cm">/* side ='R' */</span>
+<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_SIDE</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="n">CblasLeft</span><span class="o">=</span><span class="mi">141</span><span class="p">,</span><span class="w">         </span><span class="cm">/* side ='L' */</span><span class="w"></span>
+<span class="w">      </span><span class="n">CblasRight</span><span class="o">=</span><span class="mi">142</span><span class="p">};</span><span class="w">       </span><span class="cm">/* side ='R' */</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org9304e2e" class="outline-3">
-<h3 id="org9304e2e">矩阵存储方式</h3>
-<div class="outline-text-3" id="text-org9304e2e">
+<div id="outline-container-org054450c" class="outline-3">
+<h3 id="org054450c">矩阵存储方式</h3>
+<div class="outline-text-3" id="text-org054450c">
 <ol class="org-ol">
 <li>完全存储矩阵 \(A_{ij}_{}\) 在二维数组列存储 <code>a[i + j*lda]</code> 行存储 <code>a[i*lda + j]</code>
 </li>
@@ -821,7 +1012,7 @@ CBLAS 函数都遵循以下约定
 </div>
     
         <ul class="pager postindexpager clearfix">
-<li class="previous"><a href="." rel="prev">Newer posts</a></li>
+<li class="previous"><a href="index-5.html" rel="prev">Newer posts</a></li>
             <li class="next"><a href="index-3.html" rel="next">Older posts</a></li>
         </ul>
 <!--End of body content--><footer id="footer">

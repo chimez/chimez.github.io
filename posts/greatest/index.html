@@ -111,53 +111,53 @@ TEST x_should_equal_1(void) {
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org72c7358" class="outline-2">
-<h2 id="org72c7358">greatest: c 的单元测试</h2>
-<div class="outline-text-2" id="text-org72c7358">
+    <div id="outline-container-orgbfacba1" class="outline-2">
+<h2 id="orgbfacba1">greatest: c 的单元测试</h2>
+<div class="outline-text-2" id="text-orgbfacba1">
 <p>
 <a href="https://github.com/silentbicycle/greatest">greatest</a> 是 c 的一个单个头文件库，用于写单元测试
 </p>
 </div>
 
-<div id="outline-container-org97aaa41" class="outline-3">
-<h3 id="org97aaa41">基本使用</h3>
-<div class="outline-text-3" id="text-org97aaa41">
-<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">"greatest.h"</span><span class="cp"></span>
+<div id="outline-container-org9ba8794" class="outline-3">
+<h3 id="org9ba8794">基本使用</h3>
+<div class="outline-text-3" id="text-org9ba8794">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"greatest.h"</span><span class="cp"></span>
 
-<span class="cm">/* A test runs various assertions, then calls PASS(), FAIL(), or SKIP(). */</span>
-<span class="n">TEST</span> <span class="nf">x_should_equal_1</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="cm">/* Compare, with an automatic "1 != x" failure message */</span>
-    <span class="n">ASSERT_EQ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+<span class="cm">/* A test runs various assertions, then calls PASS(), FAIL(), or SKIP(). */</span><span class="w"></span>
+<span class="n">TEST</span><span class="w"> </span><span class="nf">x_should_equal_1</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Compare, with an automatic "1 != x" failure message */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ASSERT_EQ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* Compare, with a custom failure message */</span>
-    <span class="n">ASSERT_EQm</span><span class="p">(</span><span class="s">"Yikes, x doesn't equal 1"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* Compare, with a custom failure message */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ASSERT_EQm</span><span class="p">(</span><span class="s">"Yikes, x doesn't equal 1"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* Compare, and if they differ, print both values,</span>
-<span class="cm">     * formatted like `printf("Expected: %d\nGot: %d\n", 1, x);` */</span>
-    <span class="n">ASSERT_EQ_FMT</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s">"%d"</span><span class="p">);</span>
-    <span class="n">PASS</span><span class="p">();</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="cm">/* Compare, and if they differ, print both values,</span>
+<span class="cm">     * formatted like `printf("Expected: %d\nGot: %d\n", 1, x);` */</span><span class="w"></span>
+<span class="w">    </span><span class="n">ASSERT_EQ_FMT</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="s">"%d"</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">PASS</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* Suites can group multiple tests with common setup. */</span>
-<span class="n">SUITE</span><span class="p">(</span><span class="n">the_suite</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">RUN_TEST</span><span class="p">(</span><span class="n">x_should_equal_1</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="cm">/* Suites can group multiple tests with common setup. */</span><span class="w"></span>
+<span class="n">SUITE</span><span class="p">(</span><span class="n">the_suite</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">RUN_TEST</span><span class="p">(</span><span class="n">x_should_equal_1</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* Add definitions that need to be in the test runner's main file. */</span>
-<span class="n">GREATEST_MAIN_DEFS</span><span class="p">();</span>
+<span class="cm">/* Add definitions that need to be in the test runner's main file. */</span><span class="w"></span>
+<span class="n">GREATEST_MAIN_DEFS</span><span class="p">();</span><span class="w"></span>
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">GREATEST_MAIN_BEGIN</span><span class="p">();</span>      <span class="cm">/* command-line options, initialization. */</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">GREATEST_MAIN_BEGIN</span><span class="p">();</span><span class="w">      </span><span class="cm">/* command-line options, initialization. */</span><span class="w"></span>
 
-    <span class="cm">/* Individual tests can be run directly in main, outside of suites. */</span>
-    <span class="cm">/* RUN_TEST(x_should_equal_1); */</span>
+<span class="w">    </span><span class="cm">/* Individual tests can be run directly in main, outside of suites. */</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* RUN_TEST(x_should_equal_1); */</span><span class="w"></span>
 
-    <span class="cm">/* Tests can also be gathered into test suites. */</span>
-    <span class="n">RUN_SUITE</span><span class="p">(</span><span class="n">the_suite</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* Tests can also be gathered into test suites. */</span><span class="w"></span>
+<span class="w">    </span><span class="n">RUN_SUITE</span><span class="p">(</span><span class="n">the_suite</span><span class="p">);</span><span class="w"></span>
 
-    <span class="n">GREATEST_MAIN_END</span><span class="p">();</span>        <span class="cm">/* display results */</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="n">GREATEST_MAIN_END</span><span class="p">();</span><span class="w">        </span><span class="cm">/* display results */</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 </div>

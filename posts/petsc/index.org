@@ -2,7 +2,7 @@
 .. title: PETSc
 .. slug: petsc
 .. date: 2021-04-21 15:39:14 UTC+08:00
-.. tags: C, mpi, HPC, petsc
+.. tags: C, MPI, HPC, petsc
 .. category: library 
 .. link: 
 .. description: 
@@ -475,3 +475,11 @@ x_arr: np.ndarray = x.getArray(readonly=True)
    #+begin_src c
 PETSC_COMM_WORLD = MPI_COMM_WORLD; // 或其它 comm
    #+end_src
+
+** 只使用 c 编译 
+   
+   依赖越复杂，莫名其妙的问题就越多，只需要 c 的话就简单不少。
+
+#+begin_src bash
+./configure PETSC_ARCH=arch-complex-release --with-cc=mpicc --with-cxx=0 --with-fc=0 --with-debugging=0 COPTFLAGS='-O3 -march=native -mtune=native'  --with-scalar-type=complex --with-64-bit-indices  --with-make-dir=$HOME/app/make --with-blas-lapack-dir=/opt/intel/composer_xe_2015.1.133/mkl/lib/intel64
+#+end_src 

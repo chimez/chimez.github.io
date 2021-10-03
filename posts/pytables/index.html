@@ -109,18 +109,18 @@ PyTables 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orge63fc38" class="outline-2">
-<h2 id="orge63fc38">PyTables: 分层数据集</h2>
-<div class="outline-text-2" id="text-orge63fc38">
+    <div id="outline-container-org98076a5" class="outline-2">
+<h2 id="org98076a5">PyTables: 分层数据集</h2>
+<div class="outline-text-2" id="text-org98076a5">
 <p>
 <a href="https://www.pytables.org">PyTables</a> 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5py 更高层。适合用在存储比 csv 表格更复杂更大的数据，同时又不想自己实现一些基本的数据操作的情况中，并且经过简单的处理就能用 pandas 进行进一步数据分析。
 </p>
 </div>
 
 
-<div id="outline-container-orgca3ec8c" class="outline-3">
-<h3 id="orgca3ec8c">安装</h3>
-<div class="outline-text-3" id="text-orgca3ec8c">
+<div id="outline-container-org5eed8ec" class="outline-3">
+<h3 id="org5eed8ec">安装</h3>
+<div class="outline-text-3" id="text-org5eed8ec">
 <div class="highlight"><pre><span></span>   # 使用 conda
    conda install pytables
    # 或者 pip
@@ -137,17 +137,17 @@ PyTables 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5
 </div>
 </div>
 
-<div id="outline-container-org65428e7" class="outline-3">
-<h3 id="org65428e7">基本使用</h3>
-<div class="outline-text-3" id="text-org65428e7">
+<div id="outline-container-org895ef9f" class="outline-3">
+<h3 id="org895ef9f">基本使用</h3>
+<div class="outline-text-3" id="text-org895ef9f">
 <p>
 pytables 的基本逻辑是
 </p>
 </div>
 
-<div id="outline-container-org7f38529" class="outline-4">
-<h4 id="org7f38529">创建一个 HDF5 文件</h4>
-<div class="outline-text-4" id="text-org7f38529">
+<div id="outline-container-orgd5aff59" class="outline-4">
+<h4 id="orgd5aff59">创建一个 HDF5 文件</h4>
+<div class="outline-text-4" id="text-orgd5aff59">
 <div class="highlight"><pre><span></span>    <span class="n">f</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s2">"filename.h5"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"file title"</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">tb</span><span class="o">.</span><span class="n">Filters</span><span class="p">(</span><span class="n">complevel</span><span class="o">=</span><span class="mi">9</span><span class="p">))</span>
 
     <span class="c1"># 别忘了还要关闭它</span>
@@ -156,17 +156,17 @@ pytables 的基本逻辑是
 </div>
 </div>
 
-<div id="outline-container-org6ae6a0b" class="outline-4">
-<h4 id="org6ae6a0b">在文件中创建任意层的数据集</h4>
-<div class="outline-text-4" id="text-org6ae6a0b">
+<div id="outline-container-orgdfdd192" class="outline-4">
+<h4 id="orgdfdd192">在文件中创建任意层的数据集</h4>
+<div class="outline-text-4" id="text-orgdfdd192">
 <div class="highlight"><pre><span></span>    <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">"/parent/group"</span><span class="p">,</span> <span class="s2">"group_name"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"group title"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orgf749030" class="outline-4">
-<h4 id="orgf749030">在数据集中创建若干个数据表</h4>
-<div class="outline-text-4" id="text-orgf749030">
+<div id="outline-container-org0d457d0" class="outline-4">
+<h4 id="org0d457d0">在数据集中创建若干个数据表</h4>
+<div class="outline-text-4" id="text-org0d457d0">
 <div class="highlight"><pre><span></span>    <span class="c1"># 需要创建对数据的描述</span>
     <span class="k">class</span> <span class="nc">data_description</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
 	<span class="n">name</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">StringCol</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
@@ -194,13 +194,13 @@ pytables 的基本逻辑是
 </div>
 
 
-<div id="outline-container-org62aa681" class="outline-2">
-<h2 id="org62aa681">遇到的问题</h2>
-<div class="outline-text-2" id="text-org62aa681">
+<div id="outline-container-orgc0362e3" class="outline-2">
+<h2 id="orgc0362e3">遇到的问题</h2>
+<div class="outline-text-2" id="text-orgc0362e3">
 </div>
-<div id="outline-container-org7ea187c" class="outline-3">
-<h3 id="org7ea187c">在不支持 <code>flock</code> 的集群上运行</h3>
-<div class="outline-text-3" id="text-org7ea187c">
+<div id="outline-container-org51dd9f9" class="outline-3">
+<h3 id="org51dd9f9">在不支持 <code>flock</code> 的集群上运行</h3>
+<div class="outline-text-3" id="text-org51dd9f9">
 <p>
 需要设置环境变量
 </p>
