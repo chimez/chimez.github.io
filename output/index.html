@@ -14,7 +14,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://chimez.github.io/">
 <link rel="next" href="index-5.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/apache/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/wsl/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -71,7 +71,189 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/apache/" class="u-url">apache</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/wsl/" class="u-url">wsl</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/wsl/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-10-21T12:27:51+08:00" itemprop="datePublished" title="2021-10-21 12:27">2021-10-21 12:27</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org663b7d0" class="outline-2">
+<h2 id="org663b7d0">WSL</h2>
+<div class="outline-text-2" id="text-org663b7d0">
+</div>
+<div id="outline-container-orgc3e453d" class="outline-3">
+<h3 id="orgc3e453d">配置 ssh</h3>
+<div class="outline-text-3" id="text-orgc3e453d">
+<ol class="org-ol">
+<li>安装 <code>openssh-server</code>
+</li>
+<li>
+<p>
+编辑 <code>/etc/ssh/sshd_config</code>
+</p>
+<pre class="example" id="orgaefff1f">
+# change port
+Port 9922
+ListenAddress 0.0.0.0
+PasswordAuthentication yes
+</pre>
+</li>
+<li>重启服务器 <code>sudo service ssh restart</code>
+</li>
+<li>
+<p>
+windows 重定向端口
+</p>
+<pre class="example" id="orgee391ed">
+netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=9922 connectaddress=172.23.241.25 connectport=9922
+</pre>
+<ol class="org-ol">
+<li>端口号就是 ssh 的</li>
+<li>wsl 的 ip 地址可以从 <code>ifconfig</code> 命令获得</li>
+<li>
+<code>ifconfig</code> 在 <code>net-tools</code> 包中</li>
+</ol>
+</li>
+<li>在 windows 防火墙中添加端口</li>
+</ol>
+</div>
+</div>
+</div>
+
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/setuptools/" class="u-url">setuptools</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/setuptools/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-10-06T20:00:12+08:00" itemprop="datePublished" title="2021-10-06 20:00">2021-10-06 20:00</time></a>
+            </p>
+                </div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org7e32d92" class="outline-2">
+<h2 id="org7e32d92">setuptools: python 的打包工具</h2>
+<div class="outline-text-2" id="text-org7e32d92">
+<p>
+<a href="https://setuptools.pypa.io">setuptools</a> 是 pypa 的项目。
+</p>
+</div>
+
+<div id="outline-container-orgc2338b9" class="outline-3">
+<h3 id="orgc2338b9">基本使用</h3>
+<div class="outline-text-3" id="text-orgc2338b9">
+</div>
+<div id="outline-container-org7fd4633" class="outline-4">
+<h4 id="org7fd4633"><code>pyproject.toml</code></h4>
+<div class="outline-text-4" id="text-org7fd4633">
+<p>
+PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml</code> 其中描述项目的基本信息和依赖等。
+</p>
+
+<div class="highlight"><pre><span></span>    [build-system]
+    requires = ["setuptools", "wheel"]
+    build-backend = "setuptools.build_meta"
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org3580d46" class="outline-4">
+<h4 id="org3580d46">
+<code>setup.cfg</code> or <code>setup.py</code>
+</h4>
+<div class="outline-text-4" id="text-org3580d46">
+<p>
+<code>setup.cfg</code> 是 setuptools 的 DSL，而 <code>setup.py</code> 用一般的 python 代码。
+</p>
+
+<div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+
+    <span class="n">setup</span><span class="p">(</span>
+	<span class="n">name</span><span class="o">=</span><span class="s1">'mypackage'</span><span class="p">,</span>
+	<span class="n">version</span><span class="o">=</span><span class="s1">'0.0.1'</span><span class="p">,</span>
+	<span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">'mypackage'</span><span class="p">],</span>
+	<span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+	    <span class="s1">'requests'</span><span class="p">,</span>
+	    <span class="s1">'importlib; python_version == "2.6"'</span><span class="p">,</span>
+	<span class="p">],</span>
+    <span class="p">)</span>
+</pre></div>
+
+<ul class="org-ul">
+<li>
+<code>packages</code> 指定 setuptools 要处理的包，可以使用 <code>find_packages</code>, <code>find_namespace_packages</code> 来自动找到所有包</li>
+<li>
+<code>install_requires</code> 指定安装包需要的依赖, setuptools 可以自动从 pypa 安装依赖</li>
+<li>
+<code>setup_requires</code> 指定依赖，但 setuptools 不会自动安装它</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org651b16d" class="outline-3">
+<h3 id="org651b16d">开发模式</h3>
+<div class="outline-text-3" id="text-org651b16d">
+<p>
+使用开发模式，可以完成构建而不需要将文件复制到包目录。
+</p>
+
+<ul class="org-ul">
+<li>开发模式安装 <code>setup.py develop</code>
+</li>
+<li>开发模式卸载 <code>setup.py develop --uninstall</code>
+</li>
+<li>开发模式与 PEP 517 不兼容，所以用 pip 安装的方式是 <code>pip install --editable .</code>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org58c7310" class="outline-3">
+<h3 id="org58c7310">cython</h3>
+<div class="outline-text-3" id="text-org58c7310">
+<p>
+setuptools 会自动检查 cython 是否安装，如果没有，就会忽略所有 <code>.pyx</code> 文件。
+</p>
+
+<p>
+PEP 517 要求在 <code>pyproject.toml</code> 中加入
+</p>
+<div class="highlight"><pre><span></span>   [build-system]
+   requires=[..., "cython"]
+</pre></div>
+
+<p>
+为了兼容性，推荐在 <code>setup.py</code> 中也加入依赖 <code>setup_requires = ['cython', ...]</code>
+</p>
+
+<p>
+<code>setup.py</code>
+</p>
+<div class="highlight"><pre><span></span>   <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+   <span class="kn">from</span> <span class="nn">Cython.Build</span> <span class="kn">import</span> <span class="n">cythonize</span>
+
+   <span class="n">setup</span><span class="p">(</span>
+       <span class="n">name</span><span class="o">=</span><span class="s1">'Hello world app'</span><span class="p">,</span>
+       <span class="n">ext_modules</span><span class="o">=</span><span class="n">cythonize</span><span class="p">(</span><span class="s2">"hello.pyx"</span><span class="p">),</span>
+       <span class="n">zip_safe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+       <span class="n">setup_requires</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'cython'</span><span class="p">],</span>
+   <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/apache/" class="u-url">apache</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -82,13 +264,13 @@
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orga095cd3" class="outline-2">
-<h2 id="orga095cd3">Apache HTTP 服务器</h2>
-<div class="outline-text-2" id="text-orga095cd3">
+                    <div id="outline-container-org8cc4ff0" class="outline-2">
+<h2 id="org8cc4ff0">Apache HTTP 服务器</h2>
+<div class="outline-text-2" id="text-org8cc4ff0">
 </div>
-<div id="outline-container-org6736beb" class="outline-3">
-<h3 id="org6736beb">配置文件</h3>
-<div class="outline-text-3" id="text-org6736beb">
+<div id="outline-container-orgf3507d6" class="outline-3">
+<h3 id="orgf3507d6">配置文件</h3>
+<div class="outline-text-3" id="text-orgf3507d6">
 <p>
 参考： <a href="https://httpd.apache.org/docs/current/configuring.html">apache-httpd/configuring</a>
 </p>
@@ -98,9 +280,9 @@
 </p>
 </div>
 
-<div id="outline-container-orgc944caf" class="outline-4">
-<h4 id="orgc944caf">语法</h4>
-<div class="outline-text-4" id="text-orgc944caf">
+<div id="outline-container-org7a09d8e" class="outline-4">
+<h4 id="org7a09d8e">语法</h4>
+<div class="outline-text-4" id="text-org7a09d8e">
 <ul class="org-ul">
 <li>每行一个指令，反斜线可以折行</li>
 <li>指令大小写不敏感，但参数大小写敏感</li>
@@ -115,13 +297,13 @@
 </div>
 
 
-<div id="outline-container-org50fa4d9" class="outline-2">
-<h2 id="org50fa4d9">配置</h2>
-<div class="outline-text-2" id="text-org50fa4d9">
+<div id="outline-container-orgf20ddfb" class="outline-2">
+<h2 id="orgf20ddfb">配置</h2>
+<div class="outline-text-2" id="text-orgf20ddfb">
 </div>
-<div id="outline-container-orgfcd1800" class="outline-3">
-<h3 id="orgfcd1800">反向代理 jupyterlab</h3>
-<div class="outline-text-3" id="text-orgfcd1800">
+<div id="outline-container-org31e48ab" class="outline-3">
+<h3 id="org31e48ab">反向代理 jupyterlab</h3>
+<div class="outline-text-3" id="text-org31e48ab">
 <ul class="org-ul">
 <li>需要的模块： <code>a2enmod ssl rewrite proxy proxy_http proxy_wstunnel</code>
 </li>
@@ -146,6 +328,7 @@
 </div>
 </div>
 </div>
+
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pblas-scalapack/" class="u-url">PBLAS &amp; ScaLAPACK &amp; BLACS</a></h1>
                 <div class="metadata">
@@ -158,17 +341,17 @@
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgdf76c0d" class="outline-2">
-<h2 id="orgdf76c0d">PBLAS &amp; ScaLAPACK &amp; BLACS</h2>
-<div class="outline-text-2" id="text-orgdf76c0d">
+                    <div id="outline-container-orgd13e823" class="outline-2">
+<h2 id="orgd13e823">PBLAS &amp; ScaLAPACK &amp; BLACS</h2>
+<div class="outline-text-2" id="text-orgd13e823">
 <p>
 <a href="https://www.netlib.org/scalapack/">ScaLAPACK</a> 是基于 MPI 的并行版本 LAPACK, <a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
 </p>
 </div>
 
-<div id="outline-container-org60d2c88" class="outline-3">
-<h3 id="org60d2c88">编译</h3>
-<div class="outline-text-3" id="text-org60d2c88">
+<div id="outline-container-org05d4f68" class="outline-3">
+<h3 id="org05d4f68">编译</h3>
+<div class="outline-text-3" id="text-org05d4f68">
 <ol class="org-ol">
 <li>从 github 下载 <a href="https://github.com/Reference-ScaLAPACK/scalapack/">https://github.com/Reference-ScaLAPACK/scalapack/</a>
 </li>
@@ -178,7 +361,7 @@
 <p>
 示例
 </p>
-<pre class="example" id="org893a168">
+<pre class="example" id="org6b1a93d">
 FC            = /home/beacon/app/openmpi/bin/mpif90
 CC            = /home/beacon/app/openmpi/bin/mpicc 
 NOOPT         = -O0 -std=legacy
@@ -192,9 +375,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </pre>
 </div>
 
-<div id="outline-container-org99b568c" class="outline-4">
-<h4 id="org99b568c">GCC 10 不兼容</h4>
-<div class="outline-text-4" id="text-org99b568c">
+<div id="outline-container-org8ca23df" class="outline-4">
+<h4 id="org8ca23df">GCC 10 不兼容</h4>
+<div class="outline-text-4" id="text-org8ca23df">
 <p>
 由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 <code>-fallow-argument-mismatch</code> 或 <code>-std=legacy</code> 来编译。
 </p>
@@ -206,9 +389,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </div>
 </div>
 
-<div id="outline-container-org759af95" class="outline-3">
-<h3 id="org759af95">BLACS</h3>
-<div class="outline-text-3" id="text-org759af95">
+<div id="outline-container-orgde7676b" class="outline-3">
+<h3 id="orgde7676b">BLACS</h3>
+<div class="outline-text-3" id="text-orgde7676b">
 <p>
 <a href="https://www.netlib.org/blacs/index.html">BLACS</a> 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
 </p>
@@ -221,13 +404,13 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 <a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html">oneAPI/MKL/BLACS</a>
 </p>
 </div>
-<div id="outline-container-org237a905" class="outline-4">
-<h4 id="org237a905">基本概念</h4>
-<div class="outline-text-4" id="text-org237a905">
+<div id="outline-container-org5d0402f" class="outline-4">
+<h4 id="org5d0402f">基本概念</h4>
+<div class="outline-text-4" id="text-org5d0402f">
 </div>
 <ul class="org-ul">
 <li>
-<a id="org28cdf2b"></a>进程网格和范围操作<br><div class="outline-text-5" id="text-org28cdf2b">
+<a id="orgc6fa68b"></a>进程网格和范围操作<br><div class="outline-text-5" id="text-orgc6fa68b">
 <p>
 一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
 </p>
@@ -249,7 +432,7 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </li>
 
 <li>
-<a id="org51d57ca"></a>上下文<br><div class="outline-text-5" id="text-org51d57ca">
+<a id="org9ecb47a"></a>上下文<br><div class="outline-text-5" id="text-org9ecb47a">
 <p>
 <b>上下文</b> (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
 </p>
@@ -273,7 +456,7 @@ BLACS 中有关上下文的函数有
 </li>
 
 <li>
-<a id="org7ac540c"></a>基于数组的通信<br><div class="outline-text-5" id="text-org7ac540c">
+<a id="org7df683e"></a>基于数组的通信<br><div class="outline-text-5" id="text-org7df683e">
 <p>
 BLACS 中有两个基本的数据模型
 </p>
@@ -281,7 +464,7 @@ BLACS 中有两个基本的数据模型
 
 <ul class="org-ul">
 <li>
-<a id="org23084c0"></a>矩形矩阵<br><div class="outline-text-6" id="text-org23084c0">
+<a id="org49f000c"></a>矩形矩阵<br><div class="outline-text-6" id="text-org49f000c">
 <p>
 一维向量是特殊的矩形矩阵。
 </p>
@@ -293,7 +476,7 @@ BLACS 中有两个基本的数据模型
 </li>
 
 <li>
-<a id="org705ba74"></a>梯形矩阵<br><div class="outline-text-6" id="text-org705ba74">
+<a id="org87f06c5"></a>梯形矩阵<br><div class="outline-text-6" id="text-org87f06c5">
 <p>
 三角矩阵和对角矩阵是特殊的梯形矩阵。
 </p>
@@ -314,7 +497,7 @@ BLACS 中有两个基本的数据模型
 </li>
 
 <li>
-<a id="org79fd737"></a>无编号通信<br><div class="outline-text-5" id="text-org79fd737">
+<a id="orge4dcaf3"></a>无编号通信<br><div class="outline-text-5" id="text-orge4dcaf3">
 <p>
 BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 <code>SHIFT_RANGE</code> 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
 </p>
@@ -331,9 +514,9 @@ BLACS 的通信保证
 </ul>
 </div>
 
-<div id="outline-container-orgaf4d2c8" class="outline-4">
-<h4 id="orgaf4d2c8">结构</h4>
-<div class="outline-text-4" id="text-orgaf4d2c8">
+<div id="outline-container-org5cc51ff" class="outline-4">
+<h4 id="org5cc51ff">结构</h4>
+<div class="outline-text-4" id="text-org5cc51ff">
 <p>
 BLACS 由 4 个部分构成
 </p>
@@ -350,7 +533,7 @@ BLACS 由 4 个部分构成
 
 <ul class="org-ul">
 <li>
-<a id="orge6ebf62"></a>命名规则<br><div class="outline-text-5" id="text-orge6ebf62">
+<a id="org86b82dc"></a>命名规则<br><div class="outline-text-5" id="text-org86b82dc">
 <ul class="org-ul">
 <li>点到点通信与广播： <code>vXXYY2D</code>
 <ul class="org-ul">
@@ -482,9 +665,9 @@ BLACS 由 4 个部分构成
 </ul>
 </div>
 </div>
-<div id="outline-container-org4a3c5bc" class="outline-3">
-<h3 id="org4a3c5bc">PBLAS</h3>
-<div class="outline-text-3" id="text-org4a3c5bc">
+<div id="outline-container-org053ee59" class="outline-3">
+<h3 id="org053ee59">PBLAS</h3>
+<div class="outline-text-3" id="text-org053ee59">
 <p>
 <a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 <code>.h</code> 头文件，得自己写。
 </p>
@@ -494,15 +677,16 @@ BLACS 由 4 个部分构成
 </p>
 </div>
 </div>
-<div id="outline-container-org37fe793" class="outline-3">
-<h3 id="org37fe793">ScaLAPACK</h3>
-<div class="outline-text-3" id="text-org37fe793">
+<div id="outline-container-org0fcc1a8" class="outline-3">
+<h3 id="org0fcc1a8">ScaLAPACK</h3>
+<div class="outline-text-3" id="text-org0fcc1a8">
 </div>
-<div id="outline-container-orgb284b2f" class="outline-4">
-<h4 id="orgb284b2f">基本方法</h4>
+<div id="outline-container-orgad3249b" class="outline-4">
+<h4 id="orgad3249b">基本方法</h4>
 </div>
 </div>
 </div>
+
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/rust-macro/" class="u-url">Rust macro</a></h1>
                 <div class="metadata">
@@ -515,27 +699,27 @@ BLACS 由 4 个部分构成
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org5111f26" class="outline-2">
-<h2 id="org5111f26">Rust 宏</h2>
-<div class="outline-text-2" id="text-org5111f26">
+                    <div id="outline-container-org9e21e83" class="outline-2">
+<h2 id="org9e21e83">Rust 宏</h2>
+<div class="outline-text-2" id="text-org9e21e83">
 <p>
 Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一种是过程宏 <code>#[...]</code> .
 </p>
 </div>
 
 
-<div id="outline-container-orgb6bfc2f" class="outline-3">
-<h3 id="orgb6bfc2f">声明宏 <code>macro_rules!</code>
+<div id="outline-container-org00438ff" class="outline-3">
+<h3 id="org00438ff">声明宏 <code>macro_rules!</code>
 </h3>
-<div class="outline-text-3" id="text-orgb6bfc2f">
+<div class="outline-text-3" id="text-org00438ff">
 <p>
 声明宏是 Rust 中最常用的宏，通过对源码的模式匹配来实现功能。
 </p>
 </div>
 
-<div id="outline-container-orgd60bd2a" class="outline-4">
-<h4 id="orgd60bd2a">语法</h4>
-<div class="outline-text-4" id="text-orgd60bd2a">
+<div id="outline-container-org0eabae1" class="outline-4">
+<h4 id="org0eabae1">语法</h4>
+<div class="outline-text-4" id="text-org0eabae1">
 <p>
 参考： <a href="https://doc.rust-lang.org/reference/macros-by-example.html">reference/macro</a>
 </p>
@@ -551,10 +735,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </div>
 </div>
 
-<div id="outline-container-orgf502251" class="outline-4">
-<h4 id="orgf502251">例子： <code>vec!</code>
+<div id="outline-container-org9bb41e5" class="outline-4">
+<h4 id="org9bb41e5">例子： <code>vec!</code>
 </h4>
-<div class="outline-text-4" id="text-orgf502251">
+<div class="outline-text-4" id="text-org9bb41e5">
 <div class="highlight"><pre><span></span>    #[macro_export]
     macro_rules! vec {
 	( $( $x:expr ),* ) =&gt; {
@@ -573,17 +757,17 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </div>
 
 
-<div id="outline-container-org1408a05" class="outline-3">
-<h3 id="org1408a05">过程宏</h3>
-<div class="outline-text-3" id="text-org1408a05">
+<div id="outline-container-org3450c30" class="outline-3">
+<h3 id="org3450c30">过程宏</h3>
+<div class="outline-text-3" id="text-org3450c30">
 <p>
 过程宏是一个函数，不过它的输入输出类型是词法对象 <code>TokenStream</code> ，由编译器在编译前调用。
 </p>
 </div>
 
-<div id="outline-container-org25266e4" class="outline-4">
-<h4 id="org25266e4">crate</h4>
-<div class="outline-text-4" id="text-org25266e4">
+<div id="outline-container-org6a0fb39" class="outline-4">
+<h4 id="org6a0fb39">crate</h4>
+<div class="outline-text-4" id="text-org6a0fb39">
 <p>
 由于技术限制，目前过程宏必须分离在一个单独的 crate 中, 这个 crate 是 <code>proc-macro</code> 类型的
 </p>
@@ -598,10 +782,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </div>
 </div>
 
-<div id="outline-container-org95e3a2f" class="outline-4">
-<h4 id="org95e3a2f">
+<div id="outline-container-org7765bbd" class="outline-4">
+<h4 id="org7765bbd">
 <code>derive</code> 宏</h4>
-<div class="outline-text-4" id="text-org95e3a2f">
+<div class="outline-text-4" id="text-org7765bbd">
 <p>
 <code>derive</code> 宏用来为结构体等创建默认的 trait 实现。
 </p>
@@ -613,7 +797,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="org3d6e5c9"></a>使用<br><div class="outline-text-5" id="text-org3d6e5c9">
+<a id="org6aec40b"></a>使用<br><div class="outline-text-5" id="text-org6aec40b">
 <p>
 下面的例子展示了为 <code>struct Pancakes</code> 创建 trait <code>HelloMacro</code> 的默认实现的方法，这个 trait 中只有一个函数 <code>hello_macro()</code>
 </p>
@@ -635,7 +819,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="org82f5375"></a>trait 定义<br><div class="outline-text-5" id="text-org82f5375">
+<a id="org5e35bea"></a>trait 定义<br><div class="outline-text-5" id="text-org5e35bea">
 <p>
 <code>hello_macro/src/lib.rs</code>
 </p>
@@ -647,7 +831,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="orgfe3d781"></a>宏定义<br><div class="outline-text-5" id="text-orgfe3d781">
+<a id="org8e74709"></a>宏定义<br><div class="outline-text-5" id="text-org8e74709">
 <p>
 <code>hello_macro_derive/Cargo.toml</code>
 </p>
@@ -695,10 +879,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-org88a67b9" class="outline-4">
-<h4 id="org88a67b9">
+<div id="outline-container-org7875d5d" class="outline-4">
+<h4 id="org7875d5d">
 <code>Attribute-like</code> 宏</h4>
-<div class="outline-text-4" id="text-org88a67b9">
+<div class="outline-text-4" id="text-org7875d5d">
 <p>
 属性宏可以创建新的属性, 与 <code>derive</code> 宏的区别在于参数多了一个属性 <code>attr</code>, 也就是括号里面的部分，另一个参数 <code>item</code> 就是与 <code>derive</code> 宏一样的内容了。
 </p>
@@ -706,7 +890,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="orgdeb78d0"></a>用法<br><div class="outline-text-5" id="text-orgdeb78d0">
+<a id="orgb598b7b"></a>用法<br><div class="outline-text-5" id="text-orgb598b7b">
 <div class="highlight"><pre><span></span>     #[route(GET, "/")]
      fn index() { ... }
 </pre></div>
@@ -714,7 +898,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="org0890c8e"></a>宏定义<br><div class="outline-text-5" id="text-org0890c8e">
+<a id="org6f08530"></a>宏定义<br><div class="outline-text-5" id="text-org6f08530">
 <div class="highlight"><pre><span></span>     #[proc_macro_attribute]
      pub fn route(attr: TokenStream, item: TokenStream) -&gt; TokenStream { ... }
 </pre></div>
@@ -723,10 +907,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-orgbdfa294" class="outline-4">
-<h4 id="orgbdfa294">
+<div id="outline-container-org374b7a5" class="outline-4">
+<h4 id="org374b7a5">
 <code>Function-like</code> 宏</h4>
-<div class="outline-text-4" id="text-orgbdfa294">
+<div class="outline-text-4" id="text-org374b7a5">
 <p>
 函数宏可以定义像函数一样调用的宏。可以用来定义 DSL
 </p>
@@ -734,14 +918,14 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="orga97085e"></a>用法<br><div class="outline-text-5" id="text-orga97085e">
+<a id="org02c78a4"></a>用法<br><div class="outline-text-5" id="text-org02c78a4">
 <div class="highlight"><pre><span></span>     let sql = sql!(SELECT * FROM posts WHERE id=1);
 </pre></div>
 </div>
 </li>
 
 <li>
-<a id="org015724b"></a>宏定义<br><div class="outline-text-5" id="text-org015724b">
+<a id="org6797a07"></a>宏定义<br><div class="outline-text-5" id="text-org6797a07">
 <div class="highlight"><pre><span></span>     #[proc_macro]
      pub fn sql(input: TokenStream) -&gt; TokenStream { ... }
 </pre></div>
@@ -750,9 +934,9 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-org27fe838" class="outline-4">
-<h4 id="org27fe838">syn: rust parser</h4>
-<div class="outline-text-4" id="text-org27fe838">
+<div id="outline-container-org04a8869" class="outline-4">
+<h4 id="org04a8869">syn: rust parser</h4>
+<div class="outline-text-4" id="text-org04a8869">
 <p>
 <a href="https://crates.io/crates/syn">syn</a> 是 rust 代码的 parser，可以将源码字符串 <code>TokenStream</code> 转换成语法树 <code>syn::DeriveInput</code> 。
 </p>
@@ -760,7 +944,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="org757dae8"></a><code>syn::DeriveInput</code><br><div class="outline-text-5" id="text-org757dae8">
+<a id="orga29f2d4"></a><code>syn::DeriveInput</code><br><div class="outline-text-5" id="text-orga29f2d4">
 <p>
 对于输入 <code>TokenStream</code> 使用 <code>parse_macro_input!</code> 将它解析为语法树 <code>DeriveInput</code> ，之后就可以通过对语法树的操作生成新的语法树
 </p>
@@ -768,7 +952,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="org8916604"></a><code>syn::spanned::Spanned</code><br><div class="outline-text-5" id="text-org8916604">
+<a id="orgc25fad7"></a><code>syn::spanned::Spanned</code><br><div class="outline-text-5" id="text-orgc25fad7">
 <p>
 对重复结构的操作，使用 <code>span()</code> 配合 <code>quote::qoute_spanned!</code> 实现
 </p>
@@ -777,9 +961,9 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-orgb1bb3a8" class="outline-4">
-<h4 id="orgb1bb3a8">quote: rust 代码模板</h4>
-<div class="outline-text-4" id="text-orgb1bb3a8">
+<div id="outline-container-orgdec9f69" class="outline-4">
+<h4 id="orgdec9f69">quote: rust 代码模板</h4>
+<div class="outline-text-4" id="text-orgdec9f69">
 <p>
 <a href="https://crates.io/crates/quote">quote</a> 的 <code>quote!</code> 宏可以将 rust 语法数据结构变成 <code>TokenStream</code>
 </p>
@@ -795,6 +979,7 @@ qoute 的宏类似于 <code>macro_rules!</code> 只是把 <code>$</code> 换成 
 </div>
 </div>
 </div>
+
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/rust-c-ffi/" class="u-url">rust c ffi</a></h1>
                 <div class="metadata">
@@ -807,21 +992,21 @@ qoute 的宏类似于 <code>macro_rules!</code> 只是把 <code>$</code> 换成 
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgbf6c089" class="outline-2">
-<h2 id="orgbf6c089">Rust C FFI</h2>
-<div class="outline-text-2" id="text-orgbf6c089">
+                    <div id="outline-container-org565d44d" class="outline-2">
+<h2 id="org565d44d">Rust C FFI</h2>
+<div class="outline-text-2" id="text-org565d44d">
 </div>
-<div id="outline-container-org5df6cb7" class="outline-3">
-<h3 id="org5df6cb7">rust-bindgen: rust 调用 c</h3>
-<div class="outline-text-3" id="text-org5df6cb7">
+<div id="outline-container-org39b7e15" class="outline-3">
+<h3 id="org39b7e15">rust-bindgen: rust 调用 c</h3>
+<div class="outline-text-3" id="text-org39b7e15">
 <p>
 <a href="https://github.com/rust-lang/rust-bindgen">rust-bindgen</a> 是在编译时由头文件生成绑定代码的工具。由它封装的库称为 <code>xxx-sys</code>
 </p>
 </div>
 
-<div id="outline-container-org4189f9f" class="outline-4">
-<h4 id="org4189f9f">常量宏</h4>
-<div class="outline-text-4" id="text-org4189f9f">
+<div id="outline-container-org9f1c57e" class="outline-4">
+<h4 id="org9f1c57e">常量宏</h4>
+<div class="outline-text-4" id="text-org9f1c57e">
 <p>
 对于形如 <code>#define XX (int)0</code> 这样的有类型转换的宏是不能自动生成绑定的，可以在 <code>wrapper.h</code> 中写
 </p>
@@ -834,40 +1019,40 @@ qoute 的宏类似于 <code>macro_rules!</code> 只是把 <code>$</code> 换成 
 </div>
 </div>
 
-<div id="outline-container-orge389887" class="outline-3">
-<h3 id="orge389887">libc: 系统库</h3>
+<div id="outline-container-org8318d8b" class="outline-3">
+<h3 id="org8318d8b">libc: 系统库</h3>
 </div>
 
 
-<div id="outline-container-org69745cd" class="outline-3">
-<h3 id="org69745cd">c 类型</h3>
-<div class="outline-text-3" id="text-org69745cd">
+<div id="outline-container-orgf2f69a2" class="outline-3">
+<h3 id="orgf2f69a2">c 类型</h3>
+<div class="outline-text-3" id="text-orgf2f69a2">
 <p>
 一般的类型在 <code>std::os::raw</code> 中，或者使用在 <code>libc</code> 中的重新绑定。
 </p>
 </div>
 
-<div id="outline-container-org3894e91" class="outline-4">
-<h4 id="org3894e91">字符串</h4>
-<div class="outline-text-4" id="text-org3894e91">
+<div id="outline-container-org2d44e2a" class="outline-4">
+<h4 id="org2d44e2a">字符串</h4>
+<div class="outline-text-4" id="text-org2d44e2a">
 <p>
 c 的字符串实际上是 <code>&amp;[u8]</code> 数组，可以用 <code>std::ffi::CString</code> 和 <code>std::ffi::CStr</code>, 其中 <code>CString</code> 拥有所有权， <code>CStr</code> 是借用。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org26fa59e" class="outline-4">
-<h4 id="org26fa59e">指针</h4>
-<div class="outline-text-4" id="text-org26fa59e">
+<div id="outline-container-org07d6fd8" class="outline-4">
+<h4 id="org07d6fd8">指针</h4>
+<div class="outline-text-4" id="text-org07d6fd8">
 <p>
 c 的常量指针 <code>const int *</code> 对应 <code>*const i32</code>, 一般指针 <code>int *</code> 对应 <code>*mut i32</code>. 两级指针 <code>int **</code> 对应 <code>*mut *mut int</code> 以此类推。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org7cea096" class="outline-4">
-<h4 id="org7cea096">结构体</h4>
-<div class="outline-text-4" id="text-org7cea096">
+<div id="outline-container-orge2f5c39" class="outline-4">
+<h4 id="orge2f5c39">结构体</h4>
+<div class="outline-text-4" id="text-orge2f5c39">
 <p>
 rust 中定义与 c 兼容的结构体的方法为
 </p>
@@ -880,18 +1065,18 @@ rust 中定义与 c 兼容的结构体的方法为
 </div>
 </div>
 
-<div id="outline-container-org64178af" class="outline-4">
-<h4 id="org64178af"><code>sizeof</code></h4>
-<div class="outline-text-4" id="text-org64178af">
+<div id="outline-container-org739fb7c" class="outline-4">
+<h4 id="org739fb7c"><code>sizeof</code></h4>
+<div class="outline-text-4" id="text-org739fb7c">
 <p>
 与 c 的 <code>sizeof</code> 相同的是 <code>std::mem::sizeof</code>
 </p>
 </div>
 </div>
 
-<div id="outline-container-org30662f9" class="outline-4">
-<h4 id="org30662f9"><code>offsetof</code></h4>
-<div class="outline-text-4" id="text-org30662f9">
+<div id="outline-container-org3a631b2" class="outline-4">
+<h4 id="org3a631b2"><code>offsetof</code></h4>
+<div class="outline-text-4" id="text-org3a631b2">
 <p>
 使用 <a href="https://github.com/Gilnaa/memoffset">memoffset</a> 的 <code>offset_of!</code> 宏来获得。
 </p>
@@ -903,14 +1088,14 @@ rust 中定义与 c 兼容的结构体的方法为
 </div>
 </div>
 
-<div id="outline-container-orgbfa7b39" class="outline-3">
-<h3 id="orgbfa7b39">问题解决</h3>
-<div class="outline-text-3" id="text-orgbfa7b39">
+<div id="outline-container-org436f60d" class="outline-3">
+<h3 id="org436f60d">问题解决</h3>
+<div class="outline-text-3" id="text-org436f60d">
 </div>
-<div id="outline-container-org5b88e20" class="outline-4">
-<h4 id="org5b88e20">传递 <code>argc, argv</code>
+<div id="outline-container-orgfb29b67" class="outline-4">
+<h4 id="orgfb29b67">传递 <code>argc, argv</code>
 </h4>
-<div class="outline-text-4" id="text-org5b88e20">
+<div class="outline-text-4" id="text-orgfb29b67">
 <p>
 参考 <a href="https://stackoverflow.com/questions/34379641/how-do-i-convert-rust-args-into-the-argc-and-argv-c-equivalents">stackoverflow</a>
 </p>
@@ -940,6 +1125,7 @@ rust 中定义与 c 兼容的结构体的方法为
 </div>
 </div>
 </div>
+
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/restructuredtext/" class="u-url">reStructuredText</a></h1>
                 <div class="metadata">
@@ -952,31 +1138,31 @@ rust 中定义与 c 兼容的结构体的方法为
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org99c62b4" class="outline-2">
-<h2 id="org99c62b4">reStructuredText</h2>
-<div class="outline-text-2" id="text-org99c62b4">
+                    <div id="outline-container-orgaa268e1" class="outline-2">
+<h2 id="orgaa268e1">reStructuredText</h2>
+<div class="outline-text-2" id="text-orgaa268e1">
 <p>
 reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 python 的 <img src="sphinx-documentation-generator.org" alt="Sphinx"> 默认语言。
 </p>
 </div>
 
-<div id="outline-container-org4f960f1" class="outline-3">
-<h3 id="org4f960f1">基本语法</h3>
-<div class="outline-text-3" id="text-org4f960f1">
+<div id="outline-container-orgc17302f" class="outline-3">
+<h3 id="orgc17302f">基本语法</h3>
+<div class="outline-text-3" id="text-orgc17302f">
 </div>
-<div id="outline-container-org4a20ebd" class="outline-4">
-<h4 id="org4a20ebd">段落</h4>
-<div class="outline-text-4" id="text-org4a20ebd">
+<div id="outline-container-org6072715" class="outline-4">
+<h4 id="org6072715">段落</h4>
+<div class="outline-text-4" id="text-org6072715">
 <p>
 与 python 类似，reST 中用缩进表示不同的层级。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org77148fe" class="outline-4">
-<h4 id="org77148fe">行内标记</h4>
-<div class="outline-text-4" id="text-org77148fe">
-<pre class="example" id="org21c8c75">
+<div id="outline-container-orgf1d2bbb" class="outline-4">
+<h4 id="orgf1d2bbb">行内标记</h4>
+<div class="outline-text-4" id="text-orgf1d2bbb">
+<pre class="example" id="org07dbc8e">
 *something*               | 斜体
 **something**             | 粗体
 ``code``                  | 行内代码
@@ -987,9 +1173,9 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </div>
 </div>
 
-<div id="outline-container-orgdcb9a89" class="outline-4">
-<h4 id="orgdcb9a89">列表</h4>
-<div class="outline-text-4" id="text-orgdcb9a89">
+<div id="outline-container-org31e0052" class="outline-4">
+<h4 id="org31e0052">列表</h4>
+<div class="outline-text-4" id="text-org31e0052">
 <div class="highlight"><pre><span></span>    1. 编号列表
     2. 编号列表
 
@@ -1008,9 +1194,9 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </div>
 </div>
 
-<div id="outline-container-org470b512" class="outline-4">
-<h4 id="org470b512">引用块</h4>
-<div class="outline-text-4" id="text-org470b512">
+<div id="outline-container-org029f582" class="outline-4">
+<h4 id="org029f582">引用块</h4>
+<div class="outline-text-4" id="text-org029f582">
 <div class="highlight"><pre><span></span>    引用块，末尾用双冒号::
 
       空一行
@@ -1022,9 +1208,9 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </div>
 </div>
 
-<div id="outline-container-org890e08f" class="outline-4">
-<h4 id="org890e08f">表格</h4>
-<div class="outline-text-4" id="text-org890e08f">
+<div id="outline-container-orgc64ee0e" class="outline-4">
+<h4 id="orgc64ee0e">表格</h4>
+<div class="outline-text-4" id="text-orgc64ee0e">
 <div class="highlight"><pre><span></span>    完整的表格
 
     +------------------------+------------+----------+----------+
@@ -1050,10 +1236,10 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </div>
 </div>
 
-<div id="outline-container-org2033fdc" class="outline-4">
-<h4 id="org2033fdc">标题</h4>
-<div class="outline-text-4" id="text-org2033fdc">
-<pre class="example" id="orga172b79">
+<div id="outline-container-orgc2d1e4a" class="outline-4">
+<h4 id="orgc2d1e4a">标题</h4>
+<div class="outline-text-4" id="text-orgc2d1e4a">
+<pre class="example" id="orgc3957d3">
 # | parts
 * | chapters
 = | sections
@@ -1065,9 +1251,9 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </div>
 </div>
 
-<div id="outline-container-org26395e8" class="outline-3">
-<h3 id="org26395e8">指令</h3>
-<div class="outline-text-3" id="text-org26395e8">
+<div id="outline-container-org4a359d6" class="outline-3">
+<h3 id="org4a359d6">指令</h3>
+<div class="outline-text-3" id="text-org4a359d6">
 <p>
 reST 支持很多指令，这里是常用的几个
 </p>
@@ -1075,38 +1261,39 @@ reST 支持很多指令，这里是常用的几个
 
 <ul class="org-ul">
 <li>
-<a id="org8e9f35d"></a><code>image</code> 图片<br>
+<a id="org730c2b8"></a><code>image</code> 图片<br>
 </li>
 
 <li>
-<a id="org8d28757"></a><code>[#footnote]_</code> 脚注<br>
+<a id="org3b586d8"></a><code>[#footnote]_</code> 脚注<br>
 </li>
 
 <li>
-<a id="org68f7998"></a><code>..</code> 注释<br>
+<a id="orga00e3d3"></a><code>..</code> 注释<br>
 </li>
 </ul>
 </div>
 
-<div id="outline-container-org6675291" class="outline-3">
-<h3 id="org6675291">角色</h3>
-<div class="outline-text-3" id="text-org6675291">
+<div id="outline-container-org49f54ba" class="outline-3">
+<h3 id="org49f54ba">角色</h3>
+<div class="outline-text-3" id="text-org49f54ba">
 <p>
 reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内标记
 </p>
 </div>
 
-<div id="outline-container-org7bf133e" class="outline-4">
-<h4 id="org7bf133e">
+<div id="outline-container-org4947ec6" class="outline-4">
+<h4 id="org4947ec6">
 <code>:ref:</code> 交叉引用</h4>
 </div>
 
-<div id="outline-container-org440559b" class="outline-4">
-<h4 id="org440559b">
+<div id="outline-container-org5aef652" class="outline-4">
+<h4 id="org5aef652">
 <code>:math:</code> 数学公式</h4>
 </div>
 </div>
 </div>
+
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/sphinx-documentation-generator/" class="u-url">Sphinx: Documentation Generator</a></h1>
                 <div class="metadata">
@@ -1119,39 +1306,39 @@ reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内�
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org841d366" class="outline-2">
-<h2 id="org841d366">Sphinx: 文档生成</h2>
-<div class="outline-text-2" id="text-org841d366">
+                    <div id="outline-container-orge0d58c7" class="outline-2">
+<h2 id="orge0d58c7">Sphinx: 文档生成</h2>
+<div class="outline-text-2" id="text-orge0d58c7">
 <p>
 <a href="https://www.sphinx-doc.org/en/master/usage/quickstart.html">sphinx/getting started</a>
 </p>
 </div>
 
-<div id="outline-container-org5d416a8" class="outline-3">
-<h3 id="org5d416a8">创建与配置项目</h3>
-<div class="outline-text-3" id="text-org5d416a8">
+<div id="outline-container-org6b26e9a" class="outline-3">
+<h3 id="org6b26e9a">创建与配置项目</h3>
+<div class="outline-text-3" id="text-org6b26e9a">
 </div>
-<div id="outline-container-orga7905f1" class="outline-4">
-<h4 id="orga7905f1"><code>sphinx-quickstart</code></h4>
-<div class="outline-text-4" id="text-orga7905f1">
+<div id="outline-container-org5e10e3a" class="outline-4">
+<h4 id="org5e10e3a"><code>sphinx-quickstart</code></h4>
+<div class="outline-text-4" id="text-org5e10e3a">
 <p>
 使用这个命令，快速创建项目。跟随指导做一些选项。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5a88cf1" class="outline-4">
-<h4 id="org5a88cf1">生成文档</h4>
-<div class="outline-text-4" id="text-org5a88cf1">
+<div id="outline-container-orga66c76f" class="outline-4">
+<h4 id="orga66c76f">生成文档</h4>
+<div class="outline-text-4" id="text-orga66c76f">
 <p>
 使用命令 <code>sphinx-build -b html sourcedir builddir</code> 或者 <code>make html</code>
 </p>
 </div>
 </div>
 
-<div id="outline-container-org5302760" class="outline-4">
-<h4 id="org5302760">基本配置</h4>
-<div class="outline-text-4" id="text-org5302760">
+<div id="outline-container-org87d9ec0" class="outline-4">
+<h4 id="org87d9ec0">基本配置</h4>
+<div class="outline-text-4" id="text-org87d9ec0">
 <p>
 基本配置在 <code>conf.py</code> 文件中。这个文件就是一个python 脚本，可以执行各种python函数和导入其它库等。
 </p>
@@ -1163,13 +1350,13 @@ reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内�
 </div>
 </div>
 
-<div id="outline-container-org62c45f2" class="outline-3">
-<h3 id="org62c45f2">写文档</h3>
-<div class="outline-text-3" id="text-org62c45f2">
+<div id="outline-container-org0d3cbde" class="outline-3">
+<h3 id="org0d3cbde">写文档</h3>
+<div class="outline-text-3" id="text-org0d3cbde">
 </div>
-<div id="outline-container-org2ad9a82" class="outline-4">
-<h4 id="org2ad9a82">文档结构</h4>
-<div class="outline-text-4" id="text-org2ad9a82">
+<div id="outline-container-orge06840f" class="outline-4">
+<h4 id="orge06840f">文档结构</h4>
+<div class="outline-text-4" id="text-orge06840f">
 <ol class="org-ol">
 <li>
 <code>index.rst</code> 文件是文档的欢迎页面，其中包括
@@ -1182,9 +1369,9 @@ reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内�
 </div>
 </div>
 
-<div id="outline-container-org42dea4d" class="outline-4">
-<h4 id="org42dea4d">reStructuredText directives</h4>
-<div class="outline-text-4" id="text-org42dea4d">
+<div id="outline-container-orge94a54b" class="outline-4">
+<h4 id="orge94a54b">reStructuredText directives</h4>
+<div class="outline-text-4" id="text-orge94a54b">
 <p>
 rst 指令的格式中包括
 </p>
@@ -1197,7 +1384,7 @@ rst 指令的格式中包括
 
 <ul class="org-ul">
 <li>
-<a id="org141832e"></a><code>toctree</code> 目录<br><div class="outline-text-5" id="text-org141832e">
+<a id="org9b627e0"></a><code>toctree</code> 目录<br><div class="outline-text-5" id="text-org9b627e0">
 <p>
 参考：<a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#toctree-directive">directives/toctree-directive</a>
 </p>
@@ -1215,7 +1402,7 @@ rst 指令的格式中包括
 
 <ul class="org-ul">
 <li>
-<a id="org1cedf5c"></a>内容<br><div class="outline-text-6" id="text-org1cedf5c">
+<a id="orgf8f6984"></a>内容<br><div class="outline-text-6" id="text-orgf8f6984">
 <p>
 内容中每一行就是要链接到的文件名, 可以用 <code>Net Title &lt;filename&gt;</code> 重新指定显示的标题
 </p>
@@ -1223,7 +1410,7 @@ rst 指令的格式中包括
 </li>
 
 <li>
-<a id="orgb775885"></a>选项<br><div class="outline-text-6" id="text-orgb775885">
+<a id="org4c6406b"></a>选项<br><div class="outline-text-6" id="text-org4c6406b">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -1275,9 +1462,9 @@ rst 指令的格式中包括
 </ul>
 </div>
 
-<div id="outline-container-orgcce0e8e" class="outline-4">
-<h4 id="orgcce0e8e">Domains</h4>
-<div class="outline-text-4" id="text-orgcce0e8e">
+<div id="outline-container-org53fc496" class="outline-4">
+<h4 id="org53fc496">Domains</h4>
+<div class="outline-text-4" id="text-org53fc496">
 <p>
 为了对应 python/c++ 中的名字空间，防止函数名冲突，要把函数的文档写在 domain 里。
 </p>
@@ -1289,7 +1476,7 @@ rst 指令的格式中包括
 
 <ul class="org-ul">
 <li>
-<a id="org180b7d8"></a>基本语法<br><div class="outline-text-5" id="text-org180b7d8">
+<a id="org6dbc23f"></a>基本语法<br><div class="outline-text-5" id="text-org6dbc23f">
 <p>
 可以一次生成两个函数
 </p>
@@ -1314,7 +1501,7 @@ rst 指令的格式中包括
 </li>
 
 <li>
-<a id="org01e90d5"></a>交叉引用<br><div class="outline-text-5" id="text-org01e90d5">
+<a id="org3e639cc"></a>交叉引用<br><div class="outline-text-5" id="text-org3e639cc">
 <p>
 基本语法是 <code>:role:`title &lt;target&gt;`</code> 这会引用 <code>target</code> 但显示的是 <code>title</code>
 </p>
@@ -1326,7 +1513,7 @@ rst 指令的格式中包括
 </div>
 </li>
 <li>
-<a id="orga473773"></a>C++<br><div class="outline-text-5" id="text-orga473773">
+<a id="org98f1d5c"></a>C++<br><div class="outline-text-5" id="text-org98f1d5c">
 <p>
 参考 <a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cpp-domain">domains/cpp-domain</a>     
 </p>
@@ -1337,9 +1524,9 @@ rst 指令的格式中包括
 </div>
 
 
-<div id="outline-container-org65ab85a" class="outline-3">
-<h3 id="org65ab85a">Autodoc: 注释文档</h3>
-<div class="outline-text-3" id="text-org65ab85a">
+<div id="outline-container-org19136e0" class="outline-3">
+<h3 id="org19136e0">Autodoc: 注释文档</h3>
+<div class="outline-text-3" id="text-org19136e0">
 <p>
 通过 autodoc 可以从源码的注释生成文档。需要在 <code>conf.py</code> 的 <code>extensions</code> 中加入 <code>'sphinx.ext.autodoc'</code> . 之后就可以利用 <code>autofunction</code> <code>automodule</code> 等指令，将注释作为文档导入。
 </p>
@@ -1347,17 +1534,17 @@ rst 指令的格式中包括
 </div>
 
 
-<div id="outline-container-orge3818bc" class="outline-3">
-<h3 id="orge3818bc">breathe</h3>
-<div class="outline-text-3" id="text-orge3818bc">
+<div id="outline-container-orgd3f5562" class="outline-3">
+<h3 id="orgd3f5562">breathe</h3>
+<div class="outline-text-3" id="text-orgd3f5562">
 <p>
 <a href="https://breathe.readthedocs.io/en/latest/index.html">breathe</a> 是通过 doxygen 生成 c/c++ 的文档的工具
 </p>
 </div>
 
-<div id="outline-container-org7471afa" class="outline-4">
-<h4 id="org7471afa">基本使用</h4>
-<div class="outline-text-4" id="text-org7471afa">
+<div id="outline-container-org6f21034" class="outline-4">
+<h4 id="org6f21034">基本使用</h4>
+<div class="outline-text-4" id="text-org6f21034">
 <p>
 设置 <code>conf.py</code>
 </p>
@@ -1377,6 +1564,7 @@ rst 指令的格式中包括
 </div>
 </div>
 </div>
+
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/xxhash/" class="u-url">xxhash</a></h1>
                 <div class="metadata">
@@ -1389,17 +1577,17 @@ rst 指令的格式中包括
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgae46881" class="outline-2">
-<h2 id="orgae46881">xxHash: 快速的哈希函数</h2>
-<div class="outline-text-2" id="text-orgae46881">
+                    <div id="outline-container-orgbc66ece" class="outline-2">
+<h2 id="orgbc66ece">xxHash: 快速的哈希函数</h2>
+<div class="outline-text-2" id="text-orgbc66ece">
 <p>
 <a href="https://github.com/Cyan4973/xxHash">Cyan4973/xxHash</a>
 </p>
 </div>
 
-<div id="outline-container-org54c7d4a" class="outline-3">
-<h3 id="org54c7d4a">安装</h3>
-<div class="outline-text-3" id="text-org54c7d4a">
+<div id="outline-container-orge42c208" class="outline-3">
+<h3 id="orge42c208">安装</h3>
+<div class="outline-text-3" id="text-orge42c208">
 <p>
 meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
 </p>
@@ -1410,9 +1598,9 @@ meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
 </div>
 </div>
 
-<div id="outline-container-orge9e3061" class="outline-3">
-<h3 id="orge9e3061">基本使用</h3>
-<div class="outline-text-3" id="text-orge9e3061">
+<div id="outline-container-orga8a7740" class="outline-3">
+<h3 id="orga8a7740">基本使用</h3>
+<div class="outline-text-3" id="text-orga8a7740">
 <p>
 最快的哈希函数是 <code>XXH3_64bits</code>
 </p>
@@ -1427,6 +1615,7 @@ meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
 </div>
 </div>
 </div>
+
                 </div>
             </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/klib/" class="u-url">klib</a></h1>
                 <div class="metadata">
@@ -1439,17 +1628,17 @@ meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
             </p>
                 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org7e15f53" class="outline-2">
-<h2 id="org7e15f53">klib: 轻量级 c 头文件库</h2>
-<div class="outline-text-2" id="text-org7e15f53">
+                    <div id="outline-container-org7c16d48" class="outline-2">
+<h2 id="org7c16d48">klib: 轻量级 c 头文件库</h2>
+<div class="outline-text-2" id="text-org7c16d48">
 <p>
 <a href="https://github.com/attractivechaos/klib">attractivechaos/klib</a>
 </p>
 </div>
 
-<div id="outline-container-org07d9425" class="outline-3">
-<h3 id="org07d9425">khash.h</h3>
-<div class="outline-text-3" id="text-org07d9425">
+<div id="outline-container-org913d879" class="outline-3">
+<h3 id="org913d879">khash.h</h3>
+<div class="outline-text-3" id="text-org913d879">
 <p>
 快速轻量的哈希表库
 </p>
@@ -1509,1424 +1698,7 @@ meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
 </div>
 </div>
 </div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/cython/" class="u-url">cython</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/cython/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-08-05T20:47:25+08:00" itemprop="datePublished" title="2021-08-05 20:47">2021-08-05 20:47</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-org623bff5" class="outline-2">
-<h2 id="org623bff5">Cython</h2>
-<div class="outline-text-2" id="text-org623bff5">
-</div>
-<div id="outline-container-orgcae80f3" class="outline-3">
-<h3 id="orgcae80f3">基本概念</h3>
-<div class="outline-text-3" id="text-orgcae80f3">
-</div>
-<div id="outline-container-org12f0306" class="outline-4">
-<h4 id="org12f0306">文件</h4>
-<div class="outline-text-4" id="text-org12f0306">
-<ol class="org-ol">
-<li>
-<code>.pyx</code> 是 <code>cython</code> 语法的源文件</li>
-<li>
-<code>.pyd</code> (windows) 是 windows 平台上编译后的文件，对应 linux 平台的 <code>*.so</code>
-</li>
-<li>
-<code>.pyd</code> (源文件) 是外部声明，即对 <code>.h</code> 头文件的重新封装</li>
-</ol>
-</div>
-</div>
 
-<div id="outline-container-org356013e" class="outline-4">
-<h4 id="org356013e">库</h4>
-<div class="outline-text-4" id="text-org356013e">
-<ol class="org-ol">
-<li>
-<code>Cython.Build</code> python 端调用，用于编译</li>
-<li>
-<code>cython.parallel</code> cython 端调用，并行 <code>prange</code>
-</li>
-</ol>
-<p>
-所有 c 库在 <a href="https://github.com/cython/cython/tree/master/Cython/Includes">Cython/Includes</a> 中
-</p>
-<ol class="org-ol">
-<li>
-<code>libc</code> cython 端调用， c 标准库</li>
-<li>
-<code>libcpp</code> cython 端调用， c++ stl 库</li>
-<li>
-<code>numpy</code> cython 端调用，numpy 支持</li>
-<li>
-<code>posix</code> cython 端调用，posix 库</li>
-<li>
-<code>openmp</code> cython 端调用，并行</li>
-<li>
-<code>cpython</code> cython 端调用， python 的 c 接口</li>
-<li>
-<code>cython</code> cython 端调用，控制特殊行为</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-orgea8d3ea" class="outline-4">
-<h4 id="orgea8d3ea">语法</h4>
-<div class="outline-text-4" id="text-orgea8d3ea">
-<div class="highlight"><pre><span></span>    from libc.math cimport log2 # 引入 c 函数
-    cdef int x # 声明变量类型
-    cdef int [:,:] x # 声明变量是 numpy 的 2d 向量
-    ctypedef struct queue: # 声明类型
-	pass
-
-    ctypedef fused my_type: # 泛型
-	int
-	double
-	long long
-
-    # 类的定义，注意使用 __cinit__
-    cdef class A:
-	cdef int a
-	def __cinit__(self):
-	    self.a = 1
-
-    &lt;void*&gt;value # 类型转换成指针
-
-    # 定义 c 函数，异常时返回 -1
-    cdef int func(int x) execpt? -1:
-	pass
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org0e3efab" class="outline-4">
-<h4 id="org0e3efab">文件注解</h4>
-<div class="outline-text-4" id="text-org0e3efab">
-<ol class="org-ol">
-<li>
-<code># distutils: language=c++</code> 使用 <code>c++</code> 编译</li>
-<li>
-<code># distutils: sources = c-algorithms/src/queue.c</code> 指定静态链接的源文件</li>
-<li>
-<code># distutils: include_dirs = c-algorithms/src/</code> 指定头文件目录</li>
-<li>
-<code># distutils: extra_compile_args=-fopenmp</code> 指定编译器参数</li>
-<li>
-<code># distutils: extra_link_args=-fopenmp</code> 指定链接参数</li>
-<li>
-<code># cython: infer_types=True</code> 自动推断类型，只作用于一级缩进的变量</li>
-<li>
-<code># cython: profile=True</code> 开启 profile</li>
-<li>
-<code># cython: linetrace=True</code> 开启 profile 行追踪</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-orgb070531" class="outline-4">
-<h4 id="orgb070531">函数注解</h4>
-<div class="outline-text-4" id="text-orgb070531">
-<ol class="org-ol">
-<li>
-<code>@cython.boundscheck(False)</code> 关闭数组边界检查</li>
-<li>
-<code>@cython.wraparound(False)</code> 关闭负指标</li>
-</ol>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orga07bc8e" class="outline-3">
-<h3 id="orga07bc8e">编译</h3>
-<div class="outline-text-3" id="text-orga07bc8e">
-</div>
-<div id="outline-container-org03f4285" class="outline-4">
-<h4 id="org03f4285">基本结构</h4>
-<div class="outline-text-4" id="text-org03f4285">
-<p>
-<code>setup.py</code>
-</p>
-<div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
-    <span class="kn">from</span> <span class="nn">Cython.Build</span> <span class="kn">import</span> <span class="n">cythonize</span>
-
-    <span class="n">setup</span><span class="p">(</span>
-	<span class="n">ext_modules</span> <span class="o">=</span> <span class="n">cythonize</span><span class="p">(</span><span class="s2">"helloworld.pyx"</span><span class="p">)</span>
-    <span class="p">)</span>
-</pre></div>
-
-<p>
-<code>helloworld.pyx</code>
-</p>
-<div class="highlight"><pre><span></span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Hello World"</span><span class="p">)</span>
-</pre></div>
-
-<p>
-执行命令
-</p>
-<div class="highlight"><pre><span></span>    python setup.py build_ext --inplace
-</pre></div>
-
-<p>
-这编译得到的 <code>helloworld.so</code> 或 <code>helloworld.pyd</code>
-</p>
-</div>
-</div>
-
-<div id="outline-container-org54462fb" class="outline-4">
-<h4 id="org54462fb">动态链接</h4>
-<div class="outline-text-4" id="text-org54462fb">
-<p>
-<a href="https://cython.readthedocs.io/en/latest/src/tutorial/external.html#dynamic-linking">参考</a>
-</p>
-
-<p>
-需要指明 <code>libraries</code> 参数
-</p>
-<div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">Extension</span><span class="p">,</span> <span class="n">setup</span>
-    <span class="kn">from</span> <span class="nn">Cython.Build</span> <span class="kn">import</span> <span class="n">cythonize</span>
-
-    <span class="n">ext_modules</span> <span class="o">=</span> <span class="p">[</span>
-	<span class="n">Extension</span><span class="p">(</span><span class="s2">"demo"</span><span class="p">,</span>
-		  <span class="n">sources</span><span class="o">=</span><span class="p">[</span><span class="s2">"demo.pyx"</span><span class="p">],</span>
-		  <span class="n">libraries</span><span class="o">=</span><span class="p">[</span><span class="s2">"m"</span><span class="p">]</span>  <span class="c1"># Unix-like specific</span>
-		  <span class="p">)</span>
-    <span class="p">]</span>
-
-    <span class="n">setup</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Demos"</span><span class="p">,</span>
-	  <span class="n">ext_modules</span><span class="o">=</span><span class="n">cythonize</span><span class="p">(</span><span class="n">ext_modules</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org58aa4b1" class="outline-4">
-<h4 id="org58aa4b1">静态链接</h4>
-<div class="outline-text-4" id="text-org58aa4b1">
-<p>
-使用注解 
-</p>
-<div class="highlight"><pre><span></span>    # distutils: sources = c-algorithms/src/queue.c
-    # distutils: include_dirs = c-algorithms/src/
-
-    pass
-</pre></div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgf4104de" class="outline-3">
-<h3 id="orgf4104de">使用 c 库</h3>
-<div class="outline-text-3" id="text-orgf4104de">
-</div>
-<div id="outline-container-orga658036" class="outline-4">
-<h4 id="orga658036">外部声明</h4>
-<div class="outline-text-4" id="text-orga658036">
-<p>
-使用头文件, 外部声明可以放在 <code>.pyd</code> 文件中
-</p>
-<div class="highlight"><pre><span></span>    cdef extern from "math.h":
-	double sin(double x)
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org440ac00" class="outline-4">
-<h4 id="org440ac00">异常处理</h4>
-<div class="outline-text-4" id="text-org440ac00">
-<ol class="org-ol">
-<li>
-<code>except? -1</code> 语法表示当发生任何错误时，返回 <code>-1</code>
-</li>
-<li>
-<code>execpt *</code> 表示返回时调用 <code>PyErr_Occurred()</code> ，当函数返回 <code>void</code> 并且需要传递错误时使用这个</li>
-</ol>
-<div class="highlight"><pre><span></span>    cdef int pop(self) except? -1:
-	if cqueue.queue_is_empty(self._c_queue):
-	    raise IndexError("Queue is empty")
-	return &lt;Py_ssize_t&gt;cqueue.queue_pop_head(self._c_queue)
-
-    cdef int spam() except *:
-	...
-</pre></div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org2f9d47d" class="outline-3">
-<h3 id="org2f9d47d">使用 numpy</h3>
-<div class="outline-text-3" id="text-org2f9d47d">
-<p>
-numpy 的 <code>ndarray</code> 在 cython 中用做 typed memoryview
-</p>
-</div>
-
-<div id="outline-container-orgc0b1489" class="outline-4">
-<h4 id="orgc0b1489">基本例子</h4>
-<div class="outline-text-4" id="text-orgc0b1489">
-<div class="highlight"><pre><span></span>    import numpy as np
-
-    DTYPE = np.intc
-
-
-    cdef int clip(int a, int min_value, int max_value):
-	return min(max(a, min_value), max_value)
-
-
-    def compute(int[:, :] array_1, int[:, :] array_2, int a, int b, int c):
-
-	cdef Py_ssize_t x_max = array_1.shape[0]
-	cdef Py_ssize_t y_max = array_1.shape[1]
-	assert tuple(array_1.shape) == tuple(array_2.shape)
-
-	result = np.zeros((x_max, y_max), dtype=DTYPE)
-	cdef int[:, :] result_view = result
-
-	cdef int tmp
-	cdef Py_ssize_t x, y
-
-	for x in range(x_max):
-	    for y in range(y_max):
-
-		tmp = clip(array_1[x, y], 2, 10)
-		tmp = tmp * a + array_2[x, y] * b
-		result_view[x, y] = tmp + c
-
-	return result
-</pre></div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgdb2cd81" class="outline-3">
-<h3 id="orgdb2cd81">并行</h3>
-<div class="outline-text-3" id="text-orgdb2cd81">
-<ol class="org-ol">
-<li>使用 <code>prange</code>
-</li>
-<li>
-<p>
-使用 <code>nogil</code>
-</p>
-
-<div class="highlight"><pre><span></span>      from cython.parallel import prange
-      cdef int func(int x) nogil:
-	  cdef int i
-	  cdef int y
-	  for i in prange(x, nogil=True):
-	      y += i 
-	  return y
-</pre></div>
-</li>
-</ol>
-</div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/mpi/" class="u-url">MPI</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/mpi/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-07-04T17:00:31+08:00" itemprop="datePublished" title="2021-07-04 17:00">2021-07-04 17:00</time></a>
-            </p>
-                </div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-org66921a9" class="outline-2">
-<h2 id="org66921a9">MPI: Message Passing Interface</h2>
-<div class="outline-text-2" id="text-org66921a9">
-<p>
-MPI 是消息传递接口标准，主要的实现有 Intel MPI, OpenMPI 和 MPICH 等. MPI 标准目前有三版 MPI-1,MPI-2, MPI-3, 标准支持的语言是 c 和 fortran, c++ 支持在 MPI-3 中移除了。
-</p>
-
-<p>
-MPI 的优势：
-</p>
-<ul class="org-ul">
-<li>标准：所有超级计算机都支持</li>
-<li>可移植：无需修改程序就能在所有支持 MPI 的平台上运行</li>
-<li>高性能：所有实现都会根据机器做优化</li>
-<li>功能齐全：MPI-3 中有超过 430 个函数，尽管大多数程序可能就用几十个函数</li>
-<li>可用：相当多的实现都可用，包括供应商提供的和开放获取的</li>
-</ul>
-</div>
-
-<div id="outline-container-org89de801" class="outline-3">
-<h3 id="org89de801">基本结构</h3>
-<div class="outline-text-3" id="text-org89de801">
-</div>
-<div id="outline-container-org7987d2d" class="outline-4">
-<h4 id="org7987d2d">程序结构</h4>
-<div class="outline-text-4" id="text-org7987d2d">
-<p>
-所有 MPI 程序都分以下几步
-</p>
-<ol class="org-ol">
-<li>引用头文件 <code>"mpi.h"</code>
-</li>
-<li>执行顺序代码</li>
-<li>初始化 MPI 环境</li>
-<li>执行并行任务</li>
-<li>终止 MPI 环境</li>
-<li>执行顺序代码</li>
-<li>程序结束</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-org94a3b03" class="outline-4">
-<h4 id="org94a3b03">接口约定</h4>
-<div class="outline-text-4" id="text-org94a3b03">
-<p>
-所有 MPI 的函数都以 <code>MPI_</code> 开头，并且下划线后的第一个字母大写，函数返回消息码 <code>rc</code> , 如果成功就是 <code>MPI_SUCCESS</code>, 即 <code>0</code>
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgee26be2" class="outline-4">
-<h4 id="orgee26be2">基本概念</h4>
-<div class="outline-text-4" id="text-orgee26be2">
-<ol class="org-ol">
-<li>
-<b>communicator</b>: 通信器，定义哪些进程之间需要通信
-<ol class="org-ol">
-<li>
-<code>MPI_COMM_WORLD</code> 通信器表示所有进程都相互通信</li>
-</ol>
-</li>
-<li>
-<b>group</b>: 进程的分组</li>
-<li>
-<b>rank</b>: 秩，指的是一个通信器中每个进程都有自己单独的编号，有时候也叫做 <b>任务 ID</b> ，秩是从 0 开始连续的整数</li>
-<li>
-<b>错误处理</b>: 尽管大多数函数都返回一个错误码，但是 MPI 标准指出，当错误发生时程序应立刻终止，所以并不需要自己捕获和处理所有错误码</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-org963ef78" class="outline-4">
-<h4 id="org963ef78">MPI 版本</h4>
-<div class="outline-text-4" id="text-org963ef78">
-<p>
-<b>MPI-1</b> (1994) ：最早的版本，构建起了 MPI 的基本框架，包括
-</p>
-<ol class="org-ol">
-<li>基本的环境管理</li>
-<li>点到点通信</li>
-<li>集体通信</li>
-<li>组和通信器</li>
-<li>虚拟拓扑</li>
-</ol>
-<p>
-<b>MPI-2</b> (1998) ： 为 MPI-1 添加大量新函数
-</p>
-<ol class="org-ol">
-<li>动态进程：可以在任务启动后创建新的进程</li>
-<li>单边通信：提供单向通信功能，包括共享内存和远程累加操作</li>
-<li>扩展集体通信：允许通信器间的集体通信</li>
-<li>扩展接口：允许在 MPI 之上构造开发曾，包括 debugger 和 profiler 等</li>
-<li>额外语言绑定：支持 fortran 90</li>
-<li>并行 I/O</li>
-</ol>
-<p>
-<b>MPI-3</b> (2012) ：对 MPI-1 和 MPI-2 更多的扩展
-</p>
-<ol class="org-ol">
-<li>非阻塞集体操作</li>
-<li>新的单边通信操作</li>
-<li>近邻集体：扩展更多虚拟拓扑结构</li>
-<li>支持 fortran 2008</li>
-<li>MPIT Tool Interface 允许 MPI 实现开放一些内部变量给用户，用于性能提升</li>
-<li>Matched Probe: 改进多线程中的 probe 功能</li>
-</ol>
-<p>
-<b>MPI-4</b> (2021) : TODO
-</p>
-<ol class="org-ol">
-<li>增加大 count 参数支持</li>
-<li>持久集体</li>
-<li>部分通信</li>
-<li>新的初始化方式</li>
-<li>改进信息和错误处理</li>
-</ol>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org32df7a6" class="outline-3">
-<h3 id="org32df7a6">环境管理函数</h3>
-<div class="outline-text-3" id="text-org32df7a6">
-<ol class="org-ol">
-<li>
-<code>MPI_Init (&amp;argc,&amp;argv)</code>
-<ol class="org-ol">
-<li>初始化 MPI 环境，应在所有 MPI 函数之前调用，并且只能调用一次，这个函数具体做的事情是实现依赖的</li>
-</ol>
-</li>
-<li>
-<code>MPI_Comm_size (comm,&amp;size)</code>
-<ol class="org-ol">
-<li>获得通信器 <code>comm</code> 中 MPI 进程的总数</li>
-<li>如果通信器是 <code>MPI_COMM_WORLD</code> 那么就会得到程序的总进程数</li>
-</ol>
-</li>
-<li>
-<code>MPI_Comm_rank (comm,&amp;rank)</code>
-<ol class="org-ol">
-<li>获得调用这个函数的进程在通信器 <code>comm</code> 中的秩，</li>
-</ol>
-</li>
-<li>
-<code>MPI_Abort (comm,errorcode)</code>
-<ol class="org-ol">
-<li>终止通信器 <code>comm</code> 中的所有进程</li>
-</ol>
-</li>
-<li>
-<code>MPI_Get_processor_name (&amp;name,&amp;resultlength)</code>
-<ol class="org-ol">
-<li>获得进程的名字和名字的长度</li>
-<li>名字的缓冲区大小至少是 <code>MPI_MAX_PROCESSOR_NAME</code> 个 <code>sizeof(char)</code>
-</li>
-<li>具体返回的名字是什么是实现依赖的</li>
-</ol>
-</li>
-<li>
-<code>MPI_Get_version (&amp;version,&amp;subversion)</code>
-<ol class="org-ol">
-<li>获得 MPI 标准的版本号和子版本号</li>
-</ol>
-</li>
-<li>
-<code>MPI_Initialized (&amp;flag)</code>
-<ol class="org-ol">
-<li>测试是否已经调用过 <code>MPI_Init()</code>
-</li>
-</ol>
-</li>
-<li>
-<code>MPI_Wtime ()</code>
-<ol class="org-ol">
-<li>返回该进程所处的时间，以秒为单位</li>
-<li>不同进程的时间可能不一样，但大多数实现会同步这个时间</li>
-</ol>
-</li>
-<li>
-<code>MPI_Wtick ()</code>
-<ol class="org-ol">
-<li>返回 <code>MPI_Wtime()</code> 的精度</li>
-</ol>
-</li>
-<li>
-<code>MPI_Finalize ()</code>
-<ol class="org-ol">
-<li>终止 MPI 环境，每个 MPI 程序只能调用一次</li>
-</ol>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="w">   </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"mpi.h"</span><span class="cp"></span>
-
-<span class="w">   </span><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"></span>
-<span class="w">   </span><span class="p">{</span><span class="w"></span>
-<span class="w">       </span><span class="n">MPI_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">       </span><span class="kt">int</span><span class="w"> </span><span class="n">num_tasks</span><span class="p">;</span><span class="w"></span>
-<span class="w">       </span><span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">num_tasks</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">       </span><span class="kt">int</span><span class="w"> </span><span class="n">rank</span><span class="p">;</span><span class="w"></span>
-<span class="w">       </span><span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">rank</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">       </span><span class="kt">char</span><span class="w"> </span><span class="n">hostname</span><span class="p">[</span><span class="n">MPI_MAX_PROCESSOR_NAME</span><span class="p">];</span><span class="w"></span>
-<span class="w">       </span><span class="kt">int</span><span class="w"> </span><span class="n">name_len</span><span class="p">;</span><span class="w"></span>
-<span class="w">       </span><span class="n">MPI_Get_processor_name</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">name_len</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">       </span><span class="n">MPI_Finalize</span><span class="p">();</span><span class="w"></span>
-<span class="w">   </span><span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org8f87709" class="outline-3">
-<h3 id="org8f87709">点到点通信</h3>
-<div class="outline-text-3" id="text-org8f87709">
-</div>
-<div id="outline-container-org94c3afb" class="outline-4">
-<h4 id="org94c3afb">一般参数说明</h4>
-<div class="outline-text-4" id="text-org94c3afb">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<colgroup>
-<col class="org-left">
-<col class="org-left">
-</colgroup>
-<thead><tr>
-<th scope="col" class="org-left">类型</th>
-<th scope="col" class="org-left">举例的函数</th>
-</tr></thead>
-<tbody>
-<tr>
-<td class="org-left">Blocking sends</td>
-<td class="org-left">MPI<sub>Send</sub>(buffer,count,type,dest,tag,comm)</td>
-</tr>
-<tr>
-<td class="org-left">Non-blocking sends</td>
-<td class="org-left">MPI<sub>Isend</sub>(buffer,count,type,dest,tag,comm,request)</td>
-</tr>
-<tr>
-<td class="org-left">Blocking receive</td>
-<td class="org-left">MPI<sub>Recv</sub>(buffer,count,type,source,tag,comm,status)</td>
-</tr>
-<tr>
-<td class="org-left">Non-blocking receive</td>
-<td class="org-left">MPI<sub>Irecv</sub>(buffer,count,type,source,tag,comm,request)</td>
-</tr>
-</tbody>
-</table>
-<p>
-参数说明：
-</p>
-<ol class="org-ol">
-<li>
-<b>buffer</b>: 要被收发的内容，内存地址，也就是指针</li>
-<li>
-<b>count</b>: 要收发的数据大小</li>
-<li>
-<b>type</b>: 数据类型，全大写的一个量 <code>MPI_CHAR</code> 等，也可以自定义</li>
-<li>
-<b>destination</b>: 发送的目标进程的 rank</li>
-<li>
-<b>source</b>: 接受的源进程的 rank，
-<ol class="org-ol">
-<li>如果是 <code>MPI_ANY_SOURCE</code> 那么就从所有进程接收</li>
-</ol>
-</li>
-<li>
-<b>tag</b>: 一个任意的非负整数参数，用来标记不同的信息，接收和发送两方的 <code>tag</code> 要相同，
-<ol class="org-ol">
-<li>
-<code>MPI_ANY_TAG</code> 会接收所有 tag</li>
-<li>MPI 标准指出 tag 应该在 0-32767, 不过大多数实现都支持更大的数</li>
-</ol>
-</li>
-<li>
-<b>comm</b>: 通信器</li>
-<li>
-<b>status</b>: 是收到的消息的属性，类型是 <code>MPI_Status</code>
-<ol class="org-ol">
-<li>
-<code>MPI_Get_count()</code> 可以获取收到的消息的大小</li>
-</ol>
-</li>
-<li>
-<b>request</b>: 非阻塞收发的回调，类型是 <code>MPI_Request</code>
-</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-org0d9693b" class="outline-4">
-<h4 id="org0d9693b">常用阻塞点到点通信函数</h4>
-<div class="outline-text-4" id="text-org0d9693b">
-<ol class="org-ol">
-<li>
-<code>MPI_Send()</code> 基本的发送消息, 只有当发送信道再次可用时才返回</li>
-<li>
-<code>MPI_Recv()</code> 基本的接收消息，阻塞直到接收信道再次可用</li>
-<li>
-<code>MPI_Ssend()</code> 同步阻塞发送，阻塞直到发送信道可用并且接收方开始接收这个消息</li>
-<li>
-<code>MPI_Sendrecv()</code> 发送消息并发送回执，阻塞直到发送信道可用，并且接收方已经收到消息</li>
-<li><code>MPI_Wait()</code></li>
-<li><code>MPI_Waitany()</code></li>
-<li><code>MPI_Waitall()</code></li>
-<li>
-<code>MPI_Waitsome()</code>
-<ol class="org-ol">
-<li>阻塞直到某个非阻塞的收发完成</li>
-</ol>
-</li>
-<li>
-<code>MPI_Probe()</code> 进行阻塞测试</li>
-<li>
-<code>MPI_Get_count()</code> 返回收到的消息的源、标签和大小
-<ol class="org-ol">
-<li>输出类型是 <code>MPI_SOURCE</code>
-</li>
-</ol>
-</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-orge39aab7" class="outline-4">
-<h4 id="orge39aab7">常用非阻塞点到点通信函数</h4>
-<div class="outline-text-4" id="text-orge39aab7">
-<ol class="org-ol">
-<li>
-<code>MPI_Isend()</code> 非阻塞发送，所指定的发送 buffer 应该在 <code>MPI_Probe()</code> 确定已经发送完成之前不修改</li>
-<li>
-<code>MPI_Irecv()</code> 非阻塞接收，同样不应该在确定接收完成前修改 buffer</li>
-<li>
-<code>MPI_Issend()</code> 非阻塞同步发送，类似 <code>MPI_Isend()</code> 只是 <code>MPI_Probe()</code> 会确定接收方已经收到消息</li>
-<li><code>MPI_Test()</code></li>
-<li><code>MPI_Testany()</code></li>
-<li><code>MPI_Testall()</code></li>
-<li>
-<code>MPI_Testsome()</code>
-<ol class="org-ol">
-<li>检查非阻塞收发操作的状态，输出值 <code>flag</code> 为 <code>0</code> 表示没完成， <code>1</code> 表示已完成</li>
-</ol>
-</li>
-<li>
-<code>MPI_Iprobe()</code> 进行非阻塞测试, 如果消息已经到了 <code>flag</code> 为 <code>1</code>
-</li>
-</ol>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orge3749a5" class="outline-3">
-<h3 id="orge3749a5">集体通信</h3>
-<div class="outline-text-3" id="text-orge3749a5">
-
-<div id="org343b540" class="figure">
-<p><img src="img/MPI:_Message_Passing_Interface/2021-07-04_18-47-40_collective_comm.gif" alt="nil"></p>
-</div>
-
-<p>
-集体通信操作的类型有
-</p>
-<ul class="org-ul">
-<li>
-<b>同步</b> 阻塞直到所有进程都到达同步点</li>
-<li>
-<b>数据移动</b> broadcast, scatter, gather, all to all</li>
-<li>
-<b>集体计算(归约)</b> min, max, add, multiply 等</li>
-</ul>
-</div>
-
-<div id="outline-container-org2ec646c" class="outline-4">
-<h4 id="org2ec646c">常用集体通信函数</h4>
-<div class="outline-text-4" id="text-org2ec646c">
-<ol class="org-ol">
-<li>
-<code>MPI_Barrier (comm)</code> 同步所有进程</li>
-<li>
-<code>MPI_Bcast (&amp;buffer,count,datatype,root,comm)</code> 将数据从 <code>root</code> 进程广播到所有进程</li>
-<li>
-<code>MPI_Scatter (&amp;sendbuf,sendcnt,sendtype,&amp;recvbuf,recvcnt,recvtype,root,comm)</code> 将数据分散到所有进程</li>
-<li>
-<code>MPI_Gather (&amp;sendbuf,sendcnt,sendtype,&amp;recvbuf,recvcount,recvtype,root,comm)</code> 从所有进程获取数据到 <code>root</code>
-</li>
-<li>
-<code>MPI_Allgather (&amp;sendbuf,sendcount,sendtype,&amp;recvbuf,recvcount,recvtype,comm)</code> 所有进程都获得总的数据</li>
-<li>
-<code>MPI_Reduce (&amp;sendbuf,&amp;recvbuf,count,datatype,op,root,comm)</code> 执行一个归约操作 <code>op</code> 到进程 <code>root</code>
-</li>
-<li>
-<code>MPI_Allreduce (&amp;sendbuf,&amp;recvbuf,count,datatype,op,comm)</code> 执行归约操作到所有进程</li>
-<li>
-<code>MPI_Reduce_scatter (&amp;sendbuf,&amp;recvbuf,recvcount,datatype,op,comm)</code> 先 reduce 再 scatter</li>
-<li>
-<code>MPI_Alltoall (&amp;sendbuf,sendcount,sendtype,&amp;recvbuf,recvcnt,recvtype,comm)</code> 每个进程都执行 scatter</li>
-<li>
-<code>MPI_Scan (&amp;sendbuf,&amp;recvbuf,count,datatype,op,comm)</code> 扫描操作</li>
-</ol>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org027e387" class="outline-3">
-<h3 id="org027e387">自定义数据类型</h3>
-<div class="outline-text-3" id="text-org027e387">
-<p>
-用户定义的数据类型，称作 <b>derived data types</b>
-</p>
-
-<ol class="org-ol">
-<li>
-<code>MPI_Type_contiguous (count,oldtype,&amp;newtype)</code> 创建一个新的数据类型，是 <code>count</code> 个旧类型数据的组合</li>
-<li>
-<code>MPI_Type_vector (count,blocklength,stride,oldtype,&amp;newtype)</code> 与 <code>MPI_Type_contiguous</code> 相同，只不过每个数据间可以有间隔</li>
-<li><code>MPI_Type_indexed (count,blocklens[],offsets[],old_type,&amp;newtype)</code></li>
-<li><code>MPI_Type_create_struct</code></li>
-<li><code>MPI_Type_get_extent</code></li>
-<li>
-<code>MPI_Type_commit (&amp;datatype)</code> 向系统提交类型</li>
-<li>
-<code>MPI_Type_free (&amp;datatype)</code> 释放指定类型的对象</li>
-</ol>
-</div>
-
-<div id="outline-container-org5d03df9" class="outline-4">
-<h4 id="org5d03df9">自定义结构体</h4>
-<div class="outline-text-4" id="text-org5d03df9">
-<p>
-<code>MPI_Type_create_struct(count, array_of_blocklengths, array_of_displacements, array_of_types, newtype)</code>
-</p>
-<ol class="org-ol">
-<li>
-<code>count</code> 结构体中的元素数，也是下面三个数组的长度</li>
-<li>
-<code>array_of_blocklengths</code> 每个块中的元素个数</li>
-<li>
-<code>array_of_displacements</code> 每个块的偏移量</li>
-<li>
-<code>array_of_types</code> 每个块的类型</li>
-<li>
-<code>newtype</code> 输出</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="w">    </span><span class="k">struct</span> <span class="nc">object</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">	</span><span class="kt">char</span><span class="w"> </span><span class="n">c</span><span class="p">;</span><span class="w"></span>
-<span class="w">	</span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span><span class="w"></span>
-<span class="w">	</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">};</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">MPI_Datatype</span><span class="w"> </span><span class="n">newtype</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">object_len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">blocklengths</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Datatype</span><span class="w"> </span><span class="n">types</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Aint</span><span class="w"> </span><span class="n">displacements</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">MPI_Aint</span><span class="w"> </span><span class="n">current_displacement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">blocklength</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MPI_CHAR</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">displacements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offsetof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">object</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">blocklength</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">types</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MPI_DOUBLE</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">displacements</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offsetof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">object</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">blocklength</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">types</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MPI_INT</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">displacements</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offsetof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">object</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">MPI_Type_create_struct</span><span class="p">(</span><span class="n">object_len</span><span class="p">,</span><span class="w"> </span><span class="n">blocklengths</span><span class="p">,</span><span class="w"> </span><span class="n">displacements</span><span class="p">,</span><span class="w"> </span><span class="n">types</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">newtype</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Type_commit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">newtype</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">struct</span> <span class="nc">object</span><span class="w"> </span><span class="n">o</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">proc_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span><span class="w"></span>
-<span class="w">	</span><span class="n">MPI_Send</span><span class="p">(</span><span class="o">&amp;</span><span class="n">o</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">newtype</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">proc_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">){</span><span class="w"></span>
-<span class="w">	</span><span class="n">MPI_Recv</span><span class="p">(</span><span class="o">&amp;</span><span class="n">o</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">newtype</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">MPI_Type_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">newtype</span><span class="p">);</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org88725cc" class="outline-3">
-<h3 id="org88725cc">组和通信器管理</h3>
-<div class="outline-text-3" id="text-org88725cc">
-<p>
-<b>group</b> 组是一些进程的有序集合，每个进程编号从 0 到 N-1, <b>communicator</b> 通信器是一组需要相互通信的进程，每个组都有一个通信器。从编程的角度看，组是用来指定哪些进程相互通信，进而创建通信器的。
-</p>
-
-<p>
-典型的过程：
-</p>
-<ol class="org-ol">
-<li>使用 <code>MPI_Comm_group()</code> 从 <code>MPI_COMM_WORLD</code> 中取出全局组的句柄</li>
-<li>使用 <code>MPI_Group_incl()</code> 从全局组的子集中创建新的组</li>
-<li>使用 <code>MPI_Comm_create()</code> 为新的组创建通信器</li>
-<li>使用 <code>MPI_Comm_rank()</code> 确定新的通信器中的 rank</li>
-<li>进行通信</li>
-<li>使用 <code>MPI_Comm_free()</code> 和 <code>MPI_Group_free()</code> 释放不用的组和通信器对象</li>
-</ol>
-</div>
-
-<div id="outline-container-orgef037d2" class="outline-4">
-<h4 id="orgef037d2">基本通信器</h4>
-<div class="outline-text-4" id="text-orgef037d2">
-<ul class="org-ul">
-<li>
-<code>MPI_COMM_WORLD</code> 全部的进程</li>
-<li>
-<code>MPI_COMM_SELF</code> 只包含当前进程</li>
-<li>
-<code>MPI_COMM_NULL</code> 无效通信器，用于一些函数的错误码</li>
-</ul>
-<p>
-通信器的类型是 <code>MPI_Comm</code>
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgd924c33" class="outline-4">
-<h4 id="orgd924c33">复制通信器</h4>
-<div class="outline-text-4" id="text-orgd924c33">
-<p>
-复制一个一样的通信器，主要用于库函数编写时防止修改全局参数    
-</p>
-
-<ol class="org-ol">
-<li>
-<code>MPI_Comm_dup()</code> 复制一个通信器</li>
-<li>
-<code>MPI_Comm_idup()</code> 复制通信器，非阻塞</li>
-<li>
-<code>MPI_Comm_dup_with_info()</code> 复制通信器并传递 info</li>
-<li>
-<code>MPI_Comm_idup_with_info()</code> 复制通信器并传递 info, 非阻塞</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-orgd2fd205" class="outline-4">
-<h4 id="orgd2fd205">划分通信器</h4>
-<div class="outline-text-4" id="text-orgd2fd205">
-<p>
-使用 <code>MPI_Comm_split(comm, color, key, newcomm)</code>  将 <code>comm</code> 中有相同 <code>color</code> 的进程组成一个新的通信器 <code>newcomm</code>, 新通信器中的 rank 由 <code>key</code> 指定
-</p>
-
-<p>
-注意
-</p>
-<ol class="org-ol">
-<li>代码会在所有进程中执行，所以只要进程中生成自己的 <code>color</code> 和 <code>key</code> ,返回的通信器就包括这些进程</li>
-<li>一般新通信器中的 <code>rank</code> 跟全局的保存一致就行了， <code>MPI_Comm_rank(MPI_COMM_WORLD, &amp;my_key)</code>
-</li>
-<li><code>MPI_Comm_spawn()</code></li>
-<li><code>MPI_Comm_free()</code></li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-org3d05369" class="outline-4">
-<h4 id="org3d05369">从组创建通信器</h4>
-<div class="outline-text-4" id="text-org3d05369">
-<p>
-组的类型是 <code>MPI_Group</code>
-</p>
-
-<ol class="org-ol">
-<li><code>MPI_Comm_group()</code></li>
-<li>
-<code>MPI_Group_incl(group, n, ranks, newgroup)</code> 将组中 <code>ranks</code> 的进程添加到新组</li>
-<li>
-<code>MPI_Group_excl(group, n, ranks, newgroup)</code> 除了 <code>ranks</code> 以外的进程添加到新组</li>
-<li><code>MPI_Group_difference()</code></li>
-<li><code>MPI_Group_union()</code></li>
-<li><code>MPI_Group_intersection()</code></li>
-<li><code>MPI_Group_difference()</code></li>
-<li><code>MPI_Group_size()</code></li>
-<li><code>MPI_Group_rank()</code></li>
-<li><code>MPI_Comm_create_group()</code></li>
-<li>
-<code>MPI_Comm_create(comm, group, newcomm)</code> 从组创建通信器</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-orge2eb199" class="outline-4">
-<h4 id="orge2eb199">通信器间的通信器</h4>
-<div class="outline-text-4" id="text-orge2eb199">
-<p>
-<code>MPI_Intercomm_create(local_comm, local_leader, peer_comm, remote_leader, tag, newintercomm)</code>
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgf5b03fd" class="outline-3">
-<h3 id="orgf5b03fd">虚拟拓扑</h3>
-<div class="outline-text-3" id="text-orgf5b03fd">
-<p>
-MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成一个几何形状，这个网络拓扑是虚拟的，与物理实际的连接无关。
-</p>
-
-<p>
-当特殊的通信模式与一个拓扑结果相匹配时 MPI 虚拟拓扑就很有用了。
-</p>
-</div>
-</div>
-
-<div id="outline-container-org158df61" class="outline-3">
-<h3 id="org158df61">单边通信</h3>
-<div class="outline-text-3" id="text-org158df61">
-</div>
-<div id="outline-container-org40d22e7" class="outline-4">
-<h4 id="org40d22e7">基本概念</h4>
-<div class="outline-text-4" id="text-org40d22e7">
-<ul class="org-ul">
-<li>Remote Memory Access(RMA), Remote Direct Momory Access (RDMA), 远程内存访问
-<ul class="org-ul">
-<li>指的是两个进程 origin 和 target, origin 发起动作 put/get, 访问 target 的内存</li>
-<li>之所以叫单边通信，是因为 target 进程完全不知道发生了什么</li>
-</ul>
-</li>
-<li>window
-<ul class="org-ul">
-<li>单边通信只能访问 target 进程所指定的一块内存，称为 window</li>
-</ul>
-</li>
-<li>distributed shared memory, virtual shared memory
-<ul class="org-ul">
-<li>是除了 window 之外的另一种实现远程内存访问的方法</li>
-<li>只有所谓的 Partitioned Global Address Space(PGAS)语言支持，例如 Unified Parallel C (UPC)</li>
-</ul>
-</li>
-<li>active RMA 和 passive RMA
-<ul class="org-ul">
-<li>active RMA 也叫做 active target synchronization, target 进程设置一个时间周期(epoch)，在这其中 window 可以被访问，类似于同步数据转移</li>
-<li>passive RMA 也叫做 passive target synchronization, target 进程不对 window 的访问做限制，这种方式很高效，但是非常难 debug 并且很容易死锁</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-orgc18088d" class="outline-4">
-<h4 id="orgc18088d">窗口</h4>
-<div class="outline-text-4" id="text-orgc18088d">
-<p>
-用于单边通信的内存区域就是窗口，变量类型为 <code>MPI_Win</code>, 进程可以向其中存取任何东西
-</p>
-
-<p>
-说明
-</p>
-<ol class="org-ol">
-<li>窗口是定义在通信器上的，创建窗口操作是集体通信，即窗口的不同部分被不同的进程所拥有</li>
-<li>每个进程的窗口大小独立设置，可以设为 0</li>
-<li>窗口的内存分配和释放要显式进行</li>
-</ol>
-<p>
-常用函数
-</p>
-<ol class="org-ol">
-<li>
-<code>MPI_Win_allocate()</code> 分配窗口的内存</li>
-<li>
-<code>MPI_Win_free()</code> 释放内存</li>
-<li>
-<code>MPI_Win_create()</code> 基于指定的 buffer 创建窗口</li>
-<li>
-<code>MPI_Win_allocate_shared()</code> 在共享内存的通信器上创建窗口</li>
-<li>
-<code>MPI_Win_create_dynamic()</code> 创建窗口，但不分配内存</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="w">    </span><span class="n">MPI_Info</span><span class="w"> </span><span class="n">info</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win</span><span class="w"> </span><span class="n">window</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_allocate</span><span class="p">(</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">disp_unit</span><span class="p">,</span><span class="w"> </span><span class="n">info</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">memory</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">window</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 进行操作 */</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">MPI_Win_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">window</span><span class="p">);</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orgdfc22e1" class="outline-4">
-<h4 id="orgdfc22e1">动态分配内存</h4>
-<div class="outline-text-4" id="text-orgdfc22e1">
-<ol class="org-ol">
-<li>
-<code>MPI_Win_create_dynamic(MPI_Info info, MPI_Comm comm, MPI_Win *win)</code>
-<ol class="org-ol">
-<li>创建窗口，可以向其中动态的加入内存</li>
-</ol>
-</li>
-<li>
-<code>int MPI_Win_free(MPI_Win *win)</code>
-<ol class="org-ol">
-<li>释放窗口的内存</li>
-</ol>
-</li>
-<li>
-<code>int MPI_Alloc_mem(MPI_Aint size, MPI_Info info, void *baseptr)</code>
-<ol class="org-ol">
-<li>分配内存</li>
-<li>
-<code>size</code> 是内存大小</li>
-<li>
-<code>baseptr</code> 是输出的指针</li>
-<li>
-<code>info</code> 可以是 <code>MPI_INFO_NULL</code>
-</li>
-</ol>
-</li>
-<li>
-<code>int MPI_Free_mem(void *base)</code>
-<ol class="org-ol">
-<li>释放分配的内存</li>
-</ol>
-</li>
-<li>
-<code>MPI_Win_attach(MPI_Win win, void *base, MPI_Aint size)</code>
-<ol class="org-ol">
-<li>向窗口中添加内存</li>
-<li>
-<code>win</code> 必须是 <code>MPI_Win_create_dynamic()</code> 创建的窗口</li>
-<li>窗口中的内存就是这里指针的内存，没有复制</li>
-</ol>
-</li>
-<li>
-<code>MPI_Win_detach(MPI_Win win, void *base)</code>
-<ol class="org-ol">
-<li>从窗口中去掉添加的内存</li>
-</ol>
-</li>
-<li>
-<code>int MPI_Win_lock(int lock_type, int rank, int assert, MPI_Win win)</code>
-<ol class="org-ol">
-<li>对窗口整体加锁</li>
-<li>
-<code>lock_type</code> 是 <code>MPI_LOCK_EXCLUSIVE</code> 或 <code>MPI_LOCK_SHARED</code>
-</li>
-<li>
-<code>rank</code> 是获得锁的进程</li>
-<li>
-<code>assert</code> 是用于做优化的参数，不需要就设 <code>assert=0</code>
-</li>
-</ol>
-</li>
-<li>
-<code>int MPI_Win_unlock(int rank, MPI_Win win)</code>
-<ol class="org-ol">
-<li>解锁</li>
-</ol>
-</li>
-<li>
-<code>int MPI_Get_address(const void *location, MPI_Aint *address)</code>
-<ol class="org-ol">
-<li>获得调用内存中位置的地址</li>
-<li>应该用这个函数获得的 <code>MPI_Alloc_mem()</code> 分配的地址作为值广播给其它需要用到这个值的进程</li>
-<li>对于在窗口中的指针，这里获得的地址就是偏移量</li>
-<li>可以把偏移量看做是窗口中的指针</li>
-</ol>
-</li>
-<li>
-<code>MPI_Put(const void *origin_addr, int origin_count, MPI_Datatype origin_datatype, int target_rank, MPI_Aint target_disp, int target_count, MPI_Datatype target_datatype, MPI_Win win)</code>
-<ol class="org-ol">
-<li>从 <code>origin_addr</code> 复制内存到 <code>target_rank</code> 进程的从 <code>win</code> 窗口的偏移 <code>target_disp</code> 开始的地址</li>
-</ol>
-</li>
-<li>
-<code>MPI_Get(void *origin_addr, int origin_count, MPI_Datatype origin_datatype, int target_rank, MPI_Aint target_disp, int target_count, MPI_Datatype target_datatype, MPI_Win win)</code>
-<ol class="org-ol">
-<li>从 <code>target_rank</code> 进程的 <code>win</code> 窗口偏移 <code>target_disp</code> 复制内存到 <code>origin_addr</code>
-</li>
-</ol>
-</li>
-<li>
-<code>int MPI_Compare_and_swap(const void *origin_addr, const void *compare_addr, void *result_addr, MPI_Datatype datatype, int target_rank, MPI_Aint target_disp, MPI_Win win)</code>
-<ol class="org-ol">
-<li>比较并交换，原子操作</li>
-<li>比较当前内存中的旧值 <code>*result_addr</code> 和之前读取到的旧值 <code>*compare_addr</code> ，如果一样，则说明中间内存未被修改过，那么就用新值 <code>*origin_addr</code> 替换旧值 <code>*result_addr</code>
-</li>
-<li>被修改的值属于 <code>target_rank</code> 进程</li>
-<li>
-<code>target_disp</code> 是从窗口的起点到 <code>target_rank</code> 进程中被替换的内存 <code>result_addr</code> 的起点之间的偏移量</li>
-</ol>
-</li>
-<li>
-<code>int MPI_Win_fence(int assert, MPI_Win win)</code>
-<ol class="org-ol">
-<li>同步窗口在所有进程中</li>
-</ol>
-</li>
-</ol>
-<p>
-参考：
-</p>
-<ol class="org-ol">
-<li>这里实现了一个链表 <a href="https://svn.mcs.anl.gov/repos/mpi/mpich2/trunk/test/mpi/rma/linked_list.c">https://svn.mcs.anl.gov/repos/mpi/mpich2/trunk/test/mpi/rma/linked_list.c</a>
-</li>
-<li>指针的内存要在进程中自己释放，窗口中实际没有保存数据</li>
-</ol>
-<p>
-例子
-</p>
-
-<div class="highlight"><pre><span></span><span class="w">    </span><span class="cm">/* 创建窗口 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win</span><span class="w"> </span><span class="n">win</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_create_dynamic</span><span class="p">(</span><span class="n">MPI_INFO_NULL</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 分配内存，并把它附加到窗口中，同时获得窗口中对应的偏移量，也就是窗口中的指针 */</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">i_ptr</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Alloc_mem</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span><span class="w"> </span><span class="n">MPI_INFO_NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">i_ptr</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_attach</span><span class="p">(</span><span class="n">win</span><span class="p">,</span><span class="w"> </span><span class="n">i_ptr</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Aint</span><span class="w"> </span><span class="n">i_disp</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Get_address</span><span class="p">(</span><span class="n">i_ptr</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">i_disp</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="o">*</span><span class="n">i_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"%d, i_ptr=%p, %d, i_disp=%ld</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="n">i_ptr</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">i_ptr</span><span class="p">,</span><span class="w"> </span><span class="n">i_disp</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"i ptr dead</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 读数据 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_lock</span><span class="p">(</span><span class="n">MPI_LOCK_EXCLUSIVE</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">get</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">get</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INT</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="n">i_disp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INT</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"%d: get= %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="n">get</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_unlock</span><span class="p">(</span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 写数据 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_lock</span><span class="p">(</span><span class="n">MPI_LOCK_EXCLUSIVE</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">put</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proc_rank</span><span class="o">+</span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Put</span><span class="p">(</span><span class="o">&amp;</span><span class="n">put</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INT</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="n">i_disp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INT</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_unlock</span><span class="p">(</span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 同步 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_fence</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">MPI_Win_lock</span><span class="p">(</span><span class="n">MPI_LOCK_EXCLUSIVE</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">get</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">get</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INT</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="n">i_disp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INT</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"%d: get again= %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="n">get</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_unlock</span><span class="p">(</span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 释放内存时，要用本地指针释放 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Free_mem</span><span class="p">(</span><span class="n">i_ptr</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">win</span><span class="p">);</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org6ee22d6" class="outline-4">
-<h4 id="org6ee22d6">共享内存</h4>
-<div class="outline-text-4" id="text-org6ee22d6">
-<ol class="org-ol">
-<li>
-<code>int MPI_Comm_split_type(MPI_Comm comm, int split_type, int key, MPI_Info info, MPI_Comm *newcomm)</code>
-<ol class="org-ol">
-<li>获得同一节点上的进程的通信器</li>
-<li><code>split_type = MPI_COMM_TYPE_SHARED</code></li>
-<li><code>comm = MPI_COMM_WORLD</code></li>
-<li><code>key = proc_rank_world</code></li>
-</ol>
-</li>
-<li>
-<code>int MPI_Win_allocate_shared (MPI_Aint size, int disp_unit, MPI_Info info, MPI_Comm comm, void *baseptr, MPI_Win *win)</code>
-<ol class="org-ol">
-<li>创建共享内存数据</li>
-<li>
-<code>size</code> 是数据的比特大小，即 个数 * sizeof(type)</li>
-<li>
-<code>disp_unit</code> 是单个数据的比特大小，即 sizeof(type)</li>
-<li>
-<code>baseptr</code> 是本地数据的指针</li>
-<li>这个内存会在 <code>MPI_Win_free()</code> 时释放掉</li>
-</ol>
-</li>
-<li>
-<code>int MPI_Win_shared_query (MPI_Win win, int rank, MPI_Aint *size, int *disp_unit, void *baseptr)</code>
-<ol class="org-ol">
-<li>获得属于 <code>rank</code> 进程的内存在当前进程中的地址</li>
-<li>
-<code>size</code> win 大小</li>
-<li>
-<code>disp_unit</code> 单位数据大小</li>
-<li>
-<code>baseptr</code> 当前进程中用来访问这个内存的指针</li>
-</ol>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">proc_rank</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 获得同一节点上的通信器，以及对应的 rank */</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Comm</span><span class="w"> </span><span class="n">comm_node</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">proc_rank_node</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Comm_split_type</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_TYPE_SHARED</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INFO_NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">comm_node</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">comm_node</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">proc_rank_node</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 获得不同节点上编号为 0 的进程之间的通信器 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Comm</span><span class="w"> </span><span class="n">comm_0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">proc_rank_0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Comm_split</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank_node</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">comm_0</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">comm_0</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank_0</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 分配内存, 只有编号为 0 的进程才分配，其它进程的大小是 0 */</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win</span><span class="w"> </span><span class="n">data_win</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">win_size</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">proc_rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span><span class="w"></span>
-<span class="w">	</span><span class="n">win_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">	</span><span class="n">win_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_allocate_shared</span><span class="p">(</span><span class="n">win_size</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span><span class="w"> </span><span class="n">MPI_INFO_NULL</span><span class="p">,</span><span class="w"> </span><span class="n">comm_node</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data_win</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 在全局编号 0 的进程上创建数据 */</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">proc_rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span><span class="w"></span>
-<span class="w">	</span><span class="o">*</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">MPI_Barrier</span><span class="p">(</span><span class="n">comm_node</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_fence</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">data_win</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 分享数据给所有节点上编号 0 的进程 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Bcast</span><span class="p">(</span><span class="o">&amp;</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">comm_0</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 其它进程获得节点编号 0 进程上的指针 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Aint</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">disp_uint</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_shared_query</span><span class="p">(</span><span class="n">data_win</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">disp_unit</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data_0</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="cm">/* 释放内存 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">MPI_Win_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">data_win</span><span class="p">);</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-org87e1c45" class="outline-3">
-<h3 id="org87e1c45">混合多线程</h3>
-<div class="outline-text-3" id="text-org87e1c45">
-<p>
-混合多线程的策略：
-</p>
-<ol class="org-ol">
-<li>纯 MPI</li>
-<li>每个节点一个 MPI 进程，全部的线程</li>
-<li>每个 socket 一个 MPI 进程，和剩下的线程，比如20核的节点，每个节点两个进程，每个进程10线程</li>
-</ol>
-<p>
-大量实践认为混合多线程并不会比纯 MPI 速度快。
-</p>
-</div>
-
-<div id="outline-container-org02e0b2d" class="outline-4">
-<h4 id="org02e0b2d">线程初始化</h4>
-<div class="outline-text-4" id="text-org02e0b2d">
-<p>
-使用 <code>MPI_Init_thread()</code> 初始化带有线程的 MPI，可用的选项有（注意并不是所有MPI实现都提供下面全部的模式）
-</p>
-<ol class="org-ol">
-<li>
-<code>MPI_THREAD_SINGLE</code> 每个进程一个线程</li>
-<li>
-<code>MPI_THREAD_FUNNELED</code> 每个进程有多个线程，但只有主线程可以调用 MPI 函数</li>
-<li>
-<code>MPI_THREAD_SERIALIZED</code> 使用多个线程，每个线程都可以调用 MPI，但是只有一个线程可以调用同步通信</li>
-<li>
-<code>MPI_THREAD_MULTIPLE</code> 使用多个线程，没有任何限制</li>
-</ol>
-<p>
-使用 <code>MPI_Query_thread()</code> 来确定初始化之后提供的是哪种模式
-</p>
-
-<p>
-使用 <code>MPI_Is_thread_main()</code> 来确定线程是否是主线程
-</p>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgded29be" class="outline-2">
-<h2 id="orgded29be">设计模式</h2>
-<div class="outline-text-2" id="text-orgded29be">
-</div>
-<div id="outline-container-org3a861d7" class="outline-3">
-<h3 id="org3a861d7">为每个节点创建一个通信器</h3>
-<div class="outline-text-3" id="text-org3a861d7">
-<p>
-用于创建节点内部的共享内存窗口
-</p>
-
-<div class="highlight"><pre><span></span><span class="w">   </span><span class="cm">/* 获得同一节点上的通信器，以及对应的 rank */</span><span class="w"></span>
-<span class="w">   </span><span class="n">MPI_Comm</span><span class="w"> </span><span class="n">comm_node</span><span class="p">;</span><span class="w"></span>
-<span class="w">   </span><span class="kt">int</span><span class="w"> </span><span class="n">proc_rank_node</span><span class="p">;</span><span class="w"></span>
-<span class="w">   </span><span class="n">MPI_Comm_split_type</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_TYPE_SHARED</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INFO_NULL</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">comm_node</span><span class="p">);</span><span class="w"></span>
-<span class="w">   </span><span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">comm_node</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">proc_rank_node</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">   </span><span class="cm">/* 获得不同节点上编号为 0 的进程之间的通信器 */</span><span class="w"></span>
-<span class="w">   </span><span class="n">MPI_Comm</span><span class="w"> </span><span class="n">comm_0</span><span class="p">;</span><span class="w"></span>
-<span class="w">   </span><span class="kt">int</span><span class="w"> </span><span class="n">proc_rank_0</span><span class="p">;</span><span class="w"></span>
-<span class="w">   </span><span class="n">MPI_Comm_split</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank_node</span><span class="p">,</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">comm_0</span><span class="p">);</span><span class="w"></span>
-<span class="w">   </span><span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">comm_0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">proc_rank_0</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">   </span><span class="n">MPI_Comm_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">comm_node</span><span class="p">);</span><span class="w"></span>
-<span class="w">   </span><span class="n">MPI_Comm_free</span><span class="p">(</span><span class="o">&amp;</span><span class="n">comm_0</span><span class="p">);</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-orgfec5271" class="outline-3">
-<h3 id="orgfec5271">非自旋等待</h3>
-<div class="outline-text-3" id="text-orgfec5271">
-<ol class="org-ol">
-<li>阻塞通信是自旋锁，会一直燃烧 CPU， 为了给某个进程上的多线程任务让出 CPU，需要让其它进程非自旋等待</li>
-<li>使用 <code>MPI_Iprobe()</code> 非阻塞地探测信号，并在探测周期中 <code>sleep()</code>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="w">   </span><span class="kt">int</span><span class="w"> </span><span class="n">proc_rank</span><span class="p">;</span><span class="w"></span>
-<span class="w">   </span><span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">proc_rank</span><span class="p">);</span><span class="w"></span>
-
-<span class="w">   </span><span class="kt">int</span><span class="w"> </span><span class="n">finish</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">   </span><span class="n">MPI_Request</span><span class="w"> </span><span class="n">finish_request</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">proc_rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-
-<span class="w">       </span><span class="cm">/* do sth pthread or openmp */</span><span class="w"></span>
-
-<span class="w">       </span><span class="n">finish</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
-<span class="w">       </span><span class="kt">int</span><span class="w"> </span><span class="n">proc_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="w">       </span><span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">proc_total</span><span class="p">);</span><span class="w"></span>
-<span class="w">       </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="w"> </span><span class="n">proc_total</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">){</span><span class="w"></span>
-<span class="w">	   </span><span class="n">MPI_Isend</span><span class="p">(</span><span class="o">&amp;</span><span class="n">finish</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INT</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">finish_request</span><span class="p">);</span><span class="w"></span>
-<span class="w">	   </span><span class="n">MPI_Wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">finish_request</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span><span class="w"></span>
-<span class="w">       </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">   </span><span class="p">}</span><span class="k">else</span><span class="p">{</span><span class="w"></span>
-<span class="w">       </span><span class="kt">int</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
-<span class="w">       </span><span class="n">MPI_Status</span><span class="w"> </span><span class="n">finish_status</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">       </span><span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">flag</span><span class="p">){</span><span class="w"></span>
-<span class="w">	   </span><span class="n">MPI_Iprobe</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ANY_TAG</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">flag</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">finish_status</span><span class="p">);</span><span class="w"></span>
-<span class="w">	   </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">flag</span><span class="p">){</span><span class="w"></span>
-<span class="w">	       </span><span class="n">MPI_Irecv</span><span class="p">(</span><span class="o">&amp;</span><span class="n">finish</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">finish_request</span><span class="p">);</span><span class="w"></span>
-<span class="w">	       </span><span class="n">MPI_Wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">finish_request</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span><span class="w"></span>
-<span class="w">	       </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
-<span class="w">	   </span><span class="p">}</span><span class="w"></span>
-<span class="w">	   </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
-<span class="w">       </span><span class="p">}</span><span class="w"></span>
-<span class="w">   </span><span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-
-<div id="outline-container-org4a722b7" class="outline-3">
-<h3 id="org4a722b7">模拟单线程</h3>
-<div class="outline-text-3" id="text-org4a722b7">
-<p>
-随便写一个变量，按照顺序一个接一个的发送下去
-</p>
-
-<div class="highlight"><pre><span></span>   <span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
-
-   <span class="n">comm</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span>
-   <span class="n">proc_rank</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">Get_rank</span><span class="p">()</span>
-   <span class="n">proc_num</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">Get_size</span><span class="p">()</span>
-
-   <span class="n">myturn</span> <span class="o">=</span> <span class="mi">0</span>
-
-   <span class="k">if</span> <span class="n">proc_rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-       <span class="n">myturn</span> <span class="o">=</span> <span class="mi">1</span>
-   <span class="k">else</span><span class="p">:</span>
-       <span class="n">myturn</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">proc_rank</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">proc_rank</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-
-   <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">proc_rank</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">myturn</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
-
-   <span class="k">if</span> <span class="n">proc_rank</span> <span class="o">&lt;</span> <span class="n">proc_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-       <span class="n">comm</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">myturn</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">proc_rank</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">proc_rank</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
                 </div>
             </article>
 </div>
@@ -2950,3 +1722,4 @@ MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成�
     </script>
 </body>
 </html>
+

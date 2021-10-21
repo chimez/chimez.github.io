@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>setuptools | chimez's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://chimez.github.io/posts/setuptools/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
+<link rel="prev" href="../apache/" title="apache" type="text/html">
+<link rel="next" href="../wsl/" title="wsl" type="text/html">
+<meta property="og:site_name" content="chimez's blog">
+<meta property="og:title" content="setuptools">
+<meta property="og:url" content="https://chimez.github.io/posts/setuptools/">
+<meta property="og:description" content='setuptools: python 的打包工具
+
+
+setuptools 是 pypa 的项目。
+
+
+
+
+基本使用
+
+
+
+pyproject.toml
+
+
+PEP 517 要求所有 python 项目需要一个配置文件 pyproject.toml 其中描述项目的基本信息和依赖等。
+
+
+    [build-system]
+    requires = ["setuptools", "wheel"'>
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-10-06T20:00:12+08:00">
+<meta property="article:tag" content="cython">
+<meta property="article:tag" content="python">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">chimez's blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">setuptools</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    chimez
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2021-10-06T20:00:12+08:00" itemprop="datePublished" title="2021-10-06 20:00">2021-10-06 20:00</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-org7e32d92" class="outline-2">
+<h2 id="org7e32d92">setuptools: python 的打包工具</h2>
+<div class="outline-text-2" id="text-org7e32d92">
+<p>
+<a href="https://setuptools.pypa.io">setuptools</a> 是 pypa 的项目。
+</p>
+</div>
+
+<div id="outline-container-orgc2338b9" class="outline-3">
+<h3 id="orgc2338b9">基本使用</h3>
+<div class="outline-text-3" id="text-orgc2338b9">
+</div>
+<div id="outline-container-org7fd4633" class="outline-4">
+<h4 id="org7fd4633"><code>pyproject.toml</code></h4>
+<div class="outline-text-4" id="text-org7fd4633">
+<p>
+PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml</code> 其中描述项目的基本信息和依赖等。
+</p>
+
+<div class="highlight"><pre><span></span>    [build-system]
+    requires = ["setuptools", "wheel"]
+    build-backend = "setuptools.build_meta"
+</pre></div>
+</div>
+</div>
+
+
+<div id="outline-container-org3580d46" class="outline-4">
+<h4 id="org3580d46">
+<code>setup.cfg</code> or <code>setup.py</code>
+</h4>
+<div class="outline-text-4" id="text-org3580d46">
+<p>
+<code>setup.cfg</code> 是 setuptools 的 DSL，而 <code>setup.py</code> 用一般的 python 代码。
+</p>
+
+<div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+
+    <span class="n">setup</span><span class="p">(</span>
+	<span class="n">name</span><span class="o">=</span><span class="s1">'mypackage'</span><span class="p">,</span>
+	<span class="n">version</span><span class="o">=</span><span class="s1">'0.0.1'</span><span class="p">,</span>
+	<span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">'mypackage'</span><span class="p">],</span>
+	<span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+	    <span class="s1">'requests'</span><span class="p">,</span>
+	    <span class="s1">'importlib; python_version == "2.6"'</span><span class="p">,</span>
+	<span class="p">],</span>
+    <span class="p">)</span>
+</pre></div>
+
+<ul class="org-ul">
+<li>
+<code>packages</code> 指定 setuptools 要处理的包，可以使用 <code>find_packages</code>, <code>find_namespace_packages</code> 来自动找到所有包</li>
+<li>
+<code>install_requires</code> 指定安装包需要的依赖, setuptools 可以自动从 pypa 安装依赖</li>
+<li>
+<code>setup_requires</code> 指定依赖，但 setuptools 不会自动安装它</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org651b16d" class="outline-3">
+<h3 id="org651b16d">开发模式</h3>
+<div class="outline-text-3" id="text-org651b16d">
+<p>
+使用开发模式，可以完成构建而不需要将文件复制到包目录。
+</p>
+
+<ul class="org-ul">
+<li>开发模式安装 <code>setup.py develop</code>
+</li>
+<li>开发模式卸载 <code>setup.py develop --uninstall</code>
+</li>
+<li>开发模式与 PEP 517 不兼容，所以用 pip 安装的方式是 <code>pip install --editable .</code>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org58c7310" class="outline-3">
+<h3 id="org58c7310">cython</h3>
+<div class="outline-text-3" id="text-org58c7310">
+<p>
+setuptools 会自动检查 cython 是否安装，如果没有，就会忽略所有 <code>.pyx</code> 文件。
+</p>
+
+<p>
+PEP 517 要求在 <code>pyproject.toml</code> 中加入
+</p>
+<div class="highlight"><pre><span></span>   [build-system]
+   requires=[..., "cython"]
+</pre></div>
+
+<p>
+为了兼容性，推荐在 <code>setup.py</code> 中也加入依赖 <code>setup_requires = ['cython', ...]</code>
+</p>
+
+<p>
+<code>setup.py</code>
+</p>
+<div class="highlight"><pre><span></span>   <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+   <span class="kn">from</span> <span class="nn">Cython.Build</span> <span class="kn">import</span> <span class="n">cythonize</span>
+
+   <span class="n">setup</span><span class="p">(</span>
+       <span class="n">name</span><span class="o">=</span><span class="s1">'Hello world app'</span><span class="p">,</span>
+       <span class="n">ext_modules</span><span class="o">=</span><span class="n">cythonize</span><span class="p">(</span><span class="s2">"hello.pyx"</span><span class="p">),</span>
+       <span class="n">zip_safe</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+       <span class="n">setup_requires</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'cython'</span><span class="p">],</span>
+   <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/cython/" rel="tag">cython</a></li>
+            <li><a class="tag p-category" href="../../categories/python/" rel="tag">python</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../apache/" rel="prev" title="apache">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../wsl/" rel="next" title="wsl">Next post</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>
+

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about Algorithm)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/cat_algorithm.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Fri, 01 Oct 2021 12:05:11 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Data Structures for Sparse Matrix</title><link>https://chimez.github.io/posts/data-structures-for-sparse-matrix/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org3bfd918" class="outline-2"&gt;
-&lt;h2 id="org3bfd918"&gt;稀疏矩阵的数据结构&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3bfd918"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about Algorithm)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/cat_algorithm.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 Oct 2021 13:35:52 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Data Structures for Sparse Matrix</title><link>https://chimez.github.io/posts/data-structures-for-sparse-matrix/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga1c2030" class="outline-2"&gt;
+&lt;h2 id="orga1c2030"&gt;稀疏矩阵的数据结构&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga1c2030"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org2405116" class="outline-3"&gt;
-&lt;h3 id="org2405116"&gt;常见结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org2405116"&gt;
+&lt;div id="outline-container-orgdcf8967" class="outline-3"&gt;
+&lt;h3 id="orgdcf8967"&gt;常见结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgdcf8967"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;COO: Coordinate or triplet&lt;/li&gt;
 &lt;li&gt;CSR: Compressed Sparse Row&lt;/li&gt;
@@ -16,9 +16,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org10f7b6c" class="outline-3"&gt;
-&lt;h3 id="org10f7b6c"&gt;COO: coordinate&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org10f7b6c"&gt;
+&lt;div id="outline-container-org79b2c22" class="outline-3"&gt;
+&lt;h3 id="org79b2c22"&gt;COO: coordinate&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org79b2c22"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;也叫做 triplet 格式&lt;/li&gt;
 &lt;li&gt;最简单和基本的格式，通常用做向其它格式转换的入门格式&lt;/li&gt;
@@ -26,7 +26,7 @@
 &lt;li&gt;保存三列数据：值、行指标、列指标&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;pre class="example" id="orgcd7966d"&gt;
+&lt;pre class="example" id="org1fd751a"&gt;
 A:
    [[ 1,  0,  0,  2,  0],
     [ 3,  4,  0,  5,  0],
@@ -43,15 +43,15 @@ A[ i[k], j[k] ] = data[k]
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org33594e8" class="outline-3"&gt;
-&lt;h3 id="org33594e8"&gt;CSR: Compressed Sparse Row&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org33594e8"&gt;
+&lt;div id="outline-container-org1466efe" class="outline-3"&gt;
+&lt;h3 id="org1466efe"&gt;CSR: Compressed Sparse Row&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1466efe"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;按行压缩，即coo格式中的数据值、列指标不变，但行指标改成指向这一行开始的列的指标&lt;/li&gt;
 &lt;li&gt;一般来说，Fortran 里使用这种格式&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;pre class="example" id="org18c899c"&gt;
+&lt;pre class="example" id="org56a04fb"&gt;
 A:
    [[ 1,  0,  0,  2,  0],
     [ 3,  4,  0,  5,  0],
@@ -67,15 +67,15 @@ col(j): [0, 3, 0, 1, 3,  0, 2, 3, 4,  2, 3,  4]
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgcd66a16" class="outline-3"&gt;
-&lt;h3 id="orgcd66a16"&gt;CSC: Compressed Sparse Column&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgcd66a16"&gt;
+&lt;div id="outline-container-org1b2a155" class="outline-3"&gt;
+&lt;h3 id="org1b2a155"&gt;CSC: Compressed Sparse Column&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1b2a155"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;按列压缩，与 CSR 类似，不过行列换一下&lt;/li&gt;
 &lt;li&gt;c 中常用这种格式&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;pre class="example" id="orgfb05a7b"&gt;
+&lt;pre class="example" id="org50146da"&gt;
 A:
    [[ 1,  0,  0,  2,  0],
     [ 3,  4,  0,  5,  0],
@@ -91,14 +91,14 @@ col(j): [0, 3, 4, 6, 10, 12]
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgadd77f2" class="outline-3"&gt;
-&lt;h3 id="orgadd77f2"&gt;DIA: The Diagonal format&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgadd77f2"&gt;
+&lt;div id="outline-container-orgba2191b" class="outline-3"&gt;
+&lt;h3 id="orgba2191b"&gt;DIA: The Diagonal format&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgba2191b"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;按对角线压缩，保存偏移值，负的偏移忽略头元素，正的偏移忽略尾元素&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;pre class="example" id="org47d3829"&gt;
+&lt;pre class="example" id="org13b77db"&gt;
 A:
    [[ 1.,  0.,  2.,  0.,  0.],
     [ 3.,  4.,  0.,  5.,  0.],
@@ -117,38 +117,40 @@ offsets: [-1,  0,  2]
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7004d68" class="outline-3"&gt;
-&lt;h3 id="org7004d68"&gt;BSR: Block matrices&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org7004d68"&gt;
+&lt;div id="outline-container-org4c79f5f" class="outline-3"&gt;
+&lt;h3 id="org4c79f5f"&gt;BSR: Block matrices&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4c79f5f"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;类似 CSR，只不过每个行列指的是一个小的矩阵，这些小矩阵大小都相等&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org57f6e61" class="outline-3"&gt;
-&lt;h3 id="org57f6e61"&gt;scipy 格式&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org57f6e61"&gt;
+&lt;div id="outline-container-orgd5ec0f5" class="outline-3"&gt;
+&lt;h3 id="orgd5ec0f5"&gt;scipy 格式&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd5ec0f5"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;很容易使用，参考 &lt;a href="https://docs.scipy.org/doc/scipy/reference/sparse.html"&gt;scipy - sparse&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb45ef2f" class="outline-3"&gt;
-&lt;h3 id="orgb45ef2f"&gt;suitesparse 格式&lt;/h3&gt;
+&lt;div id="outline-container-org8193d28" class="outline-3"&gt;
+&lt;h3 id="org8193d28"&gt;suitesparse 格式&lt;/h3&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org814ec7b" class="outline-3"&gt;
-&lt;h3 id="org814ec7b"&gt;MKL 格式&lt;/h3&gt;
+&lt;div id="outline-container-orgffbd349" class="outline-3"&gt;
+&lt;h3 id="orgffbd349"&gt;MKL 格式&lt;/h3&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>Numerical Algorithm</category><category>Sparse Matrix</category><guid>https://chimez.github.io/posts/data-structures-for-sparse-matrix/</guid><pubDate>Mon, 19 Apr 2021 07:24:09 GMT</pubDate></item><item><title>Sparse Matrix</title><link>https://chimez.github.io/posts/sparse-matrix/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org2639a95" class="outline-2"&gt;
-&lt;h2 id="org2639a95"&gt;稀疏矩阵&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2639a95"&gt;
+&lt;/div&gt;&lt;/body&gt;
+&lt;/html&gt;
+</description><category>Numerical Algorithm</category><category>Sparse Matrix</category><guid>https://chimez.github.io/posts/data-structures-for-sparse-matrix/</guid><pubDate>Mon, 19 Apr 2021 07:24:09 GMT</pubDate></item><item><title>Sparse Matrix</title><link>https://chimez.github.io/posts/sparse-matrix/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgc158c47" class="outline-2"&gt;
+&lt;h2 id="orgc158c47"&gt;稀疏矩阵&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc158c47"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org804929a" class="outline-3"&gt;
-&lt;h3 id="org804929a"&gt;定义&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org804929a"&gt;
+&lt;div id="outline-container-org1def686" class="outline-3"&gt;
+&lt;h3 id="org1def686"&gt;定义&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1def686"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;稀疏矩阵指的是那些有很多元素为 0 的矩阵&lt;/li&gt;
 &lt;li&gt;一般而言 \(m\times n\) 的矩阵， 其非零元素的个数在 \(O(\mathrm{min}(m,n))\) 就可以作为稀疏矩阵来处理，一般来说就是每行或每列的元素个数是常数&lt;/li&gt;
@@ -157,9 +159,9 @@ offsets: [-1,  0,  2]
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge5618dd" class="outline-3"&gt;
-&lt;h3 id="orge5618dd"&gt;稀疏矩阵的性质&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orge5618dd"&gt;
+&lt;div id="outline-container-org5ad46f0" class="outline-3"&gt;
+&lt;h3 id="org5ad46f0"&gt;稀疏矩阵的性质&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5ad46f0"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;稀疏矩阵 \(A\) 的逆 \(A^{ -1}\) 一般来说是稠密的&lt;/li&gt;
 &lt;li&gt;稀疏矩阵 \(A\) 的 LU 分解 \(L\) 和  \(U\) 矩阵可以也是稀疏的&lt;/li&gt;
@@ -167,9 +169,9 @@ offsets: [-1,  0,  2]
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org989476c" class="outline-3"&gt;
-&lt;h3 id="org989476c"&gt;Cayley-Hamilton 定理&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org989476c"&gt;
+&lt;div id="outline-container-org85bd492" class="outline-3"&gt;
+&lt;h3 id="org85bd492"&gt;Cayley-Hamilton 定理&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org85bd492"&gt;
 &lt;p&gt;
 矩阵满足其特征方程。
 &lt;/p&gt;
@@ -200,9 +202,9 @@ offsets: [-1,  0,  2]
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org56c4089" class="outline-3"&gt;
-&lt;h3 id="org56c4089"&gt;稀疏矩阵的图表示&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org56c4089"&gt;
+&lt;div id="outline-container-orgefaa30b" class="outline-3"&gt;
+&lt;h3 id="orgefaa30b"&gt;稀疏矩阵的图表示&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgefaa30b"&gt;
 &lt;p&gt;
 稀疏矩阵可以用图来表示，进而可以用图论的方法分析。
 &lt;/p&gt;
@@ -218,9 +220,9 @@ offsets: [-1,  0,  2]
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org756797f" class="outline-3"&gt;
-&lt;h3 id="org756797f"&gt;稀疏矩阵与偏微分方程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org756797f"&gt;
+&lt;div id="outline-container-org29a2ef9" class="outline-3"&gt;
+&lt;h3 id="org29a2ef9"&gt;稀疏矩阵与偏微分方程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org29a2ef9"&gt;
 &lt;p&gt;
 典型的偏微分方程数值模拟的过程是：
 &lt;/p&gt;
@@ -237,7 +239,9 @@ offsets: [-1,  0,  2]
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>Numerical Algorithm</category><category>Sparse Matrix</category><guid>https://chimez.github.io/posts/sparse-matrix/</guid><pubDate>Mon, 19 Apr 2021 06:12:16 GMT</pubDate></item><item><title>Gram-Schmidt Orthogonalization</title><link>https://chimez.github.io/posts/gram-schmidt-orthogonalization/</link><dc:creator>chimez</dc:creator><description>&lt;div&gt;&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;/body&gt;
+&lt;/html&gt;
+</description><category>Numerical Algorithm</category><category>Sparse Matrix</category><guid>https://chimez.github.io/posts/sparse-matrix/</guid><pubDate>Mon, 19 Apr 2021 06:12:16 GMT</pubDate></item><item><title>Gram-Schmidt Orthogonalization</title><link>https://chimez.github.io/posts/gram-schmidt-orthogonalization/</link><dc:creator>chimez</dc:creator><description>&lt;div&gt;&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="Gram-Schmidt-%E6%AD%A3%E4%BA%A4%E5%8C%96%E6%96%B9%E6%B3%95"&gt;Gram-Schmidt 正交化方法&lt;a class="anchor-link" href="https://chimez.github.io/posts/gram-schmidt-orthogonalization/#Gram-Schmidt-%E6%AD%A3%E4%BA%A4%E5%8C%96%E6%96%B9%E6%B3%95"&gt;¶&lt;/a&gt;&lt;/h2&gt;
@@ -384,7 +388,10 @@ True
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;/div&gt;&lt;/div&gt;</description><category>Linear Algebra</category><category>Numerical Algorithm</category><guid>https://chimez.github.io/posts/gram-schmidt-orthogonalization/</guid><pubDate>Sat, 19 Dec 2020 08:11:37 GMT</pubDate></item><item><title>Power Method for Eigenvalues</title><link>https://chimez.github.io/posts/power-method-for-eigenvalues/</link><dc:creator>chimez</dc:creator><description>&lt;div&gt;&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;/body&gt;&lt;/html&gt;
+
+</description><category>Linear Algebra</category><category>Numerical Algorithm</category><guid>https://chimez.github.io/posts/gram-schmidt-orthogonalization/</guid><pubDate>Sat, 19 Dec 2020 08:11:37 GMT</pubDate></item><item><title>Power Method for Eigenvalues</title><link>https://chimez.github.io/posts/power-method-for-eigenvalues/</link><dc:creator>chimez</dc:creator><description>&lt;div&gt;&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="%E5%B9%82%E6%B3%95%EF%BC%9A%E7%9F%A9%E9%98%B5%E6%9C%AC%E5%BE%81%E5%80%BC%E8%BF%AD%E4%BB%A3%E6%B1%82%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95"&gt;幂法：矩阵本征值迭代求解的基本方法&lt;a class="anchor-link" href="https://chimez.github.io/posts/power-method-for-eigenvalues/#%E5%B9%82%E6%B3%95%EF%BC%9A%E7%9F%A9%E9%98%B5%E6%9C%AC%E5%BE%81%E5%80%BC%E8%BF%AD%E4%BB%A3%E6%B1%82%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95"&gt;¶&lt;/a&gt;&lt;/h2&gt;
@@ -630,4 +637,7 @@ $$&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;/div&gt;&lt;/div&gt;</description><category>Linear Algebra</category><category>Numerical Algorithm</category><guid>https://chimez.github.io/posts/power-method-for-eigenvalues/</guid><pubDate>Sat, 19 Dec 2020 07:20:52 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/div&gt;
+&lt;/body&gt;&lt;/html&gt;
+
+</description><category>Linear Algebra</category><category>Numerical Algorithm</category><guid>https://chimez.github.io/posts/power-method-for-eigenvalues/</guid><pubDate>Sat, 19 Dec 2020 07:20:52 GMT</pubDate></item></channel></rss>
