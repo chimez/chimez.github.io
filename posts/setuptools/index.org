@@ -1,0 +1,85 @@
+#+BEGIN_COMMENT
+.. title: setuptools
+.. slug: setuptools
+.. date: 2021-10-06 20:00:12 UTC+08:00
+.. tags: python, cython
+.. category: tools
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+* setuptools: python 的打包工具
+
+  [[https://setuptools.pypa.io][setuptools]] 是 pypa 的项目。
+
+** 基本使用
+
+   
+*** ~pyproject.toml~
+
+    PEP 517 要求所有 python 项目需要一个配置文件 ~pyproject.toml~ 其中描述项目的基本信息和依赖等。
+
+    #+begin_src toml
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+    #+end_src
+
+    
+*** ~setup.cfg~ or ~setup.py~
+
+    ~setup.cfg~ 是 setuptools 的 DSL，而 ~setup.py~ 用一般的 python 代码。
+
+    #+begin_src python
+from setuptools import setup
+
+setup(
+    name='mypackage',
+    version='0.0.1',
+    packages=['mypackage'],
+    install_requires=[
+        'requests',
+        'importlib; python_version == "2.6"',
+    ],
+)
+    #+end_src
+
+    - ~packages~ 指定 setuptools 要处理的包，可以使用 ~find_packages~, ~find_namespace_packages~ 来自动找到所有包
+    - ~install_requires~ 指定安装包需要的依赖, setuptools 可以自动从 pypa 安装依赖
+    - ~setup_requires~ 指定依赖，但 setuptools 不会自动安装它
+
+      
+** 开发模式
+
+   使用开发模式，可以完成构建而不需要将文件复制到包目录。
+
+   - 开发模式安装 ~setup.py develop~
+   - 开发模式卸载 ~setup.py develop --uninstall~
+   - 开发模式与 PEP 517 不兼容，所以用 pip 安装的方式是 ~pip install --editable .~
+   
+** cython
+
+   setuptools 会自动检查 cython 是否安装，如果没有，就会忽略所有 ~.pyx~ 文件。
+
+   PEP 517 要求在 ~pyproject.toml~ 中加入
+   #+begin_src toml
+[build-system]
+requires=[..., "cython"]
+   #+end_src
+
+   为了兼容性，推荐在 ~setup.py~ 中也加入依赖 ~setup_requires = ['cython', ...]~
+   
+   ~setup.py~
+   #+begin_src python
+from setuptools import setup
+from Cython.Build import cythonize
+
+setup(
+    name='Hello world app',
+    ext_modules=cythonize("hello.pyx"),
+    zip_safe=False,
+    setup_requires = ['cython'],
+)
+   #+end_src

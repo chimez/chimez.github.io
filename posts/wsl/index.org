@@ -1,0 +1,35 @@
+#+BEGIN_COMMENT
+.. title: wsl
+.. slug: wsl
+.. date: 2021-10-21 12:27:51 UTC+08:00
+.. tags: wsl, windows
+.. category: tools
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+* WSL
+
+  
+** 配置 ssh
+
+   1. 安装 ~openssh-server~
+   2. 编辑 ~/etc/ssh/sshd_config~
+      #+BEGIN_EXAMPLE
+# change port
+Port 9922
+ListenAddress 0.0.0.0
+PasswordAuthentication yes
+      #+END_EXAMPLE
+   3. 重启服务器 ~sudo service ssh restart~
+   4. windows 重定向端口
+      #+BEGIN_EXAMPLE
+netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=9922 connectaddress=172.23.241.25 connectport=9922
+      #+END_EXAMPLE
+      1. 端口号就是 ssh 的
+      2. wsl 的 ip 地址可以从 ~ifconfig~ 命令获得
+      3. ~ifconfig~ 在 ~net-tools~ 包中
+   5. 在 windows 防火墙中添加端口

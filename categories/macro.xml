@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about macro)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/macro.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Fri, 01 Oct 2021 12:05:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Rust macro</title><link>https://chimez.github.io/posts/rust-macro/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org5111f26" class="outline-2"&gt;
-&lt;h2 id="org5111f26"&gt;Rust 宏&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5111f26"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about macro)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/macro.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 Oct 2021 13:35:57 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Rust macro</title><link>https://chimez.github.io/posts/rust-macro/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org9e21e83" class="outline-2"&gt;
+&lt;h2 id="org9e21e83"&gt;Rust 宏&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9e21e83"&gt;
 &lt;p&gt;
 Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&gt; ,另一种是过程宏 &lt;code&gt;#[...]&lt;/code&gt; .
 &lt;/p&gt;
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgb6bfc2f" class="outline-3"&gt;
-&lt;h3 id="orgb6bfc2f"&gt;声明宏 &lt;code&gt;macro_rules!&lt;/code&gt;&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb6bfc2f"&gt;
+&lt;div id="outline-container-org00438ff" class="outline-3"&gt;
+&lt;h3 id="org00438ff"&gt;声明宏 &lt;code&gt;macro_rules!&lt;/code&gt;&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org00438ff"&gt;
 &lt;p&gt;
 声明宏是 Rust 中最常用的宏，通过对源码的模式匹配来实现功能。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd60bd2a" class="outline-4"&gt;
-&lt;h4 id="orgd60bd2a"&gt;语法&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd60bd2a"&gt;
+&lt;div id="outline-container-org0eabae1" class="outline-4"&gt;
+&lt;h4 id="org0eabae1"&gt;语法&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0eabae1"&gt;
 &lt;p&gt;
 参考： &lt;a href="https://doc.rust-lang.org/reference/macros-by-example.html"&gt;reference/macro&lt;/a&gt;
 &lt;/p&gt;
@@ -31,9 +31,9 @@ Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&g
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf502251" class="outline-4"&gt;
-&lt;h4 id="orgf502251"&gt;例子： &lt;code&gt;vec!&lt;/code&gt;&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf502251"&gt;
+&lt;div id="outline-container-org9bb41e5" class="outline-4"&gt;
+&lt;h4 id="org9bb41e5"&gt;例子： &lt;code&gt;vec!&lt;/code&gt;&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9bb41e5"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    #[macro_export]
     macro_rules! vec {
 	( $( $x:expr ),* ) =&amp;gt; {
@@ -52,17 +52,17 @@ Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&g
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org1408a05" class="outline-3"&gt;
-&lt;h3 id="org1408a05"&gt;过程宏&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org1408a05"&gt;
+&lt;div id="outline-container-org3450c30" class="outline-3"&gt;
+&lt;h3 id="org3450c30"&gt;过程宏&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org3450c30"&gt;
 &lt;p&gt;
 过程宏是一个函数，不过它的输入输出类型是词法对象 &lt;code&gt;TokenStream&lt;/code&gt; ，由编译器在编译前调用。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org25266e4" class="outline-4"&gt;
-&lt;h4 id="org25266e4"&gt;crate&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org25266e4"&gt;
+&lt;div id="outline-container-org6a0fb39" class="outline-4"&gt;
+&lt;h4 id="org6a0fb39"&gt;crate&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6a0fb39"&gt;
 &lt;p&gt;
 由于技术限制，目前过程宏必须分离在一个单独的 crate 中, 这个 crate 是 &lt;code&gt;proc-macro&lt;/code&gt; 类型的
 &lt;/p&gt;
@@ -77,9 +77,9 @@ Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&g
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org95e3a2f" class="outline-4"&gt;
-&lt;h4 id="org95e3a2f"&gt;&lt;code&gt;derive&lt;/code&gt; 宏&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org95e3a2f"&gt;
+&lt;div id="outline-container-org7765bbd" class="outline-4"&gt;
+&lt;h4 id="org7765bbd"&gt;&lt;code&gt;derive&lt;/code&gt; 宏&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org7765bbd"&gt;
 &lt;p&gt;
 &lt;code&gt;derive&lt;/code&gt; 宏用来为结构体等创建默认的 trait 实现。
 &lt;/p&gt;
@@ -90,8 +90,8 @@ Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&g
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org3d6e5c9"&gt;&lt;/a&gt;使用&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org3d6e5c9"&gt;
+&lt;li&gt;&lt;a id="org6aec40b"&gt;&lt;/a&gt;使用&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org6aec40b"&gt;
 &lt;p&gt;
 下面的例子展示了为 &lt;code&gt;struct Pancakes&lt;/code&gt; 创建 trait &lt;code&gt;HelloMacro&lt;/code&gt; 的默认实现的方法，这个 trait 中只有一个函数 &lt;code&gt;hello_macro()&lt;/code&gt;
 &lt;/p&gt;
@@ -112,8 +112,8 @@ Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&g
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org82f5375"&gt;&lt;/a&gt;trait 定义&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org82f5375"&gt;
+&lt;li&gt;&lt;a id="org5e35bea"&gt;&lt;/a&gt;trait 定义&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org5e35bea"&gt;
 &lt;p&gt;
 &lt;code&gt;hello_macro/src/lib.rs&lt;/code&gt;
 &lt;/p&gt;
@@ -124,8 +124,8 @@ Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&g
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgfe3d781"&gt;&lt;/a&gt;宏定义&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgfe3d781"&gt;
+&lt;li&gt;&lt;a id="org8e74709"&gt;&lt;/a&gt;宏定义&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org8e74709"&gt;
 &lt;p&gt;
 &lt;code&gt;hello_macro_derive/Cargo.toml&lt;/code&gt;
 &lt;/p&gt;
@@ -173,25 +173,25 @@ Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&g
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org88a67b9" class="outline-4"&gt;
-&lt;h4 id="org88a67b9"&gt;&lt;code&gt;Attribute-like&lt;/code&gt; 宏&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org88a67b9"&gt;
+&lt;div id="outline-container-org7875d5d" class="outline-4"&gt;
+&lt;h4 id="org7875d5d"&gt;&lt;code&gt;Attribute-like&lt;/code&gt; 宏&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org7875d5d"&gt;
 &lt;p&gt;
 属性宏可以创建新的属性, 与 &lt;code&gt;derive&lt;/code&gt; 宏的区别在于参数多了一个属性 &lt;code&gt;attr&lt;/code&gt;, 也就是括号里面的部分，另一个参数 &lt;code&gt;item&lt;/code&gt; 就是与 &lt;code&gt;derive&lt;/code&gt; 宏一样的内容了。
 &lt;/p&gt;
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orgdeb78d0"&gt;&lt;/a&gt;用法&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgdeb78d0"&gt;
+&lt;li&gt;&lt;a id="orgb598b7b"&gt;&lt;/a&gt;用法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgb598b7b"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     #[route(GET, "/")]
      fn index() { ... }
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org0890c8e"&gt;&lt;/a&gt;宏定义&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org0890c8e"&gt;
+&lt;li&gt;&lt;a id="org6f08530"&gt;&lt;/a&gt;宏定义&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org6f08530"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     #[proc_macro_attribute]
      pub fn route(attr: TokenStream, item: TokenStream) -&amp;gt; TokenStream { ... }
 &lt;/pre&gt;&lt;/div&gt;
@@ -200,24 +200,24 @@ Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&g
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbdfa294" class="outline-4"&gt;
-&lt;h4 id="orgbdfa294"&gt;&lt;code&gt;Function-like&lt;/code&gt; 宏&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgbdfa294"&gt;
+&lt;div id="outline-container-org374b7a5" class="outline-4"&gt;
+&lt;h4 id="org374b7a5"&gt;&lt;code&gt;Function-like&lt;/code&gt; 宏&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org374b7a5"&gt;
 &lt;p&gt;
 函数宏可以定义像函数一样调用的宏。可以用来定义 DSL
 &lt;/p&gt;
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orga97085e"&gt;&lt;/a&gt;用法&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orga97085e"&gt;
+&lt;li&gt;&lt;a id="org02c78a4"&gt;&lt;/a&gt;用法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org02c78a4"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     let sql = sql!(SELECT * FROM posts WHERE id=1);
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org015724b"&gt;&lt;/a&gt;宏定义&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org015724b"&gt;
+&lt;li&gt;&lt;a id="org6797a07"&gt;&lt;/a&gt;宏定义&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org6797a07"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     #[proc_macro]
      pub fn sql(input: TokenStream) -&amp;gt; TokenStream { ... }
 &lt;/pre&gt;&lt;/div&gt;
@@ -226,25 +226,25 @@ Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&g
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org27fe838" class="outline-4"&gt;
-&lt;h4 id="org27fe838"&gt;syn: rust parser&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org27fe838"&gt;
+&lt;div id="outline-container-org04a8869" class="outline-4"&gt;
+&lt;h4 id="org04a8869"&gt;syn: rust parser&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org04a8869"&gt;
 &lt;p&gt;
 &lt;a href="https://crates.io/crates/syn"&gt;syn&lt;/a&gt; 是 rust 代码的 parser，可以将源码字符串 &lt;code&gt;TokenStream&lt;/code&gt; 转换成语法树 &lt;code&gt;syn::DeriveInput&lt;/code&gt; 。
 &lt;/p&gt;
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org757dae8"&gt;&lt;/a&gt;&lt;code&gt;syn::DeriveInput&lt;/code&gt;&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org757dae8"&gt;
+&lt;li&gt;&lt;a id="orga29f2d4"&gt;&lt;/a&gt;&lt;code&gt;syn::DeriveInput&lt;/code&gt;&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orga29f2d4"&gt;
 &lt;p&gt;
 对于输入 &lt;code&gt;TokenStream&lt;/code&gt; 使用 &lt;code&gt;parse_macro_input!&lt;/code&gt; 将它解析为语法树 &lt;code&gt;DeriveInput&lt;/code&gt; ，之后就可以通过对语法树的操作生成新的语法树
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org8916604"&gt;&lt;/a&gt;&lt;code&gt;syn::spanned::Spanned&lt;/code&gt;&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org8916604"&gt;
+&lt;li&gt;&lt;a id="orgc25fad7"&gt;&lt;/a&gt;&lt;code&gt;syn::spanned::Spanned&lt;/code&gt;&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgc25fad7"&gt;
 &lt;p&gt;
 对重复结构的操作，使用 &lt;code&gt;span()&lt;/code&gt; 配合 &lt;code&gt;quote::qoute_spanned!&lt;/code&gt; 实现
 &lt;/p&gt;
@@ -253,9 +253,9 @@ Rust 的宏分为两类，一种是声明宏 &lt;code&gt;macro_rules!&lt;/code&g
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb1bb3a8" class="outline-4"&gt;
-&lt;h4 id="orgb1bb3a8"&gt;quote: rust 代码模板&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgb1bb3a8"&gt;
+&lt;div id="outline-container-orgdec9f69" class="outline-4"&gt;
+&lt;h4 id="orgdec9f69"&gt;quote: rust 代码模板&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgdec9f69"&gt;
 &lt;p&gt;
 &lt;a href="https://crates.io/crates/quote"&gt;quote&lt;/a&gt; 的 &lt;code&gt;quote!&lt;/code&gt; 宏可以将 rust 语法数据结构变成 &lt;code&gt;TokenStream&lt;/code&gt;
 &lt;/p&gt;
@@ -270,4 +270,6 @@ qoute 的宏类似于 &lt;code&gt;macro_rules!&lt;/code&gt; 只是把 &lt;code&g
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>macro</category><category>rust</category><guid>https://chimez.github.io/posts/rust-macro/</guid><pubDate>Fri, 20 Aug 2021 05:32:43 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/body&gt;
+&lt;/html&gt;
+</description><category>macro</category><category>rust</category><guid>https://chimez.github.io/posts/rust-macro/</guid><pubDate>Fri, 20 Aug 2021 05:32:43 GMT</pubDate></item></channel></rss>

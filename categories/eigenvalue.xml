@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about eigenvalue)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/eigenvalue.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Fri, 01 Oct 2021 12:05:15 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgd0c31b3" class="outline-2"&gt;
-&lt;h2 id="orgd0c31b3"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd0c31b3"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about eigenvalue)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/eigenvalue.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 Oct 2021 13:35:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgcba0d05" class="outline-2"&gt;
+&lt;h2 id="orgcba0d05"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcba0d05"&gt;
 &lt;p&gt;
 &lt;a href="https://slepc.upv.es/"&gt;SLEPc&lt;/a&gt; 是用来求 PETSc 矩阵的扩展库。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge46353f" class="outline-3"&gt;
-&lt;h3 id="orge46353f"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orge46353f"&gt;
+&lt;div id="outline-container-org73a55ad" class="outline-3"&gt;
+&lt;h3 id="org73a55ad"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org73a55ad"&gt;
 &lt;p&gt;
 SLEPc 有以下基本部分构成
 &lt;/p&gt;
@@ -34,9 +34,9 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2603693" class="outline-3"&gt;
-&lt;h3 id="org2603693"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org2603693"&gt;
+&lt;div id="outline-container-org2387c19" class="outline-3"&gt;
+&lt;h3 id="org2387c19"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2387c19"&gt;
 &lt;p&gt;
 下载时注意，SLEPc 的版本必须和 PETSc 版本一样
 &lt;/p&gt;
@@ -54,9 +54,9 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3b23ca2" class="outline-3"&gt;
-&lt;h3 id="org3b23ca2"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org3b23ca2"&gt;
+&lt;div id="outline-container-org294b82c" class="outline-3"&gt;
+&lt;h3 id="org294b82c"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org294b82c"&gt;
 &lt;p&gt;
 程序开始和结束时分别调用 &lt;code&gt;SlepcInitialize()&lt;/code&gt; 和 &lt;code&gt;SlepcFinalize()&lt;/code&gt;, 实际上就是 &lt;code&gt;PetscInitialize()&lt;/code&gt; 和 &lt;code&gt;PetscFinalize()&lt;/code&gt;
 &lt;/p&gt;
@@ -67,13 +67,13 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd2fc057" class="outline-3"&gt;
-&lt;h3 id="orgd2fc057"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd2fc057"&gt;
+&lt;div id="outline-container-orgcb6f6a6" class="outline-3"&gt;
+&lt;h3 id="orgcb6f6a6"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgcb6f6a6"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd499dc8" class="outline-4"&gt;
-&lt;h4 id="orgd499dc8"&gt;基本使用&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd499dc8"&gt;
+&lt;div id="outline-container-orgfa617aa" class="outline-4"&gt;
+&lt;h4 id="orgfa617aa"&gt;基本使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgfa617aa"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSCreate(MPI_Comm comm,EPS *eps);&lt;/code&gt; 
 &lt;ol class="org-ol"&gt;
@@ -226,13 +226,13 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org72f3e39" class="outline-4"&gt;
-&lt;h4 id="org72f3e39"&gt;求解器配置&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org72f3e39"&gt;
+&lt;div id="outline-container-org6389f41" class="outline-4"&gt;
+&lt;h4 id="org6389f41"&gt;求解器配置&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6389f41"&gt;
 &lt;/div&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orga23caaf"&gt;&lt;/a&gt;问题类型&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orga23caaf"&gt;
+&lt;li&gt;&lt;a id="org4a81d78"&gt;&lt;/a&gt;问题类型&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org4a81d78"&gt;
 &lt;p&gt;
 问题类型使用 &lt;code&gt;EPSSetProblemType(EPS eps,EPSProblemType type);&lt;/code&gt; 进行设置
 &lt;/p&gt;
@@ -308,8 +308,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgb80ca6b"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgb80ca6b"&gt;
+&lt;li&gt;&lt;a id="org0a09a4d"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org0a09a4d"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);&lt;/code&gt; 设置要求的本征值个数
 &lt;/p&gt;
@@ -321,8 +321,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org357a7cb"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org357a7cb"&gt;
+&lt;li&gt;&lt;a id="org31a9a48"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org31a9a48"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSSetWhichEigenpairs(EPS eps,EPSWhich which);&lt;/code&gt; 设置要求本征值的位置&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSSetTarget(EPS eps,PetscScalar target);&lt;/code&gt; 设置计算距离某个值最近的本征值&lt;/li&gt;
@@ -421,8 +421,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgcfc6778"&gt;&lt;/a&gt;选择算法&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgcfc6778"&gt;
+&lt;li&gt;&lt;a id="orgac1ce4b"&gt;&lt;/a&gt;选择算法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgac1ce4b"&gt;
 &lt;p&gt;
 通过 &lt;code&gt;EPSSetType(EPS eps,EPSType method);&lt;/code&gt; 设置求解器使用的算法
 &lt;/p&gt;
@@ -606,8 +606,8 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org13db2c1"&gt;&lt;/a&gt;获得结果&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org13db2c1"&gt;
+&lt;li&gt;&lt;a id="org63b3705"&gt;&lt;/a&gt;获得结果&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org63b3705"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSGetConverged(EPS eps,PetscInt *nconv);&lt;/code&gt; 获得收敛的解个数&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSGetEigenpair(EPS eps,PetscInt j,PetscScalar *kr,PetscScalar *ki,Vec xr,Vec xi);&lt;/code&gt; 获得本征值和本征矢&lt;/li&gt;
@@ -641,26 +641,28 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org98db672"&gt;&lt;/a&gt;其它设置&lt;br&gt;
+&lt;li&gt;&lt;a id="org9f69a01"&gt;&lt;/a&gt;其它设置&lt;br&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org966240b"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org966240b"&gt;
+&lt;li&gt;&lt;a id="orgd8ce200"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
+&lt;div class="outline-text-6" id="text-orgd8ce200"&gt;
 &lt;p&gt;
 &lt;code&gt;EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgb9ace0b"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org8e2d4cf"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgd254761"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org6ccc8c5"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org41a0e78"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="orgf41ffff"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgb11b4d2"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org577366b"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>MPI</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;&lt;/body&gt;
+&lt;/html&gt;
+</description><category>C</category><category>eigenvalue</category><category>MPI</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item></channel></rss>
