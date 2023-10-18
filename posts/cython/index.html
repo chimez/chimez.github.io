@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="../../rss.xml">
 <link rel="canonical" href="https://chimez.github.io/posts/cython/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
 <link rel="prev" href="../mpi/" title="MPI" type="text/html">
@@ -48,7 +48,7 @@ cython.parallel cython 端调用，并行 pra">
 <meta property="article:tag" content="python">
 </head>
 <body>
-<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
 
 <!-- Header and menu bar -->
 <div class="container">
@@ -70,7 +70,7 @@ cython.parallel cython 端调用，并行 pra">
             <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
             <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
 <li class="nav-item">
-    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    <a href="index.org" id="sourcelink" class="nav-link">源文件</a>
     </li>
 
 
@@ -114,23 +114,23 @@ cython.parallel cython 端调用，并行 pra">
             <time class="published dt-published" datetime="2021-08-05T20:47:25+08:00" itemprop="datePublished" title="2021-08-05 20:47">2021-08-05 20:47</time></a>
             </p>
             
-        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="index.org" class="sourcelink">源文件</a></p>
 
         </div>
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgebd9384" class="outline-2">
-<h2 id="orgebd9384">Cython</h2>
-<div class="outline-text-2" id="text-orgebd9384">
+    <div id="outline-container-org4fa1dca" class="outline-2">
+<h2 id="org4fa1dca">Cython</h2>
+<div class="outline-text-2" id="text-org4fa1dca">
 </div>
-<div id="outline-container-org4147031" class="outline-3">
-<h3 id="org4147031">基本概念</h3>
-<div class="outline-text-3" id="text-org4147031">
+<div id="outline-container-org5c1a59b" class="outline-3">
+<h3 id="org5c1a59b">基本概念</h3>
+<div class="outline-text-3" id="text-org5c1a59b">
 </div>
-<div id="outline-container-orgfa37248" class="outline-4">
-<h4 id="orgfa37248">文件</h4>
-<div class="outline-text-4" id="text-orgfa37248">
+<div id="outline-container-orga7aa3db" class="outline-4">
+<h4 id="orga7aa3db">文件</h4>
+<div class="outline-text-4" id="text-orga7aa3db">
 <ol class="org-ol">
 <li>
 <code>.pyx</code> 是 <code>cython</code> 语法的源文件</li>
@@ -143,9 +143,9 @@ cython.parallel cython 端调用，并行 pra">
 </div>
 </div>
 
-<div id="outline-container-org4c9eda4" class="outline-4">
-<h4 id="org4c9eda4">库</h4>
-<div class="outline-text-4" id="text-org4c9eda4">
+<div id="outline-container-org8a5218b" class="outline-4">
+<h4 id="org8a5218b">库</h4>
+<div class="outline-text-4" id="text-org8a5218b">
 <ol class="org-ol">
 <li>
 <code>Cython.Build</code> python 端调用，用于编译</li>
@@ -175,38 +175,38 @@ cython.parallel cython 端调用，并行 pra">
 </div>
 </div>
 
-<div id="outline-container-org041f502" class="outline-4">
-<h4 id="org041f502">语法</h4>
-<div class="outline-text-4" id="text-org041f502">
+<div id="outline-container-org86bde6d" class="outline-4">
+<h4 id="org86bde6d">语法</h4>
+<div class="outline-text-4" id="text-org86bde6d">
 <div class="highlight"><pre><span></span>    from libc.math cimport log2 # 引入 c 函数
     cdef int x # 声明变量类型
     cdef int [:,:] x # 声明变量是 numpy 的 2d 向量
     ctypedef struct queue: # 声明类型
-	pass
+        pass
 
     ctypedef fused my_type: # 泛型
-	int
-	double
-	long long
+        int
+        double
+        long long
 
     # 类的定义，注意使用 __cinit__
     cdef class A:
-	cdef int a
-	def __cinit__(self):
-	    self.a = 1
+        cdef int a
+        def __cinit__(self):
+            self.a = 1
 
     &lt;void*&gt;value # 类型转换成指针
 
     # 定义 c 函数，异常时返回 -1
     cdef int func(int x) execpt? -1:
-	pass
+        pass
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org0f534da" class="outline-4">
-<h4 id="org0f534da">文件注解</h4>
-<div class="outline-text-4" id="text-org0f534da">
+<div id="outline-container-org2eb49a1" class="outline-4">
+<h4 id="org2eb49a1">文件注解</h4>
+<div class="outline-text-4" id="text-org2eb49a1">
 <ol class="org-ol">
 <li>
 <code># distutils: language=c++</code> 使用 <code>c++</code> 编译</li>
@@ -228,9 +228,9 @@ cython.parallel cython 端调用，并行 pra">
 </div>
 </div>
 
-<div id="outline-container-org9fd6e29" class="outline-4">
-<h4 id="org9fd6e29">函数注解</h4>
-<div class="outline-text-4" id="text-org9fd6e29">
+<div id="outline-container-org63e2dc9" class="outline-4">
+<h4 id="org63e2dc9">函数注解</h4>
+<div class="outline-text-4" id="text-org63e2dc9">
 <ol class="org-ol">
 <li>
 <code>@cython.boundscheck(False)</code> 关闭数组边界检查</li>
@@ -241,13 +241,13 @@ cython.parallel cython 端调用，并行 pra">
 </div>
 </div>
 
-<div id="outline-container-org0856478" class="outline-3">
-<h3 id="org0856478">编译</h3>
-<div class="outline-text-3" id="text-org0856478">
+<div id="outline-container-org66be532" class="outline-3">
+<h3 id="org66be532">编译</h3>
+<div class="outline-text-3" id="text-org66be532">
 </div>
-<div id="outline-container-orgd864635" class="outline-4">
-<h4 id="orgd864635">基本结构</h4>
-<div class="outline-text-4" id="text-orgd864635">
+<div id="outline-container-org337ca19" class="outline-4">
+<h4 id="org337ca19">基本结构</h4>
+<div class="outline-text-4" id="text-org337ca19">
 <p>
 <code>setup.py</code>
 </p>
@@ -255,7 +255,7 @@ cython.parallel cython 端调用，并行 pra">
     <span class="kn">from</span> <span class="nn">Cython.Build</span> <span class="kn">import</span> <span class="n">cythonize</span>
 
     <span class="n">setup</span><span class="p">(</span>
-	<span class="n">ext_modules</span> <span class="o">=</span> <span class="n">cythonize</span><span class="p">(</span><span class="s2">"helloworld.pyx"</span><span class="p">)</span>
+        <span class="n">ext_modules</span> <span class="o">=</span> <span class="n">cythonize</span><span class="p">(</span><span class="s2">"helloworld.pyx"</span><span class="p">)</span>
     <span class="p">)</span>
 </pre></div>
 
@@ -277,9 +277,9 @@ cython.parallel cython 端调用，并行 pra">
 </div>
 </div>
 
-<div id="outline-container-org5a37df6" class="outline-4">
-<h4 id="org5a37df6">动态链接</h4>
-<div class="outline-text-4" id="text-org5a37df6">
+<div id="outline-container-org5232617" class="outline-4">
+<h4 id="org5232617">动态链接</h4>
+<div class="outline-text-4" id="text-org5232617">
 <p>
 <a href="https://cython.readthedocs.io/en/latest/src/tutorial/external.html#dynamic-linking">参考</a>
 </p>
@@ -291,21 +291,21 @@ cython.parallel cython 端调用，并行 pra">
     <span class="kn">from</span> <span class="nn">Cython.Build</span> <span class="kn">import</span> <span class="n">cythonize</span>
 
     <span class="n">ext_modules</span> <span class="o">=</span> <span class="p">[</span>
-	<span class="n">Extension</span><span class="p">(</span><span class="s2">"demo"</span><span class="p">,</span>
-		  <span class="n">sources</span><span class="o">=</span><span class="p">[</span><span class="s2">"demo.pyx"</span><span class="p">],</span>
-		  <span class="n">libraries</span><span class="o">=</span><span class="p">[</span><span class="s2">"m"</span><span class="p">]</span>  <span class="c1"># Unix-like specific</span>
-		  <span class="p">)</span>
+        <span class="n">Extension</span><span class="p">(</span><span class="s2">"demo"</span><span class="p">,</span>
+                  <span class="n">sources</span><span class="o">=</span><span class="p">[</span><span class="s2">"demo.pyx"</span><span class="p">],</span>
+                  <span class="n">libraries</span><span class="o">=</span><span class="p">[</span><span class="s2">"m"</span><span class="p">]</span>  <span class="c1"># Unix-like specific</span>
+                  <span class="p">)</span>
     <span class="p">]</span>
 
     <span class="n">setup</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Demos"</span><span class="p">,</span>
-	  <span class="n">ext_modules</span><span class="o">=</span><span class="n">cythonize</span><span class="p">(</span><span class="n">ext_modules</span><span class="p">))</span>
+          <span class="n">ext_modules</span><span class="o">=</span><span class="n">cythonize</span><span class="p">(</span><span class="n">ext_modules</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org87dbf2c" class="outline-4">
-<h4 id="org87dbf2c">静态链接</h4>
-<div class="outline-text-4" id="text-org87dbf2c">
+<div id="outline-container-orgda74b68" class="outline-4">
+<h4 id="orgda74b68">静态链接</h4>
+<div class="outline-text-4" id="text-orgda74b68">
 <p>
 使用注解 
 </p>
@@ -318,25 +318,25 @@ cython.parallel cython 端调用，并行 pra">
 </div>
 </div>
 
-<div id="outline-container-org3056daf" class="outline-3">
-<h3 id="org3056daf">使用 c 库</h3>
-<div class="outline-text-3" id="text-org3056daf">
+<div id="outline-container-orgedb5a15" class="outline-3">
+<h3 id="orgedb5a15">使用 c 库</h3>
+<div class="outline-text-3" id="text-orgedb5a15">
 </div>
-<div id="outline-container-org7450259" class="outline-4">
-<h4 id="org7450259">外部声明</h4>
-<div class="outline-text-4" id="text-org7450259">
+<div id="outline-container-org5bb8c27" class="outline-4">
+<h4 id="org5bb8c27">外部声明</h4>
+<div class="outline-text-4" id="text-org5bb8c27">
 <p>
 使用头文件, 外部声明可以放在 <code>.pyd</code> 文件中
 </p>
 <div class="highlight"><pre><span></span>    cdef extern from "math.h":
-	double sin(double x)
+        double sin(double x)
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org57247df" class="outline-4">
-<h4 id="org57247df">异常处理</h4>
-<div class="outline-text-4" id="text-org57247df">
+<div id="outline-container-org259ace8" class="outline-4">
+<h4 id="org259ace8">异常处理</h4>
+<div class="outline-text-4" id="text-org259ace8">
 <ol class="org-ol">
 <li>
 <code>except? -1</code> 语法表示当发生任何错误时，返回 <code>-1</code>
@@ -345,65 +345,65 @@ cython.parallel cython 端调用，并行 pra">
 <code>execpt *</code> 表示返回时调用 <code>PyErr_Occurred()</code> ，当函数返回 <code>void</code> 并且需要传递错误时使用这个</li>
 </ol>
 <div class="highlight"><pre><span></span>    cdef int pop(self) except? -1:
-	if cqueue.queue_is_empty(self._c_queue):
-	    raise IndexError("Queue is empty")
-	return &lt;Py_ssize_t&gt;cqueue.queue_pop_head(self._c_queue)
+        if cqueue.queue_is_empty(self._c_queue):
+            raise IndexError("Queue is empty")
+        return &lt;Py_ssize_t&gt;cqueue.queue_pop_head(self._c_queue)
 
     cdef int spam() except *:
-	...
+        ...
 </pre></div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb22c12c" class="outline-3">
-<h3 id="orgb22c12c">使用 numpy</h3>
-<div class="outline-text-3" id="text-orgb22c12c">
+<div id="outline-container-org33c08a5" class="outline-3">
+<h3 id="org33c08a5">使用 numpy</h3>
+<div class="outline-text-3" id="text-org33c08a5">
 <p>
 numpy 的 <code>ndarray</code> 在 cython 中用做 typed memoryview
 </p>
 </div>
 
-<div id="outline-container-org1bdeb90" class="outline-4">
-<h4 id="org1bdeb90">基本例子</h4>
-<div class="outline-text-4" id="text-org1bdeb90">
+<div id="outline-container-orgc0028ce" class="outline-4">
+<h4 id="orgc0028ce">基本例子</h4>
+<div class="outline-text-4" id="text-orgc0028ce">
 <div class="highlight"><pre><span></span>    import numpy as np
 
     DTYPE = np.intc
 
 
     cdef int clip(int a, int min_value, int max_value):
-	return min(max(a, min_value), max_value)
+        return min(max(a, min_value), max_value)
 
 
     def compute(int[:, :] array_1, int[:, :] array_2, int a, int b, int c):
 
-	cdef Py_ssize_t x_max = array_1.shape[0]
-	cdef Py_ssize_t y_max = array_1.shape[1]
-	assert tuple(array_1.shape) == tuple(array_2.shape)
+        cdef Py_ssize_t x_max = array_1.shape[0]
+        cdef Py_ssize_t y_max = array_1.shape[1]
+        assert tuple(array_1.shape) == tuple(array_2.shape)
 
-	result = np.zeros((x_max, y_max), dtype=DTYPE)
-	cdef int[:, :] result_view = result
+        result = np.zeros((x_max, y_max), dtype=DTYPE)
+        cdef int[:, :] result_view = result
 
-	cdef int tmp
-	cdef Py_ssize_t x, y
+        cdef int tmp
+        cdef Py_ssize_t x, y
 
-	for x in range(x_max):
-	    for y in range(y_max):
+        for x in range(x_max):
+            for y in range(y_max):
 
-		tmp = clip(array_1[x, y], 2, 10)
-		tmp = tmp * a + array_2[x, y] * b
-		result_view[x, y] = tmp + c
+                tmp = clip(array_1[x, y], 2, 10)
+                tmp = tmp * a + array_2[x, y] * b
+                result_view[x, y] = tmp + c
 
-	return result
+        return result
 </pre></div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2de3ba0" class="outline-3">
-<h3 id="org2de3ba0">并行</h3>
-<div class="outline-text-3" id="text-org2de3ba0">
+<div id="outline-container-org3bba035" class="outline-3">
+<h3 id="org3bba035">并行</h3>
+<div class="outline-text-3" id="text-org3bba035">
 <ol class="org-ol">
 <li>使用 <code>prange</code>
 </li>
@@ -414,18 +414,17 @@ numpy 的 <code>ndarray</code> 在 cython 中用做 typed memoryview
 
 <div class="highlight"><pre><span></span>      from cython.parallel import prange
       cdef int func(int x) nogil:
-	  cdef int i
-	  cdef int y
-	  for i in prange(x, nogil=True):
-	      y += i 
-	  return y
+          cdef int i
+          cdef int y
+          for i in prange(x, nogil=True):
+              y += i 
+          return y
 </pre></div>
 </li>
 </ol>
 </div>
 </div>
 </div>
-
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
 <li><a class="tag p-category" href="../../categories/cython/" rel="tag">cython</a></li>
@@ -433,13 +432,13 @@ numpy 的 <code>ndarray</code> 在 cython 中用做 typed memoryview
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../mpi/" rel="prev" title="MPI">Previous post</a>
+                <a href="../mpi/" rel="prev" title="MPI">上一篇文章</a>
             </li>
             <li class="next">
-                <a href="../klib/" rel="next" title="klib">Next post</a>
+                <a href="../klib/" rel="next" title="klib">下一篇文章</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>
@@ -454,4 +453,3 @@ numpy 的 <code>ndarray</code> 在 cython 中用做 typed memoryview
     </script>
 </body>
 </html>
-

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about hash)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/hash.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 Oct 2021 13:35:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>xxhash</title><link>https://chimez.github.io/posts/xxhash/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgbc66ece" class="outline-2"&gt;
-&lt;h2 id="orgbc66ece"&gt;xxHash: 快速的哈希函数&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgbc66ece"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 hash 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/hash.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 18 Oct 2023 02:37:53 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>xxhash</title><link>https://chimez.github.io/posts/xxhash/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga581fb7" class="outline-2"&gt;
+&lt;h2 id="orga581fb7"&gt;xxHash: 快速的哈希函数&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga581fb7"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/Cyan4973/xxHash"&gt;Cyan4973/xxHash&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge42c208" class="outline-3"&gt;
-&lt;h3 id="orge42c208"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orge42c208"&gt;
+&lt;div id="outline-container-org77fa072" class="outline-3"&gt;
+&lt;h3 id="org77fa072"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org77fa072"&gt;
 &lt;p&gt;
 meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&lt;/code&gt;
 &lt;/p&gt;
@@ -20,22 +20,20 @@ meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga8a7740" class="outline-3"&gt;
-&lt;h3 id="orga8a7740"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga8a7740"&gt;
+&lt;div id="outline-container-orgdfd2451" class="outline-3"&gt;
+&lt;h3 id="orgdfd2451"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgdfd2451"&gt;
 &lt;p&gt;
 最快的哈希函数是 &lt;code&gt;XXH3_64bits&lt;/code&gt;
 &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;"xxhash.h"&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;"xxhash.h"&lt;/span&gt;
 
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;static&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kr"&gt;inline&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;XXH64_hash_t&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="nf"&gt;hash_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;static&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kr"&gt;inline&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;XXH64_hash_t&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="nf"&gt;hash_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
 &lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;XXH3_64bits&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;&lt;span class="w"&gt;	&lt;/span&gt;
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>C</category><category>hash</category><guid>https://chimez.github.io/posts/xxhash/</guid><pubDate>Fri, 06 Aug 2021 16:30:25 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>C</category><category>hash</category><guid>https://chimez.github.io/posts/xxhash/</guid><pubDate>Fri, 06 Aug 2021 16:30:25 GMT</pubDate></item></channel></rss>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="../../rss.xml">
 <link rel="canonical" href="https://chimez.github.io/posts/pytables/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
 <link rel="prev" href="../h5py/" title="h5py" type="text/html">
@@ -37,7 +37,7 @@ PyTables 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5
 <meta property="article:tag" content="python">
 </head>
 <body>
-<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
 
 <!-- Header and menu bar -->
 <div class="container">
@@ -59,7 +59,7 @@ PyTables 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5
             <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
             <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
 <li class="nav-item">
-    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    <a href="index.org" id="sourcelink" class="nav-link">源文件</a>
     </li>
 
 
@@ -103,24 +103,24 @@ PyTables 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5
             <time class="published dt-published" datetime="2021-03-01T11:23:19+08:00" itemprop="datePublished" title="2021-03-01 11:23">2021-03-01 11:23</time></a>
             </p>
             
-        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="index.org" class="sourcelink">源文件</a></p>
 
         </div>
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgeb805f4" class="outline-2">
-<h2 id="orgeb805f4">PyTables: 分层数据集</h2>
-<div class="outline-text-2" id="text-orgeb805f4">
+    <div id="outline-container-orgdd366cb" class="outline-2">
+<h2 id="orgdd366cb">PyTables: 分层数据集</h2>
+<div class="outline-text-2" id="text-orgdd366cb">
 <p>
 <a href="https://www.pytables.org">PyTables</a> 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5py 更高层。适合用在存储比 csv 表格更复杂更大的数据，同时又不想自己实现一些基本的数据操作的情况中，并且经过简单的处理就能用 pandas 进行进一步数据分析。
 </p>
 </div>
 
 
-<div id="outline-container-orgade82f0" class="outline-3">
-<h3 id="orgade82f0">安装</h3>
-<div class="outline-text-3" id="text-orgade82f0">
+<div id="outline-container-org9223974" class="outline-3">
+<h3 id="org9223974">安装</h3>
+<div class="outline-text-3" id="text-org9223974">
 <div class="highlight"><pre><span></span>   # 使用 conda
    conda install pytables
    # 或者 pip
@@ -137,17 +137,17 @@ PyTables 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5
 </div>
 </div>
 
-<div id="outline-container-org87205de" class="outline-3">
-<h3 id="org87205de">基本使用</h3>
-<div class="outline-text-3" id="text-org87205de">
+<div id="outline-container-org51705e0" class="outline-3">
+<h3 id="org51705e0">基本使用</h3>
+<div class="outline-text-3" id="text-org51705e0">
 <p>
 pytables 的基本逻辑是
 </p>
 </div>
 
-<div id="outline-container-orgaea14fd" class="outline-4">
-<h4 id="orgaea14fd">创建一个 HDF5 文件</h4>
-<div class="outline-text-4" id="text-orgaea14fd">
+<div id="outline-container-org2764a6f" class="outline-4">
+<h4 id="org2764a6f">创建一个 HDF5 文件</h4>
+<div class="outline-text-4" id="text-org2764a6f">
 <div class="highlight"><pre><span></span>    <span class="n">f</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s2">"filename.h5"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"file title"</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">tb</span><span class="o">.</span><span class="n">Filters</span><span class="p">(</span><span class="n">complevel</span><span class="o">=</span><span class="mi">9</span><span class="p">))</span>
 
     <span class="c1"># 别忘了还要关闭它</span>
@@ -156,34 +156,34 @@ pytables 的基本逻辑是
 </div>
 </div>
 
-<div id="outline-container-orgf26ce83" class="outline-4">
-<h4 id="orgf26ce83">在文件中创建任意层的数据集</h4>
-<div class="outline-text-4" id="text-orgf26ce83">
+<div id="outline-container-orgbe4861e" class="outline-4">
+<h4 id="orgbe4861e">在文件中创建任意层的数据集</h4>
+<div class="outline-text-4" id="text-orgbe4861e">
 <div class="highlight"><pre><span></span>    <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">"/parent/group"</span><span class="p">,</span> <span class="s2">"group_name"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"group title"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org4b9ddbb" class="outline-4">
-<h4 id="org4b9ddbb">在数据集中创建若干个数据表</h4>
-<div class="outline-text-4" id="text-org4b9ddbb">
+<div id="outline-container-org68efbd9" class="outline-4">
+<h4 id="org68efbd9">在数据集中创建若干个数据表</h4>
+<div class="outline-text-4" id="text-org68efbd9">
 <div class="highlight"><pre><span></span>    <span class="c1"># 需要创建对数据的描述</span>
     <span class="k">class</span> <span class="nc">data_description</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
-	<span class="n">name</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">StringCol</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-	<span class="n">idn</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">Int64Col</span><span class="p">()</span>
-	<span class="k">class</span> <span class="nc">sub_data</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
-	    <span class="n">name</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">StringCol</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-	    <span class="n">id2</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">Float64Col</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">StringCol</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">idn</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">Int64Col</span><span class="p">()</span>
+        <span class="k">class</span> <span class="nc">sub_data</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">StringCol</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+            <span class="n">id2</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">Float64Col</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
 
     <span class="c1"># 然后创建空的数据表       </span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_table</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">"table_name"</span><span class="p">,</span> <span class="n">data_description</span><span class="p">)</span>
 
     <span class="c1"># 在里面循环添加记录</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-	<span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"a"</span>
-	<span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="s2">"idn"</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
-	<span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="s2">"sub_data"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s1">'asd_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-	<span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">()</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"a"</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="s2">"idn"</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="s2">"sub_data"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s1">'asd_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">()</span>
 
     <span class="c1"># 最后刷新一下缓存，确保数据都写入到磁盘</span>
     <span class="n">t</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
@@ -194,13 +194,13 @@ pytables 的基本逻辑是
 </div>
 
 
-<div id="outline-container-org8ec1a2b" class="outline-2">
-<h2 id="org8ec1a2b">遇到的问题</h2>
-<div class="outline-text-2" id="text-org8ec1a2b">
+<div id="outline-container-org54d2bee" class="outline-2">
+<h2 id="org54d2bee">遇到的问题</h2>
+<div class="outline-text-2" id="text-org54d2bee">
 </div>
-<div id="outline-container-org47951ac" class="outline-3">
-<h3 id="org47951ac">在不支持 <code>flock</code> 的集群上运行</h3>
-<div class="outline-text-3" id="text-org47951ac">
+<div id="outline-container-orgfac156a" class="outline-3">
+<h3 id="orgfac156a">在不支持 <code>flock</code> 的集群上运行</h3>
+<div class="outline-text-3" id="text-orgfac156a">
 <p>
 需要设置环境变量
 </p>
@@ -210,20 +210,19 @@ pytables 的基本逻辑是
 </div>
 </div>
 </div>
-
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
 <li><a class="tag p-category" href="../../categories/python/" rel="tag">python</a></li>
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../h5py/" rel="prev" title="h5py">Previous post</a>
+                <a href="../h5py/" rel="prev" title="h5py">上一篇文章</a>
             </li>
             <li class="next">
-                <a href="../orgmode/" rel="next" title="orgmode">Next post</a>
+                <a href="../orgmode/" rel="next" title="orgmode">下一篇文章</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>
@@ -238,4 +237,3 @@ pytables 的基本逻辑是
     </script>
 </body>
 </html>
-

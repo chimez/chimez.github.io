@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="../../rss.xml">
 <link rel="canonical" href="https://chimez.github.io/posts/ck-concurrency-kit/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
 <link rel="prev" href="../greatest/" title="greatest" type="text/html">
@@ -43,7 +43,7 @@ ck_ht_iterator_t 用来遍历哈希表的迭">
 <meta property="article:tag" content="hashmap">
 </head>
 <body>
-<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
 
 <!-- Header and menu bar -->
 <div class="container">
@@ -65,7 +65,7 @@ ck_ht_iterator_t 用来遍历哈希表的迭">
             <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
             <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
 <li class="nav-item">
-    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    <a href="index.org" id="sourcelink" class="nav-link">源文件</a>
     </li>
 
 
@@ -109,23 +109,23 @@ ck_ht_iterator_t 用来遍历哈希表的迭">
             <time class="published dt-published" datetime="2021-06-27T22:09:24+08:00" itemprop="datePublished" title="2021-06-27 22:09">2021-06-27 22:09</time></a>
             </p>
             
-        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="index.org" class="sourcelink">源文件</a></p>
 
         </div>
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgb76c48a" class="outline-2">
-<h2 id="orgb76c48a">ck: Concurrency Kit</h2>
-<div class="outline-text-2" id="text-orgb76c48a">
+    <div id="outline-container-org58d4dae" class="outline-2">
+<h2 id="org58d4dae">ck: Concurrency Kit</h2>
+<div class="outline-text-2" id="text-org58d4dae">
 <p>
 <a href="https://github.com/concurrencykit/ck">ck</a> 是一个c语言的高并发数据结构库，内存安全并且无阻塞。
 </p>
 </div>
 
-<div id="outline-container-orga9c11a0" class="outline-3">
-<h3 id="orga9c11a0">ck<sub>ht.h</sub>: HashTable</h3>
-<div class="outline-text-3" id="text-orga9c11a0">
+<div id="outline-container-org026b11c" class="outline-3">
+<h3 id="org026b11c">ck<sub>ht.h</sub>: HashTable</h3>
+<div class="outline-text-3" id="text-org026b11c">
 <p>
 哈希表包括在头文件 <code>ck_ht.h</code> 中，主要的数据类型有
 </p>
@@ -141,9 +141,9 @@ ck_ht_iterator_t 用来遍历哈希表的迭">
 </ol>
 </div>
 
-<div id="outline-container-org4b39cd9" class="outline-4">
-<h4 id="org4b39cd9">初始化哈希表</h4>
-<div class="outline-text-4" id="text-org4b39cd9">
+<div id="outline-container-org1f6fc94" class="outline-4">
+<h4 id="org1f6fc94">初始化哈希表</h4>
+<div class="outline-text-4" id="text-org1f6fc94">
 <p>
 函数 <code>ck_hs_init</code>
 参数说明：
@@ -162,45 +162,45 @@ ck_ht_iterator_t 用来遍历哈希表的迭">
 <li>
 <code>unsigned long</code> 哈希算法的随机数种子</li>
 </ol>
-<div class="highlight"><pre><span></span><span class="w">    </span><span class="n">ck_ht_t</span><span class="w"> </span><span class="n">ht</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CK_HT_MODE_BYTESTRING</span><span class="p">;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="n">ck_ht_t</span><span class="w"> </span><span class="n">ht</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CK_HT_MODE_BYTESTRING</span><span class="p">;</span>
 
-<span class="w">    </span><span class="cm">/* 设置内存分配器 */</span><span class="w"></span>
-<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"></span>
-<span class="w">    </span><span class="nf">ht_malloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">r</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 设置内存分配器 */</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="nf">ht_malloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">r</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"></span>
-<span class="w">    </span><span class="nf">ht_free</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span>
+<span class="w">    </span><span class="nf">ht_free</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">r</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
 
-<span class="w">	</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">b</span><span class="p">;</span><span class="w"></span>
-<span class="w">	</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">r</span><span class="p">;</span><span class="w"></span>
-<span class="w">	</span><span class="n">free</span><span class="p">(</span><span class="n">p</span><span class="p">);</span><span class="w"></span>
-<span class="w">	</span><span class="k">return</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">struct</span> <span class="nc">ck_malloc</span><span class="w"> </span><span class="n">my_allocator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">	</span><span class="p">.</span><span class="n">malloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ht_malloc</span><span class="p">,</span><span class="w"></span>
-<span class="w">	</span><span class="p">.</span><span class="n">free</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ht_free</span><span class="w"></span>
-<span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="w">        </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">b</span><span class="p">;</span>
+<span class="w">        </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">r</span><span class="p">;</span>
+<span class="w">        </span><span class="n">free</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">ck_malloc</span><span class="w"> </span><span class="n">my_allocator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">malloc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ht_malloc</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">free</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ht_free</span>
+<span class="w">    </span><span class="p">};</span>
 
-<span class="w">    </span><span class="cm">/* 初始化哈希表 */</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ck_ht_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="p">,</span><span class="w"> </span><span class="n">ht_hash_wrapper</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">my_allocator</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">6602834</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">	</span><span class="n">perror</span><span class="p">(</span><span class="s">"ck_ht_init"</span><span class="p">);</span><span class="w"></span>
-<span class="w">	</span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 初始化哈希表 */</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ck_ht_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">mode</span><span class="p">,</span><span class="w"> </span><span class="n">ht_hash_wrapper</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">my_allocator</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">6602834</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">perror</span><span class="p">(</span><span class="s">"ck_ht_init"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="cm">/* 删除哈希表 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_destroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 删除哈希表 */</span>
+<span class="w">    </span><span class="n">ck_ht_destroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org6442a26" class="outline-4">
-<h4 id="org6442a26">读写哈希表</h4>
-<div class="outline-text-4" id="text-org6442a26">
+<div id="outline-container-orgdc08625" class="outline-4">
+<h4 id="orgdc08625">读写哈希表</h4>
+<div class="outline-text-4" id="text-orgdc08625">
 <p>
 基本的逻辑是
 </p>
@@ -210,38 +210,38 @@ ck_ht_iterator_t 用来遍历哈希表的迭">
 <li>使用 <code>ck_ht_put_spmc</code> 创建新键值对，使用 <code>ck_ht_get_spmc</code> 读取键值对，使用 <code>ck_ht_set_spmc</code> 更新值</li>
 <li>使用 <code>ck_ht_entry_value</code> 获取读到的值</li>
 </ol>
-<div class="highlight"><pre><span></span><span class="w">    </span><span class="n">ck_ht_t</span><span class="w"> </span><span class="n">ht</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_entry_t</span><span class="w"> </span><span class="n">entry</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_hash_t</span><span class="w"> </span><span class="n">h</span><span class="p">;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="w">    </span><span class="n">ck_ht_t</span><span class="w"> </span><span class="n">ht</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ck_ht_entry_t</span><span class="w"> </span><span class="n">entry</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ck_ht_hash_t</span><span class="w"> </span><span class="n">h</span><span class="p">;</span>
 
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">key</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">key_len</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">val</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">key</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">key_len</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">val</span><span class="p">;</span>
 
-<span class="w">    </span><span class="cm">/* 创建新值 */</span><span class="w"></span>
-<span class="w">    </span><span class="cm">/* 注意这里的 key_len 是 bytes 长度，也就是数组长度*sizeof(数组类型) */</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_hash</span><span class="p">(</span><span class="o">&amp;</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_entry_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_put_spmc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 创建新值 */</span>
+<span class="w">    </span><span class="cm">/* 注意这里的 key_len 是 bytes 长度，也就是数组长度*sizeof(数组类型) */</span>
+<span class="w">    </span><span class="n">ck_ht_hash</span><span class="p">(</span><span class="o">&amp;</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ck_ht_entry_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ck_ht_put_spmc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span>
 
-<span class="w">    </span><span class="cm">/* 读取 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_hash</span><span class="p">(</span><span class="o">&amp;</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_entry_key_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_put_spmc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_value</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 读取 */</span>
+<span class="w">    </span><span class="n">ck_ht_hash</span><span class="p">(</span><span class="o">&amp;</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ck_ht_entry_key_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ck_ht_put_spmc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_value</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span>
 
-<span class="w">    </span><span class="cm">/* 更新 */</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_hash</span><span class="p">(</span><span class="o">&amp;</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_entry_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">ck_ht_put_spmc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">val_old</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_value</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 更新 */</span>
+<span class="w">    </span><span class="n">ck_ht_hash</span><span class="p">(</span><span class="o">&amp;</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ck_ht_entry_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">key_len</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">val</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ck_ht_put_spmc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">val_old</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_value</span><span class="p">(</span><span class="o">&amp;</span><span class="n">entry</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org4ec4e87" class="outline-4">
-<h4 id="org4ec4e87">遍历哈希表</h4>
-<div class="outline-text-4" id="text-org4ec4e87">
+<div id="outline-container-org357c189" class="outline-4">
+<h4 id="org357c189">遍历哈希表</h4>
+<div class="outline-text-4" id="text-org357c189">
 <p>
 基本步骤
 </p>
@@ -253,15 +253,15 @@ ck_ht_iterator_t 用来遍历哈希表的迭">
 使用 <code>ck_ht_entry_key</code> 和 <code>ck_ht_entry_value</code> 读取键值
 </p>
 
-<div class="highlight"><pre><span></span><span class="w">       </span><span class="n">ck_ht_t</span><span class="w"> </span><span class="n">ht</span><span class="p">;</span><span class="w"></span>
-<span class="w">       </span><span class="n">ck_ht_iterator_t</span><span class="w"> </span><span class="n">iterator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CK_HT_ITERATOR_INITIALIZER</span><span class="p">;</span><span class="w"></span>
-<span class="w">       </span><span class="n">ck_ht_entry_t</span><span class="w"> </span><span class="o">*</span><span class="n">cursor</span><span class="p">;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="w">       </span><span class="n">ck_ht_t</span><span class="w"> </span><span class="n">ht</span><span class="p">;</span>
+<span class="w">       </span><span class="n">ck_ht_iterator_t</span><span class="w"> </span><span class="n">iterator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CK_HT_ITERATOR_INITIALIZER</span><span class="p">;</span>
+<span class="w">       </span><span class="n">ck_ht_entry_t</span><span class="w"> </span><span class="o">*</span><span class="n">cursor</span><span class="p">;</span>
 
-<span class="w">       </span><span class="n">ck_ht_iterator_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">iterator</span><span class="p">);</span><span class="w"></span>
-<span class="w">       </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">ck_ht_next</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">iterator</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cursor</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">	   </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_value</span><span class="p">(</span><span class="n">cursor</span><span class="p">);</span><span class="w"></span>
-<span class="w">	   </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_key</span><span class="p">(</span><span class="n">cursor</span><span class="p">);</span><span class="w"></span>
-<span class="w">       </span><span class="p">}</span><span class="w"></span>
+<span class="w">       </span><span class="n">ck_ht_iterator_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">iterator</span><span class="p">);</span>
+<span class="w">       </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">ck_ht_next</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ht</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">iterator</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cursor</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">           </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_value</span><span class="p">(</span><span class="n">cursor</span><span class="p">);</span>
+<span class="w">           </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ck_ht_entry_key</span><span class="p">(</span><span class="n">cursor</span><span class="p">);</span>
+<span class="w">       </span><span class="p">}</span>
 </pre></div>
 </li>
 </ol>
@@ -269,7 +269,6 @@ ck_ht_iterator_t 用来遍历哈希表的迭">
 </div>
 </div>
 </div>
-
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
 <li><a class="tag p-category" href="../../categories/c/" rel="tag">C</a></li>
@@ -278,13 +277,13 @@ ck_ht_iterator_t 用来遍历哈希表的迭">
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../greatest/" rel="prev" title="greatest">Previous post</a>
+                <a href="../greatest/" rel="prev" title="greatest">上一篇文章</a>
             </li>
             <li class="next">
-                <a href="../pthread/" rel="next" title="pthread">Next post</a>
+                <a href="../pthread/" rel="next" title="pthread">下一篇文章</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>
@@ -299,4 +298,3 @@ ck_ht_iterator_t 用来遍历哈希表的迭">
     </script>
 </body>
 </html>
-

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about python)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/python.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 Oct 2021 13:35:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>setuptools</title><link>https://chimez.github.io/posts/setuptools/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org7e32d92" class="outline-2"&gt;
-&lt;h2 id="org7e32d92"&gt;setuptools: python 的打包工具&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7e32d92"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 python 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/python.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 18 Oct 2023 02:37:53 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>setuptools</title><link>https://chimez.github.io/posts/setuptools/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org40f4f11" class="outline-2"&gt;
+&lt;h2 id="org40f4f11"&gt;setuptools: python 的打包工具&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org40f4f11"&gt;
 &lt;p&gt;
 &lt;a href="https://setuptools.pypa.io"&gt;setuptools&lt;/a&gt; 是 pypa 的项目。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc2338b9" class="outline-3"&gt;
-&lt;h3 id="orgc2338b9"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgc2338b9"&gt;
+&lt;div id="outline-container-org95bb1af" class="outline-3"&gt;
+&lt;h3 id="org95bb1af"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org95bb1af"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7fd4633" class="outline-4"&gt;
-&lt;h4 id="org7fd4633"&gt;&lt;code&gt;pyproject.toml&lt;/code&gt;&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7fd4633"&gt;
+&lt;div id="outline-container-org4f1113b" class="outline-4"&gt;
+&lt;h4 id="org4f1113b"&gt;&lt;code&gt;pyproject.toml&lt;/code&gt;&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org4f1113b"&gt;
 &lt;p&gt;
 PEP 517 要求所有 python 项目需要一个配置文件 &lt;code&gt;pyproject.toml&lt;/code&gt; 其中描述项目的基本信息和依赖等。
 &lt;/p&gt;
@@ -26,9 +26,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 &lt;code&gt;pyproject
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org3580d46" class="outline-4"&gt;
-&lt;h4 id="org3580d46"&gt;&lt;code&gt;setup.cfg&lt;/code&gt; or &lt;code&gt;setup.py&lt;/code&gt;&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3580d46"&gt;
+&lt;div id="outline-container-orge0ce0e0" class="outline-4"&gt;
+&lt;h4 id="orge0ce0e0"&gt;&lt;code&gt;setup.cfg&lt;/code&gt; or &lt;code&gt;setup.py&lt;/code&gt;&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orge0ce0e0"&gt;
 &lt;p&gt;
 &lt;code&gt;setup.cfg&lt;/code&gt; 是 setuptools 的 DSL，而 &lt;code&gt;setup.py&lt;/code&gt; 用一般的 python 代码。
 &lt;/p&gt;
@@ -36,13 +36,13 @@ PEP 517 要求所有 python 项目需要一个配置文件 &lt;code&gt;pyproject
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;setuptools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
 
     &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-	&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'mypackage'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-	&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'0.0.1'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-	&lt;span class="n"&gt;packages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'mypackage'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
-	&lt;span class="n"&gt;install_requires&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
-	    &lt;span class="s1"&gt;'requests'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-	    &lt;span class="s1"&gt;'importlib; python_version == "2.6"'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-	&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'mypackage'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'0.0.1'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;packages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'mypackage'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="n"&gt;install_requires&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+            &lt;span class="s1"&gt;'requests'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s1"&gt;'importlib; python_version == "2.6"'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;],&lt;/span&gt;
     &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -56,9 +56,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 &lt;code&gt;pyproject
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org651b16d" class="outline-3"&gt;
-&lt;h3 id="org651b16d"&gt;开发模式&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org651b16d"&gt;
+&lt;div id="outline-container-org0743c80" class="outline-3"&gt;
+&lt;h3 id="org0743c80"&gt;开发模式&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0743c80"&gt;
 &lt;p&gt;
 使用开发模式，可以完成构建而不需要将文件复制到包目录。
 &lt;/p&gt;
@@ -71,9 +71,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 &lt;code&gt;pyproject
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org58c7310" class="outline-3"&gt;
-&lt;h3 id="org58c7310"&gt;cython&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org58c7310"&gt;
+&lt;div id="outline-container-org2f4d5fa" class="outline-3"&gt;
+&lt;h3 id="org2f4d5fa"&gt;cython&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2f4d5fa"&gt;
 &lt;p&gt;
 setuptools 会自动检查 cython 是否安装，如果没有，就会忽略所有 &lt;code&gt;.pyx&lt;/code&gt; 文件。
 &lt;/p&gt;
@@ -104,33 +104,31 @@ PEP 517 要求在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中加入
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>cython</category><category>python</category><guid>https://chimez.github.io/posts/setuptools/</guid><pubDate>Wed, 06 Oct 2021 12:00:12 GMT</pubDate></item><item><title>reStructuredText</title><link>https://chimez.github.io/posts/restructuredtext/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgaa268e1" class="outline-2"&gt;
-&lt;h2 id="orgaa268e1"&gt;reStructuredText&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgaa268e1"&gt;
+&lt;/div&gt;</description><category>cython</category><category>python</category><guid>https://chimez.github.io/posts/setuptools/</guid><pubDate>Wed, 06 Oct 2021 12:00:12 GMT</pubDate></item><item><title>reStructuredText</title><link>https://chimez.github.io/posts/restructuredtext/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org5becc00" class="outline-2"&gt;
+&lt;h2 id="org5becc00"&gt;reStructuredText&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5becc00"&gt;
 &lt;p&gt;
 reST, 文件后缀 &lt;code&gt;*.rst&lt;/code&gt; 是类似 markdown 的标记语言，是 python 的 &lt;img src="https://chimez.github.io/sphinx-documentation-generator.org" alt="Sphinx"&gt; 默认语言。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc17302f" class="outline-3"&gt;
-&lt;h3 id="orgc17302f"&gt;基本语法&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgc17302f"&gt;
+&lt;div id="outline-container-org5811382" class="outline-3"&gt;
+&lt;h3 id="org5811382"&gt;基本语法&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5811382"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6072715" class="outline-4"&gt;
-&lt;h4 id="org6072715"&gt;段落&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org6072715"&gt;
+&lt;div id="outline-container-orgb765f2d" class="outline-4"&gt;
+&lt;h4 id="orgb765f2d"&gt;段落&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb765f2d"&gt;
 &lt;p&gt;
 与 python 类似，reST 中用缩进表示不同的层级。
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf1d2bbb" class="outline-4"&gt;
-&lt;h4 id="orgf1d2bbb"&gt;行内标记&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf1d2bbb"&gt;
-&lt;pre class="example" id="org07dbc8e"&gt;
+&lt;div id="outline-container-orga82456c" class="outline-4"&gt;
+&lt;h4 id="orga82456c"&gt;行内标记&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga82456c"&gt;
+&lt;pre class="example" id="orgf7ce19d"&gt;
 *something*               | 斜体
 **something**             | 粗体
 ``code``                  | 行内代码
@@ -141,9 +139,9 @@ reST, 文件后缀 &lt;code&gt;*.rst&lt;/code&gt; 是类似 markdown 的标记�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org31e0052" class="outline-4"&gt;
-&lt;h4 id="org31e0052"&gt;列表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org31e0052"&gt;
+&lt;div id="outline-container-org5d253c7" class="outline-4"&gt;
+&lt;h4 id="org5d253c7"&gt;列表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5d253c7"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    1. 编号列表
     2. 编号列表
 
@@ -162,9 +160,9 @@ reST, 文件后缀 &lt;code&gt;*.rst&lt;/code&gt; 是类似 markdown 的标记�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org029f582" class="outline-4"&gt;
-&lt;h4 id="org029f582"&gt;引用块&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org029f582"&gt;
+&lt;div id="outline-container-org82391f4" class="outline-4"&gt;
+&lt;h4 id="org82391f4"&gt;引用块&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org82391f4"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    引用块，末尾用双冒号::
 
       空一行
@@ -176,9 +174,9 @@ reST, 文件后缀 &lt;code&gt;*.rst&lt;/code&gt; 是类似 markdown 的标记�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc64ee0e" class="outline-4"&gt;
-&lt;h4 id="orgc64ee0e"&gt;表格&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc64ee0e"&gt;
+&lt;div id="outline-container-orgb32b1ea" class="outline-4"&gt;
+&lt;h4 id="orgb32b1ea"&gt;表格&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb32b1ea"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    完整的表格
 
     +------------------------+------------+----------+----------+
@@ -204,10 +202,10 @@ reST, 文件后缀 &lt;code&gt;*.rst&lt;/code&gt; 是类似 markdown 的标记�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc2d1e4a" class="outline-4"&gt;
-&lt;h4 id="orgc2d1e4a"&gt;标题&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc2d1e4a"&gt;
-&lt;pre class="example" id="orgc3957d3"&gt;
+&lt;div id="outline-container-org0ad2d1e" class="outline-4"&gt;
+&lt;h4 id="org0ad2d1e"&gt;标题&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0ad2d1e"&gt;
+&lt;pre class="example" id="orgeb136c3"&gt;
 # | parts
 * | chapters
 = | sections
@@ -219,74 +217,72 @@ reST, 文件后缀 &lt;code&gt;*.rst&lt;/code&gt; 是类似 markdown 的标记�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4a359d6" class="outline-3"&gt;
-&lt;h3 id="org4a359d6"&gt;指令&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4a359d6"&gt;
+&lt;div id="outline-container-orga281f0d" class="outline-3"&gt;
+&lt;h3 id="orga281f0d"&gt;指令&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga281f0d"&gt;
 &lt;p&gt;
 reST 支持很多指令，这里是常用的几个
 &lt;/p&gt;
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org730c2b8"&gt;&lt;/a&gt;&lt;code&gt;image&lt;/code&gt; 图片&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="orgde4d6af"&gt;&lt;/a&gt;&lt;code&gt;image&lt;/code&gt; 图片&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org3b586d8"&gt;&lt;/a&gt;&lt;code&gt;[#footnote]_&lt;/code&gt; 脚注&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="orgd95b6d6"&gt;&lt;/a&gt;&lt;code&gt;[#footnote]_&lt;/code&gt; 脚注&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orga00e3d3"&gt;&lt;/a&gt;&lt;code&gt;..&lt;/code&gt; 注释&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org8d4dce1"&gt;&lt;/a&gt;&lt;code&gt;..&lt;/code&gt; 注释&lt;br&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org49f54ba" class="outline-3"&gt;
-&lt;h3 id="org49f54ba"&gt;角色&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org49f54ba"&gt;
+&lt;div id="outline-container-org28e55f6" class="outline-3"&gt;
+&lt;h3 id="org28e55f6"&gt;角色&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org28e55f6"&gt;
 &lt;p&gt;
 reST 使用 &lt;code&gt;:rolename:`content`&lt;/code&gt; 语法来做一些复杂的行内标记
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4947ec6" class="outline-4"&gt;
-&lt;h4 id="org4947ec6"&gt;&lt;code&gt;:ref:&lt;/code&gt; 交叉引用&lt;/h4&gt;
+&lt;div id="outline-container-orgb6224f5" class="outline-4"&gt;
+&lt;h4 id="orgb6224f5"&gt;&lt;code&gt;:ref:&lt;/code&gt; 交叉引用&lt;/h4&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5aef652" class="outline-4"&gt;
-&lt;h4 id="org5aef652"&gt;&lt;code&gt;:math:&lt;/code&gt; 数学公式&lt;/h4&gt;
+&lt;div id="outline-container-org8b36dd4" class="outline-4"&gt;
+&lt;h4 id="org8b36dd4"&gt;&lt;code&gt;:math:&lt;/code&gt; 数学公式&lt;/h4&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>doc</category><category>python</category><category>rst</category><guid>https://chimez.github.io/posts/restructuredtext/</guid><pubDate>Mon, 16 Aug 2021 02:46:27 GMT</pubDate></item><item><title>Sphinx: Documentation Generator</title><link>https://chimez.github.io/posts/sphinx-documentation-generator/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge0d58c7" class="outline-2"&gt;
-&lt;h2 id="orge0d58c7"&gt;Sphinx: 文档生成&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge0d58c7"&gt;
+&lt;/div&gt;</description><category>doc</category><category>python</category><category>rst</category><guid>https://chimez.github.io/posts/restructuredtext/</guid><pubDate>Mon, 16 Aug 2021 02:46:27 GMT</pubDate></item><item><title>Sphinx: Documentation Generator</title><link>https://chimez.github.io/posts/sphinx-documentation-generator/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga2f31c7" class="outline-2"&gt;
+&lt;h2 id="orga2f31c7"&gt;Sphinx: 文档生成&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orga2f31c7"&gt;
 &lt;p&gt;
 &lt;a href="https://www.sphinx-doc.org/en/master/usage/quickstart.html"&gt;sphinx/getting started&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6b26e9a" class="outline-3"&gt;
-&lt;h3 id="org6b26e9a"&gt;创建与配置项目&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6b26e9a"&gt;
+&lt;div id="outline-container-org9f97d0c" class="outline-3"&gt;
+&lt;h3 id="org9f97d0c"&gt;创建与配置项目&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9f97d0c"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5e10e3a" class="outline-4"&gt;
-&lt;h4 id="org5e10e3a"&gt;&lt;code&gt;sphinx-quickstart&lt;/code&gt;&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5e10e3a"&gt;
+&lt;div id="outline-container-orged7c631" class="outline-4"&gt;
+&lt;h4 id="orged7c631"&gt;&lt;code&gt;sphinx-quickstart&lt;/code&gt;&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orged7c631"&gt;
 &lt;p&gt;
 使用这个命令，快速创建项目。跟随指导做一些选项。
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga66c76f" class="outline-4"&gt;
-&lt;h4 id="orga66c76f"&gt;生成文档&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orga66c76f"&gt;
+&lt;div id="outline-container-org354ffb8" class="outline-4"&gt;
+&lt;h4 id="org354ffb8"&gt;生成文档&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org354ffb8"&gt;
 &lt;p&gt;
 使用命令 &lt;code&gt;sphinx-build -b html sourcedir builddir&lt;/code&gt; 或者 &lt;code&gt;make html&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org87d9ec0" class="outline-4"&gt;
-&lt;h4 id="org87d9ec0"&gt;基本配置&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org87d9ec0"&gt;
+&lt;div id="outline-container-org6eef871" class="outline-4"&gt;
+&lt;h4 id="org6eef871"&gt;基本配置&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6eef871"&gt;
 &lt;p&gt;
 基本配置在 &lt;code&gt;conf.py&lt;/code&gt; 文件中。这个文件就是一个python 脚本，可以执行各种python函数和导入其它库等。
 &lt;/p&gt;
@@ -298,13 +294,13 @@ reST 使用 &lt;code&gt;:rolename:`content`&lt;/code&gt; 语法来做一些复�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0d3cbde" class="outline-3"&gt;
-&lt;h3 id="org0d3cbde"&gt;写文档&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0d3cbde"&gt;
+&lt;div id="outline-container-orge1e8ff9" class="outline-3"&gt;
+&lt;h3 id="orge1e8ff9"&gt;写文档&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge1e8ff9"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orge06840f" class="outline-4"&gt;
-&lt;h4 id="orge06840f"&gt;文档结构&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orge06840f"&gt;
+&lt;div id="outline-container-org684aab9" class="outline-4"&gt;
+&lt;h4 id="org684aab9"&gt;文档结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org684aab9"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;index.rst&lt;/code&gt; 文件是文档的欢迎页面，其中包括
 &lt;ol class="org-ol"&gt;
@@ -314,9 +310,9 @@ reST 使用 &lt;code&gt;:rolename:`content`&lt;/code&gt; 语法来做一些复�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge94a54b" class="outline-4"&gt;
-&lt;h4 id="orge94a54b"&gt;reStructuredText directives&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orge94a54b"&gt;
+&lt;div id="outline-container-org83cde33" class="outline-4"&gt;
+&lt;h4 id="org83cde33"&gt;reStructuredText directives&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org83cde33"&gt;
 &lt;p&gt;
 rst 指令的格式中包括
 &lt;/p&gt;
@@ -328,34 +324,34 @@ rst 指令的格式中包括
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org9b627e0"&gt;&lt;/a&gt;&lt;code&gt;toctree&lt;/code&gt; 目录&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org9b627e0"&gt;
+&lt;li&gt;&lt;a id="orgf658e78"&gt;&lt;/a&gt;&lt;code&gt;toctree&lt;/code&gt; 目录&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgf658e78"&gt;
 &lt;p&gt;
 参考：&lt;a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#toctree-directive"&gt;directives/toctree-directive&lt;/a&gt;
 &lt;/p&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     .. toctree::
-	:maxdepth: 2
+        :maxdepth: 2
 
-	intro
-	strings
-	datatypes
-	numeric
-	(many more documents listed here)
+        intro
+        strings
+        datatypes
+        numeric
+        (many more documents listed here)
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orgf8f6984"&gt;&lt;/a&gt;内容&lt;br&gt;
-&lt;div class="outline-text-6" id="text-orgf8f6984"&gt;
+&lt;li&gt;&lt;a id="org107a9ec"&gt;&lt;/a&gt;内容&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org107a9ec"&gt;
 &lt;p&gt;
 内容中每一行就是要链接到的文件名, 可以用 &lt;code&gt;Net Title &amp;lt;filename&amp;gt;&lt;/code&gt; 重新指定显示的标题
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org4c6406b"&gt;&lt;/a&gt;选项&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org4c6406b"&gt;
+&lt;li&gt;&lt;a id="org0ae467b"&gt;&lt;/a&gt;选项&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org0ae467b"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -419,9 +415,9 @@ rst 指令的格式中包括
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org53fc496" class="outline-4"&gt;
-&lt;h4 id="org53fc496"&gt;Domains&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org53fc496"&gt;
+&lt;div id="outline-container-org9b459e5" class="outline-4"&gt;
+&lt;h4 id="org9b459e5"&gt;Domains&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9b459e5"&gt;
 &lt;p&gt;
 为了对应 python/c++ 中的名字空间，防止函数名冲突，要把函数的文档写在 domain 里。
 &lt;/p&gt;
@@ -432,23 +428,23 @@ rst 指令的格式中包括
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org6dbc23f"&gt;&lt;/a&gt;基本语法&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org6dbc23f"&gt;
+&lt;li&gt;&lt;a id="org25a201d"&gt;&lt;/a&gt;基本语法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org25a201d"&gt;
 &lt;p&gt;
 可以一次生成两个函数
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     .. py:function:: spam(eggs)
-		      ham(eggs)
+                      ham(eggs)
 
-	Spam or ham the foo.
+        Spam or ham the foo.
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
 如果一个函数很长，可以折行并加上 &lt;code&gt;:noindex:&lt;/code&gt;
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;     .. py:function:: filterwarnings(action, message='', category=Warning, \
-				     module='', lineno=0, append=False)
-	:noindex:
+                                     module='', lineno=0, append=False)
+        :noindex:
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
@@ -457,8 +453,8 @@ rst 指令的格式中包括
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org3e639cc"&gt;&lt;/a&gt;交叉引用&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org3e639cc"&gt;
+&lt;li&gt;&lt;a id="orge592616"&gt;&lt;/a&gt;交叉引用&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orge592616"&gt;
 &lt;p&gt;
 基本语法是 &lt;code&gt;:role:`title &amp;lt;target&amp;gt;`&lt;/code&gt; 这会引用 &lt;code&gt;target&lt;/code&gt; 但显示的是 &lt;code&gt;title&lt;/code&gt;
 &lt;/p&gt;
@@ -468,8 +464,8 @@ rst 指令的格式中包括
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a id="org98f1d5c"&gt;&lt;/a&gt;C++&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org98f1d5c"&gt;
+&lt;li&gt;&lt;a id="org07742d7"&gt;&lt;/a&gt;C++&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org07742d7"&gt;
 &lt;p&gt;
 参考 &lt;a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cpp-domain"&gt;domains/cpp-domain&lt;/a&gt;     
 &lt;/p&gt;
@@ -480,9 +476,9 @@ rst 指令的格式中包括
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org19136e0" class="outline-3"&gt;
-&lt;h3 id="org19136e0"&gt;Autodoc: 注释文档&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org19136e0"&gt;
+&lt;div id="outline-container-org6bb665c" class="outline-3"&gt;
+&lt;h3 id="org6bb665c"&gt;Autodoc: 注释文档&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6bb665c"&gt;
 &lt;p&gt;
 通过 autodoc 可以从源码的注释生成文档。需要在 &lt;code&gt;conf.py&lt;/code&gt; 的 &lt;code&gt;extensions&lt;/code&gt; 中加入 &lt;code&gt;'sphinx.ext.autodoc'&lt;/code&gt; . 之后就可以利用 &lt;code&gt;autofunction&lt;/code&gt; &lt;code&gt;automodule&lt;/code&gt; 等指令，将注释作为文档导入。
 &lt;/p&gt;
@@ -490,22 +486,22 @@ rst 指令的格式中包括
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgd3f5562" class="outline-3"&gt;
-&lt;h3 id="orgd3f5562"&gt;breathe&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd3f5562"&gt;
+&lt;div id="outline-container-org935b529" class="outline-3"&gt;
+&lt;h3 id="org935b529"&gt;breathe&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org935b529"&gt;
 &lt;p&gt;
 &lt;a href="https://breathe.readthedocs.io/en/latest/index.html"&gt;breathe&lt;/a&gt; 是通过 doxygen 生成 c/c++ 的文档的工具
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6f21034" class="outline-4"&gt;
-&lt;h4 id="org6f21034"&gt;基本使用&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org6f21034"&gt;
+&lt;div id="outline-container-org8f4be7d" class="outline-4"&gt;
+&lt;h4 id="org8f4be7d"&gt;基本使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org8f4be7d"&gt;
 &lt;p&gt;
 设置 &lt;code&gt;conf.py&lt;/code&gt;
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;breathe_projects_source&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-	&lt;span class="s2"&gt;"my_proj"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"../src"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"oneheader.h"&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
+        &lt;span class="s2"&gt;"my_proj"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"../src"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"oneheader.h"&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt;
     &lt;span class="p"&gt;}&lt;/span&gt;
     &lt;span class="n"&gt;breathe_default_project&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"my_proj"&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -519,19 +515,17 @@ rst 指令的格式中包括
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>Documents</category><category>python</category><guid>https://chimez.github.io/posts/sphinx-documentation-generator/</guid><pubDate>Mon, 16 Aug 2021 02:00:41 GMT</pubDate></item><item><title>cython</title><link>https://chimez.github.io/posts/cython/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgebd9384" class="outline-2"&gt;
-&lt;h2 id="orgebd9384"&gt;Cython&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgebd9384"&gt;
+&lt;/div&gt;</description><category>Documents</category><category>python</category><guid>https://chimez.github.io/posts/sphinx-documentation-generator/</guid><pubDate>Mon, 16 Aug 2021 02:00:41 GMT</pubDate></item><item><title>cython</title><link>https://chimez.github.io/posts/cython/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org4fa1dca" class="outline-2"&gt;
+&lt;h2 id="org4fa1dca"&gt;Cython&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4fa1dca"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org4147031" class="outline-3"&gt;
-&lt;h3 id="org4147031"&gt;基本概念&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4147031"&gt;
+&lt;div id="outline-container-org5c1a59b" class="outline-3"&gt;
+&lt;h3 id="org5c1a59b"&gt;基本概念&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5c1a59b"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfa37248" class="outline-4"&gt;
-&lt;h4 id="orgfa37248"&gt;文件&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgfa37248"&gt;
+&lt;div id="outline-container-orga7aa3db" class="outline-4"&gt;
+&lt;h4 id="orga7aa3db"&gt;文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga7aa3db"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;.pyx&lt;/code&gt; 是 &lt;code&gt;cython&lt;/code&gt; 语法的源文件&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;.pyd&lt;/code&gt; (windows) 是 windows 平台上编译后的文件，对应 linux 平台的 &lt;code&gt;*.so&lt;/code&gt;&lt;/li&gt;
@@ -540,9 +534,9 @@ rst 指令的格式中包括
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4c9eda4" class="outline-4"&gt;
-&lt;h4 id="org4c9eda4"&gt;库&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org4c9eda4"&gt;
+&lt;div id="outline-container-org8a5218b" class="outline-4"&gt;
+&lt;h4 id="org8a5218b"&gt;库&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org8a5218b"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;Cython.Build&lt;/code&gt; python 端调用，用于编译&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;cython.parallel&lt;/code&gt; cython 端调用，并行 &lt;code&gt;prange&lt;/code&gt;&lt;/li&gt;
@@ -563,38 +557,38 @@ rst 指令的格式中包括
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org041f502" class="outline-4"&gt;
-&lt;h4 id="org041f502"&gt;语法&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org041f502"&gt;
+&lt;div id="outline-container-org86bde6d" class="outline-4"&gt;
+&lt;h4 id="org86bde6d"&gt;语法&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org86bde6d"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    from libc.math cimport log2 # 引入 c 函数
     cdef int x # 声明变量类型
     cdef int [:,:] x # 声明变量是 numpy 的 2d 向量
     ctypedef struct queue: # 声明类型
-	pass
+        pass
 
     ctypedef fused my_type: # 泛型
-	int
-	double
-	long long
+        int
+        double
+        long long
 
     # 类的定义，注意使用 __cinit__
     cdef class A:
-	cdef int a
-	def __cinit__(self):
-	    self.a = 1
+        cdef int a
+        def __cinit__(self):
+            self.a = 1
 
     &amp;lt;void*&amp;gt;value # 类型转换成指针
 
     # 定义 c 函数，异常时返回 -1
     cdef int func(int x) execpt? -1:
-	pass
+        pass
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0f534da" class="outline-4"&gt;
-&lt;h4 id="org0f534da"&gt;文件注解&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0f534da"&gt;
+&lt;div id="outline-container-org2eb49a1" class="outline-4"&gt;
+&lt;h4 id="org2eb49a1"&gt;文件注解&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2eb49a1"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;# distutils: language=c++&lt;/code&gt; 使用 &lt;code&gt;c++&lt;/code&gt; 编译&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;# distutils: sources = c-algorithms/src/queue.c&lt;/code&gt; 指定静态链接的源文件&lt;/li&gt;
@@ -608,9 +602,9 @@ rst 指令的格式中包括
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9fd6e29" class="outline-4"&gt;
-&lt;h4 id="org9fd6e29"&gt;函数注解&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org9fd6e29"&gt;
+&lt;div id="outline-container-org63e2dc9" class="outline-4"&gt;
+&lt;h4 id="org63e2dc9"&gt;函数注解&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org63e2dc9"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;@cython.boundscheck(False)&lt;/code&gt; 关闭数组边界检查&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;@cython.wraparound(False)&lt;/code&gt; 关闭负指标&lt;/li&gt;
@@ -619,13 +613,13 @@ rst 指令的格式中包括
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0856478" class="outline-3"&gt;
-&lt;h3 id="org0856478"&gt;编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0856478"&gt;
+&lt;div id="outline-container-org66be532" class="outline-3"&gt;
+&lt;h3 id="org66be532"&gt;编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org66be532"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd864635" class="outline-4"&gt;
-&lt;h4 id="orgd864635"&gt;基本结构&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd864635"&gt;
+&lt;div id="outline-container-org337ca19" class="outline-4"&gt;
+&lt;h4 id="org337ca19"&gt;基本结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org337ca19"&gt;
 &lt;p&gt;
 &lt;code&gt;setup.py&lt;/code&gt;
 &lt;/p&gt;
@@ -633,7 +627,7 @@ rst 指令的格式中包括
     &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;Cython.Build&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;cythonize&lt;/span&gt;
 
     &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-	&lt;span class="n"&gt;ext_modules&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cythonize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"helloworld.pyx"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;ext_modules&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cythonize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"helloworld.pyx"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -655,9 +649,9 @@ rst 指令的格式中包括
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5a37df6" class="outline-4"&gt;
-&lt;h4 id="org5a37df6"&gt;动态链接&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5a37df6"&gt;
+&lt;div id="outline-container-org5232617" class="outline-4"&gt;
+&lt;h4 id="org5232617"&gt;动态链接&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5232617"&gt;
 &lt;p&gt;
 &lt;a href="https://cython.readthedocs.io/en/latest/src/tutorial/external.html#dynamic-linking"&gt;参考&lt;/a&gt;
 &lt;/p&gt;
@@ -669,21 +663,21 @@ rst 指令的格式中包括
     &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;Cython.Build&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;cythonize&lt;/span&gt;
 
     &lt;span class="n"&gt;ext_modules&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
-	&lt;span class="n"&gt;Extension&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"demo"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-		  &lt;span class="n"&gt;sources&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"demo.pyx"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
-		  &lt;span class="n"&gt;libraries&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"m"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c1"&gt;# Unix-like specific&lt;/span&gt;
-		  &lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;Extension&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"demo"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                  &lt;span class="n"&gt;sources&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"demo.pyx"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+                  &lt;span class="n"&gt;libraries&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"m"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c1"&gt;# Unix-like specific&lt;/span&gt;
+                  &lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="p"&gt;]&lt;/span&gt;
 
     &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Demos"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-	  &lt;span class="n"&gt;ext_modules&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;cythonize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ext_modules&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+          &lt;span class="n"&gt;ext_modules&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;cythonize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ext_modules&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org87dbf2c" class="outline-4"&gt;
-&lt;h4 id="org87dbf2c"&gt;静态链接&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org87dbf2c"&gt;
+&lt;div id="outline-container-orgda74b68" class="outline-4"&gt;
+&lt;h4 id="orgda74b68"&gt;静态链接&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgda74b68"&gt;
 &lt;p&gt;
 使用注解 
 &lt;/p&gt;
@@ -696,90 +690,90 @@ rst 指令的格式中包括
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3056daf" class="outline-3"&gt;
-&lt;h3 id="org3056daf"&gt;使用 c 库&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org3056daf"&gt;
+&lt;div id="outline-container-orgedb5a15" class="outline-3"&gt;
+&lt;h3 id="orgedb5a15"&gt;使用 c 库&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgedb5a15"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7450259" class="outline-4"&gt;
-&lt;h4 id="org7450259"&gt;外部声明&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7450259"&gt;
+&lt;div id="outline-container-org5bb8c27" class="outline-4"&gt;
+&lt;h4 id="org5bb8c27"&gt;外部声明&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5bb8c27"&gt;
 &lt;p&gt;
 使用头文件, 外部声明可以放在 &lt;code&gt;.pyd&lt;/code&gt; 文件中
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    cdef extern from "math.h":
-	double sin(double x)
+        double sin(double x)
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org57247df" class="outline-4"&gt;
-&lt;h4 id="org57247df"&gt;异常处理&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org57247df"&gt;
+&lt;div id="outline-container-org259ace8" class="outline-4"&gt;
+&lt;h4 id="org259ace8"&gt;异常处理&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org259ace8"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;except? -1&lt;/code&gt; 语法表示当发生任何错误时，返回 &lt;code&gt;-1&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;execpt *&lt;/code&gt; 表示返回时调用 &lt;code&gt;PyErr_Occurred()&lt;/code&gt; ，当函数返回 &lt;code&gt;void&lt;/code&gt; 并且需要传递错误时使用这个&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    cdef int pop(self) except? -1:
-	if cqueue.queue_is_empty(self._c_queue):
-	    raise IndexError("Queue is empty")
-	return &amp;lt;Py_ssize_t&amp;gt;cqueue.queue_pop_head(self._c_queue)
+        if cqueue.queue_is_empty(self._c_queue):
+            raise IndexError("Queue is empty")
+        return &amp;lt;Py_ssize_t&amp;gt;cqueue.queue_pop_head(self._c_queue)
 
     cdef int spam() except *:
-	...
+        ...
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb22c12c" class="outline-3"&gt;
-&lt;h3 id="orgb22c12c"&gt;使用 numpy&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb22c12c"&gt;
+&lt;div id="outline-container-org33c08a5" class="outline-3"&gt;
+&lt;h3 id="org33c08a5"&gt;使用 numpy&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org33c08a5"&gt;
 &lt;p&gt;
 numpy 的 &lt;code&gt;ndarray&lt;/code&gt; 在 cython 中用做 typed memoryview
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1bdeb90" class="outline-4"&gt;
-&lt;h4 id="org1bdeb90"&gt;基本例子&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1bdeb90"&gt;
+&lt;div id="outline-container-orgc0028ce" class="outline-4"&gt;
+&lt;h4 id="orgc0028ce"&gt;基本例子&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc0028ce"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    import numpy as np
 
     DTYPE = np.intc
 
 
     cdef int clip(int a, int min_value, int max_value):
-	return min(max(a, min_value), max_value)
+        return min(max(a, min_value), max_value)
 
 
     def compute(int[:, :] array_1, int[:, :] array_2, int a, int b, int c):
 
-	cdef Py_ssize_t x_max = array_1.shape[0]
-	cdef Py_ssize_t y_max = array_1.shape[1]
-	assert tuple(array_1.shape) == tuple(array_2.shape)
+        cdef Py_ssize_t x_max = array_1.shape[0]
+        cdef Py_ssize_t y_max = array_1.shape[1]
+        assert tuple(array_1.shape) == tuple(array_2.shape)
 
-	result = np.zeros((x_max, y_max), dtype=DTYPE)
-	cdef int[:, :] result_view = result
+        result = np.zeros((x_max, y_max), dtype=DTYPE)
+        cdef int[:, :] result_view = result
 
-	cdef int tmp
-	cdef Py_ssize_t x, y
+        cdef int tmp
+        cdef Py_ssize_t x, y
 
-	for x in range(x_max):
-	    for y in range(y_max):
+        for x in range(x_max):
+            for y in range(y_max):
 
-		tmp = clip(array_1[x, y], 2, 10)
-		tmp = tmp * a + array_2[x, y] * b
-		result_view[x, y] = tmp + c
+                tmp = clip(array_1[x, y], 2, 10)
+                tmp = tmp * a + array_2[x, y] * b
+                result_view[x, y] = tmp + c
 
-	return result
+        return result
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2de3ba0" class="outline-3"&gt;
-&lt;h3 id="org2de3ba0"&gt;并行&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org2de3ba0"&gt;
+&lt;div id="outline-container-org3bba035" class="outline-3"&gt;
+&lt;h3 id="org3bba035"&gt;并行&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org3bba035"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;使用 &lt;code&gt;prange&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;
@@ -788,28 +782,26 @@ numpy 的 &lt;code&gt;ndarray&lt;/code&gt; 在 cython 中用做 typed memoryview
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;      from cython.parallel import prange
       cdef int func(int x) nogil:
-	  cdef int i
-	  cdef int y
-	  for i in prange(x, nogil=True):
-	      y += i 
-	  return y
+          cdef int i
+          cdef int y
+          for i in prange(x, nogil=True):
+              y += i 
+          return y
 &lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>cython</category><category>python</category><guid>https://chimez.github.io/posts/cython/</guid><pubDate>Thu, 05 Aug 2021 12:47:25 GMT</pubDate></item><item><title>joblib</title><link>https://chimez.github.io/posts/joblib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgd5385d4" class="outline-2"&gt;
-&lt;h2 id="orgd5385d4"&gt;joblib: 简单的并行&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd5385d4"&gt;
+&lt;/div&gt;</description><category>cython</category><category>python</category><guid>https://chimez.github.io/posts/cython/</guid><pubDate>Thu, 05 Aug 2021 12:47:25 GMT</pubDate></item><item><title>joblib</title><link>https://chimez.github.io/posts/joblib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org723c550" class="outline-2"&gt;
+&lt;h2 id="org723c550"&gt;joblib: 简单的并行&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org723c550"&gt;
 &lt;p&gt;
 &lt;a href="https://joblib.readthedocs.io/"&gt;joblib&lt;/a&gt;是一个易用的，无依赖的 python 库，主要用来很方便的做并行。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgccedbb8" class="outline-3"&gt;
-&lt;h3 id="orgccedbb8"&gt;简单的并行&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgccedbb8"&gt;
+&lt;div id="outline-container-orgf16dc80" class="outline-3"&gt;
+&lt;h3 id="orgf16dc80"&gt;简单的并行&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf16dc80"&gt;
 &lt;p&gt;
 对一个 &lt;code&gt;for&lt;/code&gt; 循环并行化，基本上只需要两个函数 &lt;code&gt;Parallel&lt;/code&gt; 和 &lt;code&gt;delayed&lt;/code&gt; ，用 &lt;code&gt;delayed&lt;/code&gt; 包裹要并行的函数，并用列表推导式生成所有参数，再把这些东西扔给 &lt;code&gt;Parallel&lt;/code&gt; 函数，返回的就是并行后的结果了。
 &lt;/p&gt;
@@ -830,56 +822,35 @@ numpy 的 &lt;code&gt;ndarray&lt;/code&gt; 在 cython 中用做 typed memoryview
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org18be8ed" class="outline-2"&gt;
-&lt;h2 id="org18be8ed"&gt;Tips&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org18be8ed"&gt;
+&lt;div id="outline-container-orgf2e4112" class="outline-2"&gt;
+&lt;h2 id="orgf2e4112"&gt;Tips&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf2e4112"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org4b94a65" class="outline-3"&gt;
-&lt;h3 id="org4b94a65"&gt;读取时避免锁&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4b94a65"&gt;
+&lt;div id="outline-container-org672bb76" class="outline-3"&gt;
+&lt;h3 id="org672bb76"&gt;读取时避免锁&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org672bb76"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;multiprocessing.shared_memory&lt;/code&gt; 创建共享内存，并把内存地址名作为参数传递
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-
-
-
-&lt;div id="outline-container-org18be8ed" class="outline-2"&gt;
-&lt;h2 id="org18be8ed"&gt;Tips&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org18be8ed"&gt;
+&lt;/div&gt;</description><category>parallel</category><category>python</category><guid>https://chimez.github.io/posts/joblib/</guid><pubDate>Sun, 06 Jun 2021 05:34:10 GMT</pubDate></item><item><title>Extending Python with C</title><link>https://chimez.github.io/posts/extending-python-with-c/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgecd5fd0" class="outline-2"&gt;
+&lt;h2 id="orgecd5fd0"&gt;用 C 扩展 Python&lt;/h2&gt;
+&lt;/div&gt;</description><category>C</category><category>ffi</category><category>python</category><guid>https://chimez.github.io/posts/extending-python-with-c/</guid><pubDate>Mon, 03 May 2021 11:16:46 GMT</pubDate></item><item><title>Performant Python</title><link>https://chimez.github.io/posts/performant-python/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org0586f5c" class="outline-2"&gt;
+&lt;h2 id="org0586f5c"&gt;Python 性能&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org0586f5c"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org4b94a65" class="outline-3"&gt;
-&lt;h3 id="org4b94a65"&gt;读取时避免锁&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4b94a65"&gt;
-&lt;p&gt;
-使用 &lt;code&gt;multiprocessing.shared_memory&lt;/code&gt; 创建共享内存，并把内存地址名作为参数传递
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>parallel</category><category>python</category><guid>https://chimez.github.io/posts/joblib/</guid><pubDate>Sun, 06 Jun 2021 05:34:10 GMT</pubDate></item><item><title>Extending Python with C</title><link>https://chimez.github.io/posts/extending-python-with-c/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgd5e9f6c" class="outline-2"&gt;
-&lt;h2 id="orgd5e9f6c"&gt;用 C 扩展 Python&lt;/h2&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>C</category><category>ffi</category><category>python</category><guid>https://chimez.github.io/posts/extending-python-with-c/</guid><pubDate>Mon, 03 May 2021 11:16:46 GMT</pubDate></item><item><title>Performant Python</title><link>https://chimez.github.io/posts/performant-python/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org50e811c" class="outline-2"&gt;
-&lt;h2 id="org50e811c"&gt;Python 性能&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org50e811c"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-org3e6df8e" class="outline-3"&gt;
-&lt;h3 id="org3e6df8e"&gt;计算机结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org3e6df8e"&gt;
+&lt;div id="outline-container-org24b98a4" class="outline-3"&gt;
+&lt;h3 id="org24b98a4"&gt;计算机结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org24b98a4"&gt;
 &lt;p&gt;
 简单来说，计算机由计算单元、储存单元和二者之间的通信构成。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7d6990d" class="outline-4"&gt;
-&lt;h4 id="org7d6990d"&gt;计算单元&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7d6990d"&gt;
+&lt;div id="outline-container-orgb31bbe7" class="outline-4"&gt;
+&lt;h4 id="orgb31bbe7"&gt;计算单元&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb31bbe7"&gt;
 &lt;p&gt;
 计算单元一般是 CPU 和 GPU 等。
 &lt;/p&gt;
@@ -902,18 +873,18 @@ numpy 的 &lt;code&gt;ndarray&lt;/code&gt; 在 cython 中用做 typed memoryview
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd3c3180" class="outline-4"&gt;
-&lt;h4 id="orgd3c3180"&gt;Amdahl'a law&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd3c3180"&gt;
+&lt;div id="outline-container-org32bded2" class="outline-4"&gt;
+&lt;h4 id="org32bded2"&gt;Amdahl'a law&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org32bded2"&gt;
 &lt;p&gt;
 经验定律：并行程序的加速上限取决于不能并行化的最小单元。
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbc327fe" class="outline-4"&gt;
-&lt;h4 id="orgbc327fe"&gt;存储单元&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgbc327fe"&gt;
+&lt;div id="outline-container-org769b817" class="outline-4"&gt;
+&lt;h4 id="org769b817"&gt;存储单元&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org769b817"&gt;
 &lt;p&gt;
 存储单元包括：机械硬盘、固态硬盘、RAM、L1/L2 等。主要的区别就是速度。一般来说速度越快容量越小。
 &lt;/p&gt;
@@ -924,9 +895,9 @@ numpy 的 &lt;code&gt;ndarray&lt;/code&gt; 在 cython 中用做 typed memoryview
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge0c499d" class="outline-4"&gt;
-&lt;h4 id="orge0c499d"&gt;总线&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orge0c499d"&gt;
+&lt;div id="outline-container-org33f794e" class="outline-4"&gt;
+&lt;h4 id="org33f794e"&gt;总线&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org33f794e"&gt;
 &lt;p&gt;
 计算单元和存储单元通过总线连接。
 总线最重要的参数是总线宽度和总线频率。
@@ -936,9 +907,9 @@ numpy 的 &lt;code&gt;ndarray&lt;/code&gt; 在 cython 中用做 typed memoryview
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbca8b8e" class="outline-2"&gt;
-&lt;h2 id="orgbca8b8e"&gt;从源码安装 python&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgbca8b8e"&gt;
+&lt;div id="outline-container-org6d4c803" class="outline-2"&gt;
+&lt;h2 id="org6d4c803"&gt;从源码安装 python&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6d4c803"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;openssl 通过 &lt;code&gt;--with-openssl&lt;/code&gt; 指定&lt;/li&gt;
 &lt;li&gt;sqlite 通过修改 &lt;code&gt;setup.py&lt;/code&gt; 中的 &lt;code&gt;sqlite_inc_paths&lt;/code&gt;&lt;/li&gt;
@@ -955,9 +926,9 @@ libffi 通过 &lt;code&gt;CPPFLAGS&lt;/code&gt;, &lt;code&gt;LDFLAGS&lt;/code&gt
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9e36ceb" class="outline-2"&gt;
-&lt;h2 id="org9e36ceb"&gt;从源码安装 numpy, scipy&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9e36ceb"&gt;
+&lt;div id="outline-container-org12b94a1" class="outline-2"&gt;
+&lt;h2 id="org12b94a1"&gt;从源码安装 numpy, scipy&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org12b94a1"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;numpy 依赖
 &lt;ul class="org-ul"&gt;
@@ -982,101 +953,18 @@ libffi 通过 &lt;code&gt;CPPFLAGS&lt;/code&gt;, &lt;code&gt;LDFLAGS&lt;/code&gt
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  python3 setup.py build -j 10 install
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-
-
-&lt;div id="outline-container-orgbca8b8e" class="outline-2"&gt;
-&lt;h2 id="orgbca8b8e"&gt;从源码安装 python&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgbca8b8e"&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;openssl 通过 &lt;code&gt;--with-openssl&lt;/code&gt; 指定&lt;/li&gt;
-&lt;li&gt;sqlite 通过修改 &lt;code&gt;setup.py&lt;/code&gt; 中的 &lt;code&gt;sqlite_inc_paths&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;
-libffi 通过 &lt;code&gt;CPPFLAGS&lt;/code&gt;, &lt;code&gt;LDFLAGS&lt;/code&gt; 指定
-&lt;/p&gt;
-
-&lt;p&gt;
-参考编译选项
-&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  ./configure --prefix=$HOME/app/python --enable-optimizations --with-openssl=$HOME/app/openssl --enable-shared PKG_CONFIG_LIBDIR=$PKG_CONFIG_PATH LIBFFI_INCLUDEDIR=/vol7/home/zhongpg/app/libffi/include --with-system-ffi=/vol7/home/zhongpg/app/libffi/lib64 CPPFLAGS="-I /vol7/home/zhongpg/app/libffi/include" LDFLAGS="-L/vol7/home/zhongpg/app/libffi/lib64"
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org9e36ceb" class="outline-2"&gt;
-&lt;h2 id="org9e36ceb"&gt;从源码安装 numpy, scipy&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9e36ceb"&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;numpy 依赖
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;cython: &lt;code&gt;pip install cython&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;scipy 依赖
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;pybind11: &lt;code&gt;pip install "pybind11[global]"&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;pythran: &lt;code&gt;pip install pythran&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;执行 &lt;code&gt;git submodule update --init&lt;/code&gt; 来自动下载一些包&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-设置 &lt;code&gt;site.cfg&lt;/code&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-执行安装
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  python3 setup.py build -j 10 install
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-
-
-&lt;div id="outline-container-org9e36ceb" class="outline-2"&gt;
-&lt;h2 id="org9e36ceb"&gt;从源码安装 numpy, scipy&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9e36ceb"&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;numpy 依赖
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;cython: &lt;code&gt;pip install cython&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;scipy 依赖
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;pybind11: &lt;code&gt;pip install "pybind11[global]"&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;pythran: &lt;code&gt;pip install pythran&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;执行 &lt;code&gt;git submodule update --init&lt;/code&gt; 来自动下载一些包&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;
-设置 &lt;code&gt;site.cfg&lt;/code&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-执行安装
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  python3 setup.py build -j 10 install
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>python</category><guid>https://chimez.github.io/posts/performant-python/</guid><pubDate>Fri, 23 Apr 2021 14:03:52 GMT</pubDate></item><item><title>PyTables</title><link>https://chimez.github.io/posts/pytables/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgeb805f4" class="outline-2"&gt;
-&lt;h2 id="orgeb805f4"&gt;PyTables: 分层数据集&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgeb805f4"&gt;
+&lt;/div&gt;</description><category>python</category><guid>https://chimez.github.io/posts/performant-python/</guid><pubDate>Fri, 23 Apr 2021 14:03:52 GMT</pubDate></item><item><title>PyTables</title><link>https://chimez.github.io/posts/pytables/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgdd366cb" class="outline-2"&gt;
+&lt;h2 id="orgdd366cb"&gt;PyTables: 分层数据集&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdd366cb"&gt;
 &lt;p&gt;
 &lt;a href="https://www.pytables.org"&gt;PyTables&lt;/a&gt; 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5py 更高层。适合用在存储比 csv 表格更复杂更大的数据，同时又不想自己实现一些基本的数据操作的情况中，并且经过简单的处理就能用 pandas 进行进一步数据分析。
 &lt;/p&gt;
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgade82f0" class="outline-3"&gt;
-&lt;h3 id="orgade82f0"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgade82f0"&gt;
+&lt;div id="outline-container-org9223974" class="outline-3"&gt;
+&lt;h3 id="org9223974"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9223974"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   # 使用 conda
    conda install pytables
    # 或者 pip
@@ -1093,17 +981,17 @@ libffi 通过 &lt;code&gt;CPPFLAGS&lt;/code&gt;, &lt;code&gt;LDFLAGS&lt;/code&gt
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org87205de" class="outline-3"&gt;
-&lt;h3 id="org87205de"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org87205de"&gt;
+&lt;div id="outline-container-org51705e0" class="outline-3"&gt;
+&lt;h3 id="org51705e0"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org51705e0"&gt;
 &lt;p&gt;
 pytables 的基本逻辑是
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgaea14fd" class="outline-4"&gt;
-&lt;h4 id="orgaea14fd"&gt;创建一个 HDF5 文件&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgaea14fd"&gt;
+&lt;div id="outline-container-org2764a6f" class="outline-4"&gt;
+&lt;h4 id="org2764a6f"&gt;创建一个 HDF5 文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2764a6f"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open_file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"filename.h5"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"w"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"file title"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;filters&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Filters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;complevel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
     &lt;span class="c1"&gt;# 别忘了还要关闭它&lt;/span&gt;
@@ -1112,34 +1000,34 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf26ce83" class="outline-4"&gt;
-&lt;h4 id="orgf26ce83"&gt;在文件中创建任意层的数据集&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf26ce83"&gt;
+&lt;div id="outline-container-orgbe4861e" class="outline-4"&gt;
+&lt;h4 id="orgbe4861e"&gt;在文件中创建任意层的数据集&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbe4861e"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;g&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"/parent/group"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"group_name"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"group title"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4b9ddbb" class="outline-4"&gt;
-&lt;h4 id="org4b9ddbb"&gt;在数据集中创建若干个数据表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org4b9ddbb"&gt;
+&lt;div id="outline-container-org68efbd9" class="outline-4"&gt;
+&lt;h4 id="org68efbd9"&gt;在数据集中创建若干个数据表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org68efbd9"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="c1"&gt;# 需要创建对数据的描述&lt;/span&gt;
     &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;data_description&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;IsDescription&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-	&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;StringCol&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-	&lt;span class="n"&gt;idn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Int64Col&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-	&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;sub_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;IsDescription&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-	    &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;StringCol&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-	    &lt;span class="n"&gt;id2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Float64Col&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;StringCol&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;idn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Int64Col&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;sub_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;IsDescription&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;StringCol&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;id2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tb&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Float64Col&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 
     &lt;span class="c1"&gt;# 然后创建空的数据表       &lt;/span&gt;
     &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_table&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;g&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"table_name"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data_description&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
     &lt;span class="c1"&gt;# 在里面循环添加记录&lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-	&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"a"&lt;/span&gt;
-	&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"idn"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;
-	&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"sub_data"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'asd_&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-	&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"name"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"a"&lt;/span&gt;
+        &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"idn"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;
+        &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"sub_data"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'asd_&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 
     &lt;span class="c1"&gt;# 最后刷新一下缓存，确保数据都写入到磁盘&lt;/span&gt;
     &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flush&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -1150,13 +1038,13 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org8ec1a2b" class="outline-2"&gt;
-&lt;h2 id="org8ec1a2b"&gt;遇到的问题&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8ec1a2b"&gt;
+&lt;div id="outline-container-org54d2bee" class="outline-2"&gt;
+&lt;h2 id="org54d2bee"&gt;遇到的问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org54d2bee"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org47951ac" class="outline-3"&gt;
-&lt;h3 id="org47951ac"&gt;在不支持 &lt;code&gt;flock&lt;/code&gt; 的集群上运行&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org47951ac"&gt;
+&lt;div id="outline-container-orgfac156a" class="outline-3"&gt;
+&lt;h3 id="orgfac156a"&gt;在不支持 &lt;code&gt;flock&lt;/code&gt; 的集群上运行&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfac156a"&gt;
 &lt;p&gt;
 需要设置环境变量
 &lt;/p&gt;
@@ -1165,39 +1053,17 @@ pytables 的基本逻辑是
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-
-
-
-&lt;div id="outline-container-org8ec1a2b" class="outline-2"&gt;
-&lt;h2 id="org8ec1a2b"&gt;遇到的问题&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8ec1a2b"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-org47951ac" class="outline-3"&gt;
-&lt;h3 id="org47951ac"&gt;在不支持 &lt;code&gt;flock&lt;/code&gt; 的集群上运行&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org47951ac"&gt;
-&lt;p&gt;
-需要设置环境变量
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   export HDF5_USE_FILE_LOCKING=FALSE
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>python</category><guid>https://chimez.github.io/posts/pytables/</guid><pubDate>Mon, 01 Mar 2021 03:23:19 GMT</pubDate></item><item><title>h5py</title><link>https://chimez.github.io/posts/h5py/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge4f7c45" class="outline-2"&gt;
-&lt;h2 id="orge4f7c45"&gt;h5py: 储存数据&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge4f7c45"&gt;
+&lt;/div&gt;</description><category>python</category><guid>https://chimez.github.io/posts/pytables/</guid><pubDate>Mon, 01 Mar 2021 03:23:19 GMT</pubDate></item><item><title>h5py</title><link>https://chimez.github.io/posts/h5py/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org5f67598" class="outline-2"&gt;
+&lt;h2 id="org5f67598"&gt;h5py: 储存数据&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5f67598"&gt;
 &lt;p&gt;
 &lt;a href="https://www.h5py.org/"&gt;h5py&lt;/a&gt; 是 HDF5 库的 python 封装，基本提供了所有对应的 C API，因此适合用在简单并底层的应用中，特别适合对 HDF5 文件有定制的应用中。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org330beaf" class="outline-3"&gt;
-&lt;h3 id="org330beaf"&gt;存&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org330beaf"&gt;
+&lt;div id="outline-container-org6320573" class="outline-3"&gt;
+&lt;h3 id="org6320573"&gt;存&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6320573"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;h5py&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'data.h5'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'w'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
        &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_dataset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"mat1"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;mat1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;compression&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"gzip"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
        &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_dataset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"mat2"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;mat2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;compression&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"gzip"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -1209,9 +1075,9 @@ pytables 的基本逻辑是
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org6610a19" class="outline-3"&gt;
-&lt;h3 id="org6610a19"&gt;取&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6610a19"&gt;
+&lt;div id="outline-container-org87a81e2" class="outline-3"&gt;
+&lt;h3 id="org87a81e2"&gt;取&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org87a81e2"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;h5py&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'data.h5'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'r'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
        &lt;span class="n"&gt;mat1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'mat1'&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
        &lt;span class="n"&gt;mat2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hf&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'mat2'&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
@@ -1221,11 +1087,9 @@ pytables 的基本逻辑是
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>python</category><guid>https://chimez.github.io/posts/h5py/</guid><pubDate>Sun, 28 Feb 2021 14:11:33 GMT</pubDate></item><item><title>nikola: static site generator</title><link>https://chimez.github.io/posts/nikola-static-site-generator/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga1b49de" class="outline-2"&gt;
-&lt;h2 id="orga1b49de"&gt;Nikola: 基本用法&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga1b49de"&gt;
+&lt;/div&gt;</description><category>python</category><guid>https://chimez.github.io/posts/h5py/</guid><pubDate>Sun, 28 Feb 2021 14:11:33 GMT</pubDate></item><item><title>nikola: static site generator</title><link>https://chimez.github.io/posts/nikola-static-site-generator/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org07a492a" class="outline-2"&gt;
+&lt;h2 id="org07a492a"&gt;Nikola: 基本用法&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org07a492a"&gt;
 &lt;p&gt;
 Nikola 是一个 python 写的静态博客生成器。参见官网&lt;a href="https://getnikola.com"&gt;getnikola&lt;/a&gt; 。主要的特色是原生支持 orgmode 和 ipynb 格式作为博客，看起来很方便。
 &lt;/p&gt;
@@ -1234,13 +1098,13 @@ Nikola 是一个 python 写的静态博客生成器。参见官网&lt;a href="ht
 
 
 
-&lt;div id="outline-container-org9b73af6" class="outline-2"&gt;
-&lt;h2 id="org9b73af6"&gt;备查资料&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9b73af6"&gt;
+&lt;div id="outline-container-orgb250231" class="outline-2"&gt;
+&lt;h2 id="orgb250231"&gt;备查资料&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb250231"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgbc0a58b" class="outline-3"&gt;
-&lt;h3 id="orgbc0a58b"&gt;时间的格式&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgbc0a58b"&gt;
+&lt;div id="outline-container-orgfe3da07" class="outline-3"&gt;
+&lt;h3 id="orgfe3da07"&gt;时间的格式&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfe3da07"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;date +"%F %T UTC%:z"
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -1248,17 +1112,17 @@ Nikola 是一个 python 写的静态博客生成器。参见官网&lt;a href="ht
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org64968d2" class="outline-2"&gt;
-&lt;h2 id="org64968d2"&gt;博客模板&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org64968d2"&gt;
+&lt;div id="outline-container-orgc16e48b" class="outline-2"&gt;
+&lt;h2 id="orgc16e48b"&gt;博客模板&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc16e48b"&gt;
 &lt;p&gt;
 tags 用逗号分隔， category 被看做一个词。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1890403" class="outline-3"&gt;
-&lt;h3 id="org1890403"&gt;orgmode&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org1890403"&gt;
+&lt;div id="outline-container-org8180bf3" class="outline-3"&gt;
+&lt;h3 id="org8180bf3"&gt;orgmode&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org8180bf3"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#+BEGIN_COMMENT
 .. title: nikola: static site generator
 .. slug: nikola-static-site-generator
@@ -1277,9 +1141,9 @@ blog here.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org744f286" class="outline-3"&gt;
-&lt;h3 id="org744f286"&gt;ipynb&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org744f286"&gt;
+&lt;div id="outline-container-org6f30608" class="outline-3"&gt;
+&lt;h3 id="org6f30608"&gt;ipynb&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6f30608"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   "metadata": {
      "nikola": {
       "title": "Power Method for Eigenvalues",
@@ -1295,125 +1159,4 @@ blog here.
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-
-
-
-
-&lt;div id="outline-container-org9b73af6" class="outline-2"&gt;
-&lt;h2 id="org9b73af6"&gt;备查资料&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9b73af6"&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-orgbc0a58b" class="outline-3"&gt;
-&lt;h3 id="orgbc0a58b"&gt;时间的格式&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgbc0a58b"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;date +"%F %T UTC%:z"
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;div id="outline-container-org64968d2" class="outline-2"&gt;
-&lt;h2 id="org64968d2"&gt;博客模板&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org64968d2"&gt;
-&lt;p&gt;
-tags 用逗号分隔， category 被看做一个词。
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org1890403" class="outline-3"&gt;
-&lt;h3 id="org1890403"&gt;orgmode&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org1890403"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#+BEGIN_COMMENT
-.. title: nikola: static site generator
-.. slug: nikola-static-site-generator
-.. date: 2020-12-19 15:19:12 UTC+08:00
-.. tags: python, blog
-.. category: tools
-.. link: 
-.. description: 
-.. type: text
-.. has_math: true
-
-#+END_COMMENT
-
-blog here.
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org744f286" class="outline-3"&gt;
-&lt;h3 id="org744f286"&gt;ipynb&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org744f286"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   "metadata": {
-     "nikola": {
-      "title": "Power Method for Eigenvalues",
-      "slug": "power-method-for-eigenvalues",
-      "date": "2020-12-19 15:20:52 UTC+08:00",
-      "tags": "Numerical Algorithm,Linear Algebra",
-      "category": "Algorithm",
-      "link": "",
-      "description": "",
-      "type": "text"
-     }
-   }
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-
-
-
-&lt;div id="outline-container-org64968d2" class="outline-2"&gt;
-&lt;h2 id="org64968d2"&gt;博客模板&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org64968d2"&gt;
-&lt;p&gt;
-tags 用逗号分隔， category 被看做一个词。
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org1890403" class="outline-3"&gt;
-&lt;h3 id="org1890403"&gt;orgmode&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org1890403"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#+BEGIN_COMMENT
-.. title: nikola: static site generator
-.. slug: nikola-static-site-generator
-.. date: 2020-12-19 15:19:12 UTC+08:00
-.. tags: python, blog
-.. category: tools
-.. link: 
-.. description: 
-.. type: text
-.. has_math: true
-
-#+END_COMMENT
-
-blog here.
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org744f286" class="outline-3"&gt;
-&lt;h3 id="org744f286"&gt;ipynb&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org744f286"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   "metadata": {
-     "nikola": {
-      "title": "Power Method for Eigenvalues",
-      "slug": "power-method-for-eigenvalues",
-      "date": "2020-12-19 15:20:52 UTC+08:00",
-      "tags": "Numerical Algorithm,Linear Algebra",
-      "category": "Algorithm",
-      "link": "",
-      "description": "",
-      "type": "text"
-     }
-   }
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>blog</category><category>python</category><guid>https://chimez.github.io/posts/nikola-static-site-generator/</guid><pubDate>Sat, 19 Dec 2020 07:19:12 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>blog</category><category>python</category><guid>https://chimez.github.io/posts/nikola-static-site-generator/</guid><pubDate>Sat, 19 Dec 2020 07:19:12 GMT</pubDate></item></channel></rss>

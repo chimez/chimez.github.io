@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about cython)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/cython.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 Oct 2021 13:35:57 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>setuptools</title><link>https://chimez.github.io/posts/setuptools/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org7e32d92" class="outline-2"&gt;
-&lt;h2 id="org7e32d92"&gt;setuptools: python 的打包工具&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org7e32d92"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 cython 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/cython.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 18 Oct 2023 02:37:53 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>setuptools</title><link>https://chimez.github.io/posts/setuptools/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org40f4f11" class="outline-2"&gt;
+&lt;h2 id="org40f4f11"&gt;setuptools: python 的打包工具&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org40f4f11"&gt;
 &lt;p&gt;
 &lt;a href="https://setuptools.pypa.io"&gt;setuptools&lt;/a&gt; 是 pypa 的项目。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc2338b9" class="outline-3"&gt;
-&lt;h3 id="orgc2338b9"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgc2338b9"&gt;
+&lt;div id="outline-container-org95bb1af" class="outline-3"&gt;
+&lt;h3 id="org95bb1af"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org95bb1af"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7fd4633" class="outline-4"&gt;
-&lt;h4 id="org7fd4633"&gt;&lt;code&gt;pyproject.toml&lt;/code&gt;&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7fd4633"&gt;
+&lt;div id="outline-container-org4f1113b" class="outline-4"&gt;
+&lt;h4 id="org4f1113b"&gt;&lt;code&gt;pyproject.toml&lt;/code&gt;&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org4f1113b"&gt;
 &lt;p&gt;
 PEP 517 要求所有 python 项目需要一个配置文件 &lt;code&gt;pyproject.toml&lt;/code&gt; 其中描述项目的基本信息和依赖等。
 &lt;/p&gt;
@@ -26,9 +26,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 &lt;code&gt;pyproject
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org3580d46" class="outline-4"&gt;
-&lt;h4 id="org3580d46"&gt;&lt;code&gt;setup.cfg&lt;/code&gt; or &lt;code&gt;setup.py&lt;/code&gt;&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3580d46"&gt;
+&lt;div id="outline-container-orge0ce0e0" class="outline-4"&gt;
+&lt;h4 id="orge0ce0e0"&gt;&lt;code&gt;setup.cfg&lt;/code&gt; or &lt;code&gt;setup.py&lt;/code&gt;&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orge0ce0e0"&gt;
 &lt;p&gt;
 &lt;code&gt;setup.cfg&lt;/code&gt; 是 setuptools 的 DSL，而 &lt;code&gt;setup.py&lt;/code&gt; 用一般的 python 代码。
 &lt;/p&gt;
@@ -36,13 +36,13 @@ PEP 517 要求所有 python 项目需要一个配置文件 &lt;code&gt;pyproject
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;setuptools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
 
     &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-	&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'mypackage'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-	&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'0.0.1'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-	&lt;span class="n"&gt;packages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'mypackage'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
-	&lt;span class="n"&gt;install_requires&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
-	    &lt;span class="s1"&gt;'requests'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-	    &lt;span class="s1"&gt;'importlib; python_version == "2.6"'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-	&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'mypackage'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'0.0.1'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;packages&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'mypackage'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="n"&gt;install_requires&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;
+            &lt;span class="s1"&gt;'requests'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s1"&gt;'importlib; python_version == "2.6"'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;],&lt;/span&gt;
     &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -56,9 +56,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 &lt;code&gt;pyproject
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org651b16d" class="outline-3"&gt;
-&lt;h3 id="org651b16d"&gt;开发模式&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org651b16d"&gt;
+&lt;div id="outline-container-org0743c80" class="outline-3"&gt;
+&lt;h3 id="org0743c80"&gt;开发模式&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0743c80"&gt;
 &lt;p&gt;
 使用开发模式，可以完成构建而不需要将文件复制到包目录。
 &lt;/p&gt;
@@ -71,9 +71,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 &lt;code&gt;pyproject
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org58c7310" class="outline-3"&gt;
-&lt;h3 id="org58c7310"&gt;cython&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org58c7310"&gt;
+&lt;div id="outline-container-org2f4d5fa" class="outline-3"&gt;
+&lt;h3 id="org2f4d5fa"&gt;cython&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2f4d5fa"&gt;
 &lt;p&gt;
 setuptools 会自动检查 cython 是否安装，如果没有，就会忽略所有 &lt;code&gt;.pyx&lt;/code&gt; 文件。
 &lt;/p&gt;
@@ -104,19 +104,17 @@ PEP 517 要求在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中加入
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>cython</category><category>python</category><guid>https://chimez.github.io/posts/setuptools/</guid><pubDate>Wed, 06 Oct 2021 12:00:12 GMT</pubDate></item><item><title>cython</title><link>https://chimez.github.io/posts/cython/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgebd9384" class="outline-2"&gt;
-&lt;h2 id="orgebd9384"&gt;Cython&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgebd9384"&gt;
+&lt;/div&gt;</description><category>cython</category><category>python</category><guid>https://chimez.github.io/posts/setuptools/</guid><pubDate>Wed, 06 Oct 2021 12:00:12 GMT</pubDate></item><item><title>cython</title><link>https://chimez.github.io/posts/cython/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org4fa1dca" class="outline-2"&gt;
+&lt;h2 id="org4fa1dca"&gt;Cython&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4fa1dca"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org4147031" class="outline-3"&gt;
-&lt;h3 id="org4147031"&gt;基本概念&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4147031"&gt;
+&lt;div id="outline-container-org5c1a59b" class="outline-3"&gt;
+&lt;h3 id="org5c1a59b"&gt;基本概念&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5c1a59b"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfa37248" class="outline-4"&gt;
-&lt;h4 id="orgfa37248"&gt;文件&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgfa37248"&gt;
+&lt;div id="outline-container-orga7aa3db" class="outline-4"&gt;
+&lt;h4 id="orga7aa3db"&gt;文件&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga7aa3db"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;.pyx&lt;/code&gt; 是 &lt;code&gt;cython&lt;/code&gt; 语法的源文件&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;.pyd&lt;/code&gt; (windows) 是 windows 平台上编译后的文件，对应 linux 平台的 &lt;code&gt;*.so&lt;/code&gt;&lt;/li&gt;
@@ -125,9 +123,9 @@ PEP 517 要求在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中加入
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4c9eda4" class="outline-4"&gt;
-&lt;h4 id="org4c9eda4"&gt;库&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org4c9eda4"&gt;
+&lt;div id="outline-container-org8a5218b" class="outline-4"&gt;
+&lt;h4 id="org8a5218b"&gt;库&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org8a5218b"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;Cython.Build&lt;/code&gt; python 端调用，用于编译&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;cython.parallel&lt;/code&gt; cython 端调用，并行 &lt;code&gt;prange&lt;/code&gt;&lt;/li&gt;
@@ -148,38 +146,38 @@ PEP 517 要求在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中加入
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org041f502" class="outline-4"&gt;
-&lt;h4 id="org041f502"&gt;语法&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org041f502"&gt;
+&lt;div id="outline-container-org86bde6d" class="outline-4"&gt;
+&lt;h4 id="org86bde6d"&gt;语法&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org86bde6d"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    from libc.math cimport log2 # 引入 c 函数
     cdef int x # 声明变量类型
     cdef int [:,:] x # 声明变量是 numpy 的 2d 向量
     ctypedef struct queue: # 声明类型
-	pass
+        pass
 
     ctypedef fused my_type: # 泛型
-	int
-	double
-	long long
+        int
+        double
+        long long
 
     # 类的定义，注意使用 __cinit__
     cdef class A:
-	cdef int a
-	def __cinit__(self):
-	    self.a = 1
+        cdef int a
+        def __cinit__(self):
+            self.a = 1
 
     &amp;lt;void*&amp;gt;value # 类型转换成指针
 
     # 定义 c 函数，异常时返回 -1
     cdef int func(int x) execpt? -1:
-	pass
+        pass
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0f534da" class="outline-4"&gt;
-&lt;h4 id="org0f534da"&gt;文件注解&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0f534da"&gt;
+&lt;div id="outline-container-org2eb49a1" class="outline-4"&gt;
+&lt;h4 id="org2eb49a1"&gt;文件注解&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2eb49a1"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;# distutils: language=c++&lt;/code&gt; 使用 &lt;code&gt;c++&lt;/code&gt; 编译&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;# distutils: sources = c-algorithms/src/queue.c&lt;/code&gt; 指定静态链接的源文件&lt;/li&gt;
@@ -193,9 +191,9 @@ PEP 517 要求在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中加入
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9fd6e29" class="outline-4"&gt;
-&lt;h4 id="org9fd6e29"&gt;函数注解&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org9fd6e29"&gt;
+&lt;div id="outline-container-org63e2dc9" class="outline-4"&gt;
+&lt;h4 id="org63e2dc9"&gt;函数注解&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org63e2dc9"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;@cython.boundscheck(False)&lt;/code&gt; 关闭数组边界检查&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;@cython.wraparound(False)&lt;/code&gt; 关闭负指标&lt;/li&gt;
@@ -204,13 +202,13 @@ PEP 517 要求在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中加入
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0856478" class="outline-3"&gt;
-&lt;h3 id="org0856478"&gt;编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0856478"&gt;
+&lt;div id="outline-container-org66be532" class="outline-3"&gt;
+&lt;h3 id="org66be532"&gt;编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org66be532"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd864635" class="outline-4"&gt;
-&lt;h4 id="orgd864635"&gt;基本结构&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd864635"&gt;
+&lt;div id="outline-container-org337ca19" class="outline-4"&gt;
+&lt;h4 id="org337ca19"&gt;基本结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org337ca19"&gt;
 &lt;p&gt;
 &lt;code&gt;setup.py&lt;/code&gt;
 &lt;/p&gt;
@@ -218,7 +216,7 @@ PEP 517 要求在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中加入
     &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;Cython.Build&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;cythonize&lt;/span&gt;
 
     &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-	&lt;span class="n"&gt;ext_modules&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cythonize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"helloworld.pyx"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;ext_modules&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cythonize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"helloworld.pyx"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -240,9 +238,9 @@ PEP 517 要求在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中加入
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5a37df6" class="outline-4"&gt;
-&lt;h4 id="org5a37df6"&gt;动态链接&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5a37df6"&gt;
+&lt;div id="outline-container-org5232617" class="outline-4"&gt;
+&lt;h4 id="org5232617"&gt;动态链接&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5232617"&gt;
 &lt;p&gt;
 &lt;a href="https://cython.readthedocs.io/en/latest/src/tutorial/external.html#dynamic-linking"&gt;参考&lt;/a&gt;
 &lt;/p&gt;
@@ -254,21 +252,21 @@ PEP 517 要求在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中加入
     &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;Cython.Build&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;cythonize&lt;/span&gt;
 
     &lt;span class="n"&gt;ext_modules&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
-	&lt;span class="n"&gt;Extension&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"demo"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-		  &lt;span class="n"&gt;sources&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"demo.pyx"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
-		  &lt;span class="n"&gt;libraries&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"m"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c1"&gt;# Unix-like specific&lt;/span&gt;
-		  &lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;Extension&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"demo"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                  &lt;span class="n"&gt;sources&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"demo.pyx"&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+                  &lt;span class="n"&gt;libraries&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"m"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c1"&gt;# Unix-like specific&lt;/span&gt;
+                  &lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="p"&gt;]&lt;/span&gt;
 
     &lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"Demos"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-	  &lt;span class="n"&gt;ext_modules&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;cythonize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ext_modules&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+          &lt;span class="n"&gt;ext_modules&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;cythonize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ext_modules&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org87dbf2c" class="outline-4"&gt;
-&lt;h4 id="org87dbf2c"&gt;静态链接&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org87dbf2c"&gt;
+&lt;div id="outline-container-orgda74b68" class="outline-4"&gt;
+&lt;h4 id="orgda74b68"&gt;静态链接&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgda74b68"&gt;
 &lt;p&gt;
 使用注解 
 &lt;/p&gt;
@@ -281,90 +279,90 @@ PEP 517 要求在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中加入
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3056daf" class="outline-3"&gt;
-&lt;h3 id="org3056daf"&gt;使用 c 库&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org3056daf"&gt;
+&lt;div id="outline-container-orgedb5a15" class="outline-3"&gt;
+&lt;h3 id="orgedb5a15"&gt;使用 c 库&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgedb5a15"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7450259" class="outline-4"&gt;
-&lt;h4 id="org7450259"&gt;外部声明&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7450259"&gt;
+&lt;div id="outline-container-org5bb8c27" class="outline-4"&gt;
+&lt;h4 id="org5bb8c27"&gt;外部声明&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5bb8c27"&gt;
 &lt;p&gt;
 使用头文件, 外部声明可以放在 &lt;code&gt;.pyd&lt;/code&gt; 文件中
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    cdef extern from "math.h":
-	double sin(double x)
+        double sin(double x)
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org57247df" class="outline-4"&gt;
-&lt;h4 id="org57247df"&gt;异常处理&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org57247df"&gt;
+&lt;div id="outline-container-org259ace8" class="outline-4"&gt;
+&lt;h4 id="org259ace8"&gt;异常处理&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org259ace8"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;except? -1&lt;/code&gt; 语法表示当发生任何错误时，返回 &lt;code&gt;-1&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;execpt *&lt;/code&gt; 表示返回时调用 &lt;code&gt;PyErr_Occurred()&lt;/code&gt; ，当函数返回 &lt;code&gt;void&lt;/code&gt; 并且需要传递错误时使用这个&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    cdef int pop(self) except? -1:
-	if cqueue.queue_is_empty(self._c_queue):
-	    raise IndexError("Queue is empty")
-	return &amp;lt;Py_ssize_t&amp;gt;cqueue.queue_pop_head(self._c_queue)
+        if cqueue.queue_is_empty(self._c_queue):
+            raise IndexError("Queue is empty")
+        return &amp;lt;Py_ssize_t&amp;gt;cqueue.queue_pop_head(self._c_queue)
 
     cdef int spam() except *:
-	...
+        ...
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb22c12c" class="outline-3"&gt;
-&lt;h3 id="orgb22c12c"&gt;使用 numpy&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb22c12c"&gt;
+&lt;div id="outline-container-org33c08a5" class="outline-3"&gt;
+&lt;h3 id="org33c08a5"&gt;使用 numpy&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org33c08a5"&gt;
 &lt;p&gt;
 numpy 的 &lt;code&gt;ndarray&lt;/code&gt; 在 cython 中用做 typed memoryview
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1bdeb90" class="outline-4"&gt;
-&lt;h4 id="org1bdeb90"&gt;基本例子&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1bdeb90"&gt;
+&lt;div id="outline-container-orgc0028ce" class="outline-4"&gt;
+&lt;h4 id="orgc0028ce"&gt;基本例子&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc0028ce"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    import numpy as np
 
     DTYPE = np.intc
 
 
     cdef int clip(int a, int min_value, int max_value):
-	return min(max(a, min_value), max_value)
+        return min(max(a, min_value), max_value)
 
 
     def compute(int[:, :] array_1, int[:, :] array_2, int a, int b, int c):
 
-	cdef Py_ssize_t x_max = array_1.shape[0]
-	cdef Py_ssize_t y_max = array_1.shape[1]
-	assert tuple(array_1.shape) == tuple(array_2.shape)
+        cdef Py_ssize_t x_max = array_1.shape[0]
+        cdef Py_ssize_t y_max = array_1.shape[1]
+        assert tuple(array_1.shape) == tuple(array_2.shape)
 
-	result = np.zeros((x_max, y_max), dtype=DTYPE)
-	cdef int[:, :] result_view = result
+        result = np.zeros((x_max, y_max), dtype=DTYPE)
+        cdef int[:, :] result_view = result
 
-	cdef int tmp
-	cdef Py_ssize_t x, y
+        cdef int tmp
+        cdef Py_ssize_t x, y
 
-	for x in range(x_max):
-	    for y in range(y_max):
+        for x in range(x_max):
+            for y in range(y_max):
 
-		tmp = clip(array_1[x, y], 2, 10)
-		tmp = tmp * a + array_2[x, y] * b
-		result_view[x, y] = tmp + c
+                tmp = clip(array_1[x, y], 2, 10)
+                tmp = tmp * a + array_2[x, y] * b
+                result_view[x, y] = tmp + c
 
-	return result
+        return result
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2de3ba0" class="outline-3"&gt;
-&lt;h3 id="org2de3ba0"&gt;并行&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org2de3ba0"&gt;
+&lt;div id="outline-container-org3bba035" class="outline-3"&gt;
+&lt;h3 id="org3bba035"&gt;并行&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org3bba035"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;使用 &lt;code&gt;prange&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;
@@ -373,15 +371,13 @@ numpy 的 &lt;code&gt;ndarray&lt;/code&gt; 在 cython 中用做 typed memoryview
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;      from cython.parallel import prange
       cdef int func(int x) nogil:
-	  cdef int i
-	  cdef int y
-	  for i in prange(x, nogil=True):
-	      y += i 
-	  return y
+          cdef int i
+          cdef int y
+          for i in prange(x, nogil=True):
+              y += i 
+          return y
 &lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>cython</category><category>python</category><guid>https://chimez.github.io/posts/cython/</guid><pubDate>Thu, 05 Aug 2021 12:47:25 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>cython</category><category>python</category><guid>https://chimez.github.io/posts/cython/</guid><pubDate>Thu, 05 Aug 2021 12:47:25 GMT</pubDate></item></channel></rss>

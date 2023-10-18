@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="../../rss.xml">
 <link rel="canonical" href="https://chimez.github.io/posts/pblas-scalapack/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
 <link rel="prev" href="../rust-macro/" title="Rust macro" type="text/html">
@@ -41,7 +41,7 @@ ScaLAPACK 是基于 MPI 的并行版本 LAPACK, PBLAS 则是并行版本的 BLAS
 <meta property="article:tag" content="ScaLAPACK">
 </head>
 <body>
-<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
 
 <!-- Header and menu bar -->
 <div class="container">
@@ -63,7 +63,7 @@ ScaLAPACK 是基于 MPI 的并行版本 LAPACK, PBLAS 则是并行版本的 BLAS
             <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
             <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
 <li class="nav-item">
-    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    <a href="index.org" id="sourcelink" class="nav-link">源文件</a>
     </li>
 
 
@@ -107,23 +107,23 @@ ScaLAPACK 是基于 MPI 的并行版本 LAPACK, PBLAS 则是并行版本的 BLAS
             <time class="published dt-published" datetime="2021-08-24T12:31:22+08:00" itemprop="datePublished" title="2021-08-24 12:31">2021-08-24 12:31</time></a>
             </p>
             
-        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="index.org" class="sourcelink">源文件</a></p>
 
         </div>
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgd13e823" class="outline-2">
-<h2 id="orgd13e823">PBLAS &amp; ScaLAPACK &amp; BLACS</h2>
-<div class="outline-text-2" id="text-orgd13e823">
+    <div id="outline-container-orgd0d311c" class="outline-2">
+<h2 id="orgd0d311c">PBLAS &amp; ScaLAPACK &amp; BLACS</h2>
+<div class="outline-text-2" id="text-orgd0d311c">
 <p>
 <a href="https://www.netlib.org/scalapack/">ScaLAPACK</a> 是基于 MPI 的并行版本 LAPACK, <a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
 </p>
 </div>
 
-<div id="outline-container-org05d4f68" class="outline-3">
-<h3 id="org05d4f68">编译</h3>
-<div class="outline-text-3" id="text-org05d4f68">
+<div id="outline-container-orga24c039" class="outline-3">
+<h3 id="orga24c039">编译</h3>
+<div class="outline-text-3" id="text-orga24c039">
 <ol class="org-ol">
 <li>从 github 下载 <a href="https://github.com/Reference-ScaLAPACK/scalapack/">https://github.com/Reference-ScaLAPACK/scalapack/</a>
 </li>
@@ -133,7 +133,7 @@ ScaLAPACK 是基于 MPI 的并行版本 LAPACK, PBLAS 则是并行版本的 BLAS
 <p>
 示例
 </p>
-<pre class="example" id="org6b1a93d">
+<pre class="example" id="orgd39f8ba">
 FC            = /home/beacon/app/openmpi/bin/mpif90
 CC            = /home/beacon/app/openmpi/bin/mpicc 
 NOOPT         = -O0 -std=legacy
@@ -147,9 +147,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </pre>
 </div>
 
-<div id="outline-container-org8ca23df" class="outline-4">
-<h4 id="org8ca23df">GCC 10 不兼容</h4>
-<div class="outline-text-4" id="text-org8ca23df">
+<div id="outline-container-org396273f" class="outline-4">
+<h4 id="org396273f">GCC 10 不兼容</h4>
+<div class="outline-text-4" id="text-org396273f">
 <p>
 由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 <code>-fallow-argument-mismatch</code> 或 <code>-std=legacy</code> 来编译。
 </p>
@@ -161,9 +161,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </div>
 </div>
 
-<div id="outline-container-orgde7676b" class="outline-3">
-<h3 id="orgde7676b">BLACS</h3>
-<div class="outline-text-3" id="text-orgde7676b">
+<div id="outline-container-org138c6dc" class="outline-3">
+<h3 id="org138c6dc">BLACS</h3>
+<div class="outline-text-3" id="text-org138c6dc">
 <p>
 <a href="https://www.netlib.org/blacs/index.html">BLACS</a> 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
 </p>
@@ -176,13 +176,13 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 <a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html">oneAPI/MKL/BLACS</a>
 </p>
 </div>
-<div id="outline-container-org5d0402f" class="outline-4">
-<h4 id="org5d0402f">基本概念</h4>
-<div class="outline-text-4" id="text-org5d0402f">
+<div id="outline-container-org802eb8e" class="outline-4">
+<h4 id="org802eb8e">基本概念</h4>
+<div class="outline-text-4" id="text-org802eb8e">
 </div>
 <ul class="org-ul">
 <li>
-<a id="orgc6fa68b"></a>进程网格和范围操作<br><div class="outline-text-5" id="text-orgc6fa68b">
+<a id="orgb6b084a"></a>进程网格和范围操作<br><div class="outline-text-5" id="text-orgb6b084a">
 <p>
 一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
 </p>
@@ -204,7 +204,7 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </li>
 
 <li>
-<a id="org9ecb47a"></a>上下文<br><div class="outline-text-5" id="text-org9ecb47a">
+<a id="org8484ac9"></a>上下文<br><div class="outline-text-5" id="text-org8484ac9">
 <p>
 <b>上下文</b> (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
 </p>
@@ -228,7 +228,7 @@ BLACS 中有关上下文的函数有
 </li>
 
 <li>
-<a id="org7df683e"></a>基于数组的通信<br><div class="outline-text-5" id="text-org7df683e">
+<a id="orge8ceca2"></a>基于数组的通信<br><div class="outline-text-5" id="text-orge8ceca2">
 <p>
 BLACS 中有两个基本的数据模型
 </p>
@@ -236,7 +236,7 @@ BLACS 中有两个基本的数据模型
 
 <ul class="org-ul">
 <li>
-<a id="org49f000c"></a>矩形矩阵<br><div class="outline-text-6" id="text-org49f000c">
+<a id="org87ebe14"></a>矩形矩阵<br><div class="outline-text-6" id="text-org87ebe14">
 <p>
 一维向量是特殊的矩形矩阵。
 </p>
@@ -248,7 +248,7 @@ BLACS 中有两个基本的数据模型
 </li>
 
 <li>
-<a id="org87f06c5"></a>梯形矩阵<br><div class="outline-text-6" id="text-org87f06c5">
+<a id="org30adce6"></a>梯形矩阵<br><div class="outline-text-6" id="text-org30adce6">
 <p>
 三角矩阵和对角矩阵是特殊的梯形矩阵。
 </p>
@@ -269,7 +269,7 @@ BLACS 中有两个基本的数据模型
 </li>
 
 <li>
-<a id="orge4dcaf3"></a>无编号通信<br><div class="outline-text-5" id="text-orge4dcaf3">
+<a id="org3852787"></a>无编号通信<br><div class="outline-text-5" id="text-org3852787">
 <p>
 BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 <code>SHIFT_RANGE</code> 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
 </p>
@@ -286,9 +286,9 @@ BLACS 的通信保证
 </ul>
 </div>
 
-<div id="outline-container-org5cc51ff" class="outline-4">
-<h4 id="org5cc51ff">结构</h4>
-<div class="outline-text-4" id="text-org5cc51ff">
+<div id="outline-container-orga4a0ea1" class="outline-4">
+<h4 id="orga4a0ea1">结构</h4>
+<div class="outline-text-4" id="text-orga4a0ea1">
 <p>
 BLACS 由 4 个部分构成
 </p>
@@ -305,7 +305,7 @@ BLACS 由 4 个部分构成
 
 <ul class="org-ul">
 <li>
-<a id="org86b82dc"></a>命名规则<br><div class="outline-text-5" id="text-org86b82dc">
+<a id="org9d41958"></a>命名规则<br><div class="outline-text-5" id="text-org9d41958">
 <ul class="org-ul">
 <li>点到点通信与广播： <code>vXXYY2D</code>
 <ul class="org-ul">
@@ -437,9 +437,9 @@ BLACS 由 4 个部分构成
 </ul>
 </div>
 </div>
-<div id="outline-container-org053ee59" class="outline-3">
-<h3 id="org053ee59">PBLAS</h3>
-<div class="outline-text-3" id="text-org053ee59">
+<div id="outline-container-org5a18175" class="outline-3">
+<h3 id="org5a18175">PBLAS</h3>
+<div class="outline-text-3" id="text-org5a18175">
 <p>
 <a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 <code>.h</code> 头文件，得自己写。
 </p>
@@ -449,16 +449,15 @@ BLACS 由 4 个部分构成
 </p>
 </div>
 </div>
-<div id="outline-container-org0fcc1a8" class="outline-3">
-<h3 id="org0fcc1a8">ScaLAPACK</h3>
-<div class="outline-text-3" id="text-org0fcc1a8">
+<div id="outline-container-org5be52fd" class="outline-3">
+<h3 id="org5be52fd">ScaLAPACK</h3>
+<div class="outline-text-3" id="text-org5be52fd">
 </div>
-<div id="outline-container-orgad3249b" class="outline-4">
-<h4 id="orgad3249b">基本方法</h4>
+<div id="outline-container-orgba3e4ab" class="outline-4">
+<h4 id="orgba3e4ab">基本方法</h4>
 </div>
 </div>
 </div>
-
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
 <li><a class="tag p-category" href="../../categories/blacs/" rel="tag">BLACS</a></li>
@@ -471,13 +470,13 @@ BLACS 由 4 个部分构成
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../rust-macro/" rel="prev" title="Rust macro">Previous post</a>
+                <a href="../rust-macro/" rel="prev" title="Rust macro">上一篇文章</a>
             </li>
             <li class="next">
-                <a href="../apache/" rel="next" title="apache">Next post</a>
+                <a href="../apache/" rel="next" title="apache">下一篇文章</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>
@@ -492,4 +491,3 @@ BLACS 由 4 个部分构成
     </script>
 </body>
 </html>
-

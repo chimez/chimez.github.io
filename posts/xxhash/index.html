@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="../../rss.xml">
 <link rel="canonical" href="https://chimez.github.io/posts/xxhash/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
 <link rel="prev" href="../klib/" title="klib" type="text/html">
@@ -40,7 +40,7 @@ meson 的 wrapDB 中有，所以只需要 meson wrap install xxhash
 <meta property="article:tag" content="hash">
 </head>
 <body>
-<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
 
 <!-- Header and menu bar -->
 <div class="container">
@@ -62,7 +62,7 @@ meson 的 wrapDB 中有，所以只需要 meson wrap install xxhash
             <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
             <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
 <li class="nav-item">
-    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    <a href="index.org" id="sourcelink" class="nav-link">源文件</a>
     </li>
 
 
@@ -106,23 +106,23 @@ meson 的 wrapDB 中有，所以只需要 meson wrap install xxhash
             <time class="published dt-published" datetime="2021-08-07T00:30:25+08:00" itemprop="datePublished" title="2021-08-07 00:30">2021-08-07 00:30</time></a>
             </p>
             
-        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="index.org" class="sourcelink">源文件</a></p>
 
         </div>
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgbc66ece" class="outline-2">
-<h2 id="orgbc66ece">xxHash: 快速的哈希函数</h2>
-<div class="outline-text-2" id="text-orgbc66ece">
+    <div id="outline-container-orga581fb7" class="outline-2">
+<h2 id="orga581fb7">xxHash: 快速的哈希函数</h2>
+<div class="outline-text-2" id="text-orga581fb7">
 <p>
 <a href="https://github.com/Cyan4973/xxHash">Cyan4973/xxHash</a>
 </p>
 </div>
 
-<div id="outline-container-orge42c208" class="outline-3">
-<h3 id="orge42c208">安装</h3>
-<div class="outline-text-3" id="text-orge42c208">
+<div id="outline-container-org77fa072" class="outline-3">
+<h3 id="org77fa072">安装</h3>
+<div class="outline-text-3" id="text-org77fa072">
 <p>
 meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
 </p>
@@ -133,24 +133,23 @@ meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
 </div>
 </div>
 
-<div id="outline-container-orga8a7740" class="outline-3">
-<h3 id="orga8a7740">基本使用</h3>
-<div class="outline-text-3" id="text-orga8a7740">
+<div id="outline-container-orgdfd2451" class="outline-3">
+<h3 id="orgdfd2451">基本使用</h3>
+<div class="outline-text-3" id="text-orgdfd2451">
 <p>
 最快的哈希函数是 <code>XXH3_64bits</code>
 </p>
-<div class="highlight"><pre><span></span><span class="w">   </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"xxhash.h"</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><span class="w">   </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"xxhash.h"</span>
 
-<span class="w">   </span><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"></span>
-<span class="w">   </span><span class="n">XXH64_hash_t</span><span class="w"></span>
-<span class="w">   </span><span class="nf">hash_func</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="k">static</span><span class="w"> </span><span class="kr">inline</span>
+<span class="w">   </span><span class="n">XXH64_hash_t</span>
+<span class="w">   </span><span class="nf">hash_func</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="n">XXH3_64bits</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span><span class="w">	</span>
-<span class="w">   </span><span class="p">}</span><span class="w"></span>
+<span class="w">   </span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
 </div>
-
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
 <li><a class="tag p-category" href="../../categories/c/" rel="tag">C</a></li>
@@ -158,13 +157,13 @@ meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../klib/" rel="prev" title="klib">Previous post</a>
+                <a href="../klib/" rel="prev" title="klib">上一篇文章</a>
             </li>
             <li class="next">
-                <a href="../sphinx-documentation-generator/" rel="next" title="Sphinx: Documentation Generator">Next post</a>
+                <a href="../sphinx-documentation-generator/" rel="next" title="Sphinx: Documentation Generator">下一篇文章</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>
@@ -179,4 +178,3 @@ meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
     </script>
 </body>
 </html>
-

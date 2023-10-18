@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="../../rss.xml">
 <link rel="canonical" href="https://chimez.github.io/posts/blas/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
 <link rel="prev" href="../extending-python-with-c/" title="Extending Python with C" type="text/html">
@@ -44,7 +44,7 @@ d real">
 <meta property="article:tag" content="C">
 </head>
 <body>
-<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
 
 <!-- Header and menu bar -->
 <div class="container">
@@ -66,7 +66,7 @@ d real">
             <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
             <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
 <li class="nav-item">
-    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    <a href="index.org" id="sourcelink" class="nav-link">源文件</a>
     </li>
 
 
@@ -110,15 +110,15 @@ d real">
             <time class="published dt-published" datetime="2021-05-07T11:47:35+08:00" itemprop="datePublished" title="2021-05-07 11:47">2021-05-07 11:47</time></a>
             </p>
             
-        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="index.org" class="sourcelink">源文件</a></p>
 
         </div>
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgf34bcf6" class="outline-2">
-<h2 id="orgf34bcf6">BLAS</h2>
-<div class="outline-text-2" id="text-orgf34bcf6">
+    <div id="outline-container-org44138d1" class="outline-2">
+<h2 id="org44138d1">BLAS</h2>
+<div class="outline-text-2" id="text-org44138d1">
 <ul class="org-ul">
 <li>MKL 中的 BLAS，参考 <a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blas-and-sparse-blas-routines/blas-routines/naming-conventions-for-blas-routines.html">MKL - BLAS</a>
 </li>
@@ -127,9 +127,9 @@ d real">
 </ul>
 </div>
 
-<div id="outline-container-org31b072e" class="outline-3">
-<h3 id="org31b072e">BLAS 的命名规则</h3>
-<div class="outline-text-3" id="text-org31b072e">
+<div id="outline-container-orgefb64b5" class="outline-3">
+<h3 id="orgefb64b5">BLAS 的命名规则</h3>
+<div class="outline-text-3" id="text-orgefb64b5">
 <p>
 BLAS 中的函数名一般规则是 <code>&lt;character&gt;&lt;name&gt;&lt;mode&gt; ()</code>
 </p>
@@ -209,9 +209,9 @@ BLAS 中的函数名一般规则是 <code>&lt;character&gt;&lt;name&gt;&lt;mode&
 </div>
 </div>
 
-<div id="outline-container-org895dc64" class="outline-3">
-<h3 id="org895dc64">CBLAS 约定</h3>
-<div class="outline-text-3" id="text-org895dc64">
+<div id="outline-container-org081b0e9" class="outline-3">
+<h3 id="org081b0e9">CBLAS 约定</h3>
+<div class="outline-text-3" id="text-org081b0e9">
 <p>
 CBLAS 是 BLAS 的 c 接口， BLAS 是 fortran 标准。
 </p>
@@ -232,36 +232,36 @@ CBLAS 函数都遵循以下约定
 </div>
 </div>
 
-<div id="outline-container-orgf09e78e" class="outline-3">
-<h3 id="orgf09e78e">枚举类型</h3>
-<div class="outline-text-3" id="text-orgf09e78e">
-<div class="highlight"><pre><span></span><span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_LAYOUT</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="n">CblasRowMajor</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span><span class="w">    </span><span class="cm">/* row-major arrays */</span><span class="w"></span>
-<span class="w">      </span><span class="n">CblasColMajor</span><span class="o">=</span><span class="mi">102</span><span class="p">};</span><span class="w">   </span><span class="cm">/* column-major arrays */</span><span class="w"></span>
+<div id="outline-container-org9455ed1" class="outline-3">
+<h3 id="org9455ed1">枚举类型</h3>
+<div class="outline-text-3" id="text-org9455ed1">
+<div class="highlight"><pre><span></span><span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_LAYOUT</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">CblasRowMajor</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span><span class="w">    </span><span class="cm">/* row-major arrays */</span>
+<span class="w">      </span><span class="n">CblasColMajor</span><span class="o">=</span><span class="mi">102</span><span class="p">};</span><span class="w">   </span><span class="cm">/* column-major arrays */</span>
 
-<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_TRANSPOSE</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="n">CblasNoTrans</span><span class="o">=</span><span class="mi">111</span><span class="p">,</span><span class="w">     </span><span class="cm">/* trans='N' */</span><span class="w"></span>
-<span class="w">      </span><span class="n">CblasTrans</span><span class="o">=</span><span class="mi">112</span><span class="p">,</span><span class="w">       </span><span class="cm">/* trans='T' */</span><span class="w"></span>
-<span class="w">      </span><span class="n">CblasConjTrans</span><span class="o">=</span><span class="mi">113</span><span class="p">};</span><span class="w">  </span><span class="cm">/* trans='C' */</span><span class="w"></span>
+<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_TRANSPOSE</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">CblasNoTrans</span><span class="o">=</span><span class="mi">111</span><span class="p">,</span><span class="w">     </span><span class="cm">/* trans='N' */</span>
+<span class="w">      </span><span class="n">CblasTrans</span><span class="o">=</span><span class="mi">112</span><span class="p">,</span><span class="w">       </span><span class="cm">/* trans='T' */</span>
+<span class="w">      </span><span class="n">CblasConjTrans</span><span class="o">=</span><span class="mi">113</span><span class="p">};</span><span class="w">  </span><span class="cm">/* trans='C' */</span>
 
-<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_UPLO</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="n">CblasUpper</span><span class="o">=</span><span class="mi">121</span><span class="p">,</span><span class="w">        </span><span class="cm">/* uplo ='U' */</span><span class="w"></span>
-<span class="w">      </span><span class="n">CblasLower</span><span class="o">=</span><span class="mi">122</span><span class="p">};</span><span class="w">       </span><span class="cm">/* uplo ='L' */</span><span class="w"></span>
+<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_UPLO</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">CblasUpper</span><span class="o">=</span><span class="mi">121</span><span class="p">,</span><span class="w">        </span><span class="cm">/* uplo ='U' */</span>
+<span class="w">      </span><span class="n">CblasLower</span><span class="o">=</span><span class="mi">122</span><span class="p">};</span><span class="w">       </span><span class="cm">/* uplo ='L' */</span>
 
-<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_DIAG</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="n">CblasNonUnit</span><span class="o">=</span><span class="mi">131</span><span class="p">,</span><span class="w">      </span><span class="cm">/* diag ='N' */</span><span class="w"></span>
-<span class="w">      </span><span class="n">CblasUnit</span><span class="o">=</span><span class="mi">132</span><span class="p">};</span><span class="w">        </span><span class="cm">/* diag ='U' */</span><span class="w"></span>
+<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_DIAG</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">CblasNonUnit</span><span class="o">=</span><span class="mi">131</span><span class="p">,</span><span class="w">      </span><span class="cm">/* diag ='N' */</span>
+<span class="w">      </span><span class="n">CblasUnit</span><span class="o">=</span><span class="mi">132</span><span class="p">};</span><span class="w">        </span><span class="cm">/* diag ='U' */</span>
 
-<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_SIDE</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="n">CblasLeft</span><span class="o">=</span><span class="mi">141</span><span class="p">,</span><span class="w">         </span><span class="cm">/* side ='L' */</span><span class="w"></span>
-<span class="w">      </span><span class="n">CblasRight</span><span class="o">=</span><span class="mi">142</span><span class="p">};</span><span class="w">       </span><span class="cm">/* side ='R' */</span><span class="w"></span>
+<span class="w">   </span><span class="k">enum</span><span class="w"> </span><span class="n">CBLAS_SIDE</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">CblasLeft</span><span class="o">=</span><span class="mi">141</span><span class="p">,</span><span class="w">         </span><span class="cm">/* side ='L' */</span>
+<span class="w">      </span><span class="n">CblasRight</span><span class="o">=</span><span class="mi">142</span><span class="p">};</span><span class="w">       </span><span class="cm">/* side ='R' */</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org5341a94" class="outline-3">
-<h3 id="org5341a94">矩阵存储方式</h3>
-<div class="outline-text-3" id="text-org5341a94">
+<div id="outline-container-orgaf5c2c8" class="outline-3">
+<h3 id="orgaf5c2c8">矩阵存储方式</h3>
+<div class="outline-text-3" id="text-orgaf5c2c8">
 <ol class="org-ol">
 <li>完全存储矩阵 \(A_{ij}_{}\) 在二维数组列存储 <code>a[i + j*lda]</code> 行存储 <code>a[i*lda + j]</code>
 </li>
@@ -270,7 +270,6 @@ CBLAS 函数都遵循以下约定
 </div>
 </div>
 </div>
-
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
 <li><a class="tag p-category" href="../../categories/blas/" rel="tag">BLAS</a></li>
@@ -278,13 +277,13 @@ CBLAS 函数都遵循以下约定
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../extending-python-with-c/" rel="prev" title="Extending Python with C">Previous post</a>
+                <a href="../extending-python-with-c/" rel="prev" title="Extending Python with C">上一篇文章</a>
             </li>
             <li class="next">
-                <a href="../arpack/" rel="next" title="arpack">Next post</a>
+                <a href="../arpack/" rel="next" title="arpack">下一篇文章</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>
@@ -299,4 +298,3 @@ CBLAS 函数都遵循以下约定
     </script>
 </body>
 </html>
-
