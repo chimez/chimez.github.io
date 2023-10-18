@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (Posts about LAPACK)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/lapack.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 06 Oct 2021 13:35:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PBLAS &amp; ScaLAPACK &amp; BLACS</title><link>https://chimez.github.io/posts/pblas-scalapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgd13e823" class="outline-2"&gt;
-&lt;h2 id="orgd13e823"&gt;PBLAS &amp;amp; ScaLAPACK &amp;amp; BLACS&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd13e823"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 LAPACK 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/lapack.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 18 Oct 2023 02:37:53 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PBLAS &amp; ScaLAPACK &amp; BLACS</title><link>https://chimez.github.io/posts/pblas-scalapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgd0d311c" class="outline-2"&gt;
+&lt;h2 id="orgd0d311c"&gt;PBLAS &amp;amp; ScaLAPACK &amp;amp; BLACS&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd0d311c"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/scalapack/"&gt;ScaLAPACK&lt;/a&gt; 是基于 MPI 的并行版本 LAPACK, &lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org05d4f68" class="outline-3"&gt;
-&lt;h3 id="org05d4f68"&gt;编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org05d4f68"&gt;
+&lt;div id="outline-container-orga24c039" class="outline-3"&gt;
+&lt;h3 id="orga24c039"&gt;编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga24c039"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;从 github 下载 &lt;a href="https://github.com/Reference-ScaLAPACK/scalapack/"&gt;https://github.com/Reference-ScaLAPACK/scalapack/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;修改 &lt;code&gt;SLmake.inc&lt;/code&gt; 文件中的 &lt;code&gt;FC&lt;/code&gt;, &lt;code&gt;CC&lt;/code&gt;, &lt;code&gt;BLASLIB&lt;/code&gt;, &lt;code&gt;LAPACKLIB&lt;/code&gt;&lt;/li&gt;
@@ -18,7 +18,7 @@
 &lt;p&gt;
 示例
 &lt;/p&gt;
-&lt;pre class="example" id="org6b1a93d"&gt;
+&lt;pre class="example" id="orgd39f8ba"&gt;
 FC            = /home/beacon/app/openmpi/bin/mpif90
 CC            = /home/beacon/app/openmpi/bin/mpicc 
 NOOPT         = -O0 -std=legacy
@@ -32,9 +32,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8ca23df" class="outline-4"&gt;
-&lt;h4 id="org8ca23df"&gt;GCC 10 不兼容&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org8ca23df"&gt;
+&lt;div id="outline-container-org396273f" class="outline-4"&gt;
+&lt;h4 id="org396273f"&gt;GCC 10 不兼容&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org396273f"&gt;
 &lt;p&gt;
 由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 &lt;code&gt;-fallow-argument-mismatch&lt;/code&gt; 或 &lt;code&gt;-std=legacy&lt;/code&gt; 来编译。
 &lt;/p&gt;
@@ -46,9 +46,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgde7676b" class="outline-3"&gt;
-&lt;h3 id="orgde7676b"&gt;BLACS&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgde7676b"&gt;
+&lt;div id="outline-container-org138c6dc" class="outline-3"&gt;
+&lt;h3 id="org138c6dc"&gt;BLACS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org138c6dc"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/blacs/index.html"&gt;BLACS&lt;/a&gt; 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
 &lt;/p&gt;
@@ -61,13 +61,13 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html"&gt;oneAPI/MKL/BLACS&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5d0402f" class="outline-4"&gt;
-&lt;h4 id="org5d0402f"&gt;基本概念&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5d0402f"&gt;
+&lt;div id="outline-container-org802eb8e" class="outline-4"&gt;
+&lt;h4 id="org802eb8e"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org802eb8e"&gt;
 &lt;/div&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orgc6fa68b"&gt;&lt;/a&gt;进程网格和范围操作&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgc6fa68b"&gt;
+&lt;li&gt;&lt;a id="orgb6b084a"&gt;&lt;/a&gt;进程网格和范围操作&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgb6b084a"&gt;
 &lt;p&gt;
 一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
 &lt;/p&gt;
@@ -88,8 +88,8 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org9ecb47a"&gt;&lt;/a&gt;上下文&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org9ecb47a"&gt;
+&lt;li&gt;&lt;a id="org8484ac9"&gt;&lt;/a&gt;上下文&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org8484ac9"&gt;
 &lt;p&gt;
 &lt;b&gt;上下文&lt;/b&gt; (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
 &lt;/p&gt;
@@ -108,16 +108,16 @@ BLACS 中有关上下文的函数有
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org7df683e"&gt;&lt;/a&gt;基于数组的通信&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org7df683e"&gt;
+&lt;li&gt;&lt;a id="orge8ceca2"&gt;&lt;/a&gt;基于数组的通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orge8ceca2"&gt;
 &lt;p&gt;
 BLACS 中有两个基本的数据模型
 &lt;/p&gt;
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org49f000c"&gt;&lt;/a&gt;矩形矩阵&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org49f000c"&gt;
+&lt;li&gt;&lt;a id="org87ebe14"&gt;&lt;/a&gt;矩形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org87ebe14"&gt;
 &lt;p&gt;
 一维向量是特殊的矩形矩阵。
 &lt;/p&gt;
@@ -128,8 +128,8 @@ BLACS 中有两个基本的数据模型
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org87f06c5"&gt;&lt;/a&gt;梯形矩阵&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org87f06c5"&gt;
+&lt;li&gt;&lt;a id="org30adce6"&gt;&lt;/a&gt;梯形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org30adce6"&gt;
 &lt;p&gt;
 三角矩阵和对角矩阵是特殊的梯形矩阵。
 &lt;/p&gt;
@@ -147,8 +147,8 @@ BLACS 中有两个基本的数据模型
 &lt;/ul&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orge4dcaf3"&gt;&lt;/a&gt;无编号通信&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orge4dcaf3"&gt;
+&lt;li&gt;&lt;a id="org3852787"&gt;&lt;/a&gt;无编号通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org3852787"&gt;
 &lt;p&gt;
 BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 &lt;code&gt;SHIFT_RANGE&lt;/code&gt; 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
 &lt;/p&gt;
@@ -165,9 +165,9 @@ BLACS 的通信保证
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5cc51ff" class="outline-4"&gt;
-&lt;h4 id="org5cc51ff"&gt;结构&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5cc51ff"&gt;
+&lt;div id="outline-container-orga4a0ea1" class="outline-4"&gt;
+&lt;h4 id="orga4a0ea1"&gt;结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga4a0ea1"&gt;
 &lt;p&gt;
 BLACS 由 4 个部分构成
 &lt;/p&gt;
@@ -184,8 +184,8 @@ BLACS 由 4 个部分构成
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org86b82dc"&gt;&lt;/a&gt;命名规则&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org86b82dc"&gt;
+&lt;li&gt;&lt;a id="org9d41958"&gt;&lt;/a&gt;命名规则&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org9d41958"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;点到点通信与广播： &lt;code&gt;vXXYY2D&lt;/code&gt;
 &lt;ul class="org-ul"&gt;
@@ -346,9 +346,9 @@ BLACS 由 4 个部分构成
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org053ee59" class="outline-3"&gt;
-&lt;h3 id="org053ee59"&gt;PBLAS&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org053ee59"&gt;
+&lt;div id="outline-container-org5a18175" class="outline-3"&gt;
+&lt;h3 id="org5a18175"&gt;PBLAS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5a18175"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 &lt;code&gt;.h&lt;/code&gt; 头文件，得自己写。
 &lt;/p&gt;
@@ -358,19 +358,17 @@ BLACS 由 4 个部分构成
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org0fcc1a8" class="outline-3"&gt;
-&lt;h3 id="org0fcc1a8"&gt;ScaLAPACK&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0fcc1a8"&gt;
+&lt;div id="outline-container-org5be52fd" class="outline-3"&gt;
+&lt;h3 id="org5be52fd"&gt;ScaLAPACK&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5be52fd"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgad3249b" class="outline-4"&gt;
-&lt;h4 id="orgad3249b"&gt;基本方法&lt;/h4&gt;
+&lt;div id="outline-container-orgba3e4ab" class="outline-4"&gt;
+&lt;h4 id="orgba3e4ab"&gt;基本方法&lt;/h4&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>BLACS</category><category>BLAS</category><category>C</category><category>LAPACK</category><category>MPI</category><category>PBLAS</category><category>ScaLAPACK</category><guid>https://chimez.github.io/posts/pblas-scalapack/</guid><pubDate>Tue, 24 Aug 2021 04:31:22 GMT</pubDate></item><item><title>LAPACK</title><link>https://chimez.github.io/posts/lapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgf20401a" class="outline-2"&gt;
-&lt;h2 id="orgf20401a"&gt;LAPACK&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf20401a"&gt;
+&lt;/div&gt;</description><category>BLACS</category><category>BLAS</category><category>C</category><category>LAPACK</category><category>MPI</category><category>PBLAS</category><category>ScaLAPACK</category><guid>https://chimez.github.io/posts/pblas-scalapack/</guid><pubDate>Tue, 24 Aug 2021 04:31:22 GMT</pubDate></item><item><title>LAPACK</title><link>https://chimez.github.io/posts/lapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgacabf06" class="outline-2"&gt;
+&lt;h2 id="orgacabf06"&gt;LAPACK&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgacabf06"&gt;
 &lt;p&gt;
 主页在 &lt;a href="https://www.netlib.org/lapack/"&gt;https://www.netlib.org/lapack/&lt;/a&gt;, 文档在 &lt;a href="https://www.netlib.org/lapack/explore-html/"&gt;https://www.netlib.org/lapack/explore-html/&lt;/a&gt;.
 &lt;/p&gt;
@@ -384,13 +382,13 @@ BLACS 由 4 个部分构成
 &lt;/ol&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga2db59f" class="outline-3"&gt;
-&lt;h3 id="orga2db59f"&gt;dsyevd: 实对称矩阵本征值&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga2db59f"&gt;
+&lt;div id="outline-container-org3e5084a" class="outline-3"&gt;
+&lt;h3 id="org3e5084a"&gt;dsyevd: 实对称矩阵本征值&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org3e5084a"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga1ba00a" class="outline-4"&gt;
-&lt;h4 id="orga1ba00a"&gt;参数说明&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orga1ba00a"&gt;
+&lt;div id="outline-container-orgb6cc231" class="outline-4"&gt;
+&lt;h4 id="orgb6cc231"&gt;参数说明&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb6cc231"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;jobz&lt;/code&gt; 计算任务类型， &lt;code&gt;jobz = "N"&lt;/code&gt; 只计算本征值， &lt;code&gt;jobz = "V"&lt;/code&gt; 计算本征值和本征矢&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;UPLO&lt;/code&gt; 矩阵的存储方式, &lt;code&gt;UPLO = "U"&lt;/code&gt; &lt;code&gt;A&lt;/code&gt; 中存了上三角矩阵， &lt;code&gt;UPLO = "L"&lt;/code&gt; 下三角矩阵&lt;/li&gt;
@@ -407,6 +405,4 @@ BLACS 由 4 个部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;/body&gt;
-&lt;/html&gt;
-</description><category>BLAS</category><category>C</category><category>LAPACK</category><guid>https://chimez.github.io/posts/lapack/</guid><pubDate>Mon, 10 May 2021 01:46:43 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>BLAS</category><category>C</category><category>LAPACK</category><guid>https://chimez.github.io/posts/lapack/</guid><pubDate>Mon, 10 May 2021 01:46:43 GMT</pubDate></item></channel></rss>

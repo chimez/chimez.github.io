@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="../../rss.xml">
 <link rel="canonical" href="https://chimez.github.io/posts/rust-optimization/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
 <link rel="prev" href="../meson/" title="meson" type="text/html">
@@ -51,7 +51,7 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 <meta property="article:tag" content="rust">
 </head>
 <body>
-<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
 
 <!-- Header and menu bar -->
 <div class="container">
@@ -73,7 +73,7 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
             <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
             <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
 <li class="nav-item">
-    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    <a href="index.org" id="sourcelink" class="nav-link">源文件</a>
     </li>
 
 
@@ -117,27 +117,27 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
             <time class="published dt-published" datetime="2021-05-20T14:33:34+08:00" itemprop="datePublished" title="2021-05-20 14:33">2021-05-20 14:33</time></a>
             </p>
             
-        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="index.org" class="sourcelink">源文件</a></p>
 
         </div>
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgada2db2" class="outline-2">
-<h2 id="orgada2db2">Rust 性能优化</h2>
-<div class="outline-text-2" id="text-orgada2db2">
+    <div id="outline-container-org6f20b03" class="outline-2">
+<h2 id="org6f20b03">Rust 性能优化</h2>
+<div class="outline-text-2" id="text-org6f20b03">
 <p>
 这里所称性能优化实际上就是 Rust 的正确打开方式，因为 Rust 的安全特性导致按照 c/c++ 方式直接写程序有可能速度会比较慢。
 </p>
 </div>
 
-<div id="outline-container-orga1805ef" class="outline-3">
-<h3 id="orga1805ef">避免边界检查</h3>
-<div class="outline-text-3" id="text-orga1805ef">
+<div id="outline-container-org21d7769" class="outline-3">
+<h3 id="org21d7769">避免边界检查</h3>
+<div class="outline-text-3" id="text-org21d7769">
 </div>
-<div id="outline-container-org9343478" class="outline-4">
-<h4 id="org9343478">参考资料</h4>
-<div class="outline-text-4" id="text-org9343478">
+<div id="outline-container-orgfa7515b" class="outline-4">
+<h4 id="orgfa7515b">参考资料</h4>
+<div class="outline-text-4" id="text-orgfa7515b">
 <ol class="org-ol">
 <li>
 <a href="https://users.rust-lang.org/t/how-to-malloc-an-array-in-heap-like-c/27827/40">这里</a> 的说明</li>
@@ -145,55 +145,55 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 </div>
 
-<div id="outline-container-org1dc7415" class="outline-4">
-<h4 id="org1dc7415">使用 slice 为编译器提示长度</h4>
-<div class="outline-text-4" id="text-org1dc7415">
+<div id="outline-container-org58d7212" class="outline-4">
+<h4 id="org58d7212">使用 slice 为编译器提示长度</h4>
+<div class="outline-text-4" id="text-org58d7212">
 <p>
 vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方式定义变量
 </p>
 
 <div class="highlight"><pre><span></span>    fn f_for(a: &amp;Vec&lt;f64&gt;, b: &amp;mut Vec&lt;f64&gt;){
-	// 不可变量直接用长度做 slice
-	let a = &amp;a[..a.len()];
-	// 可变量先定义一个长度再做 slice
-	let len_b = b.len();
-	let b = &amp;mut b[..len_b];
+        // 不可变量直接用长度做 slice
+        let a = &amp;a[..a.len()];
+        // 可变量先定义一个长度再做 slice
+        let len_b = b.len();
+        let b = &amp;mut b[..len_b];
     }
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orgf0455da" class="outline-4">
-<h4 id="orgf0455da">尽可能使用迭代器而不是指标循环</h4>
-<div class="outline-text-4" id="text-orgf0455da">
+<div id="outline-container-org9158e4d" class="outline-4">
+<h4 id="org9158e4d">尽可能使用迭代器而不是指标循环</h4>
+<div class="outline-text-4" id="text-org9158e4d">
 <p>
 迭代器中的边界检查被优化掉了
 </p>
 
 <div class="highlight"><pre><span></span>    for (i, ai) in a.iter().enumerate(){
-	do_something();
+        do_something();
     }
 
     // 而不是
 
     for i in 0..n{
-	a[i];
+        a[i];
     }
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orge2bf42c" class="outline-4">
-<h4 id="orge2bf42c">不得不用指标获得值时用 unsafe 的非检查方式</h4>
-<div class="outline-text-4" id="text-orge2bf42c">
+<div id="outline-container-org3cd1190" class="outline-4">
+<h4 id="org3cd1190">不得不用指标获得值时用 unsafe 的非检查方式</h4>
+<div class="outline-text-4" id="text-org3cd1190">
 <p>
 当确保指标不会越界时就可以大胆使用 unsafe
 </p>
 
 <div class="highlight"><pre><span></span>    for i in 0..n{
-	unsafe {
-	    a.get_unchecked(i);
-	}
+        unsafe {
+            a.get_unchecked(i);
+        }
     }
 
     // not 
@@ -203,20 +203,19 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 </div>
 </div>
-
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
 <li><a class="tag p-category" href="../../categories/rust/" rel="tag">rust</a></li>
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../meson/" rel="prev" title="meson">Previous post</a>
+                <a href="../meson/" rel="prev" title="meson">上一篇文章</a>
             </li>
             <li class="next">
-                <a href="../anki/" rel="next" title="Anki">Next post</a>
+                <a href="../anki/" rel="next" title="Anki">下一篇文章</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>
@@ -231,4 +230,3 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
     </script>
 </body>
 </html>
-

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="../../rss.xml">
 <link rel="canonical" href="https://chimez.github.io/posts/setuptools/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
 <link rel="prev" href="../apache/" title="apache" type="text/html">
@@ -44,7 +44,7 @@ PEP 517 要求所有 python 项目需要一个配置文件 pyproject.toml 其中
 <meta property="article:tag" content="python">
 </head>
 <body>
-<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
 
 <!-- Header and menu bar -->
 <div class="container">
@@ -66,7 +66,7 @@ PEP 517 要求所有 python 项目需要一个配置文件 pyproject.toml 其中
             <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
             <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
 <li class="nav-item">
-    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    <a href="index.org" id="sourcelink" class="nav-link">源文件</a>
     </li>
 
 
@@ -110,27 +110,27 @@ PEP 517 要求所有 python 项目需要一个配置文件 pyproject.toml 其中
             <time class="published dt-published" datetime="2021-10-06T20:00:12+08:00" itemprop="datePublished" title="2021-10-06 20:00">2021-10-06 20:00</time></a>
             </p>
             
-        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="index.org" class="sourcelink">源文件</a></p>
 
         </div>
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org7e32d92" class="outline-2">
-<h2 id="org7e32d92">setuptools: python 的打包工具</h2>
-<div class="outline-text-2" id="text-org7e32d92">
+    <div id="outline-container-org40f4f11" class="outline-2">
+<h2 id="org40f4f11">setuptools: python 的打包工具</h2>
+<div class="outline-text-2" id="text-org40f4f11">
 <p>
 <a href="https://setuptools.pypa.io">setuptools</a> 是 pypa 的项目。
 </p>
 </div>
 
-<div id="outline-container-orgc2338b9" class="outline-3">
-<h3 id="orgc2338b9">基本使用</h3>
-<div class="outline-text-3" id="text-orgc2338b9">
+<div id="outline-container-org95bb1af" class="outline-3">
+<h3 id="org95bb1af">基本使用</h3>
+<div class="outline-text-3" id="text-org95bb1af">
 </div>
-<div id="outline-container-org7fd4633" class="outline-4">
-<h4 id="org7fd4633"><code>pyproject.toml</code></h4>
-<div class="outline-text-4" id="text-org7fd4633">
+<div id="outline-container-org4f1113b" class="outline-4">
+<h4 id="org4f1113b"><code>pyproject.toml</code></h4>
+<div class="outline-text-4" id="text-org4f1113b">
 <p>
 PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml</code> 其中描述项目的基本信息和依赖等。
 </p>
@@ -143,11 +143,11 @@ PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml<
 </div>
 
 
-<div id="outline-container-org3580d46" class="outline-4">
-<h4 id="org3580d46">
+<div id="outline-container-orge0ce0e0" class="outline-4">
+<h4 id="orge0ce0e0">
 <code>setup.cfg</code> or <code>setup.py</code>
 </h4>
-<div class="outline-text-4" id="text-org3580d46">
+<div class="outline-text-4" id="text-orge0ce0e0">
 <p>
 <code>setup.cfg</code> 是 setuptools 的 DSL，而 <code>setup.py</code> 用一般的 python 代码。
 </p>
@@ -155,13 +155,13 @@ PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml<
 <div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
 
     <span class="n">setup</span><span class="p">(</span>
-	<span class="n">name</span><span class="o">=</span><span class="s1">'mypackage'</span><span class="p">,</span>
-	<span class="n">version</span><span class="o">=</span><span class="s1">'0.0.1'</span><span class="p">,</span>
-	<span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">'mypackage'</span><span class="p">],</span>
-	<span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
-	    <span class="s1">'requests'</span><span class="p">,</span>
-	    <span class="s1">'importlib; python_version == "2.6"'</span><span class="p">,</span>
-	<span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">'mypackage'</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s1">'0.0.1'</span><span class="p">,</span>
+        <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">'mypackage'</span><span class="p">],</span>
+        <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+            <span class="s1">'requests'</span><span class="p">,</span>
+            <span class="s1">'importlib; python_version == "2.6"'</span><span class="p">,</span>
+        <span class="p">],</span>
     <span class="p">)</span>
 </pre></div>
 
@@ -178,9 +178,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml<
 </div>
 
 
-<div id="outline-container-org651b16d" class="outline-3">
-<h3 id="org651b16d">开发模式</h3>
-<div class="outline-text-3" id="text-org651b16d">
+<div id="outline-container-org0743c80" class="outline-3">
+<h3 id="org0743c80">开发模式</h3>
+<div class="outline-text-3" id="text-org0743c80">
 <p>
 使用开发模式，可以完成构建而不需要将文件复制到包目录。
 </p>
@@ -196,9 +196,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml<
 </div>
 </div>
 
-<div id="outline-container-org58c7310" class="outline-3">
-<h3 id="org58c7310">cython</h3>
-<div class="outline-text-3" id="text-org58c7310">
+<div id="outline-container-org2f4d5fa" class="outline-3">
+<h3 id="org2f4d5fa">cython</h3>
+<div class="outline-text-3" id="text-org2f4d5fa">
 <p>
 setuptools 会自动检查 cython 是否安装，如果没有，就会忽略所有 <code>.pyx</code> 文件。
 </p>
@@ -230,7 +230,6 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
 </div>
 </div>
 </div>
-
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
 <li><a class="tag p-category" href="../../categories/cython/" rel="tag">cython</a></li>
@@ -238,13 +237,13 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../apache/" rel="prev" title="apache">Previous post</a>
+                <a href="../apache/" rel="prev" title="apache">上一篇文章</a>
             </li>
             <li class="next">
-                <a href="../wsl/" rel="next" title="wsl">Next post</a>
+                <a href="../wsl/" rel="next" title="wsl">下一篇文章</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>
@@ -259,4 +258,3 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
     </script>
 </body>
 </html>
-

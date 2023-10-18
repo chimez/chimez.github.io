@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="../../rss.xml">
 <link rel="canonical" href="https://chimez.github.io/posts/greatest/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
 <link rel="prev" href="../gtags/" title="gtags" type="text/html">
@@ -39,7 +39,7 @@ TEST x_should_equal_1(void) {
 <meta property="article:tag" content="unittest">
 </head>
 <body>
-<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
 
 <!-- Header and menu bar -->
 <div class="container">
@@ -61,7 +61,7 @@ TEST x_should_equal_1(void) {
             <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
             <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
 <li class="nav-item">
-    <a href="index.org" id="sourcelink" class="nav-link">Source</a>
+    <a href="index.org" id="sourcelink" class="nav-link">源文件</a>
     </li>
 
 
@@ -105,64 +105,63 @@ TEST x_should_equal_1(void) {
             <time class="published dt-published" datetime="2021-06-27T15:47:29+08:00" itemprop="datePublished" title="2021-06-27 15:47">2021-06-27 15:47</time></a>
             </p>
             
-        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="index.org" class="sourcelink">源文件</a></p>
 
         </div>
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org765e463" class="outline-2">
-<h2 id="org765e463">greatest: c 的单元测试</h2>
-<div class="outline-text-2" id="text-org765e463">
+    <div id="outline-container-org324c62b" class="outline-2">
+<h2 id="org324c62b">greatest: c 的单元测试</h2>
+<div class="outline-text-2" id="text-org324c62b">
 <p>
 <a href="https://github.com/silentbicycle/greatest">greatest</a> 是 c 的一个单个头文件库，用于写单元测试
 </p>
 </div>
 
-<div id="outline-container-orge244676" class="outline-3">
-<h3 id="orge244676">基本使用</h3>
-<div class="outline-text-3" id="text-orge244676">
-<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"greatest.h"</span><span class="cp"></span>
+<div id="outline-container-orgda9bccf" class="outline-3">
+<h3 id="orgda9bccf">基本使用</h3>
+<div class="outline-text-3" id="text-orgda9bccf">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"greatest.h"</span>
 
-<span class="cm">/* A test runs various assertions, then calls PASS(), FAIL(), or SKIP(). */</span><span class="w"></span>
-<span class="n">TEST</span><span class="w"> </span><span class="nf">x_should_equal_1</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="cm">/* Compare, with an automatic "1 != x" failure message */</span><span class="w"></span>
-<span class="w">    </span><span class="n">ASSERT_EQ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w"></span>
+<span class="cm">/* A test runs various assertions, then calls PASS(), FAIL(), or SKIP(). */</span>
+<span class="n">TEST</span><span class="w"> </span><span class="nf">x_should_equal_1</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* Compare, with an automatic "1 != x" failure message */</span>
+<span class="w">    </span><span class="n">ASSERT_EQ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
 
-<span class="w">    </span><span class="cm">/* Compare, with a custom failure message */</span><span class="w"></span>
-<span class="w">    </span><span class="n">ASSERT_EQm</span><span class="p">(</span><span class="s">"Yikes, x doesn't equal 1"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Compare, with a custom failure message */</span>
+<span class="w">    </span><span class="n">ASSERT_EQm</span><span class="p">(</span><span class="s">"Yikes, x doesn't equal 1"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
 
 <span class="w">    </span><span class="cm">/* Compare, and if they differ, print both values,</span>
-<span class="cm">     * formatted like `printf("Expected: %d\nGot: %d\n", 1, x);` */</span><span class="w"></span>
-<span class="w">    </span><span class="n">ASSERT_EQ_FMT</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="s">"%d"</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="n">PASS</span><span class="p">();</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="cm">     * formatted like `printf("Expected: %d\nGot: %d\n", 1, x);` */</span>
+<span class="w">    </span><span class="n">ASSERT_EQ_FMT</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="s">"%d"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">PASS</span><span class="p">();</span>
+<span class="p">}</span>
 
-<span class="cm">/* Suites can group multiple tests with common setup. */</span><span class="w"></span>
-<span class="n">SUITE</span><span class="p">(</span><span class="n">the_suite</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">RUN_TEST</span><span class="p">(</span><span class="n">x_should_equal_1</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="cm">/* Suites can group multiple tests with common setup. */</span>
+<span class="n">SUITE</span><span class="p">(</span><span class="n">the_suite</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">RUN_TEST</span><span class="p">(</span><span class="n">x_should_equal_1</span><span class="p">);</span>
+<span class="p">}</span>
 
-<span class="cm">/* Add definitions that need to be in the test runner's main file. */</span><span class="w"></span>
-<span class="n">GREATEST_MAIN_DEFS</span><span class="p">();</span><span class="w"></span>
+<span class="cm">/* Add definitions that need to be in the test runner's main file. */</span>
+<span class="n">GREATEST_MAIN_DEFS</span><span class="p">();</span>
 
-<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">GREATEST_MAIN_BEGIN</span><span class="p">();</span><span class="w">      </span><span class="cm">/* command-line options, initialization. */</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">argv</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">GREATEST_MAIN_BEGIN</span><span class="p">();</span><span class="w">      </span><span class="cm">/* command-line options, initialization. */</span>
 
-<span class="w">    </span><span class="cm">/* Individual tests can be run directly in main, outside of suites. */</span><span class="w"></span>
-<span class="w">    </span><span class="cm">/* RUN_TEST(x_should_equal_1); */</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Individual tests can be run directly in main, outside of suites. */</span>
+<span class="w">    </span><span class="cm">/* RUN_TEST(x_should_equal_1); */</span>
 
-<span class="w">    </span><span class="cm">/* Tests can also be gathered into test suites. */</span><span class="w"></span>
-<span class="w">    </span><span class="n">RUN_SUITE</span><span class="p">(</span><span class="n">the_suite</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Tests can also be gathered into test suites. */</span>
+<span class="w">    </span><span class="n">RUN_SUITE</span><span class="p">(</span><span class="n">the_suite</span><span class="p">);</span>
 
-<span class="w">    </span><span class="n">GREATEST_MAIN_END</span><span class="p">();</span><span class="w">        </span><span class="cm">/* display results */</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">GREATEST_MAIN_END</span><span class="p">();</span><span class="w">        </span><span class="cm">/* display results */</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
 </div>
-
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
 <li><a class="tag p-category" href="../../categories/c/" rel="tag">C</a></li>
@@ -170,13 +169,13 @@ TEST x_should_equal_1(void) {
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="../gtags/" rel="prev" title="gtags">Previous post</a>
+                <a href="../gtags/" rel="prev" title="gtags">上一篇文章</a>
             </li>
             <li class="next">
-                <a href="../ck-concurrency-kit/" rel="next" title="ck: Concurrency Kit">Next post</a>
+                <a href="../ck-concurrency-kit/" rel="next" title="ck: Concurrency Kit">下一篇文章</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>
@@ -191,4 +190,3 @@ TEST x_should_equal_1(void) {
     </script>
 </body>
 </html>
-

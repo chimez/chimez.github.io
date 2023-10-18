@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 python3 -m venv nikola 
 source nikola/bin/activate

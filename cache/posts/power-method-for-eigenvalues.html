@@ -1,40 +1,38 @@
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="%E5%B9%82%E6%B3%95%EF%BC%9A%E7%9F%A9%E9%98%B5%E6%9C%AC%E5%BE%81%E5%80%BC%E8%BF%AD%E4%BB%A3%E6%B1%82%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95">&#24130;&#27861;&#65306;&#30697;&#38453;&#26412;&#24449;&#20540;&#36845;&#20195;&#27714;&#35299;&#30340;&#22522;&#26412;&#26041;&#27861;<a class="anchor-link" href="#%E5%B9%82%E6%B3%95%EF%BC%9A%E7%9F%A9%E9%98%B5%E6%9C%AC%E5%BE%81%E5%80%BC%E8%BF%AD%E4%BB%A3%E6%B1%82%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95">&#182;</a></h1>
+<h1 id="%E5%B9%82%E6%B3%95%EF%BC%9A%E7%9F%A9%E9%98%B5%E6%9C%AC%E5%BE%81%E5%80%BC%E8%BF%AD%E4%BB%A3%E6%B1%82%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95">幂法：矩阵本征值迭代求解的基本方法<a class="anchor-link" href="#%E5%B9%82%E6%B3%95%EF%BC%9A%E7%9F%A9%E9%98%B5%E6%9C%AC%E5%BE%81%E5%80%BC%E8%BF%AD%E4%BB%A3%E6%B1%82%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%96%B9%E6%B3%95">¶</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%B9%82%E6%B3%95%EF%BC%9A%E6%B1%82%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9C%80%E5%A4%A7%E6%9C%AC%E5%BE%81%E5%80%BC">&#22522;&#26412;&#30340;&#24130;&#27861;&#65306;&#27714;&#30697;&#38453;&#30340;&#26368;&#22823;&#26412;&#24449;&#20540;<a class="anchor-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%B9%82%E6%B3%95%EF%BC%9A%E6%B1%82%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9C%80%E5%A4%A7%E6%9C%AC%E5%BE%81%E5%80%BC">&#182;</a></h2>$$
+<h2 id="%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%B9%82%E6%B3%95%EF%BC%9A%E6%B1%82%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9C%80%E5%A4%A7%E6%9C%AC%E5%BE%81%E5%80%BC">基本的幂法：求矩阵的最大本征值<a class="anchor-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%B9%82%E6%B3%95%EF%BC%9A%E6%B1%82%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9C%80%E5%A4%A7%E6%9C%AC%E5%BE%81%E5%80%BC">¶</a></h2><p>$$
 Ax^{(k)} = x^{(k+1)}
-$$<p>只要把任何一个初始随机向量反复地被一个矩阵作用，同时除以一个足够大的数保证不超过数值精度，那么最终的收敛结果就是矩阵的最大本征矢。</p>
+$$</p>
+<p>只要把任何一个初始随机向量反复地被一个矩阵作用，同时除以一个足够大的数保证不超过数值精度，那么最终的收敛结果就是矩阵的最大本征矢。</p>
 <p>这种方法可行的原因是，矩阵可以看做是一个线性变换，对任何一个向量连续地作用同一个变换的结果，总是会让这个向量趋近于变换的主向量，也就是矩阵的最大本征值对应的本征矢。</p>
-
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In [2]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">power_iteration</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">num_simulations</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">v0</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">power_iteration</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">num_simulations</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">v0</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">v0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span> 
@@ -44,87 +42,61 @@ $$<p>只要把任何一个初始随机向量反复地被一个矩阵作用，同
         <span class="n">v</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">v</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">v</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In [3]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">e2</span><span class="p">,</span><span class="n">v2</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 <span class="n">ei2</span> <span class="o">=</span> <span class="n">e2</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
 <span class="n">e2</span><span class="p">[</span><span class="n">ei2</span><span class="p">],</span> <span class="n">v2</span><span class="p">[:,</span><span class="n">ei2</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v2</span><span class="p">[:,</span><span class="n">ei2</span><span class="p">])</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 <div class="output_wrapper">
 <div class="output">
-
-
 <div class="output_area">
-
-    <div class="prompt output_prompt">Out[3]:</div>
-
-
-
-
+<div class="prompt output_prompt">Out[3]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>((2.1973691032607885+0j),
  array([0.54317076+0.j, 0.56821252+0.j, 0.28769568+0.j, 0.54711174+0.j]))</pre>
 </div>
-
-</div>
-
 </div>
 </div>
-
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In [4]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">v1</span> <span class="o">=</span> <span class="n">power_iteration</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">v1</span> <span class="o">=</span> <span class="n">power_iteration</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 <span class="p">(</span><span class="n">a</span> <span class="o">@</span> <span class="n">v1</span> <span class="o">/</span> <span class="n">v1</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v1</span><span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 <div class="output_wrapper">
 <div class="output">
-
-
 <div class="output_area">
-
-    <div class="prompt output_prompt">Out[4]:</div>
-
-
-
-
+<div class="prompt output_prompt">Out[4]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>(2.197369103260788, array([0.54317076, 0.56821252, 0.28769568, 0.54711174]))</pre>
 </div>
-
-</div>
-
 </div>
 </div>
-
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="%E5%8F%8D%E5%B9%82%E6%B3%95%EF%BC%9A%E6%B1%82%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9C%80%E5%B0%8F%E6%9C%AC%E5%BE%81%E7%9F%A2">&#21453;&#24130;&#27861;&#65306;&#27714;&#30697;&#38453;&#30340;&#26368;&#23567;&#26412;&#24449;&#30690;<a class="anchor-link" href="#%E5%8F%8D%E5%B9%82%E6%B3%95%EF%BC%9A%E6%B1%82%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9C%80%E5%B0%8F%E6%9C%AC%E5%BE%81%E7%9F%A2">&#182;</a></h2><p>与幂法完全相同，只不过迭代的是矩阵的逆，显然矩阵的逆的最大本征值就是原矩阵的模最小的本征值。
+<h2 id="%E5%8F%8D%E5%B9%82%E6%B3%95%EF%BC%9A%E6%B1%82%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9C%80%E5%B0%8F%E6%9C%AC%E5%BE%81%E7%9F%A2">反幂法：求矩阵的最小本征矢<a class="anchor-link" href="#%E5%8F%8D%E5%B9%82%E6%B3%95%EF%BC%9A%E6%B1%82%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9C%80%E5%B0%8F%E6%9C%AC%E5%BE%81%E7%9F%A2">¶</a></h2><p>与幂法完全相同，只不过迭代的是矩阵的逆，显然矩阵的逆的最大本征值就是原矩阵的模最小的本征值。
 $$
 A^{-1}x^{(k)} = x^{(k+1)}
 $$
@@ -132,16 +104,15 @@ $$
 $$
 A x^{(k+1)} = x^{(k)}
 $$</p>
-
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In [5]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">inverse_power_iteration</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">num_simulations</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">v0</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">inverse_power_iteration</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">num_simulations</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">v0</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">v0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span> 
@@ -154,96 +125,66 @@ $$</p>
     <span class="k">return</span> <span class="n">v</span>
     
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In [6]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">e2</span><span class="p">,</span><span class="n">v2</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 <span class="n">ei2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">e2</span><span class="p">)</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
 <span class="n">e2</span><span class="p">[</span><span class="n">ei2</span><span class="p">],</span> <span class="n">v2</span><span class="p">[:,</span><span class="n">ei2</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v2</span><span class="p">[:,</span><span class="n">ei2</span><span class="p">])</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 <div class="output_wrapper">
 <div class="output">
-
-
 <div class="output_area">
-
-    <div class="prompt output_prompt">Out[6]:</div>
-
-
-
-
+<div class="prompt output_prompt">Out[6]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>(0.0934634074161824,
  array([ 0.06236468, -0.34577788,  0.87179586, -0.34135067]))</pre>
 </div>
-
-</div>
-
 </div>
 </div>
-
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In [7]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">v1</span> <span class="o">=</span> <span class="n">inverse_power_iteration</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">v1</span> <span class="o">=</span> <span class="n">inverse_power_iteration</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 <span class="mi">1</span><span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">@</span> <span class="n">v1</span> <span class="o">/</span> <span class="n">v1</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v1</span><span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span>
 </pre></div>
-
-    </div>
 </div>
 </div>
-
+</div>
 <div class="output_wrapper">
 <div class="output">
-
-
 <div class="output_area">
-
-    <div class="prompt output_prompt">Out[7]:</div>
-
-
-
-
+<div class="prompt output_prompt">Out[7]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>(0.09346340741618211,
  array([ 0.06236468, -0.34577788,  0.87179586, -0.34135067]))</pre>
 </div>
-
-</div>
-
 </div>
 </div>
-
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span> 
 </pre></div>
-
-    </div>
 </div>
 </div>
-
 </div>
- 
-
+</div>
