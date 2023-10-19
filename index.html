@@ -14,7 +14,8 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="rss.xml">
 <link rel="canonical" href="https://chimez.github.io/">
 <link rel="next" href="index-5.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/wsl/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/tenpy-diao-yan/" type="text/html">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
@@ -71,7 +72,188 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/wsl/" class="u-url">wsl</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/tenpy-diao-yan/" class="u-url">TeNPy 调研</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/tenpy-diao-yan/" rel="bookmark">
+            <time class="published dt-published" datetime="2023-10-18T11:03:14+08:00" itemprop="datePublished" title="2023-10-18 11:03">2023-10-18 11:03</time></a>
+            </p>
+                        <p class="commentline">
+    
+    <a href="posts/tenpy-diao-yan/#disqus_thread" data-disqus-identifier="cache/posts/tenpy-diao-yan.html">评论</a>
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <p>
+DMRG / MPS / 张量网络的开源库有很多，例如 <a href="https://github.com/tenpy/tenpy.git">TeNPy</a>, <a href="https://itensor.org/">ITensor</a>, <a href="https://github.com/jutho/TensorKit.jl">TensorKit</a>, <a href="https://bitbucket.org/aweichselbaum/workspace/projects/QS">QSpace</a>, <a href="https://github.com/g1257/dmrgpp">DMRG++</a>, <a href="https://uni10.gitlab.io/">uni10</a>, <a href="https://github.com/cmendl/pytenet">PyTeNet</a>, <a href="https://github.com/jcmgray/quimb">quimb</a>, <a href="https://github.com/dsuess/mpnum">mpnum</a>, <a href="https://green.physics.lsa.umich.edu/alps_legacy/index.php">ALPS project</a>, <a href="https://github.com/issp-center-dev/TeNeS">TeNeS</a>, <a href="https://syten.eu/">SyTen</a>, 等等。
+这个系列文章将会从这些库中选择几个来学习和分析一下。
+</p>
+
+
+<div id="org96abffc" class="figure">
+<p><img src="https://imgs.xkcd.com/comics/standards.png" alt="standards.png"></p>
+<p><span class="figure-number">Figure 1: </span>让我们再造个轮子🤣</p>
+</div>
+
+<p>
+<a href="https://github.com/tenpy/tenpy">TeNPy</a>由<a href="https://johannes-hauschild.de/">Johannes Hauschild</a>主要开发并维护，Hauschild 的博士导师是 Frank Pollmann，现在在到处做博后。
+考虑到 Hauschild 一作的文章没有几个，发表情况并不是很好，所以某种程度上他是在全职做 TeNPy 的开发。
+</p>
+
+
+<div id="outline-container-org2e42efd" class="outline-2">
+<h2 id="org2e42efd">安装</h2>
+<div class="outline-text-2" id="text-org2e42efd">
+<div class="highlight"><pre><span></span># 安装依赖
+pip install -U pip numpy scipy cython setuptools wheel build
+# 下载源码
+git clone https://github.com/tenpy/tenpy.git
+# 安装
+cd tenpy
+pip install -e .
+# 测试
+cd tests
+pip install pytest
+pytest
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgef8ce19" class="outline-2">
+<h2 id="orgef8ce19">代码层级</h2>
+<div class="outline-text-2" id="text-orgef8ce19">
+<p>
+TeNPy 的代码层级如图<a href="posts/tenpy-diao-yan/#org56c5e98">2</a>。
+</p>
+
+<ul class="org-ul">
+<li>
+<code>tenpy.simulations</code> 是程序的入口，提供运行程序（进行读取参数、运行计算、执行测量、保存结果和中间过程等等）的功能</li>
+<li>
+<code>tenpy.algorithms</code> 中实现了多种算法，包括 DMRG、iDMRG、TEBD和TDVP</li>
+<li>
+<code>tenpy.models</code> 中实现了各种模型包括自旋、费米、波色和各种晶格结构。二维晶格通过映射到一维来实现。</li>
+<li>
+<code>tenpy.networks</code> 中实现了 MPS 和 MPO 类型</li>
+<li>
+<code>tenpy.linalg</code> 中实现了带有守恒量的张量以及迭代对角化算法 Lanczos 和 Arnoldi</li>
+<li>
+<code>tenpy.tools</code> 中包括一些需要用到其它功能</li>
+</ul>
+<div id="org56c5e98" class="figure">
+<p><img src="https://tenpy.readthedocs.io/en/latest/_images/overview.png" alt="overview.png"></p>
+<p><span class="figure-number">Figure 2: </span>TeNPy 的代码层级</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc123122" class="outline-2">
+<h2 id="orgc123122"><code>tenpy.linalg.np_conserved.Array</code></h2>
+<div class="outline-text-2" id="text-orgc123122">
+<p>
+TeNPy 的基本数据结构是 <code>tenpy.linalg.np_conserved.Array</code>, 带有守恒荷的张量。
+TeNPy 采用带有箭头的 MPS 记号来表示一个张量。
+张量的每个指标有若干可能的量子数，这些信息记录在 <code>Array.legs</code> 属性里。
+对于一个有 \(n\) 个指标的张量,  <code>Array.legs</code> 是长度为 \(n\) 的数组，每个元素都是 <code>tenpy.linalg.charges.LegCharge</code> , 这里记录了这个指标所有可能的荷以及它是入指标还是出指标。
+张量的属性 <code>Array.qtotal</code> 记录总量子数，只有那些和等于总量子数的块才会被保存。
+每个保存的张量块的数据是数组 <code>Array._data</code> 的一个元素，它对于的量子数则是矩阵 <code>Array._qdata</code> 的一行。
+</p>
+
+<pre class="example" id="org1c91396">
+class Array{
+    legs   : List[LegCharge],
+    qtotal : Charge,
+    _data  : List[numpy.ndarray],
+    _qdata : numpy.ndarray[len(​_data), len(legs)],
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgabbc1ce" class="outline-2">
+<h2 id="orgabbc1ce"><code>tenpy.networks.site.Site</code></h2>
+<div class="outline-text-2" id="text-orgabbc1ce">
+<p>
+<code>tenpy.networks.site.Site</code> 是一个格点或者一个物理指标所需要的数据。
+它保存了物理指标所需要的信息 <code>LegCharge</code>, 以及作用在一个格点上的所有局域算符 <code>Site.ops</code>, 写模型的哈密顿量所需要的所有算符都是从这里得到的。
+除了一般的算符之外还有 Jordan-Wigner 变换（如果需要）要用到的信息。
+</p>
+
+<p>
+TeNPy 中实现的 <code>Site</code> 有如下这些
+</p>
+<ul class="org-ul">
+<li><code>BosonSite</code></li>
+<li><code>ClockSite</code></li>
+<li><code>FermionSite</code></li>
+<li><code>GroupedSite</code></li>
+<li><code>SpinHalfFermionSite</code></li>
+<li><code>SpinHalfHoleSite</code></li>
+<li><code>SpinHalfSite</code></li>
+<li><code>SpinSite</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd1f8db5" class="outline-2">
+<h2 id="orgd1f8db5"><code>tenpy.networks.mps.MPS</code></h2>
+<div class="outline-text-2" id="text-orgd1f8db5">
+<p>
+对于 \(n\) 格点的链， <code>tenpy.networks.mps.MPS</code> 就是 \(n\) 个 <code>Site</code> 和 \(n\) 个 <code>Array</code>, 这些 <code>Array</code> 都是三阶张量.
+TeNPy 的 MPS 表示记录了每个块的形式（左正则、右正则、对称形式或者叫 Vidal 的 \(\Gamma \Lambda\) 形式）以及需要的奇异值。
+</p>
+
+<pre class="example" id="org0eec316">
+class MPS{
+    sites: List[Site],
+    _B: List[Array],
+    _S: List[numpy.ndarray[1d]],
+    form: List[form],
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orged5a374" class="outline-2">
+<h2 id="orged5a374"><code>tenpy.networks.mpo.MPO</code></h2>
+<div class="outline-text-2" id="text-orged5a374">
+<p>
+<code>tenpy.networks.mpo.MPO</code> 与 MPS 表示类似，只不过每个块现在是四阶张量。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org909028c" class="outline-2">
+<h2 id="org909028c"><code>tenpy.models.model.Model</code></h2>
+<div class="outline-text-2" id="text-org909028c">
+<p>
+<code>tenpy.models.model.Model</code> 用来表示模型的哈密顿量，需要指定元胞格点的信息 <code>Site</code> 以及晶格结构如何映射到一维链 <code>tenpy.models.lattice.Lattice</code>.
+TeNPy 提供的构造模型的方法是通过 <code>add_onsite</code>, <code>add_coupling</code> 等设置哈密顿量里的各项，然后根据需要自动构造 MPO。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6695b2e" class="outline-2">
+<h2 id="org6695b2e">DMRG 算法</h2>
+<div class="outline-text-2" id="text-org6695b2e">
+<p>
+TeNPy 的抽象层次是
+</p>
+<ul class="org-ul">
+<li>由 <code>tenpy.algorithms.algorithm.Algorithm</code> 提供运行、重启等功能</li>
+<li>然后由 <code>tenpy.algorithms.mps_common.Sweep</code> 提供扫描的抽象</li>
+<li>每个扫描步骤则使用 <code>tenpy.algorithms.dmrg.DMRGEngine</code> 它可以是 <code>SingleSiteDMRGEngine</code> 或者 <code>TwoSiteDMRGEngine</code>
+</li>
+</ul>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/wsl/" class="u-url">wsl</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -1662,101 +1844,27 @@ meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
 </div>
 </div>
                 </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/klib/" class="u-url">klib</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/klib/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-08-07T00:19:52+08:00" itemprop="datePublished" title="2021-08-07 00:19">2021-08-07 00:19</time></a>
-            </p>
-                        <p class="commentline">
-    
-    <a href="posts/klib/#disqus_thread" data-disqus-identifier="cache/posts/klib.html">评论</a>
-
-
-                </p>
-</div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-org6734099" class="outline-2">
-<h2 id="org6734099">klib: 轻量级 c 头文件库</h2>
-<div class="outline-text-2" id="text-org6734099">
-<p>
-<a href="https://github.com/attractivechaos/klib">attractivechaos/klib</a>
-</p>
-</div>
-
-<div id="outline-container-orgade509e" class="outline-3">
-<h3 id="orgade509e">khash.h</h3>
-<div class="outline-text-3" id="text-orgade509e">
-<p>
-快速轻量的哈希表库
-</p>
-
-<div class="highlight"><pre><span></span><span class="w">   </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"khash.h"</span>
-
-<span class="w">   </span><span class="k">typedef</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">kh_myname_key_t</span><span class="p">;</span>
-<span class="w">   </span><span class="k">typedef</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">kh_myname_value_t</span><span class="p">;</span>
-
-<span class="w">   </span><span class="n">kh_int_t</span><span class="w"> </span>
-<span class="w">   </span><span class="nf">kh_myname_hash_func</span><span class="p">(</span><span class="n">kh_myname_key_t</span><span class="w"> </span><span class="n">key</span><span class="p">){</span>
-<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="n">HASH</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
-<span class="w">   </span><span class="p">}</span>
-
-<span class="w">   </span><span class="kt">int</span><span class="w"> </span>
-<span class="w">   </span><span class="nf">kh_myname_hash_equal</span><span class="p">(</span><span class="n">kh_myname_key_t</span><span class="w"> </span><span class="n">key_1</span><span class="p">,</span><span class="w"> </span><span class="n">kh_myname_key_t</span><span class="w"> </span><span class="n">key_2</span><span class="p">){</span>
-<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="n">key_1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">key_2</span><span class="p">;</span>
-<span class="w">   </span><span class="p">}</span>
-
-<span class="w">   </span><span class="n">KHASH_INIT</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span><span class="w"> </span><span class="n">kh_myname_key_t</span><span class="p">,</span><span class="w"> </span><span class="n">kh_myname_value_t</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">kh_myname_hash_func</span><span class="p">,</span><span class="w"> </span><span class="n">kh_myname_hash_equal</span><span class="p">)</span>
-
-<span class="w">   </span><span class="kt">int</span><span class="w"> </span>
-<span class="w">   </span><span class="n">main</span><span class="p">(){</span>
-
-<span class="w">       </span><span class="n">khiter_t</span><span class="w"> </span><span class="n">k</span><span class="p">;</span><span class="w">	</span>
-<span class="w">       </span><span class="n">khash_t</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kh_init</span><span class="p">(</span><span class="n">myname</span><span class="p">);</span>
-
-<span class="w">       </span><span class="c1">// 存入数据</span>
-<span class="w">       </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">){</span>
-<span class="w">           </span><span class="n">kh_myname_key_t</span><span class="o">*</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calloc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">kh_myname_key_t</span><span class="p">));</span><span class="w">			</span>
-<span class="w">           </span><span class="o">*</span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
-
-<span class="w">           </span><span class="kt">int</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
-<span class="w">           </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kh_put</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span><span class="w">			</span>
-<span class="w">           </span><span class="n">kh_value</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">			</span>
-<span class="w">       </span><span class="p">}</span>
-
-<span class="w">       </span><span class="c1">// 读取，修改，删除</span>
-<span class="w">       </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">){</span>
-<span class="w">           </span><span class="kt">int</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
-<span class="w">           </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kh_get</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">);</span><span class="w">			</span>
-
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">kh_exist</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">k</span><span class="o">==</span><span class="w"> </span><span class="n">kh_end</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
-<span class="w">               </span><span class="n">printf</span><span class="p">(</span><span class="s">"not exits!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">kh_value</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="w">			</span>
-<span class="w">               </span><span class="n">printf</span><span class="p">(</span><span class="s">"wrong value!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-
-<span class="w">           </span><span class="n">kh_del</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span><span class="w">			</span>
-<span class="w">           </span><span class="n">free</span><span class="p">(</span><span class="n">kh_key</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">));</span><span class="w">			</span>
-<span class="w">       </span><span class="p">}</span>
-
-<span class="w">       </span><span class="n">kh_destroy</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">);</span><span class="w">	</span>
-
-<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<span class="w">   </span><span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-                </div>
             </article>
 </div>
     
         <ul class="pager postindexpager clearfix">
 <li class="next"><a href="index-5.html" rel="next">以前的文章</a></li>
         </ul>
-<script>var disqus_shortname="chimezz";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer">
+<script>var disqus_shortname="chimezz";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script><script>
+                renderMathInElement(document.body,
+                    {
+                        
+delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "\\[", right: "\\]", display: true},
+    {left: "\\begin{equation*}", right: "\\end{equation*}", display: true},
+    {left: "$", right: "$", display: false},
+    {left: "\\(", right: "\\)", display: false}
+]
+
+                    }
+                );
+            </script><!--End of body content--><footer id="footer">
             Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             

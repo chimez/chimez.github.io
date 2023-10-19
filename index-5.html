@@ -72,7 +72,95 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/cython/" class="u-url">cython</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/klib/" class="u-url">klib</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/klib/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-08-07T00:19:52+08:00" itemprop="datePublished" title="2021-08-07 00:19">2021-08-07 00:19</time></a>
+            </p>
+                        <p class="commentline">
+    
+    <a href="posts/klib/#disqus_thread" data-disqus-identifier="cache/posts/klib.html">评论</a>
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org6734099" class="outline-2">
+<h2 id="org6734099">klib: 轻量级 c 头文件库</h2>
+<div class="outline-text-2" id="text-org6734099">
+<p>
+<a href="https://github.com/attractivechaos/klib">attractivechaos/klib</a>
+</p>
+</div>
+
+<div id="outline-container-orgade509e" class="outline-3">
+<h3 id="orgade509e">khash.h</h3>
+<div class="outline-text-3" id="text-orgade509e">
+<p>
+快速轻量的哈希表库
+</p>
+
+<div class="highlight"><pre><span></span><span class="w">   </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"khash.h"</span>
+
+<span class="w">   </span><span class="k">typedef</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">kh_myname_key_t</span><span class="p">;</span>
+<span class="w">   </span><span class="k">typedef</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">kh_myname_value_t</span><span class="p">;</span>
+
+<span class="w">   </span><span class="n">kh_int_t</span><span class="w"> </span>
+<span class="w">   </span><span class="nf">kh_myname_hash_func</span><span class="p">(</span><span class="n">kh_myname_key_t</span><span class="w"> </span><span class="n">key</span><span class="p">){</span>
+<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="n">HASH</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+<span class="w">   </span><span class="p">}</span>
+
+<span class="w">   </span><span class="kt">int</span><span class="w"> </span>
+<span class="w">   </span><span class="nf">kh_myname_hash_equal</span><span class="p">(</span><span class="n">kh_myname_key_t</span><span class="w"> </span><span class="n">key_1</span><span class="p">,</span><span class="w"> </span><span class="n">kh_myname_key_t</span><span class="w"> </span><span class="n">key_2</span><span class="p">){</span>
+<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="n">key_1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">key_2</span><span class="p">;</span>
+<span class="w">   </span><span class="p">}</span>
+
+<span class="w">   </span><span class="n">KHASH_INIT</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span><span class="w"> </span><span class="n">kh_myname_key_t</span><span class="p">,</span><span class="w"> </span><span class="n">kh_myname_value_t</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">kh_myname_hash_func</span><span class="p">,</span><span class="w"> </span><span class="n">kh_myname_hash_equal</span><span class="p">)</span>
+
+<span class="w">   </span><span class="kt">int</span><span class="w"> </span>
+<span class="w">   </span><span class="n">main</span><span class="p">(){</span>
+
+<span class="w">       </span><span class="n">khiter_t</span><span class="w"> </span><span class="n">k</span><span class="p">;</span><span class="w">	</span>
+<span class="w">       </span><span class="n">khash_t</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kh_init</span><span class="p">(</span><span class="n">myname</span><span class="p">);</span>
+
+<span class="w">       </span><span class="c1">// 存入数据</span>
+<span class="w">       </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">){</span>
+<span class="w">           </span><span class="n">kh_myname_key_t</span><span class="o">*</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calloc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">kh_myname_key_t</span><span class="p">));</span><span class="w">			</span>
+<span class="w">           </span><span class="o">*</span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+
+<span class="w">           </span><span class="kt">int</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<span class="w">           </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kh_put</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ret</span><span class="p">);</span><span class="w">			</span>
+<span class="w">           </span><span class="n">kh_value</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w">			</span>
+<span class="w">       </span><span class="p">}</span>
+
+<span class="w">       </span><span class="c1">// 读取，修改，删除</span>
+<span class="w">       </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">){</span>
+<span class="w">           </span><span class="kt">int</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">           </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kh_get</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">);</span><span class="w">			</span>
+
+<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">kh_exist</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">k</span><span class="o">==</span><span class="w"> </span><span class="n">kh_end</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+<span class="w">               </span><span class="n">printf</span><span class="p">(</span><span class="s">"not exits!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="w">           </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">kh_value</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="w">			</span>
+<span class="w">               </span><span class="n">printf</span><span class="p">(</span><span class="s">"wrong value!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="w">           </span><span class="n">kh_del</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span><span class="w">			</span>
+<span class="w">           </span><span class="n">free</span><span class="p">(</span><span class="n">kh_key</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">));</span><span class="w">			</span>
+<span class="w">       </span><span class="p">}</span>
+
+<span class="w">       </span><span class="n">kh_destroy</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">);</span><span class="w">	</span>
+
+<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">   </span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/cython/" class="u-url">cython</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez

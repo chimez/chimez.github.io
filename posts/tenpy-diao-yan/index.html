@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TeNPy 调研 | chimez's blog</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="../../rss.xml">
+<link rel="canonical" href="https://chimez.github.io/posts/tenpy-diao-yan/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
+<link rel="prev" href="../wsl/" title="wsl" type="text/html">
+<meta property="og:site_name" content="chimez's blog">
+<meta property="og:title" content="TeNPy 调研">
+<meta property="og:url" content="https://chimez.github.io/posts/tenpy-diao-yan/">
+<meta property="og:description" content="DMRG / MPS / 张量网络的开源库有很多，例如 TeNPy, ITensor, TensorKit, QSpace, DMRG++, uni10, PyTeNet, quimb, mpnum, ALPS project, TeNeS, SyTen, 等等。
+这个系列文章将会从这些库中选择几个来学习和分析一下。
+
+
+
+
+
+
+Figure 1: 让我们再造个轮子🤣
+
+
+
+TeNPy由Johan">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-10-18T11:03:14+08:00">
+<meta property="article:tag" content="python">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">chimez's blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">源文件</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">TeNPy 调研</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    chimez
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2023-10-18T11:03:14+08:00" itemprop="datePublished" title="2023-10-18 11:03">2023-10-18 11:03</time></a>
+            </p>
+                <p class="commentline">
+    
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/tenpy-diao-yan.html">评论</a>
+
+
+            
+        </p>
+<p class="sourceline"><a href="index.org" class="sourcelink">源文件</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <p>
+DMRG / MPS / 张量网络的开源库有很多，例如 <a href="https://github.com/tenpy/tenpy.git">TeNPy</a>, <a href="https://itensor.org/">ITensor</a>, <a href="https://github.com/jutho/TensorKit.jl">TensorKit</a>, <a href="https://bitbucket.org/aweichselbaum/workspace/projects/QS">QSpace</a>, <a href="https://github.com/g1257/dmrgpp">DMRG++</a>, <a href="https://uni10.gitlab.io/">uni10</a>, <a href="https://github.com/cmendl/pytenet">PyTeNet</a>, <a href="https://github.com/jcmgray/quimb">quimb</a>, <a href="https://github.com/dsuess/mpnum">mpnum</a>, <a href="https://green.physics.lsa.umich.edu/alps_legacy/index.php">ALPS project</a>, <a href="https://github.com/issp-center-dev/TeNeS">TeNeS</a>, <a href="https://syten.eu/">SyTen</a>, 等等。
+这个系列文章将会从这些库中选择几个来学习和分析一下。
+</p>
+
+
+<div id="org96abffc" class="figure">
+<p><img src="https://imgs.xkcd.com/comics/standards.png" alt="standards.png"></p>
+<p><span class="figure-number">Figure 1: </span>让我们再造个轮子🤣</p>
+</div>
+
+<p>
+<a href="https://github.com/tenpy/tenpy">TeNPy</a>由<a href="https://johannes-hauschild.de/">Johannes Hauschild</a>主要开发并维护，Hauschild 的博士导师是 Frank Pollmann，现在在到处做博后。
+考虑到 Hauschild 一作的文章没有几个，发表情况并不是很好，所以某种程度上他是在全职做 TeNPy 的开发。
+</p>
+
+
+<div id="outline-container-org2e42efd" class="outline-2">
+<h2 id="org2e42efd">安装</h2>
+<div class="outline-text-2" id="text-org2e42efd">
+<div class="highlight"><pre><span></span># 安装依赖
+pip install -U pip numpy scipy cython setuptools wheel build
+# 下载源码
+git clone https://github.com/tenpy/tenpy.git
+# 安装
+cd tenpy
+pip install -e .
+# 测试
+cd tests
+pip install pytest
+pytest
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-orgef8ce19" class="outline-2">
+<h2 id="orgef8ce19">代码层级</h2>
+<div class="outline-text-2" id="text-orgef8ce19">
+<p>
+TeNPy 的代码层级如图<a href="#org56c5e98">2</a>。
+</p>
+
+<ul class="org-ul">
+<li>
+<code>tenpy.simulations</code> 是程序的入口，提供运行程序（进行读取参数、运行计算、执行测量、保存结果和中间过程等等）的功能</li>
+<li>
+<code>tenpy.algorithms</code> 中实现了多种算法，包括 DMRG、iDMRG、TEBD和TDVP</li>
+<li>
+<code>tenpy.models</code> 中实现了各种模型包括自旋、费米、波色和各种晶格结构。二维晶格通过映射到一维来实现。</li>
+<li>
+<code>tenpy.networks</code> 中实现了 MPS 和 MPO 类型</li>
+<li>
+<code>tenpy.linalg</code> 中实现了带有守恒量的张量以及迭代对角化算法 Lanczos 和 Arnoldi</li>
+<li>
+<code>tenpy.tools</code> 中包括一些需要用到其它功能</li>
+</ul>
+<div id="org56c5e98" class="figure">
+<p><img src="https://tenpy.readthedocs.io/en/latest/_images/overview.png" alt="overview.png"></p>
+<p><span class="figure-number">Figure 2: </span>TeNPy 的代码层级</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc123122" class="outline-2">
+<h2 id="orgc123122"><code>tenpy.linalg.np_conserved.Array</code></h2>
+<div class="outline-text-2" id="text-orgc123122">
+<p>
+TeNPy 的基本数据结构是 <code>tenpy.linalg.np_conserved.Array</code>, 带有守恒荷的张量。
+TeNPy 采用带有箭头的 MPS 记号来表示一个张量。
+张量的每个指标有若干可能的量子数，这些信息记录在 <code>Array.legs</code> 属性里。
+对于一个有 \(n\) 个指标的张量,  <code>Array.legs</code> 是长度为 \(n\) 的数组，每个元素都是 <code>tenpy.linalg.charges.LegCharge</code> , 这里记录了这个指标所有可能的荷以及它是入指标还是出指标。
+张量的属性 <code>Array.qtotal</code> 记录总量子数，只有那些和等于总量子数的块才会被保存。
+每个保存的张量块的数据是数组 <code>Array._data</code> 的一个元素，它对于的量子数则是矩阵 <code>Array._qdata</code> 的一行。
+</p>
+
+<pre class="example" id="org1c91396">
+class Array{
+    legs   : List[LegCharge],
+    qtotal : Charge,
+    _data  : List[numpy.ndarray],
+    _qdata : numpy.ndarray[len(​_data), len(legs)],
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgabbc1ce" class="outline-2">
+<h2 id="orgabbc1ce"><code>tenpy.networks.site.Site</code></h2>
+<div class="outline-text-2" id="text-orgabbc1ce">
+<p>
+<code>tenpy.networks.site.Site</code> 是一个格点或者一个物理指标所需要的数据。
+它保存了物理指标所需要的信息 <code>LegCharge</code>, 以及作用在一个格点上的所有局域算符 <code>Site.ops</code>, 写模型的哈密顿量所需要的所有算符都是从这里得到的。
+除了一般的算符之外还有 Jordan-Wigner 变换（如果需要）要用到的信息。
+</p>
+
+<p>
+TeNPy 中实现的 <code>Site</code> 有如下这些
+</p>
+<ul class="org-ul">
+<li><code>BosonSite</code></li>
+<li><code>ClockSite</code></li>
+<li><code>FermionSite</code></li>
+<li><code>GroupedSite</code></li>
+<li><code>SpinHalfFermionSite</code></li>
+<li><code>SpinHalfHoleSite</code></li>
+<li><code>SpinHalfSite</code></li>
+<li><code>SpinSite</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd1f8db5" class="outline-2">
+<h2 id="orgd1f8db5"><code>tenpy.networks.mps.MPS</code></h2>
+<div class="outline-text-2" id="text-orgd1f8db5">
+<p>
+对于 \(n\) 格点的链， <code>tenpy.networks.mps.MPS</code> 就是 \(n\) 个 <code>Site</code> 和 \(n\) 个 <code>Array</code>, 这些 <code>Array</code> 都是三阶张量.
+TeNPy 的 MPS 表示记录了每个块的形式（左正则、右正则、对称形式或者叫 Vidal 的 \(\Gamma \Lambda\) 形式）以及需要的奇异值。
+</p>
+
+<pre class="example" id="org0eec316">
+class MPS{
+    sites: List[Site],
+    _B: List[Array],
+    _S: List[numpy.ndarray[1d]],
+    form: List[form],
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orged5a374" class="outline-2">
+<h2 id="orged5a374"><code>tenpy.networks.mpo.MPO</code></h2>
+<div class="outline-text-2" id="text-orged5a374">
+<p>
+<code>tenpy.networks.mpo.MPO</code> 与 MPS 表示类似，只不过每个块现在是四阶张量。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org909028c" class="outline-2">
+<h2 id="org909028c"><code>tenpy.models.model.Model</code></h2>
+<div class="outline-text-2" id="text-org909028c">
+<p>
+<code>tenpy.models.model.Model</code> 用来表示模型的哈密顿量，需要指定元胞格点的信息 <code>Site</code> 以及晶格结构如何映射到一维链 <code>tenpy.models.lattice.Lattice</code>.
+TeNPy 提供的构造模型的方法是通过 <code>add_onsite</code>, <code>add_coupling</code> 等设置哈密顿量里的各项，然后根据需要自动构造 MPO。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6695b2e" class="outline-2">
+<h2 id="org6695b2e">DMRG 算法</h2>
+<div class="outline-text-2" id="text-org6695b2e">
+<p>
+TeNPy 的抽象层次是
+</p>
+<ul class="org-ul">
+<li>由 <code>tenpy.algorithms.algorithm.Algorithm</code> 提供运行、重启等功能</li>
+<li>然后由 <code>tenpy.algorithms.mps_common.Sweep</code> 提供扫描的抽象</li>
+<li>每个扫描步骤则使用 <code>tenpy.algorithms.dmrg.DMRGEngine</code> 它可以是 <code>SingleSiteDMRGEngine</code> 或者 <code>TwoSiteDMRGEngine</code>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/python/" rel="tag">python</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../wsl/" rel="prev" title="wsl">上一篇文章</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>评论</h2>
+        
+    
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chimezz",
+            disqus_url="https://chimez.github.io/posts/tenpy-diao-yan/",
+        disqus_title="TeNPy \u8c03\u7814",
+        disqus_identifier="cache/posts/tenpy-diao-yan.html",
+        disqus_config = function () {
+            this.language = "zh_cn";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section><script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script><script>
+                renderMathInElement(document.body,
+                    {
+                        
+delimiters: [
+    {left: "$$", right: "$$", display: true},
+    {left: "\\[", right: "\\]", display: true},
+    {left: "\\begin{equation*}", right: "\\end{equation*}", display: true},
+    {left: "$", right: "$", display: false},
+    {left: "\\(", right: "\\)", display: false}
+]
+
+                    }
+                );
+            </script></article><script>var disqus_shortname="chimezz";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer">
+            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+#+BEGIN_COMMENT
+.. title: TeNPy 调研
+.. slug: tenpy-diao-yan
+.. date: 2023-10-18 11:03:14 UTC+08:00
+.. tags: python,
+.. category: library
+.. link: 
+.. description: 
+.. type: text
+.. has_math: true
+
+#+END_COMMENT
+
+DMRG / MPS / 张量网络的开源库有很多，例如 [[https://github.com/tenpy/tenpy.git][TeNPy]], [[https://itensor.org/][ITensor]], [[https://github.com/jutho/TensorKit.jl][TensorKit]], [[https://bitbucket.org/aweichselbaum/workspace/projects/QS][QSpace]], [[https://github.com/g1257/dmrgpp][DMRG++]], [[https://uni10.gitlab.io/][uni10]], [[https://github.com/cmendl/pytenet][PyTeNet]], [[https://github.com/jcmgray/quimb][quimb]], [[https://github.com/dsuess/mpnum][mpnum]], [[https://green.physics.lsa.umich.edu/alps_legacy/index.php][ALPS project]], [[https://github.com/issp-center-dev/TeNeS][TeNeS]], [[https://syten.eu/][SyTen]], 等等。
+这个系列文章将会从这些库中选择几个来学习和分析一下。
+
+#+CAPTION: 让我们再造个轮子🤣
+[[https://imgs.xkcd.com/comics/standards.png]]
+
+[[https://github.com/tenpy/tenpy][TeNPy]]由[[https://johannes-hauschild.de/][Johannes Hauschild]]主要开发并维护，Hauschild 的博士导师是 Frank Pollmann，现在在到处做博后。
+考虑到 Hauschild 一作的文章没有几个，发表情况并不是很好，所以某种程度上他是在全职做 TeNPy 的开发。
+
+
+* 安装
+
+#+begin_src bash
+# 安装依赖
+pip install -U pip numpy scipy cython setuptools wheel build
+# 下载源码
+git clone https://github.com/tenpy/tenpy.git
+# 安装
+cd tenpy
+pip install -e .
+# 测试
+cd tests
+pip install pytest
+pytest
+#+end_src 
+
+* 代码层级
+
+TeNPy 的代码层级如图[[fig:tenpy-code-level]]。
+
+- ~tenpy.simulations~ 是程序的入口，提供运行程序（进行读取参数、运行计算、执行测量、保存结果和中间过程等等）的功能
+- ~tenpy.algorithms~ 中实现了多种算法，包括 DMRG、iDMRG、TEBD和TDVP
+- ~tenpy.models~ 中实现了各种模型包括自旋、费米、波色和各种晶格结构。二维晶格通过映射到一维来实现。
+- ~tenpy.networks~ 中实现了 MPS 和 MPO 类型
+- ~tenpy.linalg~ 中实现了带有守恒量的张量以及迭代对角化算法 Lanczos 和 Arnoldi
+- ~tenpy.tools~ 中包括一些需要用到其它功能
+
+#+CAPTION: TeNPy 的代码层级
+#+NAME: fig:tenpy-code-level
+[[https://tenpy.readthedocs.io/en/latest/_images/overview.png]]
+
+* ~tenpy.linalg.np_conserved.Array~
+
+TeNPy 的基本数据结构是 ~tenpy.linalg.np_conserved.Array~, 带有守恒荷的张量。
+TeNPy 采用带有箭头的 MPS 记号来表示一个张量。
+张量的每个指标有若干可能的量子数，这些信息记录在 ~Array.legs~ 属性里。
+对于一个有 $n$ 个指标的张量,  ~Array.legs~ 是长度为 $n$ 的数组，每个元素都是 ~tenpy.linalg.charges.LegCharge~ , 这里记录了这个指标所有可能的荷以及它是入指标还是出指标。
+张量的属性 ~Array.qtotal~ 记录总量子数，只有那些和等于总量子数的块才会被保存。
+每个保存的张量块的数据是数组 ~Array._data~ 的一个元素，它对于的量子数则是矩阵 ~Array._qdata~ 的一行。
+
+#+BEGIN_EXAMPLE
+class Array{
+    legs   : List[LegCharge],
+    qtotal : Charge,
+    _data  : List[numpy.ndarray],
+    _qdata : numpy.ndarray[len(​_data), len(legs)],
+}
+#+END_EXAMPLE
+
+* ~tenpy.networks.site.Site~
+
+~tenpy.networks.site.Site~ 是一个格点或者一个物理指标所需要的数据。
+它保存了物理指标所需要的信息 ~LegCharge~, 以及作用在一个格点上的所有局域算符 ~Site.ops~, 写模型的哈密顿量所需要的所有算符都是从这里得到的。
+除了一般的算符之外还有 Jordan-Wigner 变换（如果需要）要用到的信息。
+
+TeNPy 中实现的 ~Site~ 有如下这些
+- ~BosonSite~
+- ~ClockSite~
+- ~FermionSite~
+- ~GroupedSite~
+- ~SpinHalfFermionSite~
+- ~SpinHalfHoleSite~
+- ~SpinHalfSite~
+- ~SpinSite~
+  
+* ~tenpy.networks.mps.MPS~
+
+对于 $n$ 格点的链， ~tenpy.networks.mps.MPS~ 就是 $n$ 个 ~Site~ 和 $n$ 个 ~Array~, 这些 ~Array~ 都是三阶张量.
+TeNPy 的 MPS 表示记录了每个块的形式（左正则、右正则、对称形式或者叫 Vidal 的 $\Gamma \Lambda$ 形式）以及需要的奇异值。
+
+#+BEGIN_EXAMPLE
+class MPS{
+    sites: List[Site],
+    _B: List[Array],
+    _S: List[numpy.ndarray[1d]],
+    form: List[form],
+}
+#+END_EXAMPLE
+
+* ~tenpy.networks.mpo.MPO~
+~tenpy.networks.mpo.MPO~ 与 MPS 表示类似，只不过每个块现在是四阶张量。
+
+* ~tenpy.models.model.Model~
+
+~tenpy.models.model.Model~ 用来表示模型的哈密顿量，需要指定元胞格点的信息 ~Site~ 以及晶格结构如何映射到一维链 ~tenpy.models.lattice.Lattice~.
+TeNPy 提供的构造模型的方法是通过 ~add_onsite~, ~add_coupling~ 等设置哈密顿量里的各项，然后根据需要自动构造 MPO。
+
+* DMRG 算法
+
+TeNPy 的抽象层次是
+- 由 ~tenpy.algorithms.algorithm.Algorithm~ 提供运行、重启等功能
+- 然后由 ~tenpy.algorithms.mps_common.Sweep~ 提供扫描的抽象
+- 每个扫描步骤则使用 ~tenpy.algorithms.dmrg.DMRGEngine~ 它可以是 ~SingleSiteDMRGEngine~ 或者 ~TwoSiteDMRGEngine~
