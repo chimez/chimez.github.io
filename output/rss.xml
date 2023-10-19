@@ -1,5 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 18 Oct 2023 02:37:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>wsl</title><link>https://chimez.github.io/posts/wsl/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org7ad51b4" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog</title><link>https://chimez.github.io/</link><description>Blog of chimez</description><atom:link href="https://chimez.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Thu, 19 Oct 2023 10:50:52 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>TeNPy 调研</title><link>https://chimez.github.io/posts/tenpy-diao-yan/</link><dc:creator>chimez</dc:creator><description>&lt;p&gt;
+DMRG / MPS / 张量网络的开源库有很多，例如 &lt;a href="https://github.com/tenpy/tenpy.git"&gt;TeNPy&lt;/a&gt;, &lt;a href="https://itensor.org/"&gt;ITensor&lt;/a&gt;, &lt;a href="https://github.com/jutho/TensorKit.jl"&gt;TensorKit&lt;/a&gt;, &lt;a href="https://bitbucket.org/aweichselbaum/workspace/projects/QS"&gt;QSpace&lt;/a&gt;, &lt;a href="https://github.com/g1257/dmrgpp"&gt;DMRG++&lt;/a&gt;, &lt;a href="https://uni10.gitlab.io/"&gt;uni10&lt;/a&gt;, &lt;a href="https://github.com/cmendl/pytenet"&gt;PyTeNet&lt;/a&gt;, &lt;a href="https://github.com/jcmgray/quimb"&gt;quimb&lt;/a&gt;, &lt;a href="https://github.com/dsuess/mpnum"&gt;mpnum&lt;/a&gt;, &lt;a href="https://green.physics.lsa.umich.edu/alps_legacy/index.php"&gt;ALPS project&lt;/a&gt;, &lt;a href="https://github.com/issp-center-dev/TeNeS"&gt;TeNeS&lt;/a&gt;, &lt;a href="https://syten.eu/"&gt;SyTen&lt;/a&gt;, 等等。
+这个系列文章将会从这些库中选择几个来学习和分析一下。
+&lt;/p&gt;
+
+
+&lt;div id="org96abffc" class="figure"&gt;
+&lt;p&gt;&lt;img src="https://imgs.xkcd.com/comics/standards.png" alt="standards.png"&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;span class="figure-number"&gt;Figure 1: &lt;/span&gt;让我们再造个轮子🤣&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+&lt;a href="https://github.com/tenpy/tenpy"&gt;TeNPy&lt;/a&gt;由&lt;a href="https://johannes-hauschild.de/"&gt;Johannes Hauschild&lt;/a&gt;主要开发并维护，Hauschild 的博士导师是 Frank Pollmann，现在在到处做博后。
+考虑到 Hauschild 一作的文章没有几个，发表情况并不是很好，所以某种程度上他是在全职做 TeNPy 的开发。
+&lt;/p&gt;
+
+
+&lt;div id="outline-container-org2e42efd" class="outline-2"&gt;
+&lt;h2 id="org2e42efd"&gt;安装&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2e42efd"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# 安装依赖
+pip install -U pip numpy scipy cython setuptools wheel build
+# 下载源码
+git clone https://github.com/tenpy/tenpy.git
+# 安装
+cd tenpy
+pip install -e .
+# 测试
+cd tests
+pip install pytest
+pytest
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgef8ce19" class="outline-2"&gt;
+&lt;h2 id="orgef8ce19"&gt;代码层级&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgef8ce19"&gt;
+&lt;p&gt;
+TeNPy 的代码层级如图&lt;a href="https://chimez.github.io/posts/tenpy-diao-yan/#org56c5e98"&gt;2&lt;/a&gt;。
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;tenpy.simulations&lt;/code&gt; 是程序的入口，提供运行程序（进行读取参数、运行计算、执行测量、保存结果和中间过程等等）的功能&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tenpy.algorithms&lt;/code&gt; 中实现了多种算法，包括 DMRG、iDMRG、TEBD和TDVP&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tenpy.models&lt;/code&gt; 中实现了各种模型包括自旋、费米、波色和各种晶格结构。二维晶格通过映射到一维来实现。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tenpy.networks&lt;/code&gt; 中实现了 MPS 和 MPO 类型&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tenpy.linalg&lt;/code&gt; 中实现了带有守恒量的张量以及迭代对角化算法 Lanczos 和 Arnoldi&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tenpy.tools&lt;/code&gt; 中包括一些需要用到其它功能&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div id="org56c5e98" class="figure"&gt;
+&lt;p&gt;&lt;img src="https://tenpy.readthedocs.io/en/latest/_images/overview.png" alt="overview.png"&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;span class="figure-number"&gt;Figure 2: &lt;/span&gt;TeNPy 的代码层级&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc123122" class="outline-2"&gt;
+&lt;h2 id="orgc123122"&gt;&lt;code&gt;tenpy.linalg.np_conserved.Array&lt;/code&gt;&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc123122"&gt;
+&lt;p&gt;
+TeNPy 的基本数据结构是 &lt;code&gt;tenpy.linalg.np_conserved.Array&lt;/code&gt;, 带有守恒荷的张量。
+TeNPy 采用带有箭头的 MPS 记号来表示一个张量。
+张量的每个指标有若干可能的量子数，这些信息记录在 &lt;code&gt;Array.legs&lt;/code&gt; 属性里。
+对于一个有 \(n\) 个指标的张量,  &lt;code&gt;Array.legs&lt;/code&gt; 是长度为 \(n\) 的数组，每个元素都是 &lt;code&gt;tenpy.linalg.charges.LegCharge&lt;/code&gt; , 这里记录了这个指标所有可能的荷以及它是入指标还是出指标。
+张量的属性 &lt;code&gt;Array.qtotal&lt;/code&gt; 记录总量子数，只有那些和等于总量子数的块才会被保存。
+每个保存的张量块的数据是数组 &lt;code&gt;Array._data&lt;/code&gt; 的一个元素，它对于的量子数则是矩阵 &lt;code&gt;Array._qdata&lt;/code&gt; 的一行。
+&lt;/p&gt;
+
+&lt;pre class="example" id="org1c91396"&gt;
+class Array{
+    legs   : List[LegCharge],
+    qtotal : Charge,
+    _data  : List[numpy.ndarray],
+    _qdata : numpy.ndarray[len(​_data), len(legs)],
+}
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgabbc1ce" class="outline-2"&gt;
+&lt;h2 id="orgabbc1ce"&gt;&lt;code&gt;tenpy.networks.site.Site&lt;/code&gt;&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgabbc1ce"&gt;
+&lt;p&gt;
+&lt;code&gt;tenpy.networks.site.Site&lt;/code&gt; 是一个格点或者一个物理指标所需要的数据。
+它保存了物理指标所需要的信息 &lt;code&gt;LegCharge&lt;/code&gt;, 以及作用在一个格点上的所有局域算符 &lt;code&gt;Site.ops&lt;/code&gt;, 写模型的哈密顿量所需要的所有算符都是从这里得到的。
+除了一般的算符之外还有 Jordan-Wigner 变换（如果需要）要用到的信息。
+&lt;/p&gt;
+
+&lt;p&gt;
+TeNPy 中实现的 &lt;code&gt;Site&lt;/code&gt; 有如下这些
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;BosonSite&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ClockSite&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FermionSite&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GroupedSite&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SpinHalfFermionSite&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SpinHalfHoleSite&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SpinHalfSite&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SpinSite&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgd1f8db5" class="outline-2"&gt;
+&lt;h2 id="orgd1f8db5"&gt;&lt;code&gt;tenpy.networks.mps.MPS&lt;/code&gt;&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd1f8db5"&gt;
+&lt;p&gt;
+对于 \(n\) 格点的链， &lt;code&gt;tenpy.networks.mps.MPS&lt;/code&gt; 就是 \(n\) 个 &lt;code&gt;Site&lt;/code&gt; 和 \(n\) 个 &lt;code&gt;Array&lt;/code&gt;, 这些 &lt;code&gt;Array&lt;/code&gt; 都是三阶张量.
+TeNPy 的 MPS 表示记录了每个块的形式（左正则、右正则、对称形式或者叫 Vidal 的 \(\Gamma \Lambda\) 形式）以及需要的奇异值。
+&lt;/p&gt;
+
+&lt;pre class="example" id="org0eec316"&gt;
+class MPS{
+    sites: List[Site],
+    _B: List[Array],
+    _S: List[numpy.ndarray[1d]],
+    form: List[form],
+}
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orged5a374" class="outline-2"&gt;
+&lt;h2 id="orged5a374"&gt;&lt;code&gt;tenpy.networks.mpo.MPO&lt;/code&gt;&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orged5a374"&gt;
+&lt;p&gt;
+&lt;code&gt;tenpy.networks.mpo.MPO&lt;/code&gt; 与 MPS 表示类似，只不过每个块现在是四阶张量。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org909028c" class="outline-2"&gt;
+&lt;h2 id="org909028c"&gt;&lt;code&gt;tenpy.models.model.Model&lt;/code&gt;&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org909028c"&gt;
+&lt;p&gt;
+&lt;code&gt;tenpy.models.model.Model&lt;/code&gt; 用来表示模型的哈密顿量，需要指定元胞格点的信息 &lt;code&gt;Site&lt;/code&gt; 以及晶格结构如何映射到一维链 &lt;code&gt;tenpy.models.lattice.Lattice&lt;/code&gt;.
+TeNPy 提供的构造模型的方法是通过 &lt;code&gt;add_onsite&lt;/code&gt;, &lt;code&gt;add_coupling&lt;/code&gt; 等设置哈密顿量里的各项，然后根据需要自动构造 MPO。
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org6695b2e" class="outline-2"&gt;
+&lt;h2 id="org6695b2e"&gt;DMRG 算法&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6695b2e"&gt;
+&lt;p&gt;
+TeNPy 的抽象层次是
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;由 &lt;code&gt;tenpy.algorithms.algorithm.Algorithm&lt;/code&gt; 提供运行、重启等功能&lt;/li&gt;
+&lt;li&gt;然后由 &lt;code&gt;tenpy.algorithms.mps_common.Sweep&lt;/code&gt; 提供扫描的抽象&lt;/li&gt;
+&lt;li&gt;每个扫描步骤则使用 &lt;code&gt;tenpy.algorithms.dmrg.DMRGEngine&lt;/code&gt; 它可以是 &lt;code&gt;SingleSiteDMRGEngine&lt;/code&gt; 或者 &lt;code&gt;TwoSiteDMRGEngine&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>python</category><guid>https://chimez.github.io/posts/tenpy-diao-yan/</guid><pubDate>Wed, 18 Oct 2023 03:03:14 GMT</pubDate></item><item><title>wsl</title><link>https://chimez.github.io/posts/wsl/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org7ad51b4" class="outline-2"&gt;
 &lt;h2 id="org7ad51b4"&gt;WSL&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-org7ad51b4"&gt;
 &lt;/div&gt;
@@ -1418,73 +1577,4 @@ meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>hash</category><guid>https://chimez.github.io/posts/xxhash/</guid><pubDate>Fri, 06 Aug 2021 16:30:25 GMT</pubDate></item><item><title>klib</title><link>https://chimez.github.io/posts/klib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org6734099" class="outline-2"&gt;
-&lt;h2 id="org6734099"&gt;klib: 轻量级 c 头文件库&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6734099"&gt;
-&lt;p&gt;
-&lt;a href="https://github.com/attractivechaos/klib"&gt;attractivechaos/klib&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgade509e" class="outline-3"&gt;
-&lt;h3 id="orgade509e"&gt;khash.h&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgade509e"&gt;
-&lt;p&gt;
-快速轻量的哈希表库
-&lt;/p&gt;
-
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;"khash.h"&lt;/span&gt;
-
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;typedef&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;typedef&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kh_myname_value_t&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;kh_int_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="nf"&gt;kh_myname_hash_func&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;HASH&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="nf"&gt;kh_myname_hash_equal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key_1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key_2&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key_1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key_2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;KHASH_INIT&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kh_myname_value_t&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kh_myname_hash_func&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kh_myname_hash_equal&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
-
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="n"&gt;khiter_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;	&lt;/span&gt;
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="n"&gt;khash_t&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kh_init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;// 存入数据&lt;/span&gt;
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
-&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;calloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_myname_key_t&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;&lt;span class="w"&gt;			&lt;/span&gt;
-&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-
-&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ret&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kh_put&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;ret&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;			&lt;/span&gt;
-&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="n"&gt;kh_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;			&lt;/span&gt;
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="c1"&gt;// 读取，修改，删除&lt;/span&gt;
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
-&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kh_get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;			&lt;/span&gt;
-
-&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;kh_exist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;kh_end&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"not exits!&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;			&lt;/span&gt;
-&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"wrong value!&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-
-&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="n"&gt;kh_del&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;			&lt;/span&gt;
-&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kh_key&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;&lt;span class="w"&gt;			&lt;/span&gt;
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="n"&gt;kh_destroy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;	&lt;/span&gt;
-
-&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>khash</category><category>klib</category><guid>https://chimez.github.io/posts/klib/</guid><pubDate>Fri, 06 Aug 2021 16:19:52 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>C</category><category>hash</category><guid>https://chimez.github.io/posts/xxhash/</guid><pubDate>Fri, 06 Aug 2021 16:30:25 GMT</pubDate></item></channel></rss>
