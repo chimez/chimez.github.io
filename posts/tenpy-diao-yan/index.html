@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TeNPy 调研 | chimez's blog</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -14,6 +20,7 @@
 <link rel="canonical" href="https://chimez.github.io/posts/tenpy-diao-yan/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
 <link rel="prev" href="../wsl/" title="wsl" type="text/html">
+<link rel="next" href="../posix-duo-jin-cheng-bian-cheng/" title="POSIX 多进程编程" type="text/html">
 <meta property="og:site_name" content="chimez's blog">
 <meta property="og:title" content="TeNPy 调研">
 <meta property="og:url" content="https://chimez.github.io/posts/tenpy-diao-yan/">
@@ -120,7 +127,7 @@ DMRG / MPS / 张量网络的开源库有很多，例如 <a href="https://github.
 </p>
 
 
-<div id="org96abffc" class="figure">
+<div id="org7f18ff3" class="figure">
 <p><img src="https://imgs.xkcd.com/comics/standards.png" alt="standards.png"></p>
 <p><span class="figure-number">Figure 1: </span>让我们再造个轮子🤣</p>
 </div>
@@ -131,9 +138,9 @@ DMRG / MPS / 张量网络的开源库有很多，例如 <a href="https://github.
 </p>
 
 
-<div id="outline-container-org2e42efd" class="outline-2">
-<h2 id="org2e42efd">安装</h2>
-<div class="outline-text-2" id="text-org2e42efd">
+<div id="outline-container-org3a2100c" class="outline-2">
+<h2 id="org3a2100c">安装</h2>
+<div class="outline-text-2" id="text-org3a2100c">
 <div class="highlight"><pre><span></span># 安装依赖
 pip install -U pip numpy scipy cython setuptools wheel build
 # 下载源码
@@ -149,11 +156,11 @@ pytest
 </div>
 </div>
 
-<div id="outline-container-orgef8ce19" class="outline-2">
-<h2 id="orgef8ce19">代码层级</h2>
-<div class="outline-text-2" id="text-orgef8ce19">
+<div id="outline-container-orgb3ade9e" class="outline-2">
+<h2 id="orgb3ade9e">代码层级</h2>
+<div class="outline-text-2" id="text-orgb3ade9e">
 <p>
-TeNPy 的代码层级如图<a href="#org56c5e98">2</a>。
+TeNPy 的代码层级如图<a href="#org66fbfdf">2</a>。
 </p>
 
 <ul class="org-ul">
@@ -170,16 +177,16 @@ TeNPy 的代码层级如图<a href="#org56c5e98">2</a>。
 <li>
 <code>tenpy.tools</code> 中包括一些需要用到其它功能</li>
 </ul>
-<div id="org56c5e98" class="figure">
+<div id="org66fbfdf" class="figure">
 <p><img src="https://tenpy.readthedocs.io/en/latest/_images/overview.png" alt="overview.png"></p>
 <p><span class="figure-number">Figure 2: </span>TeNPy 的代码层级</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc123122" class="outline-2">
-<h2 id="orgc123122"><code>tenpy.linalg.np_conserved.Array</code></h2>
-<div class="outline-text-2" id="text-orgc123122">
+<div id="outline-container-org7eab418" class="outline-2">
+<h2 id="org7eab418"><code>tenpy.linalg.np_conserved.Array</code></h2>
+<div class="outline-text-2" id="text-org7eab418">
 <p>
 TeNPy 的基本数据结构是 <code>tenpy.linalg.np_conserved.Array</code>, 带有守恒荷的张量。
 TeNPy 采用带有箭头的 MPS 记号来表示一个张量。
@@ -189,7 +196,7 @@ TeNPy 采用带有箭头的 MPS 记号来表示一个张量。
 每个保存的张量块的数据是数组 <code>Array._data</code> 的一个元素，它对于的量子数则是矩阵 <code>Array._qdata</code> 的一行。
 </p>
 
-<pre class="example" id="org1c91396">
+<pre class="example" id="orga2ed335">
 class Array{
     legs   : List[LegCharge],
     qtotal : Charge,
@@ -200,9 +207,9 @@ class Array{
 </div>
 </div>
 
-<div id="outline-container-orgabbc1ce" class="outline-2">
-<h2 id="orgabbc1ce"><code>tenpy.networks.site.Site</code></h2>
-<div class="outline-text-2" id="text-orgabbc1ce">
+<div id="outline-container-orgb5cbdd2" class="outline-2">
+<h2 id="orgb5cbdd2"><code>tenpy.networks.site.Site</code></h2>
+<div class="outline-text-2" id="text-orgb5cbdd2">
 <p>
 <code>tenpy.networks.site.Site</code> 是一个格点或者一个物理指标所需要的数据。
 它保存了物理指标所需要的信息 <code>LegCharge</code>, 以及作用在一个格点上的所有局域算符 <code>Site.ops</code>, 写模型的哈密顿量所需要的所有算符都是从这里得到的。
@@ -225,15 +232,15 @@ TeNPy 中实现的 <code>Site</code> 有如下这些
 </div>
 </div>
 
-<div id="outline-container-orgd1f8db5" class="outline-2">
-<h2 id="orgd1f8db5"><code>tenpy.networks.mps.MPS</code></h2>
-<div class="outline-text-2" id="text-orgd1f8db5">
+<div id="outline-container-org0c77e0b" class="outline-2">
+<h2 id="org0c77e0b"><code>tenpy.networks.mps.MPS</code></h2>
+<div class="outline-text-2" id="text-org0c77e0b">
 <p>
 对于 \(n\) 格点的链， <code>tenpy.networks.mps.MPS</code> 就是 \(n\) 个 <code>Site</code> 和 \(n\) 个 <code>Array</code>, 这些 <code>Array</code> 都是三阶张量.
 TeNPy 的 MPS 表示记录了每个块的形式（左正则、右正则、对称形式或者叫 Vidal 的 \(\Gamma \Lambda\) 形式）以及需要的奇异值。
 </p>
 
-<pre class="example" id="org0eec316">
+<pre class="example" id="org73e356f">
 class MPS{
     sites: List[Site],
     _B: List[Array],
@@ -244,18 +251,18 @@ class MPS{
 </div>
 </div>
 
-<div id="outline-container-orged5a374" class="outline-2">
-<h2 id="orged5a374"><code>tenpy.networks.mpo.MPO</code></h2>
-<div class="outline-text-2" id="text-orged5a374">
+<div id="outline-container-org2b304d2" class="outline-2">
+<h2 id="org2b304d2"><code>tenpy.networks.mpo.MPO</code></h2>
+<div class="outline-text-2" id="text-org2b304d2">
 <p>
 <code>tenpy.networks.mpo.MPO</code> 与 MPS 表示类似，只不过每个块现在是四阶张量。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org909028c" class="outline-2">
-<h2 id="org909028c"><code>tenpy.models.model.Model</code></h2>
-<div class="outline-text-2" id="text-org909028c">
+<div id="outline-container-orgda739bb" class="outline-2">
+<h2 id="orgda739bb"><code>tenpy.models.model.Model</code></h2>
+<div class="outline-text-2" id="text-orgda739bb">
 <p>
 <code>tenpy.models.model.Model</code> 用来表示模型的哈密顿量，需要指定元胞格点的信息 <code>Site</code> 以及晶格结构如何映射到一维链 <code>tenpy.models.lattice.Lattice</code>.
 TeNPy 提供的构造模型的方法是通过 <code>add_onsite</code>, <code>add_coupling</code> 等设置哈密顿量里的各项，然后根据需要自动构造 MPO。
@@ -263,9 +270,9 @@ TeNPy 提供的构造模型的方法是通过 <code>add_onsite</code>, <code>add
 </div>
 </div>
 
-<div id="outline-container-org6695b2e" class="outline-2">
-<h2 id="org6695b2e">DMRG 算法</h2>
-<div class="outline-text-2" id="text-org6695b2e">
+<div id="outline-container-orgb44c429" class="outline-2">
+<h2 id="orgb44c429">DMRG 算法</h2>
+<div class="outline-text-2" id="text-orgb44c429">
 <p>
 TeNPy 的抽象层次是
 </p>
@@ -284,6 +291,9 @@ TeNPy 的抽象层次是
 <ul class="pager hidden-print">
 <li class="previous">
                 <a href="../wsl/" rel="prev" title="wsl">上一篇文章</a>
+            </li>
+            <li class="next">
+                <a href="../posix-duo-jin-cheng-bian-cheng/" rel="next" title="POSIX 多进程编程">下一篇文章</a>
             </li>
         </ul></nav></aside><section class="comments hidden-print"><h2>评论</h2>
         
@@ -330,7 +340,7 @@ delimiters: [
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

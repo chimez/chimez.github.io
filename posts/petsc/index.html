@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PETSc | chimez's blog</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -134,17 +140,17 @@ preconditioners (PC)">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgbb6fc56" class="outline-2">
-<h2 id="orgbb6fc56">PETSc</h2>
-<div class="outline-text-2" id="text-orgbb6fc56">
+    <div id="outline-container-orge13e009" class="outline-2">
+<h2 id="orge13e009">PETSc</h2>
+<div class="outline-text-2" id="text-orge13e009">
 <p>
 <a href="https://www.mcs.anl.gov/petsc/index.html">PETSc</a> 是用于开发并行计算程序的基础库，完全建立在 MPI 上。
 </p>
 </div>
 
-<div id="outline-container-orga4f8b56" class="outline-3">
-<h3 id="orga4f8b56">安装与编译</h3>
-<div class="outline-text-3" id="text-orga4f8b56">
+<div id="outline-container-orgffbd6a0" class="outline-3">
+<h3 id="orgffbd6a0">安装与编译</h3>
+<div class="outline-text-3" id="text-orgffbd6a0">
 <ul class="org-ul">
 <li>下载 <a href="https://www.mcs.anl.gov/petsc/download/">源码</a>
 </li>
@@ -152,13 +158,13 @@ preconditioners (PC)">
 </div>
 </div>
 
-<div id="outline-container-orgd7f84eb" class="outline-3">
-<h3 id="orgd7f84eb">基本结构</h3>
-<div class="outline-text-3" id="text-orgd7f84eb">
+<div id="outline-container-org8954b5b" class="outline-3">
+<h3 id="org8954b5b">基本结构</h3>
+<div class="outline-text-3" id="text-org8954b5b">
 </div>
-<div id="outline-container-orgce19c46" class="outline-4">
-<h4 id="orgce19c46">PETSc 模块</h4>
-<div class="outline-text-4" id="text-orgce19c46">
+<div id="outline-container-org423cbbd" class="outline-4">
+<h4 id="org423cbbd">PETSc 模块</h4>
+<div class="outline-text-4" id="text-org423cbbd">
 <ol class="org-ol">
 <li>index set (IS)：向量的指标</li>
 <li>vectors (Vec)</li>
@@ -173,9 +179,9 @@ preconditioners (PC)">
 </div>
 </div>
 
-<div id="outline-container-orgc84c692" class="outline-4">
-<h4 id="orgc84c692">环境变量</h4>
-<div class="outline-text-4" id="text-orgc84c692">
+<div id="outline-container-org5178c2d" class="outline-4">
+<h4 id="org5178c2d">环境变量</h4>
+<div class="outline-text-4" id="text-org5178c2d">
 <ol class="org-ol">
 <li>所有 PETSc 程序都依赖环境变量 <code>$PETSC_DIR</code> 找到 PETSc 的目录</li>
 <li>还需要环境变量 <code>$PETSC_ARCH</code> 找到安装路径</li>
@@ -183,9 +189,9 @@ preconditioners (PC)">
 </div>
 </div>
 
-<div id="outline-container-orgcd8f5e3" class="outline-4">
-<h4 id="orgcd8f5e3">命令行</h4>
-<div class="outline-text-4" id="text-orgcd8f5e3">
+<div id="outline-container-org432c6ee" class="outline-4">
+<h4 id="org432c6ee">命令行</h4>
+<div class="outline-text-4" id="text-org432c6ee">
 <p>
 PETSc 程序需要用 MPI 执行，通过 <code>mpiexec</code> 或者 PETSc 提供的脚本 <code>$PETSC_DIR/lib/petsc/bin/petscmpiexec</code> 
 </p>
@@ -211,9 +217,9 @@ PETSc 程序需要用 MPI 执行，通过 <code>mpiexec</code> 或者 PETSc 提�
 </div>
 </div>
 
-<div id="outline-container-orgfe9f954" class="outline-4">
-<h4 id="orgfe9f954">主函数</h4>
-<div class="outline-text-4" id="text-orgfe9f954">
+<div id="outline-container-org9fc67a3" class="outline-4">
+<h4 id="org9fc67a3">主函数</h4>
+<div class="outline-text-4" id="text-org9fc67a3">
 <ul class="org-ul">
 <li>PETSc 主函数需要调用 <code>PetscInitialize()</code> 作为开始，来初始化 PETSc 和 MPI</li>
 <li>程序退出时调用 <code>PetscFinalize()</code>, 来结束 PETSc 和 MPI</li>
@@ -253,9 +259,9 @@ PETSc 程序需要用 MPI 执行，通过 <code>mpiexec</code> 或者 PETSc 提�
 </div>
 </div>
 
-<div id="outline-container-org81a92cd" class="outline-4">
-<h4 id="org81a92cd">错误处理</h4>
-<div class="outline-text-4" id="text-org81a92cd">
+<div id="outline-container-org3b651d3" class="outline-4">
+<h4 id="org3b651d3">错误处理</h4>
+<div class="outline-text-4" id="text-org3b651d3">
 <p>
 所有 PETSc 函数都返回整数值 <code>ierr</code> 作为消息，使用 <code>CHECKRRQ(ierr)</code> 宏来处理错误。
 </p>
@@ -263,17 +269,17 @@ PETSc 程序需要用 MPI 执行，通过 <code>mpiexec</code> 或者 PETSc 提�
 </div>
 </div>
 
-<div id="outline-container-orgfc33e0f" class="outline-3">
-<h3 id="orgfc33e0f">向量和并行数据</h3>
-<div class="outline-text-3" id="text-orgfc33e0f">
+<div id="outline-container-orgd18fcd1" class="outline-3">
+<h3 id="orgd18fcd1">向量和并行数据</h3>
+<div class="outline-text-3" id="text-orgd18fcd1">
 <p>
 向量是 PETSc 最基本的结构，用于保存计算结果等
 </p>
 </div>
 
-<div id="outline-container-org732b974" class="outline-4">
-<h4 id="org732b974">创建和组装向量</h4>
-<div class="outline-text-4" id="text-org732b974">
+<div id="outline-container-orgcc2cab6" class="outline-4">
+<h4 id="orgcc2cab6">创建和组装向量</h4>
+<div class="outline-text-4" id="text-orgcc2cab6">
 <p>
 PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 </p>
@@ -440,9 +446,9 @@ PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 </div>
 </div>
 
-<div id="outline-container-org2e54390" class="outline-4">
-<h4 id="org2e54390">基本向量操作</h4>
-<div class="outline-text-4" id="text-org2e54390">
+<div id="outline-container-orgb4f9593" class="outline-4">
+<h4 id="orgb4f9593">基本向量操作</h4>
+<div class="outline-text-4" id="text-orgb4f9593">
 <p>
 加减乘除之类的操作，参考<a href="https://petsc.org/release/documentation/manual/vec/#id3">函数表</a>
 </p>
@@ -499,9 +505,9 @@ PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 </div>
 </div>
 
-<div id="outline-container-org373e1d9" class="outline-4">
-<h4 id="org373e1d9">索引和排序</h4>
-<div class="outline-text-4" id="text-org373e1d9">
+<div id="outline-container-org708dfaa" class="outline-4">
+<h4 id="org708dfaa">索引和排序</h4>
+<div class="outline-text-4" id="text-org708dfaa">
 <p>
 PETSc 提供了一组工具用于处理向量指标的顺序，称作 Application Orderings(AO)
 </p>
@@ -509,17 +515,17 @@ PETSc 提供了一组工具用于处理向量指标的顺序，称作 Applicatio
 </div>
 </div>
 
-<div id="outline-container-org9f3b7c0" class="outline-3">
-<h3 id="org9f3b7c0">矩阵</h3>
-<div class="outline-text-3" id="text-org9f3b7c0">
+<div id="outline-container-org7e8ba66" class="outline-3">
+<h3 id="org7e8ba66">矩阵</h3>
+<div class="outline-text-3" id="text-org7e8ba66">
 <p>
 PETSc 支持多种矩阵类型，包括稠密矩阵、稀疏矩阵等
 </p>
 </div>
 
-<div id="outline-container-orgd330907" class="outline-4">
-<h4 id="orgd330907">创建和组装矩阵</h4>
-<div class="outline-text-4" id="text-orgd330907">
+<div id="outline-container-orgd2ff611" class="outline-4">
+<h4 id="orgd2ff611">创建和组装矩阵</h4>
+<div class="outline-text-4" id="text-orgd2ff611">
 <ol class="org-ol">
 <li>
 <code>MatCreate(MPI_Comm comm,Mat *A);</code>
@@ -608,9 +614,9 @@ PETSc 支持多种矩阵类型，包括稠密矩阵、稀疏矩阵等
 </div>
 </div>
 
-<div id="outline-container-org1ae8f42" class="outline-4">
-<h4 id="org1ae8f42">矩阵类型</h4>
-<div class="outline-text-4" id="text-org1ae8f42">
+<div id="outline-container-orgba4dd2f" class="outline-4">
+<h4 id="orgba4dd2f">矩阵类型</h4>
+<div class="outline-text-4" id="text-orgba4dd2f">
 <p>
 PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 </p>
@@ -623,18 +629,18 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 </div>
 </div>
 
-<div id="outline-container-org5929b70" class="outline-4">
-<h4 id="org5929b70">基本矩阵操作</h4>
-<div class="outline-text-4" id="text-org5929b70">
+<div id="outline-container-org841f93a" class="outline-4">
+<h4 id="org841f93a">基本矩阵操作</h4>
+<div class="outline-text-4" id="text-org841f93a">
 <p>
 参考<a href="https://petsc.org/release/documentation/manual/mat/#fig-matrixops">函数表</a>
 </p>
 </div>
 </div>
 
-<div id="outline-container-org09d4b78" class="outline-4">
-<h4 id="org09d4b78">无矩阵的矩阵</h4>
-<div class="outline-text-4" id="text-org09d4b78">
+<div id="outline-container-org3cf93f7" class="outline-4">
+<h4 id="org3cf93f7">无矩阵的矩阵</h4>
+<div class="outline-text-4" id="text-org3cf93f7">
 <ol class="org-ol">
 <li>
 <code>MatCreateShell(MPI_Comm comm,PetscInt m,PetscInt n,PetscInt M,PetscInt N,void *ctx,Mat *mat);</code>
@@ -724,9 +730,9 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 </div>
 </div>
 
-<div id="outline-container-org4f6020a" class="outline-3">
-<h3 id="org4f6020a">线性求解器</h3>
-<div class="outline-text-3" id="text-org4f6020a">
+<div id="outline-container-orgdc738bf" class="outline-3">
+<h3 id="orgdc738bf">线性求解器</h3>
+<div class="outline-text-3" id="text-orgdc738bf">
 <p>
 使用线性求解器 <code>KSP</code> 解线性方程 \(Ax=b\)
 </p>
@@ -768,13 +774,13 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 </div>
 
 
-<div id="outline-container-org68552b7" class="outline-2">
-<h2 id="org68552b7">petsc4py</h2>
-<div class="outline-text-2" id="text-org68552b7">
+<div id="outline-container-orgb790208" class="outline-2">
+<h2 id="orgb790208">petsc4py</h2>
+<div class="outline-text-2" id="text-orgb790208">
 </div>
-<div id="outline-container-orga4eb36a" class="outline-3">
-<h3 id="orga4eb36a">基本使用</h3>
-<div class="outline-text-3" id="text-orga4eb36a">
+<div id="outline-container-orga8f0632" class="outline-3">
+<h3 id="orga8f0632">基本使用</h3>
+<div class="outline-text-3" id="text-orga8f0632">
 <div class="highlight"><pre><span></span>   <span class="c1"># 初始化</span>
    <span class="kn">import</span> <span class="nn">sys</span>
    <span class="kn">import</span> <span class="nn">petsc4py</span>
@@ -806,9 +812,9 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 </div>
 </div>
 
-<div id="outline-container-org7d4b817" class="outline-3">
-<h3 id="org7d4b817">无矩阵的矩阵</h3>
-<div class="outline-text-3" id="text-org7d4b817">
+<div id="outline-container-org32479e1" class="outline-3">
+<h3 id="org32479e1">无矩阵的矩阵</h3>
+<div class="outline-text-3" id="text-org32479e1">
 <div class="highlight"><pre><span></span>   <span class="k">class</span> <span class="nc">H</span><span class="p">():</span>
        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
            <span class="k">pass</span>
@@ -825,9 +831,9 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 </div>
 </div>
 
-<div id="outline-container-org768a1e2" class="outline-3">
-<h3 id="org768a1e2">遍历向量</h3>
-<div class="outline-text-3" id="text-org768a1e2">
+<div id="outline-container-org0f2c200" class="outline-3">
+<h3 id="org0f2c200">遍历向量</h3>
+<div class="outline-text-3" id="text-org0f2c200">
 <div class="highlight"><pre><span></span>   <span class="n">x</span> <span class="o">=</span> <span class="n">PETSc</span><span class="o">.</span><span class="n">Vec</span><span class="p">()</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">comm</span><span class="o">=</span><span class="n">comm</span><span class="p">)</span>
    <span class="n">x</span><span class="o">.</span><span class="n">setSizes</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
    <span class="n">x</span><span class="o">.</span><span class="n">setFromOptions</span><span class="p">()</span>
@@ -841,22 +847,22 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 </div>
 </div>
 
-<div id="outline-container-org3aa7cee" class="outline-2">
-<h2 id="org3aa7cee">其它问题</h2>
-<div class="outline-text-2" id="text-org3aa7cee">
+<div id="outline-container-orgde5e37c" class="outline-2">
+<h2 id="orgde5e37c">其它问题</h2>
+<div class="outline-text-2" id="text-orgde5e37c">
 </div>
-<div id="outline-container-org902da88" class="outline-3">
-<h3 id="org902da88">复数支持</h3>
-<div class="outline-text-3" id="text-org902da88">
+<div id="outline-container-org43a308f" class="outline-3">
+<h3 id="org43a308f">复数支持</h3>
+<div class="outline-text-3" id="text-org43a308f">
 <p>
 只能通过编译选项 <code>--with-scalar-type=complex</code> 将 <code>PetscScalar</code> 设成复数
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgf05f5f6" class="outline-3">
-<h3 id="orgf05f5f6">编译选项</h3>
-<div class="outline-text-3" id="text-orgf05f5f6">
+<div id="outline-container-org4566c67" class="outline-3">
+<h3 id="org4566c67">编译选项</h3>
+<div class="outline-text-3" id="text-org4566c67">
 <p>
 <a href="https://www.mcs.anl.gov/petsc/documentation/installation.html">参考</a>
 </p>
@@ -889,18 +895,18 @@ python 支持：
 </div>
 </div>
 
-<div id="outline-container-orga286fc1" class="outline-3">
-<h3 id="orga286fc1">混合线程</h3>
-<div class="outline-text-3" id="text-orga286fc1">
+<div id="outline-container-org338ff4f" class="outline-3">
+<h3 id="org338ff4f">混合线程</h3>
+<div class="outline-text-3" id="text-org338ff4f">
 <p>
 PETSc 是纯 MPI 框架，不提供混合线程的函数，同时所有函数也不保证线程安全。
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgdd006ad" class="outline-3">
-<h3 id="orgdd006ad">在指定 MPI 通信器上使用 PETSc</h3>
-<div class="outline-text-3" id="text-orgdd006ad">
+<div id="outline-container-org4438ecd" class="outline-3">
+<h3 id="org4438ecd">在指定 MPI 通信器上使用 PETSc</h3>
+<div class="outline-text-3" id="text-org4438ecd">
 <p>
 在调用 <code>PetscInitialize()</code> 之前设置
 </p>
@@ -909,9 +915,9 @@ PETSc 是纯 MPI 框架，不提供混合线程的函数，同时所有函数也
 </div>
 </div>
 
-<div id="outline-container-orgac7f4a7" class="outline-3">
-<h3 id="orgac7f4a7">只使用 c 编译</h3>
-<div class="outline-text-3" id="text-orgac7f4a7">
+<div id="outline-container-orgf77c3fc" class="outline-3">
+<h3 id="orgf77c3fc">只使用 c 编译</h3>
+<div class="outline-text-3" id="text-orgf77c3fc">
 <p>
 依赖越复杂，莫名其妙的问题就越多，只需要 c 的话就简单不少。
 </p>
@@ -980,7 +986,7 @@ delimiters: [
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

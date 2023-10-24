@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SLEPc | chimez's blog</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -123,17 +129,17 @@ NEP (Nonlinear Eig">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgf303c0d" class="outline-2">
-<h2 id="orgf303c0d">SLEPc: PETSc 的本征值求解器扩展</h2>
-<div class="outline-text-2" id="text-orgf303c0d">
+    <div id="outline-container-orgdd2887c" class="outline-2">
+<h2 id="orgdd2887c">SLEPc: PETSc 的本征值求解器扩展</h2>
+<div class="outline-text-2" id="text-orgdd2887c">
 <p>
 <a href="https://slepc.upv.es/">SLEPc</a> 是用来求 PETSc 矩阵的扩展库。
 </p>
 </div>
 
-<div id="outline-container-org73ea5df" class="outline-3">
-<h3 id="org73ea5df">基本结构</h3>
-<div class="outline-text-3" id="text-org73ea5df">
+<div id="outline-container-org67f9c2a" class="outline-3">
+<h3 id="org67f9c2a">基本结构</h3>
+<div class="outline-text-3" id="text-org67f9c2a">
 <p>
 SLEPc 有以下基本部分构成
 </p>
@@ -157,9 +163,9 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-orgf6f3c0f" class="outline-3">
-<h3 id="orgf6f3c0f">安装</h3>
-<div class="outline-text-3" id="text-orgf6f3c0f">
+<div id="outline-container-org9b23fa7" class="outline-3">
+<h3 id="org9b23fa7">安装</h3>
+<div class="outline-text-3" id="text-org9b23fa7">
 <p>
 下载时注意，SLEPc 的版本必须和 PETSc 版本一样
 </p>
@@ -177,9 +183,9 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-orgd6af453" class="outline-3">
-<h3 id="orgd6af453">基本使用</h3>
-<div class="outline-text-3" id="text-orgd6af453">
+<div id="outline-container-org31cb211" class="outline-3">
+<h3 id="org31cb211">基本使用</h3>
+<div class="outline-text-3" id="text-org31cb211">
 <p>
 程序开始和结束时分别调用 <code>SlepcInitialize()</code> 和 <code>SlepcFinalize()</code>, 实际上就是 <code>PetscInitialize()</code> 和 <code>PetscFinalize()</code>
 </p>
@@ -190,13 +196,13 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-orgb03a828" class="outline-3">
-<h3 id="orgb03a828">EPS: 矩阵本征值求解器</h3>
-<div class="outline-text-3" id="text-orgb03a828">
+<div id="outline-container-orgf758235" class="outline-3">
+<h3 id="orgf758235">EPS: 矩阵本征值求解器</h3>
+<div class="outline-text-3" id="text-orgf758235">
 </div>
-<div id="outline-container-orgad77126" class="outline-4">
-<h4 id="orgad77126">基本使用</h4>
-<div class="outline-text-4" id="text-orgad77126">
+<div id="outline-container-orgf18aa02" class="outline-4">
+<h4 id="orgf18aa02">基本使用</h4>
+<div class="outline-text-4" id="text-orgf18aa02">
 <ol class="org-ol">
 <li>
 <code>EPSCreate(MPI_Comm comm,EPS *eps);</code> 
@@ -363,13 +369,13 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-org4902694" class="outline-4">
-<h4 id="org4902694">求解器配置</h4>
-<div class="outline-text-4" id="text-org4902694">
+<div id="outline-container-org5b6cc0f" class="outline-4">
+<h4 id="org5b6cc0f">求解器配置</h4>
+<div class="outline-text-4" id="text-org5b6cc0f">
 </div>
 <ul class="org-ul">
 <li>
-<a id="org00d9000"></a>问题类型<br><div class="outline-text-5" id="text-org00d9000">
+<a id="org2bca626"></a>问题类型<br><div class="outline-text-5" id="text-org2bca626">
 <p>
 问题类型使用 <code>EPSSetProblemType(EPS eps,EPSProblemType type);</code> 进行设置
 </p>
@@ -446,7 +452,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="orgca2c239"></a>求解本征值个数<br><div class="outline-text-5" id="text-orgca2c239">
+<a id="orgd9dae04"></a>求解本征值个数<br><div class="outline-text-5" id="text-orgd9dae04">
 <p>
 使用 <code>EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);</code> 设置要求的本征值个数
 </p>
@@ -462,7 +468,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="orgd3119e3"></a>求解本征值位置<br><div class="outline-text-5" id="text-orgd3119e3">
+<a id="orgad8d770"></a>求解本征值位置<br><div class="outline-text-5" id="text-orgad8d770">
 <ol class="org-ol">
 <li>
 <code>EPSSetWhichEigenpairs(EPS eps,EPSWhich which);</code> 设置要求本征值的位置</li>
@@ -570,7 +576,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="org4635ff8"></a>选择算法<br><div class="outline-text-5" id="text-org4635ff8">
+<a id="org417bd95"></a>选择算法<br><div class="outline-text-5" id="text-org417bd95">
 <p>
 通过 <code>EPSSetType(EPS eps,EPSType method);</code> 设置求解器使用的算法
 </p>
@@ -732,7 +738,7 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="orgad901e3"></a>获得结果<br><div class="outline-text-5" id="text-orgad901e3">
+<a id="org7303e90"></a>获得结果<br><div class="outline-text-5" id="text-org7303e90">
 <ol class="org-ol">
 <li>
 <code>EPSGetConverged(EPS eps,PetscInt *nconv);</code> 获得收敛的解个数</li>
@@ -780,9 +786,9 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="org5d102ef"></a>其它设置<br><ul class="org-ul">
+<a id="orgfccb0d8"></a>其它设置<br><ul class="org-ul">
 <li>
-<a id="org8c13992"></a>初始猜解<br><div class="outline-text-6" id="text-org8c13992">
+<a id="orgaf6461a"></a>初始猜解<br><div class="outline-text-6" id="text-orgaf6461a">
 <p>
 <code>EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);</code>
 </p>
@@ -790,19 +796,19 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="org4aee6be"></a>处理简并<br>
+<a id="org50ba269"></a>处理简并<br>
 </li>
 
 <li>
-<a id="orgf47e8c0"></a>选择正交化方法<br>
+<a id="org4fa15ba"></a>选择正交化方法<br>
 </li>
 
 <li>
-<a id="org50c5cf2"></a>选择滤波算法<br>
+<a id="org116b15f"></a>选择滤波算法<br>
 </li>
 
 <li>
-<a id="org749d2a9"></a>计算大量本征值的方法<br>
+<a id="org0628e57"></a>计算大量本征值的方法<br>
 </li>
 </ul>
 </li>
@@ -856,7 +862,7 @@ SLEPc 支持的算法有
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

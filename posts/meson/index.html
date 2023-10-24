@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>meson | chimez's blog</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -121,17 +127,17 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org8c9611e" class="outline-2">
-<h2 id="org8c9611e">meson 构建工具</h2>
-<div class="outline-text-2" id="text-org8c9611e">
+    <div id="outline-container-org2fd8ced" class="outline-2">
+<h2 id="org2fd8ced">meson 构建工具</h2>
+<div class="outline-text-2" id="text-org2fd8ced">
 <p>
 网站 <a href="https://mesonbuild.com">meson-build</a>
 </p>
 </div>
 
-<div id="outline-container-orgbc1eb5e" class="outline-3">
-<h3 id="orgbc1eb5e">配置示例</h3>
-<div class="outline-text-3" id="text-orgbc1eb5e">
+<div id="outline-container-org9d06da8" class="outline-3">
+<h3 id="org9d06da8">配置示例</h3>
+<div class="outline-text-3" id="text-org9d06da8">
 <div class="highlight"><pre><span></span>   <span class="n">cc</span> <span class="o">=</span> <span class="n">meson</span><span class="o">.</span><span class="n">get_compiler</span><span class="p">(</span><span class="s1">'c'</span><span class="p">)</span>
 
    <span class="n">all_deps</span> <span class="o">=</span> <span class="p">[]</span>
@@ -147,26 +153,26 @@
 </div>
 </div>
 
-<div id="outline-container-org2b20b2c" class="outline-3">
-<h3 id="org2b20b2c">使用 address sanitizer</h3>
-<div class="outline-text-3" id="text-org2b20b2c">
+<div id="outline-container-org5476504" class="outline-3">
+<h3 id="org5476504">使用 address sanitizer</h3>
+<div class="outline-text-3" id="text-org5476504">
 <div class="highlight"><pre><span></span>   CC=clang meson build  -Db_sanitize=address -Db_lundef=false
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org0702d0b" class="outline-3">
-<h3 id="org0702d0b">使用 clang 静态分析</h3>
-<div class="outline-text-3" id="text-org0702d0b">
+<div id="outline-container-orgb46e9ce" class="outline-3">
+<h3 id="orgb46e9ce">使用 clang 静态分析</h3>
+<div class="outline-text-3" id="text-orgb46e9ce">
 <div class="highlight"><pre><span></span>   meson build
    ninja -C build scan-build
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-orgce981cc" class="outline-3">
-<h3 id="orgce981cc">自定义外部依赖</h3>
-<div class="outline-text-3" id="text-orgce981cc">
+<div id="outline-container-org96f0269" class="outline-3">
+<h3 id="org96f0269">自定义外部依赖</h3>
+<div class="outline-text-3" id="text-org96f0269">
 <p>
 参考 <a href="https://mesonbuild.com/Dependencies.html#declaring-your-own">Manual/Dependencies</a>
 </p>
@@ -181,9 +187,9 @@
 </pre></div>
 </div>
 
-<div id="outline-container-org3982c56" class="outline-4">
-<h4 id="org3982c56">将依赖做子目录</h4>
-<div class="outline-text-4" id="text-org3982c56">
+<div id="outline-container-org4ca38cf" class="outline-4">
+<h4 id="org4ca38cf">将依赖做子目录</h4>
+<div class="outline-text-4" id="text-org4ca38cf">
 <p>
 首先在子目录中放入依赖的源码，并且在其中定义子项目的 <code>meson.build</code> 文件
 </p>
@@ -199,17 +205,17 @@
 </div>
 </div>
 
-<div id="outline-container-orgb79138a" class="outline-3">
-<h3 id="orgb79138a">子项目</h3>
-<div class="outline-text-3" id="text-orgb79138a">
+<div id="outline-container-org9fc8cda" class="outline-3">
+<h3 id="org9fc8cda">子项目</h3>
+<div class="outline-text-3" id="text-org9fc8cda">
 <p>
 <a href="https://mesonbuild.com/Subprojects.html">https://mesonbuild.com/Subprojects.html</a>
 </p>
 </div>
 
-<div id="outline-container-org65a2398" class="outline-4">
-<h4 id="org65a2398">从子项目获取依赖</h4>
-<div class="outline-text-4" id="text-org65a2398">
+<div id="outline-container-org80d5153" class="outline-4">
+<h4 id="org80d5153">从子项目获取依赖</h4>
+<div class="outline-text-4" id="text-org80d5153">
 <div class="highlight"><pre><span></span><span class="n">libsimple_proj</span> <span class="o">=</span> <span class="n">subproject</span><span class="p">(</span><span class="s1">'libsimple'</span><span class="p">)</span>
 <span class="n">libsimple_dep</span> <span class="o">=</span> <span class="n">libsimple_proj</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">'libsimple_dep'</span><span class="p">)</span>
 </pre></div>
@@ -217,9 +223,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgae28770" class="outline-3">
-<h3 id="orgae28770">使用 wrap 管理依赖</h3>
-<div class="outline-text-3" id="text-orgae28770">
+<div id="outline-container-org7e66c24" class="outline-3">
+<h3 id="org7e66c24">使用 wrap 管理依赖</h3>
+<div class="outline-text-3" id="text-org7e66c24">
 <p>
 在 <code>subprojects</code> 文件夹中创建 <code>libfoobar.wrap</code> 文件, 其中指定源码位置 <code>[wrap-file]</code> 和提供的依赖 <code>[provide]</code> ，格式参考 <a href="https://mesonbuild.com/Wrap-dependency-system-manual.html">这里</a>
 </p>
@@ -306,7 +312,7 @@
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

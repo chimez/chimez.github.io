@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="zh_cn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>POSIX 多进程编程 | chimez's blog</title>
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="../../rss.xml">
+<link rel="canonical" href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="chimez">
+<link rel="prev" href="../tenpy-diao-yan/" title="TeNPy 调研" type="text/html">
+<meta property="og:site_name" content="chimez's blog">
+<meta property="og:title" content="POSIX 多进程编程">
+<meta property="og:url" content="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/">
+<meta property="og:description" content="Table of Contents
+
+
+启动和终止子进程
+
+fork 创建子进程
+wait 等待子进程退出
+waitpid 等待特定的子进程退出
+例子：创建一系列子进程并等待
+
+
+管道 Pipe
+
+pipe 创建管道
+例子：pingpong
+
+
+信号量 System V Semaphores
+
+semget 获得信号量集
+semctl 配置信号量集
+semop 操作信号
+例子：互斥锁
+
+
+
+
+
+
+">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-10-24T12:46:17+08:00">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="concurrency">
+<meta property="article:tag" content="parallel">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">跳到主内容</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="../../">
+
+            <span id="blog-title">chimez's blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav">
+<li class="nav-item">
+    <a href="index.org" id="sourcelink" class="nav-link">源文件</a>
+    </li>
+
+
+                    
+            </ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS feed</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">POSIX 多进程编程</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    chimez
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2023-10-24T12:46:17+08:00" itemprop="datePublished" title="2023-10-24 12:46">2023-10-24 12:46</time></a>
+            </p>
+                <p class="commentline">
+    
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/posix-duo-jin-cheng-bian-cheng.html">评论</a>
+
+
+            
+        </p>
+<p class="sourceline"><a href="index.org" class="sourcelink">源文件</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li>
+<a href="#org5224e9c">启动和终止子进程</a>
+<ul>
+<li><a href="#orgcf39541"><code>fork</code> 创建子进程</a></li>
+<li><a href="#org1f82455"><code>wait</code> 等待子进程退出</a></li>
+<li><a href="#orgedc4002"><code>waitpid</code> 等待特定的子进程退出</a></li>
+<li><a href="#org99b7a52">例子：创建一系列子进程并等待</a></li>
+</ul>
+</li>
+<li>
+<a href="#orgcbc3da7">管道 Pipe</a>
+<ul>
+<li><a href="#org54afe23"><code>pipe</code> 创建管道</a></li>
+<li><a href="#orgb8c8f19">例子：pingpong</a></li>
+</ul>
+</li>
+<li>
+<a href="#org4117894">信号量 System V Semaphores</a>
+<ul>
+<li><a href="#org58220ca"><code>semget</code> 获得信号量集</a></li>
+<li><a href="#org3cac01b"><code>semctl</code> 配置信号量集</a></li>
+<li><a href="#orgfbe5484"><code>semop</code> 操作信号</a></li>
+<li><a href="#orgc7dcb88">例子：互斥锁</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+并行计算方案包括多线程并行、多进程并行、异构并行和分布式并行。
+这篇文章主要讲如何利用 POSIX 标准库（C语言）进行多进程并行计算，包括如何启动和终止子进程和进程间通信的两种方法：管道（pipe）与信号量（semaphore）。
+至于其它的进程间通信方式，例如：共享内存（mmap）、网络（sockets）、信号（signal）和消息队列等，都是适用性更广也更复杂的技术，在这篇短文中无法涉及。
+</p>
+
+<div id="outline-container-org5224e9c" class="outline-2">
+<h2 id="org5224e9c">启动和终止子进程</h2>
+<div class="outline-text-2" id="text-org5224e9c">
+<p>
+使用 <code>fork</code> 创建子进程，使用 <code>wait</code> 或 <code>waitpid</code> 等待运行结束。
+</p>
+</div>
+
+<div id="outline-container-orgcf39541" class="outline-3">
+<h3 id="orgcf39541">
+<code>fork</code> 创建子进程</h3>
+<div class="outline-text-3" id="text-orgcf39541">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+
+<span class="kt">pid_t</span><span class="w"> </span><span class="nf">fork</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>执行成功：在父进程中返回子进程的 <code>pid_t</code>, 在子进程中返回 0；</li>
+<li>执行失败：返回-1，并设置 <code>errno</code>
+</li>
+<li>在 GNU C 中 <code>pid_t</code> 就是 <code>int</code>
+</li>
+</ul>
+<p>
+<b>说明</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>fork</code> 启动的子进程会获得与此时主进程完全一样的内存上下文，这意味着主进程此时可以访问的一切内容在子进程中都可用，甚至连指针地址都一样。
+如果连续启动了两个子进程，在两次 <code>fork</code> 中有任何变量在主进程被修改了，前面的子进程看到的还是原来的值，后面的子进程看到的是新的值。
+同时由于进程之间内存是隔离的，子进程修改任何内存都不会影响到其它子进程。
+<code>fork</code> 对内存使用 copy-on-write 机制，没有修改的内存就访问同样的内容，但如果修改就会复制所有内存。</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1f82455" class="outline-3">
+<h3 id="org1f82455">
+<code>wait</code> 等待子进程退出</h3>
+<div class="outline-text-3" id="text-org1f82455">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/wait.h&gt;</span>
+
+<span class="kt">pid_t</span><span class="w"> </span><span class="nf">wait</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">stat_loc</span><span class="p">);</span>
+</pre></div>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>int *stat_loc</code> 捕获子进程的退出值，设为 <code>NULL</code> 则忽略退出值。具体的返回参数参看 <a href="https://man7.org/linux/man-pages/man2/wait.2.html">man 2 wait</a>
+</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>返回捕获到的子进程ID，失败返回-1，并设置 <code>errno</code>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgedc4002" class="outline-3">
+<h3 id="orgedc4002">
+<code>waitpid</code> 等待特定的子进程退出</h3>
+<div class="outline-text-3" id="text-orgedc4002">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/wait.h&gt;</span>
+
+<span class="kt">pid_t</span><span class="w"> </span><span class="nf">waitpid</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">stat_loc</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">options</span><span class="p">);</span>
+</pre></div>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>pid_t pid</code> 等待特定的子进程</li>
+<li>
+<code>int *stat_loc</code> 捕获子进程的退出值，设为 <code>NULL</code> 则忽略退出值, 与 <code>wait</code> 的参数相同</li>
+<li>
+<code>int options</code> 等待的行为可以通过一系列选项来设置，具体的返回参数参看 <a href="https://man7.org/linux/man-pages/man2/wait.2.html">man 2 waitpid</a>，设成 <code>0</code> 则与 <code>wait</code> 行为相同。</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>返回捕获到的子进程ID，失败返回-1</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org99b7a52" class="outline-3">
+<h3 id="org99b7a52">例子：创建一系列子进程并等待</h3>
+<div class="outline-text-3" id="text-org99b7a52">
+<p>
+在这个例子中创建了 10 个子进程，按照创建顺序给它们标号，让这些进程按照创建顺序的逆序打印自己的序号，主进程则会等待到所有子进程退出再结束。
+</p>
+
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/wait.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">n_process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">pid_t</span><span class="w"> </span><span class="o">*</span><span class="n">pids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calloc</span><span class="p">(</span><span class="n">n_process</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">pid_t</span><span class="p">));</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n_process</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fork</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="cm">/* in child process */</span>
+<span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="n">n_process</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">"child %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">"child %d, pid_t: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">      </span><span class="cm">/* pointer address is the same */</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">"child %d, pids ptr: %p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">pids</span><span class="p">);</span>
+<span class="w">      </span><span class="cm">/* but value is different */</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">"child %d, all pids: "</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n_process</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">"%d "</span><span class="p">,</span><span class="w"> </span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="w">      </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="cm">/* in parent process */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"all pids: </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n_process</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"%d "</span><span class="p">,</span><span class="w"> </span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* get parent pid */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"pid: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+
+<span class="w">  </span><span class="cm">/* wait subprocess to finish */</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n_process</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* wait(NULL); */</span>
+<span class="w">    </span><span class="n">waitpid</span><span class="p">(</span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">pids</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcbc3da7" class="outline-2">
+<h2 id="orgcbc3da7">管道 Pipe</h2>
+<div class="outline-text-2" id="text-orgcbc3da7">
+<p>
+POSIX 提供了单向管道，可以从一个进程向另一个进程单向地传输信息。
+</p>
+</div>
+
+<div id="outline-container-org54afe23" class="outline-3">
+<h3 id="org54afe23">
+<code>pipe</code> 创建管道</h3>
+<div class="outline-text-3" id="text-org54afe23">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">pipe</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fildes</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+</pre></div>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>int fildes[2]</code> 创建一个管道的两端，值是整数文件标识, <code>fildes[0]</code> 是管道的出口， <code>fildes[1]</code> 是管道的入口</li>
+<li>发送信息的进程应该先把管道出口关闭，而接收信息的进程应该先把管道入口关闭</li>
+<li>如果管道的两端在同一个进程里都关闭了，再向这个管道发送信息会产生 <code>SIGPIPE</code> 信号</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>成功创建管道返回 <code>0</code>, 失败返回 <code>-1</code> 并设置 <code>errno</code>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb8c8f19" class="outline-3">
+<h3 id="orgb8c8f19">例子：pingpong</h3>
+<div class="outline-text-3" id="text-orgb8c8f19">
+<p>
+两个进程之间互相发送数据，一个数据在两个管道之间来回传递，类似打乒乓球，这是 MPI 中最简单的例子
+</p>
+
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/types.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+
+<span class="cp">#define TOTAL_NUMBER 10</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">child</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">pipe_in</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pipe_out</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getpid</span><span class="p">();</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"start pid: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">recv_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">send_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">recv_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">TOTAL_NUMBER</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">send_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">TOTAL_NUMBER</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="cm">/* clear buf */</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">buf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/* read from pipe_in into buf */</span>
+<span class="w">    </span><span class="n">read</span><span class="p">(</span><span class="n">pipe_in</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+<span class="w">    </span><span class="n">recv_count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atoi</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"pid=%d: recv %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/* write to pipe_out */</span>
+<span class="w">    </span><span class="n">number</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">sprintf</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="s">"%d"</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="p">);</span>
+<span class="w">    </span><span class="n">write</span><span class="p">(</span><span class="n">pipe_out</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"pid=%d: send %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="p">);</span>
+<span class="w">    </span><span class="n">send_count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">  </span><span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+
+<span class="w">  </span><span class="cm">/* Create the pipes. */</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pipe</span><span class="w"> </span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">pipe</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">))</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fork</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* child process */</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">child</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="cm">/* parent process */</span>
+<span class="w">  </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">  </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="w">  </span><span class="cm">/* send first number */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="w">  </span><span class="n">sprintf</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="s">"%d"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">  </span><span class="n">write</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* loop */</span>
+<span class="w">  </span><span class="n">child</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">  </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">  </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="w">  </span><span class="n">wait</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4117894" class="outline-2">
+<h2 id="org4117894">信号量 System V Semaphores</h2>
+<div class="outline-text-2" id="text-org4117894">
+<p>
+信号量有两种，一个是旧的 System V 一个是标准 POSIX。System V 的支持更广，POSIX 标准在许多系统上都没有实现，所以这里只解释 System V 信号量。
+</p>
+</div>
+
+<div id="outline-container-org58220ca" class="outline-3">
+<h3 id="org58220ca">
+<code>semget</code> 获得信号量集</h3>
+<div class="outline-text-3" id="text-org58220ca">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/sem.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">semget</span><span class="p">(</span><span class="kt">key_t</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nsems</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">semflg</span><span class="p">);</span>
+</pre></div>
+
+<p>
+新建或访问已有的信号量集。
+</p>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>key_t key</code> 信号量集的键。每个信号量集都有唯一的键，自定义键名通过 <a href="https://man7.org/linux/man-pages/man3/ftok.3.html">ftok</a> 创建，也可以设成 <code>IPC_PRIVATE</code> 来新建一个只有当前进程和子进程可见的信号量集</li>
+<li>
+<code>int nsems</code> 信号量集中信号的个数</li>
+<li>
+<code>int semflg</code> 控制创建和访问权限。
+<ul class="org-ul">
+<li>
+<code>IPC_CREAT</code> 表示创建新的信号量集</li>
+<li>
+<code>IPC_CREAT | IPC_EXCL</code> 表示创建新的信号量集，并且当之前已经存在信号量集时失败</li>
+<li>
+<code>IPC_CREAT | 0666</code> 创建时可以设置权限，与文件的权限规则相同</li>
+</ul>
+</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>成功时返回信号量集的ID <code>semid</code> ，失败时返回 -1 并设置 errno</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3cac01b" class="outline-3">
+<h3 id="org3cac01b">
+<code>semctl</code> 配置信号量集</h3>
+<div class="outline-text-3" id="text-org3cac01b">
+<div class="highlight"><pre><span></span>#include &lt;sys/sem.h&gt;
+
+int semctl(int semid, int semnum, int cmd, ...); /* union semun sem_perm */
+
+union semun {
+    int     val;            /* value for SETVAL */
+    struct  semid_ds *buf;  /* buffer for IPC_STAT &amp; IPC_SET */
+    u_short *array;         /* array for GETALL &amp; SETALL */
+};
+</pre></div>
+
+<p>
+<code>semctl</code> 的作用配置信号量集 <code>semid</code> 中的第 <code>semnum</code> 个参数的值。
+配置行为由 <code>cmd</code> 指定，配置的值是可选的第四个参数 <code>sem_union</code> 。
+配置的值很多，参看 <a href="https://man7.org/linux/man-pages/man2/semctl.2.html">man semctl</a>.
+</p>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>int semid</code> 信号量集的 ID</li>
+<li>
+<code>int semnum</code> 信号量集中的第几个信号</li>
+<li>
+<code>int cmd</code> 要执行的操作，下面是常用的一些选项
+<ul class="org-ul">
+<li>
+<code>SETVAL</code> 把信号量的值设成 <code>sem_union.val</code>
+</li>
+<li>
+<code>SETALL</code> 把所有的信号量的值都设成 <code>sem_union.val</code>
+</li>
+<li>
+<code>IPC_RMID</code> 清除信号量</li>
+</ul>
+</li>
+<li>可选的第四个参数 <code>union semun sem_union</code> 设置的值</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>成功时返回非负值，与 <code>cmd</code> 设置有关</li>
+<li>失败时返回 -1，并设置 errno</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfbe5484" class="outline-3">
+<h3 id="orgfbe5484">
+<code>semop</code> 操作信号</h3>
+<div class="outline-text-3" id="text-orgfbe5484">
+<div class="highlight"><pre><span></span>#include &lt;sys/sem.h&gt;
+
+int semop(int semid, struct sembuf *sops, size_t nsops);
+
+struct sembuf {
+    u_short sem_num;        /* semaphore */
+    short   sem_op;         /* semaphore operation */
+    short   sem_flg;        /* operation flags */
+};
+</pre></div>
+
+
+<p>
+<code>semop</code> 的作用是在信号量集 <code>semid</code> 上执行 <code>nsops</code> 个原子操作，每个操作由数组 <code>sops</code> 定义。
+配置行为由 <code>cmd</code> 指定，配置的值是可选的第四个参数 <code>sem_union</code> 。
+配置的值很多，参看 <a href="https://man7.org/linux/man-pages/man2/semctl.2.html">man semctl</a>.
+</p>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>int semid</code> 信号量集的 ID</li>
+<li>
+<code>struct sembuf *sops</code> 对信号的操作
+<ul class="org-ul">
+<li>
+<code>u_short sem_num</code> 对第几个信号操作</li>
+<li>
+<code>short sem_op</code> 具体的操作</li>
+<li>
+<code>short sem_flg</code> 控制操作的行为</li>
+</ul>
+</li>
+<li>
+<code>size_t nsops</code> 数组 <code>sops</code> 的长度</li>
+</ul>
+<p>
+<b><code>sem_op</code> 的几种情况</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>&gt;0</code> 新的信号量值 = 旧的信号量值 + <code>sem_op</code>, 立即执行</li>
+<li>
+<code>=0</code> 阻塞直到信号量的值变成 0</li>
+<li>
+<code>&lt;0</code> 阻塞直到 <code>旧信号量 + sem_op &gt;= 0</code>
+</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>成功时返回 0</li>
+<li>失败时返回 -1，并设置 errno</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc7dcb88" class="outline-3">
+<h3 id="orgc7dcb88">例子：互斥锁</h3>
+<div class="outline-text-3" id="text-orgc7dcb88">
+<p>
+这个例子里子进程和主进程一起对共享的变量 <code>shared_int</code> 数数，如果不加锁，最后输出的数字会比 2000000 少，也就是出现了数据竞争，而加锁之后就不会出现这种问题了。
+可以注释掉 <code>lock</code> 和 <code>unlock</code> 来自己观察一下。
+</p>
+
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/types.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/sem.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/mman.h&gt;</span>
+
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">lock</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">semid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">sembuf</span><span class="w"> </span><span class="n">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">};</span>
+<span class="w">  </span><span class="n">semop</span><span class="p">(</span><span class="n">semid</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sb</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">unlock</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">semid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">sembuf</span><span class="w"> </span><span class="n">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">};</span>
+<span class="w">  </span><span class="n">semop</span><span class="p">(</span><span class="n">semid</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sb</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">shared_int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mmap</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span><span class="w"> </span><span class="n">PROT_READ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PROT_WRITE</span><span class="p">,</span><span class="w"> </span><span class="n">MAP_SHARED</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">MAP_ANON</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">shared_int</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAP_FAILED</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">perror</span><span class="p">(</span><span class="s">"mmap"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">semid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">semget</span><span class="p">(</span><span class="n">IPC_PRIVATE</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mo">0666</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">IPC_CREAT</span><span class="p">);</span>
+<span class="w">  </span><span class="k">union</span><span class="w"> </span><span class="nc">semun</span><span class="w"> </span><span class="n">sem_union</span><span class="p">;</span>
+<span class="w">  </span><span class="n">sem_union</span><span class="p">.</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="n">semctl</span><span class="p">(</span><span class="n">semid</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">SETVAL</span><span class="p">,</span><span class="w"> </span><span class="n">sem_union</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fork</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">lock</span><span class="p">(</span><span class="n">semid</span><span class="p">);</span>
+<span class="w">      </span><span class="p">(</span><span class="o">*</span><span class="n">shared_int</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+<span class="w">      </span><span class="n">unlock</span><span class="p">(</span><span class="n">semid</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">lock</span><span class="p">(</span><span class="n">semid</span><span class="p">);</span>
+<span class="w">    </span><span class="p">(</span><span class="o">*</span><span class="n">shared_int</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="n">unlock</span><span class="p">(</span><span class="n">semid</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">wait</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"final, %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">shared_int</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">semctl</span><span class="p">(</span><span class="n">semid</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">IPC_RMID</span><span class="p">,</span><span class="w"> </span><span class="n">sem_union</span><span class="p">);</span>
+<span class="w">  </span><span class="n">munmap</span><span class="p">(</span><span class="n">shared_int</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/c/" rel="tag">C</a></li>
+            <li><a class="tag p-category" href="../../categories/concurrency/" rel="tag">concurrency</a></li>
+            <li><a class="tag p-category" href="../../categories/parallel/" rel="tag">parallel</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../tenpy-diao-yan/" rel="prev" title="TeNPy 调研">上一篇文章</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>评论</h2>
+        
+    
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="chimezz",
+            disqus_url="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/",
+        disqus_title="POSIX \u591a\u8fdb\u7a0b\u7f16\u7a0b",
+        disqus_identifier="cache/posts/posix-duo-jin-cheng-bian-cheng.html",
+        disqus_config = function () {
+            this.language = "zh_cn";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="chimezz";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer">
+            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+    </script>
+</body>
+</html>

@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PyTables | chimez's blog</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -115,18 +121,18 @@ PyTables 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgdd366cb" class="outline-2">
-<h2 id="orgdd366cb">PyTables: 分层数据集</h2>
-<div class="outline-text-2" id="text-orgdd366cb">
+    <div id="outline-container-org468c0a4" class="outline-2">
+<h2 id="org468c0a4">PyTables: 分层数据集</h2>
+<div class="outline-text-2" id="text-org468c0a4">
 <p>
 <a href="https://www.pytables.org">PyTables</a> 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5py 更高层。适合用在存储比 csv 表格更复杂更大的数据，同时又不想自己实现一些基本的数据操作的情况中，并且经过简单的处理就能用 pandas 进行进一步数据分析。
 </p>
 </div>
 
 
-<div id="outline-container-org9223974" class="outline-3">
-<h3 id="org9223974">安装</h3>
-<div class="outline-text-3" id="text-org9223974">
+<div id="outline-container-org21f2acc" class="outline-3">
+<h3 id="org21f2acc">安装</h3>
+<div class="outline-text-3" id="text-org21f2acc">
 <div class="highlight"><pre><span></span>   # 使用 conda
    conda install pytables
    # 或者 pip
@@ -143,17 +149,17 @@ PyTables 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5
 </div>
 </div>
 
-<div id="outline-container-org51705e0" class="outline-3">
-<h3 id="org51705e0">基本使用</h3>
-<div class="outline-text-3" id="text-org51705e0">
+<div id="outline-container-orgabea914" class="outline-3">
+<h3 id="orgabea914">基本使用</h3>
+<div class="outline-text-3" id="text-orgabea914">
 <p>
 pytables 的基本逻辑是
 </p>
 </div>
 
-<div id="outline-container-org2764a6f" class="outline-4">
-<h4 id="org2764a6f">创建一个 HDF5 文件</h4>
-<div class="outline-text-4" id="text-org2764a6f">
+<div id="outline-container-orga67803a" class="outline-4">
+<h4 id="orga67803a">创建一个 HDF5 文件</h4>
+<div class="outline-text-4" id="text-orga67803a">
 <div class="highlight"><pre><span></span>    <span class="n">f</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s2">"filename.h5"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"file title"</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">tb</span><span class="o">.</span><span class="n">Filters</span><span class="p">(</span><span class="n">complevel</span><span class="o">=</span><span class="mi">9</span><span class="p">))</span>
 
     <span class="c1"># 别忘了还要关闭它</span>
@@ -162,17 +168,17 @@ pytables 的基本逻辑是
 </div>
 </div>
 
-<div id="outline-container-orgbe4861e" class="outline-4">
-<h4 id="orgbe4861e">在文件中创建任意层的数据集</h4>
-<div class="outline-text-4" id="text-orgbe4861e">
+<div id="outline-container-org8b1cab8" class="outline-4">
+<h4 id="org8b1cab8">在文件中创建任意层的数据集</h4>
+<div class="outline-text-4" id="text-org8b1cab8">
 <div class="highlight"><pre><span></span>    <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">"/parent/group"</span><span class="p">,</span> <span class="s2">"group_name"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"group title"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org68efbd9" class="outline-4">
-<h4 id="org68efbd9">在数据集中创建若干个数据表</h4>
-<div class="outline-text-4" id="text-org68efbd9">
+<div id="outline-container-orgfbee49e" class="outline-4">
+<h4 id="orgfbee49e">在数据集中创建若干个数据表</h4>
+<div class="outline-text-4" id="text-orgfbee49e">
 <div class="highlight"><pre><span></span>    <span class="c1"># 需要创建对数据的描述</span>
     <span class="k">class</span> <span class="nc">data_description</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">StringCol</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
@@ -200,13 +206,13 @@ pytables 的基本逻辑是
 </div>
 
 
-<div id="outline-container-org54d2bee" class="outline-2">
-<h2 id="org54d2bee">遇到的问题</h2>
-<div class="outline-text-2" id="text-org54d2bee">
+<div id="outline-container-orgd6d7826" class="outline-2">
+<h2 id="orgd6d7826">遇到的问题</h2>
+<div class="outline-text-2" id="text-orgd6d7826">
 </div>
-<div id="outline-container-orgfac156a" class="outline-3">
-<h3 id="orgfac156a">在不支持 <code>flock</code> 的集群上运行</h3>
-<div class="outline-text-3" id="text-orgfac156a">
+<div id="outline-container-org38e43a5" class="outline-3">
+<h3 id="org38e43a5">在不支持 <code>flock</code> 的集群上运行</h3>
+<div class="outline-text-3" id="text-org38e43a5">
 <p>
 需要设置环境变量
 </p>
@@ -258,7 +264,7 @@ pytables 的基本逻辑是
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
