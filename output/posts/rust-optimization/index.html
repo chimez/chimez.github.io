@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rust Optimization | chimez's blog</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -129,21 +135,21 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org6f20b03" class="outline-2">
-<h2 id="org6f20b03">Rust 性能优化</h2>
-<div class="outline-text-2" id="text-org6f20b03">
+    <div id="outline-container-orge4983e1" class="outline-2">
+<h2 id="orge4983e1">Rust 性能优化</h2>
+<div class="outline-text-2" id="text-orge4983e1">
 <p>
 这里所称性能优化实际上就是 Rust 的正确打开方式，因为 Rust 的安全特性导致按照 c/c++ 方式直接写程序有可能速度会比较慢。
 </p>
 </div>
 
-<div id="outline-container-org21d7769" class="outline-3">
-<h3 id="org21d7769">避免边界检查</h3>
-<div class="outline-text-3" id="text-org21d7769">
+<div id="outline-container-org0bec6aa" class="outline-3">
+<h3 id="org0bec6aa">避免边界检查</h3>
+<div class="outline-text-3" id="text-org0bec6aa">
 </div>
-<div id="outline-container-orgfa7515b" class="outline-4">
-<h4 id="orgfa7515b">参考资料</h4>
-<div class="outline-text-4" id="text-orgfa7515b">
+<div id="outline-container-org166dbd1" class="outline-4">
+<h4 id="org166dbd1">参考资料</h4>
+<div class="outline-text-4" id="text-org166dbd1">
 <ol class="org-ol">
 <li>
 <a href="https://users.rust-lang.org/t/how-to-malloc-an-array-in-heap-like-c/27827/40">这里</a> 的说明</li>
@@ -151,9 +157,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 </div>
 
-<div id="outline-container-org58d7212" class="outline-4">
-<h4 id="org58d7212">使用 slice 为编译器提示长度</h4>
-<div class="outline-text-4" id="text-org58d7212">
+<div id="outline-container-org9fa9891" class="outline-4">
+<h4 id="org9fa9891">使用 slice 为编译器提示长度</h4>
+<div class="outline-text-4" id="text-org9fa9891">
 <p>
 vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方式定义变量
 </p>
@@ -169,9 +175,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 </div>
 
-<div id="outline-container-org9158e4d" class="outline-4">
-<h4 id="org9158e4d">尽可能使用迭代器而不是指标循环</h4>
-<div class="outline-text-4" id="text-org9158e4d">
+<div id="outline-container-org95c727a" class="outline-4">
+<h4 id="org95c727a">尽可能使用迭代器而不是指标循环</h4>
+<div class="outline-text-4" id="text-org95c727a">
 <p>
 迭代器中的边界检查被优化掉了
 </p>
@@ -189,9 +195,9 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 </div>
 
-<div id="outline-container-org3cd1190" class="outline-4">
-<h4 id="org3cd1190">不得不用指标获得值时用 unsafe 的非检查方式</h4>
-<div class="outline-text-4" id="text-org3cd1190">
+<div id="outline-container-org1135810" class="outline-4">
+<h4 id="org1135810">不得不用指标获得值时用 unsafe 的非检查方式</h4>
+<div class="outline-text-4" id="text-org1135810">
 <p>
 当确保指标不会越界时就可以大胆使用 unsafe
 </p>
@@ -251,7 +257,7 @@ vec 等类型的参数传递给函数后，在函数内部重新用 slice 的方
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

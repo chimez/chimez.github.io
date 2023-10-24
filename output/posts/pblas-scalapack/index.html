@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PBLAS &amp; ScaLAPACK &amp; BLACS | chimez's blog</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -119,17 +125,17 @@ ScaLAPACK 是基于 MPI 的并行版本 LAPACK, PBLAS 则是并行版本的 BLAS
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgd0d311c" class="outline-2">
-<h2 id="orgd0d311c">PBLAS &amp; ScaLAPACK &amp; BLACS</h2>
-<div class="outline-text-2" id="text-orgd0d311c">
+    <div id="outline-container-org6dbd54b" class="outline-2">
+<h2 id="org6dbd54b">PBLAS &amp; ScaLAPACK &amp; BLACS</h2>
+<div class="outline-text-2" id="text-org6dbd54b">
 <p>
 <a href="https://www.netlib.org/scalapack/">ScaLAPACK</a> 是基于 MPI 的并行版本 LAPACK, <a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
 </p>
 </div>
 
-<div id="outline-container-orga24c039" class="outline-3">
-<h3 id="orga24c039">编译</h3>
-<div class="outline-text-3" id="text-orga24c039">
+<div id="outline-container-org6c20363" class="outline-3">
+<h3 id="org6c20363">编译</h3>
+<div class="outline-text-3" id="text-org6c20363">
 <ol class="org-ol">
 <li>从 github 下载 <a href="https://github.com/Reference-ScaLAPACK/scalapack/">https://github.com/Reference-ScaLAPACK/scalapack/</a>
 </li>
@@ -139,7 +145,7 @@ ScaLAPACK 是基于 MPI 的并行版本 LAPACK, PBLAS 则是并行版本的 BLAS
 <p>
 示例
 </p>
-<pre class="example" id="orgd39f8ba">
+<pre class="example" id="orgfd2e6a3">
 FC            = /home/beacon/app/openmpi/bin/mpif90
 CC            = /home/beacon/app/openmpi/bin/mpicc 
 NOOPT         = -O0 -std=legacy
@@ -153,9 +159,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </pre>
 </div>
 
-<div id="outline-container-org396273f" class="outline-4">
-<h4 id="org396273f">GCC 10 不兼容</h4>
-<div class="outline-text-4" id="text-org396273f">
+<div id="outline-container-org87b8ae6" class="outline-4">
+<h4 id="org87b8ae6">GCC 10 不兼容</h4>
+<div class="outline-text-4" id="text-org87b8ae6">
 <p>
 由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 <code>-fallow-argument-mismatch</code> 或 <code>-std=legacy</code> 来编译。
 </p>
@@ -167,9 +173,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </div>
 </div>
 
-<div id="outline-container-org138c6dc" class="outline-3">
-<h3 id="org138c6dc">BLACS</h3>
-<div class="outline-text-3" id="text-org138c6dc">
+<div id="outline-container-org2f8e94d" class="outline-3">
+<h3 id="org2f8e94d">BLACS</h3>
+<div class="outline-text-3" id="text-org2f8e94d">
 <p>
 <a href="https://www.netlib.org/blacs/index.html">BLACS</a> 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
 </p>
@@ -182,13 +188,13 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 <a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html">oneAPI/MKL/BLACS</a>
 </p>
 </div>
-<div id="outline-container-org802eb8e" class="outline-4">
-<h4 id="org802eb8e">基本概念</h4>
-<div class="outline-text-4" id="text-org802eb8e">
+<div id="outline-container-orgd162e52" class="outline-4">
+<h4 id="orgd162e52">基本概念</h4>
+<div class="outline-text-4" id="text-orgd162e52">
 </div>
 <ul class="org-ul">
 <li>
-<a id="orgb6b084a"></a>进程网格和范围操作<br><div class="outline-text-5" id="text-orgb6b084a">
+<a id="org465cd9e"></a>进程网格和范围操作<br><div class="outline-text-5" id="text-org465cd9e">
 <p>
 一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
 </p>
@@ -210,7 +216,7 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </li>
 
 <li>
-<a id="org8484ac9"></a>上下文<br><div class="outline-text-5" id="text-org8484ac9">
+<a id="org249ed9d"></a>上下文<br><div class="outline-text-5" id="text-org249ed9d">
 <p>
 <b>上下文</b> (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
 </p>
@@ -234,7 +240,7 @@ BLACS 中有关上下文的函数有
 </li>
 
 <li>
-<a id="orge8ceca2"></a>基于数组的通信<br><div class="outline-text-5" id="text-orge8ceca2">
+<a id="org29e9be0"></a>基于数组的通信<br><div class="outline-text-5" id="text-org29e9be0">
 <p>
 BLACS 中有两个基本的数据模型
 </p>
@@ -242,7 +248,7 @@ BLACS 中有两个基本的数据模型
 
 <ul class="org-ul">
 <li>
-<a id="org87ebe14"></a>矩形矩阵<br><div class="outline-text-6" id="text-org87ebe14">
+<a id="orga6b5295"></a>矩形矩阵<br><div class="outline-text-6" id="text-orga6b5295">
 <p>
 一维向量是特殊的矩形矩阵。
 </p>
@@ -254,7 +260,7 @@ BLACS 中有两个基本的数据模型
 </li>
 
 <li>
-<a id="org30adce6"></a>梯形矩阵<br><div class="outline-text-6" id="text-org30adce6">
+<a id="org856369d"></a>梯形矩阵<br><div class="outline-text-6" id="text-org856369d">
 <p>
 三角矩阵和对角矩阵是特殊的梯形矩阵。
 </p>
@@ -275,7 +281,7 @@ BLACS 中有两个基本的数据模型
 </li>
 
 <li>
-<a id="org3852787"></a>无编号通信<br><div class="outline-text-5" id="text-org3852787">
+<a id="org60a018b"></a>无编号通信<br><div class="outline-text-5" id="text-org60a018b">
 <p>
 BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 <code>SHIFT_RANGE</code> 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
 </p>
@@ -292,9 +298,9 @@ BLACS 的通信保证
 </ul>
 </div>
 
-<div id="outline-container-orga4a0ea1" class="outline-4">
-<h4 id="orga4a0ea1">结构</h4>
-<div class="outline-text-4" id="text-orga4a0ea1">
+<div id="outline-container-org0d0a1ed" class="outline-4">
+<h4 id="org0d0a1ed">结构</h4>
+<div class="outline-text-4" id="text-org0d0a1ed">
 <p>
 BLACS 由 4 个部分构成
 </p>
@@ -311,7 +317,7 @@ BLACS 由 4 个部分构成
 
 <ul class="org-ul">
 <li>
-<a id="org9d41958"></a>命名规则<br><div class="outline-text-5" id="text-org9d41958">
+<a id="orgc7f5727"></a>命名规则<br><div class="outline-text-5" id="text-orgc7f5727">
 <ul class="org-ul">
 <li>点到点通信与广播： <code>vXXYY2D</code>
 <ul class="org-ul">
@@ -443,9 +449,9 @@ BLACS 由 4 个部分构成
 </ul>
 </div>
 </div>
-<div id="outline-container-org5a18175" class="outline-3">
-<h3 id="org5a18175">PBLAS</h3>
-<div class="outline-text-3" id="text-org5a18175">
+<div id="outline-container-orgf0a4691" class="outline-3">
+<h3 id="orgf0a4691">PBLAS</h3>
+<div class="outline-text-3" id="text-orgf0a4691">
 <p>
 <a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 <code>.h</code> 头文件，得自己写。
 </p>
@@ -455,12 +461,12 @@ BLACS 由 4 个部分构成
 </p>
 </div>
 </div>
-<div id="outline-container-org5be52fd" class="outline-3">
-<h3 id="org5be52fd">ScaLAPACK</h3>
-<div class="outline-text-3" id="text-org5be52fd">
+<div id="outline-container-org9f23c5d" class="outline-3">
+<h3 id="org9f23c5d">ScaLAPACK</h3>
+<div class="outline-text-3" id="text-org9f23c5d">
 </div>
-<div id="outline-container-orgba3e4ab" class="outline-4">
-<h4 id="orgba3e4ab">基本方法</h4>
+<div id="outline-container-orgfea164c" class="outline-4">
+<h4 id="orgfea164c">基本方法</h4>
 </div>
 </div>
 </div>
@@ -512,7 +518,7 @@ BLACS 由 4 个部分构成
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

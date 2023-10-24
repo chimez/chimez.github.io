@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rust macro | chimez's blog</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -128,27 +134,27 @@ $x:expr 表明模式匹配一个 expr 类型的源码块，并用">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org11b95ce" class="outline-2">
-<h2 id="org11b95ce">Rust 宏</h2>
-<div class="outline-text-2" id="text-org11b95ce">
+    <div id="outline-container-orgbbc7afb" class="outline-2">
+<h2 id="orgbbc7afb">Rust 宏</h2>
+<div class="outline-text-2" id="text-orgbbc7afb">
 <p>
 Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一种是过程宏 <code>#[...]</code> .
 </p>
 </div>
 
 
-<div id="outline-container-org97af11e" class="outline-3">
-<h3 id="org97af11e">声明宏 <code>macro_rules!</code>
+<div id="outline-container-org3fe9eb8" class="outline-3">
+<h3 id="org3fe9eb8">声明宏 <code>macro_rules!</code>
 </h3>
-<div class="outline-text-3" id="text-org97af11e">
+<div class="outline-text-3" id="text-org3fe9eb8">
 <p>
 声明宏是 Rust 中最常用的宏，通过对源码的模式匹配来实现功能。
 </p>
 </div>
 
-<div id="outline-container-orge25f8bf" class="outline-4">
-<h4 id="orge25f8bf">语法</h4>
-<div class="outline-text-4" id="text-orge25f8bf">
+<div id="outline-container-org4bd129e" class="outline-4">
+<h4 id="org4bd129e">语法</h4>
+<div class="outline-text-4" id="text-org4bd129e">
 <p>
 参考： <a href="https://doc.rust-lang.org/reference/macros-by-example.html">reference/macro</a>
 </p>
@@ -164,10 +170,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </div>
 </div>
 
-<div id="outline-container-org7f6fcd9" class="outline-4">
-<h4 id="org7f6fcd9">例子： <code>vec!</code>
+<div id="outline-container-org2fcb702" class="outline-4">
+<h4 id="org2fcb702">例子： <code>vec!</code>
 </h4>
-<div class="outline-text-4" id="text-org7f6fcd9">
+<div class="outline-text-4" id="text-org2fcb702">
 <div class="highlight"><pre><span></span>    #[macro_export]
     macro_rules! vec {
         ( $( $x:expr ),* ) =&gt; {
@@ -186,17 +192,17 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </div>
 
 
-<div id="outline-container-org1ff4cea" class="outline-3">
-<h3 id="org1ff4cea">过程宏</h3>
-<div class="outline-text-3" id="text-org1ff4cea">
+<div id="outline-container-org17a33b2" class="outline-3">
+<h3 id="org17a33b2">过程宏</h3>
+<div class="outline-text-3" id="text-org17a33b2">
 <p>
 过程宏是一个函数，不过它的输入输出类型是词法对象 <code>TokenStream</code> ，由编译器在编译前调用。
 </p>
 </div>
 
-<div id="outline-container-org3cba940" class="outline-4">
-<h4 id="org3cba940">crate</h4>
-<div class="outline-text-4" id="text-org3cba940">
+<div id="outline-container-org3d6ef84" class="outline-4">
+<h4 id="org3d6ef84">crate</h4>
+<div class="outline-text-4" id="text-org3d6ef84">
 <p>
 由于技术限制，目前过程宏必须分离在一个单独的 crate 中, 这个 crate 是 <code>proc-macro</code> 类型的
 </p>
@@ -211,10 +217,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </div>
 </div>
 
-<div id="outline-container-org27ae0e7" class="outline-4">
-<h4 id="org27ae0e7">
+<div id="outline-container-orgf9843d0" class="outline-4">
+<h4 id="orgf9843d0">
 <code>derive</code> 宏</h4>
-<div class="outline-text-4" id="text-org27ae0e7">
+<div class="outline-text-4" id="text-orgf9843d0">
 <p>
 <code>derive</code> 宏用来为结构体等创建默认的 trait 实现。
 </p>
@@ -226,7 +232,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="orgd39921f"></a>使用<br><div class="outline-text-5" id="text-orgd39921f">
+<a id="orgea8fa49"></a>使用<br><div class="outline-text-5" id="text-orgea8fa49">
 <p>
 下面的例子展示了为 <code>struct Pancakes</code> 创建 trait <code>HelloMacro</code> 的默认实现的方法，这个 trait 中只有一个函数 <code>hello_macro()</code>
 </p>
@@ -248,7 +254,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="org12bb42a"></a>trait 定义<br><div class="outline-text-5" id="text-org12bb42a">
+<a id="org5d1e851"></a>trait 定义<br><div class="outline-text-5" id="text-org5d1e851">
 <p>
 <code>hello_macro/src/lib.rs</code>
 </p>
@@ -260,7 +266,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="orgfcaf5df"></a>宏定义<br><div class="outline-text-5" id="text-orgfcaf5df">
+<a id="org26f5e25"></a>宏定义<br><div class="outline-text-5" id="text-org26f5e25">
 <p>
 <code>hello_macro_derive/Cargo.toml</code>
 </p>
@@ -308,10 +314,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-orga6a5158" class="outline-4">
-<h4 id="orga6a5158">
+<div id="outline-container-orga7a191d" class="outline-4">
+<h4 id="orga7a191d">
 <code>Attribute-like</code> 宏</h4>
-<div class="outline-text-4" id="text-orga6a5158">
+<div class="outline-text-4" id="text-orga7a191d">
 <p>
 属性宏可以创建新的属性, 与 <code>derive</code> 宏的区别在于参数多了一个属性 <code>attr</code>, 也就是括号里面的部分，另一个参数 <code>item</code> 就是与 <code>derive</code> 宏一样的内容了。
 </p>
@@ -319,7 +325,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="orgdb44b9d"></a>用法<br><div class="outline-text-5" id="text-orgdb44b9d">
+<a id="org600c510"></a>用法<br><div class="outline-text-5" id="text-org600c510">
 <div class="highlight"><pre><span></span>     #[route(GET, "/")]
      fn index() { ... }
 </pre></div>
@@ -327,7 +333,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="orgeea496d"></a>宏定义<br><div class="outline-text-5" id="text-orgeea496d">
+<a id="org3c801cc"></a>宏定义<br><div class="outline-text-5" id="text-org3c801cc">
 <div class="highlight"><pre><span></span>     #[proc_macro_attribute]
      pub fn route(attr: TokenStream, item: TokenStream) -&gt; TokenStream { ... }
 </pre></div>
@@ -336,10 +342,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-orgbf1ba5f" class="outline-4">
-<h4 id="orgbf1ba5f">
+<div id="outline-container-org6b6c29b" class="outline-4">
+<h4 id="org6b6c29b">
 <code>Function-like</code> 宏</h4>
-<div class="outline-text-4" id="text-orgbf1ba5f">
+<div class="outline-text-4" id="text-org6b6c29b">
 <p>
 函数宏可以定义像函数一样调用的宏。可以用来定义 DSL
 </p>
@@ -347,14 +353,14 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="orged7e4a7"></a>用法<br><div class="outline-text-5" id="text-orged7e4a7">
+<a id="org4df84c6"></a>用法<br><div class="outline-text-5" id="text-org4df84c6">
 <div class="highlight"><pre><span></span>     let sql = sql!(SELECT * FROM posts WHERE id=1);
 </pre></div>
 </div>
 </li>
 
 <li>
-<a id="orgd9b0c46"></a>宏定义<br><div class="outline-text-5" id="text-orgd9b0c46">
+<a id="org0f8d3fa"></a>宏定义<br><div class="outline-text-5" id="text-org0f8d3fa">
 <div class="highlight"><pre><span></span>     #[proc_macro]
      pub fn sql(input: TokenStream) -&gt; TokenStream { ... }
 </pre></div>
@@ -363,9 +369,9 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-org49db44c" class="outline-4">
-<h4 id="org49db44c">syn: rust parser</h4>
-<div class="outline-text-4" id="text-org49db44c">
+<div id="outline-container-org859d3af" class="outline-4">
+<h4 id="org859d3af">syn: rust parser</h4>
+<div class="outline-text-4" id="text-org859d3af">
 <p>
 <a href="https://crates.io/crates/syn">syn</a> 是 rust 代码的 parser，可以将源码字符串 <code>TokenStream</code> 转换成语法树 <code>syn::DeriveInput</code> 。
 </p>
@@ -373,7 +379,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="orgcdbcf20"></a><code>syn::DeriveInput</code><br><div class="outline-text-5" id="text-orgcdbcf20">
+<a id="orgdeb39bc"></a><code>syn::DeriveInput</code><br><div class="outline-text-5" id="text-orgdeb39bc">
 <p>
 对于输入 <code>TokenStream</code> 使用 <code>parse_macro_input!</code> 将它解析为语法树 <code>DeriveInput</code> ，之后就可以通过对语法树的操作生成新的语法树
 </p>
@@ -381,7 +387,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="orgbc29f4a"></a><code>syn::spanned::Spanned</code><br><div class="outline-text-5" id="text-orgbc29f4a">
+<a id="org5ba96f7"></a><code>syn::spanned::Spanned</code><br><div class="outline-text-5" id="text-org5ba96f7">
 <p>
 对重复结构的操作，使用 <code>span()</code> 配合 <code>quote::qoute_spanned!</code> 实现
 </p>
@@ -390,9 +396,9 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-org83c7fa7" class="outline-4">
-<h4 id="org83c7fa7">quote: rust 代码模板</h4>
-<div class="outline-text-4" id="text-org83c7fa7">
+<div id="outline-container-org90b6501" class="outline-4">
+<h4 id="org90b6501">quote: rust 代码模板</h4>
+<div class="outline-text-4" id="text-org90b6501">
 <p>
 <a href="https://crates.io/crates/quote">quote</a> 的 <code>quote!</code> 宏可以将 rust 语法数据结构变成 <code>TokenStream</code>
 </p>
@@ -451,7 +457,7 @@ qoute 的宏类似于 <code>macro_rules!</code> 只是把 <code>$</code> 换成 
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

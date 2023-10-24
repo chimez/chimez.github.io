@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>rust c ffi | chimez's blog</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -122,21 +128,21 @@ rust-bindgen 是在编译时由头文件生成绑定代码的工具。由它封�
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org8da9284" class="outline-2">
-<h2 id="org8da9284">Rust C FFI</h2>
-<div class="outline-text-2" id="text-org8da9284">
+    <div id="outline-container-orgc6ec431" class="outline-2">
+<h2 id="orgc6ec431">Rust C FFI</h2>
+<div class="outline-text-2" id="text-orgc6ec431">
 </div>
-<div id="outline-container-org8337bea" class="outline-3">
-<h3 id="org8337bea">rust-bindgen: rust 调用 c</h3>
-<div class="outline-text-3" id="text-org8337bea">
+<div id="outline-container-org96195ba" class="outline-3">
+<h3 id="org96195ba">rust-bindgen: rust 调用 c</h3>
+<div class="outline-text-3" id="text-org96195ba">
 <p>
 <a href="https://github.com/rust-lang/rust-bindgen">rust-bindgen</a> 是在编译时由头文件生成绑定代码的工具。由它封装的库称为 <code>xxx-sys</code>
 </p>
 </div>
 
-<div id="outline-container-orgd8358b4" class="outline-4">
-<h4 id="orgd8358b4">常量宏</h4>
-<div class="outline-text-4" id="text-orgd8358b4">
+<div id="outline-container-org327468b" class="outline-4">
+<h4 id="org327468b">常量宏</h4>
+<div class="outline-text-4" id="text-org327468b">
 <p>
 对于形如 <code>#define XX (int)0</code> 这样的有类型转换的宏是不能自动生成绑定的，可以在 <code>wrapper.h</code> 中写
 </p>
@@ -149,40 +155,40 @@ rust-bindgen 是在编译时由头文件生成绑定代码的工具。由它封�
 </div>
 </div>
 
-<div id="outline-container-org43ac55a" class="outline-3">
-<h3 id="org43ac55a">libc: 系统库</h3>
+<div id="outline-container-org5e95944" class="outline-3">
+<h3 id="org5e95944">libc: 系统库</h3>
 </div>
 
 
-<div id="outline-container-org1ac8fe7" class="outline-3">
-<h3 id="org1ac8fe7">c 类型</h3>
-<div class="outline-text-3" id="text-org1ac8fe7">
+<div id="outline-container-org42fe101" class="outline-3">
+<h3 id="org42fe101">c 类型</h3>
+<div class="outline-text-3" id="text-org42fe101">
 <p>
 一般的类型在 <code>std::os::raw</code> 中，或者使用在 <code>libc</code> 中的重新绑定。
 </p>
 </div>
 
-<div id="outline-container-org24e360a" class="outline-4">
-<h4 id="org24e360a">字符串</h4>
-<div class="outline-text-4" id="text-org24e360a">
+<div id="outline-container-org3f59c5b" class="outline-4">
+<h4 id="org3f59c5b">字符串</h4>
+<div class="outline-text-4" id="text-org3f59c5b">
 <p>
 c 的字符串实际上是 <code>&amp;[u8]</code> 数组，可以用 <code>std::ffi::CString</code> 和 <code>std::ffi::CStr</code>, 其中 <code>CString</code> 拥有所有权， <code>CStr</code> 是借用。
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgbf77fbf" class="outline-4">
-<h4 id="orgbf77fbf">指针</h4>
-<div class="outline-text-4" id="text-orgbf77fbf">
+<div id="outline-container-org395d0c4" class="outline-4">
+<h4 id="org395d0c4">指针</h4>
+<div class="outline-text-4" id="text-org395d0c4">
 <p>
 c 的常量指针 <code>const int *</code> 对应 <code>*const i32</code>, 一般指针 <code>int *</code> 对应 <code>*mut i32</code>. 两级指针 <code>int **</code> 对应 <code>*mut *mut int</code> 以此类推。
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgfb4f39e" class="outline-4">
-<h4 id="orgfb4f39e">结构体</h4>
-<div class="outline-text-4" id="text-orgfb4f39e">
+<div id="outline-container-org9f0f5b6" class="outline-4">
+<h4 id="org9f0f5b6">结构体</h4>
+<div class="outline-text-4" id="text-org9f0f5b6">
 <p>
 rust 中定义与 c 兼容的结构体的方法为
 </p>
@@ -195,18 +201,18 @@ rust 中定义与 c 兼容的结构体的方法为
 </div>
 </div>
 
-<div id="outline-container-org920090c" class="outline-4">
-<h4 id="org920090c"><code>sizeof</code></h4>
-<div class="outline-text-4" id="text-org920090c">
+<div id="outline-container-org7586c3a" class="outline-4">
+<h4 id="org7586c3a"><code>sizeof</code></h4>
+<div class="outline-text-4" id="text-org7586c3a">
 <p>
 与 c 的 <code>sizeof</code> 相同的是 <code>std::mem::sizeof</code>
 </p>
 </div>
 </div>
 
-<div id="outline-container-org48b63c8" class="outline-4">
-<h4 id="org48b63c8"><code>offsetof</code></h4>
-<div class="outline-text-4" id="text-org48b63c8">
+<div id="outline-container-orge34a4f6" class="outline-4">
+<h4 id="orge34a4f6"><code>offsetof</code></h4>
+<div class="outline-text-4" id="text-orge34a4f6">
 <p>
 使用 <a href="https://github.com/Gilnaa/memoffset">memoffset</a> 的 <code>offset_of!</code> 宏来获得。
 </p>
@@ -218,14 +224,14 @@ rust 中定义与 c 兼容的结构体的方法为
 </div>
 </div>
 
-<div id="outline-container-org49d02ef" class="outline-3">
-<h3 id="org49d02ef">问题解决</h3>
-<div class="outline-text-3" id="text-org49d02ef">
+<div id="outline-container-org8fd7431" class="outline-3">
+<h3 id="org8fd7431">问题解决</h3>
+<div class="outline-text-3" id="text-org8fd7431">
 </div>
-<div id="outline-container-org6cc93dd" class="outline-4">
-<h4 id="org6cc93dd">传递 <code>argc, argv</code>
+<div id="outline-container-org5c0e625" class="outline-4">
+<h4 id="org5c0e625">传递 <code>argc, argv</code>
 </h4>
-<div class="outline-text-4" id="text-org6cc93dd">
+<div class="outline-text-4" id="text-org5c0e625">
 <p>
 参考 <a href="https://stackoverflow.com/questions/34379641/how-do-i-convert-rust-args-into-the-argc-and-argv-c-equivalents">stackoverflow</a>
 </p>
@@ -297,7 +303,7 @@ rust 中定义与 c 兼容的结构体的方法为
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 Memory Management 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/memory-management.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 18 Oct 2023 02:37:53 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C 指针与内存管理</title><link>https://chimez.github.io/posts/c-memory-management/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org3c4721e" class="outline-2"&gt;
-&lt;h2 id="org3c4721e"&gt;动态存储分配&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3c4721e"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 Memory Management 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/memory-management.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 24 Oct 2023 10:00:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>C 指针与内存管理</title><link>https://chimez.github.io/posts/c-memory-management/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgd02b4ed" class="outline-2"&gt;
+&lt;h2 id="orgd02b4ed"&gt;动态存储分配&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd02b4ed"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb92c61e" class="outline-3"&gt;
-&lt;h3 id="orgb92c61e"&gt;内存分配函数&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb92c61e"&gt;
+&lt;div id="outline-container-orgeb83647" class="outline-3"&gt;
+&lt;h3 id="orgeb83647"&gt;内存分配函数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgeb83647"&gt;
 &lt;p&gt;
 在 &lt;code&gt;&amp;lt;stdlib.h&amp;gt;&lt;/code&gt; 头文件中的
 &lt;/p&gt;
@@ -21,9 +21,9 @@
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org799f82a" class="outline-3"&gt;
-&lt;h3 id="org799f82a"&gt;空指针&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org799f82a"&gt;
+&lt;div id="outline-container-org5b62f58" class="outline-3"&gt;
+&lt;h3 id="org5b62f58"&gt;空指针&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5b62f58"&gt;
 &lt;p&gt;
 内存分配函数有可能返回空指针 &lt;code&gt;NULL&lt;/code&gt; ，使用空指针会导致程序崩溃，所以要判断指针是否为空指针。
 &lt;/p&gt;
@@ -43,9 +43,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4f7fe00" class="outline-3"&gt;
-&lt;h3 id="org4f7fe00"&gt;malloc&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4f7fe00"&gt;
+&lt;div id="outline-container-orgfe442d4" class="outline-3"&gt;
+&lt;h3 id="orgfe442d4"&gt;malloc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfe442d4"&gt;
 &lt;p&gt;
 原型 &lt;code&gt;void *malloc(size_t size);&lt;/code&gt;
 &lt;/p&gt;
@@ -58,9 +58,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5169cdf" class="outline-3"&gt;
-&lt;h3 id="org5169cdf"&gt;calloc&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5169cdf"&gt;
+&lt;div id="outline-container-org45fbd46" class="outline-3"&gt;
+&lt;h3 id="org45fbd46"&gt;calloc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org45fbd46"&gt;
 &lt;p&gt;
 原型 &lt;code&gt;void *calloc(size_t nmemb, size_t size);&lt;/code&gt;
 分配 nmemb 个元素，每个元素大小为 size.
@@ -68,9 +68,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9232fe4" class="outline-3"&gt;
-&lt;h3 id="org9232fe4"&gt;realloc&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9232fe4"&gt;
+&lt;div id="outline-container-org21fa391" class="outline-3"&gt;
+&lt;h3 id="org21fa391"&gt;realloc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org21fa391"&gt;
 &lt;p&gt;
 原型 &lt;code&gt;void *realloc(void *ptr, size_t size);&lt;/code&gt;
 &lt;/p&gt;
@@ -88,9 +88,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgd838de9" class="outline-3"&gt;
-&lt;h3 id="orgd838de9"&gt;释放内存 free&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd838de9"&gt;
+&lt;div id="outline-container-orgfbcd3b4" class="outline-3"&gt;
+&lt;h3 id="orgfbcd3b4"&gt;释放内存 free&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfbcd3b4"&gt;
 &lt;p&gt;
 原型 &lt;code&gt;void free(void *ptr);&lt;/code&gt;
 &lt;/p&gt;
@@ -99,13 +99,13 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-orgcc3b882" class="outline-2"&gt;
-&lt;h2 id="orgcc3b882"&gt;声明&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcc3b882"&gt;
+&lt;div id="outline-container-orgad68021" class="outline-2"&gt;
+&lt;h2 id="orgad68021"&gt;声明&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgad68021"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org15f6f16" class="outline-3"&gt;
-&lt;h3 id="org15f6f16"&gt;声明说明符&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org15f6f16"&gt;
+&lt;div id="outline-container-org20d2b8f" class="outline-3"&gt;
+&lt;h3 id="org20d2b8f"&gt;声明说明符&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org20d2b8f"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;存储类型。包括 &lt;code&gt;auto, static, extern, register&lt;/code&gt; ，只能有一个，必须放在最前面&lt;/li&gt;
 &lt;li&gt;类型限定符。包括 &lt;code&gt;const, volatile, restrict(C99)&lt;/code&gt; ，可以有一个或多个&lt;/li&gt;
@@ -115,9 +115,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1e6561c" class="outline-3"&gt;
-&lt;h3 id="org1e6561c"&gt;解释复杂的声明符&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org1e6561c"&gt;
+&lt;div id="outline-container-org9e38bd4" class="outline-3"&gt;
+&lt;h3 id="org9e38bd4"&gt;解释复杂的声明符&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9e38bd4"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;始终从内往外读声明符&lt;/li&gt;
 &lt;li&gt;[]和()优先于 * ,即 *p[] 是数组， *f() 是函数&lt;/li&gt;
@@ -126,9 +126,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org5e7cc41" class="outline-3"&gt;
-&lt;h3 id="org5e7cc41"&gt;关键字&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5e7cc41"&gt;
+&lt;div id="outline-container-orgf17566b" class="outline-3"&gt;
+&lt;h3 id="orgf17566b"&gt;关键字&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf17566b"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -285,9 +285,9 @@ c语言中空指针为假，非空指针都为真。
 &lt;/div&gt;
 
 
-&lt;div id="outline-container-org84b7bf2" class="outline-2"&gt;
-&lt;h2 id="org84b7bf2"&gt;TODO&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org84b7bf2"&gt;
+&lt;div id="outline-container-org27f99e0" class="outline-2"&gt;
+&lt;h2 id="org27f99e0"&gt;TODO&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org27f99e0"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;-Ofast -flto -march=native -funroll-loops -fPIC&lt;/li&gt;
 &lt;/ol&gt;

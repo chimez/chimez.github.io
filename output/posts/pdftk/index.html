@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>pdftk: The PDF Toolkit | chimez's blog</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -118,24 +124,24 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org250e1db" class="outline-2">
-<h2 id="org250e1db">添加目录与修改元信息</h2>
-<div class="outline-text-2" id="text-org250e1db">
+    <div id="outline-container-org36d24ee" class="outline-2">
+<h2 id="org36d24ee">添加目录与修改元信息</h2>
+<div class="outline-text-2" id="text-org36d24ee">
 <p>
 参见： <a href="https://www.pdflabs.com/blog/export-and-import-pdf-bookmarks/">https://www.pdflabs.com/blog/export-and-import-pdf-bookmarks/</a>
 </p>
 </div>
-<div id="outline-container-org8048dcc" class="outline-3">
-<h3 id="org8048dcc">从pdf中提取目录和元信息</h3>
-<div class="outline-text-3" id="text-org8048dcc">
+<div id="outline-container-org079c166" class="outline-3">
+<h3 id="org079c166">从pdf中提取目录和元信息</h3>
+<div class="outline-text-3" id="text-org079c166">
 <div class="highlight"><pre><span></span>   pdftk C:\Users\Sid\Desktop\doc.pdf dump_data output C:\Users\Sid\Desktop\doc_data.txt
 </pre></div>
 </div>
 </div>
 
-<div id="outline-container-org15f9754" class="outline-3">
-<h3 id="org15f9754">给pdf添加或更新目录</h3>
-<div class="outline-text-3" id="text-org15f9754">
+<div id="outline-container-orgda9561b" class="outline-3">
+<h3 id="orgda9561b">给pdf添加或更新目录</h3>
+<div class="outline-text-3" id="text-orgda9561b">
 <div class="highlight"><pre><span></span>   pdftk C:\Users\Sid\Desktop\doc.pdf update_info C:\Users\Sid\Desktop\doc_data.txt output C:\Users\Sid\Desktop\updated.pdf
 </pre></div>
 
@@ -173,15 +179,15 @@
 <p>
 常用正则替换
 </p>
-<pre class="example" id="org5213845">
+<pre class="example" id="orgde9bee6">
 s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPageNumber: \2/
 </pre>
 </div>
 </div>
 
-<div id="outline-container-orgfaaf682" class="outline-3">
-<h3 id="orgfaaf682">添加目录的示例流程</h3>
-<div class="outline-text-3" id="text-orgfaaf682">
+<div id="outline-container-org64d777e" class="outline-3">
+<h3 id="org64d777e">添加目录的示例流程</h3>
+<div class="outline-text-3" id="text-org64d777e">
 <div class="highlight"><pre><span></span>   <span class="c1"># import</span>
    <span class="kn">import</span> <span class="nn">pytesseract</span>
    <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
@@ -226,18 +232,18 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
 </div>
 
 
-<div id="outline-container-orgc3b91e1" class="outline-2">
-<h2 id="orgc3b91e1">合并pdf文件</h2>
-<div class="outline-text-2" id="text-orgc3b91e1">
+<div id="outline-container-org2d834fc" class="outline-2">
+<h2 id="org2d834fc">合并pdf文件</h2>
+<div class="outline-text-2" id="text-org2d834fc">
 <div class="highlight"><pre><span></span>  pdftk in1.pdf in2.pdf cat output out1.pdf
 </pre></div>
 </div>
 </div>
 
 
-<div id="outline-container-orga6ab63b" class="outline-2">
-<h2 id="orga6ab63b">djvu to pdf</h2>
-<div class="outline-text-2" id="text-orga6ab63b">
+<div id="outline-container-org821fac6" class="outline-2">
+<h2 id="org821fac6">djvu to pdf</h2>
+<div class="outline-text-2" id="text-org821fac6">
 <ol class="org-ol">
 <li>djvulibre</li>
 </ol>
@@ -247,9 +253,9 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
 </div>
 
 
-<div id="outline-container-org7cf1604" class="outline-2">
-<h2 id="org7cf1604">分割文件</h2>
-<div class="outline-text-2" id="text-org7cf1604">
+<div id="outline-container-org89c6665" class="outline-2">
+<h2 id="org89c6665">分割文件</h2>
+<div class="outline-text-2" id="text-org89c6665">
 <div class="highlight"><pre><span></span>pdftk in.pdf burst output out_%04d.pdf
 </pre></div>
 </div>
@@ -297,7 +303,7 @@ s/\(.*\),\(.*\)/BookmarkBegin\nBookmarkTitle: \1\nBookmarkLevel: 2\nBookmarkPage
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

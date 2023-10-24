@@ -5,7 +5,13 @@
 <meta name="description" content="Blog of chimez">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>chimez's blog (旧文章，第 5 页) | chimez's blog</title>
-<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -72,7 +78,63 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/klib/" class="u-url">klib</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/xxhash/" class="u-url">xxhash</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/xxhash/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-08-07T00:30:25+08:00" itemprop="datePublished" title="2021-08-07 00:30">2021-08-07 00:30</time></a>
+            </p>
+                        <p class="commentline">
+    
+    <a href="posts/xxhash/#disqus_thread" data-disqus-identifier="cache/posts/xxhash.html">评论</a>
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <div id="outline-container-org3d58d70" class="outline-2">
+<h2 id="org3d58d70">xxHash: 快速的哈希函数</h2>
+<div class="outline-text-2" id="text-org3d58d70">
+<p>
+<a href="https://github.com/Cyan4973/xxHash">Cyan4973/xxHash</a>
+</p>
+</div>
+
+<div id="outline-container-orgbdacddf" class="outline-3">
+<h3 id="orgbdacddf">安装</h3>
+<div class="outline-text-3" id="text-orgbdacddf">
+<p>
+meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
+</p>
+
+<p>
+编译时使用 <code>XXH_INLINE_ALL</code> 选项提高性能，对于 meson 来说需要写 <code>xxhash_dep = dependency('libxxhash', default_options: ['inline-all=true'])</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org14e48f4" class="outline-3">
+<h3 id="org14e48f4">基本使用</h3>
+<div class="outline-text-3" id="text-org14e48f4">
+<p>
+最快的哈希函数是 <code>XXH3_64bits</code>
+</p>
+<div class="highlight"><pre><span></span><span class="w">   </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"xxhash.h"</span>
+
+<span class="w">   </span><span class="k">static</span><span class="w"> </span><span class="kr">inline</span>
+<span class="w">   </span><span class="n">XXH64_hash_t</span>
+<span class="w">   </span><span class="nf">hash_func</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="n">XXH3_64bits</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span><span class="w">	</span>
+<span class="w">   </span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/klib/" class="u-url">klib</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -89,17 +151,17 @@
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org6734099" class="outline-2">
-<h2 id="org6734099">klib: 轻量级 c 头文件库</h2>
-<div class="outline-text-2" id="text-org6734099">
+                    <div id="outline-container-org9953a0a" class="outline-2">
+<h2 id="org9953a0a">klib: 轻量级 c 头文件库</h2>
+<div class="outline-text-2" id="text-org9953a0a">
 <p>
 <a href="https://github.com/attractivechaos/klib">attractivechaos/klib</a>
 </p>
 </div>
 
-<div id="outline-container-orgade509e" class="outline-3">
-<h3 id="orgade509e">khash.h</h3>
-<div class="outline-text-3" id="text-orgade509e">
+<div id="outline-container-org70160cf" class="outline-3">
+<h3 id="org70160cf">khash.h</h3>
+<div class="outline-text-3" id="text-org70160cf">
 <p>
 快速轻量的哈希表库
 </p>
@@ -177,17 +239,17 @@
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org4fa1dca" class="outline-2">
-<h2 id="org4fa1dca">Cython</h2>
-<div class="outline-text-2" id="text-org4fa1dca">
+                    <div id="outline-container-org9e97e42" class="outline-2">
+<h2 id="org9e97e42">Cython</h2>
+<div class="outline-text-2" id="text-org9e97e42">
 </div>
-<div id="outline-container-org5c1a59b" class="outline-3">
-<h3 id="org5c1a59b">基本概念</h3>
-<div class="outline-text-3" id="text-org5c1a59b">
+<div id="outline-container-orgd0fab38" class="outline-3">
+<h3 id="orgd0fab38">基本概念</h3>
+<div class="outline-text-3" id="text-orgd0fab38">
 </div>
-<div id="outline-container-orga7aa3db" class="outline-4">
-<h4 id="orga7aa3db">文件</h4>
-<div class="outline-text-4" id="text-orga7aa3db">
+<div id="outline-container-orgce20ccd" class="outline-4">
+<h4 id="orgce20ccd">文件</h4>
+<div class="outline-text-4" id="text-orgce20ccd">
 <ol class="org-ol">
 <li>
 <code>.pyx</code> 是 <code>cython</code> 语法的源文件</li>
@@ -200,9 +262,9 @@
 </div>
 </div>
 
-<div id="outline-container-org8a5218b" class="outline-4">
-<h4 id="org8a5218b">库</h4>
-<div class="outline-text-4" id="text-org8a5218b">
+<div id="outline-container-orge8c94e3" class="outline-4">
+<h4 id="orge8c94e3">库</h4>
+<div class="outline-text-4" id="text-orge8c94e3">
 <ol class="org-ol">
 <li>
 <code>Cython.Build</code> python 端调用，用于编译</li>
@@ -232,9 +294,9 @@
 </div>
 </div>
 
-<div id="outline-container-org86bde6d" class="outline-4">
-<h4 id="org86bde6d">语法</h4>
-<div class="outline-text-4" id="text-org86bde6d">
+<div id="outline-container-org0ab0263" class="outline-4">
+<h4 id="org0ab0263">语法</h4>
+<div class="outline-text-4" id="text-org0ab0263">
 <div class="highlight"><pre><span></span>    from libc.math cimport log2 # 引入 c 函数
     cdef int x # 声明变量类型
     cdef int [:,:] x # 声明变量是 numpy 的 2d 向量
@@ -261,9 +323,9 @@
 </div>
 </div>
 
-<div id="outline-container-org2eb49a1" class="outline-4">
-<h4 id="org2eb49a1">文件注解</h4>
-<div class="outline-text-4" id="text-org2eb49a1">
+<div id="outline-container-org4565b12" class="outline-4">
+<h4 id="org4565b12">文件注解</h4>
+<div class="outline-text-4" id="text-org4565b12">
 <ol class="org-ol">
 <li>
 <code># distutils: language=c++</code> 使用 <code>c++</code> 编译</li>
@@ -285,9 +347,9 @@
 </div>
 </div>
 
-<div id="outline-container-org63e2dc9" class="outline-4">
-<h4 id="org63e2dc9">函数注解</h4>
-<div class="outline-text-4" id="text-org63e2dc9">
+<div id="outline-container-org07de030" class="outline-4">
+<h4 id="org07de030">函数注解</h4>
+<div class="outline-text-4" id="text-org07de030">
 <ol class="org-ol">
 <li>
 <code>@cython.boundscheck(False)</code> 关闭数组边界检查</li>
@@ -298,13 +360,13 @@
 </div>
 </div>
 
-<div id="outline-container-org66be532" class="outline-3">
-<h3 id="org66be532">编译</h3>
-<div class="outline-text-3" id="text-org66be532">
+<div id="outline-container-org5fbf539" class="outline-3">
+<h3 id="org5fbf539">编译</h3>
+<div class="outline-text-3" id="text-org5fbf539">
 </div>
-<div id="outline-container-org337ca19" class="outline-4">
-<h4 id="org337ca19">基本结构</h4>
-<div class="outline-text-4" id="text-org337ca19">
+<div id="outline-container-orgadde2fc" class="outline-4">
+<h4 id="orgadde2fc">基本结构</h4>
+<div class="outline-text-4" id="text-orgadde2fc">
 <p>
 <code>setup.py</code>
 </p>
@@ -334,9 +396,9 @@
 </div>
 </div>
 
-<div id="outline-container-org5232617" class="outline-4">
-<h4 id="org5232617">动态链接</h4>
-<div class="outline-text-4" id="text-org5232617">
+<div id="outline-container-org0f7b105" class="outline-4">
+<h4 id="org0f7b105">动态链接</h4>
+<div class="outline-text-4" id="text-org0f7b105">
 <p>
 <a href="https://cython.readthedocs.io/en/latest/src/tutorial/external.html#dynamic-linking">参考</a>
 </p>
@@ -360,9 +422,9 @@
 </div>
 </div>
 
-<div id="outline-container-orgda74b68" class="outline-4">
-<h4 id="orgda74b68">静态链接</h4>
-<div class="outline-text-4" id="text-orgda74b68">
+<div id="outline-container-orge37e032" class="outline-4">
+<h4 id="orge37e032">静态链接</h4>
+<div class="outline-text-4" id="text-orge37e032">
 <p>
 使用注解 
 </p>
@@ -375,13 +437,13 @@
 </div>
 </div>
 
-<div id="outline-container-orgedb5a15" class="outline-3">
-<h3 id="orgedb5a15">使用 c 库</h3>
-<div class="outline-text-3" id="text-orgedb5a15">
+<div id="outline-container-org0488a8e" class="outline-3">
+<h3 id="org0488a8e">使用 c 库</h3>
+<div class="outline-text-3" id="text-org0488a8e">
 </div>
-<div id="outline-container-org5bb8c27" class="outline-4">
-<h4 id="org5bb8c27">外部声明</h4>
-<div class="outline-text-4" id="text-org5bb8c27">
+<div id="outline-container-orge08828b" class="outline-4">
+<h4 id="orge08828b">外部声明</h4>
+<div class="outline-text-4" id="text-orge08828b">
 <p>
 使用头文件, 外部声明可以放在 <code>.pyd</code> 文件中
 </p>
@@ -391,9 +453,9 @@
 </div>
 </div>
 
-<div id="outline-container-org259ace8" class="outline-4">
-<h4 id="org259ace8">异常处理</h4>
-<div class="outline-text-4" id="text-org259ace8">
+<div id="outline-container-org25e59ee" class="outline-4">
+<h4 id="org25e59ee">异常处理</h4>
+<div class="outline-text-4" id="text-org25e59ee">
 <ol class="org-ol">
 <li>
 <code>except? -1</code> 语法表示当发生任何错误时，返回 <code>-1</code>
@@ -413,17 +475,17 @@
 </div>
 </div>
 
-<div id="outline-container-org33c08a5" class="outline-3">
-<h3 id="org33c08a5">使用 numpy</h3>
-<div class="outline-text-3" id="text-org33c08a5">
+<div id="outline-container-orgd2ee531" class="outline-3">
+<h3 id="orgd2ee531">使用 numpy</h3>
+<div class="outline-text-3" id="text-orgd2ee531">
 <p>
 numpy 的 <code>ndarray</code> 在 cython 中用做 typed memoryview
 </p>
 </div>
 
-<div id="outline-container-orgc0028ce" class="outline-4">
-<h4 id="orgc0028ce">基本例子</h4>
-<div class="outline-text-4" id="text-orgc0028ce">
+<div id="outline-container-org192254a" class="outline-4">
+<h4 id="org192254a">基本例子</h4>
+<div class="outline-text-4" id="text-org192254a">
 <div class="highlight"><pre><span></span>    import numpy as np
 
     DTYPE = np.intc
@@ -458,9 +520,9 @@ numpy 的 <code>ndarray</code> 在 cython 中用做 typed memoryview
 </div>
 </div>
 
-<div id="outline-container-org3bba035" class="outline-3">
-<h3 id="org3bba035">并行</h3>
-<div class="outline-text-3" id="text-org3bba035">
+<div id="outline-container-org34a5353" class="outline-3">
+<h3 id="org34a5353">并行</h3>
+<div class="outline-text-3" id="text-org34a5353">
 <ol class="org-ol">
 <li>使用 <code>prange</code>
 </li>
@@ -500,9 +562,9 @@ numpy 的 <code>ndarray</code> 在 cython 中用做 typed memoryview
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orge32d29f" class="outline-2">
-<h2 id="orge32d29f">MPI: Message Passing Interface</h2>
-<div class="outline-text-2" id="text-orge32d29f">
+                    <div id="outline-container-org9609caa" class="outline-2">
+<h2 id="org9609caa">MPI: Message Passing Interface</h2>
+<div class="outline-text-2" id="text-org9609caa">
 <p>
 MPI 是消息传递接口标准，主要的实现有 Intel MPI, OpenMPI 和 MPICH 等. MPI 标准目前有三版 MPI-1,MPI-2, MPI-3, 标准支持的语言是 c 和 fortran, c++ 支持在 MPI-3 中移除了。
 </p>
@@ -519,13 +581,13 @@ MPI 的优势：
 </ul>
 </div>
 
-<div id="outline-container-orgf3b6663" class="outline-3">
-<h3 id="orgf3b6663">基本结构</h3>
-<div class="outline-text-3" id="text-orgf3b6663">
+<div id="outline-container-org21e244f" class="outline-3">
+<h3 id="org21e244f">基本结构</h3>
+<div class="outline-text-3" id="text-org21e244f">
 </div>
-<div id="outline-container-org96c6f62" class="outline-4">
-<h4 id="org96c6f62">程序结构</h4>
-<div class="outline-text-4" id="text-org96c6f62">
+<div id="outline-container-orgdff8e30" class="outline-4">
+<h4 id="orgdff8e30">程序结构</h4>
+<div class="outline-text-4" id="text-orgdff8e30">
 <p>
 所有 MPI 程序都分以下几步
 </p>
@@ -542,18 +604,18 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-org5e93520" class="outline-4">
-<h4 id="org5e93520">接口约定</h4>
-<div class="outline-text-4" id="text-org5e93520">
+<div id="outline-container-org5970111" class="outline-4">
+<h4 id="org5970111">接口约定</h4>
+<div class="outline-text-4" id="text-org5970111">
 <p>
 所有 MPI 的函数都以 <code>MPI_</code> 开头，并且下划线后的第一个字母大写，函数返回消息码 <code>rc</code> , 如果成功就是 <code>MPI_SUCCESS</code>, 即 <code>0</code>
 </p>
 </div>
 </div>
 
-<div id="outline-container-org45faeb4" class="outline-4">
-<h4 id="org45faeb4">基本概念</h4>
-<div class="outline-text-4" id="text-org45faeb4">
+<div id="outline-container-org1cffc59" class="outline-4">
+<h4 id="org1cffc59">基本概念</h4>
+<div class="outline-text-4" id="text-org1cffc59">
 <ol class="org-ol">
 <li>
 <b>communicator</b>: 通信器，定义哪些进程之间需要通信
@@ -572,9 +634,9 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-org30977cb" class="outline-4">
-<h4 id="org30977cb">MPI 版本</h4>
-<div class="outline-text-4" id="text-org30977cb">
+<div id="outline-container-orgc5373d4" class="outline-4">
+<h4 id="orgc5373d4">MPI 版本</h4>
+<div class="outline-text-4" id="text-orgc5373d4">
 <p>
 <b>MPI-1</b> (1994) ：最早的版本，构建起了 MPI 的基本框架，包括
 </p>
@@ -621,9 +683,9 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-org80f5bdc" class="outline-3">
-<h3 id="org80f5bdc">环境管理函数</h3>
-<div class="outline-text-3" id="text-org80f5bdc">
+<div id="outline-container-org6628f3f" class="outline-3">
+<h3 id="org6628f3f">环境管理函数</h3>
+<div class="outline-text-3" id="text-org6628f3f">
 <ol class="org-ol">
 <li>
 <code>MPI_Init (&amp;argc,&amp;argv)</code>
@@ -714,13 +776,13 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-org7d2ce5d" class="outline-3">
-<h3 id="org7d2ce5d">点到点通信</h3>
-<div class="outline-text-3" id="text-org7d2ce5d">
+<div id="outline-container-orgff08bbf" class="outline-3">
+<h3 id="orgff08bbf">点到点通信</h3>
+<div class="outline-text-3" id="text-orgff08bbf">
 </div>
-<div id="outline-container-org2ac499e" class="outline-4">
-<h4 id="org2ac499e">一般参数说明</h4>
-<div class="outline-text-4" id="text-org2ac499e">
+<div id="outline-container-org9c8885e" class="outline-4">
+<h4 id="org9c8885e">一般参数说明</h4>
+<div class="outline-text-4" id="text-org9c8885e">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -791,9 +853,9 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-orgfc67bd7" class="outline-4">
-<h4 id="orgfc67bd7">常用阻塞点到点通信函数</h4>
-<div class="outline-text-4" id="text-orgfc67bd7">
+<div id="outline-container-org2797518" class="outline-4">
+<h4 id="org2797518">常用阻塞点到点通信函数</h4>
+<div class="outline-text-4" id="text-org2797518">
 <ol class="org-ol">
 <li>
 <code>MPI_Send()</code> 基本的发送消息, 只有当发送信道再次可用时才返回</li>
@@ -825,9 +887,9 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-org5adabde" class="outline-4">
-<h4 id="org5adabde">常用非阻塞点到点通信函数</h4>
-<div class="outline-text-4" id="text-org5adabde">
+<div id="outline-container-org9c3f75a" class="outline-4">
+<h4 id="org9c3f75a">常用非阻塞点到点通信函数</h4>
+<div class="outline-text-4" id="text-org9c3f75a">
 <ol class="org-ol">
 <li>
 <code>MPI_Isend()</code> 非阻塞发送，所指定的发送 buffer 应该在 <code>MPI_Probe()</code> 确定已经发送完成之前不修改</li>
@@ -852,11 +914,11 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-org9eae9af" class="outline-3">
-<h3 id="org9eae9af">集体通信</h3>
-<div class="outline-text-3" id="text-org9eae9af">
+<div id="outline-container-org37c5e9e" class="outline-3">
+<h3 id="org37c5e9e">集体通信</h3>
+<div class="outline-text-3" id="text-org37c5e9e">
 
-<div id="org8235f9e" class="figure">
+<div id="org84d733c" class="figure">
 <p><img src="img/MPI:_Message_Passing_Interface/2021-07-04_18-47-40_collective_comm.gif" alt="nil"></p>
 </div>
 
@@ -873,9 +935,9 @@ MPI 的优势：
 </ul>
 </div>
 
-<div id="outline-container-orge2210be" class="outline-4">
-<h4 id="orge2210be">常用集体通信函数</h4>
-<div class="outline-text-4" id="text-orge2210be">
+<div id="outline-container-org0b6abb3" class="outline-4">
+<h4 id="org0b6abb3">常用集体通信函数</h4>
+<div class="outline-text-4" id="text-org0b6abb3">
 <ol class="org-ol">
 <li>
 <code>MPI_Barrier (comm)</code> 同步所有进程</li>
@@ -904,9 +966,9 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-orgc9a4ddd" class="outline-3">
-<h3 id="orgc9a4ddd">自定义数据类型</h3>
-<div class="outline-text-3" id="text-orgc9a4ddd">
+<div id="outline-container-org68e53e6" class="outline-3">
+<h3 id="org68e53e6">自定义数据类型</h3>
+<div class="outline-text-3" id="text-org68e53e6">
 <p>
 用户定义的数据类型，称作 <b>derived data types</b>
 </p>
@@ -926,9 +988,9 @@ MPI 的优势：
 </ol>
 </div>
 
-<div id="outline-container-orge5c66df" class="outline-4">
-<h4 id="orge5c66df">自定义结构体</h4>
-<div class="outline-text-4" id="text-orge5c66df">
+<div id="outline-container-org3546ff1" class="outline-4">
+<h4 id="org3546ff1">自定义结构体</h4>
+<div class="outline-text-4" id="text-org3546ff1">
 <p>
 <code>MPI_Type_create_struct(count, array_of_blocklengths, array_of_displacements, array_of_types, newtype)</code>
 </p>
@@ -987,9 +1049,9 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-org419df78" class="outline-3">
-<h3 id="org419df78">组和通信器管理</h3>
-<div class="outline-text-3" id="text-org419df78">
+<div id="outline-container-org0d89aa2" class="outline-3">
+<h3 id="org0d89aa2">组和通信器管理</h3>
+<div class="outline-text-3" id="text-org0d89aa2">
 <p>
 <b>group</b> 组是一些进程的有序集合，每个进程编号从 0 到 N-1, <b>communicator</b> 通信器是一组需要相互通信的进程，每个组都有一个通信器。从编程的角度看，组是用来指定哪些进程相互通信，进而创建通信器的。
 </p>
@@ -1007,9 +1069,9 @@ MPI 的优势：
 </ol>
 </div>
 
-<div id="outline-container-orga0fdaa3" class="outline-4">
-<h4 id="orga0fdaa3">基本通信器</h4>
-<div class="outline-text-4" id="text-orga0fdaa3">
+<div id="outline-container-org30f9523" class="outline-4">
+<h4 id="org30f9523">基本通信器</h4>
+<div class="outline-text-4" id="text-org30f9523">
 <ul class="org-ul">
 <li>
 <code>MPI_COMM_WORLD</code> 全部的进程</li>
@@ -1024,9 +1086,9 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-orgaeaab25" class="outline-4">
-<h4 id="orgaeaab25">复制通信器</h4>
-<div class="outline-text-4" id="text-orgaeaab25">
+<div id="outline-container-org1408583" class="outline-4">
+<h4 id="org1408583">复制通信器</h4>
+<div class="outline-text-4" id="text-org1408583">
 <p>
 复制一个一样的通信器，主要用于库函数编写时防止修改全局参数    
 </p>
@@ -1044,9 +1106,9 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-orgfdfa2f3" class="outline-4">
-<h4 id="orgfdfa2f3">划分通信器</h4>
-<div class="outline-text-4" id="text-orgfdfa2f3">
+<div id="outline-container-orgc3fb623" class="outline-4">
+<h4 id="orgc3fb623">划分通信器</h4>
+<div class="outline-text-4" id="text-orgc3fb623">
 <p>
 使用 <code>MPI_Comm_split(comm, color, key, newcomm)</code>  将 <code>comm</code> 中有相同 <code>color</code> 的进程组成一个新的通信器 <code>newcomm</code>, 新通信器中的 rank 由 <code>key</code> 指定
 </p>
@@ -1064,9 +1126,9 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-org839eba1" class="outline-4">
-<h4 id="org839eba1">从组创建通信器</h4>
-<div class="outline-text-4" id="text-org839eba1">
+<div id="outline-container-org7673323" class="outline-4">
+<h4 id="org7673323">从组创建通信器</h4>
+<div class="outline-text-4" id="text-org7673323">
 <p>
 组的类型是 <code>MPI_Group</code>
 </p>
@@ -1090,9 +1152,9 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-org40e446e" class="outline-4">
-<h4 id="org40e446e">通信器间的通信器</h4>
-<div class="outline-text-4" id="text-org40e446e">
+<div id="outline-container-orga147826" class="outline-4">
+<h4 id="orga147826">通信器间的通信器</h4>
+<div class="outline-text-4" id="text-orga147826">
 <p>
 <code>MPI_Intercomm_create(local_comm, local_leader, peer_comm, remote_leader, tag, newintercomm)</code>
 </p>
@@ -1100,9 +1162,9 @@ MPI 的优势：
 </div>
 </div>
 
-<div id="outline-container-orgb6c0c83" class="outline-3">
-<h3 id="orgb6c0c83">虚拟拓扑</h3>
-<div class="outline-text-3" id="text-orgb6c0c83">
+<div id="outline-container-org04091e6" class="outline-3">
+<h3 id="org04091e6">虚拟拓扑</h3>
+<div class="outline-text-3" id="text-org04091e6">
 <p>
 MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成一个几何形状，这个网络拓扑是虚拟的，与物理实际的连接无关。
 </p>
@@ -1113,13 +1175,13 @@ MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成�
 </div>
 </div>
 
-<div id="outline-container-orgaa8938a" class="outline-3">
-<h3 id="orgaa8938a">单边通信</h3>
-<div class="outline-text-3" id="text-orgaa8938a">
+<div id="outline-container-orgbea9114" class="outline-3">
+<h3 id="orgbea9114">单边通信</h3>
+<div class="outline-text-3" id="text-orgbea9114">
 </div>
-<div id="outline-container-org319f964" class="outline-4">
-<h4 id="org319f964">基本概念</h4>
-<div class="outline-text-4" id="text-org319f964">
+<div id="outline-container-orgecc6a8a" class="outline-4">
+<h4 id="orgecc6a8a">基本概念</h4>
+<div class="outline-text-4" id="text-orgecc6a8a">
 <ul class="org-ul">
 <li>Remote Memory Access(RMA), Remote Direct Momory Access (RDMA), 远程内存访问
 <ul class="org-ul">
@@ -1148,9 +1210,9 @@ MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成�
 </div>
 </div>
 
-<div id="outline-container-orgbf3954e" class="outline-4">
-<h4 id="orgbf3954e">窗口</h4>
-<div class="outline-text-4" id="text-orgbf3954e">
+<div id="outline-container-org479d1cc" class="outline-4">
+<h4 id="org479d1cc">窗口</h4>
+<div class="outline-text-4" id="text-org479d1cc">
 <p>
 用于单边通信的内存区域就是窗口，变量类型为 <code>MPI_Win</code>, 进程可以向其中存取任何东西
 </p>
@@ -1189,9 +1251,9 @@ MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成�
 </div>
 </div>
 
-<div id="outline-container-org6440ef2" class="outline-4">
-<h4 id="org6440ef2">动态分配内存</h4>
-<div class="outline-text-4" id="text-org6440ef2">
+<div id="outline-container-orgb79308a" class="outline-4">
+<h4 id="orgb79308a">动态分配内存</h4>
+<div class="outline-text-4" id="text-orgb79308a">
 <ol class="org-ol">
 <li>
 <code>MPI_Win_create_dynamic(MPI_Info info, MPI_Comm comm, MPI_Win *win)</code>
@@ -1356,9 +1418,9 @@ MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成�
 </div>
 </div>
 
-<div id="outline-container-org73ed907" class="outline-4">
-<h4 id="org73ed907">共享内存</h4>
-<div class="outline-text-4" id="text-org73ed907">
+<div id="outline-container-org66e81e1" class="outline-4">
+<h4 id="org66e81e1">共享内存</h4>
+<div class="outline-text-4" id="text-org66e81e1">
 <ol class="org-ol">
 <li>
 <code>int MPI_Comm_split_type(MPI_Comm comm, int split_type, int key, MPI_Info info, MPI_Comm *newcomm)</code>
@@ -1444,9 +1506,9 @@ MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成�
 </div>
 </div>
 
-<div id="outline-container-orgc6b285c" class="outline-3">
-<h3 id="orgc6b285c">混合多线程</h3>
-<div class="outline-text-3" id="text-orgc6b285c">
+<div id="outline-container-org579a3f8" class="outline-3">
+<h3 id="org579a3f8">混合多线程</h3>
+<div class="outline-text-3" id="text-org579a3f8">
 <p>
 混合多线程的策略：
 </p>
@@ -1460,9 +1522,9 @@ MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成�
 </p>
 </div>
 
-<div id="outline-container-org0d8d190" class="outline-4">
-<h4 id="org0d8d190">线程初始化</h4>
-<div class="outline-text-4" id="text-org0d8d190">
+<div id="outline-container-org288057a" class="outline-4">
+<h4 id="org288057a">线程初始化</h4>
+<div class="outline-text-4" id="text-org288057a">
 <p>
 使用 <code>MPI_Init_thread()</code> 初始化带有线程的 MPI，可用的选项有（注意并不是所有MPI实现都提供下面全部的模式）
 </p>
@@ -1488,13 +1550,13 @@ MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成�
 </div>
 </div>
 
-<div id="outline-container-org80aa373" class="outline-2">
-<h2 id="org80aa373">设计模式</h2>
-<div class="outline-text-2" id="text-org80aa373">
+<div id="outline-container-org41ff994" class="outline-2">
+<h2 id="org41ff994">设计模式</h2>
+<div class="outline-text-2" id="text-org41ff994">
 </div>
-<div id="outline-container-org7db90a3" class="outline-3">
-<h3 id="org7db90a3">为每个节点创建一个通信器</h3>
-<div class="outline-text-3" id="text-org7db90a3">
+<div id="outline-container-org4a2e250" class="outline-3">
+<h3 id="org4a2e250">为每个节点创建一个通信器</h3>
+<div class="outline-text-3" id="text-org4a2e250">
 <p>
 用于创建节点内部的共享内存窗口
 </p>
@@ -1517,9 +1579,9 @@ MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成�
 </div>
 </div>
 
-<div id="outline-container-orgdd25f32" class="outline-3">
-<h3 id="orgdd25f32">非自旋等待</h3>
-<div class="outline-text-3" id="text-orgdd25f32">
+<div id="outline-container-org5255f2a" class="outline-3">
+<h3 id="org5255f2a">非自旋等待</h3>
+<div class="outline-text-3" id="text-org5255f2a">
 <ol class="org-ol">
 <li>阻塞通信是自旋锁，会一直燃烧 CPU， 为了给某个进程上的多线程任务让出 CPU，需要让其它进程非自旋等待</li>
 <li>使用 <code>MPI_Iprobe()</code> 非阻塞地探测信号，并在探测周期中 <code>sleep()</code>
@@ -1561,9 +1623,9 @@ MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成�
 </div>
 </div>
 
-<div id="outline-container-orgaff12f8" class="outline-3">
-<h3 id="orgaff12f8">模拟单线程</h3>
-<div class="outline-text-3" id="text-orgaff12f8">
+<div id="outline-container-orgfe9d500" class="outline-3">
+<h3 id="orgfe9d500">模拟单线程</h3>
+<div class="outline-text-3" id="text-orgfe9d500">
 <p>
 随便写一个变量，按照顺序一个接一个的发送下去
 </p>
@@ -1607,17 +1669,17 @@ MPI 的术语 <b>virtual topologies</b> 指的是一些进程相互连接构成�
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgf303c0d" class="outline-2">
-<h2 id="orgf303c0d">SLEPc: PETSc 的本征值求解器扩展</h2>
-<div class="outline-text-2" id="text-orgf303c0d">
+                    <div id="outline-container-orgdd2887c" class="outline-2">
+<h2 id="orgdd2887c">SLEPc: PETSc 的本征值求解器扩展</h2>
+<div class="outline-text-2" id="text-orgdd2887c">
 <p>
 <a href="https://slepc.upv.es/">SLEPc</a> 是用来求 PETSc 矩阵的扩展库。
 </p>
 </div>
 
-<div id="outline-container-org73ea5df" class="outline-3">
-<h3 id="org73ea5df">基本结构</h3>
-<div class="outline-text-3" id="text-org73ea5df">
+<div id="outline-container-org67f9c2a" class="outline-3">
+<h3 id="org67f9c2a">基本结构</h3>
+<div class="outline-text-3" id="text-org67f9c2a">
 <p>
 SLEPc 有以下基本部分构成
 </p>
@@ -1641,9 +1703,9 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-orgf6f3c0f" class="outline-3">
-<h3 id="orgf6f3c0f">安装</h3>
-<div class="outline-text-3" id="text-orgf6f3c0f">
+<div id="outline-container-org9b23fa7" class="outline-3">
+<h3 id="org9b23fa7">安装</h3>
+<div class="outline-text-3" id="text-org9b23fa7">
 <p>
 下载时注意，SLEPc 的版本必须和 PETSc 版本一样
 </p>
@@ -1661,9 +1723,9 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-orgd6af453" class="outline-3">
-<h3 id="orgd6af453">基本使用</h3>
-<div class="outline-text-3" id="text-orgd6af453">
+<div id="outline-container-org31cb211" class="outline-3">
+<h3 id="org31cb211">基本使用</h3>
+<div class="outline-text-3" id="text-org31cb211">
 <p>
 程序开始和结束时分别调用 <code>SlepcInitialize()</code> 和 <code>SlepcFinalize()</code>, 实际上就是 <code>PetscInitialize()</code> 和 <code>PetscFinalize()</code>
 </p>
@@ -1674,13 +1736,13 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-orgb03a828" class="outline-3">
-<h3 id="orgb03a828">EPS: 矩阵本征值求解器</h3>
-<div class="outline-text-3" id="text-orgb03a828">
+<div id="outline-container-orgf758235" class="outline-3">
+<h3 id="orgf758235">EPS: 矩阵本征值求解器</h3>
+<div class="outline-text-3" id="text-orgf758235">
 </div>
-<div id="outline-container-orgad77126" class="outline-4">
-<h4 id="orgad77126">基本使用</h4>
-<div class="outline-text-4" id="text-orgad77126">
+<div id="outline-container-orgf18aa02" class="outline-4">
+<h4 id="orgf18aa02">基本使用</h4>
+<div class="outline-text-4" id="text-orgf18aa02">
 <ol class="org-ol">
 <li>
 <code>EPSCreate(MPI_Comm comm,EPS *eps);</code> 
@@ -1847,13 +1909,13 @@ SLEPc 有以下基本部分构成
 </div>
 </div>
 
-<div id="outline-container-org4902694" class="outline-4">
-<h4 id="org4902694">求解器配置</h4>
-<div class="outline-text-4" id="text-org4902694">
+<div id="outline-container-org5b6cc0f" class="outline-4">
+<h4 id="org5b6cc0f">求解器配置</h4>
+<div class="outline-text-4" id="text-org5b6cc0f">
 </div>
 <ul class="org-ul">
 <li>
-<a id="org00d9000"></a>问题类型<br><div class="outline-text-5" id="text-org00d9000">
+<a id="org2bca626"></a>问题类型<br><div class="outline-text-5" id="text-org2bca626">
 <p>
 问题类型使用 <code>EPSSetProblemType(EPS eps,EPSProblemType type);</code> 进行设置
 </p>
@@ -1930,7 +1992,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="orgca2c239"></a>求解本征值个数<br><div class="outline-text-5" id="text-orgca2c239">
+<a id="orgd9dae04"></a>求解本征值个数<br><div class="outline-text-5" id="text-orgd9dae04">
 <p>
 使用 <code>EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);</code> 设置要求的本征值个数
 </p>
@@ -1946,7 +2008,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="orgd3119e3"></a>求解本征值位置<br><div class="outline-text-5" id="text-orgd3119e3">
+<a id="orgad8d770"></a>求解本征值位置<br><div class="outline-text-5" id="text-orgad8d770">
 <ol class="org-ol">
 <li>
 <code>EPSSetWhichEigenpairs(EPS eps,EPSWhich which);</code> 设置要求本征值的位置</li>
@@ -2054,7 +2116,7 @@ SLEPc 有以下基本部分构成
 </li>
 
 <li>
-<a id="org4635ff8"></a>选择算法<br><div class="outline-text-5" id="text-org4635ff8">
+<a id="org417bd95"></a>选择算法<br><div class="outline-text-5" id="text-org417bd95">
 <p>
 通过 <code>EPSSetType(EPS eps,EPSType method);</code> 设置求解器使用的算法
 </p>
@@ -2216,7 +2278,7 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="orgad901e3"></a>获得结果<br><div class="outline-text-5" id="text-orgad901e3">
+<a id="org7303e90"></a>获得结果<br><div class="outline-text-5" id="text-org7303e90">
 <ol class="org-ol">
 <li>
 <code>EPSGetConverged(EPS eps,PetscInt *nconv);</code> 获得收敛的解个数</li>
@@ -2264,9 +2326,9 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="org5d102ef"></a>其它设置<br><ul class="org-ul">
+<a id="orgfccb0d8"></a>其它设置<br><ul class="org-ul">
 <li>
-<a id="org8c13992"></a>初始猜解<br><div class="outline-text-6" id="text-org8c13992">
+<a id="orgaf6461a"></a>初始猜解<br><div class="outline-text-6" id="text-orgaf6461a">
 <p>
 <code>EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);</code>
 </p>
@@ -2274,19 +2336,19 @@ SLEPc 支持的算法有
 </li>
 
 <li>
-<a id="org4aee6be"></a>处理简并<br>
+<a id="org50ba269"></a>处理简并<br>
 </li>
 
 <li>
-<a id="orgf47e8c0"></a>选择正交化方法<br>
+<a id="org4fa15ba"></a>选择正交化方法<br>
 </li>
 
 <li>
-<a id="org50c5cf2"></a>选择滤波算法<br>
+<a id="org116b15f"></a>选择滤波算法<br>
 </li>
 
 <li>
-<a id="org749d2a9"></a>计算大量本征值的方法<br>
+<a id="org0628e57"></a>计算大量本征值的方法<br>
 </li>
 </ul>
 </li>
@@ -2312,26 +2374,26 @@ SLEPc 支持的算法有
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org0c08431" class="outline-2">
-<h2 id="org0c08431">pthread: POSIX Threads</h2>
-<div class="outline-text-2" id="text-org0c08431">
+                    <div id="outline-container-org44b19ee" class="outline-2">
+<h2 id="org44b19ee">pthread: POSIX Threads</h2>
+<div class="outline-text-2" id="text-org44b19ee">
 <p>
 pthread 是 POSIX 标准的线程 API, 放在头文件 <code>&lt;pthread.h&gt;</code> 中，并由 libc 提供实现。
 </p>
 </div>
 
-<div id="outline-container-orgbf43c5a" class="outline-4">
-<h4 id="orgbf43c5a">参考</h4>
-<div class="outline-text-4" id="text-orgbf43c5a">
+<div id="outline-container-orgbbcf8bb" class="outline-4">
+<h4 id="orgbbcf8bb">参考</h4>
+<div class="outline-text-4" id="text-orgbbcf8bb">
 <ol class="org-ol">
 <li><a href="https://hpc-tutorials.llnl.gov/posix/">llnl 教程</a></li>
 </ol>
 </div>
 </div>
 
-<div id="outline-container-org3ec4b9a" class="outline-3">
-<h3 id="org3ec4b9a">pthread API</h3>
-<div class="outline-text-3" id="text-org3ec4b9a">
+<div id="outline-container-orga8fae18" class="outline-3">
+<h3 id="orga8fae18">pthread API</h3>
+<div class="outline-text-3" id="text-orga8fae18">
 <p>
 标准 pthread API 包括以下几部分
 </p>
@@ -2400,13 +2462,13 @@ API 命名结构如下：
 </div>
 </div>
 
-<div id="outline-container-org392d07b" class="outline-3">
-<h3 id="org392d07b">线程管理</h3>
-<div class="outline-text-3" id="text-org392d07b">
+<div id="outline-container-org601701c" class="outline-3">
+<h3 id="org601701c">线程管理</h3>
+<div class="outline-text-3" id="text-org601701c">
 </div>
-<div id="outline-container-orgd49e25a" class="outline-4">
-<h4 id="orgd49e25a">创建和终止线程</h4>
-<div class="outline-text-4" id="text-orgd49e25a">
+<div id="outline-container-org56efea1" class="outline-4">
+<h4 id="org56efea1">创建和终止线程</h4>
+<div class="outline-text-4" id="text-org56efea1">
 <p>
 包括以下函数
 </p>
@@ -2429,9 +2491,9 @@ API 命名结构如下：
 </div>
 </div>
 
-<div id="outline-container-org0c946a1" class="outline-4">
-<h4 id="org0c946a1">合并和检测线程</h4>
-<div class="outline-text-4" id="text-org0c946a1">
+<div id="outline-container-org7b2f297" class="outline-4">
+<h4 id="org7b2f297">合并和检测线程</h4>
+<div class="outline-text-4" id="text-org7b2f297">
 <ol class="org-ol">
 <li><code>pthread_join (threadid,status)</code></li>
 <li><code>pthread_detach (threadid)</code></li>
@@ -2447,9 +2509,9 @@ API 命名结构如下：
 </div>
 </div>
 
-<div id="outline-container-org0d6de6d" class="outline-4">
-<h4 id="org0d6de6d">栈管理</h4>
-<div class="outline-text-4" id="text-org0d6de6d">
+<div id="outline-container-org203abd7" class="outline-4">
+<h4 id="org203abd7">栈管理</h4>
+<div class="outline-text-4" id="text-org203abd7">
 <ol class="org-ol">
 <li><code>pthread_attr_getstacksize (attr, stacksize)</code></li>
 <li><code>pthread_attr_setstacksize (attr, stacksize)</code></li>
@@ -2465,9 +2527,9 @@ API 命名结构如下：
 </div>
 </div>
 
-<div id="outline-container-org7f41d20" class="outline-4">
-<h4 id="org7f41d20">其它</h4>
-<div class="outline-text-4" id="text-org7f41d20">
+<div id="outline-container-org5aac19d" class="outline-4">
+<h4 id="org5aac19d">其它</h4>
+<div class="outline-text-4" id="text-org5aac19d">
 <ol class="org-ol">
 <li><code>pthread_self ()</code></li>
 <li><code>pthread_equal (thread1,thread2)</code></li>
@@ -2477,9 +2539,9 @@ API 命名结构如下：
 </div>
 </div>
 
-<div id="outline-container-org4575276" class="outline-3">
-<h3 id="org4575276">互斥锁</h3>
-<div class="outline-text-3" id="text-org4575276">
+<div id="outline-container-org58d3134" class="outline-3">
+<h3 id="org58d3134">互斥锁</h3>
+<div class="outline-text-3" id="text-org58d3134">
 <p>
 典型的使用锁的过程是
 </p>
@@ -2494,9 +2556,9 @@ API 命名结构如下：
 </ol>
 </div>
 
-<div id="outline-container-org706ad89" class="outline-4">
-<h4 id="org706ad89">创建和销毁锁</h4>
-<div class="outline-text-4" id="text-org706ad89">
+<div id="outline-container-orgd10dbef" class="outline-4">
+<h4 id="orgd10dbef">创建和销毁锁</h4>
+<div class="outline-text-4" id="text-orgd10dbef">
 <ol class="org-ol">
 <li><code>pthread_mutex_init (mutex,attr)</code></li>
 <li><code>pthread_mutex_destroy (mutex)</code></li>
@@ -2513,9 +2575,9 @@ API 命名结构如下：
 </div>
 </div>
 
-<div id="outline-container-org0524ddc" class="outline-4">
-<h4 id="org0524ddc">加锁和解锁</h4>
-<div class="outline-text-4" id="text-org0524ddc">
+<div id="outline-container-org2d053c1" class="outline-4">
+<h4 id="org2d053c1">加锁和解锁</h4>
+<div class="outline-text-4" id="text-org2d053c1">
 <ol class="org-ol">
 <li><code>pthread_mutex_lock (mutex)</code></li>
 <li><code>pthread_mutex_trylock (mutex)</code></li>
@@ -2525,17 +2587,17 @@ API 命名结构如下：
 </div>
 </div>
 
-<div id="outline-container-orgf6d747b" class="outline-3">
-<h3 id="orgf6d747b">条件变量</h3>
-<div class="outline-text-3" id="text-orgf6d747b">
+<div id="outline-container-orgdc5c066" class="outline-3">
+<h3 id="orgdc5c066">条件变量</h3>
+<div class="outline-text-3" id="text-orgdc5c066">
 <p>
 条件变量也是用于线程间同步的机制，与加锁的共享内存不同，条件变量用于传递消息。
 </p>
 </div>
 
-<div id="outline-container-orgda92304" class="outline-4">
-<h4 id="orgda92304">创建和销毁条件变量</h4>
-<div class="outline-text-4" id="text-orgda92304">
+<div id="outline-container-org4c6f97c" class="outline-4">
+<h4 id="org4c6f97c">创建和销毁条件变量</h4>
+<div class="outline-text-4" id="text-org4c6f97c">
 <ol class="org-ol">
 <li><code>pthread_cond_init (condition,attr)</code></li>
 <li><code>pthread_cond_destroy (condition)</code></li>
@@ -2552,9 +2614,9 @@ API 命名结构如下：
 </div>
 </div>
 
-<div id="outline-container-org20a80d9" class="outline-4">
-<h4 id="org20a80d9">等待和通信</h4>
-<div class="outline-text-4" id="text-org20a80d9">
+<div id="outline-container-orgf89fa11" class="outline-4">
+<h4 id="orgf89fa11">等待和通信</h4>
+<div class="outline-text-4" id="text-orgf89fa11">
 <ol class="org-ol">
 <li>
 <code>pthread_cond_wait (condition,mutex)</code> 阻止线程直到某个条件被通信过来，应该在加锁时使用，会在等待时自动释放锁，当获得信号时又会把锁加回来</li>
@@ -2594,17 +2656,17 @@ API 命名结构如下：
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org58d4dae" class="outline-2">
-<h2 id="org58d4dae">ck: Concurrency Kit</h2>
-<div class="outline-text-2" id="text-org58d4dae">
+                    <div id="outline-container-org312ace4" class="outline-2">
+<h2 id="org312ace4">ck: Concurrency Kit</h2>
+<div class="outline-text-2" id="text-org312ace4">
 <p>
 <a href="https://github.com/concurrencykit/ck">ck</a> 是一个c语言的高并发数据结构库，内存安全并且无阻塞。
 </p>
 </div>
 
-<div id="outline-container-org026b11c" class="outline-3">
-<h3 id="org026b11c">ck<sub>ht.h</sub>: HashTable</h3>
-<div class="outline-text-3" id="text-org026b11c">
+<div id="outline-container-org0e9434b" class="outline-3">
+<h3 id="org0e9434b">ck<sub>ht.h</sub>: HashTable</h3>
+<div class="outline-text-3" id="text-org0e9434b">
 <p>
 哈希表包括在头文件 <code>ck_ht.h</code> 中，主要的数据类型有
 </p>
@@ -2620,9 +2682,9 @@ API 命名结构如下：
 </ol>
 </div>
 
-<div id="outline-container-org1f6fc94" class="outline-4">
-<h4 id="org1f6fc94">初始化哈希表</h4>
-<div class="outline-text-4" id="text-org1f6fc94">
+<div id="outline-container-org05b402b" class="outline-4">
+<h4 id="org05b402b">初始化哈希表</h4>
+<div class="outline-text-4" id="text-org05b402b">
 <p>
 函数 <code>ck_hs_init</code>
 参数说明：
@@ -2677,9 +2739,9 @@ API 命名结构如下：
 </div>
 </div>
 
-<div id="outline-container-orgdc08625" class="outline-4">
-<h4 id="orgdc08625">读写哈希表</h4>
-<div class="outline-text-4" id="text-orgdc08625">
+<div id="outline-container-org86c355c" class="outline-4">
+<h4 id="org86c355c">读写哈希表</h4>
+<div class="outline-text-4" id="text-org86c355c">
 <p>
 基本的逻辑是
 </p>
@@ -2718,9 +2780,9 @@ API 命名结构如下：
 </div>
 </div>
 
-<div id="outline-container-org357c189" class="outline-4">
-<h4 id="org357c189">遍历哈希表</h4>
-<div class="outline-text-4" id="text-org357c189">
+<div id="outline-container-org3e141c7" class="outline-4">
+<h4 id="org3e141c7">遍历哈希表</h4>
+<div class="outline-text-4" id="text-org3e141c7">
 <p>
 基本步骤
 </p>
@@ -2766,17 +2828,17 @@ API 命名结构如下：
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org324c62b" class="outline-2">
-<h2 id="org324c62b">greatest: c 的单元测试</h2>
-<div class="outline-text-2" id="text-org324c62b">
+                    <div id="outline-container-org3e247e9" class="outline-2">
+<h2 id="org3e247e9">greatest: c 的单元测试</h2>
+<div class="outline-text-2" id="text-org3e247e9">
 <p>
 <a href="https://github.com/silentbicycle/greatest">greatest</a> 是 c 的一个单个头文件库，用于写单元测试
 </p>
 </div>
 
-<div id="outline-container-orgda9bccf" class="outline-3">
-<h3 id="orgda9bccf">基本使用</h3>
-<div class="outline-text-3" id="text-orgda9bccf">
+<div id="outline-container-orgb3a4208" class="outline-3">
+<h3 id="orgb3a4208">基本使用</h3>
+<div class="outline-text-3" id="text-orgb3a4208">
 <div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"greatest.h"</span>
 
 <span class="cm">/* A test runs various assertions, then calls PASS(), FAIL(), or SKIP(). */</span>
@@ -2834,7 +2896,7 @@ API 命名结构如下：
 </div>
 
 
-        <script src="assets/js/all-nocdn.js"></script><script>
+            <script src="assets/js/jquery.min.js"></script><script src="assets/js/popper.min.js"></script><script src="assets/js/bootstrap.min.js"></script><script src="assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

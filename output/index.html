@@ -5,7 +5,13 @@
 <meta name="description" content="Blog of chimez">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>chimez's blog</title>
-<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -14,7 +20,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="zh_cn" href="rss.xml">
 <link rel="canonical" href="https://chimez.github.io/">
 <link rel="next" href="index-5.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/tenpy-diao-yan/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/posix-duo-jin-cheng-bian-cheng/" type="text/html">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
 </head>
 <body>
@@ -72,7 +78,584 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/tenpy-diao-yan/" class="u-url">TeNPy 调研</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/posix-duo-jin-cheng-bian-cheng/" class="u-url">POSIX 多进程编程</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/posix-duo-jin-cheng-bian-cheng/" rel="bookmark">
+            <time class="published dt-published" datetime="2023-10-24T12:46:17+08:00" itemprop="datePublished" title="2023-10-24 12:46">2023-10-24 12:46</time></a>
+            </p>
+                        <p class="commentline">
+    
+    <a href="posts/posix-duo-jin-cheng-bian-cheng/#disqus_thread" data-disqus-identifier="cache/posts/posix-duo-jin-cheng-bian-cheng.html">评论</a>
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li>
+<a href="posts/posix-duo-jin-cheng-bian-cheng/#org5224e9c">启动和终止子进程</a>
+<ul>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgcf39541"><code>fork</code> 创建子进程</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org1f82455"><code>wait</code> 等待子进程退出</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgedc4002"><code>waitpid</code> 等待特定的子进程退出</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org99b7a52">例子：创建一系列子进程并等待</a></li>
+</ul>
+</li>
+<li>
+<a href="posts/posix-duo-jin-cheng-bian-cheng/#orgcbc3da7">管道 Pipe</a>
+<ul>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org54afe23"><code>pipe</code> 创建管道</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgb8c8f19">例子：pingpong</a></li>
+</ul>
+</li>
+<li>
+<a href="posts/posix-duo-jin-cheng-bian-cheng/#org4117894">信号量 System V Semaphores</a>
+<ul>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org58220ca"><code>semget</code> 获得信号量集</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org3cac01b"><code>semctl</code> 配置信号量集</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgfbe5484"><code>semop</code> 操作信号</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgc7dcb88">例子：互斥锁</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+并行计算方案包括多线程并行、多进程并行、异构并行和分布式并行。
+这篇文章主要讲如何利用 POSIX 标准库（C语言）进行多进程并行计算，包括如何启动和终止子进程和进程间通信的两种方法：管道（pipe）与信号量（semaphore）。
+至于其它的进程间通信方式，例如：共享内存（mmap）、网络（sockets）、信号（signal）和消息队列等，都是适用性更广也更复杂的技术，在这篇短文中无法涉及。
+</p>
+
+<div id="outline-container-org5224e9c" class="outline-2">
+<h2 id="org5224e9c">启动和终止子进程</h2>
+<div class="outline-text-2" id="text-org5224e9c">
+<p>
+使用 <code>fork</code> 创建子进程，使用 <code>wait</code> 或 <code>waitpid</code> 等待运行结束。
+</p>
+</div>
+
+<div id="outline-container-orgcf39541" class="outline-3">
+<h3 id="orgcf39541">
+<code>fork</code> 创建子进程</h3>
+<div class="outline-text-3" id="text-orgcf39541">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+
+<span class="kt">pid_t</span><span class="w"> </span><span class="nf">fork</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</pre></div>
+
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>执行成功：在父进程中返回子进程的 <code>pid_t</code>, 在子进程中返回 0；</li>
+<li>执行失败：返回-1，并设置 <code>errno</code>
+</li>
+<li>在 GNU C 中 <code>pid_t</code> 就是 <code>int</code>
+</li>
+</ul>
+<p>
+<b>说明</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>fork</code> 启动的子进程会获得与此时主进程完全一样的内存上下文，这意味着主进程此时可以访问的一切内容在子进程中都可用，甚至连指针地址都一样。
+如果连续启动了两个子进程，在两次 <code>fork</code> 中有任何变量在主进程被修改了，前面的子进程看到的还是原来的值，后面的子进程看到的是新的值。
+同时由于进程之间内存是隔离的，子进程修改任何内存都不会影响到其它子进程。
+<code>fork</code> 对内存使用 copy-on-write 机制，没有修改的内存就访问同样的内容，但如果修改就会复制所有内存。</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1f82455" class="outline-3">
+<h3 id="org1f82455">
+<code>wait</code> 等待子进程退出</h3>
+<div class="outline-text-3" id="text-org1f82455">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/wait.h&gt;</span>
+
+<span class="kt">pid_t</span><span class="w"> </span><span class="nf">wait</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">stat_loc</span><span class="p">);</span>
+</pre></div>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>int *stat_loc</code> 捕获子进程的退出值，设为 <code>NULL</code> 则忽略退出值。具体的返回参数参看 <a href="https://man7.org/linux/man-pages/man2/wait.2.html">man 2 wait</a>
+</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>返回捕获到的子进程ID，失败返回-1，并设置 <code>errno</code>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgedc4002" class="outline-3">
+<h3 id="orgedc4002">
+<code>waitpid</code> 等待特定的子进程退出</h3>
+<div class="outline-text-3" id="text-orgedc4002">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/wait.h&gt;</span>
+
+<span class="kt">pid_t</span><span class="w"> </span><span class="nf">waitpid</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">stat_loc</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">options</span><span class="p">);</span>
+</pre></div>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>pid_t pid</code> 等待特定的子进程</li>
+<li>
+<code>int *stat_loc</code> 捕获子进程的退出值，设为 <code>NULL</code> 则忽略退出值, 与 <code>wait</code> 的参数相同</li>
+<li>
+<code>int options</code> 等待的行为可以通过一系列选项来设置，具体的返回参数参看 <a href="https://man7.org/linux/man-pages/man2/wait.2.html">man 2 waitpid</a>，设成 <code>0</code> 则与 <code>wait</code> 行为相同。</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>返回捕获到的子进程ID，失败返回-1</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org99b7a52" class="outline-3">
+<h3 id="org99b7a52">例子：创建一系列子进程并等待</h3>
+<div class="outline-text-3" id="text-org99b7a52">
+<p>
+在这个例子中创建了 10 个子进程，按照创建顺序给它们标号，让这些进程按照创建顺序的逆序打印自己的序号，主进程则会等待到所有子进程退出再结束。
+</p>
+
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/wait.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">n_process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">pid_t</span><span class="w"> </span><span class="o">*</span><span class="n">pids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calloc</span><span class="p">(</span><span class="n">n_process</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">pid_t</span><span class="p">));</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n_process</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fork</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="cm">/* in child process */</span>
+<span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="n">n_process</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">"child %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">"child %d, pid_t: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">      </span><span class="cm">/* pointer address is the same */</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">"child %d, pids ptr: %p</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">pids</span><span class="p">);</span>
+<span class="w">      </span><span class="cm">/* but value is different */</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">"child %d, all pids: "</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n_process</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">"%d "</span><span class="p">,</span><span class="w"> </span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="w">      </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="cm">/* in parent process */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"all pids: </span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n_process</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"%d "</span><span class="p">,</span><span class="w"> </span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* get parent pid */</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"pid: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+
+<span class="w">  </span><span class="cm">/* wait subprocess to finish */</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n_process</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* wait(NULL); */</span>
+<span class="w">    </span><span class="n">waitpid</span><span class="p">(</span><span class="n">pids</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">free</span><span class="p">(</span><span class="n">pids</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcbc3da7" class="outline-2">
+<h2 id="orgcbc3da7">管道 Pipe</h2>
+<div class="outline-text-2" id="text-orgcbc3da7">
+<p>
+POSIX 提供了单向管道，可以从一个进程向另一个进程单向地传输信息。
+</p>
+</div>
+
+<div id="outline-container-org54afe23" class="outline-3">
+<h3 id="org54afe23">
+<code>pipe</code> 创建管道</h3>
+<div class="outline-text-3" id="text-org54afe23">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">pipe</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fildes</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+</pre></div>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>int fildes[2]</code> 创建一个管道的两端，值是整数文件标识, <code>fildes[0]</code> 是管道的出口， <code>fildes[1]</code> 是管道的入口</li>
+<li>发送信息的进程应该先把管道出口关闭，而接收信息的进程应该先把管道入口关闭</li>
+<li>如果管道的两端在同一个进程里都关闭了，再向这个管道发送信息会产生 <code>SIGPIPE</code> 信号</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>成功创建管道返回 <code>0</code>, 失败返回 <code>-1</code> 并设置 <code>errno</code>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb8c8f19" class="outline-3">
+<h3 id="orgb8c8f19">例子：pingpong</h3>
+<div class="outline-text-3" id="text-orgb8c8f19">
+<p>
+两个进程之间互相发送数据，一个数据在两个管道之间来回传递，类似打乒乓球，这是 MPI 中最简单的例子
+</p>
+
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/types.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+
+<span class="cp">#define TOTAL_NUMBER 10</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">child</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">pipe_in</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pipe_out</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getpid</span><span class="p">();</span>
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"start pid: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">recv_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">send_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">recv_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">TOTAL_NUMBER</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">send_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">TOTAL_NUMBER</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="cm">/* clear buf */</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">buf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/* read from pipe_in into buf */</span>
+<span class="w">    </span><span class="n">read</span><span class="p">(</span><span class="n">pipe_in</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+<span class="w">    </span><span class="n">recv_count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atoi</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"pid=%d: recv %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/* write to pipe_out */</span>
+<span class="w">    </span><span class="n">number</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">sprintf</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="s">"%d"</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="p">);</span>
+<span class="w">    </span><span class="n">write</span><span class="p">(</span><span class="n">pipe_out</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">"pid=%d: send %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="p">);</span>
+<span class="w">    </span><span class="n">send_count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">  </span><span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+
+<span class="w">  </span><span class="cm">/* Create the pipes. */</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pipe</span><span class="w"> </span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">pipe</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">))</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fork</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* child process */</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">child</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="cm">/* parent process */</span>
+<span class="w">  </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">  </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="w">  </span><span class="cm">/* send first number */</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="w">  </span><span class="n">sprintf</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="s">"%d"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">  </span><span class="n">write</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+
+<span class="w">  </span><span class="cm">/* loop */</span>
+<span class="w">  </span><span class="n">child</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">  </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_fromchild</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="w">  </span><span class="n">close</span><span class="p">(</span><span class="n">pipe_tochild</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+<span class="w">  </span><span class="n">wait</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4117894" class="outline-2">
+<h2 id="org4117894">信号量 System V Semaphores</h2>
+<div class="outline-text-2" id="text-org4117894">
+<p>
+信号量有两种，一个是旧的 System V 一个是标准 POSIX。System V 的支持更广，POSIX 标准在许多系统上都没有实现，所以这里只解释 System V 信号量。
+</p>
+</div>
+
+<div id="outline-container-org58220ca" class="outline-3">
+<h3 id="org58220ca">
+<code>semget</code> 获得信号量集</h3>
+<div class="outline-text-3" id="text-org58220ca">
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/sem.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">semget</span><span class="p">(</span><span class="kt">key_t</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nsems</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">semflg</span><span class="p">);</span>
+</pre></div>
+
+<p>
+新建或访问已有的信号量集。
+</p>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>key_t key</code> 信号量集的键。每个信号量集都有唯一的键，自定义键名通过 <a href="https://man7.org/linux/man-pages/man3/ftok.3.html">ftok</a> 创建，也可以设成 <code>IPC_PRIVATE</code> 来新建一个只有当前进程和子进程可见的信号量集</li>
+<li>
+<code>int nsems</code> 信号量集中信号的个数</li>
+<li>
+<code>int semflg</code> 控制创建和访问权限。
+<ul class="org-ul">
+<li>
+<code>IPC_CREAT</code> 表示创建新的信号量集</li>
+<li>
+<code>IPC_CREAT | IPC_EXCL</code> 表示创建新的信号量集，并且当之前已经存在信号量集时失败</li>
+<li>
+<code>IPC_CREAT | 0666</code> 创建时可以设置权限，与文件的权限规则相同</li>
+</ul>
+</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>成功时返回信号量集的ID <code>semid</code> ，失败时返回 -1 并设置 errno</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3cac01b" class="outline-3">
+<h3 id="org3cac01b">
+<code>semctl</code> 配置信号量集</h3>
+<div class="outline-text-3" id="text-org3cac01b">
+<div class="highlight"><pre><span></span>#include &lt;sys/sem.h&gt;
+
+int semctl(int semid, int semnum, int cmd, ...); /* union semun sem_perm */
+
+union semun {
+    int     val;            /* value for SETVAL */
+    struct  semid_ds *buf;  /* buffer for IPC_STAT &amp; IPC_SET */
+    u_short *array;         /* array for GETALL &amp; SETALL */
+};
+</pre></div>
+
+<p>
+<code>semctl</code> 的作用配置信号量集 <code>semid</code> 中的第 <code>semnum</code> 个参数的值。
+配置行为由 <code>cmd</code> 指定，配置的值是可选的第四个参数 <code>sem_union</code> 。
+配置的值很多，参看 <a href="https://man7.org/linux/man-pages/man2/semctl.2.html">man semctl</a>.
+</p>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>int semid</code> 信号量集的 ID</li>
+<li>
+<code>int semnum</code> 信号量集中的第几个信号</li>
+<li>
+<code>int cmd</code> 要执行的操作，下面是常用的一些选项
+<ul class="org-ul">
+<li>
+<code>SETVAL</code> 把信号量的值设成 <code>sem_union.val</code>
+</li>
+<li>
+<code>SETALL</code> 把所有的信号量的值都设成 <code>sem_union.val</code>
+</li>
+<li>
+<code>IPC_RMID</code> 清除信号量</li>
+</ul>
+</li>
+<li>可选的第四个参数 <code>union semun sem_union</code> 设置的值</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>成功时返回非负值，与 <code>cmd</code> 设置有关</li>
+<li>失败时返回 -1，并设置 errno</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfbe5484" class="outline-3">
+<h3 id="orgfbe5484">
+<code>semop</code> 操作信号</h3>
+<div class="outline-text-3" id="text-orgfbe5484">
+<div class="highlight"><pre><span></span>#include &lt;sys/sem.h&gt;
+
+int semop(int semid, struct sembuf *sops, size_t nsops);
+
+struct sembuf {
+    u_short sem_num;        /* semaphore */
+    short   sem_op;         /* semaphore operation */
+    short   sem_flg;        /* operation flags */
+};
+</pre></div>
+
+
+<p>
+<code>semop</code> 的作用是在信号量集 <code>semid</code> 上执行 <code>nsops</code> 个原子操作，每个操作由数组 <code>sops</code> 定义。
+配置行为由 <code>cmd</code> 指定，配置的值是可选的第四个参数 <code>sem_union</code> 。
+配置的值很多，参看 <a href="https://man7.org/linux/man-pages/man2/semctl.2.html">man semctl</a>.
+</p>
+
+<p>
+<b>参数</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>int semid</code> 信号量集的 ID</li>
+<li>
+<code>struct sembuf *sops</code> 对信号的操作
+<ul class="org-ul">
+<li>
+<code>u_short sem_num</code> 对第几个信号操作</li>
+<li>
+<code>short sem_op</code> 具体的操作</li>
+<li>
+<code>short sem_flg</code> 控制操作的行为</li>
+</ul>
+</li>
+<li>
+<code>size_t nsops</code> 数组 <code>sops</code> 的长度</li>
+</ul>
+<p>
+<b><code>sem_op</code> 的几种情况</b>
+</p>
+<ul class="org-ul">
+<li>
+<code>&gt;0</code> 新的信号量值 = 旧的信号量值 + <code>sem_op</code>, 立即执行</li>
+<li>
+<code>=0</code> 阻塞直到信号量的值变成 0</li>
+<li>
+<code>&lt;0</code> 阻塞直到 <code>旧信号量 + sem_op &gt;= 0</code>
+</li>
+</ul>
+<p>
+<b>返回值</b>
+</p>
+<ul class="org-ul">
+<li>成功时返回 0</li>
+<li>失败时返回 -1，并设置 errno</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc7dcb88" class="outline-3">
+<h3 id="orgc7dcb88">例子：互斥锁</h3>
+<div class="outline-text-3" id="text-orgc7dcb88">
+<p>
+这个例子里子进程和主进程一起对共享的变量 <code>shared_int</code> 数数，如果不加锁，最后输出的数字会比 2000000 少，也就是出现了数据竞争，而加锁之后就不会出现这种问题了。
+可以注释掉 <code>lock</code> 和 <code>unlock</code> 来自己观察一下。
+</p>
+
+<div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/types.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/sem.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/mman.h&gt;</span>
+
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">lock</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">semid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">sembuf</span><span class="w"> </span><span class="n">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">};</span>
+<span class="w">  </span><span class="n">semop</span><span class="p">(</span><span class="n">semid</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sb</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">unlock</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">semid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">sembuf</span><span class="w"> </span><span class="n">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">};</span>
+<span class="w">  </span><span class="n">semop</span><span class="p">(</span><span class="n">semid</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sb</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">shared_int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mmap</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span><span class="w"> </span><span class="n">PROT_READ</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">PROT_WRITE</span><span class="p">,</span><span class="w"> </span><span class="n">MAP_SHARED</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">MAP_ANON</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">shared_int</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAP_FAILED</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">perror</span><span class="p">(</span><span class="s">"mmap"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">semid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">semget</span><span class="p">(</span><span class="n">IPC_PRIVATE</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mo">0666</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">IPC_CREAT</span><span class="p">);</span>
+<span class="w">  </span><span class="k">union</span><span class="w"> </span><span class="nc">semun</span><span class="w"> </span><span class="n">sem_union</span><span class="p">;</span>
+<span class="w">  </span><span class="n">sem_union</span><span class="p">.</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="n">semctl</span><span class="p">(</span><span class="n">semid</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">SETVAL</span><span class="p">,</span><span class="w"> </span><span class="n">sem_union</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fork</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">lock</span><span class="p">(</span><span class="n">semid</span><span class="p">);</span>
+<span class="w">      </span><span class="p">(</span><span class="o">*</span><span class="n">shared_int</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+<span class="w">      </span><span class="n">unlock</span><span class="p">(</span><span class="n">semid</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">lock</span><span class="p">(</span><span class="n">semid</span><span class="p">);</span>
+<span class="w">    </span><span class="p">(</span><span class="o">*</span><span class="n">shared_int</span><span class="p">)</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="n">unlock</span><span class="p">(</span><span class="n">semid</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="n">wait</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">printf</span><span class="p">(</span><span class="s">"final, %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">shared_int</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">semctl</span><span class="p">(</span><span class="n">semid</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">IPC_RMID</span><span class="p">,</span><span class="w"> </span><span class="n">sem_union</span><span class="p">);</span>
+<span class="w">  </span><span class="n">munmap</span><span class="p">(</span><span class="n">shared_int</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/tenpy-diao-yan/" class="u-url">TeNPy 调研</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -95,7 +678,7 @@ DMRG / MPS / 张量网络的开源库有很多，例如 <a href="https://github.
 </p>
 
 
-<div id="org96abffc" class="figure">
+<div id="org7f18ff3" class="figure">
 <p><img src="https://imgs.xkcd.com/comics/standards.png" alt="standards.png"></p>
 <p><span class="figure-number">Figure 1: </span>让我们再造个轮子🤣</p>
 </div>
@@ -106,9 +689,9 @@ DMRG / MPS / 张量网络的开源库有很多，例如 <a href="https://github.
 </p>
 
 
-<div id="outline-container-org2e42efd" class="outline-2">
-<h2 id="org2e42efd">安装</h2>
-<div class="outline-text-2" id="text-org2e42efd">
+<div id="outline-container-org3a2100c" class="outline-2">
+<h2 id="org3a2100c">安装</h2>
+<div class="outline-text-2" id="text-org3a2100c">
 <div class="highlight"><pre><span></span># 安装依赖
 pip install -U pip numpy scipy cython setuptools wheel build
 # 下载源码
@@ -124,11 +707,11 @@ pytest
 </div>
 </div>
 
-<div id="outline-container-orgef8ce19" class="outline-2">
-<h2 id="orgef8ce19">代码层级</h2>
-<div class="outline-text-2" id="text-orgef8ce19">
+<div id="outline-container-orgb3ade9e" class="outline-2">
+<h2 id="orgb3ade9e">代码层级</h2>
+<div class="outline-text-2" id="text-orgb3ade9e">
 <p>
-TeNPy 的代码层级如图<a href="posts/tenpy-diao-yan/#org56c5e98">2</a>。
+TeNPy 的代码层级如图<a href="posts/tenpy-diao-yan/#org66fbfdf">2</a>。
 </p>
 
 <ul class="org-ul">
@@ -145,16 +728,16 @@ TeNPy 的代码层级如图<a href="posts/tenpy-diao-yan/#org56c5e98">2</a>。
 <li>
 <code>tenpy.tools</code> 中包括一些需要用到其它功能</li>
 </ul>
-<div id="org56c5e98" class="figure">
+<div id="org66fbfdf" class="figure">
 <p><img src="https://tenpy.readthedocs.io/en/latest/_images/overview.png" alt="overview.png"></p>
 <p><span class="figure-number">Figure 2: </span>TeNPy 的代码层级</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc123122" class="outline-2">
-<h2 id="orgc123122"><code>tenpy.linalg.np_conserved.Array</code></h2>
-<div class="outline-text-2" id="text-orgc123122">
+<div id="outline-container-org7eab418" class="outline-2">
+<h2 id="org7eab418"><code>tenpy.linalg.np_conserved.Array</code></h2>
+<div class="outline-text-2" id="text-org7eab418">
 <p>
 TeNPy 的基本数据结构是 <code>tenpy.linalg.np_conserved.Array</code>, 带有守恒荷的张量。
 TeNPy 采用带有箭头的 MPS 记号来表示一个张量。
@@ -164,7 +747,7 @@ TeNPy 采用带有箭头的 MPS 记号来表示一个张量。
 每个保存的张量块的数据是数组 <code>Array._data</code> 的一个元素，它对于的量子数则是矩阵 <code>Array._qdata</code> 的一行。
 </p>
 
-<pre class="example" id="org1c91396">
+<pre class="example" id="orga2ed335">
 class Array{
     legs   : List[LegCharge],
     qtotal : Charge,
@@ -175,9 +758,9 @@ class Array{
 </div>
 </div>
 
-<div id="outline-container-orgabbc1ce" class="outline-2">
-<h2 id="orgabbc1ce"><code>tenpy.networks.site.Site</code></h2>
-<div class="outline-text-2" id="text-orgabbc1ce">
+<div id="outline-container-orgb5cbdd2" class="outline-2">
+<h2 id="orgb5cbdd2"><code>tenpy.networks.site.Site</code></h2>
+<div class="outline-text-2" id="text-orgb5cbdd2">
 <p>
 <code>tenpy.networks.site.Site</code> 是一个格点或者一个物理指标所需要的数据。
 它保存了物理指标所需要的信息 <code>LegCharge</code>, 以及作用在一个格点上的所有局域算符 <code>Site.ops</code>, 写模型的哈密顿量所需要的所有算符都是从这里得到的。
@@ -200,15 +783,15 @@ TeNPy 中实现的 <code>Site</code> 有如下这些
 </div>
 </div>
 
-<div id="outline-container-orgd1f8db5" class="outline-2">
-<h2 id="orgd1f8db5"><code>tenpy.networks.mps.MPS</code></h2>
-<div class="outline-text-2" id="text-orgd1f8db5">
+<div id="outline-container-org0c77e0b" class="outline-2">
+<h2 id="org0c77e0b"><code>tenpy.networks.mps.MPS</code></h2>
+<div class="outline-text-2" id="text-org0c77e0b">
 <p>
 对于 \(n\) 格点的链， <code>tenpy.networks.mps.MPS</code> 就是 \(n\) 个 <code>Site</code> 和 \(n\) 个 <code>Array</code>, 这些 <code>Array</code> 都是三阶张量.
 TeNPy 的 MPS 表示记录了每个块的形式（左正则、右正则、对称形式或者叫 Vidal 的 \(\Gamma \Lambda\) 形式）以及需要的奇异值。
 </p>
 
-<pre class="example" id="org0eec316">
+<pre class="example" id="org73e356f">
 class MPS{
     sites: List[Site],
     _B: List[Array],
@@ -219,18 +802,18 @@ class MPS{
 </div>
 </div>
 
-<div id="outline-container-orged5a374" class="outline-2">
-<h2 id="orged5a374"><code>tenpy.networks.mpo.MPO</code></h2>
-<div class="outline-text-2" id="text-orged5a374">
+<div id="outline-container-org2b304d2" class="outline-2">
+<h2 id="org2b304d2"><code>tenpy.networks.mpo.MPO</code></h2>
+<div class="outline-text-2" id="text-org2b304d2">
 <p>
 <code>tenpy.networks.mpo.MPO</code> 与 MPS 表示类似，只不过每个块现在是四阶张量。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org909028c" class="outline-2">
-<h2 id="org909028c"><code>tenpy.models.model.Model</code></h2>
-<div class="outline-text-2" id="text-org909028c">
+<div id="outline-container-orgda739bb" class="outline-2">
+<h2 id="orgda739bb"><code>tenpy.models.model.Model</code></h2>
+<div class="outline-text-2" id="text-orgda739bb">
 <p>
 <code>tenpy.models.model.Model</code> 用来表示模型的哈密顿量，需要指定元胞格点的信息 <code>Site</code> 以及晶格结构如何映射到一维链 <code>tenpy.models.lattice.Lattice</code>.
 TeNPy 提供的构造模型的方法是通过 <code>add_onsite</code>, <code>add_coupling</code> 等设置哈密顿量里的各项，然后根据需要自动构造 MPO。
@@ -238,9 +821,9 @@ TeNPy 提供的构造模型的方法是通过 <code>add_onsite</code>, <code>add
 </div>
 </div>
 
-<div id="outline-container-org6695b2e" class="outline-2">
-<h2 id="org6695b2e">DMRG 算法</h2>
-<div class="outline-text-2" id="text-org6695b2e">
+<div id="outline-container-orgb44c429" class="outline-2">
+<h2 id="orgb44c429">DMRG 算法</h2>
+<div class="outline-text-2" id="text-orgb44c429">
 <p>
 TeNPy 的抽象层次是
 </p>
@@ -270,13 +853,13 @@ TeNPy 的抽象层次是
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org7ad51b4" class="outline-2">
-<h2 id="org7ad51b4">WSL</h2>
-<div class="outline-text-2" id="text-org7ad51b4">
+                    <div id="outline-container-org613db27" class="outline-2">
+<h2 id="org613db27">WSL</h2>
+<div class="outline-text-2" id="text-org613db27">
 </div>
-<div id="outline-container-org6ea0ab6" class="outline-3">
-<h3 id="org6ea0ab6">配置 ssh</h3>
-<div class="outline-text-3" id="text-org6ea0ab6">
+<div id="outline-container-org67e7c89" class="outline-3">
+<h3 id="org67e7c89">配置 ssh</h3>
+<div class="outline-text-3" id="text-org67e7c89">
 <ol class="org-ol">
 <li>安装 <code>openssh-server</code>
 </li>
@@ -284,7 +867,7 @@ TeNPy 的抽象层次是
 <p>
 编辑 <code>/etc/ssh/sshd_config</code>
 </p>
-<pre class="example" id="org581eb08">
+<pre class="example" id="orgd1f9569">
 # change port
 Port 9922
 ListenAddress 0.0.0.0
@@ -297,7 +880,7 @@ PasswordAuthentication yes
 <p>
 windows 重定向端口
 </p>
-<pre class="example" id="org857724c">
+<pre class="example" id="org6971aa9">
 netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=9922 connectaddress=172.23.241.25 connectport=9922
 </pre>
 <ol class="org-ol">
@@ -330,21 +913,21 @@ netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=9922 conne
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org40f4f11" class="outline-2">
-<h2 id="org40f4f11">setuptools: python 的打包工具</h2>
-<div class="outline-text-2" id="text-org40f4f11">
+                    <div id="outline-container-org1386730" class="outline-2">
+<h2 id="org1386730">setuptools: python 的打包工具</h2>
+<div class="outline-text-2" id="text-org1386730">
 <p>
 <a href="https://setuptools.pypa.io">setuptools</a> 是 pypa 的项目。
 </p>
 </div>
 
-<div id="outline-container-org95bb1af" class="outline-3">
-<h3 id="org95bb1af">基本使用</h3>
-<div class="outline-text-3" id="text-org95bb1af">
+<div id="outline-container-org19ac31c" class="outline-3">
+<h3 id="org19ac31c">基本使用</h3>
+<div class="outline-text-3" id="text-org19ac31c">
 </div>
-<div id="outline-container-org4f1113b" class="outline-4">
-<h4 id="org4f1113b"><code>pyproject.toml</code></h4>
-<div class="outline-text-4" id="text-org4f1113b">
+<div id="outline-container-org2f98132" class="outline-4">
+<h4 id="org2f98132"><code>pyproject.toml</code></h4>
+<div class="outline-text-4" id="text-org2f98132">
 <p>
 PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml</code> 其中描述项目的基本信息和依赖等。
 </p>
@@ -357,11 +940,11 @@ PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml<
 </div>
 
 
-<div id="outline-container-orge0ce0e0" class="outline-4">
-<h4 id="orge0ce0e0">
+<div id="outline-container-org69a2ff1" class="outline-4">
+<h4 id="org69a2ff1">
 <code>setup.cfg</code> or <code>setup.py</code>
 </h4>
-<div class="outline-text-4" id="text-orge0ce0e0">
+<div class="outline-text-4" id="text-org69a2ff1">
 <p>
 <code>setup.cfg</code> 是 setuptools 的 DSL，而 <code>setup.py</code> 用一般的 python 代码。
 </p>
@@ -392,9 +975,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml<
 </div>
 
 
-<div id="outline-container-org0743c80" class="outline-3">
-<h3 id="org0743c80">开发模式</h3>
-<div class="outline-text-3" id="text-org0743c80">
+<div id="outline-container-org526fc83" class="outline-3">
+<h3 id="org526fc83">开发模式</h3>
+<div class="outline-text-3" id="text-org526fc83">
 <p>
 使用开发模式，可以完成构建而不需要将文件复制到包目录。
 </p>
@@ -410,9 +993,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml<
 </div>
 </div>
 
-<div id="outline-container-org2f4d5fa" class="outline-3">
-<h3 id="org2f4d5fa">cython</h3>
-<div class="outline-text-3" id="text-org2f4d5fa">
+<div id="outline-container-orgd50da85" class="outline-3">
+<h3 id="orgd50da85">cython</h3>
+<div class="outline-text-3" id="text-orgd50da85">
 <p>
 setuptools 会自动检查 cython 是否安装，如果没有，就会忽略所有 <code>.pyx</code> 文件。
 </p>
@@ -462,13 +1045,13 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org30503bc" class="outline-2">
-<h2 id="org30503bc">Apache HTTP 服务器</h2>
-<div class="outline-text-2" id="text-org30503bc">
+                    <div id="outline-container-org1aed5ee" class="outline-2">
+<h2 id="org1aed5ee">Apache HTTP 服务器</h2>
+<div class="outline-text-2" id="text-org1aed5ee">
 </div>
-<div id="outline-container-org5758eb1" class="outline-3">
-<h3 id="org5758eb1">配置文件</h3>
-<div class="outline-text-3" id="text-org5758eb1">
+<div id="outline-container-orgc173841" class="outline-3">
+<h3 id="orgc173841">配置文件</h3>
+<div class="outline-text-3" id="text-orgc173841">
 <p>
 参考： <a href="https://httpd.apache.org/docs/current/configuring.html">apache-httpd/configuring</a>
 </p>
@@ -478,9 +1061,9 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
 </p>
 </div>
 
-<div id="outline-container-org9566470" class="outline-4">
-<h4 id="org9566470">语法</h4>
-<div class="outline-text-4" id="text-org9566470">
+<div id="outline-container-orge4b0c4f" class="outline-4">
+<h4 id="orge4b0c4f">语法</h4>
+<div class="outline-text-4" id="text-orge4b0c4f">
 <ul class="org-ul">
 <li>每行一个指令，反斜线可以折行</li>
 <li>指令大小写不敏感，但参数大小写敏感</li>
@@ -495,13 +1078,13 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
 </div>
 
 
-<div id="outline-container-org3a37dcd" class="outline-2">
-<h2 id="org3a37dcd">配置</h2>
-<div class="outline-text-2" id="text-org3a37dcd">
+<div id="outline-container-orge58a548" class="outline-2">
+<h2 id="orge58a548">配置</h2>
+<div class="outline-text-2" id="text-orge58a548">
 </div>
-<div id="outline-container-org964b75f" class="outline-3">
-<h3 id="org964b75f">反向代理 jupyterlab</h3>
-<div class="outline-text-3" id="text-org964b75f">
+<div id="outline-container-org556aa41" class="outline-3">
+<h3 id="org556aa41">反向代理 jupyterlab</h3>
+<div class="outline-text-3" id="text-org556aa41">
 <ul class="org-ul">
 <li>需要的模块： <code>a2enmod ssl rewrite proxy proxy_http proxy_wstunnel</code>
 </li>
@@ -544,17 +1127,17 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgd0d311c" class="outline-2">
-<h2 id="orgd0d311c">PBLAS &amp; ScaLAPACK &amp; BLACS</h2>
-<div class="outline-text-2" id="text-orgd0d311c">
+                    <div id="outline-container-org6dbd54b" class="outline-2">
+<h2 id="org6dbd54b">PBLAS &amp; ScaLAPACK &amp; BLACS</h2>
+<div class="outline-text-2" id="text-org6dbd54b">
 <p>
 <a href="https://www.netlib.org/scalapack/">ScaLAPACK</a> 是基于 MPI 的并行版本 LAPACK, <a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
 </p>
 </div>
 
-<div id="outline-container-orga24c039" class="outline-3">
-<h3 id="orga24c039">编译</h3>
-<div class="outline-text-3" id="text-orga24c039">
+<div id="outline-container-org6c20363" class="outline-3">
+<h3 id="org6c20363">编译</h3>
+<div class="outline-text-3" id="text-org6c20363">
 <ol class="org-ol">
 <li>从 github 下载 <a href="https://github.com/Reference-ScaLAPACK/scalapack/">https://github.com/Reference-ScaLAPACK/scalapack/</a>
 </li>
@@ -564,7 +1147,7 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
 <p>
 示例
 </p>
-<pre class="example" id="orgd39f8ba">
+<pre class="example" id="orgfd2e6a3">
 FC            = /home/beacon/app/openmpi/bin/mpif90
 CC            = /home/beacon/app/openmpi/bin/mpicc 
 NOOPT         = -O0 -std=legacy
@@ -578,9 +1161,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </pre>
 </div>
 
-<div id="outline-container-org396273f" class="outline-4">
-<h4 id="org396273f">GCC 10 不兼容</h4>
-<div class="outline-text-4" id="text-org396273f">
+<div id="outline-container-org87b8ae6" class="outline-4">
+<h4 id="org87b8ae6">GCC 10 不兼容</h4>
+<div class="outline-text-4" id="text-org87b8ae6">
 <p>
 由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 <code>-fallow-argument-mismatch</code> 或 <code>-std=legacy</code> 来编译。
 </p>
@@ -592,9 +1175,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </div>
 </div>
 
-<div id="outline-container-org138c6dc" class="outline-3">
-<h3 id="org138c6dc">BLACS</h3>
-<div class="outline-text-3" id="text-org138c6dc">
+<div id="outline-container-org2f8e94d" class="outline-3">
+<h3 id="org2f8e94d">BLACS</h3>
+<div class="outline-text-3" id="text-org2f8e94d">
 <p>
 <a href="https://www.netlib.org/blacs/index.html">BLACS</a> 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
 </p>
@@ -607,13 +1190,13 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 <a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html">oneAPI/MKL/BLACS</a>
 </p>
 </div>
-<div id="outline-container-org802eb8e" class="outline-4">
-<h4 id="org802eb8e">基本概念</h4>
-<div class="outline-text-4" id="text-org802eb8e">
+<div id="outline-container-orgd162e52" class="outline-4">
+<h4 id="orgd162e52">基本概念</h4>
+<div class="outline-text-4" id="text-orgd162e52">
 </div>
 <ul class="org-ul">
 <li>
-<a id="orgb6b084a"></a>进程网格和范围操作<br><div class="outline-text-5" id="text-orgb6b084a">
+<a id="org465cd9e"></a>进程网格和范围操作<br><div class="outline-text-5" id="text-org465cd9e">
 <p>
 一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
 </p>
@@ -635,7 +1218,7 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </li>
 
 <li>
-<a id="org8484ac9"></a>上下文<br><div class="outline-text-5" id="text-org8484ac9">
+<a id="org249ed9d"></a>上下文<br><div class="outline-text-5" id="text-org249ed9d">
 <p>
 <b>上下文</b> (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
 </p>
@@ -659,7 +1242,7 @@ BLACS 中有关上下文的函数有
 </li>
 
 <li>
-<a id="orge8ceca2"></a>基于数组的通信<br><div class="outline-text-5" id="text-orge8ceca2">
+<a id="org29e9be0"></a>基于数组的通信<br><div class="outline-text-5" id="text-org29e9be0">
 <p>
 BLACS 中有两个基本的数据模型
 </p>
@@ -667,7 +1250,7 @@ BLACS 中有两个基本的数据模型
 
 <ul class="org-ul">
 <li>
-<a id="org87ebe14"></a>矩形矩阵<br><div class="outline-text-6" id="text-org87ebe14">
+<a id="orga6b5295"></a>矩形矩阵<br><div class="outline-text-6" id="text-orga6b5295">
 <p>
 一维向量是特殊的矩形矩阵。
 </p>
@@ -679,7 +1262,7 @@ BLACS 中有两个基本的数据模型
 </li>
 
 <li>
-<a id="org30adce6"></a>梯形矩阵<br><div class="outline-text-6" id="text-org30adce6">
+<a id="org856369d"></a>梯形矩阵<br><div class="outline-text-6" id="text-org856369d">
 <p>
 三角矩阵和对角矩阵是特殊的梯形矩阵。
 </p>
@@ -700,7 +1283,7 @@ BLACS 中有两个基本的数据模型
 </li>
 
 <li>
-<a id="org3852787"></a>无编号通信<br><div class="outline-text-5" id="text-org3852787">
+<a id="org60a018b"></a>无编号通信<br><div class="outline-text-5" id="text-org60a018b">
 <p>
 BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 <code>SHIFT_RANGE</code> 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
 </p>
@@ -717,9 +1300,9 @@ BLACS 的通信保证
 </ul>
 </div>
 
-<div id="outline-container-orga4a0ea1" class="outline-4">
-<h4 id="orga4a0ea1">结构</h4>
-<div class="outline-text-4" id="text-orga4a0ea1">
+<div id="outline-container-org0d0a1ed" class="outline-4">
+<h4 id="org0d0a1ed">结构</h4>
+<div class="outline-text-4" id="text-org0d0a1ed">
 <p>
 BLACS 由 4 个部分构成
 </p>
@@ -736,7 +1319,7 @@ BLACS 由 4 个部分构成
 
 <ul class="org-ul">
 <li>
-<a id="org9d41958"></a>命名规则<br><div class="outline-text-5" id="text-org9d41958">
+<a id="orgc7f5727"></a>命名规则<br><div class="outline-text-5" id="text-orgc7f5727">
 <ul class="org-ul">
 <li>点到点通信与广播： <code>vXXYY2D</code>
 <ul class="org-ul">
@@ -868,9 +1451,9 @@ BLACS 由 4 个部分构成
 </ul>
 </div>
 </div>
-<div id="outline-container-org5a18175" class="outline-3">
-<h3 id="org5a18175">PBLAS</h3>
-<div class="outline-text-3" id="text-org5a18175">
+<div id="outline-container-orgf0a4691" class="outline-3">
+<h3 id="orgf0a4691">PBLAS</h3>
+<div class="outline-text-3" id="text-orgf0a4691">
 <p>
 <a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 <code>.h</code> 头文件，得自己写。
 </p>
@@ -880,12 +1463,12 @@ BLACS 由 4 个部分构成
 </p>
 </div>
 </div>
-<div id="outline-container-org5be52fd" class="outline-3">
-<h3 id="org5be52fd">ScaLAPACK</h3>
-<div class="outline-text-3" id="text-org5be52fd">
+<div id="outline-container-org9f23c5d" class="outline-3">
+<h3 id="org9f23c5d">ScaLAPACK</h3>
+<div class="outline-text-3" id="text-org9f23c5d">
 </div>
-<div id="outline-container-orgba3e4ab" class="outline-4">
-<h4 id="orgba3e4ab">基本方法</h4>
+<div id="outline-container-orgfea164c" class="outline-4">
+<h4 id="orgfea164c">基本方法</h4>
 </div>
 </div>
 </div>
@@ -907,27 +1490,27 @@ BLACS 由 4 个部分构成
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org11b95ce" class="outline-2">
-<h2 id="org11b95ce">Rust 宏</h2>
-<div class="outline-text-2" id="text-org11b95ce">
+                    <div id="outline-container-orgbbc7afb" class="outline-2">
+<h2 id="orgbbc7afb">Rust 宏</h2>
+<div class="outline-text-2" id="text-orgbbc7afb">
 <p>
 Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一种是过程宏 <code>#[...]</code> .
 </p>
 </div>
 
 
-<div id="outline-container-org97af11e" class="outline-3">
-<h3 id="org97af11e">声明宏 <code>macro_rules!</code>
+<div id="outline-container-org3fe9eb8" class="outline-3">
+<h3 id="org3fe9eb8">声明宏 <code>macro_rules!</code>
 </h3>
-<div class="outline-text-3" id="text-org97af11e">
+<div class="outline-text-3" id="text-org3fe9eb8">
 <p>
 声明宏是 Rust 中最常用的宏，通过对源码的模式匹配来实现功能。
 </p>
 </div>
 
-<div id="outline-container-orge25f8bf" class="outline-4">
-<h4 id="orge25f8bf">语法</h4>
-<div class="outline-text-4" id="text-orge25f8bf">
+<div id="outline-container-org4bd129e" class="outline-4">
+<h4 id="org4bd129e">语法</h4>
+<div class="outline-text-4" id="text-org4bd129e">
 <p>
 参考： <a href="https://doc.rust-lang.org/reference/macros-by-example.html">reference/macro</a>
 </p>
@@ -943,10 +1526,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </div>
 </div>
 
-<div id="outline-container-org7f6fcd9" class="outline-4">
-<h4 id="org7f6fcd9">例子： <code>vec!</code>
+<div id="outline-container-org2fcb702" class="outline-4">
+<h4 id="org2fcb702">例子： <code>vec!</code>
 </h4>
-<div class="outline-text-4" id="text-org7f6fcd9">
+<div class="outline-text-4" id="text-org2fcb702">
 <div class="highlight"><pre><span></span>    #[macro_export]
     macro_rules! vec {
         ( $( $x:expr ),* ) =&gt; {
@@ -965,17 +1548,17 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </div>
 
 
-<div id="outline-container-org1ff4cea" class="outline-3">
-<h3 id="org1ff4cea">过程宏</h3>
-<div class="outline-text-3" id="text-org1ff4cea">
+<div id="outline-container-org17a33b2" class="outline-3">
+<h3 id="org17a33b2">过程宏</h3>
+<div class="outline-text-3" id="text-org17a33b2">
 <p>
 过程宏是一个函数，不过它的输入输出类型是词法对象 <code>TokenStream</code> ，由编译器在编译前调用。
 </p>
 </div>
 
-<div id="outline-container-org3cba940" class="outline-4">
-<h4 id="org3cba940">crate</h4>
-<div class="outline-text-4" id="text-org3cba940">
+<div id="outline-container-org3d6ef84" class="outline-4">
+<h4 id="org3d6ef84">crate</h4>
+<div class="outline-text-4" id="text-org3d6ef84">
 <p>
 由于技术限制，目前过程宏必须分离在一个单独的 crate 中, 这个 crate 是 <code>proc-macro</code> 类型的
 </p>
@@ -990,10 +1573,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </div>
 </div>
 
-<div id="outline-container-org27ae0e7" class="outline-4">
-<h4 id="org27ae0e7">
+<div id="outline-container-orgf9843d0" class="outline-4">
+<h4 id="orgf9843d0">
 <code>derive</code> 宏</h4>
-<div class="outline-text-4" id="text-org27ae0e7">
+<div class="outline-text-4" id="text-orgf9843d0">
 <p>
 <code>derive</code> 宏用来为结构体等创建默认的 trait 实现。
 </p>
@@ -1005,7 +1588,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="orgd39921f"></a>使用<br><div class="outline-text-5" id="text-orgd39921f">
+<a id="orgea8fa49"></a>使用<br><div class="outline-text-5" id="text-orgea8fa49">
 <p>
 下面的例子展示了为 <code>struct Pancakes</code> 创建 trait <code>HelloMacro</code> 的默认实现的方法，这个 trait 中只有一个函数 <code>hello_macro()</code>
 </p>
@@ -1027,7 +1610,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="org12bb42a"></a>trait 定义<br><div class="outline-text-5" id="text-org12bb42a">
+<a id="org5d1e851"></a>trait 定义<br><div class="outline-text-5" id="text-org5d1e851">
 <p>
 <code>hello_macro/src/lib.rs</code>
 </p>
@@ -1039,7 +1622,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="orgfcaf5df"></a>宏定义<br><div class="outline-text-5" id="text-orgfcaf5df">
+<a id="org26f5e25"></a>宏定义<br><div class="outline-text-5" id="text-org26f5e25">
 <p>
 <code>hello_macro_derive/Cargo.toml</code>
 </p>
@@ -1087,10 +1670,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-orga6a5158" class="outline-4">
-<h4 id="orga6a5158">
+<div id="outline-container-orga7a191d" class="outline-4">
+<h4 id="orga7a191d">
 <code>Attribute-like</code> 宏</h4>
-<div class="outline-text-4" id="text-orga6a5158">
+<div class="outline-text-4" id="text-orga7a191d">
 <p>
 属性宏可以创建新的属性, 与 <code>derive</code> 宏的区别在于参数多了一个属性 <code>attr</code>, 也就是括号里面的部分，另一个参数 <code>item</code> 就是与 <code>derive</code> 宏一样的内容了。
 </p>
@@ -1098,7 +1681,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="orgdb44b9d"></a>用法<br><div class="outline-text-5" id="text-orgdb44b9d">
+<a id="org600c510"></a>用法<br><div class="outline-text-5" id="text-org600c510">
 <div class="highlight"><pre><span></span>     #[route(GET, "/")]
      fn index() { ... }
 </pre></div>
@@ -1106,7 +1689,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="orgeea496d"></a>宏定义<br><div class="outline-text-5" id="text-orgeea496d">
+<a id="org3c801cc"></a>宏定义<br><div class="outline-text-5" id="text-org3c801cc">
 <div class="highlight"><pre><span></span>     #[proc_macro_attribute]
      pub fn route(attr: TokenStream, item: TokenStream) -&gt; TokenStream { ... }
 </pre></div>
@@ -1115,10 +1698,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-orgbf1ba5f" class="outline-4">
-<h4 id="orgbf1ba5f">
+<div id="outline-container-org6b6c29b" class="outline-4">
+<h4 id="org6b6c29b">
 <code>Function-like</code> 宏</h4>
-<div class="outline-text-4" id="text-orgbf1ba5f">
+<div class="outline-text-4" id="text-org6b6c29b">
 <p>
 函数宏可以定义像函数一样调用的宏。可以用来定义 DSL
 </p>
@@ -1126,14 +1709,14 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="orged7e4a7"></a>用法<br><div class="outline-text-5" id="text-orged7e4a7">
+<a id="org4df84c6"></a>用法<br><div class="outline-text-5" id="text-org4df84c6">
 <div class="highlight"><pre><span></span>     let sql = sql!(SELECT * FROM posts WHERE id=1);
 </pre></div>
 </div>
 </li>
 
 <li>
-<a id="orgd9b0c46"></a>宏定义<br><div class="outline-text-5" id="text-orgd9b0c46">
+<a id="org0f8d3fa"></a>宏定义<br><div class="outline-text-5" id="text-org0f8d3fa">
 <div class="highlight"><pre><span></span>     #[proc_macro]
      pub fn sql(input: TokenStream) -&gt; TokenStream { ... }
 </pre></div>
@@ -1142,9 +1725,9 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-org49db44c" class="outline-4">
-<h4 id="org49db44c">syn: rust parser</h4>
-<div class="outline-text-4" id="text-org49db44c">
+<div id="outline-container-org859d3af" class="outline-4">
+<h4 id="org859d3af">syn: rust parser</h4>
+<div class="outline-text-4" id="text-org859d3af">
 <p>
 <a href="https://crates.io/crates/syn">syn</a> 是 rust 代码的 parser，可以将源码字符串 <code>TokenStream</code> 转换成语法树 <code>syn::DeriveInput</code> 。
 </p>
@@ -1152,7 +1735,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 
 <ul class="org-ul">
 <li>
-<a id="orgcdbcf20"></a><code>syn::DeriveInput</code><br><div class="outline-text-5" id="text-orgcdbcf20">
+<a id="orgdeb39bc"></a><code>syn::DeriveInput</code><br><div class="outline-text-5" id="text-orgdeb39bc">
 <p>
 对于输入 <code>TokenStream</code> 使用 <code>parse_macro_input!</code> 将它解析为语法树 <code>DeriveInput</code> ，之后就可以通过对语法树的操作生成新的语法树
 </p>
@@ -1160,7 +1743,7 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 
 <li>
-<a id="orgbc29f4a"></a><code>syn::spanned::Spanned</code><br><div class="outline-text-5" id="text-orgbc29f4a">
+<a id="org5ba96f7"></a><code>syn::spanned::Spanned</code><br><div class="outline-text-5" id="text-org5ba96f7">
 <p>
 对重复结构的操作，使用 <code>span()</code> 配合 <code>quote::qoute_spanned!</code> 实现
 </p>
@@ -1169,9 +1752,9 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 
-<div id="outline-container-org83c7fa7" class="outline-4">
-<h4 id="org83c7fa7">quote: rust 代码模板</h4>
-<div class="outline-text-4" id="text-org83c7fa7">
+<div id="outline-container-org90b6501" class="outline-4">
+<h4 id="org90b6501">quote: rust 代码模板</h4>
+<div class="outline-text-4" id="text-org90b6501">
 <p>
 <a href="https://crates.io/crates/quote">quote</a> 的 <code>quote!</code> 宏可以将 rust 语法数据结构变成 <code>TokenStream</code>
 </p>
@@ -1205,21 +1788,21 @@ qoute 的宏类似于 <code>macro_rules!</code> 只是把 <code>$</code> 换成 
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org8da9284" class="outline-2">
-<h2 id="org8da9284">Rust C FFI</h2>
-<div class="outline-text-2" id="text-org8da9284">
+                    <div id="outline-container-orgc6ec431" class="outline-2">
+<h2 id="orgc6ec431">Rust C FFI</h2>
+<div class="outline-text-2" id="text-orgc6ec431">
 </div>
-<div id="outline-container-org8337bea" class="outline-3">
-<h3 id="org8337bea">rust-bindgen: rust 调用 c</h3>
-<div class="outline-text-3" id="text-org8337bea">
+<div id="outline-container-org96195ba" class="outline-3">
+<h3 id="org96195ba">rust-bindgen: rust 调用 c</h3>
+<div class="outline-text-3" id="text-org96195ba">
 <p>
 <a href="https://github.com/rust-lang/rust-bindgen">rust-bindgen</a> 是在编译时由头文件生成绑定代码的工具。由它封装的库称为 <code>xxx-sys</code>
 </p>
 </div>
 
-<div id="outline-container-orgd8358b4" class="outline-4">
-<h4 id="orgd8358b4">常量宏</h4>
-<div class="outline-text-4" id="text-orgd8358b4">
+<div id="outline-container-org327468b" class="outline-4">
+<h4 id="org327468b">常量宏</h4>
+<div class="outline-text-4" id="text-org327468b">
 <p>
 对于形如 <code>#define XX (int)0</code> 这样的有类型转换的宏是不能自动生成绑定的，可以在 <code>wrapper.h</code> 中写
 </p>
@@ -1232,40 +1815,40 @@ qoute 的宏类似于 <code>macro_rules!</code> 只是把 <code>$</code> 换成 
 </div>
 </div>
 
-<div id="outline-container-org43ac55a" class="outline-3">
-<h3 id="org43ac55a">libc: 系统库</h3>
+<div id="outline-container-org5e95944" class="outline-3">
+<h3 id="org5e95944">libc: 系统库</h3>
 </div>
 
 
-<div id="outline-container-org1ac8fe7" class="outline-3">
-<h3 id="org1ac8fe7">c 类型</h3>
-<div class="outline-text-3" id="text-org1ac8fe7">
+<div id="outline-container-org42fe101" class="outline-3">
+<h3 id="org42fe101">c 类型</h3>
+<div class="outline-text-3" id="text-org42fe101">
 <p>
 一般的类型在 <code>std::os::raw</code> 中，或者使用在 <code>libc</code> 中的重新绑定。
 </p>
 </div>
 
-<div id="outline-container-org24e360a" class="outline-4">
-<h4 id="org24e360a">字符串</h4>
-<div class="outline-text-4" id="text-org24e360a">
+<div id="outline-container-org3f59c5b" class="outline-4">
+<h4 id="org3f59c5b">字符串</h4>
+<div class="outline-text-4" id="text-org3f59c5b">
 <p>
 c 的字符串实际上是 <code>&amp;[u8]</code> 数组，可以用 <code>std::ffi::CString</code> 和 <code>std::ffi::CStr</code>, 其中 <code>CString</code> 拥有所有权， <code>CStr</code> 是借用。
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgbf77fbf" class="outline-4">
-<h4 id="orgbf77fbf">指针</h4>
-<div class="outline-text-4" id="text-orgbf77fbf">
+<div id="outline-container-org395d0c4" class="outline-4">
+<h4 id="org395d0c4">指针</h4>
+<div class="outline-text-4" id="text-org395d0c4">
 <p>
 c 的常量指针 <code>const int *</code> 对应 <code>*const i32</code>, 一般指针 <code>int *</code> 对应 <code>*mut i32</code>. 两级指针 <code>int **</code> 对应 <code>*mut *mut int</code> 以此类推。
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgfb4f39e" class="outline-4">
-<h4 id="orgfb4f39e">结构体</h4>
-<div class="outline-text-4" id="text-orgfb4f39e">
+<div id="outline-container-org9f0f5b6" class="outline-4">
+<h4 id="org9f0f5b6">结构体</h4>
+<div class="outline-text-4" id="text-org9f0f5b6">
 <p>
 rust 中定义与 c 兼容的结构体的方法为
 </p>
@@ -1278,18 +1861,18 @@ rust 中定义与 c 兼容的结构体的方法为
 </div>
 </div>
 
-<div id="outline-container-org920090c" class="outline-4">
-<h4 id="org920090c"><code>sizeof</code></h4>
-<div class="outline-text-4" id="text-org920090c">
+<div id="outline-container-org7586c3a" class="outline-4">
+<h4 id="org7586c3a"><code>sizeof</code></h4>
+<div class="outline-text-4" id="text-org7586c3a">
 <p>
 与 c 的 <code>sizeof</code> 相同的是 <code>std::mem::sizeof</code>
 </p>
 </div>
 </div>
 
-<div id="outline-container-org48b63c8" class="outline-4">
-<h4 id="org48b63c8"><code>offsetof</code></h4>
-<div class="outline-text-4" id="text-org48b63c8">
+<div id="outline-container-orge34a4f6" class="outline-4">
+<h4 id="orge34a4f6"><code>offsetof</code></h4>
+<div class="outline-text-4" id="text-orge34a4f6">
 <p>
 使用 <a href="https://github.com/Gilnaa/memoffset">memoffset</a> 的 <code>offset_of!</code> 宏来获得。
 </p>
@@ -1301,14 +1884,14 @@ rust 中定义与 c 兼容的结构体的方法为
 </div>
 </div>
 
-<div id="outline-container-org49d02ef" class="outline-3">
-<h3 id="org49d02ef">问题解决</h3>
-<div class="outline-text-3" id="text-org49d02ef">
+<div id="outline-container-org8fd7431" class="outline-3">
+<h3 id="org8fd7431">问题解决</h3>
+<div class="outline-text-3" id="text-org8fd7431">
 </div>
-<div id="outline-container-org6cc93dd" class="outline-4">
-<h4 id="org6cc93dd">传递 <code>argc, argv</code>
+<div id="outline-container-org5c0e625" class="outline-4">
+<h4 id="org5c0e625">传递 <code>argc, argv</code>
 </h4>
-<div class="outline-text-4" id="text-org6cc93dd">
+<div class="outline-text-4" id="text-org5c0e625">
 <p>
 参考 <a href="https://stackoverflow.com/questions/34379641/how-do-i-convert-rust-args-into-the-argc-and-argv-c-equivalents">stackoverflow</a>
 </p>
@@ -1356,31 +1939,31 @@ rust 中定义与 c 兼容的结构体的方法为
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org5becc00" class="outline-2">
-<h2 id="org5becc00">reStructuredText</h2>
-<div class="outline-text-2" id="text-org5becc00">
+                    <div id="outline-container-org7fc6f93" class="outline-2">
+<h2 id="org7fc6f93">reStructuredText</h2>
+<div class="outline-text-2" id="text-org7fc6f93">
 <p>
 reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 python 的 <img src="sphinx-documentation-generator.org" alt="Sphinx"> 默认语言。
 </p>
 </div>
 
-<div id="outline-container-org5811382" class="outline-3">
-<h3 id="org5811382">基本语法</h3>
-<div class="outline-text-3" id="text-org5811382">
+<div id="outline-container-org03c9ae0" class="outline-3">
+<h3 id="org03c9ae0">基本语法</h3>
+<div class="outline-text-3" id="text-org03c9ae0">
 </div>
-<div id="outline-container-orgb765f2d" class="outline-4">
-<h4 id="orgb765f2d">段落</h4>
-<div class="outline-text-4" id="text-orgb765f2d">
+<div id="outline-container-orgd233c33" class="outline-4">
+<h4 id="orgd233c33">段落</h4>
+<div class="outline-text-4" id="text-orgd233c33">
 <p>
 与 python 类似，reST 中用缩进表示不同的层级。
 </p>
 </div>
 </div>
 
-<div id="outline-container-orga82456c" class="outline-4">
-<h4 id="orga82456c">行内标记</h4>
-<div class="outline-text-4" id="text-orga82456c">
-<pre class="example" id="orgf7ce19d">
+<div id="outline-container-orgec5c14d" class="outline-4">
+<h4 id="orgec5c14d">行内标记</h4>
+<div class="outline-text-4" id="text-orgec5c14d">
+<pre class="example" id="org70bd637">
 *something*               | 斜体
 **something**             | 粗体
 ``code``                  | 行内代码
@@ -1391,9 +1974,9 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </div>
 </div>
 
-<div id="outline-container-org5d253c7" class="outline-4">
-<h4 id="org5d253c7">列表</h4>
-<div class="outline-text-4" id="text-org5d253c7">
+<div id="outline-container-orgc8710ec" class="outline-4">
+<h4 id="orgc8710ec">列表</h4>
+<div class="outline-text-4" id="text-orgc8710ec">
 <div class="highlight"><pre><span></span>    1. 编号列表
     2. 编号列表
 
@@ -1412,9 +1995,9 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </div>
 </div>
 
-<div id="outline-container-org82391f4" class="outline-4">
-<h4 id="org82391f4">引用块</h4>
-<div class="outline-text-4" id="text-org82391f4">
+<div id="outline-container-orga2253fe" class="outline-4">
+<h4 id="orga2253fe">引用块</h4>
+<div class="outline-text-4" id="text-orga2253fe">
 <div class="highlight"><pre><span></span>    引用块，末尾用双冒号::
 
       空一行
@@ -1426,9 +2009,9 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </div>
 </div>
 
-<div id="outline-container-orgb32b1ea" class="outline-4">
-<h4 id="orgb32b1ea">表格</h4>
-<div class="outline-text-4" id="text-orgb32b1ea">
+<div id="outline-container-orgb2ba9fe" class="outline-4">
+<h4 id="orgb2ba9fe">表格</h4>
+<div class="outline-text-4" id="text-orgb2ba9fe">
 <div class="highlight"><pre><span></span>    完整的表格
 
     +------------------------+------------+----------+----------+
@@ -1454,10 +2037,10 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </div>
 </div>
 
-<div id="outline-container-org0ad2d1e" class="outline-4">
-<h4 id="org0ad2d1e">标题</h4>
-<div class="outline-text-4" id="text-org0ad2d1e">
-<pre class="example" id="orgeb136c3">
+<div id="outline-container-org8a6e22c" class="outline-4">
+<h4 id="org8a6e22c">标题</h4>
+<div class="outline-text-4" id="text-org8a6e22c">
+<pre class="example" id="org565faa8">
 # | parts
 * | chapters
 = | sections
@@ -1469,9 +2052,9 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </div>
 </div>
 
-<div id="outline-container-orga281f0d" class="outline-3">
-<h3 id="orga281f0d">指令</h3>
-<div class="outline-text-3" id="text-orga281f0d">
+<div id="outline-container-orgbc102c0" class="outline-3">
+<h3 id="orgbc102c0">指令</h3>
+<div class="outline-text-3" id="text-orgbc102c0">
 <p>
 reST 支持很多指令，这里是常用的几个
 </p>
@@ -1479,34 +2062,34 @@ reST 支持很多指令，这里是常用的几个
 
 <ul class="org-ul">
 <li>
-<a id="orgde4d6af"></a><code>image</code> 图片<br>
+<a id="org49dfe76"></a><code>image</code> 图片<br>
 </li>
 
 <li>
-<a id="orgd95b6d6"></a><code>[#footnote]_</code> 脚注<br>
+<a id="orgca1cc8a"></a><code>[#footnote]_</code> 脚注<br>
 </li>
 
 <li>
-<a id="org8d4dce1"></a><code>..</code> 注释<br>
+<a id="org45a538a"></a><code>..</code> 注释<br>
 </li>
 </ul>
 </div>
 
-<div id="outline-container-org28e55f6" class="outline-3">
-<h3 id="org28e55f6">角色</h3>
-<div class="outline-text-3" id="text-org28e55f6">
+<div id="outline-container-orgfefb176" class="outline-3">
+<h3 id="orgfefb176">角色</h3>
+<div class="outline-text-3" id="text-orgfefb176">
 <p>
 reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内标记
 </p>
 </div>
 
-<div id="outline-container-orgb6224f5" class="outline-4">
-<h4 id="orgb6224f5">
+<div id="outline-container-orgece0e5e" class="outline-4">
+<h4 id="orgece0e5e">
 <code>:ref:</code> 交叉引用</h4>
 </div>
 
-<div id="outline-container-org8b36dd4" class="outline-4">
-<h4 id="org8b36dd4">
+<div id="outline-container-orgf87f3a1" class="outline-4">
+<h4 id="orgf87f3a1">
 <code>:math:</code> 数学公式</h4>
 </div>
 </div>
@@ -1529,39 +2112,39 @@ reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内�
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orga2f31c7" class="outline-2">
-<h2 id="orga2f31c7">Sphinx: 文档生成</h2>
-<div class="outline-text-2" id="text-orga2f31c7">
+                    <div id="outline-container-orgcc2ae68" class="outline-2">
+<h2 id="orgcc2ae68">Sphinx: 文档生成</h2>
+<div class="outline-text-2" id="text-orgcc2ae68">
 <p>
 <a href="https://www.sphinx-doc.org/en/master/usage/quickstart.html">sphinx/getting started</a>
 </p>
 </div>
 
-<div id="outline-container-org9f97d0c" class="outline-3">
-<h3 id="org9f97d0c">创建与配置项目</h3>
-<div class="outline-text-3" id="text-org9f97d0c">
+<div id="outline-container-orga2b48e4" class="outline-3">
+<h3 id="orga2b48e4">创建与配置项目</h3>
+<div class="outline-text-3" id="text-orga2b48e4">
 </div>
-<div id="outline-container-orged7c631" class="outline-4">
-<h4 id="orged7c631"><code>sphinx-quickstart</code></h4>
-<div class="outline-text-4" id="text-orged7c631">
+<div id="outline-container-orgccd568b" class="outline-4">
+<h4 id="orgccd568b"><code>sphinx-quickstart</code></h4>
+<div class="outline-text-4" id="text-orgccd568b">
 <p>
 使用这个命令，快速创建项目。跟随指导做一些选项。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org354ffb8" class="outline-4">
-<h4 id="org354ffb8">生成文档</h4>
-<div class="outline-text-4" id="text-org354ffb8">
+<div id="outline-container-org5c21a9a" class="outline-4">
+<h4 id="org5c21a9a">生成文档</h4>
+<div class="outline-text-4" id="text-org5c21a9a">
 <p>
 使用命令 <code>sphinx-build -b html sourcedir builddir</code> 或者 <code>make html</code>
 </p>
 </div>
 </div>
 
-<div id="outline-container-org6eef871" class="outline-4">
-<h4 id="org6eef871">基本配置</h4>
-<div class="outline-text-4" id="text-org6eef871">
+<div id="outline-container-org9c7b3f9" class="outline-4">
+<h4 id="org9c7b3f9">基本配置</h4>
+<div class="outline-text-4" id="text-org9c7b3f9">
 <p>
 基本配置在 <code>conf.py</code> 文件中。这个文件就是一个python 脚本，可以执行各种python函数和导入其它库等。
 </p>
@@ -1573,13 +2156,13 @@ reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内�
 </div>
 </div>
 
-<div id="outline-container-orge1e8ff9" class="outline-3">
-<h3 id="orge1e8ff9">写文档</h3>
-<div class="outline-text-3" id="text-orge1e8ff9">
+<div id="outline-container-orgf60df45" class="outline-3">
+<h3 id="orgf60df45">写文档</h3>
+<div class="outline-text-3" id="text-orgf60df45">
 </div>
-<div id="outline-container-org684aab9" class="outline-4">
-<h4 id="org684aab9">文档结构</h4>
-<div class="outline-text-4" id="text-org684aab9">
+<div id="outline-container-orgaa91ba5" class="outline-4">
+<h4 id="orgaa91ba5">文档结构</h4>
+<div class="outline-text-4" id="text-orgaa91ba5">
 <ol class="org-ol">
 <li>
 <code>index.rst</code> 文件是文档的欢迎页面，其中包括
@@ -1592,9 +2175,9 @@ reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内�
 </div>
 </div>
 
-<div id="outline-container-org83cde33" class="outline-4">
-<h4 id="org83cde33">reStructuredText directives</h4>
-<div class="outline-text-4" id="text-org83cde33">
+<div id="outline-container-orgcac1ea5" class="outline-4">
+<h4 id="orgcac1ea5">reStructuredText directives</h4>
+<div class="outline-text-4" id="text-orgcac1ea5">
 <p>
 rst 指令的格式中包括
 </p>
@@ -1607,7 +2190,7 @@ rst 指令的格式中包括
 
 <ul class="org-ul">
 <li>
-<a id="orgf658e78"></a><code>toctree</code> 目录<br><div class="outline-text-5" id="text-orgf658e78">
+<a id="org49a8a6c"></a><code>toctree</code> 目录<br><div class="outline-text-5" id="text-org49a8a6c">
 <p>
 参考：<a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#toctree-directive">directives/toctree-directive</a>
 </p>
@@ -1625,7 +2208,7 @@ rst 指令的格式中包括
 
 <ul class="org-ul">
 <li>
-<a id="org107a9ec"></a>内容<br><div class="outline-text-6" id="text-org107a9ec">
+<a id="org8bc44af"></a>内容<br><div class="outline-text-6" id="text-org8bc44af">
 <p>
 内容中每一行就是要链接到的文件名, 可以用 <code>Net Title &lt;filename&gt;</code> 重新指定显示的标题
 </p>
@@ -1633,7 +2216,7 @@ rst 指令的格式中包括
 </li>
 
 <li>
-<a id="org0ae467b"></a>选项<br><div class="outline-text-6" id="text-org0ae467b">
+<a id="org4d1a789"></a>选项<br><div class="outline-text-6" id="text-org4d1a789">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -1685,9 +2268,9 @@ rst 指令的格式中包括
 </ul>
 </div>
 
-<div id="outline-container-org9b459e5" class="outline-4">
-<h4 id="org9b459e5">Domains</h4>
-<div class="outline-text-4" id="text-org9b459e5">
+<div id="outline-container-orgd55e34b" class="outline-4">
+<h4 id="orgd55e34b">Domains</h4>
+<div class="outline-text-4" id="text-orgd55e34b">
 <p>
 为了对应 python/c++ 中的名字空间，防止函数名冲突，要把函数的文档写在 domain 里。
 </p>
@@ -1699,7 +2282,7 @@ rst 指令的格式中包括
 
 <ul class="org-ul">
 <li>
-<a id="org25a201d"></a>基本语法<br><div class="outline-text-5" id="text-org25a201d">
+<a id="org918e580"></a>基本语法<br><div class="outline-text-5" id="text-org918e580">
 <p>
 可以一次生成两个函数
 </p>
@@ -1724,7 +2307,7 @@ rst 指令的格式中包括
 </li>
 
 <li>
-<a id="orge592616"></a>交叉引用<br><div class="outline-text-5" id="text-orge592616">
+<a id="orga423a65"></a>交叉引用<br><div class="outline-text-5" id="text-orga423a65">
 <p>
 基本语法是 <code>:role:`title &lt;target&gt;`</code> 这会引用 <code>target</code> 但显示的是 <code>title</code>
 </p>
@@ -1736,7 +2319,7 @@ rst 指令的格式中包括
 </div>
 </li>
 <li>
-<a id="org07742d7"></a>C++<br><div class="outline-text-5" id="text-org07742d7">
+<a id="orgdd9395b"></a>C++<br><div class="outline-text-5" id="text-orgdd9395b">
 <p>
 参考 <a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cpp-domain">domains/cpp-domain</a>     
 </p>
@@ -1747,9 +2330,9 @@ rst 指令的格式中包括
 </div>
 
 
-<div id="outline-container-org6bb665c" class="outline-3">
-<h3 id="org6bb665c">Autodoc: 注释文档</h3>
-<div class="outline-text-3" id="text-org6bb665c">
+<div id="outline-container-org38a3b5e" class="outline-3">
+<h3 id="org38a3b5e">Autodoc: 注释文档</h3>
+<div class="outline-text-3" id="text-org38a3b5e">
 <p>
 通过 autodoc 可以从源码的注释生成文档。需要在 <code>conf.py</code> 的 <code>extensions</code> 中加入 <code>'sphinx.ext.autodoc'</code> . 之后就可以利用 <code>autofunction</code> <code>automodule</code> 等指令，将注释作为文档导入。
 </p>
@@ -1757,17 +2340,17 @@ rst 指令的格式中包括
 </div>
 
 
-<div id="outline-container-org935b529" class="outline-3">
-<h3 id="org935b529">breathe</h3>
-<div class="outline-text-3" id="text-org935b529">
+<div id="outline-container-org308215b" class="outline-3">
+<h3 id="org308215b">breathe</h3>
+<div class="outline-text-3" id="text-org308215b">
 <p>
 <a href="https://breathe.readthedocs.io/en/latest/index.html">breathe</a> 是通过 doxygen 生成 c/c++ 的文档的工具
 </p>
 </div>
 
-<div id="outline-container-org8f4be7d" class="outline-4">
-<h4 id="org8f4be7d">基本使用</h4>
-<div class="outline-text-4" id="text-org8f4be7d">
+<div id="outline-container-org48d19b1" class="outline-4">
+<h4 id="org48d19b1">基本使用</h4>
+<div class="outline-text-4" id="text-org48d19b1">
 <p>
 设置 <code>conf.py</code>
 </p>
@@ -1784,62 +2367,6 @@ rst 指令的格式中包括
 <div class="highlight"><pre><span></span>    .. autodoxygenfile:: oneheader.h
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-                </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/xxhash/" class="u-url">xxhash</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/xxhash/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-08-07T00:30:25+08:00" itemprop="datePublished" title="2021-08-07 00:30">2021-08-07 00:30</time></a>
-            </p>
-                        <p class="commentline">
-    
-    <a href="posts/xxhash/#disqus_thread" data-disqus-identifier="cache/posts/xxhash.html">评论</a>
-
-
-                </p>
-</div>
-            </header><div class="e-content entry-content">
-                    <div id="outline-container-orga581fb7" class="outline-2">
-<h2 id="orga581fb7">xxHash: 快速的哈希函数</h2>
-<div class="outline-text-2" id="text-orga581fb7">
-<p>
-<a href="https://github.com/Cyan4973/xxHash">Cyan4973/xxHash</a>
-</p>
-</div>
-
-<div id="outline-container-org77fa072" class="outline-3">
-<h3 id="org77fa072">安装</h3>
-<div class="outline-text-3" id="text-org77fa072">
-<p>
-meson 的 wrapDB 中有，所以只需要 <code>meson wrap install xxhash</code>
-</p>
-
-<p>
-编译时使用 <code>XXH_INLINE_ALL</code> 选项提高性能，对于 meson 来说需要写 <code>xxhash_dep = dependency('libxxhash', default_options: ['inline-all=true'])</code>
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgdfd2451" class="outline-3">
-<h3 id="orgdfd2451">基本使用</h3>
-<div class="outline-text-3" id="text-orgdfd2451">
-<p>
-最快的哈希函数是 <code>XXH3_64bits</code>
-</p>
-<div class="highlight"><pre><span></span><span class="w">   </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">"xxhash.h"</span>
-
-<span class="w">   </span><span class="k">static</span><span class="w"> </span><span class="kr">inline</span>
-<span class="w">   </span><span class="n">XXH64_hash_t</span>
-<span class="w">   </span><span class="nf">hash_func</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">       </span><span class="k">return</span><span class="w"> </span><span class="n">XXH3_64bits</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span><span class="w">	</span>
-<span class="w">   </span><span class="p">}</span>
-</pre></div>
 </div>
 </div>
 </div>
@@ -1873,7 +2400,7 @@ delimiters: [
 </div>
 
 
-        <script src="assets/js/all-nocdn.js"></script><script>
+            <script src="assets/js/jquery.min.js"></script><script src="assets/js/popper.min.js"></script><script src="assets/js/bootstrap.min.js"></script><script src="assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

@@ -4,7 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Data Structures for Sparse Matrix | chimez's blog</title>
-<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/bootblog.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
@@ -124,13 +130,13 @@ COO: coordinate
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org8652c31" class="outline-2">
-<h2 id="org8652c31">稀疏矩阵的数据结构</h2>
-<div class="outline-text-2" id="text-org8652c31">
+    <div id="outline-container-org3261d88" class="outline-2">
+<h2 id="org3261d88">稀疏矩阵的数据结构</h2>
+<div class="outline-text-2" id="text-org3261d88">
 </div>
-<div id="outline-container-org6b97419" class="outline-3">
-<h3 id="org6b97419">常见结构</h3>
-<div class="outline-text-3" id="text-org6b97419">
+<div id="outline-container-org73c5be2" class="outline-3">
+<h3 id="org73c5be2">常见结构</h3>
+<div class="outline-text-3" id="text-org73c5be2">
 <ul class="org-ul">
 <li>COO: Coordinate or triplet</li>
 <li>CSR: Compressed Sparse Row</li>
@@ -141,16 +147,16 @@ COO: coordinate
 </div>
 </div>
 
-<div id="outline-container-org55c7625" class="outline-3">
-<h3 id="org55c7625">COO: coordinate</h3>
-<div class="outline-text-3" id="text-org55c7625">
+<div id="outline-container-orgc0ae62d" class="outline-3">
+<h3 id="orgc0ae62d">COO: coordinate</h3>
+<div class="outline-text-3" id="text-orgc0ae62d">
 <ol class="org-ol">
 <li>也叫做 triplet 格式</li>
 <li>最简单和基本的格式，通常用做向其它格式转换的入门格式</li>
 <li>顺序是任意的</li>
 <li>保存三列数据：值、行指标、列指标</li>
 </ol>
-<pre class="example" id="org5ddc4cf">
+<pre class="example" id="org16a51cb">
 A:
    [[ 1,  0,  0,  2,  0],
     [ 3,  4,  0,  5,  0],
@@ -167,14 +173,14 @@ A[ i[k], j[k] ] = data[k]
 </div>
 </div>
 
-<div id="outline-container-org948db2f" class="outline-3">
-<h3 id="org948db2f">CSR: Compressed Sparse Row</h3>
-<div class="outline-text-3" id="text-org948db2f">
+<div id="outline-container-org087081d" class="outline-3">
+<h3 id="org087081d">CSR: Compressed Sparse Row</h3>
+<div class="outline-text-3" id="text-org087081d">
 <ol class="org-ol">
 <li>按行压缩，即coo格式中的数据值、列指标不变，但行指标改成指向这一行开始的列的指标</li>
 <li>一般来说，Fortran 里使用这种格式</li>
 </ol>
-<pre class="example" id="org22e281a">
+<pre class="example" id="org9baf843">
 A:
    [[ 1,  0,  0,  2,  0],
     [ 3,  4,  0,  5,  0],
@@ -190,14 +196,14 @@ col(j): [0, 3, 0, 1, 3,  0, 2, 3, 4,  2, 3,  4]
 </div>
 </div>
 
-<div id="outline-container-org2410dab" class="outline-3">
-<h3 id="org2410dab">CSC: Compressed Sparse Column</h3>
-<div class="outline-text-3" id="text-org2410dab">
+<div id="outline-container-org2596057" class="outline-3">
+<h3 id="org2596057">CSC: Compressed Sparse Column</h3>
+<div class="outline-text-3" id="text-org2596057">
 <ol class="org-ol">
 <li>按列压缩，与 CSR 类似，不过行列换一下</li>
 <li>c 中常用这种格式</li>
 </ol>
-<pre class="example" id="org0420d60">
+<pre class="example" id="orgbe983c8">
 A:
    [[ 1,  0,  0,  2,  0],
     [ 3,  4,  0,  5,  0],
@@ -213,13 +219,13 @@ col(j): [0, 3, 4, 6, 10, 12]
 </div>
 </div>
 
-<div id="outline-container-orge6ef904" class="outline-3">
-<h3 id="orge6ef904">DIA: The Diagonal format</h3>
-<div class="outline-text-3" id="text-orge6ef904">
+<div id="outline-container-orgf33f9ba" class="outline-3">
+<h3 id="orgf33f9ba">DIA: The Diagonal format</h3>
+<div class="outline-text-3" id="text-orgf33f9ba">
 <ol class="org-ol">
 <li>按对角线压缩，保存偏移值，负的偏移忽略头元素，正的偏移忽略尾元素</li>
 </ol>
-<pre class="example" id="orge864acf">
+<pre class="example" id="org9306bab">
 A:
    [[ 1.,  0.,  2.,  0.,  0.],
     [ 3.,  4.,  0.,  5.,  0.],
@@ -238,18 +244,18 @@ offsets: [-1,  0,  2]
 </div>
 </div>
 
-<div id="outline-container-orgb11cdd0" class="outline-3">
-<h3 id="orgb11cdd0">BSR: Block matrices</h3>
-<div class="outline-text-3" id="text-orgb11cdd0">
+<div id="outline-container-orgd53eeab" class="outline-3">
+<h3 id="orgd53eeab">BSR: Block matrices</h3>
+<div class="outline-text-3" id="text-orgd53eeab">
 <ol class="org-ol">
 <li>类似 CSR，只不过每个行列指的是一个小的矩阵，这些小矩阵大小都相等</li>
 </ol>
 </div>
 </div>
 
-<div id="outline-container-orgad3399b" class="outline-3">
-<h3 id="orgad3399b">scipy 格式</h3>
-<div class="outline-text-3" id="text-orgad3399b">
+<div id="outline-container-org2909463" class="outline-3">
+<h3 id="org2909463">scipy 格式</h3>
+<div class="outline-text-3" id="text-org2909463">
 <ol class="org-ol">
 <li>很容易使用，参考 <a href="https://docs.scipy.org/doc/scipy/reference/sparse.html">scipy - sparse</a>
 </li>
@@ -257,12 +263,12 @@ offsets: [-1,  0,  2]
 </div>
 </div>
 
-<div id="outline-container-orgd29a955" class="outline-3">
-<h3 id="orgd29a955">suitesparse 格式</h3>
+<div id="outline-container-orgbda9f72" class="outline-3">
+<h3 id="orgbda9f72">suitesparse 格式</h3>
 </div>
 
-<div id="outline-container-orgbe7de24" class="outline-3">
-<h3 id="orgbe7de24">MKL 格式</h3>
+<div id="outline-container-org156955c" class="outline-3">
+<h3 id="org156955c">MKL 格式</h3>
 </div>
 </div>
     </div>
@@ -308,7 +314,7 @@ offsets: [-1,  0,  2]
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/popper.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});

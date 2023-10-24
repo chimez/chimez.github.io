@@ -1,15 +1,534 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 C 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/c.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 18 Oct 2023 02:37:53 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PBLAS &amp; ScaLAPACK &amp; BLACS</title><link>https://chimez.github.io/posts/pblas-scalapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgd0d311c" class="outline-2"&gt;
-&lt;h2 id="orgd0d311c"&gt;PBLAS &amp;amp; ScaLAPACK &amp;amp; BLACS&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd0d311c"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 C 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/c.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 24 Oct 2023 10:00:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>POSIX 多进程编程</title><link>https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/</link><dc:creator>chimez</dc:creator><description>&lt;div id="table-of-contents" role="doc-toc"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents" role="doc-toc"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org5224e9c"&gt;启动和终止子进程&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgcf39541"&gt;&lt;code&gt;fork&lt;/code&gt; 创建子进程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org1f82455"&gt;&lt;code&gt;wait&lt;/code&gt; 等待子进程退出&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgedc4002"&gt;&lt;code&gt;waitpid&lt;/code&gt; 等待特定的子进程退出&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org99b7a52"&gt;例子：创建一系列子进程并等待&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgcbc3da7"&gt;管道 Pipe&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org54afe23"&gt;&lt;code&gt;pipe&lt;/code&gt; 创建管道&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgb8c8f19"&gt;例子：pingpong&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org4117894"&gt;信号量 System V Semaphores&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org58220ca"&gt;&lt;code&gt;semget&lt;/code&gt; 获得信号量集&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org3cac01b"&gt;&lt;code&gt;semctl&lt;/code&gt; 配置信号量集&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgfbe5484"&gt;&lt;code&gt;semop&lt;/code&gt; 操作信号&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgc7dcb88"&gt;例子：互斥锁&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;
+并行计算方案包括多线程并行、多进程并行、异构并行和分布式并行。
+这篇文章主要讲如何利用 POSIX 标准库（C语言）进行多进程并行计算，包括如何启动和终止子进程和进程间通信的两种方法：管道（pipe）与信号量（semaphore）。
+至于其它的进程间通信方式，例如：共享内存（mmap）、网络（sockets）、信号（signal）和消息队列等，都是适用性更广也更复杂的技术，在这篇短文中无法涉及。
+&lt;/p&gt;
+
+&lt;div id="outline-container-org5224e9c" class="outline-2"&gt;
+&lt;h2 id="org5224e9c"&gt;启动和终止子进程&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org5224e9c"&gt;
+&lt;p&gt;
+使用 &lt;code&gt;fork&lt;/code&gt; 创建子进程，使用 &lt;code&gt;wait&lt;/code&gt; 或 &lt;code&gt;waitpid&lt;/code&gt; 等待运行结束。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgcf39541" class="outline-3"&gt;
+&lt;h3 id="orgcf39541"&gt;&lt;code&gt;fork&lt;/code&gt; 创建子进程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgcf39541"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;
+
+&lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;fork&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;返回值&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;执行成功：在父进程中返回子进程的 &lt;code&gt;pid_t&lt;/code&gt;, 在子进程中返回 0；&lt;/li&gt;
+&lt;li&gt;执行失败：返回-1，并设置 &lt;code&gt;errno&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;在 GNU C 中 &lt;code&gt;pid_t&lt;/code&gt; 就是 &lt;code&gt;int&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;b&gt;说明&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;fork&lt;/code&gt; 启动的子进程会获得与此时主进程完全一样的内存上下文，这意味着主进程此时可以访问的一切内容在子进程中都可用，甚至连指针地址都一样。
+如果连续启动了两个子进程，在两次 &lt;code&gt;fork&lt;/code&gt; 中有任何变量在主进程被修改了，前面的子进程看到的还是原来的值，后面的子进程看到的是新的值。
+同时由于进程之间内存是隔离的，子进程修改任何内存都不会影响到其它子进程。
+&lt;code&gt;fork&lt;/code&gt; 对内存使用 copy-on-write 机制，没有修改的内存就访问同样的内容，但如果修改就会复制所有内存。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org1f82455" class="outline-3"&gt;
+&lt;h3 id="org1f82455"&gt;&lt;code&gt;wait&lt;/code&gt; 等待子进程退出&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1f82455"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/wait.h&amp;gt;&lt;/span&gt;
+
+&lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;wait&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;stat_loc&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;参数&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;int *stat_loc&lt;/code&gt; 捕获子进程的退出值，设为 &lt;code&gt;NULL&lt;/code&gt; 则忽略退出值。具体的返回参数参看 &lt;a href="https://man7.org/linux/man-pages/man2/wait.2.html"&gt;man 2 wait&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;b&gt;返回值&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;返回捕获到的子进程ID，失败返回-1，并设置 &lt;code&gt;errno&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgedc4002" class="outline-3"&gt;
+&lt;h3 id="orgedc4002"&gt;&lt;code&gt;waitpid&lt;/code&gt; 等待特定的子进程退出&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgedc4002"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/wait.h&amp;gt;&lt;/span&gt;
+
+&lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;waitpid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;stat_loc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;options&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;参数&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;pid_t pid&lt;/code&gt; 等待特定的子进程&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int *stat_loc&lt;/code&gt; 捕获子进程的退出值，设为 &lt;code&gt;NULL&lt;/code&gt; 则忽略退出值, 与 &lt;code&gt;wait&lt;/code&gt; 的参数相同&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int options&lt;/code&gt; 等待的行为可以通过一系列选项来设置，具体的返回参数参看 &lt;a href="https://man7.org/linux/man-pages/man2/wait.2.html"&gt;man 2 waitpid&lt;/a&gt;，设成 &lt;code&gt;0&lt;/code&gt; 则与 &lt;code&gt;wait&lt;/code&gt; 行为相同。&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;
+&lt;b&gt;返回值&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;返回捕获到的子进程ID，失败返回-1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org99b7a52" class="outline-3"&gt;
+&lt;h3 id="org99b7a52"&gt;例子：创建一系列子进程并等待&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org99b7a52"&gt;
+&lt;p&gt;
+在这个例子中创建了 10 个子进程，按照创建顺序给它们标号，让这些进程按照创建顺序的逆序打印自己的序号，主进程则会等待到所有子进程退出再结束。
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/wait.h&amp;gt;&lt;/span&gt;
+
+&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n_process&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pids&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;calloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n_process&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n_process&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;pids&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;fork&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pids&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="cm"&gt;/* in child process */&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n_process&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"child %d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"child %d, pid_t: %d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pids&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="cm"&gt;/* pointer address is the same */&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"child %d, pids ptr: %p&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pids&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="cm"&gt;/* but value is different */&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"child %d, all pids: "&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n_process&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"%d "&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pids&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="cm"&gt;/* in parent process */&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"all pids: &lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n_process&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"%d "&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pids&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="cm"&gt;/* get parent pid */&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"pid: %d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;getpid&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="cm"&gt;/* wait subprocess to finish */&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n_process&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* wait(NULL); */&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;waitpid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pids&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;free&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pids&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgcbc3da7" class="outline-2"&gt;
+&lt;h2 id="orgcbc3da7"&gt;管道 Pipe&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgcbc3da7"&gt;
+&lt;p&gt;
+POSIX 提供了单向管道，可以从一个进程向另一个进程单向地传输信息。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org54afe23" class="outline-3"&gt;
+&lt;h3 id="org54afe23"&gt;&lt;code&gt;pipe&lt;/code&gt; 创建管道&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org54afe23"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;
+
+&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;pipe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;fildes&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;b&gt;参数&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;int fildes[2]&lt;/code&gt; 创建一个管道的两端，值是整数文件标识, &lt;code&gt;fildes[0]&lt;/code&gt; 是管道的出口， &lt;code&gt;fildes[1]&lt;/code&gt; 是管道的入口&lt;/li&gt;
+&lt;li&gt;发送信息的进程应该先把管道出口关闭，而接收信息的进程应该先把管道入口关闭&lt;/li&gt;
+&lt;li&gt;如果管道的两端在同一个进程里都关闭了，再向这个管道发送信息会产生 &lt;code&gt;SIGPIPE&lt;/code&gt; 信号&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;b&gt;返回值&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;成功创建管道返回 &lt;code&gt;0&lt;/code&gt;, 失败返回 &lt;code&gt;-1&lt;/code&gt; 并设置 &lt;code&gt;errno&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgb8c8f19" class="outline-3"&gt;
+&lt;h3 id="orgb8c8f19"&gt;例子：pingpong&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb8c8f19"&gt;
+&lt;p&gt;
+两个进程之间互相发送数据，一个数据在两个管道之间来回传递，类似打乒乓球，这是 MPI 中最简单的例子
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/types.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;
+
+&lt;span class="cp"&gt;#define TOTAL_NUMBER 10&lt;/span&gt;
+
+&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;child&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pipe_in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pipe_out&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;getpid&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"start pid: %d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;recv_count&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;send_count&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;recv_count&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;TOTAL_NUMBER&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;send_count&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;TOTAL_NUMBER&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* clear buf */&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* read from pipe_in into buf */&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;recv_count&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;atoi&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"pid=%d: recv %d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* write to pipe_out */&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;sprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"%d"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_out&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"pid=%d: send %d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;send_count&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pipe_tochild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pipe_fromchild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="cm"&gt;/* Create the pipes. */&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_tochild&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pipe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_fromchild&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fork&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* child process */&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_tochild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_fromchild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;child&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_tochild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pipe_fromchild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_tochild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_fromchild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="cm"&gt;/* parent process */&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_tochild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_fromchild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="cm"&gt;/* send first number */&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;sprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"%d"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_tochild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;buf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="cm"&gt;/* loop */&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;child&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_fromchild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pipe_tochild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_fromchild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pipe_tochild&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;wait&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org4117894" class="outline-2"&gt;
+&lt;h2 id="org4117894"&gt;信号量 System V Semaphores&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4117894"&gt;
+&lt;p&gt;
+信号量有两种，一个是旧的 System V 一个是标准 POSIX。System V 的支持更广，POSIX 标准在许多系统上都没有实现，所以这里只解释 System V 信号量。
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org58220ca" class="outline-3"&gt;
+&lt;h3 id="org58220ca"&gt;&lt;code&gt;semget&lt;/code&gt; 获得信号量集&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org58220ca"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/sem.h&amp;gt;&lt;/span&gt;
+
+&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;semget&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;key_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;nsems&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;semflg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+新建或访问已有的信号量集。
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;参数&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;key_t key&lt;/code&gt; 信号量集的键。每个信号量集都有唯一的键，自定义键名通过 &lt;a href="https://man7.org/linux/man-pages/man3/ftok.3.html"&gt;ftok&lt;/a&gt; 创建，也可以设成 &lt;code&gt;IPC_PRIVATE&lt;/code&gt; 来新建一个只有当前进程和子进程可见的信号量集&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int nsems&lt;/code&gt; 信号量集中信号的个数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int semflg&lt;/code&gt; 控制创建和访问权限。
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;IPC_CREAT&lt;/code&gt; 表示创建新的信号量集&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IPC_CREAT | IPC_EXCL&lt;/code&gt; 表示创建新的信号量集，并且当之前已经存在信号量集时失败&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IPC_CREAT | 0666&lt;/code&gt; 创建时可以设置权限，与文件的权限规则相同&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;b&gt;返回值&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;成功时返回信号量集的ID &lt;code&gt;semid&lt;/code&gt; ，失败时返回 -1 并设置 errno&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-org3cac01b" class="outline-3"&gt;
+&lt;h3 id="org3cac01b"&gt;&lt;code&gt;semctl&lt;/code&gt; 配置信号量集&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org3cac01b"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#include &amp;lt;sys/sem.h&amp;gt;
+
+int semctl(int semid, int semnum, int cmd, ...); /* union semun sem_perm */
+
+union semun {
+    int     val;            /* value for SETVAL */
+    struct  semid_ds *buf;  /* buffer for IPC_STAT &amp;amp; IPC_SET */
+    u_short *array;         /* array for GETALL &amp;amp; SETALL */
+};
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;
+&lt;code&gt;semctl&lt;/code&gt; 的作用配置信号量集 &lt;code&gt;semid&lt;/code&gt; 中的第 &lt;code&gt;semnum&lt;/code&gt; 个参数的值。
+配置行为由 &lt;code&gt;cmd&lt;/code&gt; 指定，配置的值是可选的第四个参数 &lt;code&gt;sem_union&lt;/code&gt; 。
+配置的值很多，参看 &lt;a href="https://man7.org/linux/man-pages/man2/semctl.2.html"&gt;man semctl&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;参数&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;int semid&lt;/code&gt; 信号量集的 ID&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int semnum&lt;/code&gt; 信号量集中的第几个信号&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;int cmd&lt;/code&gt; 要执行的操作，下面是常用的一些选项
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;SETVAL&lt;/code&gt; 把信号量的值设成 &lt;code&gt;sem_union.val&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SETALL&lt;/code&gt; 把所有的信号量的值都设成 &lt;code&gt;sem_union.val&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IPC_RMID&lt;/code&gt; 清除信号量&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;可选的第四个参数 &lt;code&gt;union semun sem_union&lt;/code&gt; 设置的值&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;b&gt;返回值&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;成功时返回非负值，与 &lt;code&gt;cmd&lt;/code&gt; 设置有关&lt;/li&gt;
+&lt;li&gt;失败时返回 -1，并设置 errno&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgfbe5484" class="outline-3"&gt;
+&lt;h3 id="orgfbe5484"&gt;&lt;code&gt;semop&lt;/code&gt; 操作信号&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfbe5484"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#include &amp;lt;sys/sem.h&amp;gt;
+
+int semop(int semid, struct sembuf *sops, size_t nsops);
+
+struct sembuf {
+    u_short sem_num;        /* semaphore */
+    short   sem_op;         /* semaphore operation */
+    short   sem_flg;        /* operation flags */
+};
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;
+&lt;code&gt;semop&lt;/code&gt; 的作用是在信号量集 &lt;code&gt;semid&lt;/code&gt; 上执行 &lt;code&gt;nsops&lt;/code&gt; 个原子操作，每个操作由数组 &lt;code&gt;sops&lt;/code&gt; 定义。
+配置行为由 &lt;code&gt;cmd&lt;/code&gt; 指定，配置的值是可选的第四个参数 &lt;code&gt;sem_union&lt;/code&gt; 。
+配置的值很多，参看 &lt;a href="https://man7.org/linux/man-pages/man2/semctl.2.html"&gt;man semctl&lt;/a&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;参数&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;int semid&lt;/code&gt; 信号量集的 ID&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;struct sembuf *sops&lt;/code&gt; 对信号的操作
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;u_short sem_num&lt;/code&gt; 对第几个信号操作&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;short sem_op&lt;/code&gt; 具体的操作&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;short sem_flg&lt;/code&gt; 控制操作的行为&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size_t nsops&lt;/code&gt; 数组 &lt;code&gt;sops&lt;/code&gt; 的长度&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;b&gt;&lt;code&gt;sem_op&lt;/code&gt; 的几种情况&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;&amp;gt;0&lt;/code&gt; 新的信号量值 = 旧的信号量值 + &lt;code&gt;sem_op&lt;/code&gt;, 立即执行&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;=0&lt;/code&gt; 阻塞直到信号量的值变成 0&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;0&lt;/code&gt; 阻塞直到 &lt;code&gt;旧信号量 + sem_op &amp;gt;= 0&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;
+&lt;b&gt;返回值&lt;/b&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;成功时返回 0&lt;/li&gt;
+&lt;li&gt;失败时返回 -1，并设置 errno&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-orgc7dcb88" class="outline-3"&gt;
+&lt;h3 id="orgc7dcb88"&gt;例子：互斥锁&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc7dcb88"&gt;
+&lt;p&gt;
+这个例子里子进程和主进程一起对共享的变量 &lt;code&gt;shared_int&lt;/code&gt; 数数，如果不加锁，最后输出的数字会比 2000000 少，也就是出现了数据竞争，而加锁之后就不会出现这种问题了。
+可以注释掉 &lt;code&gt;lock&lt;/code&gt; 和 &lt;code&gt;unlock&lt;/code&gt; 来自己观察一下。
+&lt;/p&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/types.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/sem.h&amp;gt;&lt;/span&gt;
+&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/mman.h&amp;gt;&lt;/span&gt;
+
+
+&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;semid&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;struct&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;sembuf&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sb&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;-1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;semop&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;semid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;sb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;unlock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;semid&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;struct&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;sembuf&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sb&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;semop&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;semid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;sb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;shared_int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;mmap&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PROT_READ&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PROT_WRITE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;MAP_SHARED&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;MAP_ANON&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;-1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;shared_int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;MAP_FAILED&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;perror&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"mmap"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;EXIT_FAILURE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;semid&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;semget&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;IPC_PRIVATE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mo"&gt;0666&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;IPC_CREAT&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;union&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;semun&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sem_union&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;sem_union&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;semctl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;semid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;SETVAL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sem_union&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fork&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1000000&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;semid&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;shared_int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;unlock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;semid&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;exit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="mi"&gt;1000000&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;semid&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;shared_int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;unlock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;semid&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;wait&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"final, %d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;shared_int&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;semctl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;semid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;IPC_RMID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sem_union&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;munmap&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;shared_int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>C</category><category>concurrency</category><category>parallel</category><guid>https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/</guid><pubDate>Tue, 24 Oct 2023 04:46:17 GMT</pubDate></item><item><title>PBLAS &amp; ScaLAPACK &amp; BLACS</title><link>https://chimez.github.io/posts/pblas-scalapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org6dbd54b" class="outline-2"&gt;
+&lt;h2 id="org6dbd54b"&gt;PBLAS &amp;amp; ScaLAPACK &amp;amp; BLACS&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6dbd54b"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/scalapack/"&gt;ScaLAPACK&lt;/a&gt; 是基于 MPI 的并行版本 LAPACK, &lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga24c039" class="outline-3"&gt;
-&lt;h3 id="orga24c039"&gt;编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga24c039"&gt;
+&lt;div id="outline-container-org6c20363" class="outline-3"&gt;
+&lt;h3 id="org6c20363"&gt;编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6c20363"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;从 github 下载 &lt;a href="https://github.com/Reference-ScaLAPACK/scalapack/"&gt;https://github.com/Reference-ScaLAPACK/scalapack/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;修改 &lt;code&gt;SLmake.inc&lt;/code&gt; 文件中的 &lt;code&gt;FC&lt;/code&gt;, &lt;code&gt;CC&lt;/code&gt;, &lt;code&gt;BLASLIB&lt;/code&gt;, &lt;code&gt;LAPACKLIB&lt;/code&gt;&lt;/li&gt;
@@ -18,7 +537,7 @@
 &lt;p&gt;
 示例
 &lt;/p&gt;
-&lt;pre class="example" id="orgd39f8ba"&gt;
+&lt;pre class="example" id="orgfd2e6a3"&gt;
 FC            = /home/beacon/app/openmpi/bin/mpif90
 CC            = /home/beacon/app/openmpi/bin/mpicc 
 NOOPT         = -O0 -std=legacy
@@ -32,9 +551,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org396273f" class="outline-4"&gt;
-&lt;h4 id="org396273f"&gt;GCC 10 不兼容&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org396273f"&gt;
+&lt;div id="outline-container-org87b8ae6" class="outline-4"&gt;
+&lt;h4 id="org87b8ae6"&gt;GCC 10 不兼容&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org87b8ae6"&gt;
 &lt;p&gt;
 由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 &lt;code&gt;-fallow-argument-mismatch&lt;/code&gt; 或 &lt;code&gt;-std=legacy&lt;/code&gt; 来编译。
 &lt;/p&gt;
@@ -46,9 +565,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org138c6dc" class="outline-3"&gt;
-&lt;h3 id="org138c6dc"&gt;BLACS&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org138c6dc"&gt;
+&lt;div id="outline-container-org2f8e94d" class="outline-3"&gt;
+&lt;h3 id="org2f8e94d"&gt;BLACS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org2f8e94d"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/blacs/index.html"&gt;BLACS&lt;/a&gt; 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
 &lt;/p&gt;
@@ -61,13 +580,13 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html"&gt;oneAPI/MKL/BLACS&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org802eb8e" class="outline-4"&gt;
-&lt;h4 id="org802eb8e"&gt;基本概念&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org802eb8e"&gt;
+&lt;div id="outline-container-orgd162e52" class="outline-4"&gt;
+&lt;h4 id="orgd162e52"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd162e52"&gt;
 &lt;/div&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orgb6b084a"&gt;&lt;/a&gt;进程网格和范围操作&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgb6b084a"&gt;
+&lt;li&gt;&lt;a id="org465cd9e"&gt;&lt;/a&gt;进程网格和范围操作&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org465cd9e"&gt;
 &lt;p&gt;
 一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
 &lt;/p&gt;
@@ -88,8 +607,8 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org8484ac9"&gt;&lt;/a&gt;上下文&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org8484ac9"&gt;
+&lt;li&gt;&lt;a id="org249ed9d"&gt;&lt;/a&gt;上下文&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org249ed9d"&gt;
 &lt;p&gt;
 &lt;b&gt;上下文&lt;/b&gt; (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
 &lt;/p&gt;
@@ -108,16 +627,16 @@ BLACS 中有关上下文的函数有
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orge8ceca2"&gt;&lt;/a&gt;基于数组的通信&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orge8ceca2"&gt;
+&lt;li&gt;&lt;a id="org29e9be0"&gt;&lt;/a&gt;基于数组的通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org29e9be0"&gt;
 &lt;p&gt;
 BLACS 中有两个基本的数据模型
 &lt;/p&gt;
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org87ebe14"&gt;&lt;/a&gt;矩形矩阵&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org87ebe14"&gt;
+&lt;li&gt;&lt;a id="orga6b5295"&gt;&lt;/a&gt;矩形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-orga6b5295"&gt;
 &lt;p&gt;
 一维向量是特殊的矩形矩阵。
 &lt;/p&gt;
@@ -128,8 +647,8 @@ BLACS 中有两个基本的数据模型
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org30adce6"&gt;&lt;/a&gt;梯形矩阵&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org30adce6"&gt;
+&lt;li&gt;&lt;a id="org856369d"&gt;&lt;/a&gt;梯形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org856369d"&gt;
 &lt;p&gt;
 三角矩阵和对角矩阵是特殊的梯形矩阵。
 &lt;/p&gt;
@@ -147,8 +666,8 @@ BLACS 中有两个基本的数据模型
 &lt;/ul&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org3852787"&gt;&lt;/a&gt;无编号通信&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org3852787"&gt;
+&lt;li&gt;&lt;a id="org60a018b"&gt;&lt;/a&gt;无编号通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org60a018b"&gt;
 &lt;p&gt;
 BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 &lt;code&gt;SHIFT_RANGE&lt;/code&gt; 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
 &lt;/p&gt;
@@ -165,9 +684,9 @@ BLACS 的通信保证
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga4a0ea1" class="outline-4"&gt;
-&lt;h4 id="orga4a0ea1"&gt;结构&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orga4a0ea1"&gt;
+&lt;div id="outline-container-org0d0a1ed" class="outline-4"&gt;
+&lt;h4 id="org0d0a1ed"&gt;结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0d0a1ed"&gt;
 &lt;p&gt;
 BLACS 由 4 个部分构成
 &lt;/p&gt;
@@ -184,8 +703,8 @@ BLACS 由 4 个部分构成
 &lt;/div&gt;
 
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org9d41958"&gt;&lt;/a&gt;命名规则&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org9d41958"&gt;
+&lt;li&gt;&lt;a id="orgc7f5727"&gt;&lt;/a&gt;命名规则&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgc7f5727"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;点到点通信与广播： &lt;code&gt;vXXYY2D&lt;/code&gt;
 &lt;ul class="org-ul"&gt;
@@ -346,9 +865,9 @@ BLACS 由 4 个部分构成
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5a18175" class="outline-3"&gt;
-&lt;h3 id="org5a18175"&gt;PBLAS&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5a18175"&gt;
+&lt;div id="outline-container-orgf0a4691" class="outline-3"&gt;
+&lt;h3 id="orgf0a4691"&gt;PBLAS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf0a4691"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 &lt;code&gt;.h&lt;/code&gt; 头文件，得自己写。
 &lt;/p&gt;
@@ -358,25 +877,25 @@ BLACS 由 4 个部分构成
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org5be52fd" class="outline-3"&gt;
-&lt;h3 id="org5be52fd"&gt;ScaLAPACK&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5be52fd"&gt;
+&lt;div id="outline-container-org9f23c5d" class="outline-3"&gt;
+&lt;h3 id="org9f23c5d"&gt;ScaLAPACK&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9f23c5d"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgba3e4ab" class="outline-4"&gt;
-&lt;h4 id="orgba3e4ab"&gt;基本方法&lt;/h4&gt;
+&lt;div id="outline-container-orgfea164c" class="outline-4"&gt;
+&lt;h4 id="orgfea164c"&gt;基本方法&lt;/h4&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>BLACS</category><category>BLAS</category><category>C</category><category>LAPACK</category><category>MPI</category><category>PBLAS</category><category>ScaLAPACK</category><guid>https://chimez.github.io/posts/pblas-scalapack/</guid><pubDate>Tue, 24 Aug 2021 04:31:22 GMT</pubDate></item><item><title>xxhash</title><link>https://chimez.github.io/posts/xxhash/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orga581fb7" class="outline-2"&gt;
-&lt;h2 id="orga581fb7"&gt;xxHash: 快速的哈希函数&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga581fb7"&gt;
+&lt;/div&gt;</description><category>BLACS</category><category>BLAS</category><category>C</category><category>LAPACK</category><category>MPI</category><category>PBLAS</category><category>ScaLAPACK</category><guid>https://chimez.github.io/posts/pblas-scalapack/</guid><pubDate>Tue, 24 Aug 2021 04:31:22 GMT</pubDate></item><item><title>xxhash</title><link>https://chimez.github.io/posts/xxhash/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org3d58d70" class="outline-2"&gt;
+&lt;h2 id="org3d58d70"&gt;xxHash: 快速的哈希函数&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3d58d70"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/Cyan4973/xxHash"&gt;Cyan4973/xxHash&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org77fa072" class="outline-3"&gt;
-&lt;h3 id="org77fa072"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org77fa072"&gt;
+&lt;div id="outline-container-orgbdacddf" class="outline-3"&gt;
+&lt;h3 id="orgbdacddf"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgbdacddf"&gt;
 &lt;p&gt;
 meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&lt;/code&gt;
 &lt;/p&gt;
@@ -387,9 +906,9 @@ meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdfd2451" class="outline-3"&gt;
-&lt;h3 id="orgdfd2451"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgdfd2451"&gt;
+&lt;div id="outline-container-org14e48f4" class="outline-3"&gt;
+&lt;h3 id="org14e48f4"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org14e48f4"&gt;
 &lt;p&gt;
 最快的哈希函数是 &lt;code&gt;XXH3_64bits&lt;/code&gt;
 &lt;/p&gt;
@@ -403,17 +922,17 @@ meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>hash</category><guid>https://chimez.github.io/posts/xxhash/</guid><pubDate>Fri, 06 Aug 2021 16:30:25 GMT</pubDate></item><item><title>klib</title><link>https://chimez.github.io/posts/klib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org6734099" class="outline-2"&gt;
-&lt;h2 id="org6734099"&gt;klib: 轻量级 c 头文件库&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6734099"&gt;
+&lt;/div&gt;</description><category>C</category><category>hash</category><guid>https://chimez.github.io/posts/xxhash/</guid><pubDate>Fri, 06 Aug 2021 16:30:25 GMT</pubDate></item><item><title>klib</title><link>https://chimez.github.io/posts/klib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org9953a0a" class="outline-2"&gt;
+&lt;h2 id="org9953a0a"&gt;klib: 轻量级 c 头文件库&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9953a0a"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/attractivechaos/klib"&gt;attractivechaos/klib&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgade509e" class="outline-3"&gt;
-&lt;h3 id="orgade509e"&gt;khash.h&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgade509e"&gt;
+&lt;div id="outline-container-org70160cf" class="outline-3"&gt;
+&lt;h3 id="org70160cf"&gt;khash.h&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org70160cf"&gt;
 &lt;p&gt;
 快速轻量的哈希表库
 &lt;/p&gt;
@@ -472,9 +991,9 @@ meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>khash</category><category>klib</category><guid>https://chimez.github.io/posts/klib/</guid><pubDate>Fri, 06 Aug 2021 16:19:52 GMT</pubDate></item><item><title>MPI</title><link>https://chimez.github.io/posts/mpi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge32d29f" class="outline-2"&gt;
-&lt;h2 id="orge32d29f"&gt;MPI: Message Passing Interface&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge32d29f"&gt;
+&lt;/div&gt;</description><category>C</category><category>khash</category><category>klib</category><guid>https://chimez.github.io/posts/klib/</guid><pubDate>Fri, 06 Aug 2021 16:19:52 GMT</pubDate></item><item><title>MPI</title><link>https://chimez.github.io/posts/mpi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org9609caa" class="outline-2"&gt;
+&lt;h2 id="org9609caa"&gt;MPI: Message Passing Interface&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9609caa"&gt;
 &lt;p&gt;
 MPI 是消息传递接口标准，主要的实现有 Intel MPI, OpenMPI 和 MPICH 等. MPI 标准目前有三版 MPI-1,MPI-2, MPI-3, 标准支持的语言是 c 和 fortran, c++ 支持在 MPI-3 中移除了。
 &lt;/p&gt;
@@ -491,13 +1010,13 @@ MPI 的优势：
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf3b6663" class="outline-3"&gt;
-&lt;h3 id="orgf3b6663"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf3b6663"&gt;
+&lt;div id="outline-container-org21e244f" class="outline-3"&gt;
+&lt;h3 id="org21e244f"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org21e244f"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org96c6f62" class="outline-4"&gt;
-&lt;h4 id="org96c6f62"&gt;程序结构&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org96c6f62"&gt;
+&lt;div id="outline-container-orgdff8e30" class="outline-4"&gt;
+&lt;h4 id="orgdff8e30"&gt;程序结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgdff8e30"&gt;
 &lt;p&gt;
 所有 MPI 程序都分以下几步
 &lt;/p&gt;
@@ -513,18 +1032,18 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5e93520" class="outline-4"&gt;
-&lt;h4 id="org5e93520"&gt;接口约定&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5e93520"&gt;
+&lt;div id="outline-container-org5970111" class="outline-4"&gt;
+&lt;h4 id="org5970111"&gt;接口约定&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5970111"&gt;
 &lt;p&gt;
 所有 MPI 的函数都以 &lt;code&gt;MPI_&lt;/code&gt; 开头，并且下划线后的第一个字母大写，函数返回消息码 &lt;code&gt;rc&lt;/code&gt; , 如果成功就是 &lt;code&gt;MPI_SUCCESS&lt;/code&gt;, 即 &lt;code&gt;0&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org45faeb4" class="outline-4"&gt;
-&lt;h4 id="org45faeb4"&gt;基本概念&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org45faeb4"&gt;
+&lt;div id="outline-container-org1cffc59" class="outline-4"&gt;
+&lt;h4 id="org1cffc59"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org1cffc59"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;b&gt;communicator&lt;/b&gt;: 通信器，定义哪些进程之间需要通信
 &lt;ol class="org-ol"&gt;
@@ -537,9 +1056,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org30977cb" class="outline-4"&gt;
-&lt;h4 id="org30977cb"&gt;MPI 版本&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org30977cb"&gt;
+&lt;div id="outline-container-orgc5373d4" class="outline-4"&gt;
+&lt;h4 id="orgc5373d4"&gt;MPI 版本&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc5373d4"&gt;
 &lt;p&gt;
 &lt;b&gt;MPI-1&lt;/b&gt; (1994) ：最早的版本，构建起了 MPI 的基本框架，包括
 &lt;/p&gt;
@@ -589,9 +1108,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org80f5bdc" class="outline-3"&gt;
-&lt;h3 id="org80f5bdc"&gt;环境管理函数&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org80f5bdc"&gt;
+&lt;div id="outline-container-org6628f3f" class="outline-3"&gt;
+&lt;h3 id="org6628f3f"&gt;环境管理函数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6628f3f"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Init (&amp;amp;argc,&amp;amp;argv)&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -662,13 +1181,13 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7d2ce5d" class="outline-3"&gt;
-&lt;h3 id="org7d2ce5d"&gt;点到点通信&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org7d2ce5d"&gt;
+&lt;div id="outline-container-orgff08bbf" class="outline-3"&gt;
+&lt;h3 id="orgff08bbf"&gt;点到点通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgff08bbf"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org2ac499e" class="outline-4"&gt;
-&lt;h4 id="org2ac499e"&gt;一般参数说明&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org2ac499e"&gt;
+&lt;div id="outline-container-org9c8885e" class="outline-4"&gt;
+&lt;h4 id="org9c8885e"&gt;一般参数说明&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9c8885e"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -733,9 +1252,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfc67bd7" class="outline-4"&gt;
-&lt;h4 id="orgfc67bd7"&gt;常用阻塞点到点通信函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgfc67bd7"&gt;
+&lt;div id="outline-container-org2797518" class="outline-4"&gt;
+&lt;h4 id="org2797518"&gt;常用阻塞点到点通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2797518"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Send()&lt;/code&gt; 基本的发送消息, 只有当发送信道再次可用时才返回&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_Recv()&lt;/code&gt; 基本的接收消息，阻塞直到接收信道再次可用&lt;/li&gt;
@@ -757,9 +1276,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org5adabde" class="outline-4"&gt;
-&lt;h4 id="org5adabde"&gt;常用非阻塞点到点通信函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5adabde"&gt;
+&lt;div id="outline-container-org9c3f75a" class="outline-4"&gt;
+&lt;h4 id="org9c3f75a"&gt;常用非阻塞点到点通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9c3f75a"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Isend()&lt;/code&gt; 非阻塞发送，所指定的发送 buffer 应该在 &lt;code&gt;MPI_Probe()&lt;/code&gt; 确定已经发送完成之前不修改&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_Irecv()&lt;/code&gt; 非阻塞接收，同样不应该在确定接收完成前修改 buffer&lt;/li&gt;
@@ -777,11 +1296,11 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org9eae9af" class="outline-3"&gt;
-&lt;h3 id="org9eae9af"&gt;集体通信&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9eae9af"&gt;
+&lt;div id="outline-container-org37c5e9e" class="outline-3"&gt;
+&lt;h3 id="org37c5e9e"&gt;集体通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org37c5e9e"&gt;
 
-&lt;div id="org8235f9e" class="figure"&gt;
+&lt;div id="org84d733c" class="figure"&gt;
 &lt;p&gt;&lt;img src="https://chimez.github.io/img/MPI:_Message_Passing_Interface/2021-07-04_18-47-40_collective_comm.gif" alt="nil"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -796,9 +1315,9 @@ MPI 的优势：
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge2210be" class="outline-4"&gt;
-&lt;h4 id="orge2210be"&gt;常用集体通信函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orge2210be"&gt;
+&lt;div id="outline-container-org0b6abb3" class="outline-4"&gt;
+&lt;h4 id="org0b6abb3"&gt;常用集体通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0b6abb3"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Barrier (comm)&lt;/code&gt; 同步所有进程&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_Bcast (&amp;amp;buffer,count,datatype,root,comm)&lt;/code&gt; 将数据从 &lt;code&gt;root&lt;/code&gt; 进程广播到所有进程&lt;/li&gt;
@@ -815,9 +1334,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc9a4ddd" class="outline-3"&gt;
-&lt;h3 id="orgc9a4ddd"&gt;自定义数据类型&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgc9a4ddd"&gt;
+&lt;div id="outline-container-org68e53e6" class="outline-3"&gt;
+&lt;h3 id="org68e53e6"&gt;自定义数据类型&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org68e53e6"&gt;
 &lt;p&gt;
 用户定义的数据类型，称作 &lt;b&gt;derived data types&lt;/b&gt;
 &lt;/p&gt;
@@ -833,9 +1352,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orge5c66df" class="outline-4"&gt;
-&lt;h4 id="orge5c66df"&gt;自定义结构体&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orge5c66df"&gt;
+&lt;div id="outline-container-org3546ff1" class="outline-4"&gt;
+&lt;h4 id="org3546ff1"&gt;自定义结构体&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org3546ff1"&gt;
 &lt;p&gt;
 &lt;code&gt;MPI_Type_create_struct(count, array_of_blocklengths, array_of_displacements, array_of_types, newtype)&lt;/code&gt;
 &lt;/p&gt;
@@ -890,9 +1409,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org419df78" class="outline-3"&gt;
-&lt;h3 id="org419df78"&gt;组和通信器管理&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org419df78"&gt;
+&lt;div id="outline-container-org0d89aa2" class="outline-3"&gt;
+&lt;h3 id="org0d89aa2"&gt;组和通信器管理&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0d89aa2"&gt;
 &lt;p&gt;
 &lt;b&gt;group&lt;/b&gt; 组是一些进程的有序集合，每个进程编号从 0 到 N-1, &lt;b&gt;communicator&lt;/b&gt; 通信器是一组需要相互通信的进程，每个组都有一个通信器。从编程的角度看，组是用来指定哪些进程相互通信，进而创建通信器的。
 &lt;/p&gt;
@@ -910,9 +1429,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga0fdaa3" class="outline-4"&gt;
-&lt;h4 id="orga0fdaa3"&gt;基本通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orga0fdaa3"&gt;
+&lt;div id="outline-container-org30f9523" class="outline-4"&gt;
+&lt;h4 id="org30f9523"&gt;基本通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org30f9523"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;MPI_COMM_WORLD&lt;/code&gt; 全部的进程&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_COMM_SELF&lt;/code&gt; 只包含当前进程&lt;/li&gt;
@@ -925,9 +1444,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgaeaab25" class="outline-4"&gt;
-&lt;h4 id="orgaeaab25"&gt;复制通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgaeaab25"&gt;
+&lt;div id="outline-container-org1408583" class="outline-4"&gt;
+&lt;h4 id="org1408583"&gt;复制通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org1408583"&gt;
 &lt;p&gt;
 复制一个一样的通信器，主要用于库函数编写时防止修改全局参数    
 &lt;/p&gt;
@@ -941,9 +1460,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgfdfa2f3" class="outline-4"&gt;
-&lt;h4 id="orgfdfa2f3"&gt;划分通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgfdfa2f3"&gt;
+&lt;div id="outline-container-orgc3fb623" class="outline-4"&gt;
+&lt;h4 id="orgc3fb623"&gt;划分通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc3fb623"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;MPI_Comm_split(comm, color, key, newcomm)&lt;/code&gt;  将 &lt;code&gt;comm&lt;/code&gt; 中有相同 &lt;code&gt;color&lt;/code&gt; 的进程组成一个新的通信器 &lt;code&gt;newcomm&lt;/code&gt;, 新通信器中的 rank 由 &lt;code&gt;key&lt;/code&gt; 指定
 &lt;/p&gt;
@@ -960,9 +1479,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org839eba1" class="outline-4"&gt;
-&lt;h4 id="org839eba1"&gt;从组创建通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org839eba1"&gt;
+&lt;div id="outline-container-org7673323" class="outline-4"&gt;
+&lt;h4 id="org7673323"&gt;从组创建通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org7673323"&gt;
 &lt;p&gt;
 组的类型是 &lt;code&gt;MPI_Group&lt;/code&gt;
 &lt;/p&gt;
@@ -983,9 +1502,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org40e446e" class="outline-4"&gt;
-&lt;h4 id="org40e446e"&gt;通信器间的通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org40e446e"&gt;
+&lt;div id="outline-container-orga147826" class="outline-4"&gt;
+&lt;h4 id="orga147826"&gt;通信器间的通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orga147826"&gt;
 &lt;p&gt;
 &lt;code&gt;MPI_Intercomm_create(local_comm, local_leader, peer_comm, remote_leader, tag, newintercomm)&lt;/code&gt;
 &lt;/p&gt;
@@ -993,9 +1512,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb6c0c83" class="outline-3"&gt;
-&lt;h3 id="orgb6c0c83"&gt;虚拟拓扑&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb6c0c83"&gt;
+&lt;div id="outline-container-org04091e6" class="outline-3"&gt;
+&lt;h3 id="org04091e6"&gt;虚拟拓扑&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org04091e6"&gt;
 &lt;p&gt;
 MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互连接构成一个几何形状，这个网络拓扑是虚拟的，与物理实际的连接无关。
 &lt;/p&gt;
@@ -1006,13 +1525,13 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgaa8938a" class="outline-3"&gt;
-&lt;h3 id="orgaa8938a"&gt;单边通信&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgaa8938a"&gt;
+&lt;div id="outline-container-orgbea9114" class="outline-3"&gt;
+&lt;h3 id="orgbea9114"&gt;单边通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgbea9114"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org319f964" class="outline-4"&gt;
-&lt;h4 id="org319f964"&gt;基本概念&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org319f964"&gt;
+&lt;div id="outline-container-orgecc6a8a" class="outline-4"&gt;
+&lt;h4 id="orgecc6a8a"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgecc6a8a"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Remote Memory Access(RMA), Remote Direct Momory Access (RDMA), 远程内存访问
 &lt;ul class="org-ul"&gt;
@@ -1037,9 +1556,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbf3954e" class="outline-4"&gt;
-&lt;h4 id="orgbf3954e"&gt;窗口&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgbf3954e"&gt;
+&lt;div id="outline-container-org479d1cc" class="outline-4"&gt;
+&lt;h4 id="org479d1cc"&gt;窗口&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org479d1cc"&gt;
 &lt;p&gt;
 用于单边通信的内存区域就是窗口，变量类型为 &lt;code&gt;MPI_Win&lt;/code&gt;, 进程可以向其中存取任何东西
 &lt;/p&gt;
@@ -1075,9 +1594,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org6440ef2" class="outline-4"&gt;
-&lt;h4 id="org6440ef2"&gt;动态分配内存&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org6440ef2"&gt;
+&lt;div id="outline-container-orgb79308a" class="outline-4"&gt;
+&lt;h4 id="orgb79308a"&gt;动态分配内存&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb79308a"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Win_create_dynamic(MPI_Info info, MPI_Comm comm, MPI_Win *win)&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -1204,9 +1723,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org73ed907" class="outline-4"&gt;
-&lt;h4 id="org73ed907"&gt;共享内存&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org73ed907"&gt;
+&lt;div id="outline-container-org66e81e1" class="outline-4"&gt;
+&lt;h4 id="org66e81e1"&gt;共享内存&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org66e81e1"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;int MPI_Comm_split_type(MPI_Comm comm, int split_type, int key, MPI_Info info, MPI_Comm *newcomm)&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -1281,9 +1800,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgc6b285c" class="outline-3"&gt;
-&lt;h3 id="orgc6b285c"&gt;混合多线程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgc6b285c"&gt;
+&lt;div id="outline-container-org579a3f8" class="outline-3"&gt;
+&lt;h3 id="org579a3f8"&gt;混合多线程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org579a3f8"&gt;
 &lt;p&gt;
 混合多线程的策略：
 &lt;/p&gt;
@@ -1298,9 +1817,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0d8d190" class="outline-4"&gt;
-&lt;h4 id="org0d8d190"&gt;线程初始化&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0d8d190"&gt;
+&lt;div id="outline-container-org288057a" class="outline-4"&gt;
+&lt;h4 id="org288057a"&gt;线程初始化&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org288057a"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;MPI_Init_thread()&lt;/code&gt; 初始化带有线程的 MPI，可用的选项有（注意并不是所有MPI实现都提供下面全部的模式）
 &lt;/p&gt;
@@ -1323,13 +1842,13 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org80aa373" class="outline-2"&gt;
-&lt;h2 id="org80aa373"&gt;设计模式&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org80aa373"&gt;
+&lt;div id="outline-container-org41ff994" class="outline-2"&gt;
+&lt;h2 id="org41ff994"&gt;设计模式&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org41ff994"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org7db90a3" class="outline-3"&gt;
-&lt;h3 id="org7db90a3"&gt;为每个节点创建一个通信器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org7db90a3"&gt;
+&lt;div id="outline-container-org4a2e250" class="outline-3"&gt;
+&lt;h3 id="org4a2e250"&gt;为每个节点创建一个通信器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4a2e250"&gt;
 &lt;p&gt;
 用于创建节点内部的共享内存窗口
 &lt;/p&gt;
@@ -1352,9 +1871,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdd25f32" class="outline-3"&gt;
-&lt;h3 id="orgdd25f32"&gt;非自旋等待&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgdd25f32"&gt;
+&lt;div id="outline-container-org5255f2a" class="outline-3"&gt;
+&lt;h3 id="org5255f2a"&gt;非自旋等待&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5255f2a"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;阻塞通信是自旋锁，会一直燃烧 CPU， 为了给某个进程上的多线程任务让出 CPU，需要让其它进程非自旋等待&lt;/li&gt;
 &lt;li&gt;使用 &lt;code&gt;MPI_Iprobe()&lt;/code&gt; 非阻塞地探测信号，并在探测周期中 &lt;code&gt;sleep()&lt;/code&gt;&lt;/li&gt;
@@ -1396,9 +1915,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgaff12f8" class="outline-3"&gt;
-&lt;h3 id="orgaff12f8"&gt;模拟单线程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgaff12f8"&gt;
+&lt;div id="outline-container-orgfe9d500" class="outline-3"&gt;
+&lt;h3 id="orgfe9d500"&gt;模拟单线程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfe9d500"&gt;
 &lt;p&gt;
 随便写一个变量，按照顺序一个接一个的发送下去
 &lt;/p&gt;
@@ -1423,17 +1942,17 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>MPI</category><category>parallel</category><guid>https://chimez.github.io/posts/mpi/</guid><pubDate>Sun, 04 Jul 2021 09:00:31 GMT</pubDate></item><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgf303c0d" class="outline-2"&gt;
-&lt;h2 id="orgf303c0d"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf303c0d"&gt;
+&lt;/div&gt;</description><category>C</category><category>MPI</category><category>parallel</category><guid>https://chimez.github.io/posts/mpi/</guid><pubDate>Sun, 04 Jul 2021 09:00:31 GMT</pubDate></item><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgdd2887c" class="outline-2"&gt;
+&lt;h2 id="orgdd2887c"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgdd2887c"&gt;
 &lt;p&gt;
 &lt;a href="https://slepc.upv.es/"&gt;SLEPc&lt;/a&gt; 是用来求 PETSc 矩阵的扩展库。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org73ea5df" class="outline-3"&gt;
-&lt;h3 id="org73ea5df"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org73ea5df"&gt;
+&lt;div id="outline-container-org67f9c2a" class="outline-3"&gt;
+&lt;h3 id="org67f9c2a"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org67f9c2a"&gt;
 &lt;p&gt;
 SLEPc 有以下基本部分构成
 &lt;/p&gt;
@@ -1458,9 +1977,9 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf6f3c0f" class="outline-3"&gt;
-&lt;h3 id="orgf6f3c0f"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf6f3c0f"&gt;
+&lt;div id="outline-container-org9b23fa7" class="outline-3"&gt;
+&lt;h3 id="org9b23fa7"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9b23fa7"&gt;
 &lt;p&gt;
 下载时注意，SLEPc 的版本必须和 PETSc 版本一样
 &lt;/p&gt;
@@ -1478,9 +1997,9 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd6af453" class="outline-3"&gt;
-&lt;h3 id="orgd6af453"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd6af453"&gt;
+&lt;div id="outline-container-org31cb211" class="outline-3"&gt;
+&lt;h3 id="org31cb211"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org31cb211"&gt;
 &lt;p&gt;
 程序开始和结束时分别调用 &lt;code&gt;SlepcInitialize()&lt;/code&gt; 和 &lt;code&gt;SlepcFinalize()&lt;/code&gt;, 实际上就是 &lt;code&gt;PetscInitialize()&lt;/code&gt; 和 &lt;code&gt;PetscFinalize()&lt;/code&gt;
 &lt;/p&gt;
@@ -1491,13 +2010,13 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgb03a828" class="outline-3"&gt;
-&lt;h3 id="orgb03a828"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb03a828"&gt;
+&lt;div id="outline-container-orgf758235" class="outline-3"&gt;
+&lt;h3 id="orgf758235"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf758235"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgad77126" class="outline-4"&gt;
-&lt;h4 id="orgad77126"&gt;基本使用&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgad77126"&gt;
+&lt;div id="outline-container-orgf18aa02" class="outline-4"&gt;
+&lt;h4 id="orgf18aa02"&gt;基本使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf18aa02"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSCreate(MPI_Comm comm,EPS *eps);&lt;/code&gt; 
 &lt;ol class="org-ol"&gt;
@@ -1650,13 +2169,13 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4902694" class="outline-4"&gt;
-&lt;h4 id="org4902694"&gt;求解器配置&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org4902694"&gt;
+&lt;div id="outline-container-org5b6cc0f" class="outline-4"&gt;
+&lt;h4 id="org5b6cc0f"&gt;求解器配置&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5b6cc0f"&gt;
 &lt;/div&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org00d9000"&gt;&lt;/a&gt;问题类型&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org00d9000"&gt;
+&lt;li&gt;&lt;a id="org2bca626"&gt;&lt;/a&gt;问题类型&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org2bca626"&gt;
 &lt;p&gt;
 问题类型使用 &lt;code&gt;EPSSetProblemType(EPS eps,EPSProblemType type);&lt;/code&gt; 进行设置
 &lt;/p&gt;
@@ -1732,8 +2251,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgca2c239"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgca2c239"&gt;
+&lt;li&gt;&lt;a id="orgd9dae04"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgd9dae04"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);&lt;/code&gt; 设置要求的本征值个数
 &lt;/p&gt;
@@ -1745,8 +2264,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgd3119e3"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgd3119e3"&gt;
+&lt;li&gt;&lt;a id="orgad8d770"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgad8d770"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSSetWhichEigenpairs(EPS eps,EPSWhich which);&lt;/code&gt; 设置要求本征值的位置&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSSetTarget(EPS eps,PetscScalar target);&lt;/code&gt; 设置计算距离某个值最近的本征值&lt;/li&gt;
@@ -1845,8 +2364,8 @@ SLEPc 有以下基本部分构成
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org4635ff8"&gt;&lt;/a&gt;选择算法&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org4635ff8"&gt;
+&lt;li&gt;&lt;a id="org417bd95"&gt;&lt;/a&gt;选择算法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org417bd95"&gt;
 &lt;p&gt;
 通过 &lt;code&gt;EPSSetType(EPS eps,EPSType method);&lt;/code&gt; 设置求解器使用的算法
 &lt;/p&gt;
@@ -2030,8 +2549,8 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgad901e3"&gt;&lt;/a&gt;获得结果&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgad901e3"&gt;
+&lt;li&gt;&lt;a id="org7303e90"&gt;&lt;/a&gt;获得结果&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org7303e90"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSGetConverged(EPS eps,PetscInt *nconv);&lt;/code&gt; 获得收敛的解个数&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSGetEigenpair(EPS eps,PetscInt j,PetscScalar *kr,PetscScalar *ki,Vec xr,Vec xi);&lt;/code&gt; 获得本征值和本征矢&lt;/li&gt;
@@ -2065,48 +2584,48 @@ SLEPc 支持的算法有
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org5d102ef"&gt;&lt;/a&gt;其它设置&lt;br&gt;
+&lt;li&gt;&lt;a id="orgfccb0d8"&gt;&lt;/a&gt;其它设置&lt;br&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org8c13992"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org8c13992"&gt;
+&lt;li&gt;&lt;a id="orgaf6461a"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
+&lt;div class="outline-text-6" id="text-orgaf6461a"&gt;
 &lt;p&gt;
 &lt;code&gt;EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org4aee6be"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org50ba269"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="orgf47e8c0"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org4fa15ba"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org50c5cf2"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org116b15f"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org749d2a9"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="org0628e57"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>MPI</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>pthread</title><link>https://chimez.github.io/posts/pthread/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org0c08431" class="outline-2"&gt;
-&lt;h2 id="org0c08431"&gt;pthread: POSIX Threads&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org0c08431"&gt;
+&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>MPI</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>pthread</title><link>https://chimez.github.io/posts/pthread/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org44b19ee" class="outline-2"&gt;
+&lt;h2 id="org44b19ee"&gt;pthread: POSIX Threads&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org44b19ee"&gt;
 &lt;p&gt;
 pthread 是 POSIX 标准的线程 API, 放在头文件 &lt;code&gt;&amp;lt;pthread.h&amp;gt;&lt;/code&gt; 中，并由 libc 提供实现。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbf43c5a" class="outline-4"&gt;
-&lt;h4 id="orgbf43c5a"&gt;参考&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgbf43c5a"&gt;
+&lt;div id="outline-container-orgbbcf8bb" class="outline-4"&gt;
+&lt;h4 id="orgbbcf8bb"&gt;参考&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbbcf8bb"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;a href="https://hpc-tutorials.llnl.gov/posix/"&gt;llnl 教程&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org3ec4b9a" class="outline-3"&gt;
-&lt;h3 id="org3ec4b9a"&gt;pthread API&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org3ec4b9a"&gt;
+&lt;div id="outline-container-orga8fae18" class="outline-3"&gt;
+&lt;h3 id="orga8fae18"&gt;pthread API&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga8fae18"&gt;
 &lt;p&gt;
 标准 pthread API 包括以下几部分
 &lt;/p&gt;
@@ -2187,13 +2706,13 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org392d07b" class="outline-3"&gt;
-&lt;h3 id="org392d07b"&gt;线程管理&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org392d07b"&gt;
+&lt;div id="outline-container-org601701c" class="outline-3"&gt;
+&lt;h3 id="org601701c"&gt;线程管理&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org601701c"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd49e25a" class="outline-4"&gt;
-&lt;h4 id="orgd49e25a"&gt;创建和终止线程&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd49e25a"&gt;
+&lt;div id="outline-container-org56efea1" class="outline-4"&gt;
+&lt;h4 id="org56efea1"&gt;创建和终止线程&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org56efea1"&gt;
 &lt;p&gt;
 包括以下函数
 &lt;/p&gt;
@@ -2215,9 +2734,9 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0c946a1" class="outline-4"&gt;
-&lt;h4 id="org0c946a1"&gt;合并和检测线程&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0c946a1"&gt;
+&lt;div id="outline-container-org7b2f297" class="outline-4"&gt;
+&lt;h4 id="org7b2f297"&gt;合并和检测线程&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org7b2f297"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_join (threadid,status)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_detach (threadid)&lt;/code&gt;&lt;/li&gt;
@@ -2234,9 +2753,9 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0d6de6d" class="outline-4"&gt;
-&lt;h4 id="org0d6de6d"&gt;栈管理&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0d6de6d"&gt;
+&lt;div id="outline-container-org203abd7" class="outline-4"&gt;
+&lt;h4 id="org203abd7"&gt;栈管理&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org203abd7"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_attr_getstacksize (attr, stacksize)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_attr_setstacksize (attr, stacksize)&lt;/code&gt;&lt;/li&gt;
@@ -2253,9 +2772,9 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org7f41d20" class="outline-4"&gt;
-&lt;h4 id="org7f41d20"&gt;其它&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7f41d20"&gt;
+&lt;div id="outline-container-org5aac19d" class="outline-4"&gt;
+&lt;h4 id="org5aac19d"&gt;其它&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5aac19d"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_self ()&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_equal (thread1,thread2)&lt;/code&gt;&lt;/li&gt;
@@ -2265,9 +2784,9 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org4575276" class="outline-3"&gt;
-&lt;h3 id="org4575276"&gt;互斥锁&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4575276"&gt;
+&lt;div id="outline-container-org58d3134" class="outline-3"&gt;
+&lt;h3 id="org58d3134"&gt;互斥锁&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org58d3134"&gt;
 &lt;p&gt;
 典型的使用锁的过程是
 &lt;/p&gt;
@@ -2282,9 +2801,9 @@ API 命名结构如下：
 &lt;/ol&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org706ad89" class="outline-4"&gt;
-&lt;h4 id="org706ad89"&gt;创建和销毁锁&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org706ad89"&gt;
+&lt;div id="outline-container-orgd10dbef" class="outline-4"&gt;
+&lt;h4 id="orgd10dbef"&gt;创建和销毁锁&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd10dbef"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_mutex_init (mutex,attr)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_mutex_destroy (mutex)&lt;/code&gt;&lt;/li&gt;
@@ -2301,9 +2820,9 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org0524ddc" class="outline-4"&gt;
-&lt;h4 id="org0524ddc"&gt;加锁和解锁&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0524ddc"&gt;
+&lt;div id="outline-container-org2d053c1" class="outline-4"&gt;
+&lt;h4 id="org2d053c1"&gt;加锁和解锁&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2d053c1"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_mutex_lock (mutex)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_mutex_trylock (mutex)&lt;/code&gt;&lt;/li&gt;
@@ -2313,17 +2832,17 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgf6d747b" class="outline-3"&gt;
-&lt;h3 id="orgf6d747b"&gt;条件变量&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf6d747b"&gt;
+&lt;div id="outline-container-orgdc5c066" class="outline-3"&gt;
+&lt;h3 id="orgdc5c066"&gt;条件变量&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgdc5c066"&gt;
 &lt;p&gt;
 条件变量也是用于线程间同步的机制，与加锁的共享内存不同，条件变量用于传递消息。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgda92304" class="outline-4"&gt;
-&lt;h4 id="orgda92304"&gt;创建和销毁条件变量&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgda92304"&gt;
+&lt;div id="outline-container-org4c6f97c" class="outline-4"&gt;
+&lt;h4 id="org4c6f97c"&gt;创建和销毁条件变量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org4c6f97c"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_cond_init (condition,attr)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_cond_destroy (condition)&lt;/code&gt;&lt;/li&gt;
@@ -2340,9 +2859,9 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org20a80d9" class="outline-4"&gt;
-&lt;h4 id="org20a80d9"&gt;等待和通信&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org20a80d9"&gt;
+&lt;div id="outline-container-orgf89fa11" class="outline-4"&gt;
+&lt;h4 id="orgf89fa11"&gt;等待和通信&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf89fa11"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_cond_wait (condition,mutex)&lt;/code&gt; 阻止线程直到某个条件被通信过来，应该在加锁时使用，会在等待时自动释放锁，当获得信号时又会把锁加回来&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_cond_signal (condition)&lt;/code&gt; 用来向其它等待中的线程传递信号，应该在加锁时使用，在操作后传信号，最后解锁&lt;/li&gt;
@@ -2359,17 +2878,17 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>multithreading</category><category>parallel</category><category>pthread</category><guid>https://chimez.github.io/posts/pthread/</guid><pubDate>Thu, 01 Jul 2021 13:24:50 GMT</pubDate></item><item><title>ck: Concurrency Kit</title><link>https://chimez.github.io/posts/ck-concurrency-kit/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org58d4dae" class="outline-2"&gt;
-&lt;h2 id="org58d4dae"&gt;ck: Concurrency Kit&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org58d4dae"&gt;
+&lt;/div&gt;</description><category>C</category><category>multithreading</category><category>parallel</category><category>pthread</category><guid>https://chimez.github.io/posts/pthread/</guid><pubDate>Thu, 01 Jul 2021 13:24:50 GMT</pubDate></item><item><title>ck: Concurrency Kit</title><link>https://chimez.github.io/posts/ck-concurrency-kit/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org312ace4" class="outline-2"&gt;
+&lt;h2 id="org312ace4"&gt;ck: Concurrency Kit&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org312ace4"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/concurrencykit/ck"&gt;ck&lt;/a&gt; 是一个c语言的高并发数据结构库，内存安全并且无阻塞。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org026b11c" class="outline-3"&gt;
-&lt;h3 id="org026b11c"&gt;ck&lt;sub&gt;ht.h&lt;/sub&gt;: HashTable&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org026b11c"&gt;
+&lt;div id="outline-container-org0e9434b" class="outline-3"&gt;
+&lt;h3 id="org0e9434b"&gt;ck&lt;sub&gt;ht.h&lt;/sub&gt;: HashTable&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0e9434b"&gt;
 &lt;p&gt;
 哈希表包括在头文件 &lt;code&gt;ck_ht.h&lt;/code&gt; 中，主要的数据类型有
 &lt;/p&gt;
@@ -2381,9 +2900,9 @@ API 命名结构如下：
 &lt;/ol&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org1f6fc94" class="outline-4"&gt;
-&lt;h4 id="org1f6fc94"&gt;初始化哈希表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1f6fc94"&gt;
+&lt;div id="outline-container-org05b402b" class="outline-4"&gt;
+&lt;h4 id="org05b402b"&gt;初始化哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org05b402b"&gt;
 &lt;p&gt;
 函数 &lt;code&gt;ck_hs_init&lt;/code&gt;
 参数说明：
@@ -2433,9 +2952,9 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgdc08625" class="outline-4"&gt;
-&lt;h4 id="orgdc08625"&gt;读写哈希表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgdc08625"&gt;
+&lt;div id="outline-container-org86c355c" class="outline-4"&gt;
+&lt;h4 id="org86c355c"&gt;读写哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org86c355c"&gt;
 &lt;p&gt;
 基本的逻辑是
 &lt;/p&gt;
@@ -2475,9 +2994,9 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org357c189" class="outline-4"&gt;
-&lt;h4 id="org357c189"&gt;遍历哈希表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org357c189"&gt;
+&lt;div id="outline-container-org3e141c7" class="outline-4"&gt;
+&lt;h4 id="org3e141c7"&gt;遍历哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org3e141c7"&gt;
 &lt;p&gt;
 基本步骤
 &lt;/p&gt;
@@ -2502,17 +3021,17 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>concurrency</category><category>hashmap</category><guid>https://chimez.github.io/posts/ck-concurrency-kit/</guid><pubDate>Sun, 27 Jun 2021 14:09:24 GMT</pubDate></item><item><title>greatest</title><link>https://chimez.github.io/posts/greatest/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org324c62b" class="outline-2"&gt;
-&lt;h2 id="org324c62b"&gt;greatest: c 的单元测试&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org324c62b"&gt;
+&lt;/div&gt;</description><category>C</category><category>concurrency</category><category>hashmap</category><guid>https://chimez.github.io/posts/ck-concurrency-kit/</guid><pubDate>Sun, 27 Jun 2021 14:09:24 GMT</pubDate></item><item><title>greatest</title><link>https://chimez.github.io/posts/greatest/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org3e247e9" class="outline-2"&gt;
+&lt;h2 id="org3e247e9"&gt;greatest: c 的单元测试&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3e247e9"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/silentbicycle/greatest"&gt;greatest&lt;/a&gt; 是 c 的一个单个头文件库，用于写单元测试
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgda9bccf" class="outline-3"&gt;
-&lt;h3 id="orgda9bccf"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgda9bccf"&gt;
+&lt;div id="outline-container-orgb3a4208" class="outline-3"&gt;
+&lt;h3 id="orgb3a4208"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb3a4208"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;"greatest.h"&lt;/span&gt;
 
 &lt;span class="cm"&gt;/* A test runs various assertions, then calls PASS(), FAIL(), or SKIP(). */&lt;/span&gt;
@@ -2552,30 +3071,30 @@ API 命名结构如下：
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>unittest</category><guid>https://chimez.github.io/posts/greatest/</guid><pubDate>Sun, 27 Jun 2021 07:47:29 GMT</pubDate></item><item><title>gtags</title><link>https://chimez.github.io/posts/gtags/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org5dd6c0d" class="outline-2"&gt;
-&lt;h2 id="org5dd6c0d"&gt;global(gtags) 代码标签&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5dd6c0d"&gt;
+&lt;/div&gt;</description><category>C</category><category>unittest</category><guid>https://chimez.github.io/posts/greatest/</guid><pubDate>Sun, 27 Jun 2021 07:47:29 GMT</pubDate></item><item><title>gtags</title><link>https://chimez.github.io/posts/gtags/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org4bf89fb" class="outline-2"&gt;
+&lt;h2 id="org4bf89fb"&gt;global(gtags) 代码标签&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4bf89fb"&gt;
 &lt;p&gt;
 &lt;a href="https://www.gnu.org/software/global/globaldoc_toc.html"&gt;global&lt;/a&gt; 是代码标签工具，用来辅助编辑器做补全。
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd096a02" class="outline-3"&gt;
-&lt;h3 id="orgd096a02"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd096a02"&gt;
+&lt;div id="outline-container-org282eefe" class="outline-3"&gt;
+&lt;h3 id="org282eefe"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org282eefe"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org13c4970" class="outline-4"&gt;
-&lt;h4 id="org13c4970"&gt;生成标签&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org13c4970"&gt;
+&lt;div id="outline-container-orgeccf69e" class="outline-4"&gt;
+&lt;h4 id="orgeccf69e"&gt;生成标签&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgeccf69e"&gt;
 &lt;p&gt;
 在项目的根目录下执行 &lt;code&gt;gtags&lt;/code&gt; 就会生成 &lt;code&gt;GPATH&lt;/code&gt;, &lt;code&gt;GRTAGS&lt;/code&gt;, &lt;code&gt;GTAGS&lt;/code&gt; 三个文件
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org46d35c4" class="outline-4"&gt;
-&lt;h4 id="org46d35c4"&gt;命令行使用&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org46d35c4"&gt;
+&lt;div id="outline-container-orgfefee78" class="outline-4"&gt;
+&lt;h4 id="orgfefee78"&gt;命令行使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgfefee78"&gt;
 &lt;p&gt;
 命令行下可以用
 &lt;/p&gt;
@@ -2590,145 +3109,4 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>emacs</category><category>gtags</category><guid>https://chimez.github.io/posts/gtags/</guid><pubDate>Sat, 26 Jun 2021 14:43:48 GMT</pubDate></item><item><title>meson</title><link>https://chimez.github.io/posts/meson/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org8c9611e" class="outline-2"&gt;
-&lt;h2 id="org8c9611e"&gt;meson 构建工具&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8c9611e"&gt;
-&lt;p&gt;
-网站 &lt;a href="https://mesonbuild.com"&gt;meson-build&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgbc1eb5e" class="outline-3"&gt;
-&lt;h3 id="orgbc1eb5e"&gt;配置示例&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgbc1eb5e"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;cc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;meson&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_compiler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'c'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-   &lt;span class="n"&gt;all_deps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
-   &lt;span class="n"&gt;thread_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'threads'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-   &lt;span class="n"&gt;all_deps&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;thread_dep&lt;/span&gt;
-
-   &lt;span class="n"&gt;src_dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'../src'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-   &lt;span class="n"&gt;exe&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;executable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'name'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'src1.c'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'src2.c'&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
-           &lt;span class="n"&gt;dependencies&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;all_deps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
-           &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;src_dir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org2b20b2c" class="outline-3"&gt;
-&lt;h3 id="org2b20b2c"&gt;使用 address sanitizer&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org2b20b2c"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   CC=clang meson build  -Db_sanitize=address -Db_lundef=false
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org0702d0b" class="outline-3"&gt;
-&lt;h3 id="org0702d0b"&gt;使用 clang 静态分析&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0702d0b"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   meson build
-   ninja -C build scan-build
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgce981cc" class="outline-3"&gt;
-&lt;h3 id="orgce981cc"&gt;自定义外部依赖&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgce981cc"&gt;
-&lt;p&gt;
-参考 &lt;a href="https://mesonbuild.com/Dependencies.html#declaring-your-own"&gt;Manual/Dependencies&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-一个外部依赖只需要知道头文件和链接库(静态/动态)
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;my_inc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-   &lt;span class="n"&gt;my_lib&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;static_library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-   &lt;span class="n"&gt;my_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;declare_dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;link_with&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;my_lib&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-                               &lt;span class="n"&gt;include_directories&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;my_inc&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org3982c56" class="outline-4"&gt;
-&lt;h4 id="org3982c56"&gt;将依赖做子目录&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3982c56"&gt;
-&lt;p&gt;
-首先在子目录中放入依赖的源码，并且在其中定义子项目的 &lt;code&gt;meson.build&lt;/code&gt; 文件
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;foo_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;declare_dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;
-之后就可以在主项目中依赖它
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="n"&gt;foo_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'foo'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fallback&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'foo'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'foo_dep'&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgb79138a" class="outline-3"&gt;
-&lt;h3 id="orgb79138a"&gt;子项目&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb79138a"&gt;
-&lt;p&gt;
-&lt;a href="https://mesonbuild.com/Subprojects.html"&gt;https://mesonbuild.com/Subprojects.html&lt;/a&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-org65a2398" class="outline-4"&gt;
-&lt;h4 id="org65a2398"&gt;从子项目获取依赖&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org65a2398"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;libsimple_proj&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;subproject&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'libsimple'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;libsimple_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;libsimple_proj&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_variable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'libsimple_dep'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div id="outline-container-orgae28770" class="outline-3"&gt;
-&lt;h3 id="orgae28770"&gt;使用 wrap 管理依赖&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgae28770"&gt;
-&lt;p&gt;
-在 &lt;code&gt;subprojects&lt;/code&gt; 文件夹中创建 &lt;code&gt;libfoobar.wrap&lt;/code&gt; 文件, 其中指定源码位置 &lt;code&gt;[wrap-file]&lt;/code&gt; 和提供的依赖 &lt;code&gt;[provide]&lt;/code&gt; ，格式参考 &lt;a href="https://mesonbuild.com/Wrap-dependency-system-manual.html"&gt;这里&lt;/a&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-对于非 meson-build 项目，还需要一个 &lt;code&gt;meson.build&lt;/code&gt; 文件来添加支持，这个额外的文件称作 &lt;code&gt;patch&lt;/code&gt;, 这个额外配置文件可以从网络中下载获取(通过 &lt;code&gt;patch_url&lt;/code&gt;, 参考&lt;a href="https://mesonbuild.com/Wrap-dependency-system-manual.html#accepted-configuration-properties-for-wraps"&gt;这里&lt;/a&gt;)
-&lt;/p&gt;
-
-&lt;p&gt;
-示例 &lt;code&gt;subprojects/cache2.wrap&lt;/code&gt; ：
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;wrap&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-   &lt;span class="n"&gt;directory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Catch2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.13.3&lt;/span&gt;
-   &lt;span class="n"&gt;source_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;catchorg&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Catch2&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;archive&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;v2&lt;/span&gt;&lt;span class="mf"&gt;.13.3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zip&lt;/span&gt;
-   &lt;span class="n"&gt;source_filename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Catch2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.13.3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zip&lt;/span&gt;
-   &lt;span class="n"&gt;source_hash&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1804&lt;/span&gt;&lt;span class="n"&gt;feb72bc15c0856b4a43aa586c661af9c3685a75973b6a8fc0b950c7cfd13&lt;/span&gt;
-   &lt;span class="n"&gt;patch_directory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;catch2&lt;/span&gt;
-
-   &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;provide&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-   &lt;span class="n"&gt;catch2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;catch2_dep&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;
-自己编写的配置文件应该放在 &lt;code&gt;subprojects/packagefiles/libfoobar/meson.build&lt;/code&gt; 中，并设置 &lt;code&gt;patch_directory&lt;/code&gt;
-&lt;/p&gt;
-
-&lt;p&gt;
-示例 &lt;code&gt;subprojects/packagefiles/cache2/meson.build&lt;/code&gt; ：
-&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;project&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'catch2'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="s1"&gt;'cpp'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'2.13.3'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-       &lt;span class="n"&gt;license&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'Boost'&lt;/span&gt;
-   &lt;span class="p"&gt;)&lt;/span&gt;
-
-   &lt;span class="n"&gt;catch2_dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;declare_dependency&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-       &lt;span class="n"&gt;include_directories&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;include_directories&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'single_include'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-   &lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>meson</category><guid>https://chimez.github.io/posts/meson/</guid><pubDate>Mon, 10 May 2021 08:20:05 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>C</category><category>emacs</category><category>gtags</category><guid>https://chimez.github.io/posts/gtags/</guid><pubDate>Sat, 26 Jun 2021 14:43:48 GMT</pubDate></item></channel></rss>
