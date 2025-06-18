@@ -35,7 +35,6 @@ rust-bindgen 是在编译时由头文件生成绑定代码的工具。由它封�
 
 
 
-
 常量宏
 
 
@@ -44,7 +43,8 @@ rust-bindgen 是在编译时由头文件生成绑定代码的工具。由它封�
     static const int _XX = XX;
 
 
-来创建绑定。">
+来创建绑定。
+">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2021-08-19T09:49:34+08:00">
 <meta property="article:tag" content="rust">
@@ -128,21 +128,20 @@ rust-bindgen 是在编译时由头文件生成绑定代码的工具。由它封�
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-orgc6ec431" class="outline-2">
-<h2 id="orgc6ec431">Rust C FFI</h2>
-<div class="outline-text-2" id="text-orgc6ec431">
+    <div id="outline-container-org39803b1" class="outline-2">
+<h2 id="org39803b1">Rust C FFI</h2>
+<div class="outline-text-2" id="text-org39803b1">
 </div>
-<div id="outline-container-org96195ba" class="outline-3">
-<h3 id="org96195ba">rust-bindgen: rust 调用 c</h3>
-<div class="outline-text-3" id="text-org96195ba">
+<div id="outline-container-org3863a7f" class="outline-3">
+<h3 id="org3863a7f">rust-bindgen: rust 调用 c</h3>
+<div class="outline-text-3" id="text-org3863a7f">
 <p>
 <a href="https://github.com/rust-lang/rust-bindgen">rust-bindgen</a> 是在编译时由头文件生成绑定代码的工具。由它封装的库称为 <code>xxx-sys</code>
 </p>
 </div>
-
-<div id="outline-container-org327468b" class="outline-4">
-<h4 id="org327468b">常量宏</h4>
-<div class="outline-text-4" id="text-org327468b">
+<div id="outline-container-org8176304" class="outline-4">
+<h4 id="org8176304">常量宏</h4>
+<div class="outline-text-4" id="text-org8176304">
 <p>
 对于形如 <code>#define XX (int)0</code> 这样的有类型转换的宏是不能自动生成绑定的，可以在 <code>wrapper.h</code> 中写
 </p>
@@ -154,41 +153,37 @@ rust-bindgen 是在编译时由头文件生成绑定代码的工具。由它封�
 </div>
 </div>
 </div>
-
-<div id="outline-container-org5e95944" class="outline-3">
-<h3 id="org5e95944">libc: 系统库</h3>
+<div id="outline-container-org4c05deb" class="outline-3">
+<h3 id="org4c05deb">libc: 系统库</h3>
 </div>
 
 
-<div id="outline-container-org42fe101" class="outline-3">
-<h3 id="org42fe101">c 类型</h3>
-<div class="outline-text-3" id="text-org42fe101">
+<div id="outline-container-org799d71c" class="outline-3">
+<h3 id="org799d71c">c 类型</h3>
+<div class="outline-text-3" id="text-org799d71c">
 <p>
 一般的类型在 <code>std::os::raw</code> 中，或者使用在 <code>libc</code> 中的重新绑定。
 </p>
 </div>
-
-<div id="outline-container-org3f59c5b" class="outline-4">
-<h4 id="org3f59c5b">字符串</h4>
-<div class="outline-text-4" id="text-org3f59c5b">
+<div id="outline-container-org3937fc1" class="outline-4">
+<h4 id="org3937fc1">字符串</h4>
+<div class="outline-text-4" id="text-org3937fc1">
 <p>
 c 的字符串实际上是 <code>&amp;[u8]</code> 数组，可以用 <code>std::ffi::CString</code> 和 <code>std::ffi::CStr</code>, 其中 <code>CString</code> 拥有所有权， <code>CStr</code> 是借用。
 </p>
 </div>
 </div>
-
-<div id="outline-container-org395d0c4" class="outline-4">
-<h4 id="org395d0c4">指针</h4>
-<div class="outline-text-4" id="text-org395d0c4">
+<div id="outline-container-org830c001" class="outline-4">
+<h4 id="org830c001">指针</h4>
+<div class="outline-text-4" id="text-org830c001">
 <p>
 c 的常量指针 <code>const int *</code> 对应 <code>*const i32</code>, 一般指针 <code>int *</code> 对应 <code>*mut i32</code>. 两级指针 <code>int **</code> 对应 <code>*mut *mut int</code> 以此类推。
 </p>
 </div>
 </div>
-
-<div id="outline-container-org9f0f5b6" class="outline-4">
-<h4 id="org9f0f5b6">结构体</h4>
-<div class="outline-text-4" id="text-org9f0f5b6">
+<div id="outline-container-org5b21cc5" class="outline-4">
+<h4 id="org5b21cc5">结构体</h4>
+<div class="outline-text-4" id="text-org5b21cc5">
 <p>
 rust 中定义与 c 兼容的结构体的方法为
 </p>
@@ -200,19 +195,17 @@ rust 中定义与 c 兼容的结构体的方法为
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org7586c3a" class="outline-4">
-<h4 id="org7586c3a"><code>sizeof</code></h4>
-<div class="outline-text-4" id="text-org7586c3a">
+<div id="outline-container-orga1507b6" class="outline-4">
+<h4 id="orga1507b6"><code>sizeof</code></h4>
+<div class="outline-text-4" id="text-orga1507b6">
 <p>
 与 c 的 <code>sizeof</code> 相同的是 <code>std::mem::sizeof</code>
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge34a4f6" class="outline-4">
-<h4 id="orge34a4f6"><code>offsetof</code></h4>
-<div class="outline-text-4" id="text-orge34a4f6">
+<div id="outline-container-orgd53734a" class="outline-4">
+<h4 id="orgd53734a"><code>offsetof</code></h4>
+<div class="outline-text-4" id="text-orgd53734a">
 <p>
 使用 <a href="https://github.com/Gilnaa/memoffset">memoffset</a> 的 <code>offset_of!</code> 宏来获得。
 </p>
@@ -223,15 +216,14 @@ rust 中定义与 c 兼容的结构体的方法为
 </div>
 </div>
 </div>
-
-<div id="outline-container-org8fd7431" class="outline-3">
-<h3 id="org8fd7431">问题解决</h3>
-<div class="outline-text-3" id="text-org8fd7431">
+<div id="outline-container-org2467582" class="outline-3">
+<h3 id="org2467582">问题解决</h3>
+<div class="outline-text-3" id="text-org2467582">
 </div>
-<div id="outline-container-org5c0e625" class="outline-4">
-<h4 id="org5c0e625">传递 <code>argc, argv</code>
+<div id="outline-container-org2a044c0" class="outline-4">
+<h4 id="org2a044c0">传递 <code>argc, argv</code>
 </h4>
-<div class="outline-text-4" id="text-org5c0e625">
+<div class="outline-text-4" id="text-org2a044c0">
 <p>
 参考 <a href="https://stackoverflow.com/questions/34379641/how-do-i-convert-rust-args-into-the-argc-and-argv-c-equivalents">stackoverflow</a>
 </p>
@@ -295,7 +287,7 @@ rust 中定义与 c 兼容的结构体的方法为
 
 
         </section></article><script>var disqus_shortname="chimezz";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer">
-            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2025         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>

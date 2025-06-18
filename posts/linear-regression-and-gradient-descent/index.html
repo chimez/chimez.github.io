@@ -133,13 +133,13 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org00ab35b" class="outline-2">
-<h2 id="org00ab35b">线性回归与梯度下降</h2>
-<div class="outline-text-2" id="text-org00ab35b">
+    <div id="outline-container-org724ae9e" class="outline-2">
+<h2 id="org724ae9e">线性回归与梯度下降</h2>
+<div class="outline-text-2" id="text-org724ae9e">
 </div>
-<div id="outline-container-org8fe0f9e" class="outline-3">
-<h3 id="org8fe0f9e">加载数据</h3>
-<div class="outline-text-3" id="text-org8fe0f9e">
+<div id="outline-container-orge03fce9" class="outline-3">
+<h3 id="orge03fce9">加载数据</h3>
+<div class="outline-text-3" id="text-orge03fce9">
 <p>
 加载数据(load data)，需要完成如下几个工作
 </p>
@@ -170,10 +170,9 @@
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgfddb863" class="outline-3">
-<h3 id="orgfddb863">前向传播</h3>
-<div class="outline-text-3" id="text-orgfddb863">
+<div id="outline-container-org2147247" class="outline-3">
+<h3 id="org2147247">前向传播</h3>
+<div class="outline-text-3" id="text-org2147247">
 <p>
 前向传播(forward propagation) 就是从输入参数计算得到输出参数。
 </p>
@@ -189,16 +188,15 @@
 所以前向传播很容易写
 </p>
 
-<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="highlight"><pre><span></span>   <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
        <span class="k">return</span> <span class="n">result</span>
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgd99de5a" class="outline-3">
-<h3 id="orgd99de5a">损失函数</h3>
-<div class="outline-text-3" id="text-orgd99de5a">
+<div id="outline-container-orgfd9314b" class="outline-3">
+<h3 id="orgfd9314b">损失函数</h3>
+<div class="outline-text-3" id="text-orgfd9314b">
 <p>
 损失函数(loss function) 是衡量前向计算结果与数据目标结果之间偏差的函数。
 </p>
@@ -211,16 +209,15 @@
 其中 \(y_{i}\) 是目标结果， \(z_{i}\) 是计算结果。
 </p>
 
-<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="highlight"><pre><span></span>   <span class="k">def</span><span class="w"> </span><span class="nf">loss</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">z</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
        <span class="k">return</span> <span class="n">result</span>
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgc946eaf" class="outline-3">
-<h3 id="orgc946eaf">梯度</h3>
-<div class="outline-text-3" id="text-orgc946eaf">
+<div id="outline-container-org68256dd" class="outline-3">
+<h3 id="org68256dd">梯度</h3>
+<div class="outline-text-3" id="text-org68256dd">
 <p>
 梯度(gradient) 是损失函数随参数变化的改变。
 </p>
@@ -250,17 +247,16 @@
 </p>
 
 
-<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="highlight"><pre><span></span>   <span class="k">def</span><span class="w"> </span><span class="nf">gradient</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
        <span class="n">gradient_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">z</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
        <span class="n">gradient_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">z</span> <span class="o">-</span> <span class="n">y</span><span class="p">))</span>
        <span class="k">return</span> <span class="n">gradient_w</span><span class="p">,</span> <span class="n">gradient_b</span>
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org43b93e3" class="outline-3">
-<h3 id="org43b93e3">梯度下降</h3>
-<div class="outline-text-3" id="text-org43b93e3">
+<div id="outline-container-orgc74eb24" class="outline-3">
+<h3 id="orgc74eb24">梯度下降</h3>
+<div class="outline-text-3" id="text-orgc74eb24">
 <p>
 梯度下降(gradient descent) 就是根据梯度来更新参数，最终到达收敛的过程。
 </p>
@@ -279,13 +275,13 @@
    \]
 </p>
 
-<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">gradient_w</span><span class="p">,</span> <span class="n">gradient_b</span><span class="p">,</span> <span class="n">eta</span><span class="p">):</span>
+<div class="highlight"><pre><span></span>   <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">gradient_w</span><span class="p">,</span> <span class="n">gradient_b</span><span class="p">,</span> <span class="n">eta</span><span class="p">):</span>
        <span class="n">w_new</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">gradient_w</span>
        <span class="n">b_new</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">eta</span> <span class="o">*</span> <span class="n">gradient_b</span>
        <span class="k">return</span> <span class="n">w_new</span><span class="p">,</span> <span class="n">b_new</span>
 </pre></div>
 
-<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+<div class="highlight"><pre><span></span>   <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
        <span class="n">L_list</span> <span class="o">=</span> <span class="p">[]</span>
        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
            <span class="n">z</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
@@ -297,10 +293,9 @@
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orga1164b6" class="outline-3">
-<h3 id="orga1164b6">随机梯度下降</h3>
-<div class="outline-text-3" id="text-orga1164b6">
+<div id="outline-container-org536ffab" class="outline-3">
+<h3 id="org536ffab">随机梯度下降</h3>
+<div class="outline-text-3" id="text-org536ffab">
 <p>
 随机梯度下降(Stochastic Gradient Descent, SGD) 是指每步迭代时从总训练集抽取一小部分来计算梯度，通过这种方式能够加快训练。
 一些概念：
@@ -372,7 +367,7 @@ delimiters: [
                     }
                 );
             </script></article><script>var disqus_shortname="chimezz";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer">
-            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2025         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>

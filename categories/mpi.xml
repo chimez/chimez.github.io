@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 MPI 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/mpi.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 24 Oct 2023 10:00:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PBLAS &amp; ScaLAPACK &amp; BLACS</title><link>https://chimez.github.io/posts/pblas-scalapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org6dbd54b" class="outline-2"&gt;
-&lt;h2 id="org6dbd54b"&gt;PBLAS &amp;amp; ScaLAPACK &amp;amp; BLACS&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6dbd54b"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 MPI 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/mpi.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2025 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 18 Jun 2025 02:51:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PBLAS &amp; ScaLAPACK &amp; BLACS</title><link>https://chimez.github.io/posts/pblas-scalapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgbc0f84b" class="outline-2"&gt;
+&lt;h2 id="orgbc0f84b"&gt;PBLAS &amp;amp; ScaLAPACK &amp;amp; BLACS&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbc0f84b"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/scalapack/"&gt;ScaLAPACK&lt;/a&gt; 是基于 MPI 的并行版本 LAPACK, &lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org6c20363" class="outline-3"&gt;
-&lt;h3 id="org6c20363"&gt;编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6c20363"&gt;
+&lt;div id="outline-container-org4afa186" class="outline-3"&gt;
+&lt;h3 id="org4afa186"&gt;编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4afa186"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;从 github 下载 &lt;a href="https://github.com/Reference-ScaLAPACK/scalapack/"&gt;https://github.com/Reference-ScaLAPACK/scalapack/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;修改 &lt;code&gt;SLmake.inc&lt;/code&gt; 文件中的 &lt;code&gt;FC&lt;/code&gt;, &lt;code&gt;CC&lt;/code&gt;, &lt;code&gt;BLASLIB&lt;/code&gt;, &lt;code&gt;LAPACKLIB&lt;/code&gt;&lt;/li&gt;
@@ -18,7 +17,7 @@
 &lt;p&gt;
 示例
 &lt;/p&gt;
-&lt;pre class="example" id="orgfd2e6a3"&gt;
+&lt;pre class="example" id="org8a2f33f"&gt;
 FC            = /home/beacon/app/openmpi/bin/mpif90
 CC            = /home/beacon/app/openmpi/bin/mpicc 
 NOOPT         = -O0 -std=legacy
@@ -31,10 +30,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 
 &lt;/pre&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org87b8ae6" class="outline-4"&gt;
-&lt;h4 id="org87b8ae6"&gt;GCC 10 不兼容&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org87b8ae6"&gt;
+&lt;div id="outline-container-orgbe346f5" class="outline-4"&gt;
+&lt;h4 id="orgbe346f5"&gt;GCC 10 不兼容&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbe346f5"&gt;
 &lt;p&gt;
 由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 &lt;code&gt;-fallow-argument-mismatch&lt;/code&gt; 或 &lt;code&gt;-std=legacy&lt;/code&gt; 来编译。
 &lt;/p&gt;
@@ -45,10 +43,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org2f8e94d" class="outline-3"&gt;
-&lt;h3 id="org2f8e94d"&gt;BLACS&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org2f8e94d"&gt;
+&lt;div id="outline-container-org5181841" class="outline-3"&gt;
+&lt;h3 id="org5181841"&gt;BLACS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5181841"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/blacs/index.html"&gt;BLACS&lt;/a&gt; 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
 &lt;/p&gt;
@@ -61,13 +58,13 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html"&gt;oneAPI/MKL/BLACS&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd162e52" class="outline-4"&gt;
-&lt;h4 id="orgd162e52"&gt;基本概念&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd162e52"&gt;
+&lt;div id="outline-container-org6a66968" class="outline-4"&gt;
+&lt;h4 id="org6a66968"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6a66968"&gt;
 &lt;/div&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org465cd9e"&gt;&lt;/a&gt;进程网格和范围操作&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org465cd9e"&gt;
+&lt;li&gt;&lt;a id="org71ea3dd"&gt;&lt;/a&gt;进程网格和范围操作&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org71ea3dd"&gt;
 &lt;p&gt;
 一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
 &lt;/p&gt;
@@ -87,9 +84,8 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org249ed9d"&gt;&lt;/a&gt;上下文&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org249ed9d"&gt;
+&lt;li&gt;&lt;a id="org67a9702"&gt;&lt;/a&gt;上下文&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org67a9702"&gt;
 &lt;p&gt;
 &lt;b&gt;上下文&lt;/b&gt; (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
 &lt;/p&gt;
@@ -107,17 +103,15 @@ BLACS 中有关上下文的函数有
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org29e9be0"&gt;&lt;/a&gt;基于数组的通信&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org29e9be0"&gt;
+&lt;li&gt;&lt;a id="org3eb7666"&gt;&lt;/a&gt;基于数组的通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org3eb7666"&gt;
 &lt;p&gt;
 BLACS 中有两个基本的数据模型
 &lt;/p&gt;
 &lt;/div&gt;
-
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orga6b5295"&gt;&lt;/a&gt;矩形矩阵&lt;br&gt;
-&lt;div class="outline-text-6" id="text-orga6b5295"&gt;
+&lt;li&gt;&lt;a id="org7dc880f"&gt;&lt;/a&gt;矩形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org7dc880f"&gt;
 &lt;p&gt;
 一维向量是特殊的矩形矩阵。
 &lt;/p&gt;
@@ -127,9 +121,8 @@ BLACS 中有两个基本的数据模型
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org856369d"&gt;&lt;/a&gt;梯形矩阵&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org856369d"&gt;
+&lt;li&gt;&lt;a id="org6483dea"&gt;&lt;/a&gt;梯形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org6483dea"&gt;
 &lt;p&gt;
 三角矩阵和对角矩阵是特殊的梯形矩阵。
 &lt;/p&gt;
@@ -146,9 +139,8 @@ BLACS 中有两个基本的数据模型
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org60a018b"&gt;&lt;/a&gt;无编号通信&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org60a018b"&gt;
+&lt;li&gt;&lt;a id="orgfb914ce"&gt;&lt;/a&gt;无编号通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgfb914ce"&gt;
 &lt;p&gt;
 BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 &lt;code&gt;SHIFT_RANGE&lt;/code&gt; 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
 &lt;/p&gt;
@@ -164,10 +156,9 @@ BLACS 的通信保证
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org0d0a1ed" class="outline-4"&gt;
-&lt;h4 id="org0d0a1ed"&gt;结构&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0d0a1ed"&gt;
+&lt;div id="outline-container-org10c5c9a" class="outline-4"&gt;
+&lt;h4 id="org10c5c9a"&gt;结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org10c5c9a"&gt;
 &lt;p&gt;
 BLACS 由 4 个部分构成
 &lt;/p&gt;
@@ -182,10 +173,9 @@ BLACS 由 4 个部分构成
 &lt;a href="https://www.netlib.org/blacs/BLACS/QRef.html"&gt;函数参考&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orgc7f5727"&gt;&lt;/a&gt;命名规则&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgc7f5727"&gt;
+&lt;li&gt;&lt;a id="orgcab1afa"&gt;&lt;/a&gt;命名规则&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgcab1afa"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;点到点通信与广播： &lt;code&gt;vXXYY2D&lt;/code&gt;
 &lt;ul class="org-ul"&gt;
@@ -346,9 +336,9 @@ BLACS 由 4 个部分构成
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf0a4691" class="outline-3"&gt;
-&lt;h3 id="orgf0a4691"&gt;PBLAS&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf0a4691"&gt;
+&lt;div id="outline-container-org7b71377" class="outline-3"&gt;
+&lt;h3 id="org7b71377"&gt;PBLAS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7b71377"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 &lt;code&gt;.h&lt;/code&gt; 头文件，得自己写。
 &lt;/p&gt;
@@ -358,17 +348,17 @@ BLACS 由 4 个部分构成
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org9f23c5d" class="outline-3"&gt;
-&lt;h3 id="org9f23c5d"&gt;ScaLAPACK&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9f23c5d"&gt;
+&lt;div id="outline-container-org7493854" class="outline-3"&gt;
+&lt;h3 id="org7493854"&gt;ScaLAPACK&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7493854"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfea164c" class="outline-4"&gt;
-&lt;h4 id="orgfea164c"&gt;基本方法&lt;/h4&gt;
+&lt;div id="outline-container-orgd34da54" class="outline-4"&gt;
+&lt;h4 id="orgd34da54"&gt;基本方法&lt;/h4&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>BLACS</category><category>BLAS</category><category>C</category><category>LAPACK</category><category>MPI</category><category>PBLAS</category><category>ScaLAPACK</category><guid>https://chimez.github.io/posts/pblas-scalapack/</guid><pubDate>Tue, 24 Aug 2021 04:31:22 GMT</pubDate></item><item><title>MPI</title><link>https://chimez.github.io/posts/mpi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org9609caa" class="outline-2"&gt;
-&lt;h2 id="org9609caa"&gt;MPI: Message Passing Interface&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9609caa"&gt;
+&lt;/div&gt;</description><category>BLACS</category><category>BLAS</category><category>C</category><category>LAPACK</category><category>MPI</category><category>PBLAS</category><category>ScaLAPACK</category><guid>https://chimez.github.io/posts/pblas-scalapack/</guid><pubDate>Tue, 24 Aug 2021 04:31:22 GMT</pubDate></item><item><title>MPI</title><link>https://chimez.github.io/posts/mpi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org68c3d6d" class="outline-2"&gt;
+&lt;h2 id="org68c3d6d"&gt;MPI: Message Passing Interface&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org68c3d6d"&gt;
 &lt;p&gt;
 MPI 是消息传递接口标准，主要的实现有 Intel MPI, OpenMPI 和 MPICH 等. MPI 标准目前有三版 MPI-1,MPI-2, MPI-3, 标准支持的语言是 c 和 fortran, c++ 支持在 MPI-3 中移除了。
 &lt;/p&gt;
@@ -384,14 +374,13 @@ MPI 的优势：
 &lt;li&gt;可用：相当多的实现都可用，包括供应商提供的和开放获取的&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org21e244f" class="outline-3"&gt;
-&lt;h3 id="org21e244f"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org21e244f"&gt;
+&lt;div id="outline-container-orgaff38e8" class="outline-3"&gt;
+&lt;h3 id="orgaff38e8"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgaff38e8"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgdff8e30" class="outline-4"&gt;
-&lt;h4 id="orgdff8e30"&gt;程序结构&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgdff8e30"&gt;
+&lt;div id="outline-container-org087b803" class="outline-4"&gt;
+&lt;h4 id="org087b803"&gt;程序结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org087b803"&gt;
 &lt;p&gt;
 所有 MPI 程序都分以下几步
 &lt;/p&gt;
@@ -406,19 +395,17 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org5970111" class="outline-4"&gt;
-&lt;h4 id="org5970111"&gt;接口约定&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5970111"&gt;
+&lt;div id="outline-container-orgc9a5892" class="outline-4"&gt;
+&lt;h4 id="orgc9a5892"&gt;接口约定&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc9a5892"&gt;
 &lt;p&gt;
 所有 MPI 的函数都以 &lt;code&gt;MPI_&lt;/code&gt; 开头，并且下划线后的第一个字母大写，函数返回消息码 &lt;code&gt;rc&lt;/code&gt; , 如果成功就是 &lt;code&gt;MPI_SUCCESS&lt;/code&gt;, 即 &lt;code&gt;0&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org1cffc59" class="outline-4"&gt;
-&lt;h4 id="org1cffc59"&gt;基本概念&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1cffc59"&gt;
+&lt;div id="outline-container-orgbdca607" class="outline-4"&gt;
+&lt;h4 id="orgbdca607"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbdca607"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;b&gt;communicator&lt;/b&gt;: 通信器，定义哪些进程之间需要通信
 &lt;ol class="org-ol"&gt;
@@ -430,10 +417,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgc5373d4" class="outline-4"&gt;
-&lt;h4 id="orgc5373d4"&gt;MPI 版本&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc5373d4"&gt;
+&lt;div id="outline-container-orgd87fe70" class="outline-4"&gt;
+&lt;h4 id="orgd87fe70"&gt;MPI 版本&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd87fe70"&gt;
 &lt;p&gt;
 &lt;b&gt;MPI-1&lt;/b&gt; (1994) ：最早的版本，构建起了 MPI 的基本框架，包括
 &lt;/p&gt;
@@ -482,10 +468,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org6628f3f" class="outline-3"&gt;
-&lt;h3 id="org6628f3f"&gt;环境管理函数&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6628f3f"&gt;
+&lt;div id="outline-container-orgeb9d864" class="outline-3"&gt;
+&lt;h3 id="orgeb9d864"&gt;环境管理函数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgeb9d864"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Init (&amp;amp;argc,&amp;amp;argv)&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -555,14 +540,13 @@ MPI 的优势：
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgff08bbf" class="outline-3"&gt;
-&lt;h3 id="orgff08bbf"&gt;点到点通信&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgff08bbf"&gt;
+&lt;div id="outline-container-org1eff52f" class="outline-3"&gt;
+&lt;h3 id="org1eff52f"&gt;点到点通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1eff52f"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org9c8885e" class="outline-4"&gt;
-&lt;h4 id="org9c8885e"&gt;一般参数说明&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org9c8885e"&gt;
+&lt;div id="outline-container-org9bee9c0" class="outline-4"&gt;
+&lt;h4 id="org9bee9c0"&gt;一般参数说明&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9bee9c0"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -626,10 +610,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org2797518" class="outline-4"&gt;
-&lt;h4 id="org2797518"&gt;常用阻塞点到点通信函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org2797518"&gt;
+&lt;div id="outline-container-orgcdd630e" class="outline-4"&gt;
+&lt;h4 id="orgcdd630e"&gt;常用阻塞点到点通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgcdd630e"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Send()&lt;/code&gt; 基本的发送消息, 只有当发送信道再次可用时才返回&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_Recv()&lt;/code&gt; 基本的接收消息，阻塞直到接收信道再次可用&lt;/li&gt;
@@ -650,10 +633,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org9c3f75a" class="outline-4"&gt;
-&lt;h4 id="org9c3f75a"&gt;常用非阻塞点到点通信函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org9c3f75a"&gt;
+&lt;div id="outline-container-org1f6ffe5" class="outline-4"&gt;
+&lt;h4 id="org1f6ffe5"&gt;常用非阻塞点到点通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org1f6ffe5"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Isend()&lt;/code&gt; 非阻塞发送，所指定的发送 buffer 应该在 &lt;code&gt;MPI_Probe()&lt;/code&gt; 确定已经发送完成之前不修改&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_Irecv()&lt;/code&gt; 非阻塞接收，同样不应该在确定接收完成前修改 buffer&lt;/li&gt;
@@ -670,12 +652,11 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;div id="outline-container-org718159c" class="outline-3"&gt;
+&lt;h3 id="org718159c"&gt;集体通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org718159c"&gt;
 
-&lt;div id="outline-container-org37c5e9e" class="outline-3"&gt;
-&lt;h3 id="org37c5e9e"&gt;集体通信&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org37c5e9e"&gt;
-
-&lt;div id="org84d733c" class="figure"&gt;
+&lt;div id="orga8349e3" class="figure"&gt;
 &lt;p&gt;&lt;img src="https://chimez.github.io/img/MPI:_Message_Passing_Interface/2021-07-04_18-47-40_collective_comm.gif" alt="nil"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -689,10 +670,9 @@ MPI 的优势：
 &lt;li&gt;&lt;b&gt;集体计算(归约)&lt;/b&gt; min, max, add, multiply 等&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org0b6abb3" class="outline-4"&gt;
-&lt;h4 id="org0b6abb3"&gt;常用集体通信函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0b6abb3"&gt;
+&lt;div id="outline-container-org5b3b4c0" class="outline-4"&gt;
+&lt;h4 id="org5b3b4c0"&gt;常用集体通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5b3b4c0"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Barrier (comm)&lt;/code&gt; 同步所有进程&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_Bcast (&amp;amp;buffer,count,datatype,root,comm)&lt;/code&gt; 将数据从 &lt;code&gt;root&lt;/code&gt; 进程广播到所有进程&lt;/li&gt;
@@ -708,10 +688,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org68e53e6" class="outline-3"&gt;
-&lt;h3 id="org68e53e6"&gt;自定义数据类型&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org68e53e6"&gt;
+&lt;div id="outline-container-orgf664249" class="outline-3"&gt;
+&lt;h3 id="orgf664249"&gt;自定义数据类型&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf664249"&gt;
 &lt;p&gt;
 用户定义的数据类型，称作 &lt;b&gt;derived data types&lt;/b&gt;
 &lt;/p&gt;
@@ -726,10 +705,9 @@ MPI 的优势：
 &lt;li&gt;&lt;code&gt;MPI_Type_free (&amp;amp;datatype)&lt;/code&gt; 释放指定类型的对象&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org3546ff1" class="outline-4"&gt;
-&lt;h4 id="org3546ff1"&gt;自定义结构体&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3546ff1"&gt;
+&lt;div id="outline-container-orgffb367c" class="outline-4"&gt;
+&lt;h4 id="orgffb367c"&gt;自定义结构体&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgffb367c"&gt;
 &lt;p&gt;
 &lt;code&gt;MPI_Type_create_struct(count, array_of_blocklengths, array_of_displacements, array_of_types, newtype)&lt;/code&gt;
 &lt;/p&gt;
@@ -783,10 +761,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org0d89aa2" class="outline-3"&gt;
-&lt;h3 id="org0d89aa2"&gt;组和通信器管理&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0d89aa2"&gt;
+&lt;div id="outline-container-orgb82a4b1" class="outline-3"&gt;
+&lt;h3 id="orgb82a4b1"&gt;组和通信器管理&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb82a4b1"&gt;
 &lt;p&gt;
 &lt;b&gt;group&lt;/b&gt; 组是一些进程的有序集合，每个进程编号从 0 到 N-1, &lt;b&gt;communicator&lt;/b&gt; 通信器是一组需要相互通信的进程，每个组都有一个通信器。从编程的角度看，组是用来指定哪些进程相互通信，进而创建通信器的。
 &lt;/p&gt;
@@ -803,10 +780,9 @@ MPI 的优势：
 &lt;li&gt;使用 &lt;code&gt;MPI_Comm_free()&lt;/code&gt; 和 &lt;code&gt;MPI_Group_free()&lt;/code&gt; 释放不用的组和通信器对象&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org30f9523" class="outline-4"&gt;
-&lt;h4 id="org30f9523"&gt;基本通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org30f9523"&gt;
+&lt;div id="outline-container-orgec1af73" class="outline-4"&gt;
+&lt;h4 id="orgec1af73"&gt;基本通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgec1af73"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;MPI_COMM_WORLD&lt;/code&gt; 全部的进程&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_COMM_SELF&lt;/code&gt; 只包含当前进程&lt;/li&gt;
@@ -818,10 +794,9 @@ MPI 的优势：
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org1408583" class="outline-4"&gt;
-&lt;h4 id="org1408583"&gt;复制通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1408583"&gt;
+&lt;div id="outline-container-org930fb92" class="outline-4"&gt;
+&lt;h4 id="org930fb92"&gt;复制通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org930fb92"&gt;
 &lt;p&gt;
 复制一个一样的通信器，主要用于库函数编写时防止修改全局参数    
 &lt;/p&gt;
@@ -834,10 +809,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgc3fb623" class="outline-4"&gt;
-&lt;h4 id="orgc3fb623"&gt;划分通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc3fb623"&gt;
+&lt;div id="outline-container-orgd085196" class="outline-4"&gt;
+&lt;h4 id="orgd085196"&gt;划分通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd085196"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;MPI_Comm_split(comm, color, key, newcomm)&lt;/code&gt;  将 &lt;code&gt;comm&lt;/code&gt; 中有相同 &lt;code&gt;color&lt;/code&gt; 的进程组成一个新的通信器 &lt;code&gt;newcomm&lt;/code&gt;, 新通信器中的 rank 由 &lt;code&gt;key&lt;/code&gt; 指定
 &lt;/p&gt;
@@ -853,10 +827,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org7673323" class="outline-4"&gt;
-&lt;h4 id="org7673323"&gt;从组创建通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7673323"&gt;
+&lt;div id="outline-container-org1686f0a" class="outline-4"&gt;
+&lt;h4 id="org1686f0a"&gt;从组创建通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org1686f0a"&gt;
 &lt;p&gt;
 组的类型是 &lt;code&gt;MPI_Group&lt;/code&gt;
 &lt;/p&gt;
@@ -876,20 +849,18 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orga147826" class="outline-4"&gt;
-&lt;h4 id="orga147826"&gt;通信器间的通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orga147826"&gt;
+&lt;div id="outline-container-org593c912" class="outline-4"&gt;
+&lt;h4 id="org593c912"&gt;通信器间的通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org593c912"&gt;
 &lt;p&gt;
 &lt;code&gt;MPI_Intercomm_create(local_comm, local_leader, peer_comm, remote_leader, tag, newintercomm)&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org04091e6" class="outline-3"&gt;
-&lt;h3 id="org04091e6"&gt;虚拟拓扑&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org04091e6"&gt;
+&lt;div id="outline-container-org012852f" class="outline-3"&gt;
+&lt;h3 id="org012852f"&gt;虚拟拓扑&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org012852f"&gt;
 &lt;p&gt;
 MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互连接构成一个几何形状，这个网络拓扑是虚拟的，与物理实际的连接无关。
 &lt;/p&gt;
@@ -899,14 +870,13 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgbea9114" class="outline-3"&gt;
-&lt;h3 id="orgbea9114"&gt;单边通信&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgbea9114"&gt;
+&lt;div id="outline-container-orge748617" class="outline-3"&gt;
+&lt;h3 id="orge748617"&gt;单边通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge748617"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgecc6a8a" class="outline-4"&gt;
-&lt;h4 id="orgecc6a8a"&gt;基本概念&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgecc6a8a"&gt;
+&lt;div id="outline-container-orgff5a190" class="outline-4"&gt;
+&lt;h4 id="orgff5a190"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgff5a190"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Remote Memory Access(RMA), Remote Direct Momory Access (RDMA), 远程内存访问
 &lt;ul class="org-ul"&gt;
@@ -930,10 +900,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org479d1cc" class="outline-4"&gt;
-&lt;h4 id="org479d1cc"&gt;窗口&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org479d1cc"&gt;
+&lt;div id="outline-container-orgf0334ad" class="outline-4"&gt;
+&lt;h4 id="orgf0334ad"&gt;窗口&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf0334ad"&gt;
 &lt;p&gt;
 用于单边通信的内存区域就是窗口，变量类型为 &lt;code&gt;MPI_Win&lt;/code&gt;, 进程可以向其中存取任何东西
 &lt;/p&gt;
@@ -968,10 +937,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgb79308a" class="outline-4"&gt;
-&lt;h4 id="orgb79308a"&gt;动态分配内存&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgb79308a"&gt;
+&lt;div id="outline-container-orgb387fa1" class="outline-4"&gt;
+&lt;h4 id="orgb387fa1"&gt;动态分配内存&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb387fa1"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Win_create_dynamic(MPI_Info info, MPI_Comm comm, MPI_Win *win)&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -1097,10 +1065,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org66e81e1" class="outline-4"&gt;
-&lt;h4 id="org66e81e1"&gt;共享内存&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org66e81e1"&gt;
+&lt;div id="outline-container-org83cae62" class="outline-4"&gt;
+&lt;h4 id="org83cae62"&gt;共享内存&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org83cae62"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;int MPI_Comm_split_type(MPI_Comm comm, int split_type, int key, MPI_Info info, MPI_Comm *newcomm)&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -1174,10 +1141,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org579a3f8" class="outline-3"&gt;
-&lt;h3 id="org579a3f8"&gt;混合多线程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org579a3f8"&gt;
+&lt;div id="outline-container-org37608b6" class="outline-3"&gt;
+&lt;h3 id="org37608b6"&gt;混合多线程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org37608b6"&gt;
 &lt;p&gt;
 混合多线程的策略：
 &lt;/p&gt;
@@ -1191,10 +1157,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 大量实践认为混合多线程并不会比纯 MPI 速度快。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org288057a" class="outline-4"&gt;
-&lt;h4 id="org288057a"&gt;线程初始化&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org288057a"&gt;
+&lt;div id="outline-container-orgc148524" class="outline-4"&gt;
+&lt;h4 id="orgc148524"&gt;线程初始化&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc148524"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;MPI_Init_thread()&lt;/code&gt; 初始化带有线程的 MPI，可用的选项有（注意并不是所有MPI实现都提供下面全部的模式）
 &lt;/p&gt;
@@ -1216,14 +1181,13 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org41ff994" class="outline-2"&gt;
-&lt;h2 id="org41ff994"&gt;设计模式&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org41ff994"&gt;
+&lt;div id="outline-container-orgba66bc2" class="outline-2"&gt;
+&lt;h2 id="orgba66bc2"&gt;设计模式&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgba66bc2"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org4a2e250" class="outline-3"&gt;
-&lt;h3 id="org4a2e250"&gt;为每个节点创建一个通信器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4a2e250"&gt;
+&lt;div id="outline-container-orgdf3bb64" class="outline-3"&gt;
+&lt;h3 id="orgdf3bb64"&gt;为每个节点创建一个通信器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgdf3bb64"&gt;
 &lt;p&gt;
 用于创建节点内部的共享内存窗口
 &lt;/p&gt;
@@ -1245,10 +1209,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org5255f2a" class="outline-3"&gt;
-&lt;h3 id="org5255f2a"&gt;非自旋等待&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5255f2a"&gt;
+&lt;div id="outline-container-org84f97a9" class="outline-3"&gt;
+&lt;h3 id="org84f97a9"&gt;非自旋等待&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org84f97a9"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;阻塞通信是自旋锁，会一直燃烧 CPU， 为了给某个进程上的多线程任务让出 CPU，需要让其它进程非自旋等待&lt;/li&gt;
 &lt;li&gt;使用 &lt;code&gt;MPI_Iprobe()&lt;/code&gt; 非阻塞地探测信号，并在探测周期中 &lt;code&gt;sleep()&lt;/code&gt;&lt;/li&gt;
@@ -1289,15 +1252,14 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgfe9d500" class="outline-3"&gt;
-&lt;h3 id="orgfe9d500"&gt;模拟单线程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgfe9d500"&gt;
+&lt;div id="outline-container-orgb2d0c27" class="outline-3"&gt;
+&lt;h3 id="orgb2d0c27"&gt;模拟单线程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb2d0c27"&gt;
 &lt;p&gt;
 随便写一个变量，按照顺序一个接一个的发送下去
 &lt;/p&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;mpi4py&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MPI&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;mpi4py&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MPI&lt;/span&gt;
 
    &lt;span class="n"&gt;comm&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MPI&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;COMM_WORLD&lt;/span&gt;
    &lt;span class="n"&gt;proc_rank&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;comm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Get_rank&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -1317,17 +1279,16 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>MPI</category><category>parallel</category><guid>https://chimez.github.io/posts/mpi/</guid><pubDate>Sun, 04 Jul 2021 09:00:31 GMT</pubDate></item><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgdd2887c" class="outline-2"&gt;
-&lt;h2 id="orgdd2887c"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdd2887c"&gt;
+&lt;/div&gt;</description><category>C</category><category>MPI</category><category>parallel</category><guid>https://chimez.github.io/posts/mpi/</guid><pubDate>Sun, 04 Jul 2021 09:00:31 GMT</pubDate></item><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgf051928" class="outline-2"&gt;
+&lt;h2 id="orgf051928"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf051928"&gt;
 &lt;p&gt;
 &lt;a href="https://slepc.upv.es/"&gt;SLEPc&lt;/a&gt; 是用来求 PETSc 矩阵的扩展库。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org67f9c2a" class="outline-3"&gt;
-&lt;h3 id="org67f9c2a"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org67f9c2a"&gt;
+&lt;div id="outline-container-orgc313a1a" class="outline-3"&gt;
+&lt;h3 id="orgc313a1a"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc313a1a"&gt;
 &lt;p&gt;
 SLEPc 有以下基本部分构成
 &lt;/p&gt;
@@ -1351,10 +1312,9 @@ SLEPc 有以下基本部分构成
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org9b23fa7" class="outline-3"&gt;
-&lt;h3 id="org9b23fa7"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9b23fa7"&gt;
+&lt;div id="outline-container-orgafb6b93" class="outline-3"&gt;
+&lt;h3 id="orgafb6b93"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgafb6b93"&gt;
 &lt;p&gt;
 下载时注意，SLEPc 的版本必须和 PETSc 版本一样
 &lt;/p&gt;
@@ -1371,10 +1331,9 @@ SLEPc 有以下基本部分构成
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org31cb211" class="outline-3"&gt;
-&lt;h3 id="org31cb211"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org31cb211"&gt;
+&lt;div id="outline-container-orgc982cbe" class="outline-3"&gt;
+&lt;h3 id="orgc982cbe"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc982cbe"&gt;
 &lt;p&gt;
 程序开始和结束时分别调用 &lt;code&gt;SlepcInitialize()&lt;/code&gt; 和 &lt;code&gt;SlepcFinalize()&lt;/code&gt;, 实际上就是 &lt;code&gt;PetscInitialize()&lt;/code&gt; 和 &lt;code&gt;PetscFinalize()&lt;/code&gt;
 &lt;/p&gt;
@@ -1384,14 +1343,13 @@ SLEPc 有以下基本部分构成
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgf758235" class="outline-3"&gt;
-&lt;h3 id="orgf758235"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf758235"&gt;
+&lt;div id="outline-container-orgfcf1d5d" class="outline-3"&gt;
+&lt;h3 id="orgfcf1d5d"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfcf1d5d"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf18aa02" class="outline-4"&gt;
-&lt;h4 id="orgf18aa02"&gt;基本使用&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf18aa02"&gt;
+&lt;div id="outline-container-orgce3069c" class="outline-4"&gt;
+&lt;h4 id="orgce3069c"&gt;基本使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgce3069c"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSCreate(MPI_Comm comm,EPS *eps);&lt;/code&gt; 
 &lt;ol class="org-ol"&gt;
@@ -1543,14 +1501,13 @@ SLEPc 有以下基本部分构成
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org5b6cc0f" class="outline-4"&gt;
-&lt;h4 id="org5b6cc0f"&gt;求解器配置&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5b6cc0f"&gt;
+&lt;div id="outline-container-orgeb49ac0" class="outline-4"&gt;
+&lt;h4 id="orgeb49ac0"&gt;求解器配置&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgeb49ac0"&gt;
 &lt;/div&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org2bca626"&gt;&lt;/a&gt;问题类型&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org2bca626"&gt;
+&lt;li&gt;&lt;a id="org447e407"&gt;&lt;/a&gt;问题类型&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org447e407"&gt;
 &lt;p&gt;
 问题类型使用 &lt;code&gt;EPSSetProblemType(EPS eps,EPSProblemType type);&lt;/code&gt; 进行设置
 &lt;/p&gt;
@@ -1625,9 +1582,8 @@ SLEPc 有以下基本部分构成
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="orgd9dae04"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgd9dae04"&gt;
+&lt;li&gt;&lt;a id="org543ebc4"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org543ebc4"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);&lt;/code&gt; 设置要求的本征值个数
 &lt;/p&gt;
@@ -1638,9 +1594,8 @@ SLEPc 有以下基本部分构成
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="orgad8d770"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgad8d770"&gt;
+&lt;li&gt;&lt;a id="orge76444a"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orge76444a"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSSetWhichEigenpairs(EPS eps,EPSWhich which);&lt;/code&gt; 设置要求本征值的位置&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSSetTarget(EPS eps,PetscScalar target);&lt;/code&gt; 设置计算距离某个值最近的本征值&lt;/li&gt;
@@ -1738,9 +1693,8 @@ SLEPc 有以下基本部分构成
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org417bd95"&gt;&lt;/a&gt;选择算法&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org417bd95"&gt;
+&lt;li&gt;&lt;a id="org146797a"&gt;&lt;/a&gt;选择算法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org146797a"&gt;
 &lt;p&gt;
 通过 &lt;code&gt;EPSSetType(EPS eps,EPSType method);&lt;/code&gt; 设置求解器使用的算法
 &lt;/p&gt;
@@ -1923,9 +1877,8 @@ SLEPc 支持的算法有
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org7303e90"&gt;&lt;/a&gt;获得结果&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org7303e90"&gt;
+&lt;li&gt;&lt;a id="org06352e6"&gt;&lt;/a&gt;获得结果&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org06352e6"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSGetConverged(EPS eps,PetscInt *nconv);&lt;/code&gt; 获得收敛的解个数&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSGetEigenpair(EPS eps,PetscInt j,PetscScalar *kr,PetscScalar *ki,Vec xr,Vec xi);&lt;/code&gt; 获得本征值和本征矢&lt;/li&gt;
@@ -1958,53 +1911,49 @@ SLEPc 支持的算法有
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="orgfccb0d8"&gt;&lt;/a&gt;其它设置&lt;br&gt;
+&lt;li&gt;&lt;a id="org372bfaf"&gt;&lt;/a&gt;其它设置&lt;br&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orgaf6461a"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
-&lt;div class="outline-text-6" id="text-orgaf6461a"&gt;
+&lt;li&gt;&lt;a id="orgc6e3cd9"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
+&lt;div class="outline-text-6" id="text-orgc6e3cd9"&gt;
 &lt;p&gt;
 &lt;code&gt;EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;a id="orge5bdaec"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org50ba269"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="orgdc180c6"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org4fa15ba"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="orga5c2644"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org116b15f"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org0628e57"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="orgad65c2f"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>MPI</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orge13e009" class="outline-2"&gt;
-&lt;h2 id="orge13e009"&gt;PETSc&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orge13e009"&gt;
+&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>MPI</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>PETSc</title><link>https://chimez.github.io/posts/petsc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org678b34d" class="outline-2"&gt;
+&lt;h2 id="org678b34d"&gt;PETSc&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org678b34d"&gt;
 &lt;p&gt;
 &lt;a href="https://www.mcs.anl.gov/petsc/index.html"&gt;PETSc&lt;/a&gt; 是用于开发并行计算程序的基础库，完全建立在 MPI 上。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgffbd6a0" class="outline-3"&gt;
-&lt;h3 id="orgffbd6a0"&gt;安装与编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgffbd6a0"&gt;
+&lt;div id="outline-container-org053e711" class="outline-3"&gt;
+&lt;h3 id="org053e711"&gt;安装与编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org053e711"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;下载 &lt;a href="https://www.mcs.anl.gov/petsc/download/"&gt;源码&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org8954b5b" class="outline-3"&gt;
-&lt;h3 id="org8954b5b"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org8954b5b"&gt;
+&lt;div id="outline-container-org3f7dd31" class="outline-3"&gt;
+&lt;h3 id="org3f7dd31"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org3f7dd31"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org423cbbd" class="outline-4"&gt;
-&lt;h4 id="org423cbbd"&gt;PETSc 模块&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org423cbbd"&gt;
+&lt;div id="outline-container-org8a14e48" class="outline-4"&gt;
+&lt;h4 id="org8a14e48"&gt;PETSc 模块&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org8a14e48"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;index set (IS)：向量的指标&lt;/li&gt;
 &lt;li&gt;vectors (Vec)&lt;/li&gt;
@@ -2018,20 +1967,18 @@ SLEPc 支持的算法有
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org5178c2d" class="outline-4"&gt;
-&lt;h4 id="org5178c2d"&gt;环境变量&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5178c2d"&gt;
+&lt;div id="outline-container-org0c0e40a" class="outline-4"&gt;
+&lt;h4 id="org0c0e40a"&gt;环境变量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0c0e40a"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;所有 PETSc 程序都依赖环境变量 &lt;code&gt;$PETSC_DIR&lt;/code&gt; 找到 PETSc 的目录&lt;/li&gt;
 &lt;li&gt;还需要环境变量 &lt;code&gt;$PETSC_ARCH&lt;/code&gt; 找到安装路径&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org432c6ee" class="outline-4"&gt;
-&lt;h4 id="org432c6ee"&gt;命令行&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org432c6ee"&gt;
+&lt;div id="outline-container-org9c81626" class="outline-4"&gt;
+&lt;h4 id="org9c81626"&gt;命令行&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9c81626"&gt;
 &lt;p&gt;
 PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或者 PETSc 提供的脚本 &lt;code&gt;$PETSC_DIR/lib/petsc/bin/petscmpiexec&lt;/code&gt; 
 &lt;/p&gt;
@@ -2052,10 +1999,9 @@ PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或�
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org9fc67a3" class="outline-4"&gt;
-&lt;h4 id="org9fc67a3"&gt;主函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org9fc67a3"&gt;
+&lt;div id="outline-container-org9c50e5c" class="outline-4"&gt;
+&lt;h4 id="org9c50e5c"&gt;主函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9c50e5c"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;PETSc 主函数需要调用 &lt;code&gt;PetscInitialize()&lt;/code&gt; 作为开始，来初始化 PETSc 和 MPI&lt;/li&gt;
 &lt;li&gt;程序退出时调用 &lt;code&gt;PetscFinalize()&lt;/code&gt;, 来结束 PETSc 和 MPI&lt;/li&gt;
@@ -2095,28 +2041,25 @@ PETSc 程序需要用 MPI 执行，通过 &lt;code&gt;mpiexec&lt;/code&gt; 或�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org3b651d3" class="outline-4"&gt;
-&lt;h4 id="org3b651d3"&gt;错误处理&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3b651d3"&gt;
+&lt;div id="outline-container-org212f1df" class="outline-4"&gt;
+&lt;h4 id="org212f1df"&gt;错误处理&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org212f1df"&gt;
 &lt;p&gt;
 所有 PETSc 函数都返回整数值 &lt;code&gt;ierr&lt;/code&gt; 作为消息，使用 &lt;code&gt;CHECKRRQ(ierr)&lt;/code&gt; 宏来处理错误。
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgd18fcd1" class="outline-3"&gt;
-&lt;h3 id="orgd18fcd1"&gt;向量和并行数据&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgd18fcd1"&gt;
+&lt;div id="outline-container-org8a97a0a" class="outline-3"&gt;
+&lt;h3 id="org8a97a0a"&gt;向量和并行数据&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org8a97a0a"&gt;
 &lt;p&gt;
 向量是 PETSc 最基本的结构，用于保存计算结果等
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgcc2cab6" class="outline-4"&gt;
-&lt;h4 id="orgcc2cab6"&gt;创建和组装向量&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgcc2cab6"&gt;
+&lt;div id="outline-container-org5469a3b" class="outline-4"&gt;
+&lt;h4 id="org5469a3b"&gt;创建和组装向量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5469a3b"&gt;
 &lt;p&gt;
 PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 &lt;/p&gt;
@@ -2241,10 +2184,9 @@ PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgb4f9593" class="outline-4"&gt;
-&lt;h4 id="orgb4f9593"&gt;基本向量操作&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgb4f9593"&gt;
+&lt;div id="outline-container-org94f7893" class="outline-4"&gt;
+&lt;h4 id="org94f7893"&gt;基本向量操作&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org94f7893"&gt;
 &lt;p&gt;
 加减乘除之类的操作，参考&lt;a href="https://petsc.org/release/documentation/manual/vec/#id3"&gt;函数表&lt;/a&gt;
 &lt;/p&gt;
@@ -2284,28 +2226,25 @@ PETSc 提供两种向量：顺序(Seq) 和并行(MPI)
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org708dfaa" class="outline-4"&gt;
-&lt;h4 id="org708dfaa"&gt;索引和排序&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org708dfaa"&gt;
+&lt;div id="outline-container-org098ea88" class="outline-4"&gt;
+&lt;h4 id="org098ea88"&gt;索引和排序&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org098ea88"&gt;
 &lt;p&gt;
 PETSc 提供了一组工具用于处理向量指标的顺序，称作 Application Orderings(AO)
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org7e8ba66" class="outline-3"&gt;
-&lt;h3 id="org7e8ba66"&gt;矩阵&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org7e8ba66"&gt;
+&lt;div id="outline-container-org766a3e2" class="outline-3"&gt;
+&lt;h3 id="org766a3e2"&gt;矩阵&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org766a3e2"&gt;
 &lt;p&gt;
 PETSc 支持多种矩阵类型，包括稠密矩阵、稀疏矩阵等
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgd2ff611" class="outline-4"&gt;
-&lt;h4 id="orgd2ff611"&gt;创建和组装矩阵&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd2ff611"&gt;
+&lt;div id="outline-container-org2d91184" class="outline-4"&gt;
+&lt;h4 id="org2d91184"&gt;创建和组装矩阵&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2d91184"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MatCreate(MPI_Comm comm,Mat *A);&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -2377,10 +2316,9 @@ PETSc 支持多种矩阵类型，包括稠密矩阵、稀疏矩阵等
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgba4dd2f" class="outline-4"&gt;
-&lt;h4 id="orgba4dd2f"&gt;矩阵类型&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgba4dd2f"&gt;
+&lt;div id="outline-container-org2e316a0" class="outline-4"&gt;
+&lt;h4 id="org2e316a0"&gt;矩阵类型&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org2e316a0"&gt;
 &lt;p&gt;
 PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/p&gt;
@@ -2392,19 +2330,17 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org841f93a" class="outline-4"&gt;
-&lt;h4 id="org841f93a"&gt;基本矩阵操作&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org841f93a"&gt;
+&lt;div id="outline-container-org36f3773" class="outline-4"&gt;
+&lt;h4 id="org36f3773"&gt;基本矩阵操作&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org36f3773"&gt;
 &lt;p&gt;
 参考&lt;a href="https://petsc.org/release/documentation/manual/mat/#fig-matrixops"&gt;函数表&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org3cf93f7" class="outline-4"&gt;
-&lt;h4 id="org3cf93f7"&gt;无矩阵的矩阵&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3cf93f7"&gt;
+&lt;div id="outline-container-orgb7aa2f6" class="outline-4"&gt;
+&lt;h4 id="orgb7aa2f6"&gt;无矩阵的矩阵&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb7aa2f6"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MatCreateShell(MPI_Comm comm,PetscInt m,PetscInt n,PetscInt M,PetscInt N,void *ctx,Mat *mat);&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -2486,10 +2422,9 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgdc738bf" class="outline-3"&gt;
-&lt;h3 id="orgdc738bf"&gt;线性求解器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgdc738bf"&gt;
+&lt;div id="outline-container-org94d4e70" class="outline-3"&gt;
+&lt;h3 id="org94d4e70"&gt;线性求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org94d4e70"&gt;
 &lt;p&gt;
 使用线性求解器 &lt;code&gt;KSP&lt;/code&gt; 解线性方程 \(Ax=b\)
 &lt;/p&gt;
@@ -2519,20 +2454,18 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-
-&lt;div id="outline-container-orgb790208" class="outline-2"&gt;
-&lt;h2 id="orgb790208"&gt;petsc4py&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgb790208"&gt;
+&lt;div id="outline-container-org106a7f3" class="outline-2"&gt;
+&lt;h2 id="org106a7f3"&gt;petsc4py&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org106a7f3"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga8f0632" class="outline-3"&gt;
-&lt;h3 id="orga8f0632"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga8f0632"&gt;
+&lt;div id="outline-container-org4ab89e0" class="outline-3"&gt;
+&lt;h3 id="org4ab89e0"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4ab89e0"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="c1"&gt;# 初始化&lt;/span&gt;
-   &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
-   &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;petsc4py&lt;/span&gt;
+   &lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;sys&lt;/span&gt;
+   &lt;span class="kn"&gt;import&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;petsc4py&lt;/span&gt;
    &lt;span class="n"&gt;petsc4py&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-   &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;petsc4py&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;PETSc&lt;/span&gt;
+   &lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;petsc4py&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;PETSc&lt;/span&gt;
 
 
    &lt;span class="c1"&gt;# 矩阵&lt;/span&gt;
@@ -2558,15 +2491,14 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org32479e1" class="outline-3"&gt;
-&lt;h3 id="org32479e1"&gt;无矩阵的矩阵&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org32479e1"&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;H&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-       &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;div id="outline-container-org8361808" class="outline-3"&gt;
+&lt;h3 id="org8361808"&gt;无矩阵的矩阵&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org8361808"&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="k"&gt;class&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;H&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+       &lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
            &lt;span class="k"&gt;pass&lt;/span&gt;
 
-       &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;mult&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mat&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+       &lt;span class="k"&gt;def&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;mult&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mat&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Y&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
            &lt;span class="n"&gt;Y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sth&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;X&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
    &lt;span class="n"&gt;shell&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;H&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -2577,10 +2509,9 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org0f2c200" class="outline-3"&gt;
-&lt;h3 id="org0f2c200"&gt;遍历向量&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0f2c200"&gt;
+&lt;div id="outline-container-org9972d60" class="outline-3"&gt;
+&lt;h3 id="org9972d60"&gt;遍历向量&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9972d60"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PETSc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Vec&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;comm&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;comm&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setSizes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
    &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setFromOptions&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -2593,23 +2524,21 @@ PETSc默认的矩阵类型是 AIJ(也就是 CSR)
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgde5e37c" class="outline-2"&gt;
-&lt;h2 id="orgde5e37c"&gt;其它问题&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgde5e37c"&gt;
+&lt;div id="outline-container-org50adbc4" class="outline-2"&gt;
+&lt;h2 id="org50adbc4"&gt;其它问题&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org50adbc4"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org43a308f" class="outline-3"&gt;
-&lt;h3 id="org43a308f"&gt;复数支持&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org43a308f"&gt;
+&lt;div id="outline-container-org73da770" class="outline-3"&gt;
+&lt;h3 id="org73da770"&gt;复数支持&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org73da770"&gt;
 &lt;p&gt;
 只能通过编译选项 &lt;code&gt;--with-scalar-type=complex&lt;/code&gt; 将 &lt;code&gt;PetscScalar&lt;/code&gt; 设成复数
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org4566c67" class="outline-3"&gt;
-&lt;h3 id="org4566c67"&gt;编译选项&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4566c67"&gt;
+&lt;div id="outline-container-org1098fc2" class="outline-3"&gt;
+&lt;h3 id="org1098fc2"&gt;编译选项&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1098fc2"&gt;
 &lt;p&gt;
 &lt;a href="https://www.mcs.anl.gov/petsc/documentation/installation.html"&gt;参考&lt;/a&gt;
 &lt;/p&gt;
@@ -2641,19 +2570,17 @@ python 支持：
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org338ff4f" class="outline-3"&gt;
-&lt;h3 id="org338ff4f"&gt;混合线程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org338ff4f"&gt;
+&lt;div id="outline-container-orge6cb156" class="outline-3"&gt;
+&lt;h3 id="orge6cb156"&gt;混合线程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge6cb156"&gt;
 &lt;p&gt;
 PETSc 是纯 MPI 框架，不提供混合线程的函数，同时所有函数也不保证线程安全。
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org4438ecd" class="outline-3"&gt;
-&lt;h3 id="org4438ecd"&gt;在指定 MPI 通信器上使用 PETSc&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4438ecd"&gt;
+&lt;div id="outline-container-org05adc5e" class="outline-3"&gt;
+&lt;h3 id="org05adc5e"&gt;在指定 MPI 通信器上使用 PETSc&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org05adc5e"&gt;
 &lt;p&gt;
 在调用 &lt;code&gt;PetscInitialize()&lt;/code&gt; 之前设置
 &lt;/p&gt;
@@ -2661,10 +2588,9 @@ PETSc 是纯 MPI 框架，不提供混合线程的函数，同时所有函数也
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgf77c3fc" class="outline-3"&gt;
-&lt;h3 id="orgf77c3fc"&gt;只使用 c 编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf77c3fc"&gt;
+&lt;div id="outline-container-org1628a03" class="outline-3"&gt;
+&lt;h3 id="org1628a03"&gt;只使用 c 编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1628a03"&gt;
 &lt;p&gt;
 依赖越复杂，莫名其妙的问题就越多，只需要 c 的话就简单不少。
 &lt;/p&gt;

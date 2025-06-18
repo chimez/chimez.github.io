@@ -100,28 +100,28 @@
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li>
-<a href="posts/posix-duo-jin-cheng-bian-cheng/#org5224e9c">启动和终止子进程</a>
+<a href="posts/posix-duo-jin-cheng-bian-cheng/#orgd15720c">启动和终止子进程</a>
 <ul>
-<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgcf39541"><code>fork</code> 创建子进程</a></li>
-<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org1f82455"><code>wait</code> 等待子进程退出</a></li>
-<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgedc4002"><code>waitpid</code> 等待特定的子进程退出</a></li>
-<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org99b7a52">例子：创建一系列子进程并等待</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orge1e81eb"><code>fork</code> 创建子进程</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgde4d535"><code>wait</code> 等待子进程退出</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org5219533"><code>waitpid</code> 等待特定的子进程退出</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org9e4fbb5">例子：创建一系列子进程并等待</a></li>
 </ul>
 </li>
 <li>
-<a href="posts/posix-duo-jin-cheng-bian-cheng/#orgcbc3da7">管道 Pipe</a>
+<a href="posts/posix-duo-jin-cheng-bian-cheng/#org9e2d968">管道 Pipe</a>
 <ul>
-<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org54afe23"><code>pipe</code> 创建管道</a></li>
-<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgb8c8f19">例子：pingpong</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org5060c9e"><code>pipe</code> 创建管道</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgdd4374a">例子：pingpong</a></li>
 </ul>
 </li>
 <li>
-<a href="posts/posix-duo-jin-cheng-bian-cheng/#org4117894">信号量 System V Semaphores</a>
+<a href="posts/posix-duo-jin-cheng-bian-cheng/#orgb994410">信号量 System V Semaphores</a>
 <ul>
-<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org58220ca"><code>semget</code> 获得信号量集</a></li>
-<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org3cac01b"><code>semctl</code> 配置信号量集</a></li>
-<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgfbe5484"><code>semop</code> 操作信号</a></li>
-<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgc7dcb88">例子：互斥锁</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orge575220"><code>semget</code> 获得信号量集</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orgc42dca4"><code>semctl</code> 配置信号量集</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#org025c727"><code>semop</code> 操作信号</a></li>
+<li><a href="posts/posix-duo-jin-cheng-bian-cheng/#orga9bead1">例子：互斥锁</a></li>
 </ul>
 </li>
 </ul>
@@ -132,19 +132,17 @@
 这篇文章主要讲如何利用 POSIX 标准库（C语言）进行多进程并行计算，包括如何启动和终止子进程和进程间通信的两种方法：管道（pipe）与信号量（semaphore）。
 至于其它的进程间通信方式，例如：共享内存（mmap）、网络（sockets）、信号（signal）和消息队列等，都是适用性更广也更复杂的技术，在这篇短文中无法涉及。
 </p>
-
-<div id="outline-container-org5224e9c" class="outline-2">
-<h2 id="org5224e9c">启动和终止子进程</h2>
-<div class="outline-text-2" id="text-org5224e9c">
+<div id="outline-container-orgd15720c" class="outline-2">
+<h2 id="orgd15720c">启动和终止子进程</h2>
+<div class="outline-text-2" id="text-orgd15720c">
 <p>
 使用 <code>fork</code> 创建子进程，使用 <code>wait</code> 或 <code>waitpid</code> 等待运行结束。
 </p>
 </div>
-
-<div id="outline-container-orgcf39541" class="outline-3">
-<h3 id="orgcf39541">
+<div id="outline-container-orge1e81eb" class="outline-3">
+<h3 id="orge1e81eb">
 <code>fork</code> 创建子进程</h3>
-<div class="outline-text-3" id="text-orgcf39541">
+<div class="outline-text-3" id="text-orge1e81eb">
 <div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
 
 <span class="kt">pid_t</span><span class="w"> </span><span class="nf">fork</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
@@ -172,11 +170,10 @@
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org1f82455" class="outline-3">
-<h3 id="org1f82455">
+<div id="outline-container-orgde4d535" class="outline-3">
+<h3 id="orgde4d535">
 <code>wait</code> 等待子进程退出</h3>
-<div class="outline-text-3" id="text-org1f82455">
+<div class="outline-text-3" id="text-orgde4d535">
 <div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/wait.h&gt;</span>
 
 <span class="kt">pid_t</span><span class="w"> </span><span class="nf">wait</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">stat_loc</span><span class="p">);</span>
@@ -199,11 +196,10 @@
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgedc4002" class="outline-3">
-<h3 id="orgedc4002">
+<div id="outline-container-org5219533" class="outline-3">
+<h3 id="org5219533">
 <code>waitpid</code> 等待特定的子进程退出</h3>
-<div class="outline-text-3" id="text-orgedc4002">
+<div class="outline-text-3" id="text-org5219533">
 <div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/wait.h&gt;</span>
 
 <span class="kt">pid_t</span><span class="w"> </span><span class="nf">waitpid</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">stat_loc</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">options</span><span class="p">);</span>
@@ -228,10 +224,9 @@
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org99b7a52" class="outline-3">
-<h3 id="org99b7a52">例子：创建一系列子进程并等待</h3>
-<div class="outline-text-3" id="text-org99b7a52">
+<div id="outline-container-org9e4fbb5" class="outline-3">
+<h3 id="org9e4fbb5">例子：创建一系列子进程并等待</h3>
+<div class="outline-text-3" id="text-org9e4fbb5">
 <p>
 在这个例子中创建了 10 个子进程，按照创建顺序给它们标号，让这些进程按照创建顺序的逆序打印自己的序号，主进程则会等待到所有子进程退出再结束。
 </p>
@@ -291,19 +286,17 @@
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgcbc3da7" class="outline-2">
-<h2 id="orgcbc3da7">管道 Pipe</h2>
-<div class="outline-text-2" id="text-orgcbc3da7">
+<div id="outline-container-org9e2d968" class="outline-2">
+<h2 id="org9e2d968">管道 Pipe</h2>
+<div class="outline-text-2" id="text-org9e2d968">
 <p>
 POSIX 提供了单向管道，可以从一个进程向另一个进程单向地传输信息。
 </p>
 </div>
-
-<div id="outline-container-org54afe23" class="outline-3">
-<h3 id="org54afe23">
+<div id="outline-container-org5060c9e" class="outline-3">
+<h3 id="org5060c9e">
 <code>pipe</code> 创建管道</h3>
-<div class="outline-text-3" id="text-org54afe23">
+<div class="outline-text-3" id="text-org5060c9e">
 <div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">pipe</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fildes</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
@@ -327,10 +320,9 @@ POSIX 提供了单向管道，可以从一个进程向另一个进程单向地�
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgb8c8f19" class="outline-3">
-<h3 id="orgb8c8f19">例子：pingpong</h3>
-<div class="outline-text-3" id="text-orgb8c8f19">
+<div id="outline-container-orgdd4374a" class="outline-3">
+<h3 id="orgdd4374a">例子：pingpong</h3>
+<div class="outline-text-3" id="text-orgdd4374a">
 <p>
 两个进程之间互相发送数据，一个数据在两个管道之间来回传递，类似打乒乓球，这是 MPI 中最简单的例子
 </p>
@@ -417,19 +409,17 @@ POSIX 提供了单向管道，可以从一个进程向另一个进程单向地�
 </div>
 </div>
 </div>
-
-<div id="outline-container-org4117894" class="outline-2">
-<h2 id="org4117894">信号量 System V Semaphores</h2>
-<div class="outline-text-2" id="text-org4117894">
+<div id="outline-container-orgb994410" class="outline-2">
+<h2 id="orgb994410">信号量 System V Semaphores</h2>
+<div class="outline-text-2" id="text-orgb994410">
 <p>
 信号量有两种，一个是旧的 System V 一个是标准 POSIX。System V 的支持更广，POSIX 标准在许多系统上都没有实现，所以这里只解释 System V 信号量。
 </p>
 </div>
-
-<div id="outline-container-org58220ca" class="outline-3">
-<h3 id="org58220ca">
+<div id="outline-container-orge575220" class="outline-3">
+<h3 id="orge575220">
 <code>semget</code> 获得信号量集</h3>
-<div class="outline-text-3" id="text-org58220ca">
+<div class="outline-text-3" id="text-orge575220">
 <div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/sem.h&gt;</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">semget</span><span class="p">(</span><span class="kt">key_t</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nsems</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">semflg</span><span class="p">);</span>
@@ -467,11 +457,10 @@ POSIX 提供了单向管道，可以从一个进程向另一个进程单向地�
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org3cac01b" class="outline-3">
-<h3 id="org3cac01b">
+<div id="outline-container-orgc42dca4" class="outline-3">
+<h3 id="orgc42dca4">
 <code>semctl</code> 配置信号量集</h3>
-<div class="outline-text-3" id="text-org3cac01b">
+<div class="outline-text-3" id="text-orgc42dca4">
 <div class="highlight"><pre><span></span>#include &lt;sys/sem.h&gt;
 
 int semctl(int semid, int semnum, int cmd, ...); /* union semun sem_perm */
@@ -521,11 +510,10 @@ union semun {
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgfbe5484" class="outline-3">
-<h3 id="orgfbe5484">
+<div id="outline-container-org025c727" class="outline-3">
+<h3 id="org025c727">
 <code>semop</code> 操作信号</h3>
-<div class="outline-text-3" id="text-orgfbe5484">
+<div class="outline-text-3" id="text-org025c727">
 <div class="highlight"><pre><span></span>#include &lt;sys/sem.h&gt;
 
 int semop(int semid, struct sembuf *sops, size_t nsops);
@@ -585,10 +573,9 @@ struct sembuf {
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgc7dcb88" class="outline-3">
-<h3 id="orgc7dcb88">例子：互斥锁</h3>
-<div class="outline-text-3" id="text-orgc7dcb88">
+<div id="outline-container-orga9bead1" class="outline-3">
+<h3 id="orga9bead1">例子：互斥锁</h3>
+<div class="outline-text-3" id="text-orga9bead1">
 <p>
 这个例子里子进程和主进程一起对共享的变量 <code>shared_int</code> 数数，如果不加锁，最后输出的数字会比 2000000 少，也就是出现了数据竞争，而加锁之后就不会出现这种问题了。
 可以注释掉 <code>lock</code> 和 <code>unlock</code> 来自己观察一下。
@@ -678,7 +665,7 @@ DMRG / MPS / 张量网络的开源库有很多，例如 <a href="https://github.
 </p>
 
 
-<div id="org7f18ff3" class="figure">
+<div id="org7415f95" class="figure">
 <p><img src="https://imgs.xkcd.com/comics/standards.png" alt="standards.png"></p>
 <p><span class="figure-number">Figure 1: </span>让我们再造个轮子🤣</p>
 </div>
@@ -687,11 +674,9 @@ DMRG / MPS / 张量网络的开源库有很多，例如 <a href="https://github.
 <a href="https://github.com/tenpy/tenpy">TeNPy</a>由<a href="https://johannes-hauschild.de/">Johannes Hauschild</a>主要开发并维护，Hauschild 的博士导师是 Frank Pollmann，现在在到处做博后。
 考虑到 Hauschild 一作的文章没有几个，发表情况并不是很好，所以某种程度上他是在全职做 TeNPy 的开发。
 </p>
-
-
-<div id="outline-container-org3a2100c" class="outline-2">
-<h2 id="org3a2100c">安装</h2>
-<div class="outline-text-2" id="text-org3a2100c">
+<div id="outline-container-orgba3ee3b" class="outline-2">
+<h2 id="orgba3ee3b">安装</h2>
+<div class="outline-text-2" id="text-orgba3ee3b">
 <div class="highlight"><pre><span></span># 安装依赖
 pip install -U pip numpy scipy cython setuptools wheel build
 # 下载源码
@@ -706,12 +691,11 @@ pytest
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgb3ade9e" class="outline-2">
-<h2 id="orgb3ade9e">代码层级</h2>
-<div class="outline-text-2" id="text-orgb3ade9e">
+<div id="outline-container-orgff962a5" class="outline-2">
+<h2 id="orgff962a5">代码层级</h2>
+<div class="outline-text-2" id="text-orgff962a5">
 <p>
-TeNPy 的代码层级如图<a href="posts/tenpy-diao-yan/#org66fbfdf">2</a>。
+TeNPy 的代码层级如图<a href="posts/tenpy-diao-yan/#org3f0f99b">2</a>。
 </p>
 
 <ul class="org-ul">
@@ -728,16 +712,15 @@ TeNPy 的代码层级如图<a href="posts/tenpy-diao-yan/#org66fbfdf">2</a>。
 <li>
 <code>tenpy.tools</code> 中包括一些需要用到其它功能</li>
 </ul>
-<div id="org66fbfdf" class="figure">
+<div id="org3f0f99b" class="figure">
 <p><img src="https://tenpy.readthedocs.io/en/latest/_images/overview.png" alt="overview.png"></p>
 <p><span class="figure-number">Figure 2: </span>TeNPy 的代码层级</p>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org7eab418" class="outline-2">
-<h2 id="org7eab418"><code>tenpy.linalg.np_conserved.Array</code></h2>
-<div class="outline-text-2" id="text-org7eab418">
+<div id="outline-container-orgf1e2bfa" class="outline-2">
+<h2 id="orgf1e2bfa"><code>tenpy.linalg.np_conserved.Array</code></h2>
+<div class="outline-text-2" id="text-orgf1e2bfa">
 <p>
 TeNPy 的基本数据结构是 <code>tenpy.linalg.np_conserved.Array</code>, 带有守恒荷的张量。
 TeNPy 采用带有箭头的 MPS 记号来表示一个张量。
@@ -747,7 +730,7 @@ TeNPy 采用带有箭头的 MPS 记号来表示一个张量。
 每个保存的张量块的数据是数组 <code>Array._data</code> 的一个元素，它对于的量子数则是矩阵 <code>Array._qdata</code> 的一行。
 </p>
 
-<pre class="example" id="orga2ed335">
+<pre class="example" id="org0ee4e59">
 class Array{
     legs   : List[LegCharge],
     qtotal : Charge,
@@ -757,10 +740,9 @@ class Array{
 </pre>
 </div>
 </div>
-
-<div id="outline-container-orgb5cbdd2" class="outline-2">
-<h2 id="orgb5cbdd2"><code>tenpy.networks.site.Site</code></h2>
-<div class="outline-text-2" id="text-orgb5cbdd2">
+<div id="outline-container-orga3c86c4" class="outline-2">
+<h2 id="orga3c86c4"><code>tenpy.networks.site.Site</code></h2>
+<div class="outline-text-2" id="text-orga3c86c4">
 <p>
 <code>tenpy.networks.site.Site</code> 是一个格点或者一个物理指标所需要的数据。
 它保存了物理指标所需要的信息 <code>LegCharge</code>, 以及作用在一个格点上的所有局域算符 <code>Site.ops</code>, 写模型的哈密顿量所需要的所有算符都是从这里得到的。
@@ -782,16 +764,15 @@ TeNPy 中实现的 <code>Site</code> 有如下这些
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org0c77e0b" class="outline-2">
-<h2 id="org0c77e0b"><code>tenpy.networks.mps.MPS</code></h2>
-<div class="outline-text-2" id="text-org0c77e0b">
+<div id="outline-container-orgdee0945" class="outline-2">
+<h2 id="orgdee0945"><code>tenpy.networks.mps.MPS</code></h2>
+<div class="outline-text-2" id="text-orgdee0945">
 <p>
 对于 \(n\) 格点的链， <code>tenpy.networks.mps.MPS</code> 就是 \(n\) 个 <code>Site</code> 和 \(n\) 个 <code>Array</code>, 这些 <code>Array</code> 都是三阶张量.
 TeNPy 的 MPS 表示记录了每个块的形式（左正则、右正则、对称形式或者叫 Vidal 的 \(\Gamma \Lambda\) 形式）以及需要的奇异值。
 </p>
 
-<pre class="example" id="org73e356f">
+<pre class="example" id="org0dfeef2">
 class MPS{
     sites: List[Site],
     _B: List[Array],
@@ -801,29 +782,26 @@ class MPS{
 </pre>
 </div>
 </div>
-
-<div id="outline-container-org2b304d2" class="outline-2">
-<h2 id="org2b304d2"><code>tenpy.networks.mpo.MPO</code></h2>
-<div class="outline-text-2" id="text-org2b304d2">
+<div id="outline-container-orgffc7bbd" class="outline-2">
+<h2 id="orgffc7bbd"><code>tenpy.networks.mpo.MPO</code></h2>
+<div class="outline-text-2" id="text-orgffc7bbd">
 <p>
 <code>tenpy.networks.mpo.MPO</code> 与 MPS 表示类似，只不过每个块现在是四阶张量。
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgda739bb" class="outline-2">
-<h2 id="orgda739bb"><code>tenpy.models.model.Model</code></h2>
-<div class="outline-text-2" id="text-orgda739bb">
+<div id="outline-container-orgaf30fe3" class="outline-2">
+<h2 id="orgaf30fe3"><code>tenpy.models.model.Model</code></h2>
+<div class="outline-text-2" id="text-orgaf30fe3">
 <p>
 <code>tenpy.models.model.Model</code> 用来表示模型的哈密顿量，需要指定元胞格点的信息 <code>Site</code> 以及晶格结构如何映射到一维链 <code>tenpy.models.lattice.Lattice</code>.
 TeNPy 提供的构造模型的方法是通过 <code>add_onsite</code>, <code>add_coupling</code> 等设置哈密顿量里的各项，然后根据需要自动构造 MPO。
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgb44c429" class="outline-2">
-<h2 id="orgb44c429">DMRG 算法</h2>
-<div class="outline-text-2" id="text-orgb44c429">
+<div id="outline-container-org6c5420b" class="outline-2">
+<h2 id="org6c5420b">DMRG 算法</h2>
+<div class="outline-text-2" id="text-org6c5420b">
 <p>
 TeNPy 的抽象层次是
 </p>
@@ -853,13 +831,13 @@ TeNPy 的抽象层次是
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org613db27" class="outline-2">
-<h2 id="org613db27">WSL</h2>
-<div class="outline-text-2" id="text-org613db27">
+                    <div id="outline-container-orgd67e950" class="outline-2">
+<h2 id="orgd67e950">WSL</h2>
+<div class="outline-text-2" id="text-orgd67e950">
 </div>
-<div id="outline-container-org67e7c89" class="outline-3">
-<h3 id="org67e7c89">配置 ssh</h3>
-<div class="outline-text-3" id="text-org67e7c89">
+<div id="outline-container-orgfb09315" class="outline-3">
+<h3 id="orgfb09315">配置 ssh</h3>
+<div class="outline-text-3" id="text-orgfb09315">
 <ol class="org-ol">
 <li>安装 <code>openssh-server</code>
 </li>
@@ -867,7 +845,7 @@ TeNPy 的抽象层次是
 <p>
 编辑 <code>/etc/ssh/sshd_config</code>
 </p>
-<pre class="example" id="orgd1f9569">
+<pre class="example" id="org8c727b4">
 # change port
 Port 9922
 ListenAddress 0.0.0.0
@@ -880,7 +858,7 @@ PasswordAuthentication yes
 <p>
 windows 重定向端口
 </p>
-<pre class="example" id="org6971aa9">
+<pre class="example" id="org73921cb">
 netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=9922 connectaddress=172.23.241.25 connectport=9922
 </pre>
 <ol class="org-ol">
@@ -913,21 +891,20 @@ netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=9922 conne
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org1386730" class="outline-2">
-<h2 id="org1386730">setuptools: python 的打包工具</h2>
-<div class="outline-text-2" id="text-org1386730">
+                    <div id="outline-container-org4d8e295" class="outline-2">
+<h2 id="org4d8e295">setuptools: python 的打包工具</h2>
+<div class="outline-text-2" id="text-org4d8e295">
 <p>
 <a href="https://setuptools.pypa.io">setuptools</a> 是 pypa 的项目。
 </p>
 </div>
-
-<div id="outline-container-org19ac31c" class="outline-3">
-<h3 id="org19ac31c">基本使用</h3>
-<div class="outline-text-3" id="text-org19ac31c">
+<div id="outline-container-org1f981f3" class="outline-3">
+<h3 id="org1f981f3">基本使用</h3>
+<div class="outline-text-3" id="text-org1f981f3">
 </div>
-<div id="outline-container-org2f98132" class="outline-4">
-<h4 id="org2f98132"><code>pyproject.toml</code></h4>
-<div class="outline-text-4" id="text-org2f98132">
+<div id="outline-container-orge245c5d" class="outline-4">
+<h4 id="orge245c5d"><code>pyproject.toml</code></h4>
+<div class="outline-text-4" id="text-orge245c5d">
 <p>
 PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml</code> 其中描述项目的基本信息和依赖等。
 </p>
@@ -938,18 +915,16 @@ PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml<
 </pre></div>
 </div>
 </div>
-
-
-<div id="outline-container-org69a2ff1" class="outline-4">
-<h4 id="org69a2ff1">
+<div id="outline-container-org70b108b" class="outline-4">
+<h4 id="org70b108b">
 <code>setup.cfg</code> or <code>setup.py</code>
 </h4>
-<div class="outline-text-4" id="text-org69a2ff1">
+<div class="outline-text-4" id="text-org70b108b">
 <p>
 <code>setup.cfg</code> 是 setuptools 的 DSL，而 <code>setup.py</code> 用一般的 python 代码。
 </p>
 
-<div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+<div class="highlight"><pre><span></span>    <span class="kn">from</span><span class="w"> </span><span class="nn">setuptools</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup</span>
 
     <span class="n">setup</span><span class="p">(</span>
         <span class="n">name</span><span class="o">=</span><span class="s1">'mypackage'</span><span class="p">,</span>
@@ -973,11 +948,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml<
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-org526fc83" class="outline-3">
-<h3 id="org526fc83">开发模式</h3>
-<div class="outline-text-3" id="text-org526fc83">
+<div id="outline-container-org8c26278" class="outline-3">
+<h3 id="org8c26278">开发模式</h3>
+<div class="outline-text-3" id="text-org8c26278">
 <p>
 使用开发模式，可以完成构建而不需要将文件复制到包目录。
 </p>
@@ -992,10 +965,9 @@ PEP 517 要求所有 python 项目需要一个配置文件 <code>pyproject.toml<
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgd50da85" class="outline-3">
-<h3 id="orgd50da85">cython</h3>
-<div class="outline-text-3" id="text-orgd50da85">
+<div id="outline-container-orgfa07b16" class="outline-3">
+<h3 id="orgfa07b16">cython</h3>
+<div class="outline-text-3" id="text-orgfa07b16">
 <p>
 setuptools 会自动检查 cython 是否安装，如果没有，就会忽略所有 <code>.pyx</code> 文件。
 </p>
@@ -1014,8 +986,8 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
 <p>
 <code>setup.py</code>
 </p>
-<div class="highlight"><pre><span></span>   <span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
-   <span class="kn">from</span> <span class="nn">Cython.Build</span> <span class="kn">import</span> <span class="n">cythonize</span>
+<div class="highlight"><pre><span></span>   <span class="kn">from</span><span class="w"> </span><span class="nn">setuptools</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup</span>
+   <span class="kn">from</span><span class="w"> </span><span class="nn">Cython.Build</span><span class="w"> </span><span class="kn">import</span> <span class="n">cythonize</span>
 
    <span class="n">setup</span><span class="p">(</span>
        <span class="n">name</span><span class="o">=</span><span class="s1">'Hello world app'</span><span class="p">,</span>
@@ -1045,13 +1017,13 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org1aed5ee" class="outline-2">
-<h2 id="org1aed5ee">Apache HTTP 服务器</h2>
-<div class="outline-text-2" id="text-org1aed5ee">
+                    <div id="outline-container-org6b6384f" class="outline-2">
+<h2 id="org6b6384f">Apache HTTP 服务器</h2>
+<div class="outline-text-2" id="text-org6b6384f">
 </div>
-<div id="outline-container-orgc173841" class="outline-3">
-<h3 id="orgc173841">配置文件</h3>
-<div class="outline-text-3" id="text-orgc173841">
+<div id="outline-container-orga34a31c" class="outline-3">
+<h3 id="orga34a31c">配置文件</h3>
+<div class="outline-text-3" id="text-orga34a31c">
 <p>
 参考： <a href="https://httpd.apache.org/docs/current/configuring.html">apache-httpd/configuring</a>
 </p>
@@ -1060,10 +1032,9 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
 配置文件叫做 <code>httpd.conf</code> 在 debian 是 <code>/etc/apache2/apache.conf</code>
 </p>
 </div>
-
-<div id="outline-container-orge4b0c4f" class="outline-4">
-<h4 id="orge4b0c4f">语法</h4>
-<div class="outline-text-4" id="text-orge4b0c4f">
+<div id="outline-container-orgf1fcaf3" class="outline-4">
+<h4 id="orgf1fcaf3">语法</h4>
+<div class="outline-text-4" id="text-orgf1fcaf3">
 <ul class="org-ul">
 <li>每行一个指令，反斜线可以折行</li>
 <li>指令大小写不敏感，但参数大小写敏感</li>
@@ -1076,15 +1047,13 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-orge58a548" class="outline-2">
-<h2 id="orge58a548">配置</h2>
-<div class="outline-text-2" id="text-orge58a548">
+<div id="outline-container-orgb513132" class="outline-2">
+<h2 id="orgb513132">配置</h2>
+<div class="outline-text-2" id="text-orgb513132">
 </div>
-<div id="outline-container-org556aa41" class="outline-3">
-<h3 id="org556aa41">反向代理 jupyterlab</h3>
-<div class="outline-text-3" id="text-org556aa41">
+<div id="outline-container-org8e7dabf" class="outline-3">
+<h3 id="org8e7dabf">反向代理 jupyterlab</h3>
+<div class="outline-text-3" id="text-org8e7dabf">
 <ul class="org-ul">
 <li>需要的模块： <code>a2enmod ssl rewrite proxy proxy_http proxy_wstunnel</code>
 </li>
@@ -1127,17 +1096,16 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org6dbd54b" class="outline-2">
-<h2 id="org6dbd54b">PBLAS &amp; ScaLAPACK &amp; BLACS</h2>
-<div class="outline-text-2" id="text-org6dbd54b">
+                    <div id="outline-container-orgbc0f84b" class="outline-2">
+<h2 id="orgbc0f84b">PBLAS &amp; ScaLAPACK &amp; BLACS</h2>
+<div class="outline-text-2" id="text-orgbc0f84b">
 <p>
 <a href="https://www.netlib.org/scalapack/">ScaLAPACK</a> 是基于 MPI 的并行版本 LAPACK, <a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
 </p>
 </div>
-
-<div id="outline-container-org6c20363" class="outline-3">
-<h3 id="org6c20363">编译</h3>
-<div class="outline-text-3" id="text-org6c20363">
+<div id="outline-container-org4afa186" class="outline-3">
+<h3 id="org4afa186">编译</h3>
+<div class="outline-text-3" id="text-org4afa186">
 <ol class="org-ol">
 <li>从 github 下载 <a href="https://github.com/Reference-ScaLAPACK/scalapack/">https://github.com/Reference-ScaLAPACK/scalapack/</a>
 </li>
@@ -1147,7 +1115,7 @@ PEP 517 要求在 <code>pyproject.toml</code> 中加入
 <p>
 示例
 </p>
-<pre class="example" id="orgfd2e6a3">
+<pre class="example" id="org8a2f33f">
 FC            = /home/beacon/app/openmpi/bin/mpif90
 CC            = /home/beacon/app/openmpi/bin/mpicc 
 NOOPT         = -O0 -std=legacy
@@ -1160,10 +1128,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 
 </pre>
 </div>
-
-<div id="outline-container-org87b8ae6" class="outline-4">
-<h4 id="org87b8ae6">GCC 10 不兼容</h4>
-<div class="outline-text-4" id="text-org87b8ae6">
+<div id="outline-container-orgbe346f5" class="outline-4">
+<h4 id="orgbe346f5">GCC 10 不兼容</h4>
+<div class="outline-text-4" id="text-orgbe346f5">
 <p>
 由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 <code>-fallow-argument-mismatch</code> 或 <code>-std=legacy</code> 来编译。
 </p>
@@ -1174,10 +1141,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </div>
 </div>
 </div>
-
-<div id="outline-container-org2f8e94d" class="outline-3">
-<h3 id="org2f8e94d">BLACS</h3>
-<div class="outline-text-3" id="text-org2f8e94d">
+<div id="outline-container-org5181841" class="outline-3">
+<h3 id="org5181841">BLACS</h3>
+<div class="outline-text-3" id="text-org5181841">
 <p>
 <a href="https://www.netlib.org/blacs/index.html">BLACS</a> 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
 </p>
@@ -1190,13 +1156,13 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 <a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html">oneAPI/MKL/BLACS</a>
 </p>
 </div>
-<div id="outline-container-orgd162e52" class="outline-4">
-<h4 id="orgd162e52">基本概念</h4>
-<div class="outline-text-4" id="text-orgd162e52">
+<div id="outline-container-org6a66968" class="outline-4">
+<h4 id="org6a66968">基本概念</h4>
+<div class="outline-text-4" id="text-org6a66968">
 </div>
 <ul class="org-ul">
 <li>
-<a id="org465cd9e"></a>进程网格和范围操作<br><div class="outline-text-5" id="text-org465cd9e">
+<a id="org71ea3dd"></a>进程网格和范围操作<br><div class="outline-text-5" id="text-org71ea3dd">
 <p>
 一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
 </p>
@@ -1216,9 +1182,8 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 </ul>
 </div>
 </li>
-
 <li>
-<a id="org249ed9d"></a>上下文<br><div class="outline-text-5" id="text-org249ed9d">
+<a id="org67a9702"></a>上下文<br><div class="outline-text-5" id="text-org67a9702">
 <p>
 <b>上下文</b> (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
 </p>
@@ -1240,17 +1205,15 @@ BLACS 中有关上下文的函数有
 </ul>
 </div>
 </li>
-
 <li>
-<a id="org29e9be0"></a>基于数组的通信<br><div class="outline-text-5" id="text-org29e9be0">
+<a id="org3eb7666"></a>基于数组的通信<br><div class="outline-text-5" id="text-org3eb7666">
 <p>
 BLACS 中有两个基本的数据模型
 </p>
 </div>
-
 <ul class="org-ul">
 <li>
-<a id="orga6b5295"></a>矩形矩阵<br><div class="outline-text-6" id="text-orga6b5295">
+<a id="org7dc880f"></a>矩形矩阵<br><div class="outline-text-6" id="text-org7dc880f">
 <p>
 一维向量是特殊的矩形矩阵。
 </p>
@@ -1260,9 +1223,8 @@ BLACS 中有两个基本的数据模型
 </p>
 </div>
 </li>
-
 <li>
-<a id="org856369d"></a>梯形矩阵<br><div class="outline-text-6" id="text-org856369d">
+<a id="org6483dea"></a>梯形矩阵<br><div class="outline-text-6" id="text-org6483dea">
 <p>
 三角矩阵和对角矩阵是特殊的梯形矩阵。
 </p>
@@ -1281,9 +1243,8 @@ BLACS 中有两个基本的数据模型
 </li>
 </ul>
 </li>
-
 <li>
-<a id="org60a018b"></a>无编号通信<br><div class="outline-text-5" id="text-org60a018b">
+<a id="orgfb914ce"></a>无编号通信<br><div class="outline-text-5" id="text-orgfb914ce">
 <p>
 BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 <code>SHIFT_RANGE</code> 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
 </p>
@@ -1299,10 +1260,9 @@ BLACS 的通信保证
 </li>
 </ul>
 </div>
-
-<div id="outline-container-org0d0a1ed" class="outline-4">
-<h4 id="org0d0a1ed">结构</h4>
-<div class="outline-text-4" id="text-org0d0a1ed">
+<div id="outline-container-org10c5c9a" class="outline-4">
+<h4 id="org10c5c9a">结构</h4>
+<div class="outline-text-4" id="text-org10c5c9a">
 <p>
 BLACS 由 4 个部分构成
 </p>
@@ -1316,10 +1276,9 @@ BLACS 由 4 个部分构成
 <a href="https://www.netlib.org/blacs/BLACS/QRef.html">函数参考</a>
 </p>
 </div>
-
 <ul class="org-ul">
 <li>
-<a id="orgc7f5727"></a>命名规则<br><div class="outline-text-5" id="text-orgc7f5727">
+<a id="orgcab1afa"></a>命名规则<br><div class="outline-text-5" id="text-orgcab1afa">
 <ul class="org-ul">
 <li>点到点通信与广播： <code>vXXYY2D</code>
 <ul class="org-ul">
@@ -1451,9 +1410,9 @@ BLACS 由 4 个部分构成
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf0a4691" class="outline-3">
-<h3 id="orgf0a4691">PBLAS</h3>
-<div class="outline-text-3" id="text-orgf0a4691">
+<div id="outline-container-org7b71377" class="outline-3">
+<h3 id="org7b71377">PBLAS</h3>
+<div class="outline-text-3" id="text-org7b71377">
 <p>
 <a href="https://www.netlib.org/scalapack/pblas_qref.html">PBLAS</a> 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 <code>.h</code> 头文件，得自己写。
 </p>
@@ -1463,12 +1422,12 @@ BLACS 由 4 个部分构成
 </p>
 </div>
 </div>
-<div id="outline-container-org9f23c5d" class="outline-3">
-<h3 id="org9f23c5d">ScaLAPACK</h3>
-<div class="outline-text-3" id="text-org9f23c5d">
+<div id="outline-container-org7493854" class="outline-3">
+<h3 id="org7493854">ScaLAPACK</h3>
+<div class="outline-text-3" id="text-org7493854">
 </div>
-<div id="outline-container-orgfea164c" class="outline-4">
-<h4 id="orgfea164c">基本方法</h4>
+<div id="outline-container-orgd34da54" class="outline-4">
+<h4 id="orgd34da54">基本方法</h4>
 </div>
 </div>
 </div>
@@ -1490,27 +1449,24 @@ BLACS 由 4 个部分构成
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgbbc7afb" class="outline-2">
-<h2 id="orgbbc7afb">Rust 宏</h2>
-<div class="outline-text-2" id="text-orgbbc7afb">
+                    <div id="outline-container-org59ca368" class="outline-2">
+<h2 id="org59ca368">Rust 宏</h2>
+<div class="outline-text-2" id="text-org59ca368">
 <p>
 Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一种是过程宏 <code>#[...]</code> .
 </p>
 </div>
-
-
-<div id="outline-container-org3fe9eb8" class="outline-3">
-<h3 id="org3fe9eb8">声明宏 <code>macro_rules!</code>
+<div id="outline-container-orgcac2d48" class="outline-3">
+<h3 id="orgcac2d48">声明宏 <code>macro_rules!</code>
 </h3>
-<div class="outline-text-3" id="text-org3fe9eb8">
+<div class="outline-text-3" id="text-orgcac2d48">
 <p>
 声明宏是 Rust 中最常用的宏，通过对源码的模式匹配来实现功能。
 </p>
 </div>
-
-<div id="outline-container-org4bd129e" class="outline-4">
-<h4 id="org4bd129e">语法</h4>
-<div class="outline-text-4" id="text-org4bd129e">
+<div id="outline-container-orge7057d4" class="outline-4">
+<h4 id="orge7057d4">语法</h4>
+<div class="outline-text-4" id="text-orge7057d4">
 <p>
 参考： <a href="https://doc.rust-lang.org/reference/macros-by-example.html">reference/macro</a>
 </p>
@@ -1525,11 +1481,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </ul>
 </div>
 </div>
-
-<div id="outline-container-org2fcb702" class="outline-4">
-<h4 id="org2fcb702">例子： <code>vec!</code>
+<div id="outline-container-orgcc627d8" class="outline-4">
+<h4 id="orgcc627d8">例子： <code>vec!</code>
 </h4>
-<div class="outline-text-4" id="text-org2fcb702">
+<div class="outline-text-4" id="text-orgcc627d8">
 <div class="highlight"><pre><span></span>    #[macro_export]
     macro_rules! vec {
         ( $( $x:expr ),* ) =&gt; {
@@ -1546,19 +1501,16 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-org17a33b2" class="outline-3">
-<h3 id="org17a33b2">过程宏</h3>
-<div class="outline-text-3" id="text-org17a33b2">
+<div id="outline-container-orgabf1ae4" class="outline-3">
+<h3 id="orgabf1ae4">过程宏</h3>
+<div class="outline-text-3" id="text-orgabf1ae4">
 <p>
 过程宏是一个函数，不过它的输入输出类型是词法对象 <code>TokenStream</code> ，由编译器在编译前调用。
 </p>
 </div>
-
-<div id="outline-container-org3d6ef84" class="outline-4">
-<h4 id="org3d6ef84">crate</h4>
-<div class="outline-text-4" id="text-org3d6ef84">
+<div id="outline-container-orgcef5031" class="outline-4">
+<h4 id="orgcef5031">crate</h4>
+<div class="outline-text-4" id="text-orgcef5031">
 <p>
 由于技术限制，目前过程宏必须分离在一个单独的 crate 中, 这个 crate 是 <code>proc-macro</code> 类型的
 </p>
@@ -1572,11 +1524,10 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgf9843d0" class="outline-4">
-<h4 id="orgf9843d0">
+<div id="outline-container-org5665a2c" class="outline-4">
+<h4 id="org5665a2c">
 <code>derive</code> 宏</h4>
-<div class="outline-text-4" id="text-orgf9843d0">
+<div class="outline-text-4" id="text-org5665a2c">
 <p>
 <code>derive</code> 宏用来为结构体等创建默认的 trait 实现。
 </p>
@@ -1585,10 +1536,9 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 下面的例子创建一个 <code>HelloMacro</code> trait 的默认实现宏。
 </p>
 </div>
-
 <ul class="org-ul">
 <li>
-<a id="orgea8fa49"></a>使用<br><div class="outline-text-5" id="text-orgea8fa49">
+<a id="orga275ccb"></a>使用<br><div class="outline-text-5" id="text-orga275ccb">
 <p>
 下面的例子展示了为 <code>struct Pancakes</code> 创建 trait <code>HelloMacro</code> 的默认实现的方法，这个 trait 中只有一个函数 <code>hello_macro()</code>
 </p>
@@ -1608,9 +1558,8 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </pre></div>
 </div>
 </li>
-
 <li>
-<a id="org5d1e851"></a>trait 定义<br><div class="outline-text-5" id="text-org5d1e851">
+<a id="orgcfe2ed9"></a>trait 定义<br><div class="outline-text-5" id="text-orgcfe2ed9">
 <p>
 <code>hello_macro/src/lib.rs</code>
 </p>
@@ -1620,9 +1569,8 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </pre></div>
 </div>
 </li>
-
 <li>
-<a id="org26f5e25"></a>宏定义<br><div class="outline-text-5" id="text-org26f5e25">
+<a id="orga88b292"></a>宏定义<br><div class="outline-text-5" id="text-orga88b292">
 <p>
 <code>hello_macro_derive/Cargo.toml</code>
 </p>
@@ -1669,27 +1617,24 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 </ul>
 </div>
-
-<div id="outline-container-orga7a191d" class="outline-4">
-<h4 id="orga7a191d">
+<div id="outline-container-org8d496c0" class="outline-4">
+<h4 id="org8d496c0">
 <code>Attribute-like</code> 宏</h4>
-<div class="outline-text-4" id="text-orga7a191d">
+<div class="outline-text-4" id="text-org8d496c0">
 <p>
 属性宏可以创建新的属性, 与 <code>derive</code> 宏的区别在于参数多了一个属性 <code>attr</code>, 也就是括号里面的部分，另一个参数 <code>item</code> 就是与 <code>derive</code> 宏一样的内容了。
 </p>
 </div>
-
 <ul class="org-ul">
 <li>
-<a id="org600c510"></a>用法<br><div class="outline-text-5" id="text-org600c510">
+<a id="org3c9caf2"></a>用法<br><div class="outline-text-5" id="text-org3c9caf2">
 <div class="highlight"><pre><span></span>     #[route(GET, "/")]
      fn index() { ... }
 </pre></div>
 </div>
 </li>
-
 <li>
-<a id="org3c801cc"></a>宏定义<br><div class="outline-text-5" id="text-org3c801cc">
+<a id="org5355537"></a>宏定义<br><div class="outline-text-5" id="text-org5355537">
 <div class="highlight"><pre><span></span>     #[proc_macro_attribute]
      pub fn route(attr: TokenStream, item: TokenStream) -&gt; TokenStream { ... }
 </pre></div>
@@ -1697,26 +1642,23 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 </ul>
 </div>
-
-<div id="outline-container-org6b6c29b" class="outline-4">
-<h4 id="org6b6c29b">
+<div id="outline-container-org395b94e" class="outline-4">
+<h4 id="org395b94e">
 <code>Function-like</code> 宏</h4>
-<div class="outline-text-4" id="text-org6b6c29b">
+<div class="outline-text-4" id="text-org395b94e">
 <p>
 函数宏可以定义像函数一样调用的宏。可以用来定义 DSL
 </p>
 </div>
-
 <ul class="org-ul">
 <li>
-<a id="org4df84c6"></a>用法<br><div class="outline-text-5" id="text-org4df84c6">
+<a id="org72984a2"></a>用法<br><div class="outline-text-5" id="text-org72984a2">
 <div class="highlight"><pre><span></span>     let sql = sql!(SELECT * FROM posts WHERE id=1);
 </pre></div>
 </div>
 </li>
-
 <li>
-<a id="org0f8d3fa"></a>宏定义<br><div class="outline-text-5" id="text-org0f8d3fa">
+<a id="org4b2bd2f"></a>宏定义<br><div class="outline-text-5" id="text-org4b2bd2f">
 <div class="highlight"><pre><span></span>     #[proc_macro]
      pub fn sql(input: TokenStream) -&gt; TokenStream { ... }
 </pre></div>
@@ -1724,26 +1666,23 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 </ul>
 </div>
-
-<div id="outline-container-org859d3af" class="outline-4">
-<h4 id="org859d3af">syn: rust parser</h4>
-<div class="outline-text-4" id="text-org859d3af">
+<div id="outline-container-org2059c2d" class="outline-4">
+<h4 id="org2059c2d">syn: rust parser</h4>
+<div class="outline-text-4" id="text-org2059c2d">
 <p>
 <a href="https://crates.io/crates/syn">syn</a> 是 rust 代码的 parser，可以将源码字符串 <code>TokenStream</code> 转换成语法树 <code>syn::DeriveInput</code> 。
 </p>
 </div>
-
 <ul class="org-ul">
 <li>
-<a id="orgdeb39bc"></a><code>syn::DeriveInput</code><br><div class="outline-text-5" id="text-orgdeb39bc">
+<a id="org1983ac7"></a><code>syn::DeriveInput</code><br><div class="outline-text-5" id="text-org1983ac7">
 <p>
 对于输入 <code>TokenStream</code> 使用 <code>parse_macro_input!</code> 将它解析为语法树 <code>DeriveInput</code> ，之后就可以通过对语法树的操作生成新的语法树
 </p>
 </div>
 </li>
-
 <li>
-<a id="org5ba96f7"></a><code>syn::spanned::Spanned</code><br><div class="outline-text-5" id="text-org5ba96f7">
+<a id="org44df465"></a><code>syn::spanned::Spanned</code><br><div class="outline-text-5" id="text-org44df465">
 <p>
 对重复结构的操作，使用 <code>span()</code> 配合 <code>quote::qoute_spanned!</code> 实现
 </p>
@@ -1751,10 +1690,9 @@ Rust 的宏分为两类，一种是声明宏 <code>macro_rules!</code> ,另一�
 </li>
 </ul>
 </div>
-
-<div id="outline-container-org90b6501" class="outline-4">
-<h4 id="org90b6501">quote: rust 代码模板</h4>
-<div class="outline-text-4" id="text-org90b6501">
+<div id="outline-container-orgf330ba0" class="outline-4">
+<h4 id="orgf330ba0">quote: rust 代码模板</h4>
+<div class="outline-text-4" id="text-orgf330ba0">
 <p>
 <a href="https://crates.io/crates/quote">quote</a> 的 <code>quote!</code> 宏可以将 rust 语法数据结构变成 <code>TokenStream</code>
 </p>
@@ -1788,21 +1726,20 @@ qoute 的宏类似于 <code>macro_rules!</code> 只是把 <code>$</code> 换成 
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgc6ec431" class="outline-2">
-<h2 id="orgc6ec431">Rust C FFI</h2>
-<div class="outline-text-2" id="text-orgc6ec431">
+                    <div id="outline-container-org39803b1" class="outline-2">
+<h2 id="org39803b1">Rust C FFI</h2>
+<div class="outline-text-2" id="text-org39803b1">
 </div>
-<div id="outline-container-org96195ba" class="outline-3">
-<h3 id="org96195ba">rust-bindgen: rust 调用 c</h3>
-<div class="outline-text-3" id="text-org96195ba">
+<div id="outline-container-org3863a7f" class="outline-3">
+<h3 id="org3863a7f">rust-bindgen: rust 调用 c</h3>
+<div class="outline-text-3" id="text-org3863a7f">
 <p>
 <a href="https://github.com/rust-lang/rust-bindgen">rust-bindgen</a> 是在编译时由头文件生成绑定代码的工具。由它封装的库称为 <code>xxx-sys</code>
 </p>
 </div>
-
-<div id="outline-container-org327468b" class="outline-4">
-<h4 id="org327468b">常量宏</h4>
-<div class="outline-text-4" id="text-org327468b">
+<div id="outline-container-org8176304" class="outline-4">
+<h4 id="org8176304">常量宏</h4>
+<div class="outline-text-4" id="text-org8176304">
 <p>
 对于形如 <code>#define XX (int)0</code> 这样的有类型转换的宏是不能自动生成绑定的，可以在 <code>wrapper.h</code> 中写
 </p>
@@ -1814,41 +1751,37 @@ qoute 的宏类似于 <code>macro_rules!</code> 只是把 <code>$</code> 换成 
 </div>
 </div>
 </div>
-
-<div id="outline-container-org5e95944" class="outline-3">
-<h3 id="org5e95944">libc: 系统库</h3>
+<div id="outline-container-org4c05deb" class="outline-3">
+<h3 id="org4c05deb">libc: 系统库</h3>
 </div>
 
 
-<div id="outline-container-org42fe101" class="outline-3">
-<h3 id="org42fe101">c 类型</h3>
-<div class="outline-text-3" id="text-org42fe101">
+<div id="outline-container-org799d71c" class="outline-3">
+<h3 id="org799d71c">c 类型</h3>
+<div class="outline-text-3" id="text-org799d71c">
 <p>
 一般的类型在 <code>std::os::raw</code> 中，或者使用在 <code>libc</code> 中的重新绑定。
 </p>
 </div>
-
-<div id="outline-container-org3f59c5b" class="outline-4">
-<h4 id="org3f59c5b">字符串</h4>
-<div class="outline-text-4" id="text-org3f59c5b">
+<div id="outline-container-org3937fc1" class="outline-4">
+<h4 id="org3937fc1">字符串</h4>
+<div class="outline-text-4" id="text-org3937fc1">
 <p>
 c 的字符串实际上是 <code>&amp;[u8]</code> 数组，可以用 <code>std::ffi::CString</code> 和 <code>std::ffi::CStr</code>, 其中 <code>CString</code> 拥有所有权， <code>CStr</code> 是借用。
 </p>
 </div>
 </div>
-
-<div id="outline-container-org395d0c4" class="outline-4">
-<h4 id="org395d0c4">指针</h4>
-<div class="outline-text-4" id="text-org395d0c4">
+<div id="outline-container-org830c001" class="outline-4">
+<h4 id="org830c001">指针</h4>
+<div class="outline-text-4" id="text-org830c001">
 <p>
 c 的常量指针 <code>const int *</code> 对应 <code>*const i32</code>, 一般指针 <code>int *</code> 对应 <code>*mut i32</code>. 两级指针 <code>int **</code> 对应 <code>*mut *mut int</code> 以此类推。
 </p>
 </div>
 </div>
-
-<div id="outline-container-org9f0f5b6" class="outline-4">
-<h4 id="org9f0f5b6">结构体</h4>
-<div class="outline-text-4" id="text-org9f0f5b6">
+<div id="outline-container-org5b21cc5" class="outline-4">
+<h4 id="org5b21cc5">结构体</h4>
+<div class="outline-text-4" id="text-org5b21cc5">
 <p>
 rust 中定义与 c 兼容的结构体的方法为
 </p>
@@ -1860,19 +1793,17 @@ rust 中定义与 c 兼容的结构体的方法为
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org7586c3a" class="outline-4">
-<h4 id="org7586c3a"><code>sizeof</code></h4>
-<div class="outline-text-4" id="text-org7586c3a">
+<div id="outline-container-orga1507b6" class="outline-4">
+<h4 id="orga1507b6"><code>sizeof</code></h4>
+<div class="outline-text-4" id="text-orga1507b6">
 <p>
 与 c 的 <code>sizeof</code> 相同的是 <code>std::mem::sizeof</code>
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge34a4f6" class="outline-4">
-<h4 id="orge34a4f6"><code>offsetof</code></h4>
-<div class="outline-text-4" id="text-orge34a4f6">
+<div id="outline-container-orgd53734a" class="outline-4">
+<h4 id="orgd53734a"><code>offsetof</code></h4>
+<div class="outline-text-4" id="text-orgd53734a">
 <p>
 使用 <a href="https://github.com/Gilnaa/memoffset">memoffset</a> 的 <code>offset_of!</code> 宏来获得。
 </p>
@@ -1883,15 +1814,14 @@ rust 中定义与 c 兼容的结构体的方法为
 </div>
 </div>
 </div>
-
-<div id="outline-container-org8fd7431" class="outline-3">
-<h3 id="org8fd7431">问题解决</h3>
-<div class="outline-text-3" id="text-org8fd7431">
+<div id="outline-container-org2467582" class="outline-3">
+<h3 id="org2467582">问题解决</h3>
+<div class="outline-text-3" id="text-org2467582">
 </div>
-<div id="outline-container-org5c0e625" class="outline-4">
-<h4 id="org5c0e625">传递 <code>argc, argv</code>
+<div id="outline-container-org2a044c0" class="outline-4">
+<h4 id="org2a044c0">传递 <code>argc, argv</code>
 </h4>
-<div class="outline-text-4" id="text-org5c0e625">
+<div class="outline-text-4" id="text-org2a044c0">
 <p>
 参考 <a href="https://stackoverflow.com/questions/34379641/how-do-i-convert-rust-args-into-the-argc-and-argv-c-equivalents">stackoverflow</a>
 </p>
@@ -1939,31 +1869,29 @@ rust 中定义与 c 兼容的结构体的方法为
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org7fc6f93" class="outline-2">
-<h2 id="org7fc6f93">reStructuredText</h2>
-<div class="outline-text-2" id="text-org7fc6f93">
+                    <div id="outline-container-org11bdf88" class="outline-2">
+<h2 id="org11bdf88">reStructuredText</h2>
+<div class="outline-text-2" id="text-org11bdf88">
 <p>
 reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 python 的 <img src="sphinx-documentation-generator.org" alt="Sphinx"> 默认语言。
 </p>
 </div>
-
-<div id="outline-container-org03c9ae0" class="outline-3">
-<h3 id="org03c9ae0">基本语法</h3>
-<div class="outline-text-3" id="text-org03c9ae0">
+<div id="outline-container-orga0378aa" class="outline-3">
+<h3 id="orga0378aa">基本语法</h3>
+<div class="outline-text-3" id="text-orga0378aa">
 </div>
-<div id="outline-container-orgd233c33" class="outline-4">
-<h4 id="orgd233c33">段落</h4>
-<div class="outline-text-4" id="text-orgd233c33">
+<div id="outline-container-orgc8fe67a" class="outline-4">
+<h4 id="orgc8fe67a">段落</h4>
+<div class="outline-text-4" id="text-orgc8fe67a">
 <p>
 与 python 类似，reST 中用缩进表示不同的层级。
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgec5c14d" class="outline-4">
-<h4 id="orgec5c14d">行内标记</h4>
-<div class="outline-text-4" id="text-orgec5c14d">
-<pre class="example" id="org70bd637">
+<div id="outline-container-org66a81b2" class="outline-4">
+<h4 id="org66a81b2">行内标记</h4>
+<div class="outline-text-4" id="text-org66a81b2">
+<pre class="example" id="org13ee42c">
 *something*               | 斜体
 **something**             | 粗体
 ``code``                  | 行内代码
@@ -1973,10 +1901,9 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </pre>
 </div>
 </div>
-
-<div id="outline-container-orgc8710ec" class="outline-4">
-<h4 id="orgc8710ec">列表</h4>
-<div class="outline-text-4" id="text-orgc8710ec">
+<div id="outline-container-org092c4b1" class="outline-4">
+<h4 id="org092c4b1">列表</h4>
+<div class="outline-text-4" id="text-org092c4b1">
 <div class="highlight"><pre><span></span>    1. 编号列表
     2. 编号列表
 
@@ -1994,10 +1921,9 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orga2253fe" class="outline-4">
-<h4 id="orga2253fe">引用块</h4>
-<div class="outline-text-4" id="text-orga2253fe">
+<div id="outline-container-orgfb22fd2" class="outline-4">
+<h4 id="orgfb22fd2">引用块</h4>
+<div class="outline-text-4" id="text-orgfb22fd2">
 <div class="highlight"><pre><span></span>    引用块，末尾用双冒号::
 
       空一行
@@ -2008,10 +1934,9 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgb2ba9fe" class="outline-4">
-<h4 id="orgb2ba9fe">表格</h4>
-<div class="outline-text-4" id="text-orgb2ba9fe">
+<div id="outline-container-org42373ff" class="outline-4">
+<h4 id="org42373ff">表格</h4>
+<div class="outline-text-4" id="text-org42373ff">
 <div class="highlight"><pre><span></span>    完整的表格
 
     +------------------------+------------+----------+----------+
@@ -2036,11 +1961,10 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org8a6e22c" class="outline-4">
-<h4 id="org8a6e22c">标题</h4>
-<div class="outline-text-4" id="text-org8a6e22c">
-<pre class="example" id="org565faa8">
+<div id="outline-container-org33890ad" class="outline-4">
+<h4 id="org33890ad">标题</h4>
+<div class="outline-text-4" id="text-org33890ad">
+<pre class="example" id="org386054d">
 # | parts
 * | chapters
 = | sections
@@ -2051,45 +1975,41 @@ reST, 文件后缀 <code>*.rst</code> 是类似 markdown 的标记语言，是 p
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgbc102c0" class="outline-3">
-<h3 id="orgbc102c0">指令</h3>
-<div class="outline-text-3" id="text-orgbc102c0">
+<div id="outline-container-orge79771d" class="outline-3">
+<h3 id="orge79771d">指令</h3>
+<div class="outline-text-3" id="text-orge79771d">
 <p>
 reST 支持很多指令，这里是常用的几个
 </p>
 </div>
-
 <ul class="org-ul">
 <li>
-<a id="org49dfe76"></a><code>image</code> 图片<br>
+<a id="orgfb9bf1c"></a><code>image</code> 图片<br>
 </li>
 
 <li>
-<a id="orgca1cc8a"></a><code>[#footnote]_</code> 脚注<br>
+<a id="org84cf971"></a><code>[#footnote]_</code> 脚注<br>
 </li>
 
 <li>
-<a id="org45a538a"></a><code>..</code> 注释<br>
+<a id="orgce6e4f6"></a><code>..</code> 注释<br>
 </li>
 </ul>
 </div>
-
-<div id="outline-container-orgfefb176" class="outline-3">
-<h3 id="orgfefb176">角色</h3>
-<div class="outline-text-3" id="text-orgfefb176">
+<div id="outline-container-org0497984" class="outline-3">
+<h3 id="org0497984">角色</h3>
+<div class="outline-text-3" id="text-org0497984">
 <p>
 reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内标记
 </p>
 </div>
-
-<div id="outline-container-orgece0e5e" class="outline-4">
-<h4 id="orgece0e5e">
+<div id="outline-container-org5c83213" class="outline-4">
+<h4 id="org5c83213">
 <code>:ref:</code> 交叉引用</h4>
 </div>
 
-<div id="outline-container-orgf87f3a1" class="outline-4">
-<h4 id="orgf87f3a1">
+<div id="outline-container-orge03f70f" class="outline-4">
+<h4 id="orge03f70f">
 <code>:math:</code> 数学公式</h4>
 </div>
 </div>
@@ -2112,39 +2032,36 @@ reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内�
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgcc2ae68" class="outline-2">
-<h2 id="orgcc2ae68">Sphinx: 文档生成</h2>
-<div class="outline-text-2" id="text-orgcc2ae68">
+                    <div id="outline-container-org20c29ee" class="outline-2">
+<h2 id="org20c29ee">Sphinx: 文档生成</h2>
+<div class="outline-text-2" id="text-org20c29ee">
 <p>
 <a href="https://www.sphinx-doc.org/en/master/usage/quickstart.html">sphinx/getting started</a>
 </p>
 </div>
-
-<div id="outline-container-orga2b48e4" class="outline-3">
-<h3 id="orga2b48e4">创建与配置项目</h3>
-<div class="outline-text-3" id="text-orga2b48e4">
+<div id="outline-container-org60856a7" class="outline-3">
+<h3 id="org60856a7">创建与配置项目</h3>
+<div class="outline-text-3" id="text-org60856a7">
 </div>
-<div id="outline-container-orgccd568b" class="outline-4">
-<h4 id="orgccd568b"><code>sphinx-quickstart</code></h4>
-<div class="outline-text-4" id="text-orgccd568b">
+<div id="outline-container-org6942aeb" class="outline-4">
+<h4 id="org6942aeb"><code>sphinx-quickstart</code></h4>
+<div class="outline-text-4" id="text-org6942aeb">
 <p>
 使用这个命令，快速创建项目。跟随指导做一些选项。
 </p>
 </div>
 </div>
-
-<div id="outline-container-org5c21a9a" class="outline-4">
-<h4 id="org5c21a9a">生成文档</h4>
-<div class="outline-text-4" id="text-org5c21a9a">
+<div id="outline-container-org1ab7b18" class="outline-4">
+<h4 id="org1ab7b18">生成文档</h4>
+<div class="outline-text-4" id="text-org1ab7b18">
 <p>
 使用命令 <code>sphinx-build -b html sourcedir builddir</code> 或者 <code>make html</code>
 </p>
 </div>
 </div>
-
-<div id="outline-container-org9c7b3f9" class="outline-4">
-<h4 id="org9c7b3f9">基本配置</h4>
-<div class="outline-text-4" id="text-org9c7b3f9">
+<div id="outline-container-org6fe0371" class="outline-4">
+<h4 id="org6fe0371">基本配置</h4>
+<div class="outline-text-4" id="text-org6fe0371">
 <p>
 基本配置在 <code>conf.py</code> 文件中。这个文件就是一个python 脚本，可以执行各种python函数和导入其它库等。
 </p>
@@ -2155,14 +2072,13 @@ reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内�
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgf60df45" class="outline-3">
-<h3 id="orgf60df45">写文档</h3>
-<div class="outline-text-3" id="text-orgf60df45">
+<div id="outline-container-org88f6ec1" class="outline-3">
+<h3 id="org88f6ec1">写文档</h3>
+<div class="outline-text-3" id="text-org88f6ec1">
 </div>
-<div id="outline-container-orgaa91ba5" class="outline-4">
-<h4 id="orgaa91ba5">文档结构</h4>
-<div class="outline-text-4" id="text-orgaa91ba5">
+<div id="outline-container-org2da58f1" class="outline-4">
+<h4 id="org2da58f1">文档结构</h4>
+<div class="outline-text-4" id="text-org2da58f1">
 <ol class="org-ol">
 <li>
 <code>index.rst</code> 文件是文档的欢迎页面，其中包括
@@ -2174,10 +2090,9 @@ reST 使用 <code>:rolename:`content`</code> 语法来做一些复杂的行内�
 </ol>
 </div>
 </div>
-
-<div id="outline-container-orgcac1ea5" class="outline-4">
-<h4 id="orgcac1ea5">reStructuredText directives</h4>
-<div class="outline-text-4" id="text-orgcac1ea5">
+<div id="outline-container-org20f2575" class="outline-4">
+<h4 id="org20f2575">reStructuredText directives</h4>
+<div class="outline-text-4" id="text-org20f2575">
 <p>
 rst 指令的格式中包括
 </p>
@@ -2187,10 +2102,9 @@ rst 指令的格式中包括
 <li>内容：在参数之后空一行</li>
 </ol>
 </div>
-
 <ul class="org-ul">
 <li>
-<a id="org49a8a6c"></a><code>toctree</code> 目录<br><div class="outline-text-5" id="text-org49a8a6c">
+<a id="org5de0dc1"></a><code>toctree</code> 目录<br><div class="outline-text-5" id="text-org5de0dc1">
 <p>
 参考：<a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html#toctree-directive">directives/toctree-directive</a>
 </p>
@@ -2205,18 +2119,16 @@ rst 指令的格式中包括
         (many more documents listed here)
 </pre></div>
 </div>
-
 <ul class="org-ul">
 <li>
-<a id="org8bc44af"></a>内容<br><div class="outline-text-6" id="text-org8bc44af">
+<a id="orga3b978b"></a>内容<br><div class="outline-text-6" id="text-orga3b978b">
 <p>
 内容中每一行就是要链接到的文件名, 可以用 <code>Net Title &lt;filename&gt;</code> 重新指定显示的标题
 </p>
 </div>
 </li>
-
 <li>
-<a id="org4d1a789"></a>选项<br><div class="outline-text-6" id="text-org4d1a789">
+<a id="org97a21ec"></a>选项<br><div class="outline-text-6" id="text-org97a21ec">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -2267,10 +2179,9 @@ rst 指令的格式中包括
 </li>
 </ul>
 </div>
-
-<div id="outline-container-orgd55e34b" class="outline-4">
-<h4 id="orgd55e34b">Domains</h4>
-<div class="outline-text-4" id="text-orgd55e34b">
+<div id="outline-container-orgeda25c5" class="outline-4">
+<h4 id="orgeda25c5">Domains</h4>
+<div class="outline-text-4" id="text-orgeda25c5">
 <p>
 为了对应 python/c++ 中的名字空间，防止函数名冲突，要把函数的文档写在 domain 里。
 </p>
@@ -2279,10 +2190,9 @@ rst 指令的格式中包括
 参考 <a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html">domains</a>
 </p>
 </div>
-
 <ul class="org-ul">
 <li>
-<a id="org918e580"></a>基本语法<br><div class="outline-text-5" id="text-org918e580">
+<a id="org61c05f4"></a>基本语法<br><div class="outline-text-5" id="text-org61c05f4">
 <p>
 可以一次生成两个函数
 </p>
@@ -2305,9 +2215,8 @@ rst 指令的格式中包括
 </p>
 </div>
 </li>
-
 <li>
-<a id="orga423a65"></a>交叉引用<br><div class="outline-text-5" id="text-orga423a65">
+<a id="orgcf10bc4"></a>交叉引用<br><div class="outline-text-5" id="text-orgcf10bc4">
 <p>
 基本语法是 <code>:role:`title &lt;target&gt;`</code> 这会引用 <code>target</code> 但显示的是 <code>title</code>
 </p>
@@ -2319,7 +2228,7 @@ rst 指令的格式中包括
 </div>
 </li>
 <li>
-<a id="orgdd9395b"></a>C++<br><div class="outline-text-5" id="text-orgdd9395b">
+<a id="org51497ba"></a>C++<br><div class="outline-text-5" id="text-org51497ba">
 <p>
 参考 <a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#cpp-domain">domains/cpp-domain</a>     
 </p>
@@ -2328,29 +2237,24 @@ rst 指令的格式中包括
 </ul>
 </div>
 </div>
-
-
-<div id="outline-container-org38a3b5e" class="outline-3">
-<h3 id="org38a3b5e">Autodoc: 注释文档</h3>
-<div class="outline-text-3" id="text-org38a3b5e">
+<div id="outline-container-org2e55f4c" class="outline-3">
+<h3 id="org2e55f4c">Autodoc: 注释文档</h3>
+<div class="outline-text-3" id="text-org2e55f4c">
 <p>
 通过 autodoc 可以从源码的注释生成文档。需要在 <code>conf.py</code> 的 <code>extensions</code> 中加入 <code>'sphinx.ext.autodoc'</code> . 之后就可以利用 <code>autofunction</code> <code>automodule</code> 等指令，将注释作为文档导入。
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-org308215b" class="outline-3">
-<h3 id="org308215b">breathe</h3>
-<div class="outline-text-3" id="text-org308215b">
+<div id="outline-container-org4d7a39d" class="outline-3">
+<h3 id="org4d7a39d">breathe</h3>
+<div class="outline-text-3" id="text-org4d7a39d">
 <p>
 <a href="https://breathe.readthedocs.io/en/latest/index.html">breathe</a> 是通过 doxygen 生成 c/c++ 的文档的工具
 </p>
 </div>
-
-<div id="outline-container-org48d19b1" class="outline-4">
-<h4 id="org48d19b1">基本使用</h4>
-<div class="outline-text-4" id="text-org48d19b1">
+<div id="outline-container-org3246110" class="outline-4">
+<h4 id="org3246110">基本使用</h4>
+<div class="outline-text-4" id="text-org3246110">
 <p>
 设置 <code>conf.py</code>
 </p>
@@ -2392,7 +2296,7 @@ delimiters: [
                     }
                 );
             </script><!--End of body content--><footer id="footer">
-            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2025         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>
