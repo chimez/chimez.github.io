@@ -31,7 +31,6 @@
 
 
 
-
 配置示例
 
    cc = meson.get_compiler('c')
@@ -42,7 +41,7 @@
 
    src_dir = include_directories('../src')
 
-   ">
+   e">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2021-05-10T16:20:05+08:00">
 <meta property="article:tag" content="C">
@@ -127,17 +126,16 @@
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div id="outline-container-org2fd8ced" class="outline-2">
-<h2 id="org2fd8ced">meson 构建工具</h2>
-<div class="outline-text-2" id="text-org2fd8ced">
+    <div id="outline-container-org58fee21" class="outline-2">
+<h2 id="org58fee21">meson 构建工具</h2>
+<div class="outline-text-2" id="text-org58fee21">
 <p>
 网站 <a href="https://mesonbuild.com">meson-build</a>
 </p>
 </div>
-
-<div id="outline-container-org9d06da8" class="outline-3">
-<h3 id="org9d06da8">配置示例</h3>
-<div class="outline-text-3" id="text-org9d06da8">
+<div id="outline-container-orge7efd12" class="outline-3">
+<h3 id="orge7efd12">配置示例</h3>
+<div class="outline-text-3" id="text-orge7efd12">
 <div class="highlight"><pre><span></span>   <span class="n">cc</span> <span class="o">=</span> <span class="n">meson</span><span class="o">.</span><span class="n">get_compiler</span><span class="p">(</span><span class="s1">'c'</span><span class="p">)</span>
 
    <span class="n">all_deps</span> <span class="o">=</span> <span class="p">[]</span>
@@ -152,27 +150,24 @@
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org5476504" class="outline-3">
-<h3 id="org5476504">使用 address sanitizer</h3>
-<div class="outline-text-3" id="text-org5476504">
+<div id="outline-container-orgc685b08" class="outline-3">
+<h3 id="orgc685b08">使用 address sanitizer</h3>
+<div class="outline-text-3" id="text-orgc685b08">
 <div class="highlight"><pre><span></span>   CC=clang meson build  -Db_sanitize=address -Db_lundef=false
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgb46e9ce" class="outline-3">
-<h3 id="orgb46e9ce">使用 clang 静态分析</h3>
-<div class="outline-text-3" id="text-orgb46e9ce">
+<div id="outline-container-org117b8c8" class="outline-3">
+<h3 id="org117b8c8">使用 clang 静态分析</h3>
+<div class="outline-text-3" id="text-org117b8c8">
 <div class="highlight"><pre><span></span>   meson build
    ninja -C build scan-build
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org96f0269" class="outline-3">
-<h3 id="org96f0269">自定义外部依赖</h3>
-<div class="outline-text-3" id="text-org96f0269">
+<div id="outline-container-orgb0e8e3e" class="outline-3">
+<h3 id="orgb0e8e3e">自定义外部依赖</h3>
+<div class="outline-text-3" id="text-orgb0e8e3e">
 <p>
 参考 <a href="https://mesonbuild.com/Dependencies.html#declaring-your-own">Manual/Dependencies</a>
 </p>
@@ -186,10 +181,9 @@
                                <span class="n">include_directories</span> <span class="p">:</span> <span class="n">my_inc</span><span class="p">)</span>
 </pre></div>
 </div>
-
-<div id="outline-container-org4ca38cf" class="outline-4">
-<h4 id="org4ca38cf">将依赖做子目录</h4>
-<div class="outline-text-4" id="text-org4ca38cf">
+<div id="outline-container-orge17f7f4" class="outline-4">
+<h4 id="orge17f7f4">将依赖做子目录</h4>
+<div class="outline-text-4" id="text-orge17f7f4">
 <p>
 首先在子目录中放入依赖的源码，并且在其中定义子项目的 <code>meson.build</code> 文件
 </p>
@@ -204,28 +198,25 @@
 </div>
 </div>
 </div>
-
-<div id="outline-container-org9fc8cda" class="outline-3">
-<h3 id="org9fc8cda">子项目</h3>
-<div class="outline-text-3" id="text-org9fc8cda">
+<div id="outline-container-org03918b8" class="outline-3">
+<h3 id="org03918b8">子项目</h3>
+<div class="outline-text-3" id="text-org03918b8">
 <p>
 <a href="https://mesonbuild.com/Subprojects.html">https://mesonbuild.com/Subprojects.html</a>
 </p>
 </div>
-
-<div id="outline-container-org80d5153" class="outline-4">
-<h4 id="org80d5153">从子项目获取依赖</h4>
-<div class="outline-text-4" id="text-org80d5153">
+<div id="outline-container-org954b2a3" class="outline-4">
+<h4 id="org954b2a3">从子项目获取依赖</h4>
+<div class="outline-text-4" id="text-org954b2a3">
 <div class="highlight"><pre><span></span><span class="n">libsimple_proj</span> <span class="o">=</span> <span class="n">subproject</span><span class="p">(</span><span class="s1">'libsimple'</span><span class="p">)</span>
 <span class="n">libsimple_dep</span> <span class="o">=</span> <span class="n">libsimple_proj</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">'libsimple_dep'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-
-<div id="outline-container-org7e66c24" class="outline-3">
-<h3 id="org7e66c24">使用 wrap 管理依赖</h3>
-<div class="outline-text-3" id="text-org7e66c24">
+<div id="outline-container-org1ccaf96" class="outline-3">
+<h3 id="org1ccaf96">使用 wrap 管理依赖</h3>
+<div class="outline-text-3" id="text-org1ccaf96">
 <p>
 在 <code>subprojects</code> 文件夹中创建 <code>libfoobar.wrap</code> 文件, 其中指定源码位置 <code>[wrap-file]</code> 和提供的依赖 <code>[provide]</code> ，格式参考 <a href="https://mesonbuild.com/Wrap-dependency-system-manual.html">这里</a>
 </p>
@@ -304,7 +295,7 @@
 
 
         </section></article><script>var disqus_shortname="chimezz";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer">
-            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2025         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>

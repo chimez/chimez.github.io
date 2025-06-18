@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 C 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/c.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 24 Oct 2023 10:00:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>POSIX 多进程编程</title><link>https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/</link><dc:creator>chimez</dc:creator><description>&lt;div id="table-of-contents" role="doc-toc"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 C 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/c.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2025 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 18 Jun 2025 02:51:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>POSIX 多进程编程</title><link>https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/</link><dc:creator>chimez</dc:creator><description>&lt;div id="table-of-contents" role="doc-toc"&gt;
 &lt;h2&gt;Table of Contents&lt;/h2&gt;
 &lt;div id="text-table-of-contents" role="doc-toc"&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org5224e9c"&gt;启动和终止子进程&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgd15720c"&gt;启动和终止子进程&lt;/a&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgcf39541"&gt;&lt;code&gt;fork&lt;/code&gt; 创建子进程&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org1f82455"&gt;&lt;code&gt;wait&lt;/code&gt; 等待子进程退出&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgedc4002"&gt;&lt;code&gt;waitpid&lt;/code&gt; 等待特定的子进程退出&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org99b7a52"&gt;例子：创建一系列子进程并等待&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orge1e81eb"&gt;&lt;code&gt;fork&lt;/code&gt; 创建子进程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgde4d535"&gt;&lt;code&gt;wait&lt;/code&gt; 等待子进程退出&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org5219533"&gt;&lt;code&gt;waitpid&lt;/code&gt; 等待特定的子进程退出&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org9e4fbb5"&gt;例子：创建一系列子进程并等待&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgcbc3da7"&gt;管道 Pipe&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org9e2d968"&gt;管道 Pipe&lt;/a&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org54afe23"&gt;&lt;code&gt;pipe&lt;/code&gt; 创建管道&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgb8c8f19"&gt;例子：pingpong&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org5060c9e"&gt;&lt;code&gt;pipe&lt;/code&gt; 创建管道&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgdd4374a"&gt;例子：pingpong&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org4117894"&gt;信号量 System V Semaphores&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgb994410"&gt;信号量 System V Semaphores&lt;/a&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org58220ca"&gt;&lt;code&gt;semget&lt;/code&gt; 获得信号量集&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org3cac01b"&gt;&lt;code&gt;semctl&lt;/code&gt; 配置信号量集&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgfbe5484"&gt;&lt;code&gt;semop&lt;/code&gt; 操作信号&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgc7dcb88"&gt;例子：互斥锁&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orge575220"&gt;&lt;code&gt;semget&lt;/code&gt; 获得信号量集&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgc42dca4"&gt;&lt;code&gt;semctl&lt;/code&gt; 配置信号量集&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org025c727"&gt;&lt;code&gt;semop&lt;/code&gt; 操作信号&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orga9bead1"&gt;例子：互斥锁&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -33,18 +33,16 @@
 这篇文章主要讲如何利用 POSIX 标准库（C语言）进行多进程并行计算，包括如何启动和终止子进程和进程间通信的两种方法：管道（pipe）与信号量（semaphore）。
 至于其它的进程间通信方式，例如：共享内存（mmap）、网络（sockets）、信号（signal）和消息队列等，都是适用性更广也更复杂的技术，在这篇短文中无法涉及。
 &lt;/p&gt;
-
-&lt;div id="outline-container-org5224e9c" class="outline-2"&gt;
-&lt;h2 id="org5224e9c"&gt;启动和终止子进程&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5224e9c"&gt;
+&lt;div id="outline-container-orgd15720c" class="outline-2"&gt;
+&lt;h2 id="orgd15720c"&gt;启动和终止子进程&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd15720c"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;fork&lt;/code&gt; 创建子进程，使用 &lt;code&gt;wait&lt;/code&gt; 或 &lt;code&gt;waitpid&lt;/code&gt; 等待运行结束。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgcf39541" class="outline-3"&gt;
-&lt;h3 id="orgcf39541"&gt;&lt;code&gt;fork&lt;/code&gt; 创建子进程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgcf39541"&gt;
+&lt;div id="outline-container-orge1e81eb" class="outline-3"&gt;
+&lt;h3 id="orge1e81eb"&gt;&lt;code&gt;fork&lt;/code&gt; 创建子进程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge1e81eb"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;fork&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -70,10 +68,9 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org1f82455" class="outline-3"&gt;
-&lt;h3 id="org1f82455"&gt;&lt;code&gt;wait&lt;/code&gt; 等待子进程退出&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org1f82455"&gt;
+&lt;div id="outline-container-orgde4d535" class="outline-3"&gt;
+&lt;h3 id="orgde4d535"&gt;&lt;code&gt;wait&lt;/code&gt; 等待子进程退出&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgde4d535"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/wait.h&amp;gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;wait&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;stat_loc&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -94,10 +91,9 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgedc4002" class="outline-3"&gt;
-&lt;h3 id="orgedc4002"&gt;&lt;code&gt;waitpid&lt;/code&gt; 等待特定的子进程退出&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgedc4002"&gt;
+&lt;div id="outline-container-org5219533" class="outline-3"&gt;
+&lt;h3 id="org5219533"&gt;&lt;code&gt;waitpid&lt;/code&gt; 等待特定的子进程退出&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5219533"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/wait.h&amp;gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;waitpid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;stat_loc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;options&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -121,10 +117,9 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org99b7a52" class="outline-3"&gt;
-&lt;h3 id="org99b7a52"&gt;例子：创建一系列子进程并等待&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org99b7a52"&gt;
+&lt;div id="outline-container-org9e4fbb5" class="outline-3"&gt;
+&lt;h3 id="org9e4fbb5"&gt;例子：创建一系列子进程并等待&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9e4fbb5"&gt;
 &lt;p&gt;
 在这个例子中创建了 10 个子进程，按照创建顺序给它们标号，让这些进程按照创建顺序的逆序打印自己的序号，主进程则会等待到所有子进程退出再结束。
 &lt;/p&gt;
@@ -184,18 +179,16 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgcbc3da7" class="outline-2"&gt;
-&lt;h2 id="orgcbc3da7"&gt;管道 Pipe&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcbc3da7"&gt;
+&lt;div id="outline-container-org9e2d968" class="outline-2"&gt;
+&lt;h2 id="org9e2d968"&gt;管道 Pipe&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9e2d968"&gt;
 &lt;p&gt;
 POSIX 提供了单向管道，可以从一个进程向另一个进程单向地传输信息。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org54afe23" class="outline-3"&gt;
-&lt;h3 id="org54afe23"&gt;&lt;code&gt;pipe&lt;/code&gt; 创建管道&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org54afe23"&gt;
+&lt;div id="outline-container-org5060c9e" class="outline-3"&gt;
+&lt;h3 id="org5060c9e"&gt;&lt;code&gt;pipe&lt;/code&gt; 创建管道&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5060c9e"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;pipe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;fildes&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
@@ -218,10 +211,9 @@ POSIX 提供了单向管道，可以从一个进程向另一个进程单向地�
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgb8c8f19" class="outline-3"&gt;
-&lt;h3 id="orgb8c8f19"&gt;例子：pingpong&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb8c8f19"&gt;
+&lt;div id="outline-container-orgdd4374a" class="outline-3"&gt;
+&lt;h3 id="orgdd4374a"&gt;例子：pingpong&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgdd4374a"&gt;
 &lt;p&gt;
 两个进程之间互相发送数据，一个数据在两个管道之间来回传递，类似打乒乓球，这是 MPI 中最简单的例子
 &lt;/p&gt;
@@ -308,18 +300,16 @@ POSIX 提供了单向管道，可以从一个进程向另一个进程单向地�
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org4117894" class="outline-2"&gt;
-&lt;h2 id="org4117894"&gt;信号量 System V Semaphores&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4117894"&gt;
+&lt;div id="outline-container-orgb994410" class="outline-2"&gt;
+&lt;h2 id="orgb994410"&gt;信号量 System V Semaphores&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb994410"&gt;
 &lt;p&gt;
 信号量有两种，一个是旧的 System V 一个是标准 POSIX。System V 的支持更广，POSIX 标准在许多系统上都没有实现，所以这里只解释 System V 信号量。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org58220ca" class="outline-3"&gt;
-&lt;h3 id="org58220ca"&gt;&lt;code&gt;semget&lt;/code&gt; 获得信号量集&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org58220ca"&gt;
+&lt;div id="outline-container-orge575220" class="outline-3"&gt;
+&lt;h3 id="orge575220"&gt;&lt;code&gt;semget&lt;/code&gt; 获得信号量集&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge575220"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/sem.h&amp;gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;semget&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;key_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;nsems&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;semflg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -351,10 +341,9 @@ POSIX 提供了单向管道，可以从一个进程向另一个进程单向地�
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org3cac01b" class="outline-3"&gt;
-&lt;h3 id="org3cac01b"&gt;&lt;code&gt;semctl&lt;/code&gt; 配置信号量集&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org3cac01b"&gt;
+&lt;div id="outline-container-orgc42dca4" class="outline-3"&gt;
+&lt;h3 id="orgc42dca4"&gt;&lt;code&gt;semctl&lt;/code&gt; 配置信号量集&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc42dca4"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#include &amp;lt;sys/sem.h&amp;gt;
 
 int semctl(int semid, int semnum, int cmd, ...); /* union semun sem_perm */
@@ -396,10 +385,9 @@ union semun {
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgfbe5484" class="outline-3"&gt;
-&lt;h3 id="orgfbe5484"&gt;&lt;code&gt;semop&lt;/code&gt; 操作信号&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgfbe5484"&gt;
+&lt;div id="outline-container-org025c727" class="outline-3"&gt;
+&lt;h3 id="org025c727"&gt;&lt;code&gt;semop&lt;/code&gt; 操作信号&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org025c727"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#include &amp;lt;sys/sem.h&amp;gt;
 
 int semop(int semid, struct sembuf *sops, size_t nsops);
@@ -450,10 +438,9 @@ struct sembuf {
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgc7dcb88" class="outline-3"&gt;
-&lt;h3 id="orgc7dcb88"&gt;例子：互斥锁&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgc7dcb88"&gt;
+&lt;div id="outline-container-orga9bead1" class="outline-3"&gt;
+&lt;h3 id="orga9bead1"&gt;例子：互斥锁&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga9bead1"&gt;
 &lt;p&gt;
 这个例子里子进程和主进程一起对共享的变量 &lt;code&gt;shared_int&lt;/code&gt; 数数，如果不加锁，最后输出的数字会比 2000000 少，也就是出现了数据竞争，而加锁之后就不会出现这种问题了。
 可以注释掉 &lt;code&gt;lock&lt;/code&gt; 和 &lt;code&gt;unlock&lt;/code&gt; 来自己观察一下。
@@ -518,17 +505,16 @@ struct sembuf {
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>concurrency</category><category>parallel</category><guid>https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/</guid><pubDate>Tue, 24 Oct 2023 04:46:17 GMT</pubDate></item><item><title>PBLAS &amp; ScaLAPACK &amp; BLACS</title><link>https://chimez.github.io/posts/pblas-scalapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org6dbd54b" class="outline-2"&gt;
-&lt;h2 id="org6dbd54b"&gt;PBLAS &amp;amp; ScaLAPACK &amp;amp; BLACS&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6dbd54b"&gt;
+&lt;/div&gt;</description><category>C</category><category>concurrency</category><category>parallel</category><guid>https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/</guid><pubDate>Tue, 24 Oct 2023 04:46:17 GMT</pubDate></item><item><title>PBLAS &amp; ScaLAPACK &amp; BLACS</title><link>https://chimez.github.io/posts/pblas-scalapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgbc0f84b" class="outline-2"&gt;
+&lt;h2 id="orgbc0f84b"&gt;PBLAS &amp;amp; ScaLAPACK &amp;amp; BLACS&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbc0f84b"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/scalapack/"&gt;ScaLAPACK&lt;/a&gt; 是基于 MPI 的并行版本 LAPACK, &lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org6c20363" class="outline-3"&gt;
-&lt;h3 id="org6c20363"&gt;编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6c20363"&gt;
+&lt;div id="outline-container-org4afa186" class="outline-3"&gt;
+&lt;h3 id="org4afa186"&gt;编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4afa186"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;从 github 下载 &lt;a href="https://github.com/Reference-ScaLAPACK/scalapack/"&gt;https://github.com/Reference-ScaLAPACK/scalapack/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;修改 &lt;code&gt;SLmake.inc&lt;/code&gt; 文件中的 &lt;code&gt;FC&lt;/code&gt;, &lt;code&gt;CC&lt;/code&gt;, &lt;code&gt;BLASLIB&lt;/code&gt;, &lt;code&gt;LAPACKLIB&lt;/code&gt;&lt;/li&gt;
@@ -537,7 +523,7 @@ struct sembuf {
 &lt;p&gt;
 示例
 &lt;/p&gt;
-&lt;pre class="example" id="orgfd2e6a3"&gt;
+&lt;pre class="example" id="org8a2f33f"&gt;
 FC            = /home/beacon/app/openmpi/bin/mpif90
 CC            = /home/beacon/app/openmpi/bin/mpicc 
 NOOPT         = -O0 -std=legacy
@@ -550,10 +536,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 
 &lt;/pre&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org87b8ae6" class="outline-4"&gt;
-&lt;h4 id="org87b8ae6"&gt;GCC 10 不兼容&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org87b8ae6"&gt;
+&lt;div id="outline-container-orgbe346f5" class="outline-4"&gt;
+&lt;h4 id="orgbe346f5"&gt;GCC 10 不兼容&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbe346f5"&gt;
 &lt;p&gt;
 由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 &lt;code&gt;-fallow-argument-mismatch&lt;/code&gt; 或 &lt;code&gt;-std=legacy&lt;/code&gt; 来编译。
 &lt;/p&gt;
@@ -564,10 +549,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org2f8e94d" class="outline-3"&gt;
-&lt;h3 id="org2f8e94d"&gt;BLACS&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org2f8e94d"&gt;
+&lt;div id="outline-container-org5181841" class="outline-3"&gt;
+&lt;h3 id="org5181841"&gt;BLACS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5181841"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/blacs/index.html"&gt;BLACS&lt;/a&gt; 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
 &lt;/p&gt;
@@ -580,13 +564,13 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html"&gt;oneAPI/MKL/BLACS&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd162e52" class="outline-4"&gt;
-&lt;h4 id="orgd162e52"&gt;基本概念&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd162e52"&gt;
+&lt;div id="outline-container-org6a66968" class="outline-4"&gt;
+&lt;h4 id="org6a66968"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6a66968"&gt;
 &lt;/div&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org465cd9e"&gt;&lt;/a&gt;进程网格和范围操作&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org465cd9e"&gt;
+&lt;li&gt;&lt;a id="org71ea3dd"&gt;&lt;/a&gt;进程网格和范围操作&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org71ea3dd"&gt;
 &lt;p&gt;
 一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
 &lt;/p&gt;
@@ -606,9 +590,8 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org249ed9d"&gt;&lt;/a&gt;上下文&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org249ed9d"&gt;
+&lt;li&gt;&lt;a id="org67a9702"&gt;&lt;/a&gt;上下文&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org67a9702"&gt;
 &lt;p&gt;
 &lt;b&gt;上下文&lt;/b&gt; (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
 &lt;/p&gt;
@@ -626,17 +609,15 @@ BLACS 中有关上下文的函数有
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org29e9be0"&gt;&lt;/a&gt;基于数组的通信&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org29e9be0"&gt;
+&lt;li&gt;&lt;a id="org3eb7666"&gt;&lt;/a&gt;基于数组的通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org3eb7666"&gt;
 &lt;p&gt;
 BLACS 中有两个基本的数据模型
 &lt;/p&gt;
 &lt;/div&gt;
-
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orga6b5295"&gt;&lt;/a&gt;矩形矩阵&lt;br&gt;
-&lt;div class="outline-text-6" id="text-orga6b5295"&gt;
+&lt;li&gt;&lt;a id="org7dc880f"&gt;&lt;/a&gt;矩形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org7dc880f"&gt;
 &lt;p&gt;
 一维向量是特殊的矩形矩阵。
 &lt;/p&gt;
@@ -646,9 +627,8 @@ BLACS 中有两个基本的数据模型
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org856369d"&gt;&lt;/a&gt;梯形矩阵&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org856369d"&gt;
+&lt;li&gt;&lt;a id="org6483dea"&gt;&lt;/a&gt;梯形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org6483dea"&gt;
 &lt;p&gt;
 三角矩阵和对角矩阵是特殊的梯形矩阵。
 &lt;/p&gt;
@@ -665,9 +645,8 @@ BLACS 中有两个基本的数据模型
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org60a018b"&gt;&lt;/a&gt;无编号通信&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org60a018b"&gt;
+&lt;li&gt;&lt;a id="orgfb914ce"&gt;&lt;/a&gt;无编号通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgfb914ce"&gt;
 &lt;p&gt;
 BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 &lt;code&gt;SHIFT_RANGE&lt;/code&gt; 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
 &lt;/p&gt;
@@ -683,10 +662,9 @@ BLACS 的通信保证
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org0d0a1ed" class="outline-4"&gt;
-&lt;h4 id="org0d0a1ed"&gt;结构&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0d0a1ed"&gt;
+&lt;div id="outline-container-org10c5c9a" class="outline-4"&gt;
+&lt;h4 id="org10c5c9a"&gt;结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org10c5c9a"&gt;
 &lt;p&gt;
 BLACS 由 4 个部分构成
 &lt;/p&gt;
@@ -701,10 +679,9 @@ BLACS 由 4 个部分构成
 &lt;a href="https://www.netlib.org/blacs/BLACS/QRef.html"&gt;函数参考&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orgc7f5727"&gt;&lt;/a&gt;命名规则&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgc7f5727"&gt;
+&lt;li&gt;&lt;a id="orgcab1afa"&gt;&lt;/a&gt;命名规则&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgcab1afa"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;点到点通信与广播： &lt;code&gt;vXXYY2D&lt;/code&gt;
 &lt;ul class="org-ul"&gt;
@@ -865,9 +842,9 @@ BLACS 由 4 个部分构成
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf0a4691" class="outline-3"&gt;
-&lt;h3 id="orgf0a4691"&gt;PBLAS&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf0a4691"&gt;
+&lt;div id="outline-container-org7b71377" class="outline-3"&gt;
+&lt;h3 id="org7b71377"&gt;PBLAS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7b71377"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 &lt;code&gt;.h&lt;/code&gt; 头文件，得自己写。
 &lt;/p&gt;
@@ -877,25 +854,24 @@ BLACS 由 4 个部分构成
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org9f23c5d" class="outline-3"&gt;
-&lt;h3 id="org9f23c5d"&gt;ScaLAPACK&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9f23c5d"&gt;
+&lt;div id="outline-container-org7493854" class="outline-3"&gt;
+&lt;h3 id="org7493854"&gt;ScaLAPACK&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7493854"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfea164c" class="outline-4"&gt;
-&lt;h4 id="orgfea164c"&gt;基本方法&lt;/h4&gt;
+&lt;div id="outline-container-orgd34da54" class="outline-4"&gt;
+&lt;h4 id="orgd34da54"&gt;基本方法&lt;/h4&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>BLACS</category><category>BLAS</category><category>C</category><category>LAPACK</category><category>MPI</category><category>PBLAS</category><category>ScaLAPACK</category><guid>https://chimez.github.io/posts/pblas-scalapack/</guid><pubDate>Tue, 24 Aug 2021 04:31:22 GMT</pubDate></item><item><title>xxhash</title><link>https://chimez.github.io/posts/xxhash/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org3d58d70" class="outline-2"&gt;
-&lt;h2 id="org3d58d70"&gt;xxHash: 快速的哈希函数&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3d58d70"&gt;
+&lt;/div&gt;</description><category>BLACS</category><category>BLAS</category><category>C</category><category>LAPACK</category><category>MPI</category><category>PBLAS</category><category>ScaLAPACK</category><guid>https://chimez.github.io/posts/pblas-scalapack/</guid><pubDate>Tue, 24 Aug 2021 04:31:22 GMT</pubDate></item><item><title>xxhash</title><link>https://chimez.github.io/posts/xxhash/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgda76d7a" class="outline-2"&gt;
+&lt;h2 id="orgda76d7a"&gt;xxHash: 快速的哈希函数&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgda76d7a"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/Cyan4973/xxHash"&gt;Cyan4973/xxHash&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgbdacddf" class="outline-3"&gt;
-&lt;h3 id="orgbdacddf"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgbdacddf"&gt;
+&lt;div id="outline-container-org50ff9ec" class="outline-3"&gt;
+&lt;h3 id="org50ff9ec"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org50ff9ec"&gt;
 &lt;p&gt;
 meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&lt;/code&gt;
 &lt;/p&gt;
@@ -905,10 +881,9 @@ meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org14e48f4" class="outline-3"&gt;
-&lt;h3 id="org14e48f4"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org14e48f4"&gt;
+&lt;div id="outline-container-org9339520" class="outline-3"&gt;
+&lt;h3 id="org9339520"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9339520"&gt;
 &lt;p&gt;
 最快的哈希函数是 &lt;code&gt;XXH3_64bits&lt;/code&gt;
 &lt;/p&gt;
@@ -922,17 +897,16 @@ meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>hash</category><guid>https://chimez.github.io/posts/xxhash/</guid><pubDate>Fri, 06 Aug 2021 16:30:25 GMT</pubDate></item><item><title>klib</title><link>https://chimez.github.io/posts/klib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org9953a0a" class="outline-2"&gt;
-&lt;h2 id="org9953a0a"&gt;klib: 轻量级 c 头文件库&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9953a0a"&gt;
+&lt;/div&gt;</description><category>C</category><category>hash</category><guid>https://chimez.github.io/posts/xxhash/</guid><pubDate>Fri, 06 Aug 2021 16:30:25 GMT</pubDate></item><item><title>klib</title><link>https://chimez.github.io/posts/klib/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org7c6d7b0" class="outline-2"&gt;
+&lt;h2 id="org7c6d7b0"&gt;klib: 轻量级 c 头文件库&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org7c6d7b0"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/attractivechaos/klib"&gt;attractivechaos/klib&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org70160cf" class="outline-3"&gt;
-&lt;h3 id="org70160cf"&gt;khash.h&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org70160cf"&gt;
+&lt;div id="outline-container-org6bc07c2" class="outline-3"&gt;
+&lt;h3 id="org6bc07c2"&gt;khash.h&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6bc07c2"&gt;
 &lt;p&gt;
 快速轻量的哈希表库
 &lt;/p&gt;
@@ -991,9 +965,9 @@ meson 的 wrapDB 中有，所以只需要 &lt;code&gt;meson wrap install xxhash&
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>khash</category><category>klib</category><guid>https://chimez.github.io/posts/klib/</guid><pubDate>Fri, 06 Aug 2021 16:19:52 GMT</pubDate></item><item><title>MPI</title><link>https://chimez.github.io/posts/mpi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org9609caa" class="outline-2"&gt;
-&lt;h2 id="org9609caa"&gt;MPI: Message Passing Interface&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org9609caa"&gt;
+&lt;/div&gt;</description><category>C</category><category>khash</category><category>klib</category><guid>https://chimez.github.io/posts/klib/</guid><pubDate>Fri, 06 Aug 2021 16:19:52 GMT</pubDate></item><item><title>MPI</title><link>https://chimez.github.io/posts/mpi/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org68c3d6d" class="outline-2"&gt;
+&lt;h2 id="org68c3d6d"&gt;MPI: Message Passing Interface&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org68c3d6d"&gt;
 &lt;p&gt;
 MPI 是消息传递接口标准，主要的实现有 Intel MPI, OpenMPI 和 MPICH 等. MPI 标准目前有三版 MPI-1,MPI-2, MPI-3, 标准支持的语言是 c 和 fortran, c++ 支持在 MPI-3 中移除了。
 &lt;/p&gt;
@@ -1009,14 +983,13 @@ MPI 的优势：
 &lt;li&gt;可用：相当多的实现都可用，包括供应商提供的和开放获取的&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org21e244f" class="outline-3"&gt;
-&lt;h3 id="org21e244f"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org21e244f"&gt;
+&lt;div id="outline-container-orgaff38e8" class="outline-3"&gt;
+&lt;h3 id="orgaff38e8"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgaff38e8"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgdff8e30" class="outline-4"&gt;
-&lt;h4 id="orgdff8e30"&gt;程序结构&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgdff8e30"&gt;
+&lt;div id="outline-container-org087b803" class="outline-4"&gt;
+&lt;h4 id="org087b803"&gt;程序结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org087b803"&gt;
 &lt;p&gt;
 所有 MPI 程序都分以下几步
 &lt;/p&gt;
@@ -1031,19 +1004,17 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org5970111" class="outline-4"&gt;
-&lt;h4 id="org5970111"&gt;接口约定&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5970111"&gt;
+&lt;div id="outline-container-orgc9a5892" class="outline-4"&gt;
+&lt;h4 id="orgc9a5892"&gt;接口约定&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc9a5892"&gt;
 &lt;p&gt;
 所有 MPI 的函数都以 &lt;code&gt;MPI_&lt;/code&gt; 开头，并且下划线后的第一个字母大写，函数返回消息码 &lt;code&gt;rc&lt;/code&gt; , 如果成功就是 &lt;code&gt;MPI_SUCCESS&lt;/code&gt;, 即 &lt;code&gt;0&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org1cffc59" class="outline-4"&gt;
-&lt;h4 id="org1cffc59"&gt;基本概念&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1cffc59"&gt;
+&lt;div id="outline-container-orgbdca607" class="outline-4"&gt;
+&lt;h4 id="orgbdca607"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbdca607"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;b&gt;communicator&lt;/b&gt;: 通信器，定义哪些进程之间需要通信
 &lt;ol class="org-ol"&gt;
@@ -1055,10 +1026,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgc5373d4" class="outline-4"&gt;
-&lt;h4 id="orgc5373d4"&gt;MPI 版本&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc5373d4"&gt;
+&lt;div id="outline-container-orgd87fe70" class="outline-4"&gt;
+&lt;h4 id="orgd87fe70"&gt;MPI 版本&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd87fe70"&gt;
 &lt;p&gt;
 &lt;b&gt;MPI-1&lt;/b&gt; (1994) ：最早的版本，构建起了 MPI 的基本框架，包括
 &lt;/p&gt;
@@ -1107,10 +1077,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org6628f3f" class="outline-3"&gt;
-&lt;h3 id="org6628f3f"&gt;环境管理函数&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6628f3f"&gt;
+&lt;div id="outline-container-orgeb9d864" class="outline-3"&gt;
+&lt;h3 id="orgeb9d864"&gt;环境管理函数&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgeb9d864"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Init (&amp;amp;argc,&amp;amp;argv)&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -1180,14 +1149,13 @@ MPI 的优势：
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgff08bbf" class="outline-3"&gt;
-&lt;h3 id="orgff08bbf"&gt;点到点通信&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgff08bbf"&gt;
+&lt;div id="outline-container-org1eff52f" class="outline-3"&gt;
+&lt;h3 id="org1eff52f"&gt;点到点通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org1eff52f"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org9c8885e" class="outline-4"&gt;
-&lt;h4 id="org9c8885e"&gt;一般参数说明&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org9c8885e"&gt;
+&lt;div id="outline-container-org9bee9c0" class="outline-4"&gt;
+&lt;h4 id="org9bee9c0"&gt;一般参数说明&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org9bee9c0"&gt;
 &lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
 
 
@@ -1251,10 +1219,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org2797518" class="outline-4"&gt;
-&lt;h4 id="org2797518"&gt;常用阻塞点到点通信函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org2797518"&gt;
+&lt;div id="outline-container-orgcdd630e" class="outline-4"&gt;
+&lt;h4 id="orgcdd630e"&gt;常用阻塞点到点通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgcdd630e"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Send()&lt;/code&gt; 基本的发送消息, 只有当发送信道再次可用时才返回&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_Recv()&lt;/code&gt; 基本的接收消息，阻塞直到接收信道再次可用&lt;/li&gt;
@@ -1275,10 +1242,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org9c3f75a" class="outline-4"&gt;
-&lt;h4 id="org9c3f75a"&gt;常用非阻塞点到点通信函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org9c3f75a"&gt;
+&lt;div id="outline-container-org1f6ffe5" class="outline-4"&gt;
+&lt;h4 id="org1f6ffe5"&gt;常用非阻塞点到点通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org1f6ffe5"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Isend()&lt;/code&gt; 非阻塞发送，所指定的发送 buffer 应该在 &lt;code&gt;MPI_Probe()&lt;/code&gt; 确定已经发送完成之前不修改&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_Irecv()&lt;/code&gt; 非阻塞接收，同样不应该在确定接收完成前修改 buffer&lt;/li&gt;
@@ -1295,12 +1261,11 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;div id="outline-container-org718159c" class="outline-3"&gt;
+&lt;h3 id="org718159c"&gt;集体通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org718159c"&gt;
 
-&lt;div id="outline-container-org37c5e9e" class="outline-3"&gt;
-&lt;h3 id="org37c5e9e"&gt;集体通信&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org37c5e9e"&gt;
-
-&lt;div id="org84d733c" class="figure"&gt;
+&lt;div id="orga8349e3" class="figure"&gt;
 &lt;p&gt;&lt;img src="https://chimez.github.io/img/MPI:_Message_Passing_Interface/2021-07-04_18-47-40_collective_comm.gif" alt="nil"&gt;
 &lt;/p&gt;
 &lt;/div&gt;
@@ -1314,10 +1279,9 @@ MPI 的优势：
 &lt;li&gt;&lt;b&gt;集体计算(归约)&lt;/b&gt; min, max, add, multiply 等&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org0b6abb3" class="outline-4"&gt;
-&lt;h4 id="org0b6abb3"&gt;常用集体通信函数&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0b6abb3"&gt;
+&lt;div id="outline-container-org5b3b4c0" class="outline-4"&gt;
+&lt;h4 id="org5b3b4c0"&gt;常用集体通信函数&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5b3b4c0"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Barrier (comm)&lt;/code&gt; 同步所有进程&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_Bcast (&amp;amp;buffer,count,datatype,root,comm)&lt;/code&gt; 将数据从 &lt;code&gt;root&lt;/code&gt; 进程广播到所有进程&lt;/li&gt;
@@ -1333,10 +1297,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org68e53e6" class="outline-3"&gt;
-&lt;h3 id="org68e53e6"&gt;自定义数据类型&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org68e53e6"&gt;
+&lt;div id="outline-container-orgf664249" class="outline-3"&gt;
+&lt;h3 id="orgf664249"&gt;自定义数据类型&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgf664249"&gt;
 &lt;p&gt;
 用户定义的数据类型，称作 &lt;b&gt;derived data types&lt;/b&gt;
 &lt;/p&gt;
@@ -1351,10 +1314,9 @@ MPI 的优势：
 &lt;li&gt;&lt;code&gt;MPI_Type_free (&amp;amp;datatype)&lt;/code&gt; 释放指定类型的对象&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org3546ff1" class="outline-4"&gt;
-&lt;h4 id="org3546ff1"&gt;自定义结构体&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3546ff1"&gt;
+&lt;div id="outline-container-orgffb367c" class="outline-4"&gt;
+&lt;h4 id="orgffb367c"&gt;自定义结构体&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgffb367c"&gt;
 &lt;p&gt;
 &lt;code&gt;MPI_Type_create_struct(count, array_of_blocklengths, array_of_displacements, array_of_types, newtype)&lt;/code&gt;
 &lt;/p&gt;
@@ -1408,10 +1370,9 @@ MPI 的优势：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org0d89aa2" class="outline-3"&gt;
-&lt;h3 id="org0d89aa2"&gt;组和通信器管理&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0d89aa2"&gt;
+&lt;div id="outline-container-orgb82a4b1" class="outline-3"&gt;
+&lt;h3 id="orgb82a4b1"&gt;组和通信器管理&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb82a4b1"&gt;
 &lt;p&gt;
 &lt;b&gt;group&lt;/b&gt; 组是一些进程的有序集合，每个进程编号从 0 到 N-1, &lt;b&gt;communicator&lt;/b&gt; 通信器是一组需要相互通信的进程，每个组都有一个通信器。从编程的角度看，组是用来指定哪些进程相互通信，进而创建通信器的。
 &lt;/p&gt;
@@ -1428,10 +1389,9 @@ MPI 的优势：
 &lt;li&gt;使用 &lt;code&gt;MPI_Comm_free()&lt;/code&gt; 和 &lt;code&gt;MPI_Group_free()&lt;/code&gt; 释放不用的组和通信器对象&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org30f9523" class="outline-4"&gt;
-&lt;h4 id="org30f9523"&gt;基本通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org30f9523"&gt;
+&lt;div id="outline-container-orgec1af73" class="outline-4"&gt;
+&lt;h4 id="orgec1af73"&gt;基本通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgec1af73"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;MPI_COMM_WORLD&lt;/code&gt; 全部的进程&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;MPI_COMM_SELF&lt;/code&gt; 只包含当前进程&lt;/li&gt;
@@ -1443,10 +1403,9 @@ MPI 的优势：
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org1408583" class="outline-4"&gt;
-&lt;h4 id="org1408583"&gt;复制通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org1408583"&gt;
+&lt;div id="outline-container-org930fb92" class="outline-4"&gt;
+&lt;h4 id="org930fb92"&gt;复制通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org930fb92"&gt;
 &lt;p&gt;
 复制一个一样的通信器，主要用于库函数编写时防止修改全局参数    
 &lt;/p&gt;
@@ -1459,10 +1418,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgc3fb623" class="outline-4"&gt;
-&lt;h4 id="orgc3fb623"&gt;划分通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgc3fb623"&gt;
+&lt;div id="outline-container-orgd085196" class="outline-4"&gt;
+&lt;h4 id="orgd085196"&gt;划分通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgd085196"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;MPI_Comm_split(comm, color, key, newcomm)&lt;/code&gt;  将 &lt;code&gt;comm&lt;/code&gt; 中有相同 &lt;code&gt;color&lt;/code&gt; 的进程组成一个新的通信器 &lt;code&gt;newcomm&lt;/code&gt;, 新通信器中的 rank 由 &lt;code&gt;key&lt;/code&gt; 指定
 &lt;/p&gt;
@@ -1478,10 +1436,9 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org7673323" class="outline-4"&gt;
-&lt;h4 id="org7673323"&gt;从组创建通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7673323"&gt;
+&lt;div id="outline-container-org1686f0a" class="outline-4"&gt;
+&lt;h4 id="org1686f0a"&gt;从组创建通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org1686f0a"&gt;
 &lt;p&gt;
 组的类型是 &lt;code&gt;MPI_Group&lt;/code&gt;
 &lt;/p&gt;
@@ -1501,20 +1458,18 @@ MPI 的优势：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orga147826" class="outline-4"&gt;
-&lt;h4 id="orga147826"&gt;通信器间的通信器&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orga147826"&gt;
+&lt;div id="outline-container-org593c912" class="outline-4"&gt;
+&lt;h4 id="org593c912"&gt;通信器间的通信器&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org593c912"&gt;
 &lt;p&gt;
 &lt;code&gt;MPI_Intercomm_create(local_comm, local_leader, peer_comm, remote_leader, tag, newintercomm)&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org04091e6" class="outline-3"&gt;
-&lt;h3 id="org04091e6"&gt;虚拟拓扑&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org04091e6"&gt;
+&lt;div id="outline-container-org012852f" class="outline-3"&gt;
+&lt;h3 id="org012852f"&gt;虚拟拓扑&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org012852f"&gt;
 &lt;p&gt;
 MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互连接构成一个几何形状，这个网络拓扑是虚拟的，与物理实际的连接无关。
 &lt;/p&gt;
@@ -1524,14 +1479,13 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgbea9114" class="outline-3"&gt;
-&lt;h3 id="orgbea9114"&gt;单边通信&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgbea9114"&gt;
+&lt;div id="outline-container-orge748617" class="outline-3"&gt;
+&lt;h3 id="orge748617"&gt;单边通信&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge748617"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgecc6a8a" class="outline-4"&gt;
-&lt;h4 id="orgecc6a8a"&gt;基本概念&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgecc6a8a"&gt;
+&lt;div id="outline-container-orgff5a190" class="outline-4"&gt;
+&lt;h4 id="orgff5a190"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgff5a190"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;Remote Memory Access(RMA), Remote Direct Momory Access (RDMA), 远程内存访问
 &lt;ul class="org-ul"&gt;
@@ -1555,10 +1509,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org479d1cc" class="outline-4"&gt;
-&lt;h4 id="org479d1cc"&gt;窗口&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org479d1cc"&gt;
+&lt;div id="outline-container-orgf0334ad" class="outline-4"&gt;
+&lt;h4 id="orgf0334ad"&gt;窗口&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf0334ad"&gt;
 &lt;p&gt;
 用于单边通信的内存区域就是窗口，变量类型为 &lt;code&gt;MPI_Win&lt;/code&gt;, 进程可以向其中存取任何东西
 &lt;/p&gt;
@@ -1593,10 +1546,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgb79308a" class="outline-4"&gt;
-&lt;h4 id="orgb79308a"&gt;动态分配内存&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgb79308a"&gt;
+&lt;div id="outline-container-orgb387fa1" class="outline-4"&gt;
+&lt;h4 id="orgb387fa1"&gt;动态分配内存&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgb387fa1"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;MPI_Win_create_dynamic(MPI_Info info, MPI_Comm comm, MPI_Win *win)&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -1722,10 +1674,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org66e81e1" class="outline-4"&gt;
-&lt;h4 id="org66e81e1"&gt;共享内存&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org66e81e1"&gt;
+&lt;div id="outline-container-org83cae62" class="outline-4"&gt;
+&lt;h4 id="org83cae62"&gt;共享内存&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org83cae62"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;int MPI_Comm_split_type(MPI_Comm comm, int split_type, int key, MPI_Info info, MPI_Comm *newcomm)&lt;/code&gt;
 &lt;ol class="org-ol"&gt;
@@ -1799,10 +1750,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org579a3f8" class="outline-3"&gt;
-&lt;h3 id="org579a3f8"&gt;混合多线程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org579a3f8"&gt;
+&lt;div id="outline-container-org37608b6" class="outline-3"&gt;
+&lt;h3 id="org37608b6"&gt;混合多线程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org37608b6"&gt;
 &lt;p&gt;
 混合多线程的策略：
 &lt;/p&gt;
@@ -1816,10 +1766,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 大量实践认为混合多线程并不会比纯 MPI 速度快。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org288057a" class="outline-4"&gt;
-&lt;h4 id="org288057a"&gt;线程初始化&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org288057a"&gt;
+&lt;div id="outline-container-orgc148524" class="outline-4"&gt;
+&lt;h4 id="orgc148524"&gt;线程初始化&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgc148524"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;MPI_Init_thread()&lt;/code&gt; 初始化带有线程的 MPI，可用的选项有（注意并不是所有MPI实现都提供下面全部的模式）
 &lt;/p&gt;
@@ -1841,14 +1790,13 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org41ff994" class="outline-2"&gt;
-&lt;h2 id="org41ff994"&gt;设计模式&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org41ff994"&gt;
+&lt;div id="outline-container-orgba66bc2" class="outline-2"&gt;
+&lt;h2 id="orgba66bc2"&gt;设计模式&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgba66bc2"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org4a2e250" class="outline-3"&gt;
-&lt;h3 id="org4a2e250"&gt;为每个节点创建一个通信器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org4a2e250"&gt;
+&lt;div id="outline-container-orgdf3bb64" class="outline-3"&gt;
+&lt;h3 id="orgdf3bb64"&gt;为每个节点创建一个通信器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgdf3bb64"&gt;
 &lt;p&gt;
 用于创建节点内部的共享内存窗口
 &lt;/p&gt;
@@ -1870,10 +1818,9 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org5255f2a" class="outline-3"&gt;
-&lt;h3 id="org5255f2a"&gt;非自旋等待&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org5255f2a"&gt;
+&lt;div id="outline-container-org84f97a9" class="outline-3"&gt;
+&lt;h3 id="org84f97a9"&gt;非自旋等待&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org84f97a9"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;阻塞通信是自旋锁，会一直燃烧 CPU， 为了给某个进程上的多线程任务让出 CPU，需要让其它进程非自旋等待&lt;/li&gt;
 &lt;li&gt;使用 &lt;code&gt;MPI_Iprobe()&lt;/code&gt; 非阻塞地探测信号，并在探测周期中 &lt;code&gt;sleep()&lt;/code&gt;&lt;/li&gt;
@@ -1914,15 +1861,14 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgfe9d500" class="outline-3"&gt;
-&lt;h3 id="orgfe9d500"&gt;模拟单线程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgfe9d500"&gt;
+&lt;div id="outline-container-orgb2d0c27" class="outline-3"&gt;
+&lt;h3 id="orgb2d0c27"&gt;模拟单线程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb2d0c27"&gt;
 &lt;p&gt;
 随便写一个变量，按照顺序一个接一个的发送下去
 &lt;/p&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;mpi4py&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MPI&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;   &lt;span class="kn"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nn"&gt;mpi4py&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MPI&lt;/span&gt;
 
    &lt;span class="n"&gt;comm&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MPI&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;COMM_WORLD&lt;/span&gt;
    &lt;span class="n"&gt;proc_rank&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;comm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Get_rank&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -1942,17 +1888,16 @@ MPI 的术语 &lt;b&gt;virtual topologies&lt;/b&gt; 指的是一些进程相互�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>MPI</category><category>parallel</category><guid>https://chimez.github.io/posts/mpi/</guid><pubDate>Sun, 04 Jul 2021 09:00:31 GMT</pubDate></item><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgdd2887c" class="outline-2"&gt;
-&lt;h2 id="orgdd2887c"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgdd2887c"&gt;
+&lt;/div&gt;</description><category>C</category><category>MPI</category><category>parallel</category><guid>https://chimez.github.io/posts/mpi/</guid><pubDate>Sun, 04 Jul 2021 09:00:31 GMT</pubDate></item><item><title>SLEPc</title><link>https://chimez.github.io/posts/slepc/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgf051928" class="outline-2"&gt;
+&lt;h2 id="orgf051928"&gt;SLEPc: PETSc 的本征值求解器扩展&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf051928"&gt;
 &lt;p&gt;
 &lt;a href="https://slepc.upv.es/"&gt;SLEPc&lt;/a&gt; 是用来求 PETSc 矩阵的扩展库。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org67f9c2a" class="outline-3"&gt;
-&lt;h3 id="org67f9c2a"&gt;基本结构&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org67f9c2a"&gt;
+&lt;div id="outline-container-orgc313a1a" class="outline-3"&gt;
+&lt;h3 id="orgc313a1a"&gt;基本结构&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc313a1a"&gt;
 &lt;p&gt;
 SLEPc 有以下基本部分构成
 &lt;/p&gt;
@@ -1976,10 +1921,9 @@ SLEPc 有以下基本部分构成
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org9b23fa7" class="outline-3"&gt;
-&lt;h3 id="org9b23fa7"&gt;安装&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9b23fa7"&gt;
+&lt;div id="outline-container-orgafb6b93" class="outline-3"&gt;
+&lt;h3 id="orgafb6b93"&gt;安装&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgafb6b93"&gt;
 &lt;p&gt;
 下载时注意，SLEPc 的版本必须和 PETSc 版本一样
 &lt;/p&gt;
@@ -1996,10 +1940,9 @@ SLEPc 有以下基本部分构成
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org31cb211" class="outline-3"&gt;
-&lt;h3 id="org31cb211"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org31cb211"&gt;
+&lt;div id="outline-container-orgc982cbe" class="outline-3"&gt;
+&lt;h3 id="orgc982cbe"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc982cbe"&gt;
 &lt;p&gt;
 程序开始和结束时分别调用 &lt;code&gt;SlepcInitialize()&lt;/code&gt; 和 &lt;code&gt;SlepcFinalize()&lt;/code&gt;, 实际上就是 &lt;code&gt;PetscInitialize()&lt;/code&gt; 和 &lt;code&gt;PetscFinalize()&lt;/code&gt;
 &lt;/p&gt;
@@ -2009,14 +1952,13 @@ SLEPc 有以下基本部分构成
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgf758235" class="outline-3"&gt;
-&lt;h3 id="orgf758235"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf758235"&gt;
+&lt;div id="outline-container-orgfcf1d5d" class="outline-3"&gt;
+&lt;h3 id="orgfcf1d5d"&gt;EPS: 矩阵本征值求解器&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgfcf1d5d"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf18aa02" class="outline-4"&gt;
-&lt;h4 id="orgf18aa02"&gt;基本使用&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf18aa02"&gt;
+&lt;div id="outline-container-orgce3069c" class="outline-4"&gt;
+&lt;h4 id="orgce3069c"&gt;基本使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgce3069c"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSCreate(MPI_Comm comm,EPS *eps);&lt;/code&gt; 
 &lt;ol class="org-ol"&gt;
@@ -2168,14 +2110,13 @@ SLEPc 有以下基本部分构成
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org5b6cc0f" class="outline-4"&gt;
-&lt;h4 id="org5b6cc0f"&gt;求解器配置&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5b6cc0f"&gt;
+&lt;div id="outline-container-orgeb49ac0" class="outline-4"&gt;
+&lt;h4 id="orgeb49ac0"&gt;求解器配置&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgeb49ac0"&gt;
 &lt;/div&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org2bca626"&gt;&lt;/a&gt;问题类型&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org2bca626"&gt;
+&lt;li&gt;&lt;a id="org447e407"&gt;&lt;/a&gt;问题类型&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org447e407"&gt;
 &lt;p&gt;
 问题类型使用 &lt;code&gt;EPSSetProblemType(EPS eps,EPSProblemType type);&lt;/code&gt; 进行设置
 &lt;/p&gt;
@@ -2250,9 +2191,8 @@ SLEPc 有以下基本部分构成
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="orgd9dae04"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgd9dae04"&gt;
+&lt;li&gt;&lt;a id="org543ebc4"&gt;&lt;/a&gt;求解本征值个数&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org543ebc4"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;EPSSetDimensions(EPS eps,PetscInt nev,PetscInt ncv,PetscInt mpd);&lt;/code&gt; 设置要求的本征值个数
 &lt;/p&gt;
@@ -2263,9 +2203,8 @@ SLEPc 有以下基本部分构成
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="orgad8d770"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgad8d770"&gt;
+&lt;li&gt;&lt;a id="orge76444a"&gt;&lt;/a&gt;求解本征值位置&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orge76444a"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSSetWhichEigenpairs(EPS eps,EPSWhich which);&lt;/code&gt; 设置要求本征值的位置&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSSetTarget(EPS eps,PetscScalar target);&lt;/code&gt; 设置计算距离某个值最近的本征值&lt;/li&gt;
@@ -2363,9 +2302,8 @@ SLEPc 有以下基本部分构成
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org417bd95"&gt;&lt;/a&gt;选择算法&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org417bd95"&gt;
+&lt;li&gt;&lt;a id="org146797a"&gt;&lt;/a&gt;选择算法&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org146797a"&gt;
 &lt;p&gt;
 通过 &lt;code&gt;EPSSetType(EPS eps,EPSType method);&lt;/code&gt; 设置求解器使用的算法
 &lt;/p&gt;
@@ -2548,9 +2486,8 @@ SLEPc 支持的算法有
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org7303e90"&gt;&lt;/a&gt;获得结果&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org7303e90"&gt;
+&lt;li&gt;&lt;a id="org06352e6"&gt;&lt;/a&gt;获得结果&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org06352e6"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;EPSGetConverged(EPS eps,PetscInt *nconv);&lt;/code&gt; 获得收敛的解个数&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;EPSGetEigenpair(EPS eps,PetscInt j,PetscScalar *kr,PetscScalar *ki,Vec xr,Vec xi);&lt;/code&gt; 获得本征值和本征矢&lt;/li&gt;
@@ -2583,49 +2520,45 @@ SLEPc 支持的算法有
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="orgfccb0d8"&gt;&lt;/a&gt;其它设置&lt;br&gt;
+&lt;li&gt;&lt;a id="org372bfaf"&gt;&lt;/a&gt;其它设置&lt;br&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orgaf6461a"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
-&lt;div class="outline-text-6" id="text-orgaf6461a"&gt;
+&lt;li&gt;&lt;a id="orgc6e3cd9"&gt;&lt;/a&gt;初始猜解&lt;br&gt;
+&lt;div class="outline-text-6" id="text-orgc6e3cd9"&gt;
 &lt;p&gt;
 &lt;code&gt;EPSSetInitialSpace(EPS eps,PetscInt n,Vec is[]);&lt;/code&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;a id="orge5bdaec"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org50ba269"&gt;&lt;/a&gt;处理简并&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="orgdc180c6"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org4fa15ba"&gt;&lt;/a&gt;选择正交化方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="orga5c2644"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;a id="org116b15f"&gt;&lt;/a&gt;选择滤波算法&lt;br&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org0628e57"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a id="orgad65c2f"&gt;&lt;/a&gt;计算大量本征值的方法&lt;br&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>MPI</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>pthread</title><link>https://chimez.github.io/posts/pthread/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org44b19ee" class="outline-2"&gt;
-&lt;h2 id="org44b19ee"&gt;pthread: POSIX Threads&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org44b19ee"&gt;
+&lt;/div&gt;</description><category>C</category><category>eigenvalue</category><category>MPI</category><category>parallel</category><category>petsc</category><guid>https://chimez.github.io/posts/slepc/</guid><pubDate>Sat, 03 Jul 2021 05:08:47 GMT</pubDate></item><item><title>pthread</title><link>https://chimez.github.io/posts/pthread/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org13eaff9" class="outline-2"&gt;
+&lt;h2 id="org13eaff9"&gt;pthread: POSIX Threads&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org13eaff9"&gt;
 &lt;p&gt;
 pthread 是 POSIX 标准的线程 API, 放在头文件 &lt;code&gt;&amp;lt;pthread.h&amp;gt;&lt;/code&gt; 中，并由 libc 提供实现。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgbbcf8bb" class="outline-4"&gt;
-&lt;h4 id="orgbbcf8bb"&gt;参考&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgbbcf8bb"&gt;
+&lt;div id="outline-container-org495a3d0" class="outline-4"&gt;
+&lt;h4 id="org495a3d0"&gt;参考&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org495a3d0"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;a href="https://hpc-tutorials.llnl.gov/posix/"&gt;llnl 教程&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orga8fae18" class="outline-3"&gt;
-&lt;h3 id="orga8fae18"&gt;pthread API&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga8fae18"&gt;
+&lt;div id="outline-container-org9d45c01" class="outline-3"&gt;
+&lt;h3 id="org9d45c01"&gt;pthread API&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9d45c01"&gt;
 &lt;p&gt;
 标准 pthread API 包括以下几部分
 &lt;/p&gt;
@@ -2705,14 +2638,13 @@ API 命名结构如下：
 &lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org601701c" class="outline-3"&gt;
-&lt;h3 id="org601701c"&gt;线程管理&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org601701c"&gt;
+&lt;div id="outline-container-org4d03554" class="outline-3"&gt;
+&lt;h3 id="org4d03554"&gt;线程管理&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4d03554"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org56efea1" class="outline-4"&gt;
-&lt;h4 id="org56efea1"&gt;创建和终止线程&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org56efea1"&gt;
+&lt;div id="outline-container-org22bb3ab" class="outline-4"&gt;
+&lt;h4 id="org22bb3ab"&gt;创建和终止线程&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org22bb3ab"&gt;
 &lt;p&gt;
 包括以下函数
 &lt;/p&gt;
@@ -2733,10 +2665,9 @@ API 命名结构如下：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org7b2f297" class="outline-4"&gt;
-&lt;h4 id="org7b2f297"&gt;合并和检测线程&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org7b2f297"&gt;
+&lt;div id="outline-container-org5865e56" class="outline-4"&gt;
+&lt;h4 id="org5865e56"&gt;合并和检测线程&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5865e56"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_join (threadid,status)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_detach (threadid)&lt;/code&gt;&lt;/li&gt;
@@ -2752,10 +2683,9 @@ API 命名结构如下：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org203abd7" class="outline-4"&gt;
-&lt;h4 id="org203abd7"&gt;栈管理&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org203abd7"&gt;
+&lt;div id="outline-container-org8a0db8c" class="outline-4"&gt;
+&lt;h4 id="org8a0db8c"&gt;栈管理&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org8a0db8c"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_attr_getstacksize (attr, stacksize)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_attr_setstacksize (attr, stacksize)&lt;/code&gt;&lt;/li&gt;
@@ -2771,10 +2701,9 @@ API 命名结构如下：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org5aac19d" class="outline-4"&gt;
-&lt;h4 id="org5aac19d"&gt;其它&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org5aac19d"&gt;
+&lt;div id="outline-container-org78b1caa" class="outline-4"&gt;
+&lt;h4 id="org78b1caa"&gt;其它&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org78b1caa"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_self ()&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_equal (thread1,thread2)&lt;/code&gt;&lt;/li&gt;
@@ -2783,10 +2712,9 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org58d3134" class="outline-3"&gt;
-&lt;h3 id="org58d3134"&gt;互斥锁&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org58d3134"&gt;
+&lt;div id="outline-container-orgafd1f51" class="outline-3"&gt;
+&lt;h3 id="orgafd1f51"&gt;互斥锁&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgafd1f51"&gt;
 &lt;p&gt;
 典型的使用锁的过程是
 &lt;/p&gt;
@@ -2800,10 +2728,9 @@ API 命名结构如下：
 &lt;li&gt;最终锁被销毁&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgd10dbef" class="outline-4"&gt;
-&lt;h4 id="orgd10dbef"&gt;创建和销毁锁&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd10dbef"&gt;
+&lt;div id="outline-container-org67fa40a" class="outline-4"&gt;
+&lt;h4 id="org67fa40a"&gt;创建和销毁锁&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org67fa40a"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_mutex_init (mutex,attr)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_mutex_destroy (mutex)&lt;/code&gt;&lt;/li&gt;
@@ -2819,10 +2746,9 @@ API 命名结构如下：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org2d053c1" class="outline-4"&gt;
-&lt;h4 id="org2d053c1"&gt;加锁和解锁&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org2d053c1"&gt;
+&lt;div id="outline-container-org33d1f43" class="outline-4"&gt;
+&lt;h4 id="org33d1f43"&gt;加锁和解锁&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org33d1f43"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_mutex_lock (mutex)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_mutex_trylock (mutex)&lt;/code&gt;&lt;/li&gt;
@@ -2831,18 +2757,16 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgdc5c066" class="outline-3"&gt;
-&lt;h3 id="orgdc5c066"&gt;条件变量&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgdc5c066"&gt;
+&lt;div id="outline-container-org8997b6a" class="outline-3"&gt;
+&lt;h3 id="org8997b6a"&gt;条件变量&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org8997b6a"&gt;
 &lt;p&gt;
 条件变量也是用于线程间同步的机制，与加锁的共享内存不同，条件变量用于传递消息。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org4c6f97c" class="outline-4"&gt;
-&lt;h4 id="org4c6f97c"&gt;创建和销毁条件变量&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org4c6f97c"&gt;
+&lt;div id="outline-container-org5a69549" class="outline-4"&gt;
+&lt;h4 id="org5a69549"&gt;创建和销毁条件变量&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org5a69549"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_cond_init (condition,attr)&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_cond_destroy (condition)&lt;/code&gt;&lt;/li&gt;
@@ -2858,10 +2782,9 @@ API 命名结构如下：
 &lt;/ol&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgf89fa11" class="outline-4"&gt;
-&lt;h4 id="orgf89fa11"&gt;等待和通信&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf89fa11"&gt;
+&lt;div id="outline-container-org0f30990" class="outline-4"&gt;
+&lt;h4 id="org0f30990"&gt;等待和通信&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org0f30990"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;&lt;code&gt;pthread_cond_wait (condition,mutex)&lt;/code&gt; 阻止线程直到某个条件被通信过来，应该在加锁时使用，会在等待时自动释放锁，当获得信号时又会把锁加回来&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pthread_cond_signal (condition)&lt;/code&gt; 用来向其它等待中的线程传递信号，应该在加锁时使用，在操作后传信号，最后解锁&lt;/li&gt;
@@ -2878,17 +2801,16 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>multithreading</category><category>parallel</category><category>pthread</category><guid>https://chimez.github.io/posts/pthread/</guid><pubDate>Thu, 01 Jul 2021 13:24:50 GMT</pubDate></item><item><title>ck: Concurrency Kit</title><link>https://chimez.github.io/posts/ck-concurrency-kit/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org312ace4" class="outline-2"&gt;
-&lt;h2 id="org312ace4"&gt;ck: Concurrency Kit&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org312ace4"&gt;
+&lt;/div&gt;</description><category>C</category><category>multithreading</category><category>parallel</category><category>pthread</category><guid>https://chimez.github.io/posts/pthread/</guid><pubDate>Thu, 01 Jul 2021 13:24:50 GMT</pubDate></item><item><title>ck: Concurrency Kit</title><link>https://chimez.github.io/posts/ck-concurrency-kit/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org6b2810f" class="outline-2"&gt;
+&lt;h2 id="org6b2810f"&gt;ck: Concurrency Kit&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6b2810f"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/concurrencykit/ck"&gt;ck&lt;/a&gt; 是一个c语言的高并发数据结构库，内存安全并且无阻塞。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org0e9434b" class="outline-3"&gt;
-&lt;h3 id="org0e9434b"&gt;ck&lt;sub&gt;ht.h&lt;/sub&gt;: HashTable&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0e9434b"&gt;
+&lt;div id="outline-container-orgb7d230c" class="outline-3"&gt;
+&lt;h3 id="orgb7d230c"&gt;ck&lt;sub&gt;ht.h&lt;/sub&gt;: HashTable&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb7d230c"&gt;
 &lt;p&gt;
 哈希表包括在头文件 &lt;code&gt;ck_ht.h&lt;/code&gt; 中，主要的数据类型有
 &lt;/p&gt;
@@ -2899,10 +2821,9 @@ API 命名结构如下：
 &lt;li&gt;&lt;code&gt;ck_ht_iterator_t&lt;/code&gt; 用来遍历哈希表的迭代器&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org05b402b" class="outline-4"&gt;
-&lt;h4 id="org05b402b"&gt;初始化哈希表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org05b402b"&gt;
+&lt;div id="outline-container-org655280d" class="outline-4"&gt;
+&lt;h4 id="org655280d"&gt;初始化哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org655280d"&gt;
 &lt;p&gt;
 函数 &lt;code&gt;ck_hs_init&lt;/code&gt;
 参数说明：
@@ -2951,10 +2872,9 @@ API 命名结构如下：
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org86c355c" class="outline-4"&gt;
-&lt;h4 id="org86c355c"&gt;读写哈希表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org86c355c"&gt;
+&lt;div id="outline-container-orgf0187c3" class="outline-4"&gt;
+&lt;h4 id="orgf0187c3"&gt;读写哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf0187c3"&gt;
 &lt;p&gt;
 基本的逻辑是
 &lt;/p&gt;
@@ -2993,10 +2913,9 @@ API 命名结构如下：
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org3e141c7" class="outline-4"&gt;
-&lt;h4 id="org3e141c7"&gt;遍历哈希表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3e141c7"&gt;
+&lt;div id="outline-container-orgeff5201" class="outline-4"&gt;
+&lt;h4 id="orgeff5201"&gt;遍历哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgeff5201"&gt;
 &lt;p&gt;
 基本步骤
 &lt;/p&gt;
@@ -3021,17 +2940,16 @@ API 命名结构如下：
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>concurrency</category><category>hashmap</category><guid>https://chimez.github.io/posts/ck-concurrency-kit/</guid><pubDate>Sun, 27 Jun 2021 14:09:24 GMT</pubDate></item><item><title>greatest</title><link>https://chimez.github.io/posts/greatest/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org3e247e9" class="outline-2"&gt;
-&lt;h2 id="org3e247e9"&gt;greatest: c 的单元测试&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3e247e9"&gt;
+&lt;/div&gt;</description><category>C</category><category>concurrency</category><category>hashmap</category><guid>https://chimez.github.io/posts/ck-concurrency-kit/</guid><pubDate>Sun, 27 Jun 2021 14:09:24 GMT</pubDate></item><item><title>greatest</title><link>https://chimez.github.io/posts/greatest/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org3abadab" class="outline-2"&gt;
+&lt;h2 id="org3abadab"&gt;greatest: c 的单元测试&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org3abadab"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/silentbicycle/greatest"&gt;greatest&lt;/a&gt; 是 c 的一个单个头文件库，用于写单元测试
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgb3a4208" class="outline-3"&gt;
-&lt;h3 id="orgb3a4208"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb3a4208"&gt;
+&lt;div id="outline-container-org21d3ad1" class="outline-3"&gt;
+&lt;h3 id="org21d3ad1"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org21d3ad1"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;"greatest.h"&lt;/span&gt;
 
 &lt;span class="cm"&gt;/* A test runs various assertions, then calls PASS(), FAIL(), or SKIP(). */&lt;/span&gt;
@@ -3071,30 +2989,28 @@ API 命名结构如下：
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>unittest</category><guid>https://chimez.github.io/posts/greatest/</guid><pubDate>Sun, 27 Jun 2021 07:47:29 GMT</pubDate></item><item><title>gtags</title><link>https://chimez.github.io/posts/gtags/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org4bf89fb" class="outline-2"&gt;
-&lt;h2 id="org4bf89fb"&gt;global(gtags) 代码标签&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4bf89fb"&gt;
+&lt;/div&gt;</description><category>C</category><category>unittest</category><guid>https://chimez.github.io/posts/greatest/</guid><pubDate>Sun, 27 Jun 2021 07:47:29 GMT</pubDate></item><item><title>gtags</title><link>https://chimez.github.io/posts/gtags/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org1beac84" class="outline-2"&gt;
+&lt;h2 id="org1beac84"&gt;global(gtags) 代码标签&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org1beac84"&gt;
 &lt;p&gt;
 &lt;a href="https://www.gnu.org/software/global/globaldoc_toc.html"&gt;global&lt;/a&gt; 是代码标签工具，用来辅助编辑器做补全。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org282eefe" class="outline-3"&gt;
-&lt;h3 id="org282eefe"&gt;基本使用&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org282eefe"&gt;
+&lt;div id="outline-container-orgd38e9a3" class="outline-3"&gt;
+&lt;h3 id="orgd38e9a3"&gt;基本使用&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgd38e9a3"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgeccf69e" class="outline-4"&gt;
-&lt;h4 id="orgeccf69e"&gt;生成标签&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgeccf69e"&gt;
+&lt;div id="outline-container-org3bb39fa" class="outline-4"&gt;
+&lt;h4 id="org3bb39fa"&gt;生成标签&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org3bb39fa"&gt;
 &lt;p&gt;
 在项目的根目录下执行 &lt;code&gt;gtags&lt;/code&gt; 就会生成 &lt;code&gt;GPATH&lt;/code&gt;, &lt;code&gt;GRTAGS&lt;/code&gt;, &lt;code&gt;GTAGS&lt;/code&gt; 三个文件
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgfefee78" class="outline-4"&gt;
-&lt;h4 id="orgfefee78"&gt;命令行使用&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgfefee78"&gt;
+&lt;div id="outline-container-org98525b3" class="outline-4"&gt;
+&lt;h4 id="org98525b3"&gt;命令行使用&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org98525b3"&gt;
 &lt;p&gt;
 命令行下可以用
 &lt;/p&gt;

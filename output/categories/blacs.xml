@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 BLACS 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/blacs.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 24 Oct 2023 10:00:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PBLAS &amp; ScaLAPACK &amp; BLACS</title><link>https://chimez.github.io/posts/pblas-scalapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org6dbd54b" class="outline-2"&gt;
-&lt;h2 id="org6dbd54b"&gt;PBLAS &amp;amp; ScaLAPACK &amp;amp; BLACS&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6dbd54b"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 BLACS 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/blacs.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2025 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 18 Jun 2025 02:51:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>PBLAS &amp; ScaLAPACK &amp; BLACS</title><link>https://chimez.github.io/posts/pblas-scalapack/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-orgbc0f84b" class="outline-2"&gt;
+&lt;h2 id="orgbc0f84b"&gt;PBLAS &amp;amp; ScaLAPACK &amp;amp; BLACS&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbc0f84b"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/scalapack/"&gt;ScaLAPACK&lt;/a&gt; 是基于 MPI 的并行版本 LAPACK, &lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 则是并行版本的 BLAS. 其中 PBLAS 是嵌入到 ScaLAPACK 里的，这与 LAPACK 经常嵌入到 BLAS 里刚好反过来
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org6c20363" class="outline-3"&gt;
-&lt;h3 id="org6c20363"&gt;编译&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org6c20363"&gt;
+&lt;div id="outline-container-org4afa186" class="outline-3"&gt;
+&lt;h3 id="org4afa186"&gt;编译&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org4afa186"&gt;
 &lt;ol class="org-ol"&gt;
 &lt;li&gt;从 github 下载 &lt;a href="https://github.com/Reference-ScaLAPACK/scalapack/"&gt;https://github.com/Reference-ScaLAPACK/scalapack/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;修改 &lt;code&gt;SLmake.inc&lt;/code&gt; 文件中的 &lt;code&gt;FC&lt;/code&gt;, &lt;code&gt;CC&lt;/code&gt;, &lt;code&gt;BLASLIB&lt;/code&gt;, &lt;code&gt;LAPACKLIB&lt;/code&gt;&lt;/li&gt;
@@ -18,7 +17,7 @@
 &lt;p&gt;
 示例
 &lt;/p&gt;
-&lt;pre class="example" id="orgfd2e6a3"&gt;
+&lt;pre class="example" id="org8a2f33f"&gt;
 FC            = /home/beacon/app/openmpi/bin/mpif90
 CC            = /home/beacon/app/openmpi/bin/mpicc 
 NOOPT         = -O0 -std=legacy
@@ -31,10 +30,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 
 &lt;/pre&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org87b8ae6" class="outline-4"&gt;
-&lt;h4 id="org87b8ae6"&gt;GCC 10 不兼容&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org87b8ae6"&gt;
+&lt;div id="outline-container-orgbe346f5" class="outline-4"&gt;
+&lt;h4 id="orgbe346f5"&gt;GCC 10 不兼容&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgbe346f5"&gt;
 &lt;p&gt;
 由于 GCC 10 根据最新的 fortran 标准，要求参数类型匹配，所以老代码不给通过，可以添加 &lt;code&gt;-fallow-argument-mismatch&lt;/code&gt; 或 &lt;code&gt;-std=legacy&lt;/code&gt; 来编译。
 &lt;/p&gt;
@@ -45,10 +43,9 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org2f8e94d" class="outline-3"&gt;
-&lt;h3 id="org2f8e94d"&gt;BLACS&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org2f8e94d"&gt;
+&lt;div id="outline-container-org5181841" class="outline-3"&gt;
+&lt;h3 id="org5181841"&gt;BLACS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5181841"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/blacs/index.html"&gt;BLACS&lt;/a&gt; 的目的是提供一组在分布内存系统上的线性代数的标准通信接口，主要是作为 ScaLAPACK 的通信层。
 &lt;/p&gt;
@@ -61,13 +58,13 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;a href="https://software.intel.com/content/www/us/en/develop/documentation/onemkl-developer-reference-c/top/blacs-routines.html"&gt;oneAPI/MKL/BLACS&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgd162e52" class="outline-4"&gt;
-&lt;h4 id="orgd162e52"&gt;基本概念&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgd162e52"&gt;
+&lt;div id="outline-container-org6a66968" class="outline-4"&gt;
+&lt;h4 id="org6a66968"&gt;基本概念&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org6a66968"&gt;
 &lt;/div&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="org465cd9e"&gt;&lt;/a&gt;进程网格和范围操作&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org465cd9e"&gt;
+&lt;li&gt;&lt;a id="org71ea3dd"&gt;&lt;/a&gt;进程网格和范围操作&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org71ea3dd"&gt;
 &lt;p&gt;
 一个分布式机器上有 \(P\) 个进程，编号从 \(0\) 到 \(P-1\), 我们人为地将它们排列成 \(R\) 行 \(C\) 列的网格，用行列指标 \((i,j)\) 来表示其中一个进程。
 &lt;/p&gt;
@@ -87,9 +84,8 @@ LAPACKLIB     = -L/usr/lib/x86_64-linux-gnu/openblas-openmp/ -llapack
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org249ed9d"&gt;&lt;/a&gt;上下文&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org249ed9d"&gt;
+&lt;li&gt;&lt;a id="org67a9702"&gt;&lt;/a&gt;上下文&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org67a9702"&gt;
 &lt;p&gt;
 &lt;b&gt;上下文&lt;/b&gt; (context) 表示一个通信空间，每个进程网格都有自己的上下文，在同一个上下文内部的通信不会被其它上下文的覆盖。
 &lt;/p&gt;
@@ -107,17 +103,15 @@ BLACS 中有关上下文的函数有
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org29e9be0"&gt;&lt;/a&gt;基于数组的通信&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org29e9be0"&gt;
+&lt;li&gt;&lt;a id="org3eb7666"&gt;&lt;/a&gt;基于数组的通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-org3eb7666"&gt;
 &lt;p&gt;
 BLACS 中有两个基本的数据模型
 &lt;/p&gt;
 &lt;/div&gt;
-
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orga6b5295"&gt;&lt;/a&gt;矩形矩阵&lt;br&gt;
-&lt;div class="outline-text-6" id="text-orga6b5295"&gt;
+&lt;li&gt;&lt;a id="org7dc880f"&gt;&lt;/a&gt;矩形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org7dc880f"&gt;
 &lt;p&gt;
 一维向量是特殊的矩形矩阵。
 &lt;/p&gt;
@@ -127,9 +121,8 @@ BLACS 中有两个基本的数据模型
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org856369d"&gt;&lt;/a&gt;梯形矩阵&lt;br&gt;
-&lt;div class="outline-text-6" id="text-org856369d"&gt;
+&lt;li&gt;&lt;a id="org6483dea"&gt;&lt;/a&gt;梯形矩阵&lt;br&gt;
+&lt;div class="outline-text-6" id="text-org6483dea"&gt;
 &lt;p&gt;
 三角矩阵和对角矩阵是特殊的梯形矩阵。
 &lt;/p&gt;
@@ -146,9 +139,8 @@ BLACS 中有两个基本的数据模型
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-
-&lt;li&gt;&lt;a id="org60a018b"&gt;&lt;/a&gt;无编号通信&lt;br&gt;
-&lt;div class="outline-text-5" id="text-org60a018b"&gt;
+&lt;li&gt;&lt;a id="orgfb914ce"&gt;&lt;/a&gt;无编号通信&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgfb914ce"&gt;
 &lt;p&gt;
 BLACS 与其它通信层的区别之一是，BLACS不需要用户指定消息的编号 (例如 MPI 的 tag) ,因为编号的选择有时会导致编程的困难，所以 BLACS 通过一个特定的算法自动生成消息编号，用户可以用 &lt;code&gt;SHIFT_RANGE&lt;/code&gt; 来将 BLACS 的消息编号限制在一个范围里，来和用户自定义的消息编号隔离。
 &lt;/p&gt;
@@ -164,10 +156,9 @@ BLACS 的通信保证
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org0d0a1ed" class="outline-4"&gt;
-&lt;h4 id="org0d0a1ed"&gt;结构&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org0d0a1ed"&gt;
+&lt;div id="outline-container-org10c5c9a" class="outline-4"&gt;
+&lt;h4 id="org10c5c9a"&gt;结构&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org10c5c9a"&gt;
 &lt;p&gt;
 BLACS 由 4 个部分构成
 &lt;/p&gt;
@@ -182,10 +173,9 @@ BLACS 由 4 个部分构成
 &lt;a href="https://www.netlib.org/blacs/BLACS/QRef.html"&gt;函数参考&lt;/a&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a id="orgc7f5727"&gt;&lt;/a&gt;命名规则&lt;br&gt;
-&lt;div class="outline-text-5" id="text-orgc7f5727"&gt;
+&lt;li&gt;&lt;a id="orgcab1afa"&gt;&lt;/a&gt;命名规则&lt;br&gt;
+&lt;div class="outline-text-5" id="text-orgcab1afa"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;点到点通信与广播： &lt;code&gt;vXXYY2D&lt;/code&gt;
 &lt;ul class="org-ul"&gt;
@@ -346,9 +336,9 @@ BLACS 由 4 个部分构成
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf0a4691" class="outline-3"&gt;
-&lt;h3 id="orgf0a4691"&gt;PBLAS&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgf0a4691"&gt;
+&lt;div id="outline-container-org7b71377" class="outline-3"&gt;
+&lt;h3 id="org7b71377"&gt;PBLAS&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7b71377"&gt;
 &lt;p&gt;
 &lt;a href="https://www.netlib.org/scalapack/pblas_qref.html"&gt;PBLAS&lt;/a&gt; 的函数类似 BLAS, 由于是作为 ScaLAPACK 的一部分分发的，所以不提供统一的 &lt;code&gt;.h&lt;/code&gt; 头文件，得自己写。
 &lt;/p&gt;
@@ -358,12 +348,12 @@ BLACS 由 4 个部分构成
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org9f23c5d" class="outline-3"&gt;
-&lt;h3 id="org9f23c5d"&gt;ScaLAPACK&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org9f23c5d"&gt;
+&lt;div id="outline-container-org7493854" class="outline-3"&gt;
+&lt;h3 id="org7493854"&gt;ScaLAPACK&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org7493854"&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgfea164c" class="outline-4"&gt;
-&lt;h4 id="orgfea164c"&gt;基本方法&lt;/h4&gt;
+&lt;div id="outline-container-orgd34da54" class="outline-4"&gt;
+&lt;h4 id="orgd34da54"&gt;基本方法&lt;/h4&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description><category>BLACS</category><category>BLAS</category><category>C</category><category>LAPACK</category><category>MPI</category><category>PBLAS</category><category>ScaLAPACK</category><guid>https://chimez.github.io/posts/pblas-scalapack/</guid><pubDate>Tue, 24 Aug 2021 04:31:22 GMT</pubDate></item></channel></rss>

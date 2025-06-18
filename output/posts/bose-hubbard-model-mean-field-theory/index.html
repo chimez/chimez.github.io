@@ -158,12 +158,12 @@ Sheshadri, K., H. R. Krishnamurthy, R. Pandit, and T. V. Ramakrishnan. 1993. “
 <div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">sop</span>
-<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
-<span class="kn">import</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">as</span> <span class="nn">slin</span>
-<span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sop</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.sparse</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.sparse.linalg</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">slin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.notebook</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 </pre></div>
 </div>
 </div>
@@ -174,11 +174,11 @@ Sheshadri, K., H. R. Krishnamurthy, R. Pandit, and T. V. Ramakrishnan. 1993. “
 <div class="prompt input_prompt">In [2]:</div>
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">dag</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">dag</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">annihilation</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="s2">"dense"</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">annihilation</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="s2">"dense"</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">tp</span> <span class="o">==</span> <span class="s2">"dense"</span><span class="p">:</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">M</span><span class="p">)),</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">tp</span> <span class="o">==</span> <span class="s2">"sparse"</span><span class="p">:</span>
@@ -194,7 +194,7 @@ Sheshadri, K., H. R. Krishnamurthy, R. Pandit, and T. V. Ramakrishnan. 1993. “
 <div class="prompt input_prompt">In [3]:</div>
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">make_Hi</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">make_Hi</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">annihilation</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">)</span>
     <span class="n">ad</span> <span class="o">=</span> <span class="n">dag</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">ad</span> <span class="o">@</span> <span class="n">a</span>
@@ -206,7 +206,7 @@ Sheshadri, K., H. R. Krishnamurthy, R. Pandit, and T. V. Ramakrishnan. 1993. “
     <span class="k">return</span> <span class="n">Hi</span>
 
 
-<span class="k">def</span> <span class="nf">eig_Hi</span><span class="p">(</span><span class="n">Hi</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">eig_Hi</span><span class="p">(</span><span class="n">Hi</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">tp</span> <span class="o">==</span> <span class="s2">"dense"</span><span class="p">:</span>
         <span class="n">eigvals</span><span class="p">,</span> <span class="n">eigvecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">Hi</span><span class="p">)</span>
         <span class="n">e</span> <span class="o">=</span> <span class="n">eigvals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -217,13 +217,13 @@ Sheshadri, K., H. R. Krishnamurthy, R. Pandit, and T. V. Ramakrishnan. 1993. “
     <span class="k">return</span> <span class="n">e</span><span class="p">,</span> <span class="n">v</span>
 
 
-<span class="k">def</span> <span class="nf">calc_psi</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_psi</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
     <span class="n">M</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">annihilation</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">dag</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">@</span> <span class="n">a</span> <span class="o">@</span> <span class="n">v</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 
 
-<span class="k">def</span> <span class="nf">find_M</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_M</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
     <span class="n">e_old</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">M</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
         <span class="n">Hi</span> <span class="o">=</span> <span class="n">make_Hi</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">)</span>
@@ -237,7 +237,7 @@ Sheshadri, K., H. R. Krishnamurthy, R. Pandit, and T. V. Ramakrishnan. 1993. “
     <span class="k">return</span> <span class="n">M</span>
 
 
-<span class="k">def</span> <span class="nf">find_psi</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_psi</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
     <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
     <span class="n">e_old</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">):</span>
@@ -257,8 +257,8 @@ Sheshadri, K., H. R. Krishnamurthy, R. Pandit, and T. V. Ramakrishnan. 1993. “
     <span class="k">return</span> <span class="n">e</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">v</span>
 
 
-<span class="k">def</span> <span class="nf">find_psi_variational</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">_f</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_psi_variational</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_f</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
         <span class="n">Hi</span> <span class="o">=</span> <span class="n">make_Hi</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">)</span>
         <span class="n">e</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">eig_Hi</span><span class="p">(</span><span class="n">Hi</span><span class="p">,</span> <span class="n">tp</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">e</span>
@@ -270,7 +270,7 @@ Sheshadri, K., H. R. Krishnamurthy, R. Pandit, and T. V. Ramakrishnan. 1993. “
     <span class="k">return</span> <span class="n">e</span><span class="p">,</span> <span class="n">sol</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v</span>
 
 
-<span class="k">def</span> <span class="nf">calc_n</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_n</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
     <span class="n">M</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">annihilation</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">tp</span><span class="p">)</span>
     <span class="n">ad</span> <span class="o">=</span> <span class="n">dag</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -489,7 +489,7 @@ delimiters: [
                     }
                 );
             </script></article><script>var disqus_shortname="chimezz";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer">
-            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2025         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>

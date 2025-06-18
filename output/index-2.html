@@ -78,7 +78,26 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pytables/" class="u-url">PyTables</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/orgmode/" class="u-url">orgmode</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        chimez
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/orgmode/" rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-19T13:52:11+08:00" itemprop="datePublished" title="2021-03-19 13:52">2021-03-19 13:52</time></a>
+            </p>
+                        <p class="commentline">
+    
+    <a href="posts/orgmode/#disqus_thread" data-disqus-identifier="cache/posts/orgmode.html">评论</a>
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <p>Write your post here.</p>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/pytables/" class="u-url">PyTables</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         chimez
@@ -95,18 +114,16 @@
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org468c0a4" class="outline-2">
-<h2 id="org468c0a4">PyTables: 分层数据集</h2>
-<div class="outline-text-2" id="text-org468c0a4">
+                    <div id="outline-container-org3a33c43" class="outline-2">
+<h2 id="org3a33c43">PyTables: 分层数据集</h2>
+<div class="outline-text-2" id="text-org3a33c43">
 <p>
 <a href="https://www.pytables.org">PyTables</a> 是基于 HDF5 格式构建的数据集，比 pandas 更底层，比 h5py 更高层。适合用在存储比 csv 表格更复杂更大的数据，同时又不想自己实现一些基本的数据操作的情况中，并且经过简单的处理就能用 pandas 进行进一步数据分析。
 </p>
 </div>
-
-
-<div id="outline-container-org21f2acc" class="outline-3">
-<h3 id="org21f2acc">安装</h3>
-<div class="outline-text-3" id="text-org21f2acc">
+<div id="outline-container-org6225107" class="outline-3">
+<h3 id="org6225107">安装</h3>
+<div class="outline-text-3" id="text-org6225107">
 <div class="highlight"><pre><span></span>   # 使用 conda
    conda install pytables
    # 或者 pip
@@ -116,24 +133,22 @@
 <p>
 测试
 </p>
-<div class="highlight"><pre><span></span>   <span class="kn">import</span> <span class="nn">tables</span> <span class="k">as</span> <span class="nn">tb</span>
+<div class="highlight"><pre><span></span>   <span class="kn">import</span><span class="w"> </span><span class="nn">tables</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tb</span>
 
    <span class="n">tb</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgabea914" class="outline-3">
-<h3 id="orgabea914">基本使用</h3>
-<div class="outline-text-3" id="text-orgabea914">
+<div id="outline-container-org44b1d04" class="outline-3">
+<h3 id="org44b1d04">基本使用</h3>
+<div class="outline-text-3" id="text-org44b1d04">
 <p>
 pytables 的基本逻辑是
 </p>
 </div>
-
-<div id="outline-container-orga67803a" class="outline-4">
-<h4 id="orga67803a">创建一个 HDF5 文件</h4>
-<div class="outline-text-4" id="text-orga67803a">
+<div id="outline-container-orgd81debe" class="outline-4">
+<h4 id="orgd81debe">创建一个 HDF5 文件</h4>
+<div class="outline-text-4" id="text-orgd81debe">
 <div class="highlight"><pre><span></span>    <span class="n">f</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s2">"filename.h5"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"file title"</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">tb</span><span class="o">.</span><span class="n">Filters</span><span class="p">(</span><span class="n">complevel</span><span class="o">=</span><span class="mi">9</span><span class="p">))</span>
 
     <span class="c1"># 别忘了还要关闭它</span>
@@ -141,23 +156,21 @@ pytables 的基本逻辑是
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org8b1cab8" class="outline-4">
-<h4 id="org8b1cab8">在文件中创建任意层的数据集</h4>
-<div class="outline-text-4" id="text-org8b1cab8">
+<div id="outline-container-orgf031b60" class="outline-4">
+<h4 id="orgf031b60">在文件中创建任意层的数据集</h4>
+<div class="outline-text-4" id="text-orgf031b60">
 <div class="highlight"><pre><span></span>    <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="s2">"/parent/group"</span><span class="p">,</span> <span class="s2">"group_name"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"group title"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgfbee49e" class="outline-4">
-<h4 id="orgfbee49e">在数据集中创建若干个数据表</h4>
-<div class="outline-text-4" id="text-orgfbee49e">
+<div id="outline-container-org6c5b5dd" class="outline-4">
+<h4 id="org6c5b5dd">在数据集中创建若干个数据表</h4>
+<div class="outline-text-4" id="text-org6c5b5dd">
 <div class="highlight"><pre><span></span>    <span class="c1"># 需要创建对数据的描述</span>
-    <span class="k">class</span> <span class="nc">data_description</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">data_description</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">StringCol</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
         <span class="n">idn</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">Int64Col</span><span class="p">()</span>
-        <span class="k">class</span> <span class="nc">sub_data</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
+        <span class="k">class</span><span class="w"> </span><span class="nc">sub_data</span><span class="p">(</span><span class="n">tb</span><span class="o">.</span><span class="n">IsDescription</span><span class="p">):</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">StringCol</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
             <span class="n">id2</span> <span class="o">=</span> <span class="n">tb</span><span class="o">.</span><span class="n">Float64Col</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
 
@@ -178,15 +191,13 @@ pytables 的基本逻辑是
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-orgd6d7826" class="outline-2">
-<h2 id="orgd6d7826">遇到的问题</h2>
-<div class="outline-text-2" id="text-orgd6d7826">
+<div id="outline-container-org4dfbeda" class="outline-2">
+<h2 id="org4dfbeda">遇到的问题</h2>
+<div class="outline-text-2" id="text-org4dfbeda">
 </div>
-<div id="outline-container-org38e43a5" class="outline-3">
-<h3 id="org38e43a5">在不支持 <code>flock</code> 的集群上运行</h3>
-<div class="outline-text-3" id="text-org38e43a5">
+<div id="outline-container-org9d9b150" class="outline-3">
+<h3 id="org9d9b150">在不支持 <code>flock</code> 的集群上运行</h3>
+<div class="outline-text-3" id="text-org9d9b150">
 <p>
 需要设置环境变量
 </p>
@@ -214,17 +225,16 @@ pytables 的基本逻辑是
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org7743f49" class="outline-2">
-<h2 id="org7743f49">h5py: 储存数据</h2>
-<div class="outline-text-2" id="text-org7743f49">
+                    <div id="outline-container-orge207c32" class="outline-2">
+<h2 id="orge207c32">h5py: 储存数据</h2>
+<div class="outline-text-2" id="text-orge207c32">
 <p>
 <a href="https://www.h5py.org/">h5py</a> 是 HDF5 库的 python 封装，基本提供了所有对应的 C API，因此适合用在简单并底层的应用中，特别适合对 HDF5 文件有定制的应用中。
 </p>
 </div>
-
-<div id="outline-container-orgbd676a2" class="outline-3">
-<h3 id="orgbd676a2">存</h3>
-<div class="outline-text-3" id="text-orgbd676a2">
+<div id="outline-container-orge3f3575" class="outline-3">
+<h3 id="orge3f3575">存</h3>
+<div class="outline-text-3" id="text-orge3f3575">
 <div class="highlight"><pre><span></span>   <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'data.h5'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
        <span class="n">hf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat1"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat1</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
        <span class="n">hf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"mat2"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">mat2</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"gzip"</span><span class="p">)</span>
@@ -234,11 +244,9 @@ pytables 的基本逻辑是
 </pre></div>
 </div>
 </div>
-
-
-<div id="outline-container-orgefcbfb8" class="outline-3">
-<h3 id="orgefcbfb8">取</h3>
-<div class="outline-text-3" id="text-orgefcbfb8">
+<div id="outline-container-org283da15" class="outline-3">
+<h3 id="org283da15">取</h3>
+<div class="outline-text-3" id="text-org283da15">
 <div class="highlight"><pre><span></span>   <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'data.h5'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
        <span class="n">mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hf</span><span class="p">[</span><span class="s1">'mat1'</span><span class="p">])</span>
        <span class="n">mat2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hf</span><span class="p">[</span><span class="s1">'mat2'</span><span class="p">])</span>
@@ -267,9 +275,9 @@ pytables 的基本逻辑是
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgc947068" class="outline-2">
-<h2 id="orgc947068">OpenMP 共享内存并行</h2>
-<div class="outline-text-2" id="text-orgc947068">
+                    <div id="outline-container-org3c88e24" class="outline-2">
+<h2 id="org3c88e24">OpenMP 共享内存并行</h2>
+<div class="outline-text-2" id="text-org3c88e24">
 <p>
 OpenMP 是单机多线程共享内存并行工具。
 </p>
@@ -289,20 +297,18 @@ OpenMP API 由三部分组成
 <li>环境变量 <code>OMP_NUM_THREADS</code> 等</li>
 </ol>
 </div>
-
-<div id="outline-container-org78e5c95" class="outline-4">
-<h4 id="org78e5c95">参考资料</h4>
-<div class="outline-text-4" id="text-org78e5c95">
+<div id="outline-container-org8e0b413" class="outline-4">
+<h4 id="org8e0b413">参考资料</h4>
+<div class="outline-text-4" id="text-org8e0b413">
 <ol class="org-ol">
 <li>
 <a href="https://hpc.llnl.gov/tuts/openMP/">llnl/openmp</a> 的教程</li>
 </ol>
 </div>
 </div>
-
-<div id="outline-container-org10ba3a2" class="outline-3">
-<h3 id="org10ba3a2">编译器指令</h3>
-<div class="outline-text-3" id="text-org10ba3a2">
+<div id="outline-container-orgfcd4805" class="outline-3">
+<h3 id="orgfcd4805">编译器指令</h3>
+<div class="outline-text-3" id="text-orgfcd4805">
 <p>
 编译器指令的格式为
 </p>
@@ -337,10 +343,9 @@ OpenMP API 由三部分组成
 <div class="highlight"><pre><span></span><span class="w">   </span><span class="cp">#pragma omp parallel default(shared) private(beta, pi)</span>
 </pre></div>
 </div>
-
-<div id="outline-container-org47d6bb9" class="outline-4">
-<h4 id="org47d6bb9">parallel 指令</h4>
-<div class="outline-text-4" id="text-org47d6bb9">
+<div id="outline-container-orgfa369f8" class="outline-4">
+<h4 id="orgfa369f8">parallel 指令</h4>
+<div class="outline-text-4" id="text-orgfa369f8">
 <p>
 创建一系列线程运行接下来的结构块，并在结构块结束时合并所有线程
 </p>
@@ -360,10 +365,9 @@ OpenMP API 由三部分组成
 </ol>
 </div>
 </div>
-
-<div id="outline-container-org510ff92" class="outline-4">
-<h4 id="org510ff92">for 指令</h4>
-<div class="outline-text-4" id="text-org510ff92">
+<div id="outline-container-orge49329d" class="outline-4">
+<h4 id="orge49329d">for 指令</h4>
+<div class="outline-text-4" id="text-orge49329d">
 <p>
 指定接下来的循环迭代并行运行。
 </p>
@@ -392,10 +396,9 @@ OpenMP API 由三部分组成
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org62ed459" class="outline-4">
-<h4 id="org62ed459">sections, section 指令</h4>
-<div class="outline-text-4" id="text-org62ed459">
+<div id="outline-container-orgd811cc1" class="outline-4">
+<h4 id="orgd811cc1">sections, section 指令</h4>
+<div class="outline-text-4" id="text-orgd811cc1">
 <p>
 外层用 <code>sections</code> 指令，内部用 <code>section</code> 指令
 </p>
@@ -420,32 +423,29 @@ OpenMP API 由三部分组成
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgffd8d2c" class="outline-4">
-<h4 id="orgffd8d2c">single 指令</h4>
-<div class="outline-text-4" id="text-orgffd8d2c">
+<div id="outline-container-org192da75" class="outline-4">
+<h4 id="org192da75">single 指令</h4>
+<div class="outline-text-4" id="text-org192da75">
 <p>
 指定块内部同时只有一个线程运行，用来处理以下线程不安全的操作
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgca3d689" class="outline-4">
-<h4 id="orgca3d689">task 指令</h4>
+<div id="outline-container-orga2624b9" class="outline-4">
+<h4 id="orga2624b9">task 指令</h4>
 </div>
 
-<div id="outline-container-org21ad7eb" class="outline-4">
-<h4 id="org21ad7eb">master 指令</h4>
-<div class="outline-text-4" id="text-org21ad7eb">
+<div id="outline-container-orgb592458" class="outline-4">
+<h4 id="orgb592458">master 指令</h4>
+<div class="outline-text-4" id="text-orgb592458">
 <p>
 指定只有主线程执行块内的程序。
 </p>
 </div>
 </div>
-
-<div id="outline-container-org4ca348d" class="outline-4">
-<h4 id="org4ca348d">critical 指令</h4>
-<div class="outline-text-4" id="text-org4ca348d">
+<div id="outline-container-orgd1a0afc" class="outline-4">
+<h4 id="orgd1a0afc">critical 指令</h4>
+<div class="outline-text-4" id="text-orgd1a0afc">
 <p>
 指定同时只有一个线程能运行内部的代码。
 </p>
@@ -460,32 +460,29 @@ OpenMP API 由三部分组成
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgbb9bf3d" class="outline-4">
-<h4 id="orgbb9bf3d">barrier 指令</h4>
-<div class="outline-text-4" id="text-orgbb9bf3d">
+<div id="outline-container-org9330437" class="outline-4">
+<h4 id="org9330437">barrier 指令</h4>
+<div class="outline-text-4" id="text-org9330437">
 <p>
 要求所有线程立即同步
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga7d3ef9" class="outline-4">
-<h4 id="orga7d3ef9">taskwait 指令</h4>
+<div id="outline-container-org6b3fca9" class="outline-4">
+<h4 id="org6b3fca9">taskwait 指令</h4>
 </div>
 
-<div id="outline-container-org051b169" class="outline-4">
-<h4 id="org051b169">atomic 指令</h4>
-<div class="outline-text-4" id="text-org051b169">
+<div id="outline-container-orgc74e99b" class="outline-4">
+<h4 id="orgc74e99b">atomic 指令</h4>
+<div class="outline-text-4" id="text-orgc74e99b">
 <p>
 执行原子操作，相当于小的 critical 指令
 </p>
 </div>
 </div>
-
-<div id="outline-container-orga996d24" class="outline-4">
-<h4 id="orga996d24">flush 指令</h4>
-<div class="outline-text-4" id="text-orga996d24">
+<div id="outline-container-org96451fd" class="outline-4">
+<h4 id="org96451fd">flush 指令</h4>
+<div class="outline-text-4" id="text-org96451fd">
 <p>
 要求所有缓冲的修改写回内存中
 </p>
@@ -510,28 +507,25 @@ OpenMP API 由三部分组成
 </ol>
 </div>
 </div>
-
-<div id="outline-container-org67a07ee" class="outline-4">
-<h4 id="org67a07ee">ordered 指令</h4>
-<div class="outline-text-4" id="text-org67a07ee">
+<div id="outline-container-org530ebe3" class="outline-4">
+<h4 id="org530ebe3">ordered 指令</h4>
+<div class="outline-text-4" id="text-org530ebe3">
 <p>
 要求代码块内部的指令顺序执行，只能用在 <code>for</code> 指令内部
 </p>
 </div>
 </div>
-
-<div id="outline-container-org3d82a69" class="outline-4">
-<h4 id="org3d82a69">threadprivate 指令</h4>
-<div class="outline-text-4" id="text-org3d82a69">
+<div id="outline-container-orgb6958fd" class="outline-4">
+<h4 id="orgb6958fd">threadprivate 指令</h4>
+<div class="outline-text-4" id="text-orgb6958fd">
 <p>
 指定一些变量是线程私有的，每个线程初次使用这些变量时都是未初始化的
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgddd8517" class="outline-4">
-<h4 id="orgddd8517">reduction 从句</h4>
-<div class="outline-text-4" id="text-orgddd8517">
+<div id="outline-container-orgfac3d4c" class="outline-4">
+<h4 id="orgfac3d4c">reduction 从句</h4>
+<div class="outline-text-4" id="text-orgfac3d4c">
 <p>
 要求循环分成相等的部分，并在全部运行最后再执行指定的指令
 </p>
@@ -565,14 +559,13 @@ OpenMP API 由三部分组成
 </div>
 </div>
 </div>
-
-<div id="outline-container-org453ba77" class="outline-3">
-<h3 id="org453ba77">运行时库函数</h3>
-<div class="outline-text-3" id="text-org453ba77">
+<div id="outline-container-org2fd3c5a" class="outline-3">
+<h3 id="org2fd3c5a">运行时库函数</h3>
+<div class="outline-text-3" id="text-org2fd3c5a">
 </div>
-<div id="outline-container-org5d2d26f" class="outline-4">
-<h4 id="org5d2d26f">线程环境相关</h4>
-<div class="outline-text-4" id="text-org5d2d26f">
+<div id="outline-container-orgc38a626" class="outline-4">
+<h4 id="orgc38a626">线程环境相关</h4>
+<div class="outline-text-4" id="text-orgc38a626">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -611,10 +604,9 @@ OpenMP API 由三部分组成
 </table>
 </div>
 </div>
-
-<div id="outline-container-orga592bbf" class="outline-4">
-<h4 id="orga592bbf">锁</h4>
-<div class="outline-text-4" id="text-orga592bbf">
+<div id="outline-container-orgfdbbce5" class="outline-4">
+<h4 id="orgfdbbce5">锁</h4>
+<div class="outline-text-4" id="text-orgfdbbce5">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -701,10 +693,9 @@ OpenMP API 由三部分组成
 </div>
 </div>
 </div>
-
-<div id="outline-container-org6a4e1f9" class="outline-3">
-<h3 id="org6a4e1f9">环境变量</h3>
-<div class="outline-text-3" id="text-org6a4e1f9">
+<div id="outline-container-org8ba30a6" class="outline-3">
+<h3 id="org8ba30a6">环境变量</h3>
+<div class="outline-text-3" id="text-org8ba30a6">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -767,9 +758,9 @@ OpenMP API 由三部分组成
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org0d9a1bc" class="outline-2">
-<h2 id="org0d9a1bc">量子力学算符代数计算</h2>
-<div class="outline-text-2" id="text-org0d9a1bc">
+                    <div id="outline-container-orgf70c8d1" class="outline-2">
+<h2 id="orgf70c8d1">量子力学算符代数计算</h2>
+<div class="outline-text-2" id="text-orgf70c8d1">
 <p>
 参见 <a href="https://sheaves.github.io/Noncommutative-Sage/">Noncommutative Algebras in Sage</a>.
 </p>
@@ -799,21 +790,16 @@ OpenMP API 由三部分组成
 </ol>
 </div>
 </div>
-
-
-
-
-<div id="outline-container-org9ba9f35" class="outline-2">
-<h2 id="org9ba9f35">安装为 jupyter 内核</h2>
-<div class="outline-text-2" id="text-org9ba9f35">
+<div id="outline-container-orga17653b" class="outline-2">
+<h2 id="orga17653b">安装为 jupyter 内核</h2>
+<div class="outline-text-2" id="text-orga17653b">
 <div class="highlight"><pre><span></span>jupyter kernelspec install ./SageMath/local/share/jupyter/kernels/sagemath
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgaa83227" class="outline-2">
-<h2 id="orgaa83227">基本特性</h2>
-<div class="outline-text-2" id="text-orgaa83227">
+<div id="outline-container-orgd2a1a37" class="outline-2">
+<h2 id="orgd2a1a37">基本特性</h2>
+<div class="outline-text-2" id="text-orgd2a1a37">
 <ol class="org-ol">
 <li>直接输入数学运算公式可以作为计算器来用</li>
 <li>继承自python的面向对象系统，即任何东西都是对象</li>
@@ -823,14 +809,13 @@ OpenMP API 由三部分组成
 </ol>
 </div>
 </div>
-
-<div id="outline-container-org9b8f43b" class="outline-2">
-<h2 id="org9b8f43b">符号运算</h2>
-<div class="outline-text-2" id="text-org9b8f43b">
+<div id="outline-container-org363f447" class="outline-2">
+<h2 id="org363f447">符号运算</h2>
+<div class="outline-text-2" id="text-org363f447">
 </div>
-<div id="outline-container-org16c5716" class="outline-3">
-<h3 id="org16c5716">基础操作</h3>
-<div class="outline-text-3" id="text-org16c5716">
+<div id="outline-container-org1705cd3" class="outline-3">
+<h3 id="org1705cd3">基础操作</h3>
+<div class="outline-text-3" id="text-org1705cd3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -897,27 +882,25 @@ OpenMP API 由三部分组成
 </table>
 </div>
 </div>
-
-<div id="outline-container-org7a44a40" class="outline-3">
-<h3 id="org7a44a40">代数</h3>
-<div class="outline-text-3" id="text-org7a44a40">
+<div id="outline-container-org3e8f490" class="outline-3">
+<h3 id="org3e8f490">代数</h3>
+<div class="outline-text-3" id="text-org3e8f490">
 <p>
 用对象表示代数结构，群环域
 </p>
 </div>
 </div>
-<div id="outline-container-org6e4abd4" class="outline-3">
-<h3 id="org6e4abd4">组合数学</h3>
+<div id="outline-container-org0a2fb7a" class="outline-3">
+<h3 id="org0a2fb7a">组合数学</h3>
 </div>
 </div>
-
-<div id="outline-container-orgd73cfa4" class="outline-2">
-<h2 id="orgd73cfa4">数值运算</h2>
-<div class="outline-text-2" id="text-orgd73cfa4">
+<div id="outline-container-org4b171d1" class="outline-2">
+<h2 id="org4b171d1">数值运算</h2>
+<div class="outline-text-2" id="text-org4b171d1">
 </div>
-<div id="outline-container-orga561b76" class="outline-3">
-<h3 id="orga561b76">基础操作</h3>
-<div class="outline-text-3" id="text-orga561b76">
+<div id="outline-container-orga233a20" class="outline-3">
+<h3 id="orga233a20">基础操作</h3>
+<div class="outline-text-3" id="text-orga233a20">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -1012,10 +995,9 @@ OpenMP API 由三部分组成
 </div>
 </div>
 </div>
-
-<div id="outline-container-org9147d4c" class="outline-2">
-<h2 id="org9147d4c">绘图</h2>
-<div class="outline-text-2" id="text-org9147d4c">
+<div id="outline-container-org544f1e2" class="outline-2">
+<h2 id="org544f1e2">绘图</h2>
+<div class="outline-text-2" id="text-org544f1e2">
 <p>
 可绘制的类型：
 </p>
@@ -1052,18 +1034,17 @@ OpenMP API 由三部分组成
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgc312fbf" class="outline-2">
-<h2 id="orgc312fbf">技巧和常用代码片段</h2>
-<div class="outline-text-2" id="text-orgc312fbf">
+<div id="outline-container-org8b97e4a" class="outline-2">
+<h2 id="org8b97e4a">技巧和常用代码片段</h2>
+<div class="outline-text-2" id="text-org8b97e4a">
 </div>
-<div id="outline-container-org81fec6e" class="outline-3">
-<h3 id="org81fec6e">与 tex 联合使用</h3>
-<div class="outline-text-3" id="text-org81fec6e">
+<div id="outline-container-orgad822a3" class="outline-3">
+<h3 id="orgad822a3">与 tex 联合使用</h3>
+<div class="outline-text-3" id="text-orgad822a3">
 </div>
-<div id="outline-container-org264933b" class="outline-4">
-<h4 id="org264933b">sagetex：可以在tex中显示sage命令的运算结果</h4>
-<div class="outline-text-4" id="text-org264933b">
+<div id="outline-container-org2aae7ea" class="outline-4">
+<h4 id="org2aae7ea">sagetex：可以在tex中显示sage命令的运算结果</h4>
+<div class="outline-text-4" id="text-org2aae7ea">
 <p>
 首先需要安装 <a href="http://doc.sagemath.org/html/en/tutorial/sagetex.html">sagetex</a>
 </p>
@@ -1101,18 +1082,18 @@ OpenMP API 由三部分组成
 </div>
 </div>
 </div>
-<div id="outline-container-org4ddab41" class="outline-3">
-<h3 id="org4ddab41">三角函数和指数之间转换</h3>
-<div class="outline-text-3" id="text-org4ddab41">
+<div id="outline-container-orgc9367d0" class="outline-3">
+<h3 id="orgc9367d0">三角函数和指数之间转换</h3>
+<div class="outline-text-3" id="text-orgc9367d0">
 <p>
 <a href="https://ask.sagemath.org/question/7672/complex-exponentialtrigonometric/">参考这个回答</a>
 </p>
 
-<div class="highlight"><pre><span></span>   <span class="k">def</span> <span class="nf">exponentialize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight"><pre><span></span>   <span class="k">def</span><span class="w"> </span><span class="nf">exponentialize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">       </span><span class="sd">"""从三角函数形式变换成e指数形式"""</span>
        <span class="k">return</span> <span class="n">sageobj</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_maxima_</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">exponentialize</span><span class="p">())</span>
 
-   <span class="k">def</span> <span class="nf">demoivre</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+   <span class="k">def</span><span class="w"> </span><span class="nf">demoivre</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">       </span><span class="sd">"""从e指数形式变换成三角函数形式"""</span>
        <span class="k">return</span> <span class="n">sageobj</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_maxima_</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">demoivre</span><span class="p">())</span>
 </pre></div>
@@ -1137,13 +1118,13 @@ OpenMP API 由三部分组成
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgd02b4ed" class="outline-2">
-<h2 id="orgd02b4ed">动态存储分配</h2>
-<div class="outline-text-2" id="text-orgd02b4ed">
+                    <div id="outline-container-org8ee40af" class="outline-2">
+<h2 id="org8ee40af">动态存储分配</h2>
+<div class="outline-text-2" id="text-org8ee40af">
 </div>
-<div id="outline-container-orgeb83647" class="outline-3">
-<h3 id="orgeb83647">内存分配函数</h3>
-<div class="outline-text-3" id="text-orgeb83647">
+<div id="outline-container-org1559667" class="outline-3">
+<h3 id="org1559667">内存分配函数</h3>
+<div class="outline-text-3" id="text-org1559667">
 <p>
 在 <code>&lt;stdlib.h&gt;</code> 头文件中的
 </p>
@@ -1160,10 +1141,9 @@ OpenMP API 由三部分组成
 </p>
 </div>
 </div>
-
-<div id="outline-container-org5b62f58" class="outline-3">
-<h3 id="org5b62f58">空指针</h3>
-<div class="outline-text-3" id="text-org5b62f58">
+<div id="outline-container-orgf1556a7" class="outline-3">
+<h3 id="orgf1556a7">空指针</h3>
+<div class="outline-text-3" id="text-orgf1556a7">
 <p>
 内存分配函数有可能返回空指针 <code>NULL</code> ，使用空指针会导致程序崩溃，所以要判断指针是否为空指针。
 </p>
@@ -1182,10 +1162,9 @@ c语言中空指针为假，非空指针都为真。
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orgfe442d4" class="outline-3">
-<h3 id="orgfe442d4">malloc</h3>
-<div class="outline-text-3" id="text-orgfe442d4">
+<div id="outline-container-org689133d" class="outline-3">
+<h3 id="org689133d">malloc</h3>
+<div class="outline-text-3" id="text-org689133d">
 <p>
 原型 <code>void *malloc(size_t size);</code>
 </p>
@@ -1197,20 +1176,18 @@ c语言中空指针为假，非空指针都为真。
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org45fbd46" class="outline-3">
-<h3 id="org45fbd46">calloc</h3>
-<div class="outline-text-3" id="text-org45fbd46">
+<div id="outline-container-org87eb200" class="outline-3">
+<h3 id="org87eb200">calloc</h3>
+<div class="outline-text-3" id="text-org87eb200">
 <p>
 原型 <code>void *calloc(size_t nmemb, size_t size);</code>
 分配 nmemb 个元素，每个元素大小为 size.
 </p>
 </div>
 </div>
-
-<div id="outline-container-org21fa391" class="outline-3">
-<h3 id="org21fa391">realloc</h3>
-<div class="outline-text-3" id="text-org21fa391">
+<div id="outline-container-org18cd794" class="outline-3">
+<h3 id="org18cd794">realloc</h3>
+<div class="outline-text-3" id="text-org18cd794">
 <p>
 原型 <code>void *realloc(void *ptr, size_t size);</code>
 </p>
@@ -1225,26 +1202,22 @@ c语言中空指针为假，非空指针都为真。
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-orgfbcd3b4" class="outline-3">
-<h3 id="orgfbcd3b4">释放内存 free</h3>
-<div class="outline-text-3" id="text-orgfbcd3b4">
+<div id="outline-container-org4286b2f" class="outline-3">
+<h3 id="org4286b2f">释放内存 free</h3>
+<div class="outline-text-3" id="text-org4286b2f">
 <p>
 原型 <code>void free(void *ptr);</code>
 </p>
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-orgad68021" class="outline-2">
-<h2 id="orgad68021">声明</h2>
-<div class="outline-text-2" id="text-orgad68021">
+<div id="outline-container-org7f46940" class="outline-2">
+<h2 id="org7f46940">声明</h2>
+<div class="outline-text-2" id="text-org7f46940">
 </div>
-<div id="outline-container-org20d2b8f" class="outline-3">
-<h3 id="org20d2b8f">声明说明符</h3>
-<div class="outline-text-3" id="text-org20d2b8f">
+<div id="outline-container-org94b4951" class="outline-3">
+<h3 id="org94b4951">声明说明符</h3>
+<div class="outline-text-3" id="text-org94b4951">
 <ol class="org-ol">
 <li>存储类型。包括 <code>auto, static, extern, register</code> ，只能有一个，必须放在最前面</li>
 <li>类型限定符。包括 <code>const, volatile, restrict(C99)</code> ，可以有一个或多个</li>
@@ -1253,21 +1226,18 @@ c语言中空指针为假，非空指针都为真。
 </ol>
 </div>
 </div>
-
-<div id="outline-container-org9e38bd4" class="outline-3">
-<h3 id="org9e38bd4">解释复杂的声明符</h3>
-<div class="outline-text-3" id="text-org9e38bd4">
+<div id="outline-container-orge9b9532" class="outline-3">
+<h3 id="orge9b9532">解释复杂的声明符</h3>
+<div class="outline-text-3" id="text-orge9b9532">
 <ol class="org-ol">
 <li>始终从内往外读声明符</li>
 <li>[]和()优先于 * ,即 *p[] 是数组， *f() 是函数</li>
 </ol>
 </div>
 </div>
-
-
-<div id="outline-container-orgf17566b" class="outline-3">
-<h3 id="orgf17566b">关键字</h3>
-<div class="outline-text-3" id="text-orgf17566b">
+<div id="outline-container-org2a441d4" class="outline-3">
+<h3 id="org2a441d4">关键字</h3>
+<div class="outline-text-3" id="text-org2a441d4">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <colgroup>
 <col class="org-left">
@@ -1407,11 +1377,10 @@ c语言中空指针为假，非空指针都为真。
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-org27f99e0" class="outline-2">
-<h2 id="org27f99e0">TODO</h2>
-<div class="outline-text-2" id="text-org27f99e0">
+<div id="outline-container-org936464b" class="outline-2">
+<h2 id="org936464b">
+<span class="todo TODO">TODO</span> </h2>
+<div class="outline-text-2" id="text-org936464b">
 <ol class="org-ol">
 <li>-Ofast -flto -march=native -funroll-loops -fPIC</li>
 </ol>
@@ -1435,13 +1404,13 @@ c语言中空指针为假，非空指针都为真。
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgfe7a883" class="outline-2">
-<h2 id="orgfe7a883">数据表格和矩阵之间的转换</h2>
-<div class="outline-text-2" id="text-orgfe7a883">
+                    <div id="outline-container-org3082fca" class="outline-2">
+<h2 id="org3082fca">数据表格和矩阵之间的转换</h2>
+<div class="outline-text-2" id="text-org3082fca">
 </div>
-<div id="outline-container-orgd914557" class="outline-3">
-<h3 id="orgd914557">从点的坐标表格 <code>(x,y,z)</code> 得到矩阵</h3>
-<div class="outline-text-3" id="text-orgd914557">
+<div id="outline-container-orgc6ea2bf" class="outline-3">
+<h3 id="orgc6ea2bf">从点的坐标表格 <code>(x,y,z)</code> 得到矩阵</h3>
+<div class="outline-text-3" id="text-orgc6ea2bf">
 <div class="highlight"><pre><span></span>   <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"y"</span><span class="p">:[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="s2">"z"</span><span class="p">:[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">]})</span>
    <span class="n">data_2x2</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">"z"</span><span class="p">)</span>
 
@@ -1449,10 +1418,9 @@ c语言中空指针为假，非空指针都为真。
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orga117aab" class="outline-3">
-<h3 id="orga117aab">从矩阵表格得到坐标表格</h3>
-<div class="outline-text-3" id="text-orga117aab">
+<div id="outline-container-orgd165ba2" class="outline-3">
+<h3 id="orgd165ba2">从矩阵表格得到坐标表格</h3>
+<div class="outline-text-3" id="text-orgd165ba2">
 <div class="highlight"><pre><span></span>   <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"y"</span><span class="p">:[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="s2">"z"</span><span class="p">:[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">]})</span>
    <span class="n">data_2x2</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">"x"</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">"z"</span><span class="p">)</span>
 
@@ -1462,10 +1430,9 @@ c语言中空指针为假，非空指针都为真。
 </div>
 </div>
 </div>
-
-<div id="outline-container-orgc0c80f6" class="outline-2">
-<h2 id="orgc0c80f6">groupby: 分开-计算-合并</h2>
-<div class="outline-text-2" id="text-orgc0c80f6">
+<div id="outline-container-orga9716ad" class="outline-2">
+<h2 id="orga9716ad">groupby: 分开-计算-合并</h2>
+<div class="outline-text-2" id="text-orga9716ad">
 <p>
 <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/groupby.html">groupby guide</a>
 通过 <code>groupby</code> 可以做涉及到如下三个过程的一些操作：
@@ -1488,10 +1455,9 @@ c语言中空指针为假，非空指针都为真。
 <b>筛选</b> ：去掉某些不符合条件的组等</li>
 </ol>
 </div>
-
-<div id="outline-container-org7064d1d" class="outline-3">
-<h3 id="org7064d1d">变换(transform)</h3>
-<div class="outline-text-3" id="text-org7064d1d">
+<div id="outline-container-org25791ce" class="outline-3">
+<h3 id="org25791ce">变换(transform)</h3>
+<div class="outline-text-3" id="text-org25791ce">
 <div class="highlight"><pre><span></span>   <span class="n">transformed</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
    <span class="p">)</span>
@@ -1517,9 +1483,9 @@ c语言中空指针为假，非空指针都为真。
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org5586181" class="outline-2">
-<h2 id="org5586181">正则表达式中使用非贪心匹配</h2>
-<div class="outline-text-2" id="text-org5586181">
+                    <div id="outline-container-orga6bb124" class="outline-2">
+<h2 id="orga6bb124">正则表达式中使用非贪心匹配</h2>
+<div class="outline-text-2" id="text-orga6bb124">
 <p>
 <code>.*</code> 变成 <code>.\{-}</code>
 <code>.+</code> 变成 <code>.\{-1,\}</code>
@@ -1544,9 +1510,9 @@ c语言中空指针为假，非空指针都为真。
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-org90e9f9a" class="outline-2">
-<h2 id="org90e9f9a">合并视频</h2>
-<div class="outline-text-2" id="text-org90e9f9a">
+                    <div id="outline-container-org0b91bd8" class="outline-2">
+<h2 id="org0b91bd8">合并视频</h2>
+<div class="outline-text-2" id="text-org0b91bd8">
 <div class="highlight"><pre><span></span>  ffmpeg -f concat -i filelist.txt -c copy out.mkv
 </pre></div>
 
@@ -1554,17 +1520,16 @@ c语言中空指针为假，非空指针都为真。
 <code>filelist.txt</code> 内容如下， 需要加 <code>file</code> ，还要用单引号括起来，或者加选项 <code>-safe 0</code>
 </p>
 
-<pre class="example" id="orgfb5834f">
+<pre class="example" id="org01a71e5">
 file '/home/a1.mkv'
 file '/home/a2.mkv'
 ...
 </pre>
 </div>
 </div>
-
-<div id="outline-container-orge870a47" class="outline-2">
-<h2 id="orge870a47">转换格式</h2>
-<div class="outline-text-2" id="text-orge870a47">
+<div id="outline-container-orgebe6452" class="outline-2">
+<h2 id="orgebe6452">转换格式</h2>
+<div class="outline-text-2" id="text-orgebe6452">
 <div class="highlight"><pre><span></span>  ffmpeg -i in.mpeg -q:a 0 -q:v 0 out.mkv
 </pre></div>
 
@@ -1590,10 +1555,9 @@ file '/home/a2.mkv'
 </table>
 </div>
 </div>
-
-<div id="outline-container-org93392e1" class="outline-2">
-<h2 id="org93392e1">分割视频</h2>
-<div class="outline-text-2" id="text-org93392e1">
+<div id="outline-container-org40b1005" class="outline-2">
+<h2 id="org40b1005">分割视频</h2>
+<div class="outline-text-2" id="text-org40b1005">
 <div class="highlight"><pre><span></span>  ffmpeg -i in.mp4 -ss 00:10:00 -t 00:30:40 -acodec copy -vcodec copy output.mp4
 </pre></div>
 
@@ -1649,22 +1613,21 @@ file '/home/a2.mkv'
                 </p>
 </div>
             </header><div class="e-content entry-content">
-                    <div id="outline-container-orgcda777d" class="outline-2">
-<h2 id="orgcda777d">从源码编译安装</h2>
-<div class="outline-text-2" id="text-orgcda777d">
+                    <div id="outline-container-org91061ff" class="outline-2">
+<h2 id="org91061ff">从源码编译安装</h2>
+<div class="outline-text-2" id="text-org91061ff">
 </div>
-<div id="outline-container-orgcbc950b" class="outline-3">
-<h3 id="orgcbc950b">查看特性</h3>
-<div class="outline-text-3" id="text-orgcbc950b">
+<div id="outline-container-orgc7bdd6d" class="outline-3">
+<h3 id="orgc7bdd6d">查看特性</h3>
+<div class="outline-text-3" id="text-orgc7bdd6d">
 <ol class="org-ol">
 <li>查看 <code>system-configuration-features</code> 中的信息</li>
 </ol>
 </div>
 </div>
-
-<div id="outline-container-org74ae78f" class="outline-3">
-<h3 id="org74ae78f">查看编译选项</h3>
-<div class="outline-text-3" id="text-org74ae78f">
+<div id="outline-container-org7851603" class="outline-3">
+<h3 id="org7851603">查看编译选项</h3>
+<div class="outline-text-3" id="text-org7851603">
 <ol class="org-ol">
 <li>查看 <code>system-configuration-options</code> 中的信息</li>
 </ol>
@@ -1673,11 +1636,9 @@ file '/home/a2.mkv'
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-org0bd31ef" class="outline-2">
-<h2 id="org0bd31ef">在正则表达式中使用lisp代码</h2>
-<div class="outline-text-2" id="text-org0bd31ef">
+<div id="outline-container-org8cfdd82" class="outline-2">
+<h2 id="org8cfdd82">在正则表达式中使用lisp代码</h2>
+<div class="outline-text-2" id="text-org8cfdd82">
 <p>
 使用 <code>\,</code> 后加一个表达式
 </p>
@@ -1685,11 +1646,9 @@ file '/home/a2.mkv'
 </pre></div>
 </div>
 </div>
-
-
-<div id="outline-container-orgee773a9" class="outline-2">
-<h2 id="orgee773a9">正则表达式的非贪心匹配</h2>
-<div class="outline-text-2" id="text-orgee773a9">
+<div id="outline-container-org5c19648" class="outline-2">
+<h2 id="org5c19648">正则表达式的非贪心匹配</h2>
+<div class="outline-text-2" id="text-org5c19648">
 <p>
 non greedy regex
 星号后加问号
@@ -1698,15 +1657,13 @@ non greedy regex
 </pre></div>
 </div>
 </div>
-
-
-<div id="outline-container-org6d98ff9" class="outline-2">
-<h2 id="org6d98ff9">文件编码问题</h2>
-<div class="outline-text-2" id="text-org6d98ff9">
+<div id="outline-container-org6214dd2" class="outline-2">
+<h2 id="org6214dd2">文件编码问题</h2>
+<div class="outline-text-2" id="text-org6214dd2">
 </div>
-<div id="outline-container-org92bebe0" class="outline-3">
-<h3 id="org92bebe0">改变显示文件编码,解决乱码问题</h3>
-<div class="outline-text-3" id="text-org92bebe0">
+<div id="outline-container-org66966da" class="outline-3">
+<h3 id="org66966da">改变显示文件编码,解决乱码问题</h3>
+<div class="outline-text-3" id="text-org66966da">
 <p>
 使用命令
 </p>
@@ -1714,10 +1671,9 @@ non greedy regex
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org614cf40" class="outline-3">
-<h3 id="org614cf40">修改编码</h3>
-<div class="outline-text-3" id="text-org614cf40">
+<div id="outline-container-orgfae6dc4" class="outline-3">
+<h3 id="orgfae6dc4">修改编码</h3>
+<div class="outline-text-3" id="text-orgfae6dc4">
 <p>
 在按下 <code>M-x</code> 后使用命令改变编码再保存即可
 </p>
@@ -1725,10 +1681,9 @@ non greedy regex
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org42542a8" class="outline-3">
-<h3 id="org42542a8">常见的编码</h3>
-<div class="outline-text-3" id="text-org42542a8">
+<div id="outline-container-orgffa5fb0" class="outline-3">
+<h3 id="orgffa5fb0">常见的编码</h3>
+<div class="outline-text-3" id="text-orgffa5fb0">
 <ol class="org-ol">
 <li>中文
 <ol class="org-ol">
@@ -1746,25 +1701,21 @@ non greedy regex
 </div>
 </div>
 </div>
-
-
-<div id="outline-container-org6996034" class="outline-2">
-<h2 id="org6996034">对齐排版代码</h2>
-<div class="outline-text-2" id="text-org6996034">
+<div id="outline-container-orgb21b3e0" class="outline-2">
+<h2 id="orgb21b3e0">对齐排版代码</h2>
+<div class="outline-text-2" id="text-orgb21b3e0">
 <p>
 使用 <code>align-regexp, sort-regexp-fields, sort-columns</code>
 </p>
 </div>
 </div>
-
-
-<div id="outline-container-org5a6ba44" class="outline-2">
-<h2 id="org5a6ba44">Tramp 远程编辑</h2>
-<div class="outline-text-2" id="text-org5a6ba44">
+<div id="outline-container-orge3d3354" class="outline-2">
+<h2 id="orge3d3354">Tramp 远程编辑</h2>
+<div class="outline-text-2" id="text-orge3d3354">
 </div>
-<div id="outline-container-orgbc5635a" class="outline-3">
-<h3 id="orgbc5635a">配置 ssh</h3>
-<div class="outline-text-3" id="text-orgbc5635a">
+<div id="outline-container-org8610e96" class="outline-3">
+<h3 id="org8610e96">配置 ssh</h3>
+<div class="outline-text-3" id="text-org8610e96">
 <p>
 注意 tramp 的远程登陆只支持 bash, 不支持 zsh, 所以要进行设置，tramp 登陆用 <code>namebash</code>, ssh 登陆用 <code>namezsh</code> 就行了
 </p>
@@ -1787,17 +1738,13 @@ non greedy regex
 </div>
 </div>
 </div>
-
-
-
-
-<div id="outline-container-orgfcb033a" class="outline-2">
-<h2 id="orgfcb033a">Windows 相关问题</h2>
-<div class="outline-text-2" id="text-orgfcb033a">
+<div id="outline-container-orgb107aa3" class="outline-2">
+<h2 id="orgb107aa3">Windows 相关问题</h2>
+<div class="outline-text-2" id="text-orgb107aa3">
 </div>
-<div id="outline-container-org2f5df9c" class="outline-3">
-<h3 id="org2f5df9c">创建快捷方式</h3>
-<div class="outline-text-3" id="text-org2f5df9c">
+<div id="outline-container-org4ae4822" class="outline-3">
+<h3 id="org4ae4822">创建快捷方式</h3>
+<div class="outline-text-3" id="text-org4ae4822">
 <p>
 实现以下功能
 </p>
@@ -1818,33 +1765,6 @@ non greedy regex
 </div>
 </div>
                 </div>
-            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/vimrc/" class="u-url">vimrc: vim配置文件</a></h1>
-                <div class="metadata">
-                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                        chimez
-                    </span></p>
-            <p class="dateline">
-            <a href="posts/vimrc/" rel="bookmark">
-            <time class="published dt-published" datetime="2021-01-24T13:57:00+08:00" itemprop="datePublished" title="2021-01-24 13:57">2021-01-24 13:57</time></a>
-            </p>
-                        <p class="commentline">
-    
-    <a href="posts/vimrc/#disqus_thread" data-disqus-identifier="cache/posts/vimrc.html">评论</a>
-
-
-                </p>
-</div>
-            </header><div class="e-content entry-content">
-                    <p>
-&lt;src
-</p>
-
-
-
-<p>
-Write your post here.
-</p>
-                </div>
             </article>
 </div>
     
@@ -1853,7 +1773,7 @@ Write your post here.
             <li class="next"><a href="index-1.html" rel="next">以前的文章</a></li>
         </ul>
 <script>var disqus_shortname="chimezz";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script><!--End of body content--><footer id="footer">
-            Contents © 2023         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2025         <a href="mailto:chimez@163.com">chimez</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>

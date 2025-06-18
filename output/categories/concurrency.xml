@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 concurrency 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/concurrency.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2023 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Tue, 24 Oct 2023 10:00:27 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>POSIX 多进程编程</title><link>https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/</link><dc:creator>chimez</dc:creator><description>&lt;div id="table-of-contents" role="doc-toc"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chimez's blog (关于 concurrency 的文章)</title><link>https://chimez.github.io/</link><description></description><atom:link href="https://chimez.github.io/categories/concurrency.xml" rel="self" type="application/rss+xml"></atom:link><language>zh_cn</language><copyright>Contents © 2025 &lt;a href="mailto:chimez@163.com"&gt;chimez&lt;/a&gt; </copyright><lastBuildDate>Wed, 18 Jun 2025 02:51:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>POSIX 多进程编程</title><link>https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/</link><dc:creator>chimez</dc:creator><description>&lt;div id="table-of-contents" role="doc-toc"&gt;
 &lt;h2&gt;Table of Contents&lt;/h2&gt;
 &lt;div id="text-table-of-contents" role="doc-toc"&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org5224e9c"&gt;启动和终止子进程&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgd15720c"&gt;启动和终止子进程&lt;/a&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgcf39541"&gt;&lt;code&gt;fork&lt;/code&gt; 创建子进程&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org1f82455"&gt;&lt;code&gt;wait&lt;/code&gt; 等待子进程退出&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgedc4002"&gt;&lt;code&gt;waitpid&lt;/code&gt; 等待特定的子进程退出&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org99b7a52"&gt;例子：创建一系列子进程并等待&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orge1e81eb"&gt;&lt;code&gt;fork&lt;/code&gt; 创建子进程&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgde4d535"&gt;&lt;code&gt;wait&lt;/code&gt; 等待子进程退出&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org5219533"&gt;&lt;code&gt;waitpid&lt;/code&gt; 等待特定的子进程退出&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org9e4fbb5"&gt;例子：创建一系列子进程并等待&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgcbc3da7"&gt;管道 Pipe&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org9e2d968"&gt;管道 Pipe&lt;/a&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org54afe23"&gt;&lt;code&gt;pipe&lt;/code&gt; 创建管道&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgb8c8f19"&gt;例子：pingpong&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org5060c9e"&gt;&lt;code&gt;pipe&lt;/code&gt; 创建管道&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgdd4374a"&gt;例子：pingpong&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org4117894"&gt;信号量 System V Semaphores&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgb994410"&gt;信号量 System V Semaphores&lt;/a&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org58220ca"&gt;&lt;code&gt;semget&lt;/code&gt; 获得信号量集&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org3cac01b"&gt;&lt;code&gt;semctl&lt;/code&gt; 配置信号量集&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgfbe5484"&gt;&lt;code&gt;semop&lt;/code&gt; 操作信号&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgc7dcb88"&gt;例子：互斥锁&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orge575220"&gt;&lt;code&gt;semget&lt;/code&gt; 获得信号量集&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orgc42dca4"&gt;&lt;code&gt;semctl&lt;/code&gt; 配置信号量集&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#org025c727"&gt;&lt;code&gt;semop&lt;/code&gt; 操作信号&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/#orga9bead1"&gt;例子：互斥锁&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -33,18 +33,16 @@
 这篇文章主要讲如何利用 POSIX 标准库（C语言）进行多进程并行计算，包括如何启动和终止子进程和进程间通信的两种方法：管道（pipe）与信号量（semaphore）。
 至于其它的进程间通信方式，例如：共享内存（mmap）、网络（sockets）、信号（signal）和消息队列等，都是适用性更广也更复杂的技术，在这篇短文中无法涉及。
 &lt;/p&gt;
-
-&lt;div id="outline-container-org5224e9c" class="outline-2"&gt;
-&lt;h2 id="org5224e9c"&gt;启动和终止子进程&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org5224e9c"&gt;
+&lt;div id="outline-container-orgd15720c" class="outline-2"&gt;
+&lt;h2 id="orgd15720c"&gt;启动和终止子进程&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgd15720c"&gt;
 &lt;p&gt;
 使用 &lt;code&gt;fork&lt;/code&gt; 创建子进程，使用 &lt;code&gt;wait&lt;/code&gt; 或 &lt;code&gt;waitpid&lt;/code&gt; 等待运行结束。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgcf39541" class="outline-3"&gt;
-&lt;h3 id="orgcf39541"&gt;&lt;code&gt;fork&lt;/code&gt; 创建子进程&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgcf39541"&gt;
+&lt;div id="outline-container-orge1e81eb" class="outline-3"&gt;
+&lt;h3 id="orge1e81eb"&gt;&lt;code&gt;fork&lt;/code&gt; 创建子进程&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge1e81eb"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;fork&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -70,10 +68,9 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org1f82455" class="outline-3"&gt;
-&lt;h3 id="org1f82455"&gt;&lt;code&gt;wait&lt;/code&gt; 等待子进程退出&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org1f82455"&gt;
+&lt;div id="outline-container-orgde4d535" class="outline-3"&gt;
+&lt;h3 id="orgde4d535"&gt;&lt;code&gt;wait&lt;/code&gt; 等待子进程退出&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgde4d535"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/wait.h&amp;gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;wait&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;stat_loc&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -94,10 +91,9 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgedc4002" class="outline-3"&gt;
-&lt;h3 id="orgedc4002"&gt;&lt;code&gt;waitpid&lt;/code&gt; 等待特定的子进程退出&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgedc4002"&gt;
+&lt;div id="outline-container-org5219533" class="outline-3"&gt;
+&lt;h3 id="org5219533"&gt;&lt;code&gt;waitpid&lt;/code&gt; 等待特定的子进程退出&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5219533"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/wait.h&amp;gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;waitpid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;pid_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;stat_loc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;options&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -121,10 +117,9 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org99b7a52" class="outline-3"&gt;
-&lt;h3 id="org99b7a52"&gt;例子：创建一系列子进程并等待&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org99b7a52"&gt;
+&lt;div id="outline-container-org9e4fbb5" class="outline-3"&gt;
+&lt;h3 id="org9e4fbb5"&gt;例子：创建一系列子进程并等待&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org9e4fbb5"&gt;
 &lt;p&gt;
 在这个例子中创建了 10 个子进程，按照创建顺序给它们标号，让这些进程按照创建顺序的逆序打印自己的序号，主进程则会等待到所有子进程退出再结束。
 &lt;/p&gt;
@@ -184,18 +179,16 @@
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgcbc3da7" class="outline-2"&gt;
-&lt;h2 id="orgcbc3da7"&gt;管道 Pipe&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgcbc3da7"&gt;
+&lt;div id="outline-container-org9e2d968" class="outline-2"&gt;
+&lt;h2 id="org9e2d968"&gt;管道 Pipe&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org9e2d968"&gt;
 &lt;p&gt;
 POSIX 提供了单向管道，可以从一个进程向另一个进程单向地传输信息。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org54afe23" class="outline-3"&gt;
-&lt;h3 id="org54afe23"&gt;&lt;code&gt;pipe&lt;/code&gt; 创建管道&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org54afe23"&gt;
+&lt;div id="outline-container-org5060c9e" class="outline-3"&gt;
+&lt;h3 id="org5060c9e"&gt;&lt;code&gt;pipe&lt;/code&gt; 创建管道&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5060c9e"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;unistd.h&amp;gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;pipe&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;fildes&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
@@ -218,10 +211,9 @@ POSIX 提供了单向管道，可以从一个进程向另一个进程单向地�
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgb8c8f19" class="outline-3"&gt;
-&lt;h3 id="orgb8c8f19"&gt;例子：pingpong&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb8c8f19"&gt;
+&lt;div id="outline-container-orgdd4374a" class="outline-3"&gt;
+&lt;h3 id="orgdd4374a"&gt;例子：pingpong&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgdd4374a"&gt;
 &lt;p&gt;
 两个进程之间互相发送数据，一个数据在两个管道之间来回传递，类似打乒乓球，这是 MPI 中最简单的例子
 &lt;/p&gt;
@@ -308,18 +300,16 @@ POSIX 提供了单向管道，可以从一个进程向另一个进程单向地�
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org4117894" class="outline-2"&gt;
-&lt;h2 id="org4117894"&gt;信号量 System V Semaphores&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org4117894"&gt;
+&lt;div id="outline-container-orgb994410" class="outline-2"&gt;
+&lt;h2 id="orgb994410"&gt;信号量 System V Semaphores&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgb994410"&gt;
 &lt;p&gt;
 信号量有两种，一个是旧的 System V 一个是标准 POSIX。System V 的支持更广，POSIX 标准在许多系统上都没有实现，所以这里只解释 System V 信号量。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org58220ca" class="outline-3"&gt;
-&lt;h3 id="org58220ca"&gt;&lt;code&gt;semget&lt;/code&gt; 获得信号量集&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org58220ca"&gt;
+&lt;div id="outline-container-orge575220" class="outline-3"&gt;
+&lt;h3 id="orge575220"&gt;&lt;code&gt;semget&lt;/code&gt; 获得信号量集&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orge575220"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;#include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cpf"&gt;&amp;lt;sys/sem.h&amp;gt;&lt;/span&gt;
 
 &lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;semget&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;key_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;nsems&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;semflg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -351,10 +341,9 @@ POSIX 提供了单向管道，可以从一个进程向另一个进程单向地�
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org3cac01b" class="outline-3"&gt;
-&lt;h3 id="org3cac01b"&gt;&lt;code&gt;semctl&lt;/code&gt; 配置信号量集&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org3cac01b"&gt;
+&lt;div id="outline-container-orgc42dca4" class="outline-3"&gt;
+&lt;h3 id="orgc42dca4"&gt;&lt;code&gt;semctl&lt;/code&gt; 配置信号量集&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgc42dca4"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#include &amp;lt;sys/sem.h&amp;gt;
 
 int semctl(int semid, int semnum, int cmd, ...); /* union semun sem_perm */
@@ -396,10 +385,9 @@ union semun {
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgfbe5484" class="outline-3"&gt;
-&lt;h3 id="orgfbe5484"&gt;&lt;code&gt;semop&lt;/code&gt; 操作信号&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgfbe5484"&gt;
+&lt;div id="outline-container-org025c727" class="outline-3"&gt;
+&lt;h3 id="org025c727"&gt;&lt;code&gt;semop&lt;/code&gt; 操作信号&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org025c727"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#include &amp;lt;sys/sem.h&amp;gt;
 
 int semop(int semid, struct sembuf *sops, size_t nsops);
@@ -450,10 +438,9 @@ struct sembuf {
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-orgc7dcb88" class="outline-3"&gt;
-&lt;h3 id="orgc7dcb88"&gt;例子：互斥锁&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgc7dcb88"&gt;
+&lt;div id="outline-container-orga9bead1" class="outline-3"&gt;
+&lt;h3 id="orga9bead1"&gt;例子：互斥锁&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orga9bead1"&gt;
 &lt;p&gt;
 这个例子里子进程和主进程一起对共享的变量 &lt;code&gt;shared_int&lt;/code&gt; 数数，如果不加锁，最后输出的数字会比 2000000 少，也就是出现了数据竞争，而加锁之后就不会出现这种问题了。
 可以注释掉 &lt;code&gt;lock&lt;/code&gt; 和 &lt;code&gt;unlock&lt;/code&gt; 来自己观察一下。
@@ -518,17 +505,16 @@ struct sembuf {
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>C</category><category>concurrency</category><category>parallel</category><guid>https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/</guid><pubDate>Tue, 24 Oct 2023 04:46:17 GMT</pubDate></item><item><title>ck: Concurrency Kit</title><link>https://chimez.github.io/posts/ck-concurrency-kit/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org312ace4" class="outline-2"&gt;
-&lt;h2 id="org312ace4"&gt;ck: Concurrency Kit&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org312ace4"&gt;
+&lt;/div&gt;</description><category>C</category><category>concurrency</category><category>parallel</category><guid>https://chimez.github.io/posts/posix-duo-jin-cheng-bian-cheng/</guid><pubDate>Tue, 24 Oct 2023 04:46:17 GMT</pubDate></item><item><title>ck: Concurrency Kit</title><link>https://chimez.github.io/posts/ck-concurrency-kit/</link><dc:creator>chimez</dc:creator><description>&lt;div id="outline-container-org6b2810f" class="outline-2"&gt;
+&lt;h2 id="org6b2810f"&gt;ck: Concurrency Kit&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org6b2810f"&gt;
 &lt;p&gt;
 &lt;a href="https://github.com/concurrencykit/ck"&gt;ck&lt;/a&gt; 是一个c语言的高并发数据结构库，内存安全并且无阻塞。
 &lt;/p&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org0e9434b" class="outline-3"&gt;
-&lt;h3 id="org0e9434b"&gt;ck&lt;sub&gt;ht.h&lt;/sub&gt;: HashTable&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0e9434b"&gt;
+&lt;div id="outline-container-orgb7d230c" class="outline-3"&gt;
+&lt;h3 id="orgb7d230c"&gt;ck&lt;sub&gt;ht.h&lt;/sub&gt;: HashTable&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb7d230c"&gt;
 &lt;p&gt;
 哈希表包括在头文件 &lt;code&gt;ck_ht.h&lt;/code&gt; 中，主要的数据类型有
 &lt;/p&gt;
@@ -539,10 +525,9 @@ struct sembuf {
 &lt;li&gt;&lt;code&gt;ck_ht_iterator_t&lt;/code&gt; 用来遍历哈希表的迭代器&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org05b402b" class="outline-4"&gt;
-&lt;h4 id="org05b402b"&gt;初始化哈希表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org05b402b"&gt;
+&lt;div id="outline-container-org655280d" class="outline-4"&gt;
+&lt;h4 id="org655280d"&gt;初始化哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org655280d"&gt;
 &lt;p&gt;
 函数 &lt;code&gt;ck_hs_init&lt;/code&gt;
 参数说明：
@@ -591,10 +576,9 @@ struct sembuf {
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org86c355c" class="outline-4"&gt;
-&lt;h4 id="org86c355c"&gt;读写哈希表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org86c355c"&gt;
+&lt;div id="outline-container-orgf0187c3" class="outline-4"&gt;
+&lt;h4 id="orgf0187c3"&gt;读写哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgf0187c3"&gt;
 &lt;p&gt;
 基本的逻辑是
 &lt;/p&gt;
@@ -633,10 +617,9 @@ struct sembuf {
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-
-&lt;div id="outline-container-org3e141c7" class="outline-4"&gt;
-&lt;h4 id="org3e141c7"&gt;遍历哈希表&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-org3e141c7"&gt;
+&lt;div id="outline-container-orgeff5201" class="outline-4"&gt;
+&lt;h4 id="orgeff5201"&gt;遍历哈希表&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgeff5201"&gt;
 &lt;p&gt;
 基本步骤
 &lt;/p&gt;

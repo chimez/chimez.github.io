@@ -1,16 +1,14 @@
-<div id="outline-container-org8750d79" class="outline-2">
-<h2 id="org8750d79">systemctl: 管理服务</h2>
-<div class="outline-text-2" id="text-org8750d79">
+<div id="outline-container-orgf305333" class="outline-2">
+<h2 id="orgf305333">systemctl: 管理服务</h2>
+<div class="outline-text-2" id="text-orgf305333">
 <ul class="org-ul">
 <li>systemd 中的服务后缀名 <code>.service</code> 可以不写，会自动补全。</li>
 <li>systemd 中把服务称作 <code>unit</code> , <code>unit</code> 有多种类型包括 <code>.service, .target</code> 等</li>
 </ul>
 </div>
-
-
-<div id="outline-container-orgc0ab198" class="outline-3">
-<h3 id="orgc0ab198">列出服务</h3>
-<div class="outline-text-3" id="text-orgc0ab198">
+<div id="outline-container-org612ec03" class="outline-3">
+<h3 id="org612ec03">列出服务</h3>
+<div class="outline-text-3" id="text-org612ec03">
 <div class="highlight"><pre><span></span>   # 查看系统所有安装的服务项
    systemctl list-unit-files --type=service
 
@@ -22,10 +20,9 @@
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org7e4eecb" class="outline-3">
-<h3 id="org7e4eecb">查看特定服务</h3>
-<div class="outline-text-3" id="text-org7e4eecb">
+<div id="outline-container-orgca6d601" class="outline-3">
+<h3 id="orgca6d601">查看特定服务</h3>
+<div class="outline-text-3" id="text-orgca6d601">
 <div class="highlight"><pre><span></span>   # 查看指定服务项状态
    systemctl status &lt;服务项名称&gt;
 
@@ -34,10 +31,9 @@
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-org99ae9f6" class="outline-3">
-<h3 id="org99ae9f6">查看系统状态</h3>
-<div class="outline-text-3" id="text-org99ae9f6">
+<div id="outline-container-org4c3b6b2" class="outline-3">
+<h3 id="org4c3b6b2">查看系统状态</h3>
+<div class="outline-text-3" id="text-org4c3b6b2">
 <div class="highlight"><pre><span></span>   # 查看系统启动耗时
    systemd-analyze
 
@@ -46,10 +42,9 @@
 </pre></div>
 </div>
 </div>
-
-<div id="outline-container-orga640383" class="outline-3">
-<h3 id="orga640383">管理服务</h3>
-<div class="outline-text-3" id="text-orga640383">
+<div id="outline-container-org6777cdc" class="outline-3">
+<h3 id="org6777cdc">管理服务</h3>
+<div class="outline-text-3" id="text-org6777cdc">
 <div class="highlight"><pre><span></span>   # 启动服务
    systemctl start &lt;服务项名称&gt;
 
@@ -83,20 +78,16 @@
 </div>
 </div>
 </div>
-
-
-
-<div id="outline-container-orgacf3ad5" class="outline-2">
-<h2 id="orgacf3ad5">编写简单的服务</h2>
-<div class="outline-text-2" id="text-orgacf3ad5">
+<div id="outline-container-orgd918fc1" class="outline-2">
+<h2 id="orgd918fc1">编写简单的服务</h2>
+<div class="outline-text-2" id="text-orgd918fc1">
 <p>
 服务文件都存放在 <code>/etc/systemd/system/</code> 中，后缀名为 <code>.service</code>
 </p>
 </div>
-
-<div id="outline-container-org62d2e70" class="outline-3">
-<h3 id="org62d2e70">简单的自启动脚本</h3>
-<div class="outline-text-3" id="text-org62d2e70">
+<div id="outline-container-orgb761447" class="outline-3">
+<h3 id="orgb761447">简单的自启动脚本</h3>
+<div class="outline-text-3" id="text-orgb761447">
 <ul class="org-ul">
 <li><code>Type=simple</code> 表示启动并一直运行</li>
 <li><code>ExecStart=/...</code> 表示要执行的命令，路径要写全</li>
@@ -116,11 +107,9 @@
 </pre></div>
 </div>
 </div>
-
-
-<div id="outline-container-org127b74b" class="outline-3">
-<h3 id="org127b74b">配置自启动 jupyterlab</h3>
-<div class="outline-text-3" id="text-org127b74b">
+<div id="outline-container-orgb69332e" class="outline-3">
+<h3 id="orgb69332e">配置自启动 jupyterlab</h3>
+<div class="outline-text-3" id="text-orgb69332e">
 <p>
 <code>/etc/systemd/system/jupyterlab.service</code>
 </p>
@@ -139,11 +128,9 @@
 </pre></div>
 </div>
 </div>
-
-
-<div id="outline-container-orgf9cdcfb" class="outline-3">
-<h3 id="orgf9cdcfb">配置自动挂载</h3>
-<div class="outline-text-3" id="text-orgf9cdcfb">
+<div id="outline-container-org8bfea4e" class="outline-3">
+<h3 id="org8bfea4e">配置自动挂载</h3>
+<div class="outline-text-3" id="text-org8bfea4e">
 <p>
 配置文件路径： <code>/etc/systemd/system/path-to-dir.mount</code> 。
 </p>
@@ -166,19 +153,13 @@
 </div>
 </div>
 </div>
-
-
-
-
-
-
-<div id="outline-container-org0e34398" class="outline-2">
-<h2 id="org0e34398">问题</h2>
-<div class="outline-text-2" id="text-org0e34398">
+<div id="outline-container-orgf93a11a" class="outline-2">
+<h2 id="orgf93a11a">问题</h2>
+<div class="outline-text-2" id="text-orgf93a11a">
 </div>
-<div id="outline-container-org276d06e" class="outline-3">
-<h3 id="org276d06e">用户定义服务</h3>
-<div class="outline-text-3" id="text-org276d06e">
+<div id="outline-container-orgab4498a" class="outline-3">
+<h3 id="orgab4498a">用户定义服务</h3>
+<div class="outline-text-3" id="text-orgab4498a">
 <ul class="org-ul">
 <li>命令使用 <code>systemctl --user</code> 剩下一样。</li>
 <li>配置文件放在 <code>$HOME/.config/systemd/user</code> 里</li>
